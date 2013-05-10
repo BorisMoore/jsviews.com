@@ -1,0 +1,72 @@
+﻿.tree {
+	margin-top: 0;
+	overflow: auto;
+	padding: 5px 0;
+}
+
+.tree li li {
+	margin-left: 20px;
+}
+
+.tree input {
+	padding: 3px;
+	margin: 0px 2px 2px 2px;
+	width: 157px;
+}
+
+.toggle {
+	cursor: pointer;
+	vertical-align: middle;
+	display: inline-block;
+	border: 1px solid #555;
+	text-align: center;
+	height: 12px;
+	width: 12px;
+	line-height: 11px;
+	background-color: #f8f8f8;
+	color: Blue;
+	margin: 0 6px 2px 0;
+}
+
+.tree .remove {
+	cursor: pointer;
+	float: right;
+	margin: 4px 6px;
+}
+
+.tree .spacer {
+	display: inline-block;
+	width: 12px;
+	margin: 0 2px 3px 0;
+}
+
+.tree ul {
+	padding: 0;
+	margin: 0;
+}
+
+.tree li {
+	margin-left: 8px;
+	list-style-type: none;
+	padding: 1px 0 0 2px;
+}
+
+.tree .selected {
+	background-color:yellow;
+	border:1px solid grey;
+	max-width: 220px;
+}
+
+.tree .selected label {
+	display: block;
+	float: right;
+	clear: both;
+}
+
+.tree .unselected {
+	border:1px solid white;
+}
+
+.tree .bottom {
+	clear: both;
+}
