@@ -1,0 +1,435 @@
+﻿body {
+	font-family: Verdana;
+	font-size: small;
+}
+
+h4 {
+	font-size: inherit;
+	font-variant: small-caps;
+}
+
+body > button {
+	float: left;
+	clear: right;
+	margin: 3px;
+}
+
+.subhead {
+	margin: 3px 0 5px 0;
+	font-weight: bolder;
+	color: #116;
+	font-family: Arial;
+	font-size: 10pt;
+}
+
+a {
+	color: #55b;
+}
+
+pre {
+	font-size: 10pt;
+	border-left: 3px solid #aaa;
+	padding: 0 0 0 8px;
+	margin-top: 2px;
+	margin-bottom: 4px;
+}
+.inset {
+	padding-left: 18px;
+}
+
+.box {
+	border: 1px solid #777;
+	padding: 10px;
+	margin: 5px 0 30px;
+}
+
+.box div {
+	margin: 3px 0 10px 0;
+}
+
+.box .label {
+	margin: 0;
+	padding: 10px 0 0 0;
+	font-style: italic;
+	color: #55b;
+}
+
+.box.label {
+	font-style: italic;
+	color: #55b;
+}
+
+.desc {
+	font-style: italic;
+	margin: 0 0 15px;
+	color: #116;
+}
+
+.indexitems {
+	list-style-type: none;
+	padding-left: 10px;
+	margin: 0 0 20px;
+}
+
+.indexitems li {
+	margin-top: 14px;
+}
+
+.indexitems .inset {
+	margin-top: 6px;
+}
+
+h3 {
+	margin-bottom: 10px;
+	font-size: 11pt;
+}
+
+select {
+	margin-bottom: 15px;
+	width: 200px;
+}
+
+select[size] {
+	margin-bottom: 0;
+	width: 100%;
+}
+
+.two tr td {
+	width: 50%;
+}
+
+.removesection {
+	margin:  5px 20px 2px 4px;
+	vertical-align: middle;
+	cursor: pointer;
+	float: right;
+}
+
+.removesection.param, .removesection.signature, .removesection.topic, .removesection.link  {
+	float: none;
+	margin:  4px;
+}
+
+.cmdbtn {
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: middle;
+	border: 1px solid #555;
+	font-size: 7pt;
+	line-height: 11px;
+	background-color: #f8f8f8;
+	color: Blue;
+	margin: 2px;
+}
+
+.insertsection {
+	margin:  0 5px 0 0;
+}
+
+.buttons {
+	padding: 3px 35%;
+	float: left;
+	width: 30%;
+}
+
+.toggleselect {
+	float: right;
+	clear: left;
+}
+
+
+.sidebar {
+	float: left;
+	width: 17%;
+}
+
+.content {
+	float: right;
+	width: 83%;
+}
+
+.mode-edit {
+	margin-top: 3px;
+	background-color:yellow;
+	border:1px solid #666666;
+	padding: 5px;
+}
+
+.mode-edit input.heading {
+	width: 55%;
+	padding: 3px;
+}
+
+.mode-edit input {
+	padding: 2px;
+	margin: 1px;
+}
+
+.mode-edit textarea {
+	width: 99.5%;
+	margin: 2px;
+}
+
+.mode-edit .params div:first-child, .mode-edit .signatures div:first-child  {
+	font-size: 12px;
+	font-weight: bold;
+	margin-bottom: 2px;
+}
+
+.mode-edit .params, .mode-edit .signatures {
+	border: 1px solid #AAAAAA;
+	margin: 3px;
+	padding: 5px; 
+	background-color:  rgb(255, 248, 198);
+}
+
+.mode-edit .params label, .mode-edit .signatures label {
+	font-size: 11px;
+}
+
+.mode-edit .params input, .mode-edit .signatures input {
+	height: 14px;
+}
+
+.mode-edit .params input.description, .mode-edit .signatures input.description {
+	width: 450px;
+}
+
+.mode-edit input.description {
+	width: 55%;
+}
+
+.mode-editview {
+	margin-top: 3px;
+	border:1px solid #CCCCCC;
+	padding: 5px;
+}
+
+.typeHeader {
+    position: relative; 
+    top: -15px;
+	font-size: larger; 
+	font-style: italic;
+	font-weight: bold;
+	width: 34%; /*less than padding-left of .buttons*/
+}
+
+.typeHeader .isdetail {
+	font-size: small; 
+	font-style: normal;
+	font-weight: normal;
+}
+
+.savetext, .sample .try textarea {
+	width: 99%;
+	padding: 5px;
+	height: 360px;
+	margin-top: 5px;
+	border: 1px solid #bbb;
+}
+
+.save-div {
+	margin-top: 5px;
+}
+
+.save-div label {
+	width: 49%;
+	float: left;
+}
+
+.mode-summary, .mode-detail {
+	margin: 10px 0 10px 0;
+	padding: 0 4px 0 18px;
+}
+
+.sample .try label {
+	width: 49.5%;
+	float: left;
+	font-style: italic;
+	margin-top: -14px;
+}
+
+.sample .try label:last-of-type, .save-div label:last-of-type  {
+	float: right;
+}
+
+.sample .try button {
+	float: left;
+}
+
+.sample .show label {
+	font-style: italic;
+	float: left;
+	width: 50%;
+}
+
+.sample .try .bottom {
+	height: 30px;
+	clear: both;
+}
+
+.mode-edit .links, .mode-edit .topics {
+	border: 1px solid #aaa;
+	width: 428px;
+	padding: 2px;
+	margin-top: 4px;
+}
+
+.mode-edit .links label, .mode-edit .topics label {
+	display: inline-block;
+	width: 38px;
+	text-align: right;
+	margin-right: 3px;
+}
+
+.mode-edit .signatures > .signature {
+	border-top: 2px solid #851d1d;
+	padding: 10px 0 0 0;
+	margin-bottom: 5px;
+	margin-top: 18px;
+}
+
+.apiheaders {
+	border: 1px solid #bbb;
+	padding: 2px;
+}
+
+.apiheader, .apiheader .sreturns span {
+	text-align: center;
+	font-weight: bold;
+	font-family: monospace;
+	font-size: 15px;
+}
+
+.apiheader .returns {
+	margin-left: 30px;
+	font-family: Verdana;
+	font-style: italic;
+	font-size: 13px;
+}
+
+.apiheader .returns span {
+	font-style: normal;
+	font-weight: normal;
+}
+
+.apisignatures {
+	border: 1px solid #2c77ba;
+	margin: 15px -2px 0 -16px;
+	padding: 4px 14px 10px 14px;
+}
+
+.apisignatures .title span {
+	font-size: 14pt;
+	font-family: monospace;
+	font-weight: bold;
+	font-style: normal;
+}
+
+.apisignatures > .signature {
+	border-top: 2px solid #851d1d;
+	padding: 10px 0 0 0;
+	margin-bottom: 5px;
+	margin-top: 18px;
+}
+
+.signature .descblock {
+	overflow: hidden;
+	}
+
+.signature .descblock .desc {
+	float: left;
+	width: 40%;
+	margin-bottom: 3px;
+	font-style: italic;
+	border: 1px solid rgb(202, 117, 117);
+	padding: 7px;
+}
+
+.signature .descblock .example {
+	float: right;
+	width: 40%;
+	border: 1px solid rgb(202, 117, 117);
+	font-family: monospace;
+	padding: 7px;
+}
+
+.apisignatures .params {
+	border: 1px solid #2c77ba;
+	margin-top: 5px; 
+}
+
+.apisignatures .params > div {
+	border: 1px solid #2c77ba;
+	padding: 3px;
+	background-color: #e2ebef;
+}
+
+.apisignatures .params > div:first-child {
+	background-color: #2c77ba;
+	color: #FFFFFF;
+}
+
+.apisignatures .params label {
+	display: block;
+	font-family: monospace;
+	font-size: 15px;
+}
+
+.apisignatures .params label .type {
+	font-family: Verdana;
+	font-size: 13px;
+}
+
+.apisignatures .params div .paramdesc {
+	font-style: italic;
+	padding: 5px 0 5px;
+}
+
+.editmode input.title, .mode-edit input.title {
+	width: 500px;
+	margin-bottom: 5px;
+}
+
+.signature > .title {
+	font-style: italic;
+	font-size: larger;
+	width: 100%;
+}
+
+.sampleframe {
+	width: 100%;
+	border: none;
+}
+
+.sample {
+	border: 1px solid #999999;
+	position: relative;
+	margin-left: -16px;
+	margin-right: -2px;
+}
+
+.runSample, .revertSample {
+	margin-top: 5px;
+}
+
+.runButtons {
+	margin: -18px 0 0 81%;
+}
+
+.tryit {
+	position: relative;
+	top: -2px;
+	font-size: 8pt;
+}
+
+.title {
+	font-size: larger;
+	margin: 10px 10px 6px 0;
+	display: inline-block;
+}
+
+.title span {
+	font-weight: normal;
+	font-style: italic;
+}
