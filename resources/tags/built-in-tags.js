@@ -67,7 +67,7 @@ var	treeNodeTmpl = $.templates(
 	tabsTag = {
 		init: function(tagCtx) {
 			this.selectedIndex = tagCtx.props.selectedTab || 0;
-			this.parent.tabs = this;
+			(this.parents.section || this.parents.page).tabs = this;
 		},
 		render: function() {
 			var tagCtx = this.tagCtx;
@@ -207,7 +207,7 @@ var	treeNodeTmpl = $.templates(
 	selectListTag = $.extend(true, {}, $.views.tags.for, { // This tag control derives from the {{for}} tag.
 		onArrayChange: function(ev, eventArgs) {
 			$.views.tags.for.onArrayChange.apply(this, arguments);
-			if (eventArgs.change === "insert") {
+			if (eventArgs.change === "insert" || eventArgs.change === "move") {
 				this.toggleSelect(eventArgs.index);
 			}
 		},

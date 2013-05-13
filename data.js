@@ -264,27 +264,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
   "htmltag": {
     "title": "{{> ...}}",
     "path": "",
-    "sections": [
-      {
-        "_type": "tag",
-        "title": "",
-        "name": "name",
-        "method": true,
-        "returns": "ssssssss",
-        "signatures": [
-          {
-            "_type": "signature",
-            "title": "title",
-            "params": [],
-            "sections": [],
-            "example": "",
-            "description": ""
-          }
-        ],
-        "description": "sssssss",
-        "sectionTypes": {}
-      }
-    ]
+    "sections": []
   },
   "includetag": {
     "title": "{{include ...}}",
@@ -356,7 +336,13 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "links",
         "title": "",
-        "links": [],
+        "links": [
+          {
+            "_type": "link",
+            "hash": "hash",
+            "label": ""
+          }
+        ],
         "topics": [
           {
             "hash": "jsrplaying",
@@ -365,6 +351,11 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "hash": "jsvplaying",
             "label": "Playing with JsViews"
+          },
+          {
+            "_type": "topic",
+            "hash": "hash",
+            "label": ""
           }
         ]
       }
@@ -373,7 +364,142 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
   "jsrplaying": {
     "title": "Playing with JsRender",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "JsRender templates",
+        "text": "JsRender templates are probably the most powerful and at the same time the most intuitive of template engines out there."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": " To get started, let's just create a template, and run it against some data. The way you do that in code is like this:"
+      },
+      {
+        "_type": "template",
+        "title": "Here's a template:",
+        "markup": "<label>Name:</label> {{:firstName}}"
+      },
+      {
+        "_type": "code",
+        "title": "Here's some code:",
+        "code": "var person = {\n    firstName: \"Jeff\"\n};\n\nvar htmlOutput = myTemplate.render(person);"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Let's go straight to a sample showing how that template renders against the data. Like all the samples in this documentation, it is a working sample that you can experiment with."
+      },
+      {
+        "_type": "para",
+        "title": "And here it is a working sample:",
+        "text": ""
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "You can hit <em>Try it</em>, modify the template or the data, then hit <em>Run Code</em> to see the effect immediately, in the running sample above."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "For example, replace the data with the following:"
+          },
+          {
+            "_type": "data",
+            "title": "",
+            "data": [
+              {
+                "firstName": "Pedro",
+                "lastName": "Madrena"
+              },
+              {
+                "firstName": "Irina",
+                "lastName": "Martin"
+              }
+            ]
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Or try replacing the template with the following:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<table><tbody><tr>\n    <td>First name:</label> {{:firstName}}</td>\n    <td><label>Last name:</label> {{:lastName}}</td>\n</tr></tbody><table>"
+          }
+        ],
+        "title": "Rendering a template:",
+        "markup": "<label>Name:</label> {{:firstName}}<br/>",
+        "data": {
+          "firstName": "Jeff"
+        },
+        "height": "100px"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "OK - a few interesting things there. For example, if you tried changing the data, and providing an array instead of an object, you will have seen that the template rendered once for each item in the array. <br/><br/>But before we look at more details on the template rendering, let's look at how you get a compiled template object for you markup, (<em>myTemplate</em> in the code example above) so you can call the render method. <br/><br/>The next working example shows you that."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "In the html you see that we put our markup in a script block with <em>type=\"text/x-jsrender\"</em> and then in the code we called the $.templates method with a jQuery selector for that script block, to get the compiled template."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "After that we run the code we have already seen to render the template against our data, and get the HTML output as a string"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Finally we simply insert that output into the HTML DOM using the jQuery html() method."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Again, you can play with the sample, by changing the data, or the markup, or the code."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "For example if you change the template to produce a <em>&lt;tr></em>, you will want to insert the output into the tbody of a table, by adding a <em>&lt;table>&lt;tbody></em> target container - as in the following:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<table><tbody id=\"details\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n    <tr><td>First name:</label> {{:firstName}}</td></tr>\n</script>"
+          }
+        ],
+        "html": "<div id=\"details\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n    <label>Name:</label> {{:firstName}}\n</script>",
+        "code": "var myTemplate = $.templates(\"#personTmpl\");\n\nvar person = {\n    firstName: \"Jeff\"\n};\n\nvar htmlOutput = myTemplate.render(person);\n\n$(\"#details\").html(htmlOutput);",
+        "title": "Complete code for template rendering:"
+      }
+    ]
   },
   "jsvplaying": {
     "title": "Playing with JsViews",
@@ -746,6 +872,11 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     "title": "Observing data",
     "path": "",
     "sections": []
+  },
+  "mvvm-mvp": {
+    "title": "MVVM and MVP",
+    "path": "",
+    "sections": []
   }
 };
 content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocCategories")) ||
@@ -763,7 +894,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "label": "Playing with JsViews"
       }
     ],
-    "expanded": false
+    "expanded": true
   },
   {
     "name": "concepts",
@@ -905,6 +1036,10 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
           }
         ],
         "expanded": true
+      },
+      {
+        "name": "mvvm-mvp",
+        "label": "MVVM and MVP"
       }
     ],
     "expanded": true

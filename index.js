@@ -30,12 +30,14 @@ var	page,
 			tabs.onSelectionChange = function() {
 				var editable = tabs.selectedIndex === page.modes.edit;
 				$.observable(page).setProperty({
-					mode: tabs.selectedIndex,
 					editable: editable
 				});
 				$.observable(tree).setProperty("editable", editable);
 			};
 			tree.onSelectionChange = function(selected) {
+				$.observable(page).setProperty({
+					hasDetail: selected.hasDetail
+				});
 				save(location.hash = selected.name);
 			};
 			tree.onExpansionChange = function(selected) {
@@ -48,8 +50,9 @@ var	page,
 				.on("click", ".savedata", function() {
 					save();
 				})
-				.on("click", ".addsignature", function() {
+				.on("click", ".addsignature", function(ev) {
 					page.addSignature($.view(this));
+					ev.stopImmediatePropagation();
 				})
 				.on("click", ".addparam", function() {
 					page.addParam($.view(this));
@@ -71,14 +74,24 @@ var	page,
 					$.view(this).ctx.parentTags.section.sampleFrame.runCode();
 				})
 				.on("click", ".revertSample", function() {
-					$.view(this).ctx.parentTags.section.sampleFrame.runCode(true);
+					var tag = $.view(this).ctx.tag,
+						section =  tag.tagName === "section" ? tag : tag.parents.section;
+					section.sampleFrame.runCode(true);
 				})
 				.on("click", ".tryit", function() {
-					var tag = $.view(this).parent.tag;
-					tag.tabs.setTab(tag.sampleFrame.ranIt ? 0 : 2);
+					var sampleSection = $.view(this).parent.tag;
+					sampleSection.tabs.setTab(sampleSection.tabs.selectedIndex === 2 ? 0 : 2);
 				})
 				.on("keyup", ".try textarea", function() {
-					$.observable($.view(this).ctx.parentTags.section.sampleFrame).setProperty("tryIt", true);
+					$.observable($.view(this).ctx.parentTags.section.sampleFrame).setProperty("ranIt", true);
+				})
+				.on("contextmenu", function(ev) {
+					if (localStorage.getItem("JsViewsDocTopicsAllowEdit")) {
+						var editable = !page.editable;
+						$.observable(tree).setProperty("editable", editable);
+						$.observable(page).setProperty("editable", editable);
+						return false;
+					}
 				});
 		},
 		template: "#pagePanelTmpl",
@@ -232,7 +245,10 @@ var	page,
 			if (mode === "edit") {
 				mode = this.selected ? mode : "editview";
 				if (!this.parents.section || this.parents.section.selected) {
-					buttons = '<button class="toggleselect cmdbtn">' + (this.selected ? "ok" : "edit") + '</button><img class="removesection" src="resources/images/close.png" /><br/>';
+					buttons = '<button class="toggleselect cmdbtn">' + (this.selected
+						? 'ok</button><button class="up cmdbtn">up</button><button class="down cmdbtn">down'
+						: "edit"
+					) + '</button><img class="removesection" src="resources/images/close.png" /><br/>';
 				}
 			}
 			this.tagCtx.tmpl = this.templates[mode][type];
@@ -240,9 +256,30 @@ var	page,
 		},
 		onAfterLink: function() {
 			var self = this;
-			self.contents(".toggleselect:first", true).on("click", function() {
-				self.toggleSelect();
-			});
+			if (self.ctx.mode === "edit") {
+				self.contents(".cmdbtn").on("click", function() {
+					ev.stopPropagation();
+					ev.stopImmediatePropagation();
+					return false;
+				});
+				self.contents().on("click", function(ev) {
+					if ($(ev.target).is("cmdbtn,a,input,textarea,button,img")) {
+						return;
+					}
+					self.toggleSelect();
+				});
+				self.contents(".toggleselect:first", true).on("click", function() {
+					self.toggleSelect();
+				});
+				self.contents(".up", true).on("click", function(ev) {
+					self.moveUp();
+					ev.stopImmediatePropagation();
+				});
+				self.contents(".down", true).on("click", function(ev) {
+					self.moveDown();
+					ev.stopImmediatePropagation();
+				});
+			}
 		},
 		onDispose: function() {
 			if (this.parent.selectedChild === this) {
@@ -251,6 +288,22 @@ var	page,
 		},
 
 	// methods
+		moveUp: function() {
+			var index = this.tagCtx.view.index,
+				sections = this.parent.tagCtx.args[0];
+			if (index) {
+				$.observable(sections).move(index, index-1);
+			}
+			save();
+		},
+		moveDown: function() {
+			var index = this.tagCtx.view.index,
+				sections = this.parent.tagCtx.args[0];
+			if (index + 1 < sections.length) {
+				$.observable(sections).move(index, index+1);
+			}
+			save();
+		},
 		toggleSelect: function() {
 			$.observable(this).setProperty("selected", !this.selected);
 			this.refresh();
@@ -292,7 +345,7 @@ var	page,
 				data = self.origData = self.parents.section.data;
 
 			self.parent.sampleFrame = self;
-			data.url = data.url || data.sampleName && ("../samples/" + data.sampleName + "/sample"); 
+			data.url = data.url || data.sampleName && ("samples/" + data.sampleName + "/sample");
 			self.getScript =  function(loadScript) {
 				self.loadScript = loadScript;
 				if (data.url) {
@@ -318,7 +371,7 @@ var	page,
 				}
 			};
 		},
-		template: "<iframe src=\"{{attr:url||'../samples/resources/iframeDefault'}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}\"></iframe>",
+		template: "<iframe src=\"{{attr:url||'samples/resources/iframeDefault'}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}\"></iframe>",
 		onBeforeLink: function() {
 			var self = this,
 				iframeWnd = self.iframeWnd = $(self.parentElem).find(".sampleframe")[0].contentWindow;
@@ -329,22 +382,21 @@ var	page,
 				self.onTabChange.apply(self, arguments);
 			}
 		},
+		onDispose: function() {
+			this.iframeWnd = this.parent.sampleFrame = this.parentElem = undefined;
+		},
 		onTabChange: function(index, tabs) {
 			if (index === 2) {
 				$.observable(this).setProperty("sampleData", this.tryItData);
-			} else if (!index) {
-				this.runCode(true);
 			}
+			$.observable(this).setProperty({
+				tryIt: index === 2
+			});
 		},
 		runCode: function(revert) {
 			if (revert) {
 				$.observable(this.sampleData).setProperty(this.origData);
-				$.observable(this).setProperty({
-					tryIt: false,
-					ranIt: false
-				});
-			} else {
-				$.observable(this).setProperty("ranIt", true);
+				$.observable(this).setProperty("ranIt", !revert);
 			};
 			try {
 				this.loadScript(this.sampleData);
@@ -360,29 +412,27 @@ var	page,
 			this.data = this.tagCtx.view.data.sampleData;
 		},
 		render: function(editable) {
-			function renderField(type) {
+			function renderField(type, label) {
 				var value = sampleData[type],
 					isData = type === "data";
-				stringify:data:parse
 				return value 
-					? "<label>" + type
-						+ (editable
-							? "<textarea data-link=\""
-								+ (isData
-									? "{stringify:sampleData." + type + ":parse}"
-									: "sampleData." + type
-								) + "\"></textarea>"
-							: "<pre>" + (isData ? stringify(value) : $.views.converters.html(value)) + "</pre>"
-						)
-					+ "</label>"
+					? "<label>" + (label||type) + ":"
+						+ (editable ? "<textarea" : "<pre")
+						+ " data-link=\""
+						+ (isData
+							? "{stringify:sampleData." + type + ":parse}"
+							: "sampleData." + type
+						) + "\">"
+						+ (editable ? "</textarea>" : "</pre>")
+						+ "</label>"
 					: ""; 
 			}
 			var ret = "",
 				sampleData = this.data;
 			if (sampleData.html) {
-				ret += renderField("html") + renderField("code");
+				ret += renderField("html") + renderField("code", "javascript");
 			} else if (sampleData.markup) {
-				ret += renderField("markup") + renderField("data");
+				ret += renderField("markup", "template markup") + renderField("data");
 			}
 			return ret;
  		}
@@ -513,7 +563,7 @@ function save(category) {
 
 	localStorage.setItem("JsViewsDocCategories", categories);
 	localStorage.setItem("JsViewsDocCategory", category)
-	if (!category) {
+	if (!category ) {
 		topics = stringify(page.data.topics)
 		textareas[0].value = topics;
 		localStorage.setItem("JsViewsDocTopics", topics);

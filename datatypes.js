@@ -48,7 +48,7 @@ var sectionTypes = {
 	},
 	sample: {
 		_type: "sample",
-		typeLabel: "Sample",
+		typeLabel: "Sample:",
 		sectionTypes: {},
 		sections: []
 	},

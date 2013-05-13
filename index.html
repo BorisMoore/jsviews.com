@@ -18,17 +18,26 @@
 <!--======================= Page Controls =======================-->
 	
 <script id="pageTmpl" type="text/x-jsrender">
+	<h3 class="titlebar">JsRender and JsViews documentation <em>Work in progress</em></h3>
 	{^{page class="sidebar" }}
 		{^{tree categories selected=~tag.category /}}
 	{{else ~tabTmpl=~templates.tabsContent class="content"}}
-		{^{tabs tabCaption="Summary" ~page=~tag class="summary" }}
-			{{include tmpl=~tabTmpl ~mode="summary" /}}
-		{{else tabCaption="Deep dive" ~page=~tag class="summary"}}
-			{{include tmpl=~tabTmpl ~mode="detail" /}}
-		{{else tabCaption="Edit" ~page=~tag class="edit"}}
-			{{include tmpl=~tabTmpl ~mode="edit" /}}
-		{{/tabs}}
-		{^{if ~tag.tabs.selectedIndex === 2}}
+		{^{if ~tag.hasDetail}}
+			{^{tabs tabCaption="Documentation" ~page=~tag class="summary" }}
+				{{include tmpl=~tabTmpl ~mode="summary" /}}
+			{{else tabCaption="Deep dive" ~page=~tag class="summary"}}
+				{{include tmpl=~tabTmpl ~mode="detail" /}}
+			{{/tabs}}
+		{{else ~tag.editable}}
+			{^{tabs tabCaption="Edit" ~page=~tag class="edit"}}
+				{{include tmpl=~tabTmpl ~mode="edit" /}}
+			{{/tabs}}
+		{{else}}
+			{^{tabs tabCaption="Documentation" ~page=~tag class="summary" }}
+				{{include tmpl=~tabTmpl ~mode="summary" /}}
+			{{/tabs}}
+		{{/if}}
+		{^{if ~tag.editable}}
 			<div class="save-div">
 				<label>Topics<textarea class="savetext" data-link="{stringify:~root.topics:parse}"></textarea></label>
 				<label>Categories<textarea class="savetext" data-link="{stringify:~root.categories:parse}"></textarea></label>
@@ -77,14 +86,14 @@
 		<div>
 			<label>Title: <input class="title" data-link="title" /></label>
 		</div>
-	{{else}}
+	{{else title}}
 		<div class="title">{{>typeLabel}} <span>{{:title}}</span></div>
 	{{/if}}
 </script>
 
 <script id="paraTmpl" type="text/x-jsrender">
 	{{sectionHeader /}}
-	<div>{{:text}}</div>
+	<div class="para">{{:text}}</div>
 </script>
 
 <script id="apiTmpl" type="text/x-jsrender">
@@ -180,22 +189,29 @@
 </script>
 
 <script id="sampleTmpl" type="text/x-jsrender">
+	<div class="apisignatures">
 	{{sectionHeader /}}
 	{{if ~mode !== "edit"}}
-		<button class="tryit" data-link="~tag.sampleFrame.ranIt ? 'OK' : 'Try it yourself'"></button>
+		<div class="tryitButtons">
+			<button class="tryit" data-link="~tag.sampleFrame.tryIt ? 'How it works' : 'Try it'"></button>
+			<button class="revertSample" data-link="css-visibility{:~tag.sampleFrame.ranIt ? 'visible' : 'hidden'}">Clear Changes</button>
+		</div>
 		<div class="sample">
 			{^{sampleFrame /}}
-			{{for ~tag.sampleFrame}}
+			{{for ~tag.sampleFrame ~sections=sections}}
 				{^{tabs tabCaption="How it works"}}
-					{{for sections ~root.sectionTypes }}
-						{{if ~mode!=="summary" || !detail}}sss {^{section _type ~mode /}}{{/if}}				
+					{{for ~sections}}
+						{{if ~mode!=="summary" || !detail}}{^{section _type ~mode /}}{{/if}}
 					{{/for}}
 				{{else tabCaption="Code"}}
 					<div class="show">
 						{{sampleFields/}}
-					</div>						
+					</div>
 				{{else tabCaption="Try it"}}
-					<div class="runButtons"><button class="runSample" data-link="disabled{:!tryIt}">Run code</button> <button class="revertSample" data-link="disabled{:!tryIt}">Return to original code</button></div>
+					<div class="runButtons">
+						<button class="runSample" data-link="disabled{:!ranIt}">Run code</button>
+						<button class="revertSample" data-link="disabled{:!ranIt}">Clear changes</button>
+					</div>
 					<div class="try">
 						{{sampleFields true/}}
 					</div>
@@ -205,10 +221,11 @@
 	{{else}}	
 		<div class="sample">
 			{{for sections ~root.sectionTypes }}
-				{{if ~mode!=="summary" || !detail}}sss {{section _type ~mode /}}{{/if}}				
+				{{if ~mode!=="summary" || !detail}}{{section _type ~mode /}}{{/if}}
 			{{/for}}
 		</div>
 	{{/if}}
+	</div>
 </script>
 
 <script id="linksTmpl" type="text/x-jsrender">
