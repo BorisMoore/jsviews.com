@@ -392,7 +392,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "para",
-        "title": "And here it is a working sample:",
+        "title": "And here it is as a working sample:",
         "text": ""
       },
       {
