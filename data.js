@@ -577,6 +577,36 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "_type": "topic",
             "hash": "jsrtags",
             "label": "Built-in tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "data",
+            "label": "Data"
+          },
+          {
+            "_type": "topic",
+            "hash": "templates",
+            "label": "Templates"
+          },
+          {
+            "_type": "topic",
+            "hash": "views",
+            "label": "Views"
+          },
+          {
+            "_type": "topic",
+            "hash": "tagexpressions",
+            "label": "Tag expressions"
+          },
+          {
+            "_type": "topic",
+            "hash": "customtags",
+            "label": "Custom tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsrapi",
+            "label": "JsRender APIs"
           }
         ]
       }
