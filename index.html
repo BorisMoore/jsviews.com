@@ -189,7 +189,7 @@
 </script>
 
 <script id="sampleTmpl" type="text/x-jsrender">
-	<div class="apisignatures">
+	<div class="samplesection">
 	{{sectionHeader /}}
 	{{if ~mode !== "edit"}}
 		<div class="tryitButtons">
@@ -207,13 +207,15 @@
 					<div class="show">
 						{{sampleFields/}}
 					</div>
+				{{else tabCaption="Full Code"}}
+					{{sampleFields "full"/}}
 				{{else tabCaption="Try it"}}
 					<div class="runButtons">
 						<button class="runSample" data-link="disabled{:!ranIt}">Run code</button>
 						<button class="revertSample" data-link="disabled{:!ranIt}">Clear changes</button>
 					</div>
 					<div class="try">
-						{{sampleFields true/}}
+						{{sampleFields "edit"/}}
 					</div>
 				{{/tabs}}
 			{{/for}}
@@ -374,7 +376,8 @@
 	<div>
 		<label>sample name: <input data-link="sampleName" /></label>
 		<label>url: <input data-link="url" /></label>
-		<label>height: <input data-link="height" /></label><br />
+		<label>height: <input data-link="height" /></label>
+		<label>JsRender only: <input data-link="onlyJsRender" type="checkbox"/></label><br />
 		<label>markup<textarea data-link="markup" rows="5"></textarea></label>
 		<label>data<textarea data-link="{stringify:data:parse}" rows="5"></textarea></label>
 		<label>html<textarea data-link="html" rows="5"></textarea></label>

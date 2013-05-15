@@ -1,5 +1,5 @@
 ﻿var content = $.views.documentation.content;
-var useStorage = content.useStorage;
+var useStorage = content.allowEdit;
 content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics")) ||
 {
   "tmplrender": {
@@ -378,12 +378,12 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "template",
         "title": "Here's a template:",
-        "markup": "<label>Name:</label> {{:firstName}}"
+        "markup": "<label>Name:</label> {{:name}}"
       },
       {
         "_type": "code",
         "title": "Here's some code:",
-        "code": "var person = {\n    firstName: \"Jeff\"\n};\n\nvar htmlOutput = myTemplate.render(person);"
+        "code": "var person = {\n    name: \"Adriana\"\n};\n\nvar htmlOutput = myTemplate.render(person);"
       },
       {
         "_type": "para",
@@ -421,12 +421,10 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "title": "",
             "data": [
               {
-                "firstName": "Pedro",
-                "lastName": "Madrena"
+                "name": "Adriana"
               },
               {
-                "firstName": "Irina",
-                "lastName": "Martin"
+                "name": "Robert"
               }
             ]
           },
@@ -438,15 +436,16 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "template",
             "title": "",
-            "markup": "<table><tbody><tr>\n    <td>First name:</label> {{:firstName}}</td>\n    <td><label>Last name:</label> {{:lastName}}</td>\n</tr></tbody><table>"
+            "markup": "<table><tbody><tr>\n    <td>Name:</label> {{:name}}</td>\n</tr></tbody><table>"
           }
         ],
-        "title": "Rendering a template:",
-        "markup": "<label>Name:</label> {{:firstName}}<br/>",
+        "title": "A first template:",
+        "markup": "<label>Name:</label> {{:name}}<br/>",
         "data": {
-          "firstName": "Jeff"
+          "name": "Adriana"
         },
-        "height": "100px"
+        "height": "90px",
+        "onlyJsRender": true
       },
       {
         "_type": "para",
@@ -472,7 +471,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "para",
             "title": "",
-            "text": "After that we run the code we have already seen to render the template against our data, and get the HTML output as a string"
+            "text": "After that we run the code we have already seen to render the template against our data, and get the HTML output as a string. (We pass the data - this time we used an array - to the render() method of our compiled template.)"
           },
           {
             "_type": "para",
@@ -492,12 +491,92 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "template",
             "title": "",
-            "markup": "<table><tbody id=\"details\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n    <tr><td>First name:</label> {{:firstName}}</td></tr>\n</script>"
+            "markup": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n    <tr><td>Name:</label> {{:name}}</td></tr>\n</script>"
           }
         ],
-        "html": "<div id=\"details\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n    <label>Name:</label> {{:firstName}}\n</script>",
-        "code": "var myTemplate = $.templates(\"#personTmpl\");\n\nvar person = {\n    firstName: \"Jeff\"\n};\n\nvar htmlOutput = myTemplate.render(person);\n\n$(\"#details\").html(htmlOutput);",
-        "title": "Complete code for template rendering:"
+        "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n    <label>Name:</label> {{:name}}\n</script>",
+        "code": "var myTemplate = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nvar htmlOutput = myTemplate.render(people);\n\n$(\"#peopleList\").html(htmlOutput);",
+        "title": "Complete code for template rendering:",
+        "onlyJsRender": true
+      },
+      {
+        "_type": "para",
+        "title": "What else is in templates?",
+        "text": "JsRender template have a very rich feature set, yet a small number of predefined tags. The links at the moment of this topic give details on some of the features."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": " But let's try one more sample, where this time, instead of passing our people array to the template.render() method, we will pass an object (our <em>app</em> object) which will have a <em>people</em> property. Now in the template we will use a <em>{{for}}</em> tag to iterate over the <em>people</em>. "
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Also we'll use an <em>{{if}}</em> tag to test whether the person has a <em>nickname</em> field, and if so we will render out the nickname too..."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "The <em>{{for people}}...{{/for}}</em> block tag, in the template, looks at the current data item (the <em>app</em> that we passed in) and navigates a data-path that you provide as parameter - in this case <em>people</em>."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "JsRender supports different kinds of paths, as well as expressions of various kinds. The data-path can be something like <em>address.street</em>, with 'dot' separators, but in this case it is simply the <em>people</em> property of the app object."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Now, because <em>people</em> is an array, JsRender will render the content of the <em>{{for}}...{{/for}}</em> block <b><em>once for each item in the array</em></b>.  "
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Within the block the current item is now the person (item in the array), and there we have an <em>{{if people}}...{{/if}}</em> block tag, which takes an expression as parameter."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": " In this case the expression is another data-path, <em>nickname</em>. So it renders the content of the <em>{{if}}...{{/if}}</em> block if the nickname is not undefined (or is not null, or the empty string)."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "You can experiment by replacing the <em>{{if nickname}}</em> expression. For example, try giving <em>Adriana</em> the nickname <em>Adriana</em>! Then try replacing <em>{{if nickname}}</em> with:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{if nickname && nickname !== name}} "
+          }
+        ],
+        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <ul>\n      {{for people}}\n        <li>\n          {{:name}}\n          {{if nickname}}\n            ( {{:nickname}} )\n          {{/if}}\n        </li>\n      {{/for}}\n    </ul>\n  </td></tr>\n</script>",
+        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\",\n      nickname: \"Bob\"\n    }\n  ];\n\n  app = {\n    people: people\n  };\n\nvar htmlOutput = myTemplate.render(app);\n\n$(\"#peopleList\").html(htmlOutput);\n",
+        "onlyJsRender": true,
+        "title": "Some template tags..."
+      },
+      {
+        "_type": "links",
+        "title": "Links",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "jsrtags",
+            "label": "Built-in tags"
+          }
+        ]
       }
     ]
   },
@@ -1123,6 +1202,6 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": true
       }
     ],
-    "expanded": false
+    "expanded": true
   }
 ];

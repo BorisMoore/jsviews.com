@@ -1,9 +1,8 @@
 ﻿(function(global, $, undefined) {
 	// global is the this object, which is window when running in the usual browser environment.
 "use strict";
-var useStorage = 
-//	true ||
-	false;
+
+// If editing is allowed, use local storage to get latest value, otherwise get content from the data.js file
 var sectionTypes = { 
 	para: { 
 		_type: "para",
@@ -75,6 +74,7 @@ $.map(sectionTypes, function(value, key) {
 
 $.views.documentation = {
 	content: {
+		allowEdit: localStorage.getItem("JsViewsDocTopicsAllowEdit"),
 		subTypes: {
 			signature: { 
 				_type: "signature",
@@ -103,8 +103,7 @@ $.views.documentation = {
 				label: ""
 			}
 		},
-		sectionTypes: sectionTypes,
-		useStorage: useStorage
+		sectionTypes: sectionTypes
 	},
 };
 })(this, this.jQuery);

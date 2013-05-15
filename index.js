@@ -80,13 +80,13 @@ var	page,
 				})
 				.on("click", ".tryit", function() {
 					var sampleSection = $.view(this).parent.tag;
-					sampleSection.tabs.setTab(sampleSection.tabs.selectedIndex === 2 ? 0 : 2);
+					sampleSection.tabs.setTab(sampleSection.tabs.selectedIndex === 3 ? 0 : 3);
 				})
 				.on("keyup", ".try textarea", function() {
 					$.observable($.view(this).ctx.parentTags.section.sampleFrame).setProperty("ranIt", true);
 				})
 				.on("contextmenu", function(ev) {
-					if (localStorage.getItem("JsViewsDocTopicsAllowEdit")) {
+					if (content.allowEdit) {
 						var editable = !page.editable;
 						$.observable(tree).setProperty("editable", editable);
 						$.observable(page).setProperty("editable", editable);
@@ -386,11 +386,11 @@ var	page,
 			this.iframeWnd = this.parent.sampleFrame = this.parentElem = undefined;
 		},
 		onTabChange: function(index, tabs) {
-			if (index === 2) {
+			if (index === 3) {
 				$.observable(this).setProperty("sampleData", this.tryItData);
 			}
 			$.observable(this).setProperty({
-				tryIt: index === 2
+				tryIt: index === 3
 			});
 		},
 		runCode: function(revert) {
@@ -411,7 +411,36 @@ var	page,
 		init: function() {
 			this.data = this.tagCtx.view.data.sampleData;
 		},
-		render: function(editable) {
+		render: function(mode) {
+			function fullCode() {
+				return "<!DOCTYPE html>\n"
+					+ "<html>\n"
+					+ "<head>\n"
+					+ "    <script src=\"http://code.jquery.com/jquery.js\"></script>\n"
+					+ "    <script src=\"http://www.jsviews.com/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"
+					+ "    <link href=\"http://www.jsviews.com/samples/resources/css/samples.css\"/>\n"
+					+ "</head>\n"
+					+ "<body>\n\n"
+					+ (sampleData.html
+						? (sampleData.html + "\n\n<script>\n" + sampleData.code)
+						: (sampleData.markup
+							? ("<div id=\"result\"></div>\n\n"
+								+ "<script id=\"theTmpl\" type=\"text/x-jsrender\">\n"
+								+ sampleData.markup
+								+ "\n</script>\n\n"
+								+ "<script>\n"
+								+ "var data = " + stringify(sampleData.data) + ";\n\n"
+								+ "var template = $.templates(\"#theTmpl\");\n\n"
+								+ "var htmlOutput = template.render(data);\n\n"
+								+ "$(\"#result\").html(htmlOutput);\n")
+							: ""
+						)
+					)
+					+ "</script>\n\n"
+					+ "</body>\n"
+					+ "</html>\n";
+			}
+
 			function renderField(type, label) {
 				var value = sampleData[type],
 					isData = type === "data";
@@ -428,8 +457,12 @@ var	page,
 					: ""; 
 			}
 			var ret = "",
-				sampleData = this.data;
-			if (sampleData.html) {
+				sampleData = this.data,
+				onlyJsRender = this.tagCtx.view.data.origData.onlyJsRender,
+				editable = mode==="edit";
+			if (mode === "full") {
+				ret += "<pre class=\"fullcode\">" + $.views.converters.html(fullCode()) + "</pre>";
+			} else if (sampleData.html) {
 				ret += renderField("html") + renderField("code", "javascript");
 			} else if (sampleData.markup) {
 				ret += renderField("markup", "template markup") + renderField("data");
@@ -533,7 +566,7 @@ function stringify(val) {
 
 function getContent(topics, categories) {
 	return "var content = $.views.documentation.content;\n"
-			+ "var useStorage = content.useStorage;\n"
+			+ "var useStorage = content.allowEdit;\n"
 			+ "content.topics = useStorage && $.parseJSON(localStorage.getItem(\"JsViewsDocTopics\")) ||\n"
 			+ stringify(topics)
 			+ ";\ncontent.categories = useStorage && $.parseJSON(localStorage.getItem(\"JsViewsDocCategories\")) ||\n"
