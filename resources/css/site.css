@@ -331,7 +331,8 @@ margin: 2px;
 
 .apisignatures, .samplesection {
 	border: 1px solid #2c77ba;
-	margin: 15px -2px 0 -16px;
+	background-color: white;
+	margin: 35px -2px 35px -16px;
 	padding: 4px 14px 10px 14px;
 }
 
@@ -477,4 +478,8 @@ margin: 2px;
 .fullcode {
 	height: 446px;
 	margin: -2px 0 0 -3px;
+}
+
+.currenttopic {
+	background-color: #f3f3f3;
 }

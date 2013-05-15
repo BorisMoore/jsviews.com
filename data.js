@@ -387,13 +387,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "para",
-        "title": "",
-        "text": "Let's go straight to a sample showing how that template renders against the data. Like all the samples in this documentation, it is a working sample that you can experiment with."
-      },
-      {
-        "_type": "para",
         "title": "And here it is as a working sample:",
-        "text": ""
+        "text": "Let's go straight to a sample showing how that template renders against the data. Like all the samples in this documentation, it is a working sample that you can experiment with. \n"
       },
       {
         "_type": "sample",
@@ -617,22 +612,9 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     "path": "",
     "sections": [
       {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "sample": "sample"
-        },
-        "sections": [],
-        "sampleName": "",
-        "url": "",
-        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <ul>\n      {{for people}}\n        <li>\n          {{:name}}\n        </li>\n      {{/for}}\n    </ul>\n  </td></tr>\n</script>\n",
-        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar htmlOutput = myTemplate.link(\"#peopleList\", app);",
-        "height": "120px",
-        "title": "Using the template.link() method"
+        "_type": "para",
+        "title": "JsViews: A platform for data-bound single-page apps",
+        "text": "JsViews provides dynamic data-bound views, built on top of JsRender templates. It \"brings JsRender templates to life\". So lets start with the JsRender template we ended up with in the <a href=\"#jsrplaying\">Playing with JsViews</a> topic:"
       },
       {
         "_type": "sample",
@@ -644,27 +626,116 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           "code": "code",
           "sample": "sample"
         },
-        "sections": [],
-        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr><td>\n      {{:name}}\n  </td></tr>\n  {{/for}}\n</script>",
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "If you look at the code you will see it is almost identical to the previous JsRender sample. One difference though: The two lines for rendering the template as a string and then inserting it into the DOM:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var htmlOutput = myTemplate.render(app);\n\n$(\"#peopleList\").html(htmlOutput);\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "...have been replaced by a single line:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "myTemplate.link(\"#peopleList\", app);"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "That line of code renders the template against the data (second parameter) and then inserts that data under the container element (first parameter), <em>and data-binds the HTML</em>. "
+          }
+        ],
+        "sampleName": "",
+        "url": "",
+        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <ul>\n      {{for people}}\n        <li>\n          {{:name}}\n        </li>\n      {{/for}}\n    </ul>\n  </td></tr>\n</script>\n",
+        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nmyTemplate.link(\"#peopleList\", app);",
+        "height": "120px",
+        "title": "Using the template.link() method"
+      },
+      {
+        "_type": "para",
+        "title": "Data-linking",
+        "text": "In JsViews we refer to <em>data-linking</em>. It means data-binding, but refers to the particular approach used in JsViews, which is based on <em>observable arrays and objects</em>."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "If you take an object and assign a new value to one of its properties (fields), there is no corresponding event that can allow other code to know you modified the object. Similarly, mutating an array will not provide any events or notifications to other code.\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "\nThat's where <em>JsObservable</em> comes in. It provides ways of changing objects and arrays, <em>observably</em>.\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The next sample shows what happens when the template renders against an array, and then that array is modified 'observably' (<em>observable collection change</em>).\n"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Click on the Add button, and a new row gets added to the array. The template rendering automatically updates to show the new row."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "It uses the code:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.observable(people).insert(people.length, {name: \"name\"});"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "But notice that the template is different from previously. It has that extra carat sign: <em style=\"white-space:nowrap\">{<b>^</b>{for ...}}</em>. Try removing the <b>^</b> and then clicking the <em>Add</em> button. - Nothing happens."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Any regular JsRender tag <em>{{someTag ...}}</em> - whether built-in or custom - can be data-linked by adding the <b>^</b>: <em style=\"white-space:nowrap\">{<b>^</b>{someTag ...}}</em>. That tag has become 'dynamic' and will re-render itself whenever it needs to, if the underlying data changes ('observably')."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Remove the <b>^</b>, and the tag is 'dead'..."
+          }
+        ],
+        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr><td>\n      {{:name}}\n    </td></tr>\n  {{/for}}\n</script>",
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar htmlOutput = myTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})",
         "height": "200px",
         "title": "Data-linked tags and observable arrays and objects "
       },
       {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "sample": "sample"
-        },
-        "sections": [],
-        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td colspan=\"2\">\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr>\n      <td>\n        {^{:name}}\n      </td>\n      <td>\n        <button class=\"changeBtn\">Change</button>\n      </td>\n    </tr>\n  {{/for}}\n</script>",
-        "height": "200px",
-        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar counter = 1;\n\nvar htmlOutput = myTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})\n\n$(\"#peopleList\").on(\"click\", \".changeBtn\", function(){\n  var dataItem = $.view(this).data;\n  $.observable(dataItem).setProperty(\"name\", dataItem.name + counter++);\n})\n",
-        "title": "Observable change: propertyChange"
+        "_type": "para",
+        "title": "",
+        "text": "What about changing an object? Let's modify the <em>name</em> on a <em>person</em> object (<em>observable property change</em>):"
       },
       {
         "_type": "sample",
@@ -676,13 +747,126 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           "code": "code",
           "sample": "sample"
         },
-        "sections": [],
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Here is the code when you click <em>Change</em>:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "function(){\n  var dataItem = $.view(this).data;\n\n  $.observable(dataItem).setProperty(\"name\", dataItem.name + counter++);\n}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "The code for \"setProperty\" makes sense, given what we have already seen. You call <em style=\"white-space:nowrap\">$.observable(myObject)</em> to get an 'observable form of your object' which will provide you appropriate methods you can call: <em style=\"white-space:nowrap\">setProperty(...)</em> if it was an object, and <em>insert, remove, refresh</em> and <em>move</em>, if it was an array. "
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "But in our case, the first problem is to know <em>which</em> person object should be modified by this particular button. The <em>this</em> pointer in the click-handler is the element, and our code: "
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var dataItem = $.view(this).data;"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "let's us get the <em>view</em> (an 'instance' of a rendered template, or template tag block) and hence to the data item (in this case the <em>person</em>) we want to modify."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "As in the previous sample, we have 'brought a tag to life' by writing:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<td>{^{:name}}</td>\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Change it back to:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<td>{^{:name}}</td>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "and you will see that the name no longer updates when you click on the <em>Change</em> button."
+          }
+        ],
+        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td colspan=\"2\">\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr>\n      <td>{^{:name}}</td>\n      <td>\n        <button class=\"changeBtn\">Change</button>\n      </td>\n    </tr>\n  {{/for}}\n</script>",
+        "height": "200px",
+        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar counter = 1;\n\nmyTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})\n\n$(\"#peopleList\").on(\"click\", \".changeBtn\", function(){\n  var dataItem = $.view(this).data;\n  $.observable(dataItem).setProperty(\"name\", dataItem.name + counter++);\n})\n",
+        "title": "Observable change: propertyChange"
+      },
+      {
+        "_type": "para",
+        "title": "Data-linked tags...",
+        "text": "So far have used data-linked template tags for data-linking, as in:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "<td>{^{:name}}</td>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "But the fact that the data-linked tag is wrapped by an HTML element means that if we want we can replace it by an 'element-base' syntax:"
+      },
+      {
+        "_type": "template",
+        "title": "...or element-based data-linking",
+        "markup": "<td data-link=\"name\"></td>"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "So this version of the sample uses:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<td data-link=\"name\"></td>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Try changing it back to the data-linked tag syntax. You will see that the sample works just the same..."
+          }
+        ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td colspan=\"2\">\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr>\n      <td data-link=\"name\"></td>\n      <td>\n        <button class=\"changeBtn\">Change</button>\n      </td>\n    </tr>\n  {{/for}}\n</script>",
-        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar counter = 1;\n\nvar htmlOutput = myTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})\n\n$(\"#peopleList\").on(\"click\", \".changeBtn\", function(){\n  var dataItem = $.view(this).data;\n  $.observable(dataItem).setProperty(\"name\", dataItem.name + counter++);\n})\n",
+        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar counter = 1;\n\nmyTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})\n\n$(\"#peopleList\").on(\"click\", \".changeBtn\", function(){\n  var dataItem = $.view(this).data;\n  $.observable(dataItem).setProperty(\"name\", dataItem.name + counter++);\n})\n",
         "height": "200px",
         "title": "Element-based linking: \"data-link\""
       },
       {
+        "_type": "para",
+        "title": "",
+        "text": "But what about <em>two-way</em> data-binding?"
+      },
+      {
         "_type": "sample",
         "typeLabel": "Sample:",
         "sectionTypes": {
@@ -692,11 +876,37 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           "code": "code",
           "sample": "sample"
         },
-        "sections": [],
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "This is where the element-based data-linking comes into its own. The textbox uses declarative binding:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<td data-link=\"name\"></td>\n<td>\n  <input data-link=\"name\"/>\n</td>\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "The <em>&lt;input></em> and the <em>&lt;td></em> are both data-linked. The underlying data gets modified when you change the name in the textbox - and updates the <em>&lt;td></em>, without you needing to write any <em>propertyChange</em> code at all."
+          }
+        ],
         "title": "Two-way data-binding",
-        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td colspan=\"2\">\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr>\n      <td data-link=\"name\"></td>\n      <td>\n        <input data-link=\"name\">\n      </td>\n    </tr>\n  {{/for}}\n</script>",
-        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar counter = 1;\n\nvar htmlOutput = myTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})\n",
+        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td colspan=\"2\">\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr>\n      <td data-link=\"name\"></td>\n      <td>\n        <input data-link=\"name\"/>\n      </td>\n    </tr>\n  {{/for}}\n</script>",
+        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar counter = 1;\n\nmyTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})\n",
         "height": "200px"
+      },
+      {
+        "_type": "para",
+        "title": "A more complete sample:",
+        "text": "This was just a glimpse of some of the richness of JsViews data-linking. The next sample let's you see a more fully-fledged example, which you can experiment with."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See the links section below, for more details on features and APIs..."
       },
       {
         "_type": "sample",

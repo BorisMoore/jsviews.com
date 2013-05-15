@@ -22,7 +22,8 @@
 	{^{page class="sidebar" }}
 		{^{tree categories selected=~tag.category /}}
 	{{else ~tabTmpl=~templates.tabsContent class="content"}}
-		{^{if ~tag.hasDetail}}
+		<div class="currenttopic">
+			{^{if ~tag.hasDetail}}
 			{^{tabs tabCaption="Documentation" ~page=~tag class="summary" }}
 				{{include tmpl=~tabTmpl ~mode="summary" /}}
 			{{else tabCaption="Deep dive" ~page=~tag class="summary"}}
@@ -37,6 +38,7 @@
 				{{include tmpl=~tabTmpl ~mode="summary" /}}
 			{{/tabs}}
 		{{/if}}
+		</div>
 		{^{if ~tag.editable}}
 			<div class="save-div">
 				<label>Topics<textarea class="savetext" data-link="{stringify:~root.topics:parse}"></textarea></label>
