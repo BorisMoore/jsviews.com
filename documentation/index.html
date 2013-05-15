@@ -1,0 +1,426 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+	<script src="../jsviews.js" type="text/javascript"></script>
+	<script src="../datatypes.js" type="text/javascript"></script>
+	<script src="contents.js" type="text/javascript"></script>
+	
+	<script src="../resources/tags/built-in-tags.js" type="text/javascript"></script>
+
+	<link href="../resources/css/tree.css" rel="stylesheet" type="text/css" />
+	<link href="../resources/css/tabs.css" rel="stylesheet" type="text/css" />
+	<link href="../resources/css/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="pageContent"></div>
+
+<!--======================= Page Controls =======================-->
+	
+<script id="pageTmpl" type="text/x-jsrender">
+	<h3 class="titlebar">JsRender and JsViews documentation <em>Work in progress</em></h3>
+	{^{page class="sidebar" }}
+		{^{tree categories selected=~tag.category /}}
+	{{else ~tabTmpl=~templates.tabsContent class="content"}}
+		<div class="currenttopic">
+			{^{if ~tag.hasDetail}}
+			{^{tabs tabCaption="Documentation" ~page=~tag class="summary" }}
+				{{include tmpl=~tabTmpl ~mode="summary" /}}
+			{{else tabCaption="Deep dive" ~page=~tag class="summary"}}
+				{{include tmpl=~tabTmpl ~mode="detail" /}}
+			{{/tabs}}
+		{{else ~tag.editable}}
+			{^{tabs tabCaption="Edit" ~page=~tag class="edit"}}
+				{{include tmpl=~tabTmpl ~mode="edit" /}}
+			{{/tabs}}
+		{{else}}
+			{^{tabs tabCaption="Documentation" ~page=~tag class="summary" }}
+				{{include tmpl=~tabTmpl ~mode="summary" /}}
+			{{/tabs}}
+		{{/if}}
+		</div>
+		{^{if ~tag.editable}}
+			<div class="save-div">
+				<label>Topics<textarea class="savetext" data-link="{stringify:~root.topics:parse}"></textarea></label>
+				<label>Categories<textarea class="savetext" data-link="{stringify:~root.categories:parse}"></textarea></label>
+			</div>
+			<label>Contents<textarea class="savetext"  data-link="{getContent:~root.topics ~root.categories}"></textarea></label>
+		{{/if}}
+	{{/page}}
+</script>
+
+<script id="pagePanelTmpl" type="text/x-jsrender">
+	<div class="panel {{attr:~tag.tagCtx.props.class}}">
+		{{include tmpl=#content /}}
+	</div>
+</script>
+
+<script id="tabsContentTmpl" type="text/x-jsrender">
+	<div class="{{:~mode}}mode tabcontent">
+		{{if ~mode==="edit" }}
+			{^{for topics[~page.category^name] }}
+				<h2><label>Title: <input class="title" data-link="title" /></label></h2>
+				{^{selectList sections }}
+					{{sectionButtons ~root.sectionTypes /}}			
+					{^{section _type ~mode ~sectionTypes=~root.sectionTypes[_type].sectionTypes /}}				
+				{{/selectList}}
+			{{/for}}
+			{{sectionButtons ~root.sectionTypes append=true/}}			
+			<button class="savedata cmdbtn">save</button>
+		{{else}}
+			{^{for topics[~page.category^name] }}
+				<h2>{{>title}}</h2>
+				{^{for sections ~root.sectionTypes }}
+					{{if ~mode!=="summary" || !detail}} {^{section _type ~mode /}}{{/if}}				
+				{{/for}}
+			{{else}}
+				No topic
+			{{/for}}
+		{{/if}}
+	</div>
+</script>
+
+<!--======================= Section Templates =======================-->
+
+<script id="sectionHeaderTmpl" type="text/x-jsrender">
+	{{if ~tag.parent.selected}}
+		<div class="typeHeader">{{>_type}} <label class="isdetail">detail: <input type="checkbox" data-link="detail" /></label></div>
+		<div>
+			<label>Title: <input class="title" data-link="title" /></label>
+		</div>
+	{{else title}}
+		<div class="title">{{>typeLabel}} <span>{{:title}}</span></div>
+	{{/if}}
+</script>
+
+<script id="paraTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div class="para">{{:text}}</div>
+</script>
+
+<script id="apiTmpl" type="text/x-jsrender">
+	<div class="apisignatures">
+		{{sectionHeader /}}
+		<div class="apidesc">{{:description}}</div>
+		{{for signatures ~api=#data}}
+			<div class="signature">
+				<div class="apiheader">
+					<span class="signature">{{>~signature(~api)}}</span> {{if ~api.returns}}<label class="returns">returns: <span>{{:~api.returns}}</span></label>{{/if}}
+				</div>
+				<div class="title">{{>title}}</div>
+				<div class="descblock">
+					<span class="desc">{{:description}}</span>
+					<span class="example">{{>example}}</span>
+				</div>
+				<div class="params">
+					<div>Parameters</div>
+					{{for params}}
+						<div>
+							<label>{{>name}} <span class="type">({{>type}}{{if optional}} - optional{{/if}})</span></label>
+							<div class="paramdesc">{{:description}}</div>
+						</div>
+					{{/for}}
+				</div>
+				{{for sections ~root.sectionTypes }}
+					{{if ~mode!=="summary" || !detail}} {^{section _type ~mode /}}{{/if}}				
+				{{/for}}
+			</div>
+		{{/for}}
+	</div>
+</script>
+
+<script id="tagTmpl" type="text/x-jsrender">
+	<div class="apisignatures">
+		{{sectionHeader /}}
+		<div class="apidesc">{{:description}}</div>
+		{{for signatures ~api=#data}}
+			<div class="signature">
+				<div class="apiheader">
+					<span class="signature">{{>variant}}</span>
+				</div>
+				<div class="title">{{>title}}</div>
+				<div class="descblock">
+					<span class="desc">{{:description}}</span>
+					<span class="example">{{>example}}</span>
+				</div>
+				<div class="params">
+					<div>Arguments</div>
+					{{for args}}
+						<div>
+							<label>{{>name}} <span class="type">({{>type}}{{if optional}} - optional{{/if}})</span></label>
+							<div class="paramdesc">{{:description}}</div>
+						</div>
+					{{/for}}
+				</div>
+				<div class="params">
+					<div>Parameters</div>
+					{{for params}}
+						<div>
+							<label>{{>name}} <span class="type">({{>type}}{{if optional}} - optional{{/if}})</span></label>
+							<div class="paramdesc">{{:description}}</div>
+						</div>
+					{{/for}}
+				</div>
+				{{for sections ~root.sectionTypes }}
+					{{if ~mode!=="summary" || !detail}} {^{section _type ~mode /}}{{/if}}				
+				{{/for}}
+			</div>
+		{{/for}}
+	</div>
+</script>
+
+<script id="dataTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div>
+		<pre data-link="{stringify:data}"></pre>
+	</div>
+</script>
+
+<script id="templateTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div>
+		<pre data-link="html{syntaxColor:markup}"></pre>
+	</div>
+</script>
+
+<script id="codeTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div>
+		<pre data-link="code"></pre>
+	</div>
+</script>
+
+<script id="sampleTmpl" type="text/x-jsrender">
+	<div class="samplesection">
+	{{sectionHeader /}}
+	{{if ~mode !== "edit"}}
+		<div class="tryitButtons">
+			<button class="tryit" data-link="~tag.sampleFrame.tryIt ? 'How it works' : 'Try it'"></button>
+			<button class="revertSample" data-link="css-visibility{:~tag.sampleFrame.ranIt ? 'visible' : 'hidden'}">Clear Changes</button>
+		</div>
+		<div class="sample">
+			{^{sampleFrame /}}
+			{{for ~tag.sampleFrame ~sections=sections}}
+				{^{tabs tabCaption="How it works"}}
+					{{for ~sections}}
+						{{if ~mode!=="summary" || !detail}}{^{section _type ~mode /}}{{/if}}
+					{{/for}}
+				{{else tabCaption="Code"}}
+					<div class="show">
+						{{sampleFields/}}
+					</div>
+				{{else tabCaption="Full Code"}}
+					{{sampleFields "full"/}}
+				{{else tabCaption="Try it"}}
+					<div class="runButtons">
+						<button class="runSample" data-link="disabled{:!ranIt}">Run code</button>
+						<button class="revertSample" data-link="disabled{:!ranIt}">Clear changes</button>
+					</div>
+					<div class="try">
+						{{sampleFields "edit"/}}
+					</div>
+				{{/tabs}}
+			{{/for}}
+		</div>
+	{{else}}	
+		<div class="sample">
+			{{for sections ~root.sectionTypes }}
+				{{if ~mode!=="summary" || !detail}}{{section _type ~mode /}}{{/if}}
+			{{/for}}
+		</div>
+	{{/if}}
+	</div>
+</script>
+
+<script id="linksTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div class="links">
+		<div>{{>linksHeader}}</div>
+		{^{for links}}
+			<div><a href="{{>url}}">{{>label}}</a></div>
+		{{/for}}
+	</div>
+	<div class="topiclinks">
+		<div>{{>topicsHeader}}</div>
+		{^{for topics}}
+			<div><a href="{{>~url(hash)}}">{{>label}}</a></div>
+		{{/for}}
+	</div>
+</script>
+
+<!--======================= Edit-Mode Section Templates =======================-->
+
+<script id="editParaTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div>
+		<textarea data-link="text" rows="5"></textarea>
+	</div>
+</script>
+
+<script id="editApiTmpl" type="text/x-jsrender">
+	<div class="api">
+		{{sectionHeader /}}
+		<label>Name: <input data-link="name" /></label>
+		<label>Object: <input data-link="object" /></label>
+		<label>Return type: <input data-link="returns" /></label>
+		<label>Method: <input type="checkbox" data-link="method" /></label><br />
+		<label>Description: <input class="description" data-link="description" /></label>
+		
+		<div class="signatures">
+			<div>Signatures</div>
+			{^{for signatures}}
+				<div class="signature">
+					<label>Title: <input class="description" data-link="title" /></label><br />
+					<label>Example: <input class="description" data-link="example" /></label>
+					<label>Description: <input class="description" data-link="description" /></label>
+					<img class="removesection signature" src="resources/images/close.png" />
+					<div class="params">
+						<div>Parameters</div>
+						{^{for params}}
+							<div>
+								<label>Name: <input data-link="name" /></label>
+								<label>Type: <input data-link="type" /></label>
+								<label>Optional: <input type="checkbox" data-link="optional" /></label>
+								<label>Description: <input class="description" data-link="description" /></label>
+								<img class="removesection param" src="resources/images/close.png" />
+							</div>
+						{{/for}}
+					</div>
+					<button class="addparam cmdbtn">add parameter</button>
+					{^{selectList sections ~apisections=sections}}
+						{{sectionButtons ~sectionTypes ~sectionType="api" /}}			
+						{^{section _type ~mode ~apisections /}}				
+					{{/selectList}}
+					{{sectionButtons ~sectionTypes ~sectionType="api" append=true /}}			
+				</div>
+			{{/for}}
+		</div>
+		<button class="addsignature cmdbtn">add signature</button>
+	</div>
+</script>
+
+<script id="editTagTmpl" type="text/x-jsrender">
+	<div class="api">
+		{{sectionHeader /}}
+		<label>Name: <input data-link="name" /></label>
+		<label>Description: <input class="description" data-link="description" /></label>
+		
+		<div class="signatures">
+			<div>Signatures</div>
+			{^{for signatures}}
+				<div class="signature">
+					<label>Title: <input class="description" data-link="title" /></label>
+					<label>Variant: <input class="description" data-link="variant" /></label><br />
+					<label>Example: <input class="description" data-link="example" /></label>
+					<label>Description: <input class="description" data-link="description" /></label>
+					<img class="removesection signature" src="resources/images/close.png" />
+					<div class="params">
+						<div>Arguments</div>
+						{^{for args}}
+							<div>
+								<label>Name: <input data-link="name" /></label>
+								<label>Type: <input data-link="type" /></label>
+								<label>Optional: <input type="checkbox" data-link="optional" /></label>
+								<label>Description: <input class="description" data-link="description" /></label>
+								<img class="removesection param" src="resources/images/close.png" />
+							</div>
+						{{/for}}
+					</div>
+					<button class="addarg cmdbtn">add argument</button>
+					<div class="params">
+						<div>Parameters</div>
+						{^{for params}}
+							<div>
+								<label>Name: <input data-link="name" /></label>
+								<label>Type: <input data-link="type" /></label>
+								<label>Optional: <input type="checkbox" data-link="optional" /></label>
+								<label>Description: <input class="description" data-link="description" /></label>
+								<img class="removesection param" src="resources/images/close.png" />
+							</div>
+						{{/for}}
+					</div>
+					<button class="addparam cmdbtn">add parameter</button>
+					{^{selectList sections ~apisections=sections}}
+						{{sectionButtons ~sectionTypes ~sectionType="api" /}}			
+						{^{section _type ~mode ~apisections /}}				
+					{{/selectList}}
+					{{sectionButtons ~sectionTypes ~sectionType="api" append=true /}}			
+				</div>
+			{{/for}}
+		</div>
+		<button class="addsignature cmdbtn">add signature</button>
+	</div>
+</script>
+
+<script id="editDataTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div>
+		<textarea data-link="{stringify:data:parse}"></textarea>
+	</div>
+</script>
+
+<script id="editTemplateTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div>
+		<textarea data-link="markup" rows="5"></textarea>
+	</div>
+</script>
+
+<script id="editCodeTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div>
+		<textarea data-link="code" rows="5"></textarea>
+	</div>
+</script>
+
+<script id="editSampleTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div>
+		<label>sample name: <input data-link="sampleName" /></label>
+		<label>url: <input data-link="url" /></label>
+		<label>height: <input data-link="height" /></label>
+		<label>JsRender only: <input data-link="onlyJsRender" type="checkbox"/></label><br />
+		<label>markup<textarea data-link="markup" rows="5"></textarea></label>
+		<label>data<textarea data-link="{stringify:data:parse}" rows="5"></textarea></label>
+		<label>html<textarea data-link="html" rows="5"></textarea></label>
+		<label>code<textarea data-link="code" rows="5"></textarea></label>
+		<label>How it works:</label>
+		{^{selectList sections}}
+			{{sectionButtons ~sectionTypes ~sectionType="sample" /}}			
+			{^{section _type ~mode sections /}}				
+		{{/selectList}}
+		{{sectionButtons ~sectionTypes ~sectionType="sample" append=true /}}			
+{{!--		<div>{^{editSample data code markup templates/}}</div> --}}
+	</div>
+</script>
+
+<script id="editLinksTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div class="links">
+		<div>Links</div>
+		{^{for links}}
+			<div>
+				<label>Title: </label><input data-link="label" />
+				<label>url: </label><input data-link="url" />
+				<img class="removesection link" src="resources/images/close.png" />
+			</div>
+		{{/for}}
+	</div>
+	<button class="addlink cmdbtn">add link</button>
+	<div class="topics">
+		<div>Topics</div>
+		{^{for topics}}
+			<div>
+				<label>Title: </label><input data-link="label" />
+				<label>hash: </label><input data-link="hash" />
+				<img class="removesection topic" src="resources/images/close.png" />
+			</div>
+		{{/for}}
+	</div>
+	<button class="addtopic cmdbtn">add topic</button>
+</script>
+
+<script src="index.js" type="text/javascript"></script>
+
+</body>
+</html>
