@@ -181,39 +181,6 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       }
     ]
   },
-  "assigntag": {
-    "title": "{{: ...}}",
-    "path": "",
-    "sections": [
-      {
-        "_type": "tag",
-        "title": "",
-        "name": "name",
-        "method": true,
-        "returns": "",
-        "signatures": [
-          {
-            "_type": "signature",
-            "title": "title",
-            "params": [
-              {
-                "_type": "param",
-                "name": "name",
-                "type": "string",
-                "optional": false,
-                "description": "ddddddd"
-              }
-            ],
-            "sections": [],
-            "example": "ddddddddd",
-            "description": "fffffffasdf"
-          }
-        ],
-        "description": "asdf",
-        "sectionTypes": {}
-      }
-    ]
-  },
   "jsvapi": {
     "title": "JsViews",
     "path": "",
@@ -261,30 +228,265 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     "path": "",
     "sections": []
   },
+  "assigntag": {
+    "title": "{{: ...}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{: ...}}",
+        "name": "for NAME",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Insert data value or calculated value",
+            "params": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "string",
+                "optional": false,
+                "description": "Data-path or expression, to be evaluated and inserted as string in the rendered output"
+              }
+            ],
+            "sections": [],
+            "example": "{{:address.street}}",
+            "description": "Evaluate the data-path or expression",
+            "variant": "{{:pathOrExpr}}"
+          }
+        ],
+        "description": "<em>Get the value of the data path or expression</em>, and insert it into the rendered output as a string",
+        "sectionTypes": {}
+      }
+    ]
+  },
   "htmltag": {
     "title": "{{> ...}}",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{>...}}",
+        "name": "for NAME",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Insert HTML-encoded data value or calculated value",
+            "params": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "string",
+                "optional": false,
+                "description": "Data-path or expression, to be evaluated and inserted as an HTML-encoded string in the rendered output"
+              }
+            ],
+            "sections": [],
+            "example": "{{>address.street}}",
+            "description": "Evaluate the data-path or expression, and HTML encode the result",
+            "variant": "{{>pathOrExpr}}"
+          }
+        ],
+        "description": "<em>Get the HTML-encoded value of the data path or expression</em>, and insert it into the rendered output",
+        "sectionTypes": {}
+      }
+    ]
   },
   "includetag": {
-    "title": "{{include ...}}",
+    "title": "{{include tmpl=... /}}",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{include tmpl=... /}}",
+        "name": "for NAME",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "{{include}} with an external template",
+            "params": [
+              {
+                "_type": "param",
+                "name": "nameOrExpr",
+                "type": "object or string",
+                "optional": true,
+                "description": "The name of a template, or a template object, to be rendered",
+                "propName": "tmpl"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "{{include tmpl=\"insertedPersonTemplate\" /}}",
+            "description": "Render the specified template for the current data context",
+            "variant": "{{include tmpl=nameOrExpr /}}"
+          }
+        ],
+        "description": "<em>Template composition</em>: &mdash; Insert the referenced template: <em>tmpl</em>, rendered using the current data context.",
+        "sectionTypes": {}
+      }
+    ]
   },
   "fortag": {
     "title": "{{for ...}}",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{for ...}}",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "{{for}} using an inline block",
+            "params": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "object or array",
+                "optional": true,
+                "description": "A data path, or an object or array"
+              }
+            ],
+            "sections": [],
+            "example": "{{for billing.address}}\n {{:street}}\n{{/for}}",
+            "description": "Render the block content of the tag for the given object, or iterate over the given array",
+            "variant": "{{for pathOrExpr}}...{{/for}}"
+          },
+          {
+            "_type": "signature",
+            "title": "{{for}} using an external template",
+            "params": [
+              {
+                "_type": "param",
+                "name": "nameOrExpr",
+                "type": "object or string",
+                "optional": true,
+                "description": "The name of a template, or a template object, to be rendered instead of block content",
+                "propName": "tmpl"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "{{for billing.address tmpl=\"addressTmpl\" /}}",
+            "description": "Render the specified template for the given object, or iterate over the given array",
+            "variant": "{{for pathOrExpr tmpl=nameOrExpr /}}"
+          }
+        ],
+        "description": "<em>Template composition</em>: &mdash; Move the data context to the object or array specified by the path or expression. Insert the block content (or the referenced template: <em>tmpl</em>) rendered with that object as context &mdash; or if an array, rendered once for each of the items in the array.",
+        "sectionTypes": {}
+      }
+    ]
   },
   "elsetag": {
     "title": "{{else ...}}",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{include tmpl=... /}}",
+        "name": "for NAME",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "title",
+            "params": [
+              {
+                "_type": "param",
+                "name": "nameOrExpr",
+                "type": "object or string",
+                "optional": true,
+                "description": "The name of a template, or a template object, to be rendered",
+                "propName": "tmpl"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "{{include tmpl=\"insertedPersonTemplate\" /}}",
+            "description": "Render the specified template for the current data context",
+            "variant": "{{include tmpl=nameOrExpr /}}"
+          }
+        ],
+        "description": "<em>Template composition</em>: &mdash; Insert the referenced template: <em>tmpl</em>, rendered using the current data context.",
+        "sectionTypes": {}
+      }
+    ]
   },
   "commenttag": {
     "title": "{{!-- ... --}}",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{include tmpl=... /}}",
+        "name": "for NAME",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "title",
+            "params": [
+              {
+                "_type": "param",
+                "name": "nameOrExpr",
+                "type": "object or string",
+                "optional": true,
+                "description": "The name of a template, or a template object, to be rendered",
+                "propName": "tmpl"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "{{include tmpl=\"insertedPersonTemplate\" /}}",
+            "description": "Render the specified template for the current data context",
+            "variant": "{{include tmpl=nameOrExpr /}}"
+          }
+        ],
+        "description": "<em>Template composition</em>: &mdash; Insert the referenced template: <em>tmpl</em>, rendered using the current data context.",
+        "sectionTypes": {}
+      }
+    ]
+  },
+  "iftag": {
+    "title": "{{if ...}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{if ...}}",
+        "name": "for NAME",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "title",
+            "params": [
+              {
+                "_type": "param",
+                "name": "nameOrExpr",
+                "type": "object or string",
+                "optional": true,
+                "description": "The name of a template, or a template object, to be rendered",
+                "propName": "tmpl"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "{{include tmpl=\"insertedPersonTemplate\" /}}",
+            "description": "Render the specified template for the current data context",
+            "variant": "{{include tmpl=nameOrExpr /}}"
+          }
+        ],
+        "description": "<em>Conditional insertion</em>: &mdash; Evaluate the data path or expression, and render the block contents (or the referenced external template) only if the result is <em>'truey'</em>",
+        "sectionTypes": {}
+      }
+    ]
   },
   "customtags": {
     "title": "Custom Tags",
@@ -323,11 +525,6 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         ]
       }
     ]
-  },
-  "iftag": {
-    "title": "{{if ...}}",
-    "path": "",
-    "sections": []
   },
   "gettingstarted": {
     "title": "Getting started",
@@ -906,7 +1103,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "para",
         "title": "",
-        "text": "See the links section below, for more details on features and APIs..."
+        "text": "See the links section below, for more details on features and APIs."
       },
       {
         "_type": "sample",

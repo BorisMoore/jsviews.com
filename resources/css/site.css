@@ -356,7 +356,7 @@ margin: 2px;
 
 .signature .descblock .desc {
 	float: left;
-	width: 40%;
+	width: 45%;
 	margin-bottom: 3px;
 	font-style: italic;
 	border: 1px solid rgb(202, 117, 117);
@@ -365,10 +365,12 @@ margin: 2px;
 
 .signature .descblock .example {
 	float: right;
-	width: 40%;
+	width: 45%;
 	border: 1px solid rgb(202, 117, 117);
 	font-family: monospace;
 	padding: 7px;
+	margin: 0;
+
 }
 
 .apisignatures .params {

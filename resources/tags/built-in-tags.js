@@ -7,14 +7,14 @@ var	treeNodeTmpl = $.templates(
 			"{^{if categories && categories.length }}" +
 				"<span class=\"toggle\">{^{:expanded ? '-' : '+' }}</span>" +
 			"{{else}}" +
-				"<span class=\"spacer\">></span>" +
+				"<span class=\"spacer\">&bull;</span>" +
 			"{{/if}}" +
 			"{^{if ~tag.tree.editedNode(#data)}}" +
 				"<button class=\"up cmdbtn\">up</button>" +
 				"<button class=\"down cmdbtn\">down</button>" +
 				"<button class=\"add cmdbtn\">add</button>" +
 				"{{if ~parentTags.treeNode }}" +
-					"<img class=\"remove\" src=\"resources/images/close.png\" />" +
+					"<img class=\"remove\" src=\"../resources/images/close.png\" />" +
 				"{{/if}}" +
 				"<label>label: <input data-link=\"label\" /></label>" +
 				"<label>name: <input data-link=\"name\" /></label>" +

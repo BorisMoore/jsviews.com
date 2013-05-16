@@ -249,7 +249,7 @@ var	page,
 					buttons = '<button class="toggleselect cmdbtn">' + (this.selected
 						? 'ok</button><button class="up cmdbtn">up</button><button class="down cmdbtn">down'
 						: "edit"
-					) + '</button><img class="removesection" src="resources/images/close.png" /><br/>';
+					) + '</button><img class="removesection" src="../resources/images/close.png" /><br/>';
 				}
 			}
 			this.tagCtx.tmpl = this.templates[mode][type];

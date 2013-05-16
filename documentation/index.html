@@ -110,17 +110,19 @@
 				<div class="title">{{>title}}</div>
 				<div class="descblock">
 					<span class="desc">{{:description}}</span>
-					<span class="example">{{>example}}</span>
+					<pre class="example">{{>example}}</pre>
 				</div>
-				<div class="params">
-					<div>Parameters</div>
-					{{for params}}
-						<div>
-							<label>{{>name}} <span class="type">({{>type}}{{if optional}} - optional{{/if}})</span></label>
-							<div class="paramdesc">{{:description}}</div>
-						</div>
-					{{/for}}
-				</div>
+				{{if params.length}}
+					<div class="params">
+						<div>Parameters</div>
+						{{for params}}
+							<div>
+								<label>{{>name}} <span class="type">({{>type}}{{if optional}} - optional{{/if}})</span></label>
+								<div class="paramdesc">{{:description}}</div>
+							</div>
+						{{/for}}
+					</div>
+				{{/if}}
 				{{for sections ~root.sectionTypes }}
 					{{if ~mode!=="summary" || !detail}} {^{section _type ~mode /}}{{/if}}				
 				{{/for}}
@@ -141,26 +143,30 @@
 				<div class="title">{{>title}}</div>
 				<div class="descblock">
 					<span class="desc">{{:description}}</span>
-					<span class="example">{{>example}}</span>
+					<pre class="example">{{>example}}</pre>
 				</div>
-				<div class="params">
-					<div>Arguments</div>
-					{{for args}}
-						<div>
-							<label>{{>name}} <span class="type">({{>type}}{{if optional}} - optional{{/if}})</span></label>
-							<div class="paramdesc">{{:description}}</div>
-						</div>
-					{{/for}}
-				</div>
-				<div class="params">
-					<div>Parameters</div>
-					{{for params}}
-						<div>
-							<label>{{>name}} <span class="type">({{>type}}{{if optional}} - optional{{/if}})</span></label>
-							<div class="paramdesc">{{:description}}</div>
-						</div>
-					{{/for}}
-				</div>
+				{{if args.length}}
+					<div class="params">
+						<div>Arguments</div>
+						{{for args}}
+							<div>
+								<label>{{>name}} <span class="type">({{>type}}{{if optional}} - optional{{/if}})</span></label>
+								<div class="paramdesc">{{:description}}</div>
+							</div>
+						{{/for}}
+					</div>
+				{{/if}}
+				{{if params.length}}
+					<div class="params">
+						<div>Named Parameters</div>
+						{{for params}}
+							<div>
+								<label>{{>propName}}={{>name}} <span class="type">({{>type}}{{if optional}} - optional{{/if}})</span></label>
+								<div class="paramdesc">{{:description}}</div>
+							</div>
+						{{/for}}
+					</div>
+				{{/if}}
 				{{for sections ~root.sectionTypes }}
 					{{if ~mode!=="summary" || !detail}} {^{section _type ~mode /}}{{/if}}				
 				{{/for}}
@@ -271,9 +277,9 @@
 			{^{for signatures}}
 				<div class="signature">
 					<label>Title: <input class="description" data-link="title" /></label><br />
-					<label>Example: <input class="description" data-link="example" /></label>
+					<label>Example: <textarea data-link="example"></textarea></label>
 					<label>Description: <input class="description" data-link="description" /></label>
-					<img class="removesection signature" src="resources/images/close.png" />
+					<img class="removesection signature" src="../resources/images/close.png" />
 					<div class="params">
 						<div>Parameters</div>
 						{^{for params}}
@@ -282,7 +288,7 @@
 								<label>Type: <input data-link="type" /></label>
 								<label>Optional: <input type="checkbox" data-link="optional" /></label>
 								<label>Description: <input class="description" data-link="description" /></label>
-								<img class="removesection param" src="resources/images/close.png" />
+								<img class="removesection param" src="../resources/images/close.png" />
 							</div>
 						{{/for}}
 					</div>
@@ -302,7 +308,6 @@
 <script id="editTagTmpl" type="text/x-jsrender">
 	<div class="api">
 		{{sectionHeader /}}
-		<label>Name: <input data-link="name" /></label>
 		<label>Description: <input class="description" data-link="description" /></label>
 		
 		<div class="signatures">
@@ -311,9 +316,9 @@
 				<div class="signature">
 					<label>Title: <input class="description" data-link="title" /></label>
 					<label>Variant: <input class="description" data-link="variant" /></label><br />
-					<label>Example: <input class="description" data-link="example" /></label>
+					<label>Example: <textarea data-link="example"></textarea></label>
 					<label>Description: <input class="description" data-link="description" /></label>
-					<img class="removesection signature" src="resources/images/close.png" />
+					<img class="removesection signature" src="../resources/images/close.png" />
 					<div class="params">
 						<div>Arguments</div>
 						{^{for args}}
@@ -322,7 +327,7 @@
 								<label>Type: <input data-link="type" /></label>
 								<label>Optional: <input type="checkbox" data-link="optional" /></label>
 								<label>Description: <input class="description" data-link="description" /></label>
-								<img class="removesection param" src="resources/images/close.png" />
+								<img class="removesection param" src="../resources/images/close.png" />
 							</div>
 						{{/for}}
 					</div>
@@ -331,11 +336,12 @@
 						<div>Parameters</div>
 						{^{for params}}
 							<div>
+								<label>Property Name: <input data-link="propName" /></label>
 								<label>Name: <input data-link="name" /></label>
 								<label>Type: <input data-link="type" /></label>
 								<label>Optional: <input type="checkbox" data-link="optional" /></label>
 								<label>Description: <input class="description" data-link="description" /></label>
-								<img class="removesection param" src="resources/images/close.png" />
+								<img class="removesection param" src="../resources/images/close.png" />
 							</div>
 						{{/for}}
 					</div>
@@ -402,7 +408,7 @@
 			<div>
 				<label>Title: </label><input data-link="label" />
 				<label>url: </label><input data-link="url" />
-				<img class="removesection link" src="resources/images/close.png" />
+				<img class="removesection link" src="../resources/images/close.png" />
 			</div>
 		{{/for}}
 	</div>
@@ -413,7 +419,7 @@
 			<div>
 				<label>Title: </label><input data-link="label" />
 				<label>hash: </label><input data-link="hash" />
-				<img class="removesection topic" src="resources/images/close.png" />
+				<img class="removesection topic" src="../resources/images/close.png" />
 			</div>
 		{{/for}}
 	</div>
