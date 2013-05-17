@@ -440,7 +440,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "para",
         "title": "",
-        "text": "as shown in <a href=\"#samples/tabs\">this sample</a>."
+        "text": "as shown in <a href=\"#samples/tagcontrols/tabs\">this sample</a>."
       }
     ]
   },
@@ -480,7 +480,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "para",
-        "title": "JsRender comment tags versus HTML comment tags",
+        "title": "JsRender comment tags versus HTML comments",
         "text": "You can include "
       },
       {
@@ -491,12 +491,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "para",
         "title": "",
-        "text": "paragraph"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "But the HTML comment will not be ignored by JsRender or JsViews. It will be included in the rendered output, and will get inserted into the DOM along with other rendered markup."
+        "text": "&mdash; but unlike the JsRender comment tag, the HTML comment will not be ignored by JsRender or JsViews. It will be included in the rendered output, and will get inserted into the DOM along with other rendered markup."
       }
     ]
   },
@@ -826,7 +821,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "data": {
           "name": "Adriana"
         },
-        "height": "90px",
+        "height": "90",
         "onlyJsRender": true
       },
       {
@@ -880,7 +875,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "code": "var myTemplate = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nvar htmlOutput = myTemplate.render(people);\n\n$(\"#peopleList\").html(htmlOutput);",
         "title": "Complete code for template rendering:",
         "onlyJsRender": true,
-        "height": "110px"
+        "height": "110"
       },
       {
         "_type": "para",
@@ -948,7 +943,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\",\n      nickname: \"Bob\"\n    }\n  ];\n\n  app = {\n    people: people\n  };\n\nvar htmlOutput = myTemplate.render(app);\n\n$(\"#peopleList\").html(htmlOutput);\n",
         "onlyJsRender": true,
         "title": "Some template tags...",
-        "height": "110px"
+        "height": "110"
       },
       {
         "_type": "links",
@@ -1044,7 +1039,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "url": "",
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <ul>\n      {{for people}}\n        <li>\n          {{:name}}\n        </li>\n      {{/for}}\n    </ul>\n  </td></tr>\n</script>\n",
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nmyTemplate.link(\"#peopleList\", app);",
-        "height": "120px",
+        "height": "120",
         "title": "Using the template.link() method"
       },
       {
@@ -1116,7 +1111,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr><td>\n      {{:name}}\n    </td></tr>\n  {{/for}}\n</script>",
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar htmlOutput = myTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})",
-        "height": "200px",
+        "height": "200",
         "title": "Data-linked tags and observable arrays and objects "
       },
       {
@@ -1192,7 +1187,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           }
         ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td colspan=\"2\">\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr>\n      <td>{^{:name}}</td>\n      <td>\n        <button class=\"changeBtn\">Change</button>\n      </td>\n    </tr>\n  {{/for}}\n</script>",
-        "height": "200px",
+        "height": "200",
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar counter = 1;\n\nmyTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})\n\n$(\"#peopleList\").on(\"click\", \".changeBtn\", function(){\n  var dataItem = $.view(this).data;\n  $.observable(dataItem).setProperty(\"name\", dataItem.name + counter++);\n})\n",
         "title": "Observable change: propertyChange"
       },
@@ -1245,7 +1240,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td colspan=\"2\">\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr>\n      <td data-link=\"name\"></td>\n      <td>\n        <button class=\"changeBtn\">Change</button>\n      </td>\n    </tr>\n  {{/for}}\n</script>",
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar counter = 1;\n\nmyTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})\n\n$(\"#peopleList\").on(\"click\", \".changeBtn\", function(){\n  var dataItem = $.view(this).data;\n  $.observable(dataItem).setProperty(\"name\", dataItem.name + counter++);\n})\n",
-        "height": "200px",
+        "height": "200",
         "title": "Element-based linking: \"data-link\""
       },
       {
@@ -1283,7 +1278,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "title": "Two-way data-binding",
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td colspan=\"2\">\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr>\n      <td data-link=\"name\"></td>\n      <td>\n        <input data-link=\"name\"/>\n      </td>\n    </tr>\n  {{/for}}\n</script>",
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar counter = 1;\n\nmyTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})\n",
-        "height": "200px"
+        "height": "200"
       },
       {
         "_type": "para",
@@ -1308,7 +1303,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "sections": [],
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n  {\n    ID: \"Ad0\",\n    name: \"Adriana\"\n  },\n  {\n    ID: \"Ro0\",\n    name: \"Robert\",\n    nickname: \"Bob\"\n  }\n];\n\nvar counter = 1;\n\nvar app = {\n    people: people,\n    selectedID: people[1].ID,\n    selected: function() {\n      for (var i=0; i<people.length; i++) {\n        if (people[i].ID === this.selectedID) {\n          return people[i];\n        }\n      }\n      return {};\n    }\n  };\n\napp.selected.depends = \"selectedID\";\n\n// Data-link details container to people, using the peopleTmpl template\nmyTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\nvar newID = \"new\" + counter++;\n  $.observable(people).insert(people.length, {ID: newID, name: \"name\"});\n  $.observable(app).setProperty(\"selectedID\", newID);\n\n})\n\n$(\"#removeBtn\").on(\"click\", function(){\n  $.observable(people).remove($.inArray(app.selected(), people));\n  $.observable(app).setProperty(\"selectedID\", \"0\");\n})\n",
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n    <button id=\"removeBtn\" data-link=\"disabled{:selectedID === '0'}\">Remove</button>\n  </td></tr>\n  <tr><td>\n    <select data-link=\"selectedID\" size=\"5\">\n      <option value=\"0\">Choose a person to edit</option>\n        {^{for people}}\n          <option data-link=\"{:name} value{:ID} selected{:ID === ~root.selectedID}\"></option>\n        {{/for}}\n    </select>\n  </td></tr>\n  <tr><td>\n    <label>Name:<input data-link=\"{:selected().name:} disabled{:selectedID === '0'}\" /></label>\n    <label>Nickname:<input data-link=\"{:selected().nickname:} disabled{:selectedID === '0'}\" /></label>\n  </td></tr>\n  <tr><td class=\"center\">\n    {^{for selected()}}\n      {^{:name}}\t\n      {^{if nickname}}\n        ( {^{:nickname}} )\n      {{/if}}\n    {{/for}}\n  </td></tr>\n</script>",
-        "height": "220px",
+        "height": "220",
         "title": "data-linking to &lt;select>... and much more..."
       },
       {
@@ -1863,8 +1858,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       }
     ]
   },
-  "samples/tabs": {
-    "title": "tabs control",
+  "samples/tagcontrols/tabs": {
+    "title": "A JsViews \"tabs\" tag control",
     "path": "",
     "sections": [
       {
@@ -1878,28 +1873,22 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           "sample": "sample",
           "links": "links"
         },
-        "sections": [],
-        "code": "$.views.tags({\n  tabs: {\n    init: function(tagCtx) {\n      this.selectedIndex = tagCtx.props.selectedTab || 0;\n    },\n    render: function() {\n      var tagCtx = this.tagCtx;\n      return this.selectedIndex === tagCtx.index ? tagCtx.render() : \"\";\n    },\n    onAfterLink: function() {\n      var self = this;\n      self.contents(\".tabstrip\", true).first()\n        .on(\"click\", \".header_false\", function() {\n          self.setTab($.view(this).index);\n        });\n    },\n    onDispose: function() {\n      if (this.tagCtx.props.id === \"inner\") {\n        this.tagCtx.ctx.state.innerSelect = this.selectedIndex;\n      }\n    },\n    template: \"#tabsTemplate\",\n\n    //METHODS\n    setTab: function(index) {\n      $.observable(this).setProperty(\"selectedIndex\", index);\n    }\n  }\n});\n\nvar state = { innerSelect: 1 },\n  myTmpl = $.templates(\"#myTmpl\");\n\nmyTmpl.link(\"#tabsView\", {label2: \"Inner Tab Label2\", width: 290}, {state: state});",
-        "html": "<div id=\"tabsView\">..loading</div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{tabs id=\"outer\" width=width + \"px\" height=\"135px\" tabCaption=\"first\"}}\n    <div class=\"special\">Some tabbed content:</div>\n    {^{tabs id=\"inner\" selectedTab=~state.innerSelect height=\"35px\" width=\"250px\" tabCaption=\"Inner One\"}}\n      ONE inner\n    {{else tabCaption=\"Inner Two\"}}\n      TWO  {{>label2}}\n    {{else tabCaption=\"Inner Three\"}}\n      THREE inner\n    {{/tabs}}\n  {{else tabCaption=\"second\"}}\n    <ul><li>Some</li><li>other</li><li>content</li></ul>\n  {{/tabs}}\n\n  <br /><br />Modify width (pixels): <input data-link=\"width\" />\n\n</script>\n\n<script id=\"tabsTemplate\" type=\"text/x-jsrender\">\n  <table class=\"tabsview\"><tbody>\n    <tr class=\"tabstrip\">\n      {{for ~tag.tagCtxs}}\n        <th data-link=\"class{:'header_' + (#index === ~tag.selectedIndex)}\">\n          {{>props.tabCaption}}\n        </th>\n      {{/for}}\n    </tr>\n    <tr class=\"tabscontent\">\n      <td colspan=\"{{:~tag.tagCtxs.length}}\">\n        <div style=\"width:{{attr:~tag.tagCtx.props.width}}; height:{{attr:~tag.tagCtx.props.height}}\">\n          {^{for tmpl=~tag.tagCtxs[~tag.selectedIndex].content /}}\n        </div>\n      </td>\n    </tr>\n  </tbody></table>\n</script>\n",
-        "height": "300px"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "sample": "sample",
-          "links": "links"
-        },
-        "sections": [],
-        "height": "300px",
-        "sampleName": "tabsControl",
-        "url": "samples/tabsControl/sample",
-        "html": "<div id=\"tabsView\">..loading</div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{tabs id=\"outer\" width=width + \"px\" height=\"135px\" tabCaption=\"first\"}}\n    <div class=\"special\">Some tabbed content:</div>\n    {^{tabs id=\"inner\" selectedTab=~state.innerSelect height=\"35px\" width=\"250px\" tabCaption=\"Inner One\"}}\n      ONE inner\n    {{else tabCaption=\"Inner Two\"}}\n      TWO  {{>label2}}\n    {{else tabCaption=\"Inner Three\"}}\n      THREE inner\n    {{/tabs}}\n  {{else tabCaption=\"second\"}}\n    <ul><li>Some</li><li>other</li><li>content</li></ul>\n  {{/tabs}}\n\n  <br /><br />Modify width (pixels): <input data-link=\"width\" />\n\n</script>\n\n<script id=\"tabsTemplate\" type=\"text/x-jsrender\">\n  <table class=\"tabsview\"><tbody>\n    <tr class=\"tabstrip\">\n      {{for ~tag.tagCtxs}}\n        <th data-link=\"class{:'header_' + (#index === ~tag.selectedIndex)}\">\n          {{>props.tabCaption}}\n        </th>\n      {{/for}}\n    </tr>\n    <tr class=\"tabscontent\">\n      <td colspan=\"{{:~tag.tagCtxs.length}}\">\n        <div style=\"width:{{attr:~tag.tagCtx.props.width}}; height:{{attr:~tag.tagCtx.props.height}}\">\n          {^{for tmpl=~tag.tagCtxs[~tag.selectedIndex].content /}}\n        </div>\n      </td>\n    </tr>\n  </tbody></table>\n</script>\n\t\n<script src=\"sample.js\" type=\"text/javascript\"></script>\n\n\n<div id=\"tabsView\">..loading</div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{tabs id=\"outer\" width=width + \"px\" height=\"135px\" tabCaption=\"first\"}}\n    <div class=\"special\">Some tabbed content:</div>\n    {^{tabs id=\"inner\" selectedTab=~state.innerSelect height=\"35px\" width=\"250px\" tabCaption=\"Inner One\"}}\n      ONE inner\n    {{else tabCaption=\"Inner Two\"}}\n      TWO  {{>label2}}\n    {{else tabCaption=\"Inner Three\"}}\n      THREE inner\n    {{/tabs}}\n  {{else tabCaption=\"second\"}}\n    <ul><li>Some</li><li>other</li><li>content</li></ul>\n  {{/tabs}}\n\n  <br /><br />Modify width (pixels): <input data-link=\"width\" />\n\n</script>\n\n<script id=\"tabsTemplate\" type=\"text/x-jsrender\">\n  <table class=\"tabsview\"><tbody>\n    <tr class=\"tabstrip\">\n      {{for ~tag.tagCtxs}}\n        <th data-link=\"class{:'header_' + (#index === ~tag.selectedIndex)}\">\n          {{>props.tabCaption}}\n        </th>\n      {{/for}}\n    </tr>\n    <tr class=\"tabscontent\">\n      <td colspan=\"{{:~tag.tagCtxs.length}}\">\n        <div style=\"width:{{attr:~tag.tagCtx.props.width}}; height:{{attr:~tag.tagCtx.props.height}}\">\n          {^{for tmpl=~tag.tagCtxs[~tag.selectedIndex].content /}}\n        </div>\n      </td>\n    </tr>\n  </tbody></table>\n</script>",
-        "code": "$.views.tags({\r\n  tabs: {\r\n    init: function(tagCtx) {\r\n      this.selectedIndex = tagCtx.props.selectedTab || 0;\r\n    },\r\n    render: function() {\r\n      var tagCtx = this.tagCtx;\r\n      return this.selectedIndex === tagCtx.index ? tagCtx.render() : \"\";\r\n    },\r\n    onAfterLink: function() {\r\n      var self = this;\r\n      self.contents(\".tabstrip\", true).first()\r\n        .on(\"click\", \".header_false\", function() {\r\n          self.setTab($.view(this).index);\r\n        });\r\n    },\r\n    onDispose: function() {\r\n      if (this.tagCtx.props.id === \"inner\") {\r\n        this.tagCtx.ctx.state.innerSelect = this.selectedIndex;\r\n      }\r\n    },\r\n    template: \"#tabsTemplate\",\r\n\r\n    //METHODS\r\n    setTab: function(index) {\r\n      $.observable(this).setProperty(\"selectedIndex\", index);\r\n    }\r\n  }\r\n});\r\n\r\nvar state = { innerSelect: 1 },\r\n  myTmpl = $.templates(\"#myTmpl\");\r\n\r\nmyTmpl.link(\"#tabsView\", {label2: \"Inner Tab Label2\", width: 290}, {state: state});\r\n"
+        "sections": [
+          {
+            "_type": "para",
+            "title": "Nested tags:",
+            "text": "The sample shows two instances of a custom <e>{{tabs}}</em> tag control - an outer one, and a second inner one in one of the tabs of the outer one..."
+          },
+          {
+            "_type": "template",
+            "title": "Here is markup for the inner one:",
+            "markup": "{^{tabs tabCaption=\"Inner One\"}}\n  ONE inner\n{{else tabCaption=\"Inner Two\"}}\n  TWO  {{>label2}}\n{{else tabCaption=\"Inner Three\"}}\n  THREE inner\n{{/tabs}}\n"
+          }
+        ],
+        "url": "samples/tabscontrol/sample",
+        "sampleName": "tabscontrol",
+        "height": "290",
+        "title": "Tabs control"
       }
     ]
   }
@@ -1923,8 +1912,15 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "label": "Samples",
         "categories": [
           {
-            "name": "samples/tabs",
-            "label": "tabs control"
+            "name": "tagcontrols",
+            "label": "Tag controls",
+            "categories": [
+              {
+                "name": "samples/tagcontrols/tabs",
+                "label": "tabs control"
+              }
+            ],
+            "expanded": true
           }
         ],
         "expanded": true

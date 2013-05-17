@@ -231,7 +231,7 @@ select[size] {
 .savetext, .sample .try textarea {
 	width: 99%;
 	padding: 5px;
-	height: 180px;
+	height: 200px;
 	margin: 5px 0 0 -3px;
 	border: 1px solid #bbb;
 }
@@ -276,7 +276,7 @@ select[size] {
 }
 
 .sample .show pre {
-	height: 391px;
+	height: 427px;
 }
 
 .sample .try .bottom {
@@ -481,7 +481,8 @@ margin: 2px;
 }
 
 .fullcode {
-	height: 446px;
+	height: 477px;
+	width: 100%;
 	margin: -2px 0 0 -3px;
 }
 

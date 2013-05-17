@@ -1,4 +1,4 @@
-﻿body {
+body {
 	font-family: Arial;
 }
 
@@ -27,7 +27,6 @@
 }
 
 .tabsview {
-	width: 100%;
 	border-collapse: collapse;
 	border: none;
 

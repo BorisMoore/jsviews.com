@@ -346,24 +346,35 @@ var	page,
 				data = self.origData = self.parents.section.data;
 
 			self.parent.sampleFrame = self;
-			data.url = data.url || data.sampleName && ("samples/" + data.sampleName + "/sample");
 			self.getScript =  function(loadScript) {
 				self.loadScript = loadScript;
 				if (data.url) {
+					var html = $.trim(self.iframeWnd.document.body.innerHTML);
+					//$.observable(data).setProperty({
+					//	html: $.trim(self.iframeWnd.document.body.innerHTML)
+					//});
 					$.get(data.url + ".js", function(content) {
-						$.observable(data).setProperty("code", content);
+						//$.observable(data).setProperty("code", content);
 						loadScript({code: content});
-						self.sampleData = self.tryItData = {
-							html: data.html,
-							code: data.code
+						self.sampleData = {
+							url: data.url,
+							html: html,
+							code: content
+						};
+						self.tryItData = {
+							html: html,
+							code: content
 						};
 					}, "text");
-					$.observable(data).setProperty({
-						html: $.trim(self.iframeWnd.document.body.innerHTML)
-					});
 				} else {
 					loadScript(data);
-					self.sampleData = self.tryItData = {
+					self.sampleData = {
+						data: data.data,
+						markup: data.markup,
+						html: data.html,
+						code: data.code
+					};
+					self.tryItData = {
 						data: data.data,
 						markup: data.markup,
 						html: data.html,
@@ -372,7 +383,7 @@ var	page,
 				}
 			};
 		},
-		template: "<iframe src=\"{{attr:url||'samples/resources/iframeDefault'}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}\"></iframe>",
+		template: "<iframe src=\"{{attr:url||'samples/resources/iframeDefault'}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}px;\"></iframe>",
 		onBeforeLink: function() {
 			var self = this,
 				iframeWnd = self.iframeWnd = $(self.parentElem).find(".sampleframe")[0].contentWindow;
@@ -387,20 +398,20 @@ var	page,
 			this.iframeWnd = this.parent.sampleFrame = this.parentElem = undefined;
 		},
 		onTabChange: function(index, tabs) {
-			if (index === 3) {
-				$.observable(this).setProperty("sampleData", this.tryItData);
-			}
+			//if (index === 3) {
+			//	$.observable(this).setProperty("sampleData", this.tryItData);
+			//}
 			$.observable(this).setProperty({
 				tryIt: index === 3
 			});
 		},
 		runCode: function(revert) {
 			if (revert) {
-				$.observable(this.sampleData).setProperty(this.origData);
+				$.observable(this.tryItData).setProperty(this.sampleData);
 				$.observable(this).setProperty("ranIt", !revert);
 			};
 			try {
-				this.loadScript(this.sampleData);
+				this.loadScript(this.tryItData);
 			}
 			catch (e) {
 				alert("Error: " + e)
@@ -410,7 +421,7 @@ var	page,
 
 	sampleFieldsTag = {
 		init: function() {
-			this.data = this.tagCtx.view.data.sampleData;
+			this.data = this.tagCtx.view.data.tryItData;
 		},
 		render: function(mode) {
 			function fullCode() {
@@ -419,18 +430,19 @@ var	page,
 					+ "<head>\n"
 					+ "    <script src=\"http://code.jquery.com/jquery.js\"></script>\n"
 					+ "    <script src=\"http://www.jsviews.com/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"
-					+ "    <link href=\"http://www.jsviews.com/samples/resources/css/samples.css\"/>\n"
+					+ "    <link href=\"http://www.jsviews.com/documentation/"
+							+ (url || "samples/resources/css/samples") + ".css\"/>\n"
 					+ "</head>\n"
 					+ "<body>\n\n"
-					+ (sampleData.html
-						? (sampleData.html + "\n\n<script>\n" + sampleData.code)
-						: (sampleData.markup
+					+ (tryItData.html
+						? (tryItData.html + "\n\n<script>\n" + tryItData.code)
+						: (tryItData.markup
 							? ("<div id=\"result\"></div>\n\n"
 								+ "<script id=\"theTmpl\" type=\"text/x-jsrender\">\n"
-								+ sampleData.markup
+								+ tryItData.markup
 								+ "\n</script>\n\n"
 								+ "<script>\n"
-								+ "var data = " + stringify(sampleData.data) + ";\n\n"
+								+ "var data = " + stringify(tryItData.data) + ";\n\n"
 								+ "var template = $.templates(\"#theTmpl\");\n\n"
 								+ "var htmlOutput = template.render(data);\n\n"
 								+ "$(\"#result\").html(htmlOutput);\n")
@@ -443,29 +455,30 @@ var	page,
 			}
 
 			function renderField(type, label) {
-				var value = sampleData[type],
+				var value = tryItData[type],
 					isData = type === "data";
 				return value 
 					? "<label>" + (label||type) + ":"
 						+ (editable ? "<textarea" : "<pre")
 						+ " data-link=\""
 						+ (isData
-							? "{stringify:sampleData." + type + ":parse}"
-							: "sampleData." + type
+							? "{stringify:tryItData." + type + ":parse}"
+							: "tryItData." + type
 						) + "\">"
 						+ (editable ? "</textarea>" : "</pre>")
 						+ "</label>"
 					: ""; 
 			}
 			var ret = "",
-				sampleData = this.data,
+				tryItData = this.data,
 				onlyJsRender = this.tagCtx.view.data.origData.onlyJsRender,
-				editable = mode==="edit";
+				editable = mode==="edit",
+				url = this.parents.section.data;
 			if (mode === "full") {
-				ret += "<pre class=\"fullcode\">" + $.views.converters.html(fullCode()) + "</pre>";
-			} else if (sampleData.html) {
+				ret += "<textarea class=\"fullcode\">" + $.views.converters.html(fullCode()) + "</textarea>";
+			} else if (tryItData.html) {
 				ret += renderField("html") + renderField("code", "javascript");
-			} else if (sampleData.markup) {
+			} else if (tryItData.markup) {
 				ret += renderField("markup", "template markup") + renderField("data");
 			}
 			return ret;
