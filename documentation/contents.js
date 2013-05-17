@@ -388,33 +388,59 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     "path": "",
     "sections": [
       {
-        "_type": "tag",
-        "typeLabel": "Tag:",
-        "title": "{{include tmpl=... /}}",
-        "name": "for NAME",
-        "signatures": [
-          {
-            "_type": "signature",
-            "title": "title",
-            "params": [
-              {
-                "_type": "param",
-                "name": "nameOrExpr",
-                "type": "object or string",
-                "optional": true,
-                "description": "The name of a template, or a template object, to be rendered",
-                "propName": "tmpl"
-              }
-            ],
-            "args": [],
-            "sections": [],
-            "example": "{{include tmpl=\"insertedPersonTemplate\" /}}",
-            "description": "Render the specified template for the current data context",
-            "variant": "{{include tmpl=nameOrExpr /}}"
-          }
-        ],
-        "description": "<em>Template composition</em>: &mdash; Insert the referenced template: <em>tmpl</em>, rendered using the current data context.",
-        "sectionTypes": {}
+        "_type": "para",
+        "title": "{{else}} can be used with {{if}}, {{for}} or any custom tag!",
+        "text": "The <em>{{else}}</em> tag acts as a separator, to divide the content of a tag into two or more different content blocks.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "So it allows another tag to provide specific behavior involving more than one content block."
+      },
+      {
+        "_type": "para",
+        "title": "&nbsp;",
+        "text": "For example, you can use the <em>{{else}}</em> tag with <em><a href=\"#iftag\">{{if}}</a></em>:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "{{if expression}}\n    render this if the expression is true\n{{else}}\n    render this if the expression is false\n{{/if}}"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "to get 'if / else' behavior."
+      },
+      {
+        "_type": "para",
+        "title": "&nbsp;",
+        "text": "Or you can use the <em>{{else}}</em> tag with <em><a href=\"#fortag\">{{for}}</a></em>:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "{{for members}}\n    Member Name: {{:name}}\n{{else}}\n    There are currently no members...\n{{/for}}"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "to render what you want to show if an array is empty, or if an array or object is null or undefined."
+      },
+      {
+        "_type": "para",
+        "title": "&nbsp;",
+        "text": "Similarly you can use <em>{{else}}</em> with a custom tag, such as:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "{{tabs tabCaption=\"First Tab\"}}\n    first tab content\n{{else tabCaption=\"Second Tab\"}}\n    second tab content\n{{/tabs}}"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "as shown in <a href=\"#samples/tabs\">this sample</a>."
       }
     ]
   },
@@ -1836,6 +1862,46 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         ]
       }
     ]
+  },
+  "samples/tabs": {
+    "title": "tabs control",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [],
+        "code": "$.views.tags({\n  tabs: {\n    init: function(tagCtx) {\n      this.selectedIndex = tagCtx.props.selectedTab || 0;\n    },\n    render: function() {\n      var tagCtx = this.tagCtx;\n      return this.selectedIndex === tagCtx.index ? tagCtx.render() : \"\";\n    },\n    onAfterLink: function() {\n      var self = this;\n      self.contents(\".tabstrip\", true).first()\n        .on(\"click\", \".header_false\", function() {\n          self.setTab($.view(this).index);\n        });\n    },\n    onDispose: function() {\n      if (this.tagCtx.props.id === \"inner\") {\n        this.tagCtx.ctx.state.innerSelect = this.selectedIndex;\n      }\n    },\n    template: \"#tabsTemplate\",\n\n    //METHODS\n    setTab: function(index) {\n      $.observable(this).setProperty(\"selectedIndex\", index);\n    }\n  }\n});\n\nvar state = { innerSelect: 1 },\n  myTmpl = $.templates(\"#myTmpl\");\n\nmyTmpl.link(\"#tabsView\", {label2: \"Inner Tab Label2\", width: 290}, {state: state});",
+        "html": "<div id=\"tabsView\">..loading</div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{tabs id=\"outer\" width=width + \"px\" height=\"135px\" tabCaption=\"first\"}}\n    <div class=\"special\">Some tabbed content:</div>\n    {^{tabs id=\"inner\" selectedTab=~state.innerSelect height=\"35px\" width=\"250px\" tabCaption=\"Inner One\"}}\n      ONE inner\n    {{else tabCaption=\"Inner Two\"}}\n      TWO  {{>label2}}\n    {{else tabCaption=\"Inner Three\"}}\n      THREE inner\n    {{/tabs}}\n  {{else tabCaption=\"second\"}}\n    <ul><li>Some</li><li>other</li><li>content</li></ul>\n  {{/tabs}}\n\n  <br /><br />Modify width (pixels): <input data-link=\"width\" />\n\n</script>\n\n<script id=\"tabsTemplate\" type=\"text/x-jsrender\">\n  <table class=\"tabsview\"><tbody>\n    <tr class=\"tabstrip\">\n      {{for ~tag.tagCtxs}}\n        <th data-link=\"class{:'header_' + (#index === ~tag.selectedIndex)}\">\n          {{>props.tabCaption}}\n        </th>\n      {{/for}}\n    </tr>\n    <tr class=\"tabscontent\">\n      <td colspan=\"{{:~tag.tagCtxs.length}}\">\n        <div style=\"width:{{attr:~tag.tagCtx.props.width}}; height:{{attr:~tag.tagCtx.props.height}}\">\n          {^{for tmpl=~tag.tagCtxs[~tag.selectedIndex].content /}}\n        </div>\n      </td>\n    </tr>\n  </tbody></table>\n</script>\n",
+        "height": "300px"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [],
+        "height": "300px",
+        "sampleName": "tabsControl",
+        "url": "samples/tabsControl/sample",
+        "html": "<div id=\"tabsView\">..loading</div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{tabs id=\"outer\" width=width + \"px\" height=\"135px\" tabCaption=\"first\"}}\n    <div class=\"special\">Some tabbed content:</div>\n    {^{tabs id=\"inner\" selectedTab=~state.innerSelect height=\"35px\" width=\"250px\" tabCaption=\"Inner One\"}}\n      ONE inner\n    {{else tabCaption=\"Inner Two\"}}\n      TWO  {{>label2}}\n    {{else tabCaption=\"Inner Three\"}}\n      THREE inner\n    {{/tabs}}\n  {{else tabCaption=\"second\"}}\n    <ul><li>Some</li><li>other</li><li>content</li></ul>\n  {{/tabs}}\n\n  <br /><br />Modify width (pixels): <input data-link=\"width\" />\n\n</script>\n\n<script id=\"tabsTemplate\" type=\"text/x-jsrender\">\n  <table class=\"tabsview\"><tbody>\n    <tr class=\"tabstrip\">\n      {{for ~tag.tagCtxs}}\n        <th data-link=\"class{:'header_' + (#index === ~tag.selectedIndex)}\">\n          {{>props.tabCaption}}\n        </th>\n      {{/for}}\n    </tr>\n    <tr class=\"tabscontent\">\n      <td colspan=\"{{:~tag.tagCtxs.length}}\">\n        <div style=\"width:{{attr:~tag.tagCtx.props.width}}; height:{{attr:~tag.tagCtx.props.height}}\">\n          {^{for tmpl=~tag.tagCtxs[~tag.selectedIndex].content /}}\n        </div>\n      </td>\n    </tr>\n  </tbody></table>\n</script>\n\t\n<script src=\"sample.js\" type=\"text/javascript\"></script>\n\n\n<div id=\"tabsView\">..loading</div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{tabs id=\"outer\" width=width + \"px\" height=\"135px\" tabCaption=\"first\"}}\n    <div class=\"special\">Some tabbed content:</div>\n    {^{tabs id=\"inner\" selectedTab=~state.innerSelect height=\"35px\" width=\"250px\" tabCaption=\"Inner One\"}}\n      ONE inner\n    {{else tabCaption=\"Inner Two\"}}\n      TWO  {{>label2}}\n    {{else tabCaption=\"Inner Three\"}}\n      THREE inner\n    {{/tabs}}\n  {{else tabCaption=\"second\"}}\n    <ul><li>Some</li><li>other</li><li>content</li></ul>\n  {{/tabs}}\n\n  <br /><br />Modify width (pixels): <input data-link=\"width\" />\n\n</script>\n\n<script id=\"tabsTemplate\" type=\"text/x-jsrender\">\n  <table class=\"tabsview\"><tbody>\n    <tr class=\"tabstrip\">\n      {{for ~tag.tagCtxs}}\n        <th data-link=\"class{:'header_' + (#index === ~tag.selectedIndex)}\">\n          {{>props.tabCaption}}\n        </th>\n      {{/for}}\n    </tr>\n    <tr class=\"tabscontent\">\n      <td colspan=\"{{:~tag.tagCtxs.length}}\">\n        <div style=\"width:{{attr:~tag.tagCtx.props.width}}; height:{{attr:~tag.tagCtx.props.height}}\">\n          {^{for tmpl=~tag.tagCtxs[~tag.selectedIndex].content /}}\n        </div>\n      </td>\n    </tr>\n  </tbody></table>\n</script>",
+        "code": "$.views.tags({\r\n  tabs: {\r\n    init: function(tagCtx) {\r\n      this.selectedIndex = tagCtx.props.selectedTab || 0;\r\n    },\r\n    render: function() {\r\n      var tagCtx = this.tagCtx;\r\n      return this.selectedIndex === tagCtx.index ? tagCtx.render() : \"\";\r\n    },\r\n    onAfterLink: function() {\r\n      var self = this;\r\n      self.contents(\".tabstrip\", true).first()\r\n        .on(\"click\", \".header_false\", function() {\r\n          self.setTab($.view(this).index);\r\n        });\r\n    },\r\n    onDispose: function() {\r\n      if (this.tagCtx.props.id === \"inner\") {\r\n        this.tagCtx.ctx.state.innerSelect = this.selectedIndex;\r\n      }\r\n    },\r\n    template: \"#tabsTemplate\",\r\n\r\n    //METHODS\r\n    setTab: function(index) {\r\n      $.observable(this).setProperty(\"selectedIndex\", index);\r\n    }\r\n  }\r\n});\r\n\r\nvar state = { innerSelect: 1 },\r\n  myTmpl = $.templates(\"#myTmpl\");\r\n\r\nmyTmpl.link(\"#tabsView\", {label2: \"Inner Tab Label2\", width: 290}, {state: state});\r\n"
+      }
+    ]
   }
 };
 content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocCategories")) ||
@@ -1851,6 +1917,17 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
       {
         "name": "jsvplaying",
         "label": "Playing with JsViews"
+      },
+      {
+        "name": "samples",
+        "label": "Samples",
+        "categories": [
+          {
+            "name": "samples/tabs",
+            "label": "tabs control"
+          }
+        ],
+        "expanded": true
       }
     ],
     "expanded": true
