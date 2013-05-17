@@ -1885,8 +1885,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "markup": "{^{tabs tabCaption=\"Inner One\"}}\n  ONE inner\n{{else tabCaption=\"Inner Two\"}}\n  TWO  {{>label2}}\n{{else tabCaption=\"Inner Three\"}}\n  THREE inner\n{{/tabs}}\n"
           }
         ],
-        "url": "samples/tabscontrol/sample",
-        "sampleName": "tabscontrol",
+        "url": "samples/tagcontrols/tabs/sample",
+        "sampleName": "tagcontrols/tabs",
         "height": "290",
         "title": "Tabs control"
       }

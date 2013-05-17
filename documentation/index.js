@@ -430,7 +430,7 @@ var	page,
 					+ "    <script src=\"http://code.jquery.com/jquery.js\"></script>\n"
 					+ "    <script src=\"http://www.jsviews.com/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"
 					+ "    <link href=\"http://www.jsviews.com/documentation/"
-							+ (url || "samples/resources/css/samples") + ".css\"/>\n"
+							+ (url || "samples/resources/css/samples") + ".css\" rel=\"stylesheet\"/>\n"
 					+ "</head>\n"
 					+ "<body>\n\n"
 					+ (tryItData.html
