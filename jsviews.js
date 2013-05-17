@@ -32,7 +32,7 @@
 
 		rNewLine = /\s*\n/g,
 		rUnescapeQuotes = /\\(['"])/g,
-		rEscapeQuotes = /\\?(['"\\])/g, // Escape quotes and \ character
+		rEscapeQuotes = /['"\\]/g, // Escape quotes and \ character
 		rBuildHash = /\x08(~)?([^\x08]+)\x08/g,
 		rTestElseIf = /^if\s/,
 		rFirstElem = /<(\w+)[>\s]/,
@@ -968,7 +968,7 @@
 			content = astTop,
 			current = [, , , astTop];
 
-		markup = markup.replace(rEscapeQuotes, "\\$1");
+		markup = markup.replace(rEscapeQuotes, "\\$&");
 
 //TODO	result = tmplFnsCache[markup]; // Only cache if template is not named and markup length < ...,
 //and there are no bindings or subtemplates?? Consider standard optimization for data-link="a.b.c"

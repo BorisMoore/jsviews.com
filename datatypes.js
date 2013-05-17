@@ -63,10 +63,10 @@ $.map(sectionTypes, function(value, key) {
 	switch (key) {
 		case "api":
 		case "tag":
-		case "links":
 			break;
 		default:
 			sectionTypes.api.sectionTypes[key]
+				= sectionTypes.tag.sectionTypes[key]
 				= sectionTypes.sample.sectionTypes[key]
 				= key;  // Allow all section types to be inserted under an api or sample section except api and links sections.
 	}

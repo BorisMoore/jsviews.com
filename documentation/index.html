@@ -22,8 +22,8 @@
 	{^{page class="sidebar" }}
 		{^{tree categories selected=~tag.category /}}
 	{{else ~tabTmpl=~templates.tabsContent class="content"}}
-		<div class="currenttopic">
-			{^{if ~tag.hasDetail}}
+		<div data-link="class{:~tag.editable ? 'currenttopic edit' : 'currenttopic'}}">
+		{^{if ~tag.hasDetail}}
 			{^{tabs tabCaption="Documentation" ~page=~tag class="summary" }}
 				{{include tmpl=~tabTmpl ~mode="summary" /}}
 			{{else tabCaption="Deep dive" ~page=~tag class="summary"}}
@@ -347,10 +347,10 @@
 					</div>
 					<button class="addparam cmdbtn">add parameter</button>
 					{^{selectList sections ~apisections=sections}}
-						{{sectionButtons ~sectionTypes ~sectionType="api" /}}			
+						{{sectionButtons ~sectionTypes ~sectionType="tag" /}}			
 						{^{section _type ~mode ~apisections /}}				
 					{{/selectList}}
-					{{sectionButtons ~sectionTypes ~sectionType="api" append=true /}}			
+					{{sectionButtons ~sectionTypes ~sectionType="tag" append=true /}}			
 				</div>
 			{{/for}}
 		</div>
@@ -396,7 +396,6 @@
 			{^{section _type ~mode sections /}}				
 		{{/selectList}}
 		{{sectionButtons ~sectionTypes ~sectionType="sample" append=true /}}			
-{{!--		<div>{^{editSample data code markup templates/}}</div> --}}
 	</div>
 </script>
 

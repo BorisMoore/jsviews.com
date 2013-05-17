@@ -41,8 +41,7 @@ pre {
 	font-size: 10pt;
 	border-left: 3px solid #aaa;
 	padding: 0 0 0 8px;
-	margin-top: 10px;
-	margin-bottom: 26px;
+	margin: 20px 0 20px;
 	overflow: auto;
 }
 
@@ -246,6 +245,10 @@ select[size] {
 	float: left;
 }
 
+.save-div label:last-of-type  {
+	float: right;
+}
+
 .mode-summary, .mode-detail {
 	margin: 10px 0 10px 0;
 	padding: 0 4px 0 18px;
@@ -258,7 +261,7 @@ select[size] {
 	margin-top: -16px;
 }
 
-.sample .try label:last-of-type, .save-div label:last-of-type  {
+.sample .try label:last-of-type {
 	float: left;
 	margin-top: 12px;
 }
@@ -483,5 +486,9 @@ margin: 2px;
 }
 
 .currenttopic {
-	background-color: #f3f3f3;
+	background-color: #f8f8f5;
+}
+
+.currenttopic.edit {
+	background-color: #F0F0D7;
 }

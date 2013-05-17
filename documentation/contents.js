@@ -248,7 +248,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
                 "name": "pathOrExpr",
                 "type": "string",
                 "optional": false,
-                "description": "Data-path or expression, to be evaluated and inserted as string in the rendered output"
+                "description": "Data-path or expression, to be evaluated and inserted as a string in the rendered output"
               }
             ],
             "sections": [],
@@ -308,7 +308,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "signatures": [
           {
             "_type": "signature",
-            "title": "{{include}} with an external template",
+            "title": "Include an external template",
             "params": [
               {
                 "_type": "param",
@@ -322,11 +322,11 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "args": [],
             "sections": [],
             "example": "{{include tmpl=\"insertedPersonTemplate\" /}}",
-            "description": "Render the specified template for the current data context",
+            "description": "Include the specified template",
             "variant": "{{include tmpl=nameOrExpr /}}"
           }
         ],
-        "description": "<em>Template composition</em>: &mdash; Insert the referenced template: <em>tmpl</em>, rendered using the current data context.",
+        "description": "<em>Template composition</em>: &mdash; Include the referenced template: <em>tmpl</em>, rendered using the current data context.",
         "sectionTypes": {}
       }
     ]
@@ -378,7 +378,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "variant": "{{for pathOrExpr tmpl=nameOrExpr /}}"
           }
         ],
-        "description": "<em>Template composition</em>: &mdash; Move the data context to the object or array specified by the path or expression. Insert the block content (or the referenced template: <em>tmpl</em>) rendered with that object as context &mdash; or if an array, rendered once for each of the items in the array.",
+        "description": "<em>Template composition</em>: &mdash; Render the block content of the {{for}} tag (or the referenced external template), using the object or array specified by the path or expression as data context. If it is an array, iterate over the array, rendering once for each item.",
         "sectionTypes": {}
       }
     ]
@@ -419,37 +419,58 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     ]
   },
   "commenttag": {
-    "title": "{{!-- ... --}}",
+    "title": "Comment tag: {{!-- ... --}}",
     "path": "",
     "sections": [
       {
         "_type": "tag",
         "typeLabel": "Tag:",
-        "title": "{{include tmpl=... /}}",
+        "title": "{{!-- a comment --}}",
         "name": "for NAME",
         "signatures": [
           {
             "_type": "signature",
-            "title": "title",
-            "params": [
-              {
-                "_type": "param",
-                "name": "nameOrExpr",
-                "type": "object or string",
-                "optional": true,
-                "description": "The name of a template, or a template object, to be rendered",
-                "propName": "tmpl"
-              }
-            ],
+            "title": "Adding comments",
+            "params": [],
             "args": [],
             "sections": [],
-            "example": "{{include tmpl=\"insertedPersonTemplate\" /}}",
-            "description": "Render the specified template for the current data context",
-            "variant": "{{include tmpl=nameOrExpr /}}"
+            "example": "{{!-- this is a comment --}}",
+            "description": "The comment will be ignored during template rendering - and will produce no output",
+            "variant": ""
+          },
+          {
+            "_type": "signature",
+            "title": "Commenting out sections of a template",
+            "params": [],
+            "args": [],
+            "sections": [],
+            "example": "{{!-- this section will be omitted \n\n<em>Do I really want this?{{:password}}</em>\n\n--}}",
+            "description": "The comment can be multiline. All content will be ignored during template rendering - and will produce no output",
+            "variant": ""
           }
         ],
-        "description": "<em>Template composition</em>: &mdash; Insert the referenced template: <em>tmpl</em>, rendered using the current data context.",
+        "description": "Adding comments to templates, or commenting out sections of a template",
         "sectionTypes": {}
+      },
+      {
+        "_type": "para",
+        "title": "JsRender comment tags versus HTML comment tags",
+        "text": "You can include "
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "<!-- This is an HTML comment -->"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "But the HTML comment will not be ignored by JsRender or JsViews. It will be included in the rendered output, and will get inserted into the DOM along with other rendered markup."
       }
     ]
   },
@@ -465,7 +486,31 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "signatures": [
           {
             "_type": "signature",
-            "title": "title",
+            "title": "Conditional block",
+            "params": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "object or string",
+                "optional": false,
+                "description": "The data-path or expression to be tested"
+              }
+            ],
+            "sections": [
+              {
+                "_type": "para",
+                "title": "",
+                "text": "<b>Note:</b> The data context inside the {{if}} block is the same as the outer context"
+              }
+            ],
+            "example": "{{if nickname}}\n    Nickname: {{:nickname}}\n{{/if}}",
+            "description": "Render the block only if the expression is true",
+            "variant": "{{if pathOrExpr}}...{{/if}}"
+          },
+          {
+            "_type": "signature",
+            "title": "Conditional inclusion of external template",
             "params": [
               {
                 "_type": "param",
@@ -476,15 +521,134 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
                 "propName": "tmpl"
               }
             ],
-            "args": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "object or string",
+                "optional": false,
+                "description": "The data-path or expression to be tested"
+              }
+            ],
             "sections": [],
-            "example": "{{include tmpl=\"insertedPersonTemplate\" /}}",
-            "description": "Render the specified template for the current data context",
-            "variant": "{{include tmpl=nameOrExpr /}}"
+            "example": "{{if nickname tmpl=\"nicknameTemplate\" /}}",
+            "description": "Render the specified template only if the expression is true",
+            "variant": "{{if pathOrExpr tmpl=nameOrExpr /}}"
           }
         ],
-        "description": "<em>Conditional insertion</em>: &mdash; Evaluate the data path or expression, and render the block contents (or the referenced external template) only if the result is <em>'truey'</em>",
+        "description": "<em>Conditional inclusion</em>: &mdash; Render the block content of the {{if}} tag (or the referenced external template) only if the data-path or expression evaluates to true ('or truey')",
         "sectionTypes": {}
+      },
+      {
+        "_type": "para",
+        "title": "Using the {{else}} tag with {{/if}}",
+        "text": "Using the {{else}} tag between <em>{{if}}</em> and <em>{{/if}}</em>, allows alternate rendering based on '<em>if ... else ...</em>' logic:"
+      },
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{if ...}}...{{else}}...{{/if}}",
+        "name": "name",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Render alternate blocks depending on an expression",
+            "params": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "object or string",
+                "optional": false,
+                "description": "The data-path or expression to be tested"
+              }
+            ],
+            "sections": [
+              {
+                "_type": "para",
+                "title": "",
+                "text": "<b>Note:</b> The data context inside the {{if}} and {{else}} blocks is the same as the outer context"
+              }
+            ],
+            "example": "{{if nickname}}\n    Nickname: {{:nickname}}\n{{else}}\n    No nickname...\n{{/if}}",
+            "description": "Render first block if condition is true, otherwise render second block",
+            "variant": "{{if pathOrExpr}...{{else}}...{{/if}}"
+          },
+          {
+            "_type": "signature",
+            "title": "Render different templates depending on one or more expressions",
+            "params": [
+              {
+                "_type": "param",
+                "name": "nameOrExpr",
+                "type": "object or string",
+                "optional": true,
+                "description": "The name of a template, or a template object, to be rendered",
+                "propName": "tmpl"
+              }
+            ],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "object or string",
+                "optional": false,
+                "description": "The data-path or expression to be tested"
+              }
+            ],
+            "sections": [],
+            "example": "{{if nickname tmpl=\"nicknameTemplate\"}}\n{{else tmpl=\"noNicknameTemplate\"}}\n{{/if}}",
+            "description": "Render first template if condition is true, otherwise render second template",
+            "variant": "{{if pathOrExpr1 tmpl=nameOrExpr1 }}{{else tmpl=nameOrExpr2 }}{{/if}}"
+          }
+        ],
+        "description": "<em>Conditional inclusion</em>: &mdash; Render the block content of the {{if}} tag (or referenced template) if the expression is true, otherwise render the {{else}} block (or template)",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "else and elseif",
+        "text": "You can add more than one <em>{{else}}</em> tag between <em>{{if}}</em> and <em>{{/if}}</em>, to get alternate rendering based on '<em>if ... elseif ... else ...</em>' logic. For <em>elseif</em>, just include an expression...:\n"
+      },
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{if ....}}...{{else ...}}...{{else}}...{{/if}}",
+        "name": "name",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Render alternate blocks depending on one or more expressions",
+            "params": [],
+            "args": [],
+            "sections": [
+              {
+                "_type": "para",
+                "title": "",
+                "text": "<b>Note: </b>Any of the {{if}} or {{else}} tags can have a <em>tmpl=nameOrExpr</em> parameter. The external template will be used instead of block content for that tag."
+              }
+            ],
+            "example": "{{if nickname}}\n    Nickname: {{:nickname}}\n{{else altnickname}}\n    Alternate nickname: {{:altnickname}}\n{{else}}\n    No nickname...\n{{/if}}",
+            "description": "Render first block for which condition is true, otherwise last block",
+            "variant": "{{if pathOrExpr1}}...{{else pathOrExpr2}}...{{else}}...{{/if}"
+          }
+        ],
+        "description": "<em>Conditional inclusion</em>: &mdash; Render the first {{if}} or {{else}} block for which the expression is true. If none are true, and there is an {{else}} without an expression, render that block",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
       }
     ]
   },
@@ -1206,6 +1370,14 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "label": "Rendering versus linking"
           },
           {
+            "hash": "helpers",
+            "label": "Providing helpers"
+          },
+          {
+            "hash": "converters",
+            "label": "Converters"
+          },
+          {
             "hash": "customtags",
             "label": "Custom tags"
           },
@@ -1220,6 +1392,10 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "hash": "tagcontrols",
             "label": "Tag Controls"
+          },
+          {
+            "hash": "mvvm-mvp",
+            "label": "MVVM and MVP"
           }
         ]
       }
@@ -1551,6 +1727,115 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     "title": "MVVM and MVP",
     "path": "",
     "sections": []
+  },
+  "jsv-converter1way": {
+    "title": "one-way binding converter",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "jsv-converterback": {
+    "title": "2-way binding - convert back",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "jsv-converter": {
+    "title": "converters in JsViews",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "jsv-converter1way",
+            "label": "one-way binding converter"
+          },
+          {
+            "hash": "jsv-converterback",
+            "label": "2-way binding - convert back"
+          }
+        ]
+      }
+    ]
+  },
+  "jsr-converter": {
+    "title": "converters in JsRender",
+    "path": "",
+    "sections": []
+  },
+  "converters": {
+    "title": "Converters",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "jsr-converter",
+            "label": "converters in JsRender"
+          },
+          {
+            "hash": "jsv-converter",
+            "label": "converters in JsViews"
+          }
+        ]
+      }
+    ]
+  },
+  "helperpaths": {
+    "title": "Helper paths",
+    "path": "",
+    "sections": []
+  },
+  "pass helper": {
+    "title": "Passing in helpers",
+    "path": "",
+    "sections": []
+  },
+  "registerhelper": {
+    "title": "Registering helpers",
+    "path": "",
+    "sections": []
+  },
+  "helpers": {
+    "title": "Providing helpers",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "registerhelper",
+            "label": "Registering helpers"
+          },
+          {
+            "hash": "pass helper",
+            "label": "Passing in helpers"
+          },
+          {
+            "hash": "helperpaths",
+            "label": "Helper paths"
+          }
+        ]
+      }
+    ]
   }
 };
 content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocCategories")) ||
@@ -1642,6 +1927,53 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
           {
             "name": "inlinebinding",
             "label": "Inline tag binding"
+          }
+        ],
+        "expanded": true
+      },
+      {
+        "name": "helpers",
+        "label": "Providing helpers",
+        "categories": [
+          {
+            "name": "registerhelper",
+            "label": "Registering helpers"
+          },
+          {
+            "name": "pass helper",
+            "label": "Passing in helpers"
+          },
+          {
+            "name": "helperpaths",
+            "label": "Helper paths"
+          }
+        ],
+        "expanded": true
+      },
+      {
+        "name": "converters",
+        "label": "Converters",
+        "categories": [
+          {
+            "name": "jsr-converter",
+            "label": "converters in JsRender",
+            "categories": [],
+            "expanded": true
+          },
+          {
+            "name": "jsv-converter",
+            "label": "converters in JsViews",
+            "categories": [
+              {
+                "name": "jsv-converter1way",
+                "label": "one-way binding converter"
+              },
+              {
+                "name": "jsv-converterback",
+                "label": "2-way binding - convert back"
+              }
+            ],
+            "expanded": true
           }
         ],
         "expanded": true
