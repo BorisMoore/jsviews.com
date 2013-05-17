@@ -344,17 +344,16 @@ var	page,
 		init: function(tagCtx) {
 			var self = this,
 				data = self.origData = self.parents.section.data;
+			if (data.sampleName) {
+				data.url = "samples/" + data.sampleName + "/sample";
+			}
 
 			self.parent.sampleFrame = self;
 			self.getScript =  function(loadScript) {
 				self.loadScript = loadScript;
 				if (data.url) {
 					var html = $.trim(self.iframeWnd.document.body.innerHTML);
-					//$.observable(data).setProperty({
-					//	html: $.trim(self.iframeWnd.document.body.innerHTML)
-					//});
 					$.get(data.url + ".js", function(content) {
-						//$.observable(data).setProperty("code", content);
 						loadScript({code: content});
 						self.sampleData = {
 							url: data.url,
@@ -473,7 +472,7 @@ var	page,
 				tryItData = this.data,
 				onlyJsRender = this.tagCtx.view.data.origData.onlyJsRender,
 				editable = mode==="edit",
-				url = this.parents.section.data;
+				url = this.parents.section.data.url;
 			if (mode === "full") {
 				ret += "<textarea class=\"fullcode\">" + $.views.converters.html(fullCode()) + "</textarea>";
 			} else if (tryItData.html) {
