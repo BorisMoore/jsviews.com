@@ -7,30 +7,18 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     "path": "",
     "sections": [
       {
-        "_type": "data",
-        "title": "The data",
-        "data": {
-          "name": "Fred"
-        }
+        "_type": "para",
+        "title": "The JsRender render() method",
+        "text": "The <em>render()</em> method of a template takes a <em>data</em> object or array (as well as an optional <em>helpersOrContext</em> object), and returns the rendered template as a string. "
       },
       {
         "_type": "para",
-        "title": "The title",
-        "text": "paragraph"
-      },
-      {
-        "_type": "template",
-        "title": "The template",
-        "markup": "<div>{{:expression}}</div>"
-      },
-      {
-        "_type": "code",
-        "title": "The code",
-        "code": "code...\nvar foo = { a: \"fff\" };"
+        "title": "",
+        "text": "To get a template object from a template string, or a template declared in a script block, see <a href=\"#tmplcompile\">Compile a template</a>."
       },
       {
         "_type": "api",
-        "title": "template.render()",
+        "title": "template.render(data)",
         "name": "render",
         "object": "template",
         "method": true,
@@ -39,7 +27,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "signatures": [
           {
             "_type": "signature",
-            "title": "Basic",
+            "title": "",
             "params": [
               {
                 "_type": "param",
@@ -50,12 +38,104 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
               }
             ],
             "sections": [],
-            "example": "var htmlString = myTemplate.render(myData);",
+            "example": "var html = myTmpl.render(myData);",
             "description": "Render template against data"
-          },
+          }
+        ],
+        "description": "Render a template against data, and return a string.",
+        "sectionTypes": {
+          "para": "para",
+          "api": "api",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Passing an object to the <em>.render()</em> method."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<em>&mdash; The template is rendered once, with the object as data context:</em>"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var html = myTmpl.render(person);"
+          }
+        ],
+        "html": "<table><tbody id=\"person\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>\n      {{:name}}\n    </td>\n  </tr>\n</script>",
+        "code": "var myTmpl = $.templates(\"#personTmpl\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar html = myTmpl.render(person);\n\n$(\"#person\").html(html);",
+        "title": "template.render(object):",
+        "onlyJsRender": true,
+        "height": "60"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Passing an array to the <em>.render()</em> method."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<em>&mdash; The template is rendered once for each item in the array:</em>"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var html = myTmpl.render(people);"
+          }
+        ],
+        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>\n      {{:name}}\n    </td>\n  </tr>\n</script>",
+        "code": "var myTmpl = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nvar html = myTmpl.render(people);\n\n$(\"#peopleList\").html(html);",
+        "title": "template.render(array):",
+        "onlyJsRender": true,
+        "height": "80"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Passing helpers to the <em>render()</em> method."
+      },
+      {
+        "_type": "api",
+        "title": "template.render(data, helpersOrContext)",
+        "name": "render",
+        "object": "template",
+        "method": true,
+        "tag": false,
+        "returns": "string",
+        "signatures": [
           {
             "_type": "signature",
-            "title": "With options",
+            "title": "",
             "params": [
               {
                 "_type": "param",
@@ -73,11 +153,11 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
               }
             ],
             "sections": [],
-            "example": "var htmlString = myTemplate.render(myData);",
+            "example": "var html = myTmpl.render(myData, myHelpers);",
             "description": "Render template against data, and pass in helpers"
           }
         ],
-        "description": "Render a template against data, and return a string.",
+        "description": "Render a template against data, along with helper objects or context, and return a string",
         "sectionTypes": {
           "para": "para",
           "api": "api",
@@ -87,6 +167,146 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           "sample": "sample",
           "links": "links"
         }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "You can pass in any JavaScript type (<em>object, string, number, function...</em>) as helpers on the <em>helpersOrContext</em> object, and use them as metadata, or as helper functions for formatting etc."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Just add \"~\" to access them as <a href=\"#expressions/helperpath\">helper paths</a>."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See <a href=\"#helpers\">Providing helpers</a> for the relationship to globally registered helpers <em>- $.views.helpers(...)</em>."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var html = myTmpl.render(person, {color: \"red\", format: toUpper});"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<td style=\"color:{{:~color}};\">\n  {{:~format(name)}}\n</td>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Click <em>Try it</em> and change the color to \"green\"..."
+          }
+        ],
+        "html": "<table><tbody id=\"person\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td style=\"color:{{:~color}};\">\n      {{:~format(name)}}\n    </td>\n  </tr>\n</script>",
+        "code": "function toUpper(val) { return val.toUpperCase(); }\n\nvar myTmpl = $.templates(\"#personTmpl\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar html = myTmpl.render(person, {color: \"red\", format: toUpper});\n\n$(\"#person\").html(html);",
+        "title": "template.render(object, myHelpers):",
+        "height": "60"
+      },
+      {
+        "_type": "para",
+        "title": "Rendering a named template without needing the template object",
+        "text": "If a template has been registered as a named template:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.templates(\"personTmpl\", \"#personTmpl\");"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Then you can render the template without needing to hold on to the compiled template object returned from <em>$.templates(...)</em>."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Just call <em>$.render.personTmpl(...)</em>"
+      },
+      {
+        "_type": "api",
+        "title": "$.render.myTmpl(data, helpersOrContext)",
+        "name": "myTmpl",
+        "object": "$.render",
+        "method": true,
+        "tag": false,
+        "returns": "string",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "data",
+                "type": "object or array",
+                "optional": true,
+                "description": "The data to render. This can be any JavaScript type, including Array or Object."
+              },
+              {
+                "_type": "param",
+                "name": "helpersOrContext",
+                "type": "object",
+                "optional": true,
+                "description": "Contextual helper methods or properties - available to template as <em>~keyName</em>"
+              }
+            ],
+            "sections": [],
+            "example": "var html = $.render.myTmpl(myData, myHelpers);",
+            "description": "Render template against data, and pass in helpers"
+          }
+        ],
+        "description": "Render a named template against data, along with helper objects or context, and return a string",
+        "sectionTypes": {
+          "para": "para",
+          "api": "api",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is an example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.templates(\"myNamedTmpl\", \"#personTmpl\");\n\nvar html = $.render.myNamedTmpl(person);"
+          }
+        ],
+        "html": "<table><tbody id=\"person\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>\n      {{:name}}\n    </td>\n  </tr>\n</script>",
+        "code": "$.templates(\"myNamedTmpl\", \"#personTmpl\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar html = $.render.myNamedTmpl(person);\n\n$(\"#person\").html(html);",
+        "title": "$.render.myNamedTmpl(...):",
+        "height": "60"
       }
     ]
   },
@@ -2164,7 +2384,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
                 "label": "{{!-- ... --}}"
               }
             ],
-            "expanded": true
+            "expanded": false
           },
           {
             "name": "tmplrender",
