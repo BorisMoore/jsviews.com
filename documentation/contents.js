@@ -1216,7 +1216,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "para",
         "title": "JsViews: A platform for data-bound single-page apps",
-        "text": "JsViews provides dynamic data-bound views, built on top of JsRender templates. It \"brings JsRender templates to life\". So lets start with the JsRender template we ended up with in the <a href=\"#jsrplaying\">Playing with JsViews</a> topic:"
+        "text": "JsViews provides dynamic data-bound views, built on top of JsRender templates. It \"brings JsRender templates to life\". So lets start with the JsRender template we ended up with in the <a href=\"#jsrplaying\">Playing with JsRender</a> topic:"
       },
       {
         "_type": "sample",
@@ -1520,9 +1520,60 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           "code": "code",
           "sample": "sample"
         },
-        "sections": [],
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "This sample includes binding to <em>&ltselect></em>..."
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<select data-link=\"selectedID\" size=\"5\">"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "And also to the <em>&ltoption></em>s within the <em>&lt;select></em>...."
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{^{for people}}\n  <option data-link=\"{:name} value{:ID} selected{:ID === ~root.selectedID}\"></option>\n{{/for}}\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "It also shows observably removing items from an array..."
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.observable(people).remove($.inArray(app.selected(), people));"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "It shows data-linking to the <em>disabled</em> property of an element..."
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<button data-link=\"disabled{:selectedID === '0'}\">Remove</button>\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "And it shows the use of a <em>computed observable</em> in JsViews"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var app = {\n    ...\n    selected: function() {\n      ...\n    }\n  };\n\napp.selected.depends = \"selectedID\";"
+          }
+        ],
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n  {\n    ID: \"Ad0\",\n    name: \"Adriana\"\n  },\n  {\n    ID: \"Ro0\",\n    name: \"Robert\",\n    nickname: \"Bob\"\n  }\n];\n\nvar counter = 1;\n\nvar app = {\n    people: people,\n    selectedID: people[1].ID,\n    selected: function() {\n      for (var i=0; i<people.length; i++) {\n        if (people[i].ID === this.selectedID) {\n          return people[i];\n        }\n      }\n      return {};\n    }\n  };\n\napp.selected.depends = \"selectedID\";\n\n// Data-link details container to people, using the peopleTmpl template\nmyTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\nvar newID = \"new\" + counter++;\n  $.observable(people).insert(people.length, {ID: newID, name: \"name\"});\n  $.observable(app).setProperty(\"selectedID\", newID);\n\n})\n\n$(\"#removeBtn\").on(\"click\", function(){\n  $.observable(people).remove($.inArray(app.selected(), people));\n  $.observable(app).setProperty(\"selectedID\", \"0\");\n})\n",
-        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n    <button id=\"removeBtn\" data-link=\"disabled{:selectedID === '0'}\">Remove</button>\n  </td></tr>\n  <tr><td>\n    <select data-link=\"selectedID\" size=\"5\">\n      <option value=\"0\">Choose a person to edit</option>\n        {^{for people}}\n          <option data-link=\"{:name} value{:ID} selected{:ID === ~root.selectedID}\"></option>\n        {{/for}}\n    </select>\n  </td></tr>\n  <tr><td>\n    <label>Name:<input data-link=\"{:selected().name:} disabled{:selectedID === '0'}\" /></label>\n    <label>Nickname:<input data-link=\"{:selected().nickname:} disabled{:selectedID === '0'}\" /></label>\n  </td></tr>\n  <tr><td class=\"center\">\n    {^{for selected()}}\n      {^{:name}}\t\n      {^{if nickname}}\n        ( {^{:nickname}} )\n      {{/if}}\n    {{/for}}\n  </td></tr>\n</script>",
+        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n    <button id=\"removeBtn\" data-link=\"disabled{:selectedID === '0'}\">Remove</button>\n  </td></tr>\n  <tr><td>\n    <select data-link=\"selectedID\" size=\"5\">\n      <option value=\"0\">Choose a person to edit</option>\n      {^{for people}}\n        <option data-link=\"{:name} value{:ID} selected{:ID === ~root.selectedID}\"></option>\n      {{/for}}\n    </select>\n  </td></tr>\n  <tr><td>\n    <label>Name:<input data-link=\"{:selected().name:} disabled{:selectedID === '0'}\" /></label>\n    <label>Nickname:<input data-link=\"{:selected().nickname:} disabled{:selectedID === '0'}\" /></label>\n  </td></tr>\n  <tr><td class=\"center\">\n    {^{for selected()}}\n      {^{:name}}\t\n      {^{if nickname}}\n        ( {^{:nickname}} )\n      {{/if}}\n    {{/for}}\n  </td></tr>\n</script>",
         "height": "220",
         "title": "data-linking to &lt;select>... and much more..."
       },
