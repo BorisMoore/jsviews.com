@@ -2111,6 +2111,40 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "title": "Tabs control"
       }
     ]
+  },
+  "samples": {
+    "title": "Samples",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "samples/tagcontrols",
+            "label": "Tag controls"
+          }
+        ]
+      }
+    ]
+  },
+  "samples/tagcontrols": {
+    "title": "Tag controls",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "samples/tagcontrols/tabs",
+            "label": "tabs control"
+          }
+        ]
+      }
+    ]
   }
 };
 content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocCategories")) ||
@@ -2132,7 +2166,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "label": "Samples",
         "categories": [
           {
-            "name": "tagcontrols",
+            "name": "samples/tagcontrols",
             "label": "Tag controls",
             "categories": [
               {
@@ -2143,7 +2177,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "expanded": true
           }
         ],
-        "expanded": true
+        "expanded": false
       }
     ],
     "expanded": true
@@ -2177,7 +2211,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "Declaring dependencies"
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "templates",
@@ -2188,7 +2222,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "Composition"
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "views",
@@ -2199,7 +2233,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "View hierarchy"
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "renderorlink",
@@ -2222,7 +2256,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "Inline tag binding"
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "helpers",
@@ -2241,7 +2275,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "Helper paths"
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "converters",
@@ -2269,7 +2303,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "expanded": true
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "customtags",
@@ -2284,7 +2318,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "Custom tags as controls"
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "tagexpressions",
@@ -2311,7 +2345,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "View paths"
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "linkobservedispose",
@@ -2334,7 +2368,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "Tag methods and properties"
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "mvvm-mvp",
@@ -2384,7 +2418,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
                 "label": "{{!-- ... --}}"
               }
             ],
-            "expanded": false
+            "expanded": true
           },
           {
             "name": "tmplrender",
@@ -2397,7 +2431,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "expanded": true
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "jsvapi",
@@ -2408,7 +2442,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "Linking data to HTML"
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "jsoapi",
@@ -2419,7 +2453,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "Observing data"
           }
         ],
-        "expanded": true
+        "expanded": false
       }
     ],
     "expanded": true
