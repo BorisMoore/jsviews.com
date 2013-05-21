@@ -381,15 +381,23 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "topics": [
           {
             "hash": "jsrtags",
-            "label": "Built-in tags"
+            "label": "Template tags"
           },
           {
-            "hash": "tmplrender",
+            "hash": "rendertmpl",
             "label": "Render a template"
           },
           {
-            "hash": "tmplcompile",
-            "label": "Compile a template"
+            "hash": "compiletmpl",
+            "label": "Compile/register/get a template"
+          },
+          {
+            "hash": "jsrregister",
+            "label": "Register helpers, converters, tags..."
+          },
+          {
+            "hash": "jsrobjects",
+            "label": "JsRender objects"
           }
         ]
       }
