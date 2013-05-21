@@ -444,11 +444,11 @@ var	page,
 								+ "var data = " + stringify(tryItData.data) + ";\n\n"
 								+ "var template = $.templates(\"#theTmpl\");\n\n"
 								+ "var htmlOutput = template.render(data);\n\n"
-								+ "$(\"#result\").html(htmlOutput);\n")
+								+ "$(\"#result\").html(htmlOutput);")
 							: ""
 						)
 					)
-					+ "</script>\n\n"
+					+ "\n</script>\n\n"
 					+ "</body>\n"
 					+ "</html>\n";
 			}

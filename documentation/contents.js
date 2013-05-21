@@ -14,7 +14,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "para",
         "title": "",
-        "text": "To get a template object from a template string, or a template declared in a script block, see <a href=\"#compiletmpl\">Compile/register/get a template</a>."
+        "text": "To get a template object from a template string, or a template declared in a script block, see <a href=\"#tmplcompile\">Compile/register/get a template</a>."
       },
       {
         "_type": "api",
@@ -215,6 +215,18 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "code": "function toUpper(val) { return val.toUpperCase(); }\n\nvar myTmpl = $.templates(\"#personTmpl\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar html = myTmpl.render(person, {color: \"red\", format: toUpper});\n\n$(\"#person\").html(html);",
         "title": "template.render(object, myHelpers):",
         "height": "60"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "rendertmpl",
+            "label": "Render a template"
+          }
+        ]
       }
     ]
   },
@@ -323,7 +335,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "label": "Template tags"
           },
           {
-            "hash": "jsvrendertmpl",
+            "hash": "jsvtmplrender",
             "label": "Render a template"
           },
           {
@@ -339,7 +351,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "label": "Access views"
           },
           {
-            "hash": "jsvcompiletmpl",
+            "hash": "jsvtmplcompile",
             "label": "Compile/register/get a template"
           },
           {
@@ -372,18 +384,18 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "label": "Built-in tags"
           },
           {
-            "hash": "rendertmpl",
+            "hash": "tmplrender",
             "label": "Render a template"
           },
           {
-            "hash": "compiletmpl",
+            "hash": "tmplcompile",
             "label": "Compile a template"
           }
         ]
       }
     ]
   },
-  "compiletmpl": {
+  "tmplcompile": {
     "title": "templates(): Compile/get a template",
     "path": "",
     "sections": [
@@ -958,7 +970,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "code",
         "title": "Here's some code:",
-        "code": "var person = {\n    name: \"Adriana\"\n};\n\nvar htmlOutput = myTemplate.render(person);"
+        "code": "var person = {\n    name: \"Adriana\"\n};\n\nvar html = myTemplate.render(person);"
       },
       {
         "_type": "para",
@@ -1036,12 +1048,32 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "para",
             "title": "",
-            "text": "In the html you see that we put our markup in a script block with <em>type=\"text/x-jsrender\"</em> and then in the code we called the $.templates method with a jQuery selector for that script block, to get the compiled template."
+            "text": "In the html you see that we put our markup in a script block with <em>type=\"text/x-jsrender\"</em>..."
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>"
           },
           {
             "_type": "para",
             "title": "",
-            "text": "After that we run the code we have already seen to render the template against our data, and get the HTML output as a string. (We pass the data - this time we used an array - to the render() method of our compiled template.)"
+            "text": "... and then in the code we call the <a href=\"#$templates\"><em>$.templates</em></a> method with a jQuery selector for that script block, to get the compiled template."
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var myTemplate = $.templates(\"#personTmpl\");\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "After that we run the code we have already seen to render the template against our data, and get the HTML output as a string. (We pass the data - this time we used an array - to the <a href=\"#rendertmpl\"><em>render()</em></a> method of our compiled template.)"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var html = myTemplate.render(people);"
           },
           {
             "_type": "para",
@@ -1057,15 +1089,10 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "_type": "para",
             "title": "",
             "text": "For example if you change the template to produce a <em>&lt;tr></em>, you will want to insert the output into the tbody of a table, by adding a <em>&lt;table>&lt;tbody></em> target container - as in the following:"
-          },
-          {
-            "_type": "template",
-            "title": "",
-            "markup": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n    <tr><td>Name:</label> {{:name}}</td></tr>\n</script>"
           }
         ],
-        "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n    <label>Name:</label> {{:name}}\n</script>",
-        "code": "var myTemplate = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nvar htmlOutput = myTemplate.render(people);\n\n$(\"#peopleList\").html(htmlOutput);",
+        "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>",
+        "code": "var myTemplate = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nvar html = myTemplate.render(people);\n\n$(\"#peopleList\").html(html);",
         "title": "Complete code for template rendering:",
         "onlyJsRender": true,
         "height": "110"
@@ -1133,7 +1160,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           }
         ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <ul>\n      {{for people}}\n        <li>\n          {{:name}}\n          {{if nickname}}\n            ( {{:nickname}} )\n          {{/if}}\n        </li>\n      {{/for}}\n    </ul>\n  </td></tr>\n</script>",
-        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\",\n      nickname: \"Bob\"\n    }\n  ];\n\n  app = {\n    people: people\n  };\n\nvar htmlOutput = myTemplate.render(app);\n\n$(\"#peopleList\").html(htmlOutput);\n",
+        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\",\n      nickname: \"Bob\"\n    }\n  ];\n\n  app = {\n    people: people\n  };\n\nvar html = myTemplate.render(app);\n\n$(\"#peopleList\").html(html);\n",
         "onlyJsRender": true,
         "title": "Some template tags...",
         "height": "110"
@@ -1210,7 +1237,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "code",
             "title": "",
-            "code": "var htmlOutput = myTemplate.render(app);\n\n$(\"#peopleList\").html(htmlOutput);\n"
+            "code": "var html = myTemplate.render(app);\n\n$(\"#peopleList\").html(html);\n"
           },
           {
             "_type": "para",
@@ -1303,7 +1330,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           }
         ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr><td>\n      {{:name}}\n    </td></tr>\n  {{/for}}\n</script>",
-        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar htmlOutput = myTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})",
+        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar html = myTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\"});\n})",
         "height": "200",
         "title": "Data-linked tags and observable arrays and objects "
       },
@@ -2436,7 +2463,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       }
     ]
   },
-  "jsvcompiletmpl": {
+  "jsvtmplcompile": {
     "title": "Compile/register/get a template",
     "path": "",
     "sections": []
@@ -2552,7 +2579,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       }
     ]
   },
-  "jsvrendertmpl": {
+  "jsvtmplrender": {
     "title": "Render a template",
     "path": "",
     "sections": []
@@ -2673,11 +2700,6 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     "path": "",
     "sections": [
       {
-        "_type": "para",
-        "title": "",
-        "text": "paragraph"
-      },
-      {
         "_type": "links",
         "title": "",
         "links": [],
@@ -2701,7 +2723,441 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
   "$templates": {
     "title": "$.templates()",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Simple scenarios",
+        "text": "<em>$.templates()</em> is powerful and flexible. You can use it for many scenarios, including the following:\n<ul>\n<li>Compile a template from a string</li>\n<li>Get a template object for a template declared in a script block</li>\n<li>Register a template (from either a string or a script block declaration) as a <em>named template</em></li>\n</ul>\n"
+      },
+      {
+        "_type": "api",
+        "title": "$.templates(...)",
+        "name": "templates",
+        "object": "$",
+        "method": true,
+        "tag": false,
+        "returns": "Compiled template object",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Get a compiled template from a string or selector",
+            "params": [
+              {
+                "_type": "param",
+                "name": "markupOrSelector",
+                "type": "string",
+                "optional": false,
+                "description": "A markup string or a selector for a template declaration script block"
+              }
+            ],
+            "sections": [],
+            "example": "var myTemplate = $.templates(myMarkupString);",
+            "description": "Compile a template and return the template object"
+          },
+          {
+            "_type": "signature",
+            "title": "Register a named template from a string or selector",
+            "params": [
+              {
+                "_type": "param",
+                "name": "name",
+                "type": "string",
+                "optional": true,
+                "description": "Name for the registered template"
+              },
+              {
+                "_type": "param",
+                "name": "markupOrSelector",
+                "type": "string",
+                "optional": false,
+                "description": "A markup string or a selector for a template declaration script block"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.templates(\"myTemplateName\", myMarkupString);",
+            "description": "Register a named template"
+          }
+        ],
+        "description": "Create one or more compiled templates - optionally registered as named templates",
+        "sectionTypes": {
+          "para": "para",
+          "api": "api",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var myTmpl = $.templates(\"<label>Name:</label> {{:name}}\");\n\nvar html = myTmpl.render(person);\n"
+          }
+        ],
+        "html": "<div id=\"peopleList\"></div>\n",
+        "code": "var myTmpl = $.templates(\"<label>Name:</label> {{:name}}\");\n\nvar person = {name: \"Robert\"};\n\nvar html = myTmpl.render(person);\n\n$(\"#peopleList\").html(html);",
+        "title": "Compile a template from a string",
+        "onlyJsRender": true,
+        "height": "70"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<script id=\"personTemplate\" type=\"text/x-jsrender\">\n ...\n</script>"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var myTmpl = $.templates(\"#personTemplate\");\n\nvar html = myTmpl.render(person);\n"
+          }
+        ],
+        "title": "Get template object for script block template",
+        "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>",
+        "code": "var myTmpl = $.templates(\"#personTemplate\");\n\nvar person = {name: \"Robert\"};\n\nvar html = myTmpl.render(person);\n\n$(\"#peopleList\").html(html);",
+        "height": "70"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.templates(\"personTmpl\", \"<label>Name:</label> {{:name}}\");\n\nvar html = $.render.personTmpl(person);\n"
+          }
+        ],
+        "code": "$.templates(\"personTmpl\", \"<label>Name:</label> {{:name}}\");\n\nvar person = {name: \"Robert\"};\n\nvar html = $.render.personTmpl(person);\n\n$(\"#peopleList\").html(html);",
+        "html": "<div id=\"peopleList\"></div>",
+        "height": "70",
+        "title": "Register named template from a string"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar html = $.render.personTmpl(person);\n"
+          }
+        ],
+        "code": "$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar person = {name: \"Robert\"};\n\nvar html = $.render.personTmpl(person);\n\n$(\"#peopleList\").html(html);",
+        "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>",
+        "title": "Register named template from script block",
+        "height": "70"
+      },
+      {
+        "_type": "para",
+        "title": "Registering multiple templates in one call",
+        "text": "You can register multiple <em>named templates</em> in one call to <em>$.templates()</em> as follows:"
+      },
+      {
+        "_type": "api",
+        "title": "$.templates(namedTemplates)",
+        "name": "templates",
+        "object": "$",
+        "method": true,
+        "tag": false,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "namedTemplates",
+                "type": "object",
+                "optional": false,
+                "description": "Object (hash) of keys (name of template) and values (markup string, selector, or templateOptions object)"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.templates({\n  personTmpl: \"#personTemplate\",\n  labelTmpl: \"<label>Name:</label>\"\n});",
+            "description": "Register multiple named templates"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "api": "api",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{include tmpl=\"labelTmpl\"/}} {{:name}}\n</script>"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.templates({\n  personTmpl: \"#personTemplate\",\n  labelTmpl: \"<label>Name:</label>\"\n});\n\nvar html = $.render.personTmpl(person);\n"
+          }
+        ],
+        "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{include tmpl=\"labelTmpl\"/}} {{:name}}\n</script>",
+        "code": "$.templates({\n  personTmpl: \"#personTemplate\",\n  labelTmpl: \"<label>Name:</label>\"\n});\n\nvar person = {name: \"Robert\"};\n\nvar html = $.render.personTmpl(person);\n\n$(\"#peopleList\").html(html);",
+        "title": "Registering multiple templates",
+        "height": "70"
+      },
+      {
+        "_type": "para",
+        "title": "Getting template objects for named templates",
+        "text": "Once you have registered one or more <em>named templates</em> you can get the template object for a named template as follows:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "var myTemplate = $.templates.myTemplateName;"
+      },
+      {
+        "_type": "para",
+        "title": "Advanced scenarios: Associating private resources with templates",
+        "text": "<em>$.templates()</em> can also be used for the following more advanced scenarios:\n<ul>\n<li>Compile a template, (or multiple templates) along with specified resources to be available only within that template</li>\n<li>Compile one or more templates to be added to the set of private resources of another (already compiled) template</li>\n</ul>\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "You can use <em>$.templates()</em> to compile or register not only a template, but in addition some <em>helpers</em>, <em>converters</em>, <em>custom tags</em> or nested <em>templates</em>, to be made available to the new template as private resources."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Note that as an alternative you can register resources (<em>helpers</em>, <em>converters</em>, <em>custom tags</em> or <em>templates</em>) globally, using <a href=\"#helpers()\"><em>$.views.helpers()</em></a>, <a href=\"#converters()\"><em>$.views.converters()</em></a>, <a href=\"#tags()\"><em>$.views.tags()</em></a>, or <a href=\"#$templates\"><em>$.templates()</em></a> - rather than making them private to the template that needs to reference them."
+      },
+      {
+        "_type": "api",
+        "title": "",
+        "name": "templates",
+        "object": "$",
+        "method": true,
+        "tag": false,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Compile a template along with specified resources",
+            "params": [
+              {
+                "_type": "param",
+                "name": "templateOptions",
+                "type": "object",
+                "optional": false,
+                "description": "An options object with a markup property, and optionally other declared resources (converters, helpers, etc.)"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "var myTmpl = $.templates({\n  markup: \"...\",\n  helpers: {...},\n  tags: {...}\n  ...\n});",
+            "description": "Compile a template, along with specified resources to be available only within this template"
+          },
+          {
+            "_type": "signature",
+            "title": "Register a named template, along with specified resources",
+            "params": [
+              {
+                "_type": "param",
+                "name": "name",
+                "type": "string",
+                "optional": true,
+                "description": "Name for the registered template"
+              },
+              {
+                "_type": "param",
+                "name": "templateOptions",
+                "type": "object",
+                "optional": false,
+                "description": "An options object with a markup property, and optionally other declared resources (converters, helpers, etc.)"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.templates(\"myTmpl\", {\n  markup: \"...\",\n  helpers: {...},\n  tags: {...}\n  ...\n});",
+            "description": "Register a named template, along with specified resources available only within that template"
+          },
+          {
+            "_type": "signature",
+            "title": "Add additional templates as resources to another template",
+            "params": [
+              {
+                "_type": "param",
+                "name": "namedTemplates",
+                "type": "object",
+                "optional": false,
+                "description": "Object (hash) of keys (name of template) and values (markup string, selector, or templateOptions object)"
+              },
+              {
+                "_type": "param",
+                "name": "parentTemplate",
+                "type": "object or string",
+                "optional": true,
+                "description": "Owner template - to which this/these template(s) are being added as private resources"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.templates(namedTemplates, parentTemplate);",
+            "description": "Register named templates as private resources for a 'parent template'"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "api": "api",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "A converter and a helper are registered as private resources for the \"personTmpl\" named template."
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.templates(\"personTmpl\", {\n  markup: \"#personTemplate\",\n  converters: {\n    upper: function(val) {return val.toUpperCase();}\n  },\n  helpers: {\n    append: function(a, b) {return a + b;}\n  }\n});\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "They are accessed with the \"personTmpl\""
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{upper:~append(\"Mr \", name)}}\n</script>"
+          }
+        ],
+        "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{upper:~append(\"Mr \", name)}}\n</script>",
+        "code": "// Register a template along with a converter and a helper that it will use.\n// These resources are private to the template, rather than being registered\n// globally using $.views.converters or $.views.helpers\n$.templates(\"personTmpl\", {\n  markup: \"#personTemplate\",\n  converters: {\n    upper: function(val) {return val.toUpperCase();}\n  },\n  helpers: {\n    append: function(a, b) {return a + b;}\n  }\n});\n\nvar person = {name: \"Robert\"};\n\nvar html = $.render.personTmpl(person);\n\n$(\"#peopleList\").html(html);",
+        "title": "Register a named template along with specified resources",
+        "height": "70"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "You can pass in an existing template as an additional <em>parentTemplate</em> parameter, on  <em>any</em> call to  <em>$.templates(...)</em>. In that way the template you are registering becomes a 'private template resource' for the <em>parentTemplate</em>."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is an example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.templates(\"labelTmpl\", \"<label>Name: </label>\", personTmpl);\n"
+          }
+        ],
+        "code": "var personTmpl = $.templates(\"#personTemplate\");\n\n$.templates(\"labelTmpl\", \"<label>Name: </label>\", personTmpl);\n\nvar person = {name: \"Robert\"};\n\nvar html = personTmpl.render(person);\n\n$(\"#peopleList\").html(html);",
+        "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{include tmpl=\"labelTmpl\"/}} {{:name}}\n</script>",
+        "title": "Add a \"labelTmpl\" template resource as a private resource for an existing \"personTemplate\"",
+        "height": "70"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "rendertmpl",
+            "label": "Render a template"
+          },
+          {
+            "_type": "topic",
+            "hash": "compiletmpl",
+            "label": "Compile/register/get a template"
+          }
+        ]
+      }
+    ]
   },
   "$()render": {
     "title": "jQuery instance method to render a template declared in a script block",
@@ -2803,6 +3259,18 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "code": "var person = {\n    name: \"Adriana\"\n  };\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);",
         "title": "$.render.personTmpl(...):",
         "height": "60"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "rendertmpl",
+            "label": "Render a template"
+          }
+        ]
       }
     ]
   },
@@ -2901,6 +3369,24 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "code": "$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar html = $.render.personTmpl(person);\n\n$(\"#person\").html(html);",
         "title": "$.render.personTmpl(...):",
         "height": "60"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [
+          {
+            "_type": "link",
+            "hash": "hash",
+            "label": ""
+          }
+        ],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "rendertmpl",
+            "label": "Render a template"
+          }
+        ]
       }
     ]
   },
@@ -2921,11 +3407,11 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "para",
         "title": "",
-        "text": "There are three ways of calling the <em>render()</em> method.\n<ul><li>If you have a reference to the <em>template object</em>, call <a href=\"#tmplrender\"><em>template.render(...)</em></a></li>\n<li>If you have a registered the template by name (<em>\"myTmpl\"</em>), call <a href=\"#$render\"><em>$.render.myTmpl(...)</em></a></li>\n<li>If the template is declared in a script block, with selector <em>\"#myTmpl\"</em>, you can also call <a href=\"#$()render\"><em>$(\"#myTmpl\").render(...)</em></a></li></ul>"
+        "text": "There are three ways of calling the <em>render()</em> method:\n<ul><li>If you have a reference to the <em>template object</em>, call <a href=\"#tmplrender\"><em>template.render(...)</em></a></li>\n<li>If you have a registered the template by name (<em>\"myTmpl\"</em>), call <a href=\"#$render\"><em>$.render.myTmpl(...)</em></a></li>\n<li>If the template is declared in a script block, with selector <em>\"#myTmpl\"</em>, you can also call <a href=\"#$()render\"><em>$(\"#myTmpl\").render(...)</em></a></li></ul>"
       },
       {
         "_type": "links",
-        "title": "",
+        "title": "Links",
         "links": [],
         "topics": [
           {
@@ -2939,6 +3425,134 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "hash": "$()render",
             "label": "$(\"#myTmpl\").render()"
+          }
+        ]
+      }
+    ]
+  },
+  "compiletmpl": {
+    "title": "Compile/register/get a template",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "To create a template you need to provide the markup for the template. JsRender will convert (compile) the markup into a javascript function &mdash; the 'render' function for your template. In fact for convenience, JsRender creates a <em>template object</em> which has a <a href=\"#rendertmpl\"><em>template.render()</em></a> method which is the compiled function.\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "There are two ways to create a template:\n<ul><li>Pass the markup string to the <a href=\"#$templates\"><em>$.templates()</em></a> method, which will compile it as a template object, and optionally register it by name</li>\n<li>Declare the template in a script block with <em>type=\"text/x-jsrender\"</em> (or at least a type other than the default <em>text/javascript</em>). In that case JsRender will automatically call <em>$.templates()</em>. You will only need to call it yourself if you want to access the <em>template object</em></li></ul>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The first approach has the advantage of keeping your template declaration independent of you HTML markup that you are loading into the browser. Indeed you may want to provide the template markup strings for your templates in different application-specific ways, such as loading string from the server, creating 'computed' template markup strings on the fly, etc. "
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is an example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "The markup string is fetched in an AJAX request, and used to register a named template..."
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.get(\"templates/person.txt\", function(value) {\n  $.templates(\"personTmpl\", value);\n});"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "... and then in the code we call the <a href=\"#rendertmpl\"><em>render</em></a> method for the named template:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var html = $.render.personTmpl(people);\n"
+          }
+        ],
+        "html": "<button id=\"show\">Show People</button>\n\n<div id=\"peopleList\"></div>\n",
+        "code": "$.get(\"templates/person.txt\", function(value) {\n  $.templates(\"personTmpl\", value);\n});\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\n$(\"#show\").on(\"click\", function(){\n  var html = $.render.personTmpl(people);\n  $(\"#peopleList\").html(html);\n});",
+        "title": "Registering a template from a markup string (in this case, fetched  from the server):",
+        "onlyJsRender": true,
+        "height": "70"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "And here is the second approach:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "This time we put our markup in a script block with <em>type=\"text/x-jsrender\"</em>..."
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Then in the code we call the <a href=\"#$templates\"><em>$.templates</em></a> method with a jQuery selector for that script block, to register our template as a named template. (We could also hold on to the template object, which is the returned value...)  "
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.templates(\"personTmpl\", \"#personTemplate\");"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Then as before we call the <a href=\"#rendertmpl\"><em>render</em></a> method for the named template:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var html = $.render.personTmpl(people);"
+          }
+        ],
+        "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>",
+        "code": "$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nvar html = $.render.personTmpl(people);\n\n$(\"#peopleList\").html(html);",
+        "title": "Registering a template declared in script block:",
+        "onlyJsRender": true,
+        "height": "70"
+      },
+      {
+        "_type": "links",
+        "title": "For additional details and scenarios see:",
+        "links": [],
+        "topics": [
+          {
+            "hash": "$templates",
+            "label": "$.templates()"
           }
         ]
       }
@@ -3306,7 +3920,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": false
       }
     ],
-    "expanded": true
+    "expanded": false
   },
   {
     "name": "jsvapi",
@@ -3441,7 +4055,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": false
       }
     ],
-    "expanded": true
+    "expanded": false
   },
   {
     "name": "jsoapi",
@@ -3516,7 +4130,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": false
       }
     ],
-    "expanded": true
+    "expanded": false
   },
   {
     "name": "samples",
@@ -3534,6 +4148,6 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": false
       }
     ],
-    "expanded": true
+    "expanded": false
   }
 ];
