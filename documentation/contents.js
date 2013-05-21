@@ -3,18 +3,18 @@ var useStorage = content.allowEdit;
 content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics")) ||
 {
   "tmplrender": {
-    "title": "APIs to render a template against data objects or arrays",
+    "title": "Render a template against data objects or arrays",
     "path": "",
     "sections": [
       {
         "_type": "para",
-        "title": "The JsRender render() method",
+        "title": "The template.render() method",
         "text": "The <em>render()</em> method of a template takes a <em>data</em> object or array (as well as an optional <em>helpersOrContext</em> object), and returns the rendered template as a string. "
       },
       {
         "_type": "para",
         "title": "",
-        "text": "To get a template object from a template string, or a template declared in a script block, see <a href=\"#tmplcompile\">Compile a template</a>."
+        "text": "To get a template object from a template string, or a template declared in a script block, see <a href=\"#tmplcompile\">Compile/register/get a template</a>."
       },
       {
         "_type": "api",
@@ -215,98 +215,6 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "code": "function toUpper(val) { return val.toUpperCase(); }\n\nvar myTmpl = $.templates(\"#personTmpl\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar html = myTmpl.render(person, {color: \"red\", format: toUpper});\n\n$(\"#person\").html(html);",
         "title": "template.render(object, myHelpers):",
         "height": "60"
-      },
-      {
-        "_type": "para",
-        "title": "Rendering a named template without needing the template object",
-        "text": "If a template has been registered as a named template:"
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "$.templates(\"personTmpl\", \"#personTmpl\");"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "Then you can render the template without needing to hold on to the compiled template object returned from <em>$.templates(...)</em>."
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "Just call <em>$.render.personTmpl(...)</em>"
-      },
-      {
-        "_type": "api",
-        "title": "$.render.myTmpl(data, helpersOrContext)",
-        "name": "myTmpl",
-        "object": "$.render",
-        "method": true,
-        "tag": false,
-        "returns": "string",
-        "signatures": [
-          {
-            "_type": "signature",
-            "title": "",
-            "params": [
-              {
-                "_type": "param",
-                "name": "data",
-                "type": "object or array",
-                "optional": true,
-                "description": "The data to render. This can be any JavaScript type, including Array or Object."
-              },
-              {
-                "_type": "param",
-                "name": "helpersOrContext",
-                "type": "object",
-                "optional": true,
-                "description": "Contextual helper methods or properties - available to template as <em>~keyName</em>"
-              }
-            ],
-            "sections": [],
-            "example": "var html = $.render.myTmpl(myData, myHelpers);",
-            "description": "Render template against data, and pass in helpers"
-          }
-        ],
-        "description": "Render a named template against data, along with helper objects or context, and return a string",
-        "sectionTypes": {
-          "para": "para",
-          "api": "api",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "sample": "sample",
-          "links": "links"
-        }
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "Here is an example:"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "sample": "sample",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "code",
-            "title": "",
-            "code": "$.templates(\"myNamedTmpl\", \"#personTmpl\");\n\nvar html = $.render.myNamedTmpl(person);"
-          }
-        ],
-        "html": "<table><tbody id=\"person\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>\n      {{:name}}\n    </td>\n  </tr>\n</script>",
-        "code": "$.templates(\"myNamedTmpl\", \"#personTmpl\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar html = $.render.myNamedTmpl(person);\n\n$(\"#person\").html(html);",
-        "title": "$.render.myNamedTmpl(...):",
-        "height": "60"
       }
     ]
   },
@@ -411,8 +319,40 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "links": [],
         "topics": [
           {
-            "hash": "tmplink",
-            "label": "Linking data to HTML"
+            "hash": "jsvtags",
+            "label": "Template tags"
+          },
+          {
+            "hash": "jsvtmplrender",
+            "label": "Render a template"
+          },
+          {
+            "hash": "jsvlinktmpl",
+            "label": "Render and link a template"
+          },
+          {
+            "hash": "jsvunlink",
+            "label": "Unlink a template"
+          },
+          {
+            "hash": "$view",
+            "label": "Access views"
+          },
+          {
+            "hash": "jsvtmplcompile",
+            "label": "Compile/register/get a template"
+          },
+          {
+            "hash": "jsvregister",
+            "label": "Register helpers, converters, tags..."
+          },
+          {
+            "hash": "jsvtagcontrols",
+            "label": "Custom Tags - Tag Controls"
+          },
+          {
+            "hash": "jsrobjects",
+            "label": "JsViews objects"
           }
         ]
       }
@@ -444,9 +384,21 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     ]
   },
   "tmplcompile": {
-    "title": "Compile a template",
+    "title": "templates(): Compile/get a template",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "$templates",
+            "label": "$.templates()"
+          }
+        ]
+      }
+    ]
   },
   "assigntag": {
     "title": "{{: ...}}",
@@ -924,8 +876,16 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "links": [],
         "topics": [
           {
-            "hash": "observe",
-            "label": "Observing data"
+            "hash": "propchange",
+            "label": "Modify an object observably"
+          },
+          {
+            "hash": "collchange",
+            "label": "Modify an array observably"
+          },
+          {
+            "hash": "observeobjectsarrays",
+            "label": "Observe objects and arrays"
           }
         ]
       }
@@ -938,13 +898,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "links",
         "title": "",
-        "links": [
-          {
-            "_type": "link",
-            "hash": "hash",
-            "label": ""
-          }
-        ],
+        "links": [],
         "topics": [
           {
             "hash": "jsrplaying",
@@ -955,9 +909,28 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "label": "Playing with JsViews"
           },
           {
+            "hash": "concepts",
+            "label": "Concepts"
+          },
+          {
             "_type": "topic",
-            "hash": "hash",
-            "label": ""
+            "hash": "jsrapi",
+            "label": "JsRender API - Templated UI"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsvapi",
+            "label": "JsViews API - Data-driven UI"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsoapi",
+            "label": "JsObservable API - Observing data"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples",
+            "label": "Samples"
           }
         ]
       }
@@ -1203,7 +1176,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "topic",
             "hash": "jsrapi",
-            "label": "JsRender APIs"
+            "label": "JsRender API"
           }
         ]
       }
@@ -1625,12 +1598,12 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "topic",
             "hash": "jsvapi",
-            "label": "JsViews APIs"
+            "label": "JsViews API"
           },
           {
             "_type": "topic",
             "hash": "jsoapi",
-            "label": "JsObservable APIs"
+            "label": "JsObservable API"
           }
         ]
       }
@@ -2000,6 +1973,10 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "hash": "commenttag",
             "label": "{{!-- ... --}}"
+          },
+          {
+            "hash": "customtags",
+            "label": "Custom tags"
           }
         ]
       }
@@ -2196,6 +2173,776 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         ]
       }
     ]
+  },
+  "unobserve": {
+    "title": "unobserve()",
+    "path": "",
+    "sections": []
+  },
+  "onarrchange": {
+    "title": "onArrayChange",
+    "path": "",
+    "sections": []
+  },
+  "propchangeevargs": {
+    "title": "PropertyChangeEventArguments",
+    "path": "",
+    "sections": []
+  },
+  "propchangehandler": {
+    "title": "PropertyChangeEventHandler",
+    "path": "",
+    "sections": []
+  },
+  "onpropchange": {
+    "title": "onPropertyChange",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "propchangehandler",
+            "label": "PropertyChangeEventHandler"
+          },
+          {
+            "hash": "propchangeevargs",
+            "label": "PropertyChangeEventArguments"
+          }
+        ]
+      }
+    ]
+  },
+  "observeobjectsarrays": {
+    "title": "Observe objects and arrays",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "onpropchange",
+            "label": "onPropertyChange"
+          },
+          {
+            "hash": "onarrchange",
+            "label": "onArrayChange"
+          },
+          {
+            "hash": "observe",
+            "label": "$.observable.observe()"
+          },
+          {
+            "hash": "unobserve",
+            "label": "unobserve()"
+          }
+        ]
+      }
+    ]
+  },
+  "move": {
+    "title": "$.observable(array).move()",
+    "path": "",
+    "sections": []
+  },
+  "refresh": {
+    "title": "$.observable(array).refresh()",
+    "path": "",
+    "sections": []
+  },
+  "remove": {
+    "title": "$.observable(array).remove()",
+    "path": "",
+    "sections": []
+  },
+  "insert": {
+    "title": "$.observable(array).insert()",
+    "path": "",
+    "sections": []
+  },
+  "collchange": {
+    "title": "Modify an array observably",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "insert",
+            "label": "$.observable(array).insert()"
+          },
+          {
+            "hash": "remove",
+            "label": "$.observable(array).remove()"
+          },
+          {
+            "hash": "refresh",
+            "label": "$.observable(array).refresh()"
+          },
+          {
+            "hash": "move",
+            "label": "$.observable(array).move()"
+          }
+        ]
+      }
+    ]
+  },
+  "setprop": {
+    "title": "$.observable(object).setProperty()",
+    "path": "",
+    "sections": []
+  },
+  "propchange": {
+    "title": "Modify an object observably",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "setprop",
+            "label": "$.observable(object).setProperty()"
+          }
+        ]
+      }
+    ]
+  },
+  "jsvlinkcontextobject": {
+    "title": "Link context object",
+    "path": "",
+    "sections": []
+  },
+  "jsvtagcontextobject": {
+    "title": "Tag context object",
+    "path": "",
+    "sections": []
+  },
+  "jsvviewcontextobject": {
+    "title": "View context object",
+    "path": "",
+    "sections": []
+  },
+  "jsvtagobject": {
+    "title": "tag object",
+    "path": "",
+    "sections": []
+  },
+  "jsvviewobject": {
+    "title": "view object",
+    "path": "",
+    "sections": []
+  },
+  "jsvtemplateobject": {
+    "title": "template object",
+    "path": "",
+    "sections": []
+  },
+  "jsvviewsobject": {
+    "title": "$.views object",
+    "path": "",
+    "sections": []
+  },
+  "jsrobjects": {
+    "title": "JsViews objects",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "jsvviewsobject",
+            "label": "$.views object"
+          },
+          {
+            "hash": "jsvtemplateobject",
+            "label": "template object"
+          },
+          {
+            "hash": "jsvviewobject",
+            "label": "view object"
+          },
+          {
+            "hash": "jsvtagobject",
+            "label": "tag object"
+          },
+          {
+            "hash": "jsvviewcontextobject",
+            "label": "View context object"
+          },
+          {
+            "hash": "jsvtagcontextobject",
+            "label": "Tag context object"
+          },
+          {
+            "hash": "jsvlinkcontextobject",
+            "label": "Link context object"
+          }
+        ]
+      }
+    ]
+  },
+  "jsvtagcontrols": {
+    "title": "Custom Tags - Tag Controls",
+    "path": "",
+    "sections": []
+  },
+  "jsvhelpers()": {
+    "title": "$.views.helpers()",
+    "path": "",
+    "sections": []
+  },
+  "jsvtags()": {
+    "title": "$.views.tags()",
+    "path": "",
+    "sections": []
+  },
+  "jsvconverters()": {
+    "title": "$.views.converters()",
+    "path": "",
+    "sections": []
+  },
+  "jsvregister": {
+    "title": "Register helpers, converters, tags...",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "jsvconverters()",
+            "label": "$.views.converters()"
+          },
+          {
+            "hash": "jsvtags()",
+            "label": "$.views.tags()"
+          },
+          {
+            "hash": "jsvhelpers()",
+            "label": "$.views.helpers()"
+          }
+        ]
+      }
+    ]
+  },
+  "jsvtmplcompile": {
+    "title": "Compile/register/get a template",
+    "path": "",
+    "sections": []
+  },
+  "jsv$()view()": {
+    "title": "$(...).view()",
+    "path": "",
+    "sections": []
+  },
+  "jsv$view": {
+    "title": "$.view()",
+    "path": "",
+    "sections": []
+  },
+  "$view": {
+    "title": "Access views",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "jsv$view",
+            "label": "$.view()"
+          },
+          {
+            "hash": "jsv$()view()",
+            "label": "$(...).view()"
+          }
+        ]
+      }
+    ]
+  },
+  "jsv$()unlink": {
+    "title": "$(...).unlink()",
+    "path": "",
+    "sections": []
+  },
+  "jsv$unlink": {
+    "title": "$.unlink()",
+    "path": "",
+    "sections": []
+  },
+  "jsvtmplunlink": {
+    "title": "template.unlink()",
+    "path": "",
+    "sections": []
+  },
+  "jsvunlink": {
+    "title": "Unlink a template",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "jsvtmplunlink",
+            "label": "template.unlink()"
+          },
+          {
+            "hash": "jsv$unlink",
+            "label": "$.unlink()"
+          },
+          {
+            "hash": "jsv$()unlink",
+            "label": "$(...).unlink()"
+          }
+        ]
+      }
+    ]
+  },
+  "jsv$()link": {
+    "title": "$(...).link()",
+    "path": "",
+    "sections": []
+  },
+  "jsv$link": {
+    "title": "$.link()",
+    "path": "",
+    "sections": []
+  },
+  "jsvtmpllink": {
+    "title": "template.link()",
+    "path": "",
+    "sections": []
+  },
+  "jsvlinktmpl": {
+    "title": "Render and link a template",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "jsvtmpllink",
+            "label": "template.link()"
+          },
+          {
+            "hash": "jsv$link",
+            "label": "$.link()"
+          },
+          {
+            "hash": "jsv$()link",
+            "label": "$(...).link()"
+          }
+        ]
+      }
+    ]
+  },
+  "jsvtmplrender": {
+    "title": "Render a template",
+    "path": "",
+    "sections": []
+  },
+  "jsvtags": {
+    "title": "Template tags",
+    "path": "",
+    "sections": []
+  },
+  "subobject": {
+    "title": "$.views.sub object",
+    "path": "",
+    "sections": []
+  },
+  "settingsobject": {
+    "title": "$.views.settings object",
+    "path": "",
+    "sections": []
+  },
+  "viewsobject": {
+    "title": "$.views object",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "settingsobject",
+            "label": "$.views.settings object"
+          },
+          {
+            "hash": "subobject",
+            "label": "$.views.sub object"
+          }
+        ]
+      }
+    ]
+  },
+  "tagcontextobject": {
+    "title": "tag context object",
+    "path": "",
+    "sections": []
+  },
+  "viewcontextobject": {
+    "title": "view context object",
+    "path": "",
+    "sections": []
+  },
+  "tagobject": {
+    "title": "tag object",
+    "path": "",
+    "sections": []
+  },
+  "viewobject": {
+    "title": "view object",
+    "path": "",
+    "sections": []
+  },
+  "templateobject": {
+    "title": "template object",
+    "path": "",
+    "sections": []
+  },
+  "helpers()": {
+    "title": "$.views.helpers()",
+    "path": "",
+    "sections": []
+  },
+  "tags()": {
+    "title": "$.views.tags()",
+    "path": "",
+    "sections": []
+  },
+  "url()": {
+    "title": "views.converters.url()",
+    "path": "",
+    "sections": []
+  },
+  "attr()": {
+    "title": "views.converters.attr()",
+    "path": "",
+    "sections": []
+  },
+  "html()": {
+    "title": "views.converters.html()",
+    "path": "",
+    "sections": []
+  },
+  "converters()": {
+    "title": "$.views.converters()",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "html()",
+            "label": "views.converters.html()"
+          },
+          {
+            "hash": "attr()",
+            "label": "views.converters.attr()"
+          },
+          {
+            "hash": "url()",
+            "label": "views.converters.url()"
+          }
+        ]
+      }
+    ]
+  },
+  "jsrregister": {
+    "title": "Register helpers, converters, tags...",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      },
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "converters()",
+            "label": "$.views.converters()"
+          },
+          {
+            "hash": "tags()",
+            "label": "$.views.tags()"
+          },
+          {
+            "hash": "helpers()",
+            "label": "$.views.helpers()"
+          }
+        ]
+      }
+    ]
+  },
+  "$templates": {
+    "title": "$.templates()",
+    "path": "",
+    "sections": []
+  },
+  "$()render": {
+    "title": "jQuery instance method to render a template declared in a script block",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "$(\"#myTmpl\").render()",
+        "text": "If a template has been registered using a script block:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  ...\n</script>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "...then you can call the <a href=\"#tmplrender\"><em>render()</em></a> method of the template without needing to hold on to the compiled template object returned from <a href=\"#$templates\"><em>$.templates(...)</em></a>."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Just call <em>$(\"#myTmpl\").render(...)</em>"
+      },
+      {
+        "_type": "api",
+        "title": "$(tmplSelector).render(data, helpersOrContext)",
+        "name": "render",
+        "object": "$(tmplSelector)",
+        "method": true,
+        "tag": false,
+        "returns": "string",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "data",
+                "type": "object or array",
+                "optional": true,
+                "description": "The data to render. This can be any JavaScript type, including Array or Object."
+              },
+              {
+                "_type": "param",
+                "name": "helpersOrContext",
+                "type": "object",
+                "optional": true,
+                "description": "Contextual helper methods or properties - available to template as <em>~keyName</em>"
+              }
+            ],
+            "sections": [],
+            "example": "var html = $(\"#myTmpl\").render(myData, myHelpers);",
+            "description": "Render template against data, and pass in helpers"
+          }
+        ],
+        "description": "Render a named template against data, along with helper objects or context, and return a string",
+        "sectionTypes": {
+          "para": "para",
+          "api": "api",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is an example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  ...\n</script>"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var html = $(\"#personTemplates\").render(person);"
+          }
+        ],
+        "html": "<table><tbody id=\"person\"></tbody></table>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <tr>\n    <td>\n      {{:name}}\n    </td>\n  </tr>\n</script>",
+        "code": "var person = {\n    name: \"Adriana\"\n  };\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);",
+        "title": "$.render.personTmpl(...):",
+        "height": "60"
+      }
+    ]
+  },
+  "$render": {
+    "title": "Rendering a named template without needing the template object",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "$.render.myTmpl()",
+        "text": "If a template has been registered as a named template:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.templates(\"myTmpl\", \"#personTmpl\");"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "...then you can call the <a href=\"#tmplrender\"><em>render()</em></a> method of the template without needing to hold on to the compiled template object returned from <a href=\"#$templates\"><em>$.templates(...)</em></a>."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Just call <em>$.render.myTmpl(...)</em>, or <em>$.render[\"myTmpl\"](...)</em>"
+      },
+      {
+        "_type": "api",
+        "title": "$.render.myTmpl(data, helpersOrContext)",
+        "name": "myTmpl",
+        "object": "$.render",
+        "method": true,
+        "tag": false,
+        "returns": "string",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "data",
+                "type": "object or array",
+                "optional": true,
+                "description": "The data to render. This can be any JavaScript type, including Array or Object."
+              },
+              {
+                "_type": "param",
+                "name": "helpersOrContext",
+                "type": "object",
+                "optional": true,
+                "description": "Contextual helper methods or properties - available to template as <em>~keyName</em>"
+              }
+            ],
+            "sections": [],
+            "example": "var html = $.render.myTmpl(myData, myHelpers);",
+            "description": "Render template against data, and pass in helpers"
+          }
+        ],
+        "description": "Render a named template against data, along with helper objects or context, and return a string",
+        "sectionTypes": {
+          "para": "para",
+          "api": "api",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is an example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar html = $.render.personTmpl(person);"
+          }
+        ],
+        "html": "<table><tbody id=\"person\"></tbody></table>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <tr>\n    <td>\n      {{:name}}\n    </td>\n  </tr>\n</script>",
+        "code": "$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar html = $.render.personTmpl(person);\n\n$(\"#person\").html(html);",
+        "title": "$.render.personTmpl(...):",
+        "height": "60"
+      }
+    ]
+  },
+  "rendertmpl": {
+    "title": "Render a template",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "A template is rendered by calling the <em>render()</em> method."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The <em>render(data, helpersOrContext)</em> method takes as parameters the data (used as the <em>' data context'</em> during the rendering), and optionally additional metadata or contextual helpers. It returns a string - which is the rendered template - typically HTML markup with data values or computed values inserted at appropriated points in the string."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "There are three ways of calling the <em>render()</em> method.\n<ul><li>If you have a reference to the <em>template object</em>, call <a href=\"#tmplrender\"><em>template.render(...)</em></a></li>\n<li>If you have a registered the template by name (<em>\"myTmpl\"</em>), call <a href=\"#$render\"><em>$.render.myTmpl(...)</em></a></li>\n<li>If the template is declared in a script block, with selector <em>\"#myTmpl\"</em>, you can also call <a href=\"#$()render\"><em>$(\"#myTmpl\").render(...)</em></a></li></ul>"
+      },
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "tmplrender",
+            "label": "template.render()"
+          },
+          {
+            "hash": "$render",
+            "label": "$.render.myTmpl()"
+          },
+          {
+            "hash": "$()render",
+            "label": "$(\"#myTmpl\").render()"
+          }
+        ]
+      }
+    ]
   }
 };
 content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocCategories")) ||
@@ -2211,24 +2958,6 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
       {
         "name": "jsvplaying",
         "label": "Playing with JsViews"
-      },
-      {
-        "name": "samples",
-        "label": "Samples",
-        "categories": [
-          {
-            "name": "samples/tagcontrols",
-            "label": "Tag controls",
-            "categories": [
-              {
-                "name": "samples/tagcontrols/tabs",
-                "label": "tabs control"
-              }
-            ],
-            "expanded": true
-          }
-        ],
-        "expanded": false
       }
     ],
     "expanded": true
@@ -2335,7 +3064,6 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
           {
             "name": "jsr-converter",
             "label": "converters in JsRender",
-            "categories": [],
             "expanded": true
           },
           {
@@ -2429,79 +3157,378 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
     "expanded": true
   },
   {
-    "name": "api",
-    "label": "API Topics",
+    "name": "jsrapi",
+    "label": "JsRender API - Templated UI",
     "categories": [
       {
-        "name": "jsrapi",
-        "label": "JsRender",
+        "name": "jsrtags",
+        "label": "Template tags",
         "categories": [
           {
-            "name": "jsrtags",
-            "label": "Built-in tags",
+            "name": "assigntag",
+            "label": "{{: ...}}"
+          },
+          {
+            "name": "htmltag",
+            "label": "{{> ...}}"
+          },
+          {
+            "name": "includetag",
+            "label": "{{include ...}}"
+          },
+          {
+            "name": "fortag",
+            "label": "{{for ...}}"
+          },
+          {
+            "name": "iftag",
+            "label": "{{if ...}}"
+          },
+          {
+            "name": "elsetag",
+            "label": "{{else ...}}"
+          },
+          {
+            "name": "commenttag",
+            "label": "{{!-- ... --}}"
+          },
+          {
+            "name": "customtags",
+            "label": "Custom tags"
+          }
+        ],
+        "expanded": false
+      },
+      {
+        "name": "rendertmpl",
+        "label": "Render a template",
+        "categories": [
+          {
+            "name": "tmplrender",
+            "label": "template.render()"
+          },
+          {
+            "name": "$render",
+            "label": "$.render.myTmpl()"
+          },
+          {
+            "name": "$()render",
+            "label": "$(\"#myTmpl\").render()"
+          }
+        ],
+        "expanded": false
+      },
+      {
+        "name": "tmplcompile",
+        "label": "Compile/register/get a template",
+        "categories": [
+          {
+            "name": "$templates",
+            "label": "$.templates()"
+          }
+        ],
+        "expanded": false
+      },
+      {
+        "name": "jsrregister",
+        "label": "Register helpers, converters, tags...",
+        "categories": [
+          {
+            "name": "converters()",
+            "label": "$.views.converters()",
             "categories": [
               {
-                "name": "assigntag",
-                "label": "{{: ...}}"
+                "name": "html()",
+                "label": "views.converters.html()"
               },
               {
-                "name": "htmltag",
-                "label": "{{> ...}}"
+                "name": "attr()",
+                "label": "views.converters.attr()"
               },
               {
-                "name": "includetag",
-                "label": "{{include ...}}"
-              },
-              {
-                "name": "fortag",
-                "label": "{{for ...}}"
-              },
-              {
-                "name": "iftag",
-                "label": "{{if ...}}"
-              },
-              {
-                "name": "elsetag",
-                "label": "{{else ...}}"
-              },
-              {
-                "name": "commenttag",
-                "label": "{{!-- ... --}}"
+                "name": "url()",
+                "label": "views.converters.url()"
               }
             ],
             "expanded": true
           },
           {
-            "name": "tmplrender",
-            "label": "Render a template"
+            "name": "tags()",
+            "label": "$.views.tags()"
           },
           {
-            "name": "tmplcompile",
-            "label": "Compile a template",
-            "categories": [],
-            "expanded": true
+            "name": "helpers()",
+            "label": "$.views.helpers()"
           }
         ],
         "expanded": false
       },
       {
-        "name": "jsvapi",
-        "label": "JsViews",
+        "name": "jsrobjects",
+        "label": "JsRender objects",
         "categories": [
           {
-            "name": "tmplink",
-            "label": "Linking data to HTML"
+            "name": "viewsobject",
+            "label": "$.views object",
+            "categories": [
+              {
+                "name": "settingsobject",
+                "label": "$.views.settings object"
+              },
+              {
+                "name": "subobject",
+                "label": "$.views.sub object"
+              }
+            ],
+            "expanded": true
+          },
+          {
+            "name": "templateobject",
+            "label": "template object"
+          },
+          {
+            "name": "viewobject",
+            "label": "view object"
+          },
+          {
+            "name": "tagobject",
+            "label": "tag object"
+          },
+          {
+            "name": "viewcontextobject",
+            "label": "view context object"
+          },
+          {
+            "name": "tagcontextobject",
+            "label": "tag context object"
+          }
+        ],
+        "expanded": false
+      }
+    ],
+    "expanded": true
+  },
+  {
+    "name": "jsvapi",
+    "label": "JsViews API - Data-driven UI",
+    "categories": [
+      {
+        "name": "jsvtags",
+        "label": "Template tags",
+        "expanded": false
+      },
+      {
+        "name": "jsvtmplrender",
+        "label": "Render a template",
+        "expanded": false
+      },
+      {
+        "name": "jsvlinktmpl",
+        "label": "Render and link a template",
+        "categories": [
+          {
+            "name": "jsvtmpllink",
+            "label": "template.link()"
+          },
+          {
+            "name": "jsv$link",
+            "label": "$.link()"
+          },
+          {
+            "name": "jsv$()link",
+            "label": "$(...).link()"
           }
         ],
         "expanded": false
       },
       {
-        "name": "jsoapi",
-        "label": "JsObservable",
+        "name": "jsvunlink",
+        "label": "Unlink a template",
         "categories": [
+          {
+            "name": "jsvtmplunlink",
+            "label": "template.unlink()"
+          },
+          {
+            "name": "jsv$unlink",
+            "label": "$.unlink()"
+          },
+          {
+            "name": "jsv$()unlink",
+            "label": "$(...).unlink()"
+          }
+        ],
+        "expanded": false
+      },
+      {
+        "name": "$view",
+        "label": "Access views",
+        "categories": [
+          {
+            "name": "jsv$view",
+            "label": "$.view()"
+          },
+          {
+            "name": "jsv$()view()",
+            "label": "$(...).view()"
+          }
+        ],
+        "expanded": false
+      },
+      {
+        "name": "jsvtmplcompile",
+        "label": "Compile/register/get a template",
+        "expanded": false
+      },
+      {
+        "name": "jsvregister",
+        "label": "Register helpers, converters, tags...",
+        "categories": [
+          {
+            "name": "jsvconverters()",
+            "label": "$.views.converters()",
+            "expanded": false
+          },
+          {
+            "name": "jsvtags()",
+            "label": "$.views.tags()"
+          },
+          {
+            "name": "jsvhelpers()",
+            "label": "$.views.helpers()"
+          }
+        ],
+        "expanded": false
+      },
+      {
+        "name": "jsvtagcontrols",
+        "label": "Custom Tags - Tag Controls"
+      },
+      {
+        "name": "jsrobjects",
+        "label": "JsViews objects",
+        "categories": [
+          {
+            "name": "jsvviewsobject",
+            "label": "$.views object",
+            "expanded": true
+          },
+          {
+            "name": "jsvtemplateobject",
+            "label": "template object"
+          },
+          {
+            "name": "jsvviewobject",
+            "label": "view object"
+          },
+          {
+            "name": "jsvtagobject",
+            "label": "tag object"
+          },
+          {
+            "name": "jsvviewcontextobject",
+            "label": "View context object"
+          },
+          {
+            "name": "jsvtagcontextobject",
+            "label": "Tag context object"
+          },
+          {
+            "name": "jsvlinkcontextobject",
+            "label": "Link context object"
+          }
+        ],
+        "expanded": false
+      }
+    ],
+    "expanded": true
+  },
+  {
+    "name": "jsoapi",
+    "label": "JsObservable API - Observing data",
+    "categories": [
+      {
+        "name": "propchange",
+        "label": "Modify an object observably",
+        "categories": [
+          {
+            "name": "setprop",
+            "label": "$.observable(object).setProperty()"
+          }
+        ],
+        "expanded": false
+      },
+      {
+        "name": "collchange",
+        "label": "Modify an array observably",
+        "categories": [
+          {
+            "name": "insert",
+            "label": "$.observable(array).insert()"
+          },
+          {
+            "name": "remove",
+            "label": "$.observable(array).remove()"
+          },
+          {
+            "name": "refresh",
+            "label": "$.observable(array).refresh()"
+          },
+          {
+            "name": "move",
+            "label": "$.observable(array).move()"
+          }
+        ],
+        "expanded": false
+      },
+      {
+        "name": "observeobjectsarrays",
+        "label": "Observe objects and arrays",
+        "categories": [
+          {
+            "name": "onpropchange",
+            "label": "onPropertyChange",
+            "categories": [
+              {
+                "name": "propchangehandler",
+                "label": "PropertyChangeEventHandler"
+              },
+              {
+                "name": "propchangeevargs",
+                "label": "PropertyChangeEventArguments"
+              }
+            ],
+            "expanded": true
+          },
+          {
+            "name": "onarrchange",
+            "label": "onArrayChange"
+          },
           {
             "name": "observe",
-            "label": "Observing data"
+            "label": "$.observable.observe()"
+          },
+          {
+            "name": "unobserve",
+            "label": "unobserve()"
+          }
+        ],
+        "expanded": false
+      }
+    ],
+    "expanded": true
+  },
+  {
+    "name": "samples",
+    "label": "Samples",
+    "categories": [
+      {
+        "name": "samples/tagcontrols",
+        "label": "Tag controls",
+        "categories": [
+          {
+            "name": "samples/tagcontrols/tabs",
+            "label": "tabs control"
           }
         ],
         "expanded": false
