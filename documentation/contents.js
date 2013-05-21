@@ -14,7 +14,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "para",
         "title": "",
-        "text": "To get a template object from a template string, or a template declared in a script block, see <a href=\"#tmplcompile\">Compile/register/get a template</a>."
+        "text": "To get a template object from a template string, or a template declared in a script block, see <a href=\"#compiletmpl\">Compile/register/get a template</a>."
       },
       {
         "_type": "api",
@@ -323,7 +323,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "label": "Template tags"
           },
           {
-            "hash": "jsvtmplrender",
+            "hash": "jsvrendertmpl",
             "label": "Render a template"
           },
           {
@@ -339,7 +339,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "label": "Access views"
           },
           {
-            "hash": "jsvtmplcompile",
+            "hash": "jsvcompiletmpl",
             "label": "Compile/register/get a template"
           },
           {
@@ -372,18 +372,18 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "label": "Built-in tags"
           },
           {
-            "hash": "tmplrender",
+            "hash": "rendertmpl",
             "label": "Render a template"
           },
           {
-            "hash": "tmplcompile",
+            "hash": "compiletmpl",
             "label": "Compile a template"
           }
         ]
       }
     ]
   },
-  "tmplcompile": {
+  "compiletmpl": {
     "title": "templates(): Compile/get a template",
     "path": "",
     "sections": [
@@ -2436,7 +2436,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       }
     ]
   },
-  "jsvtmplcompile": {
+  "jsvcompiletmpl": {
     "title": "Compile/register/get a template",
     "path": "",
     "sections": []
@@ -2552,7 +2552,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       }
     ]
   },
-  "jsvtmplrender": {
+  "jsvrendertmpl": {
     "title": "Render a template",
     "path": "",
     "sections": []
@@ -3219,7 +3219,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": false
       },
       {
-        "name": "tmplcompile",
+        "name": "compiletmpl",
         "label": "Compile/register/get a template",
         "categories": [
           {
@@ -3318,7 +3318,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": false
       },
       {
-        "name": "jsvtmplrender",
+        "name": "jsvrendertmpl",
         "label": "Render a template",
         "expanded": false
       },
@@ -3376,7 +3376,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": false
       },
       {
-        "name": "jsvtmplcompile",
+        "name": "jsvcompiletmpl",
         "label": "Compile/register/get a template",
         "expanded": false
       },
