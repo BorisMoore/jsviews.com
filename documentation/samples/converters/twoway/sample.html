@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+  <script src="../../../../jsviews.js"></script>
+
+  <link href="sample.css" rel="stylesheet" />
+  <script src="../../resources/iframeLoadScript.js" type="text/javascript"></script>
+</head>
+<body>
+<table class="three">
+  <thead><tr><th>Data</th><th>DayOff</th><th>Choose day off</th></tr></thead>
+  <tbody id="linked"></tbody>
+</table>
+<div><em>To edit, enter part of the name, or the number, or click here:</em> <button id="changeDay">Change day</button></div>
+
+<script id="linkedTmpl" type="text/x-jsrender">
+  <tr>
+    <td data-link="dayOff"></td>
+    <td data-link="{intToDay:dayOff}"></td>
+    <td><input data-link="{intToDay:dayOff:dayToInt} title{:dayOff}" /></td>
+  </tr>
+</script>
+
+</body>
+</html>

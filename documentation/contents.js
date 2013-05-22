@@ -18,6 +18,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "api",
+        "typeLabel": "API:",
         "title": "template.render(data)",
         "name": "render",
         "object": "template",
@@ -126,6 +127,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "api",
+        "typeLabel": "API:",
         "title": "template.render(data, helpersOrContext)",
         "name": "render",
         "object": "template",
@@ -2142,7 +2144,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     ]
   },
   "samples/tagcontrols/tabs": {
-    "title": "A JsViews \"tabs\" tag control",
+    "title": "Sample: A JsViews \"tabs\" tag control",
     "path": "",
     "sections": [
       {
@@ -2185,15 +2187,23 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "links": [],
         "topics": [
           {
-            "hash": "samples/tagcontrols",
-            "label": "Tag controls"
+            "hash": "samples/jsr",
+            "label": "JsRender"
+          },
+          {
+            "hash": "samples/jso",
+            "label": "JsObservable"
+          },
+          {
+            "hash": "samples/jsv",
+            "label": "JsViews"
           }
         ]
       }
     ]
   },
   "samples/tagcontrols": {
-    "title": "Tag controls",
+    "title": "Samples: Tag controls",
     "path": "",
     "sections": [
       {
@@ -2654,12 +2664,12 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     "sections": []
   },
   "helpers()": {
-    "title": "$.views.helpers()",
+    "title": "Registering helpers: $.views.helpers()",
     "path": "",
     "sections": []
   },
   "tags()": {
-    "title": "$.views.tags()",
+    "title": "Registering custom tags: $.views.tags()",
     "path": "",
     "sections": []
   },
@@ -2679,12 +2689,218 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     "sections": []
   },
   "converters()": {
-    "title": "$.views.converters()",
+    "title": "Registering converters: $.views.converters()",
     "path": "",
     "sections": [
       {
-        "_type": "links",
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "$.views.converters(name, converterFn)",
+        "name": "converters",
+        "object": "$.views",
+        "method": true,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Register a converter",
+            "params": [
+              {
+                "_type": "param",
+                "name": "name",
+                "type": "string",
+                "optional": false,
+                "description": "name of converter - to be used in template markup: {{<b>name:</b> ...}}"
+              },
+              {
+                "_type": "param",
+                "name": "converter",
+                "type": "function",
+                "optional": false,
+                "description": "Converter function. Takes <b>val</b> parameter and returns converted value"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.converters(\"upper\", function(val) {\n  return val.toUpperCase();\n});\n\n{{upper: \"upper case: \" + nickname}}",
+            "description": "Register a converter, to be used in templates with the syntax:<br/>{{converterName: someExpression}}"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.views.converters(\"upper\", function(val) {\n  return val.toUpperCase();\n});"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{upper:nickname}}\n{{upper: \"this will be upper case too\"}}"
+          }
+        ],
+        "code": "$.views.converters(\"upper\", function(val) {\n  return val.toUpperCase();\n});\n\nvar person = {name: \"Robert\", nickname: \"Bob\"};\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);",
+        "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{:name}}<br/>\n  Upper case nickname: {{upper:nickname}}<br/>\n  {{upper: \"this will be upper case too\"}} \n</script>",
+        "height": "90",
+        "title": "Using a custom converter"
+      },
+      {
+        "_type": "para",
         "title": "",
+        "text": "<em>Note:</em> the <em>this</em> pointer within the converter function is the instance of the tag, and can be used in more advanced usage of converters as in the following example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "You can access multiple parameters and properties from the converter function."
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.views.converters(\"full\", function(first, last) {\n  var format = this.tagCtx.props.format;  \n  return ...;\n});"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "(You can also access the full data object: <em>this.tagCtx.view.data</em>)"
+          }
+        ],
+        "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Normal:</label> {{full:first last}}<br/>\n  <label>Reverse:</label> {{full:first last format=\"reverse\"}}<br/> \n</script>",
+        "code": "$.views.converters(\"full\", function(first, last) {\n  var format = this.tagCtx.props.format;  \n  return format === \"reverse\" ? last.toUpperCase() + \" \" + first : first + \" \" + last;\n});\n\nvar person = {first: \"Xavier\", last: \"Prieto\"};\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);",
+        "height": "70",
+        "title": "Accessing more context from the converter"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "$.views.converters(namedConverters)",
+        "name": "converters",
+        "object": "$.views",
+        "method": true,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "namedConverters",
+                "type": "object",
+                "optional": false,
+                "description": "Object (hash) of keys (name of converter) and values (converter function)"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.converters({\n  upper: function(val) {...},\n  lower: function(val) {...}\n});",
+            "description": "Register multiple converters"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "You can pass in an existing template as an additional <em>parentTemplate</em> parameter, on  <em>any</em> call to  <em>$.views.converters(...)</em>."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In that way the converter you are registering becomes a 'private converter resource' for the <em>parentTemplate</em>, rather than being registed globally:"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "",
+        "name": "converters",
+        "object": "$.views",
+        "method": true,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Add one or more converters as private resources for a parent template",
+            "params": [
+              {
+                "_type": "param",
+                "name": "namedConverters",
+                "type": "object",
+                "optional": false,
+                "description": "Object (hash) of keys (name of converter) and values (converter function)"
+              },
+              {
+                "_type": "param",
+                "name": "parentTemplate",
+                "type": "object or string",
+                "optional": true,
+                "description": "Owner template - to which this/these converter(s) are being added as private resources"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.converters({\n  upper: function(val) {...},\n  lower: function(val) {...}\n}, parentTemplate);",
+            "description": "Add multiple converters as resources, to a parent template"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "See also the following samples:",
+        "text": "<a href=\"#samples/jsr/converters\"><em>Converters and encoding</em></a><br/>\n<a href=\"#samples/converters/twoway\"><em>Two-way binding and converters</em></a><br/>\n<a href=\"#samples/converters/formels\"><em>Form elements and converters</em></a><br/>"
+      },
+      {
+        "_type": "links",
+        "title": "Built-in converters:",
         "links": [],
         "topics": [
           {
@@ -2729,7 +2945,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     ]
   },
   "$templates": {
-    "title": "$.templates()",
+    "title": "Registering templates: $.templates()",
     "path": "",
     "sections": [
       {
@@ -2739,6 +2955,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "api",
+        "typeLabel": "API:",
         "title": "$.templates(...)",
         "name": "templates",
         "object": "$",
@@ -2902,6 +3119,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "api",
+        "typeLabel": "API:",
         "title": "$.templates(namedTemplates)",
         "name": "templates",
         "object": "$",
@@ -2993,6 +3211,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "api",
+        "typeLabel": "API:",
         "title": "",
         "name": "templates",
         "object": "$",
@@ -3193,6 +3412,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "api",
+        "typeLabel": "API:",
         "title": "$(tmplSelector).render(data, helpersOrContext)",
         "name": "render",
         "object": "$(tmplSelector)",
@@ -3308,6 +3528,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "api",
+        "typeLabel": "API:",
         "title": "$.render.myTmpl(data, helpersOrContext)",
         "name": "myTmpl",
         "object": "$.render",
@@ -3561,6 +3782,244 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "hash": "$templates",
             "label": "$.templates()"
+          }
+        ]
+      }
+    ]
+  },
+  "samples/jsr/converters": {
+    "title": "Sample: Converters and encoding",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Using built-in HTML and URL and attribute encoders",
+        "text": "JsRender includes built-in converters, for HTML encoding, attribute encoding and URL encoding. A common use for these converters is to protect against injection attacks from untrusted data.\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "It is generally best to use <b>{{> }}</b> when rendering data within element content, if the data is not intended to provide markup for insertion in the DOM.\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In the context of HTML attributes, use <b>{{attr: }}</b>, or it the case of attributes corresponding to URLs,  <b>{{url: }}</b>"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "Specifying converters:",
+            "text": "<ul>\n<li><em>{{:value}}</em> &mdash; does not convert. Used to render values that include html markup.</li>\n<li><em>{{loc:value lang=\"...\"}}</em> &mdash; Uses custom converter, below.</li>\n<li><em>{{html:value}}</em> &mdash; Converts using built-in HTML encoder.\n    <br/>(Better security within element content, but slight perf cost).</li>\n<li><em>{{>value}}</em> &mdash; Alternative syntax for built-in HTML encoder.</li>\n<li><em>{{attr:availability}}</em> &mdash; Converts using built-in attribute encoder.\n    <br/>(Better security within attributes).</li>\n<li><em>{{url:value lang=\"...\"}}</em> &mdash; Converts using built-in URL encoder.</li>\n</ul>\n"
+          },
+          {
+            "_type": "code",
+            "title": "Declaring custom converters",
+            "code": "$.views.converters({\n  loc: function (value) {\n    var language = this.tagCtx.props.lang;\n    ... (return localized value based on language)\n  }\n});\n"
+          }
+        ],
+        "sampleName": "jsrender/converters",
+        "url": "samples/jsrender/converters/sample",
+        "height": "410",
+        "title": "Using {{: }} or {{> }} to render data values with optional conversion or encoding"
+      }
+    ]
+  },
+  "samples/jsrandjsvconverters": {
+    "title": "Converters in JsRender and JsViews",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": []
+      }
+    ]
+  },
+  "samples/converters/formels": {
+    "title": "Sample: Binding to form elements, with converters",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Different <em>convert</em> and <em>convertBack</em> converters are registered, and then used in the form element data-binding as follows:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<input data-link=\"{intToStr:amount:strToInt}\">\n\n<input type=\"radio\" name=\"intVal\" value=\"0\" data-link=\"{intToStr:amount:strToInt}\">\n\n<select data-link=\"{intToStr:amount:strToInt}\">\n  <option>0</option>\n  ...\n</select>\n\n<input type=\"checkbox\" data-link=\"{getBit:amount bit=1 :setBit}\"> bit 1<br>"
+          }
+        ],
+        "sampleName": "converters/formels",
+        "url": "samples/converters/formels/sample",
+        "height": "680",
+        "title": "Two-way binding and converters"
+      }
+    ]
+  },
+  "samples/converters/twoway": {
+    "title": "Sample: Two-way binding and converters",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "Using converters for tag rendering",
+            "text": "HTML encoding, no custom converter:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<td>{{>dayOff}}</td>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Render from data, convert to display name:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<td>{{intToDay:dayOff}}</td>"
+          },
+          {
+            "_type": "para",
+            "title": "Using convert and convertBack with data-linking",
+            "text": "Link from data value, no converter:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<td data-link=\"dayOff\"></td>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Link from data, converted to display name:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<td data-link=\"{intToDay:dayOff}\"></td>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Two-way data linking with convert and convertBack between data format (integer) and display name (text).<br/>Also show data value as tooltip:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<td><input data-link=\"{intToDay:dayOff:dayToInt} title{:dayOff}\" /></td>"
+          }
+        ],
+        "sampleName": "converters/twoway",
+        "url": "samples/converters/twoway/sample"
+      }
+    ]
+  },
+  "samples/jsv/converters": {
+    "title": "Samples: Converters",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "samples/converters/twoway",
+            "label": "Two-way binding and converters"
+          },
+          {
+            "hash": "samples/converters/formels",
+            "label": "Form elements and converters"
+          }
+        ]
+      }
+    ]
+  },
+  "samples/jsv": {
+    "title": "JsViews",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "samples/jsv/converters",
+            "label": "Converters"
+          },
+          {
+            "hash": "samples/tagcontrols",
+            "label": "Tag controls"
+          }
+        ]
+      }
+    ]
+  },
+  "samples/jso": {
+    "title": "Samples: JsObservable",
+    "path": "",
+    "sections": []
+  },
+  "samples/jsr": {
+    "title": "Samples: JsRender",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "samples/jsr/converters",
+            "label": "Converters and encoding"
           }
         ]
       }
@@ -3819,7 +4278,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "Custom tags"
           }
         ],
-        "expanded": false
+        "expanded": true
       },
       {
         "name": "rendertmpl",
@@ -3838,7 +4297,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "$(\"#myTmpl\").render()"
           }
         ],
-        "expanded": false
+        "expanded": true
       },
       {
         "name": "compiletmpl",
@@ -3849,7 +4308,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "$.templates()"
           }
         ],
-        "expanded": false
+        "expanded": true
       },
       {
         "name": "jsrregister",
@@ -3883,7 +4342,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "$.views.helpers()"
           }
         ],
-        "expanded": false
+        "expanded": true
       },
       {
         "name": "jsrobjects",
@@ -4145,15 +4604,52 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
     "label": "Samples",
     "categories": [
       {
-        "name": "samples/tagcontrols",
-        "label": "Tag controls",
+        "name": "samples/jsr",
+        "label": "JsRender",
         "categories": [
           {
-            "name": "samples/tagcontrols/tabs",
-            "label": "tabs control"
+            "name": "samples/jsr/converters",
+            "label": "Converters and encoding"
           }
         ],
-        "expanded": false
+        "expanded": true
+      },
+      {
+        "name": "samples/jso",
+        "label": "JsObservable"
+      },
+      {
+        "name": "samples/jsv",
+        "label": "JsViews",
+        "categories": [
+          {
+            "name": "samples/jsv/converters",
+            "label": "Converters",
+            "categories": [
+              {
+                "name": "samples/converters/twoway",
+                "label": "Two-way binding and converters"
+              },
+              {
+                "name": "samples/converters/formels",
+                "label": "Form elements and converters"
+              }
+            ],
+            "expanded": true
+          },
+          {
+            "name": "samples/tagcontrols",
+            "label": "Tag controls",
+            "categories": [
+              {
+                "name": "samples/tagcontrols/tabs",
+                "label": "tabs control"
+              }
+            ],
+            "expanded": true
+          }
+        ],
+        "expanded": true
       }
     ],
     "expanded": false
