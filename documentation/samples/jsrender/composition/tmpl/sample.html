@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+  <script src="../../../../../jsviews.js"></script>
+
+  <link href="sample.css" rel="stylesheet" />
+  <script src="../../../resources/iframeLoadScript.js" type="text/javascript"></script>
+</head>
+<body>
+<script id="movieTemplate" type="text/x-jsrender">
+  <tr>
+    {{include tmpl="#headerTemplate"/}}
+    <td>
+      {{for languages tmpl="#columnTemplate"/}}
+    </td>
+    <td>
+      {{for languages tmpl=tmpl/}}
+    </td>
+    <td>
+      {{for languages tmpl='#conditionalTemplate'/}}
+    </td>
+    {{include tmpl="#sectionWrapperTemplate"}}
+      {{>title}}
+    {{/include}}
+    <td>
+      {{for languages tmpl='#indexWrapperTemplate'}}
+        <b>{{>name}}</b>
+      {{/for}}
+    </td>
+  </tr>
+</script>
+
+<script id="headerTemplate" type="text/x-jsrender">
+  <td>{{>title}}</td>
+</script>
+
+<script id="sectionWrapperTemplate" type="text/x-jsrender">
+  <td>Section: <em>{{include tmpl=#content/}}</em></td>
+</script>
+
+<script id="columnTemplate" type="text/x-jsrender">
+  <div>
+    <em>{{>name}}</em>
+  </div>
+</script>
+
+<script id="rowTemplate" type="text/x-jsrender">
+  <span>
+    <b>{{>name}}</b>
+  </span>
+</script>
+
+<script id="conditionalTemplate" type="text/x-jsrender">
+  {{if name.charAt(0)==='E' tmpl='#rowTemplate'}}
+  {{else tmpl='#columnTemplate'}}
+  {{/if}}
+</script>
+
+<script id="indexWrapperTemplate" type="text/x-jsrender">
+  <div>
+    {{:#index}}:
+    {{include tmpl=#content/}}
+  </div>
+</script>
+
+<table>
+  <thead><tr><th>Synopsis</th><th>Fixed Template</th><th>Template specified in data</th><th>Conditional Template</th><th>Wrapper Template</th><th>Repeating Wrapper Template</th></tr></thead>
+  <tbody id="movieList"></tbody>
+</table>
+
+</body>
+</html>

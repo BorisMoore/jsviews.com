@@ -2685,7 +2685,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "code",
         "title": "",
-        "code": "var myHtmlEncodedString = $.views.converters.url(myString);"
+        "code": "var myUrlEncodedString = $.views.converters.url(myString);"
       },
       {
         "_type": "para",
@@ -3511,7 +3511,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "para",
         "title": "",
-        "text": "You can use <em>$.templates()</em> to compile or register not only a template, but in addition some <em>helpers</em>, <em>converters</em>, <em>custom tags</em> or nested <em>templates</em>, to be made available to the new template as private resources."
+        "text": "You can use <em>$.templates()</em> to compile or register not only a template, but in addition some <em>helpers</em>, <em>converters</em>, <em>custom tags</em> or nested <em>sub-templates</em>, to be made available to the new template as private resources."
       },
       {
         "_type": "para",
@@ -3571,7 +3571,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           },
           {
             "_type": "signature",
-            "title": "Add additional templates as resources to another template",
+            "title": "Add additional templates as 'sub templates' - resources to another template",
             "params": [
               {
                 "_type": "param",
@@ -3673,7 +3673,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         ],
         "code": "var personTmpl = $.templates(\"#personTemplate\");\n\n$.templates(\"labelTmpl\", \"<label>Name: </label>\", personTmpl);\n\nvar person = {name: \"Robert\"};\n\nvar html = personTmpl.render(person);\n\n$(\"#peopleList\").html(html);",
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{include tmpl=\"labelTmpl\"/}} {{:name}}\n</script>",
-        "title": "Add a \"labelTmpl\" template resource as a private resource for an existing \"personTemplate\"",
+        "title": "Add a \"labelTmpl\" template resource as a 'sub template' - a private resource for an existing \"personTemplate\"",
         "height": "70"
       },
       {
@@ -3690,6 +3690,11 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "_type": "topic",
             "hash": "compiletmpl",
             "label": "Compile/register/get a template"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/jsr/composition/subtemplates",
+            "label": "Sample: sub-templates"
           }
         ]
       }
@@ -4141,7 +4146,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "sampleName": "jsrender/converters",
         "url": "samples/jsrender/converters/sample",
         "height": "410",
-        "title": "Using {{: }} or {{> }} to render data values with optional conversion or encoding"
+        "title": "Using {{: }} or {{> }} to render data values with optional conversion or encoding",
+        "onlyJsRender": true
       }
     ]
   },
@@ -4331,6 +4337,153 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "label": "Converters and encoding"
           }
         ]
+      }
+    ]
+  },
+  "samples/jsr/composition/tmpl": {
+    "title": "Sample: Template composition using external templates",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Composition by providing <em>tmpl</em> parameters referencing external templates, rather than inline block content, as in:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{for languages tmpl=\"#columnTemplate\"/}}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "or:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{if name.charAt(0)==='E' tmpl='#rowTemplate'}}\n{{else tmpl='#columnTemplate'}}\n{{/if}}\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Also shows <em>wrapping</em>, where an external template is used which then <em>wraps</em> the rendered block content, as in:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{include tmpl=\"#sectionWrapperTemplate\"}}\n  {{>title}}\n{{/include}}\n"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<script id=\"sectionWrapperTemplate\" type=\"text/x-jsrender\">\n  <td>Section: <em>{{include tmpl=#content/}}</em></td>\n</script>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "or as in:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{for languages tmpl='#indexWrapperTemplate'}}\n  <b>{{>name}}</b>\n{{/for}}"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<script id=\"indexWrapperTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:#index}}:\n    {{include tmpl=#content/}}\n  </div>\n</script>"
+          }
+        ],
+        "sampleName": "jsrender/composition/tmpl",
+        "url": "samples/jsrender/composition/tmpl/sample",
+        "onlyJsRender": true,
+        "height": "235",
+        "title": ""
+      }
+    ]
+  },
+  "samples/jsr/composition/subtemplates": {
+    "title": "Sample: Template composition, using sub-templates",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "Using sub-templates",
+            "code": "$.templates( \"movieTemplate\", {\n  markup: \"#movieTemplate\",\n  templates: {\n    columnTemplate: \"#columnTemplate\",\n    ...\n  }\n});\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Now <em>\"columnTemplate\"</em> is a named template available only to the <em>\"movieTemplate\"</em>. (See <a href=\"#$templates\">$.templates()</a>)."
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<script id=\"movieTemplate\" type=\"text/x-jsrender\">\n  ...\n  {{for languages tmpl=\"columnTemplate\"/}}\n  ...\n</script>"
+          }
+        ],
+        "sampleName": "jsrender/composition/subtmpl",
+        "url": "samples/jsrender/composition/subtmpl/sample",
+        "height": "200"
+      }
+    ]
+  },
+  "samples/jsr/composition/tmplobjects": {
+    "title": "Sample: Composition, using contextual template objects",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var subTemplates = {\n  columnTemplate: $.templates(\"#columnTemplate\"),\n  ...\n};\n\nvar html = movieTemplate.render(movies, subTemplates);"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<script id=\"movieTemplate\" type=\"text/x-jsrender\">\n  ...\n  {{for languages tmpl=~columnTemplate/}}\n  ...\n</script>"
+          }
+        ],
+        "sampleName": "jsrender/composition/tmplobjects",
+        "onlyJsRender": true,
+        "url": "samples/jsrender/composition/tmplobjects/sample",
+        "height": "200"
       }
     ]
   }
@@ -4544,7 +4697,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "label": "MVVM and MVP"
       }
     ],
-    "expanded": true
+    "expanded": false
   },
   {
     "name": "jsrapi",
@@ -4606,7 +4759,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "$(\"#myTmpl\").render()"
           }
         ],
-        "expanded": false
+        "expanded": true
       },
       {
         "name": "compiletmpl",
@@ -4919,6 +5072,25 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
           {
             "name": "samples/jsr/converters",
             "label": "Converters and encoding"
+          },
+          {
+            "name": "samples/jsr/composition",
+            "label": "Template composition",
+            "categories": [
+              {
+                "name": "samples/jsr/composition/tmpl",
+                "label": "tmpl parameter"
+              },
+              {
+                "name": "samples/jsr/composition/subtemplates",
+                "label": "Using sub-templates"
+              },
+              {
+                "name": "samples/jsr/composition/tmplobjects",
+                "label": "Contextual template objects"
+              }
+            ],
+            "expanded": true
           }
         ],
         "expanded": true
