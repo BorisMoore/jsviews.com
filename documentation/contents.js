@@ -2674,19 +2674,328 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     "sections": []
   },
   "url()": {
-    "title": "views.converters.url()",
+    "title": "$.views.converters.url()",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Built-in URL encoder",
+        "text": "JsRender includes a URL encoder, which you can use programmatically as follows:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "var myHtmlEncodedString = $.views.converters.url(myString);"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The same encoder is accessed by declaratively as a converter:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "{{url:myExpression}}"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var result = $.views.converters.url(value);\n\nalert(result);"
+          }
+        ],
+        "code": "var value = \"<_>_\\\"_ \";\nvar result = $.views.converters.url(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});",
+        "html": "<button id=\"show\">Show result</button>\n",
+        "height": "40"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "URL encoder",
+        "name": "url",
+        "object": "$.views.converters",
+        "method": true,
+        "returns": "URL-encoded string",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "valueToEncode",
+                "type": "string",
+                "optional": false,
+                "description": "input string to be URL-encoded"
+              }
+            ],
+            "args": [],
+            "sections": [
+              {
+                "_type": "para",
+                "title": "",
+                "text": "Internally encodes by calling the JavaScript function <em>encodeURI</em>."
+              }
+            ],
+            "example": "var encoder = $.views.converters.url;\nvar encodedString = encoder(myString);",
+            "description": "Returns the URL-encoded string"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "links",
+        "title": "See the following sample:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "samples/jsr/converters",
+            "label": "Converters and encoding"
+          }
+        ]
+      }
+    ]
   },
   "attr()": {
-    "title": "views.converters.attr()",
+    "title": "$.views.converters.attr()",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Built-in attribute encoder",
+        "text": "JsRender includes an encoder intended for use when attribute encoding is needed. You can use it programmatically as follows:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "var myAttributeEncodedString = $.views.converters.attr(myString);"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The same encoder is accessed by declaratively as a converter:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "{{attr:myExpression}}\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var result = $.views.converters.attr(value);\n\nalert(result);"
+          }
+        ],
+        "code": "var value = \"< > ' \\\" &\";\nvar result = $.views.converters.attr(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});",
+        "html": "<button id=\"show\">Show result</button>\n\n",
+        "height": "40"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "Attribute encoder",
+        "name": "attr",
+        "object": "$.views.converters",
+        "method": true,
+        "returns": "Attribute-encoded string",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "valueToEncode",
+                "type": "string",
+                "optional": false,
+                "description": "input string to be attribute-encoded"
+              }
+            ],
+            "args": [],
+            "sections": [
+              {
+                "_type": "para",
+                "title": "",
+                "text": "Encodes according to the following scheme:\n<br/><br/>\n&amp; &rarr; &amp;amp;<br/>\n&lt; &rarr; &amp;lt;<br/>\n&gt; &rarr; &amp;gt;<br/>\n\\x00 &rarr; &amp;#0;<br/>\n' &rarr; &amp;#39;<br/>\n\" &rarr; &amp;#34;<br/>\n` &rarr; &amp;#96;"
+              },
+              {
+                "_type": "para",
+                "title": "",
+                "text": "Note that this scheme encodes more characters than is sometimes the case for attribute encoding. In fact currently <em>{{attr: ...}}</em> and <em>{{html: ...}}</em> are equivalent. This ensures that using attribute encoding when HTML encoding should have been used will not expose an injection attack risk from untrusted data."
+              }
+            ],
+            "example": "var encoder = $.views.converters.attr;\nvar encodedString = encoder(myString);",
+            "description": "Returns the attribute-encoded string"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "links",
+        "title": "See also the following sample:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "samples/jsr/converters",
+            "label": "Converters and encoding"
+          }
+        ]
+      }
+    ]
   },
   "html()": {
-    "title": "views.converters.html()",
+    "title": "$.views.converters.html()",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Built-in HTML encoder",
+        "text": "JsRender includes an HTML encoder, which you can use programmatically as follows:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "var myHtmlEncodedString = $.views.converters.html(myString);"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The same encoder is accessed declaratively as a converter, as in the following two examples:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "{{html:myExpression}}\n\n{{>myExpression}}"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In fact <em>{{>...}}</em> is exactly equivalent to <em>{{html:...}}</em> and is provided as a simpler syntax for HTML encoding values taken from data or from expressions and rendered within HTML content."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var result = $.views.converters.html(value);\n\nalert(result);"
+          }
+        ],
+        "code": "var value = \"< > ' \\\" &\";\nvar result = $.views.converters.html(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});",
+        "html": "<button id=\"show\">Show result</button>\n\n",
+        "height": "40"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "HTML encoder",
+        "name": "html",
+        "object": "$.views.converters",
+        "method": true,
+        "returns": "HTML-encoded string",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "valueToEncode",
+                "type": "string",
+                "optional": false,
+                "description": "input string to be HTML-encoded"
+              }
+            ],
+            "args": [],
+            "sections": [
+              {
+                "_type": "para",
+                "title": "",
+                "text": "Encodes according to the following scheme:\n<br/><br/>\n&amp; &rarr; &amp;amp;<br/>\n&lt; &rarr; &amp;lt;<br/>\n&gt; &rarr; &amp;gt;<br/>\n\\x00 &rarr; &amp;#0;<br/>\n' &rarr; &amp;#39;<br/>\n\" &rarr; &amp;#34;<br/>\n` &rarr; &amp;#96;"
+              }
+            ],
+            "example": "var encoder = $.views.converters.html;\nvar encodedString = encoder(myString);",
+            "description": "Returns the HTML-encoded string"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "links",
+        "title": "See the following topic and sample:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "htmltag",
+            "label": "The {{>...}} template tag"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/jsr/converters",
+            "label": "Converters and encoding"
+          }
+        ]
+      }
+    ]
   },
   "converters()": {
     "title": "Registering converters: $.views.converters()",
@@ -2905,15 +3214,15 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "topics": [
           {
             "hash": "html()",
-            "label": "views.converters.html()"
+            "label": "$.views.converters.html()"
           },
           {
             "hash": "attr()",
-            "label": "views.converters.attr()"
+            "label": "$.views.converters.attr()"
           },
           {
             "hash": "url()",
-            "label": "views.converters.url()"
+            "label": "$.views.converters.url()"
           }
         ]
       }
@@ -3821,7 +4130,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "para",
             "title": "Specifying converters:",
-            "text": "<ul>\n<li><em>{{:value}}</em> &mdash; does not convert. Used to render values that include html markup.</li>\n<li><em>{{loc:value lang=\"...\"}}</em> &mdash; Uses custom converter, below.</li>\n<li><em>{{html:value}}</em> &mdash; Converts using built-in HTML encoder.\n    <br/>(Better security within element content, but slight perf cost).</li>\n<li><em>{{>value}}</em> &mdash; Alternative syntax for built-in HTML encoder.</li>\n<li><em>{{attr:availability}}</em> &mdash; Converts using built-in attribute encoder.\n    <br/>(Better security within attributes).</li>\n<li><em>{{url:value lang=\"...\"}}</em> &mdash; Converts using built-in URL encoder.</li>\n</ul>\n"
+            "text": "<ul>\n<li><em>{{:value}}</em> &mdash; does not convert. Used to render values that include html markup.</li>\n<li><em>{{loc:value lang=\"...\"}}</em> &mdash; Uses custom converter, below.</li>\n<li><em>{{html:value}}</em> &mdash; Converts using built-in HTML encoder. (Better security within element content, but slight perf cost).</li>\n<li><em>{{>value}}</em> &mdash; Alternative syntax for built-in HTML encoder.</li>\n<li><em>{{attr:availability}}</em> &mdash; Converts using built-in attribute encoder. (Better security within attributes).</li>\n<li><em>{{url:value}}</em> &mdash; Converts using built-in URL encoder.</li>\n</ul>\n"
           },
           {
             "_type": "code",
@@ -4178,7 +4487,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "Custom tags as controls"
           }
         ],
-        "expanded": false
+        "expanded": true
       },
       {
         "name": "tagexpressions",
@@ -4297,7 +4606,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "$(\"#myTmpl\").render()"
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "compiletmpl",
@@ -4320,15 +4629,15 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "categories": [
               {
                 "name": "html()",
-                "label": "views.converters.html()"
+                "label": "$.views.converters.html()"
               },
               {
                 "name": "attr()",
-                "label": "views.converters.attr()"
+                "label": "$.views.converters.attr()"
               },
               {
                 "name": "url()",
-                "label": "views.converters.url()"
+                "label": "$.views.converters.url()"
               }
             ],
             "expanded": true
@@ -4387,7 +4696,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": false
       }
     ],
-    "expanded": false
+    "expanded": true
   },
   {
     "name": "jsvapi",
@@ -4652,6 +4961,6 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": true
       }
     ],
-    "expanded": false
+    "expanded": true
   }
 ];

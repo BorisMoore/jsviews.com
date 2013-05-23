@@ -2,7 +2,6 @@
 	// global is the this object, which is window when running in the usual browser environment.
 "use strict";
 
-// If editing is allowed, use local storage to get latest value, otherwise get content from the data.js file
 var sectionTypes = { 
 	para: { 
 		_type: "para",
