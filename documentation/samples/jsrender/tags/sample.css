@@ -1,11 +1,6 @@
-﻿body {
+body {
 	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
 	font-size: 15px;
-}
-
-label {
-	font-style: italic;
-	font-weight: bold;
 }
 
 table tr {
@@ -36,30 +31,4 @@ table td {
 	padding: 3px;
 	border: solid #77c 1px;
 	border: solid #77C 1px;
-}
-
-table input {
-	width: 96%;
-	border: 1px solid #000;
-	padding: 4px;
-}
-
-td label {
-	color: black;
-	width: 48%;
-	display: inline-block;
-}
-
-td label input {
-	width: 55%;
-	color: black;
-	margin-left: 10px;
-}
-
-td select {
-	width: 100%;
-}
-
-td.center {
-	text-align: center;
 }

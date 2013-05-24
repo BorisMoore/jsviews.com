@@ -2666,12 +2666,667 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
   "helpers()": {
     "title": "Registering helpers: $.views.helpers()",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "What are helpers?",
+        "text": "JsRender templates are made up of HTML markup, text, and <em>template tags</em>. <em>Template tags</em> are used to evaluate data-paths or computed expressions, and insert those values into the rendered output."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "But often the values you will want to insert are not actually take from the data, but rather from other parameters or <em>metadata</em> which you want to use. And often you will want to process the values, using helper functions or other code, e.g. for converting values to other formats, or for computed values."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<em>Helpers</em>, in JsRender, refers to any functions, parameters or metadata which you want to provide, in addition to the actual data you passed to the <em>render</em> method (or <em>link</em> method if you are using JsViews)."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Helpers can also be objects, arrays, etc."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "You access helpers by prepending the \"~\" character. Here are some examples:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "{{:~myHelperValue}}\n{{:~myHelperFunction(name, title)}}\n{{for ~myHelperObject.mySortFunction(people, \"increasing\")}} ... {{/for}}"
+      },
+      {
+        "_type": "para",
+        "title": "Passing in helpers",
+        "text": "There are three ways to provide helpers:\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<ul>\n<li>Global helpers - registered using <em>$.views.helpers({myHelper1: ..., myHelper2: ...});</em></li>\n<li>Helpers registered for a specific template - <a href=\"#tmplrender\"><em>$.templates(\"mytmpl\", {markup: ..., helpers: {myHelper1: ...}});</em></a></li>\n<li>Helpers passed in on a specific render or link call - <a href=\"#tmplrender\"><em>tmpl.render(data, {myHelper1: ...});</em></a></li>\n</ul>"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.views.helpers({format: myFormatFunction});\n"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{:~format(name, true)}}"
+          }
+        ],
+        "title": "Global helper: $.views.helpers(...)",
+        "code": "function myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n$.views.helpers({format: myFormatFunction});\n\nvar html = $(\"#personTemplate\").render({name: \"Robert\"});\n\n$(\"#person\").html(html);",
+        "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{:~format(name, true)}}\n</script>",
+        "onlyJsRender": true,
+        "height": "40"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.templates({\n  mytmpl: {\n    markup: \"#personTemplate\",\n    helpers: {\n      format: myFormatFunction\n    }\n  }\n});"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{:~format(name)}}\n{{:~format(name, true)}}"
+          }
+        ],
+        "title": "helper resource for a specific template",
+        "code": "function myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\n$.templates({\n  mytmpl: {\n    markup: \"#personTemplate\",\n    helpers: {\n      format: myFormatFunction\n    }\n  }\n});\n\nvar html = $.render.mytmpl({name: \"Robert\"});\n\n$(\"#person\").html(html);",
+        "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{:~format(name)}}\n  {{:~format(name, true)}}\n</script>",
+        "onlyJsRender": true,
+        "height": "40"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var html = $(\"#personTemplate\").render(\n  {name: \"Robert\"}, \n  {format: myFormatFunction}\n);"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{:~format(name, true)}}\n{{:~format(name)}}\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "See <a href=\"#tmplrender\"><em>template.render(...)</em></a>"
+          }
+        ],
+        "title": "Passing helpers with  a render() call",
+        "code": "function myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\nvar html = $(\"#personTemplate\").render(\n  {name: \"Robert\"}, \n  {format: myFormatFunction}\n);\n\n$(\"#person\").html(html);",
+        "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{:~format(name, true)}}\n  {{:~format(name)}}\n</script>",
+        "onlyJsRender": true,
+        "height": "40"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "$.views.helpers(name, helper)",
+        "name": "helpers",
+        "object": "$.views",
+        "method": true,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "name",
+                "type": "string",
+                "optional": false,
+                "description": "name of helper - to be used in template path expressions as ~name..."
+              },
+              {
+                "_type": "param",
+                "name": "helper",
+                "type": "any type",
+                "optional": false,
+                "description": "the helper - a function, object, or value"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.helpers(\"format\", myFormatFunction);",
+            "description": "Register a helper, to be used in templates with the syntax:<br/>~name"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "namedHelpers",
+                "type": "object",
+                "optional": false,
+                "description": "Object (hash) of keys (name of helper) and values (function, object, or value)"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.helpers({\n  format: myFormatFunction,\n  utilities: {},\n  mode: \"filtered\"\n});",
+            "description": "Register multiple helpers"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "namedHelpers",
+                "type": "object",
+                "optional": false,
+                "description": "Object (hash) of keys (name of helper) and values (function, object, or value)"
+              },
+              {
+                "_type": "param",
+                "name": "parentTemplate",
+                "type": "object or string",
+                "optional": true,
+                "description": "Owner template - to which this/these helper(s) are being added as private resources"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.helpers({\n  format: myFormatFunction,\n  ...\n}, parentTemplate);",
+            "description": "Add multiple helpers as resources, to a parent template"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is an example using a 'hierarchy' of helpers..."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Here is an example using a 'hierarchy' of helpers..."
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.views.helpers({\n  ...\n  utilities: {\n    maxCount: 23,\n    subtractMax: function(val) {\n      return val - this.maxCount;\n    },\n    errorMessages: {\n      msg1: \"not available\"\n    }\n  },\n  ...\n});"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{:~utilities.subtractMax(sold) > 0\n    ? ~utilities.errorMessages.msg1\n    : \"immediate\"\n}}\n"
+          }
+        ],
+        "code": "function myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\n$.views.helpers({\n  format: myFormatFunction,\n  utilities: {\n    maxCount: 23,\n    subtractMax: function(val) {\n      return val - this.maxCount;\n    },\n    errorMessages: {\n      msg1: \"not available\"\n    }\n  },\n  mode: \"filtered\"\n});\n\nvar html = $(\"#myTemplate\").render({title: \"gizmo\", sold: 27});\n\n$(\"#result\").html(html);",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"myTemplate\" type=\"text/x-jsrender\">\n  {{:~format(title, true)}}\n\n  - availability:\n  {{if ~mode===\"filtered\"}}\n    <em>\n      {{:~utilities.subtractMax(sold) > 0\n          ? ~utilities.errorMessages.msg1\n          : \"immediate\"\n      }}\n    </em>\n  {{/if}}\n</script>",
+        "title": "Register multiple helpers, including objects, etc.",
+        "height": "40"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "You can pass in an existing template as an additional <em>parentTemplate</em> parameter, on  <em>any</em> call to  <em>$.views.helpers(...)</em>."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In that way the helper you are registering becomes a 'private helper resource' for the <em>parentTemplate</em>, rather than being registered globally:"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "",
+        "name": "helpers",
+        "object": "$.views",
+        "method": true,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Add one or more helpers as private resources for a parent template",
+            "params": [
+              {
+                "_type": "param",
+                "name": "namedHelpers",
+                "type": "object",
+                "optional": false,
+                "description": "Object (hash) of keys (name of helper) and values (function, object, or value)"
+              },
+              {
+                "_type": "param",
+                "name": "parentTemplate",
+                "type": "object or string",
+                "optional": true,
+                "description": "Owner template - to which this/these helper(s) are being added as private resources"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.helpers({\n  format: myFormatFunction,\n  ...\n}, parentTemplate);",
+            "description": "Add multiple helpers as resources, to a parent template"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "hash": "tmplrender",
+            "label": "template.render(...)"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/jsr/helpers",
+            "label": "Sample: Passing helpers to template.render()"
+          }
+        ]
+      }
+    ]
   },
   "tags()": {
     "title": "Registering custom tags: $.views.tags()",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "What is a custom tag?",
+        "text": "JsRender custom tags are named tags <em>{{myTag ...}}</em>, which you can register, and then use in your templates."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "A tag renders itself as part of the template output. You determine how it renders, generally by providing either a <em>render</em> function or a template, when you declare your custom tag."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The render function, or the template, can access both named parameters (<em>props</em>) and unnamed parameters (<em>args</em>), as in:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "{myTag arg0 arg1 namedProp1=xxx namedProp2=yyy}} ... {{/myTag}}"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In fact it can also access the current data item - or even the whole hierarchy of views and data..."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "When you also use JsViews, custom tag acquire a whole new dimension. &mdash; They become <em>tag controls</em>, and you can build rich and complex single page apps cleanly and simply using custom tag controls - following an MVP or MVVM coding pattern. "
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "$.views.tags(name, tagFn)",
+        "name": "tags",
+        "object": "$.views",
+        "method": true,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "name",
+                "type": "string",
+                "optional": false,
+                "description": "name of tag - to be used in template markup: {{<b>name</b> ...}}"
+              },
+              {
+                "_type": "param",
+                "name": "tagFn",
+                "type": "function",
+                "optional": false,
+                "description": "Tag function. returns the rendered tag"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.tags(\"mytag\", function(...){\n  ...return rendered content\n});\n\n{{mytag ...}} ... {{/mytag}}",
+            "description": "Register a simple 'render' function as a custom tag,"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "name",
+                "type": "string",
+                "optional": false,
+                "description": "name of tag - to be used in template markup: {{<b>name</b> ...}}"
+              },
+              {
+                "_type": "param",
+                "name": "tagOptions",
+                "type": "object",
+                "optional": false,
+                "description": "An tagOptions object with a render method and/or a template property, and optionally other properties or methods"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.tags(\"mytag\", {\n  render: function(...){...},\n  template: ...\n});\n\n{{mytag ...}} ... {{/mytag}}",
+            "description": "Register a custom tag using a tagOptions object"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "namedTags",
+                "type": "object",
+                "optional": false,
+                "description": "Object (hash) of keys (name of tag) and values (render function or tagOptions object)"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.tags({\n  myTag1: function(val) {...},\n  myTag2: {render: function(val) {...}, ...}\n});",
+            "description": "Register multiple custom tags"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "The function is the <em>render</em> method for the tag"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "function renderBoldP(value) {\n   ... (return rendered content)\n}\n\n$.views.tags(\"boldp\", renderBoldP);"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{boldp title /}}"
+          }
+        ],
+        "title": "Simple custom tag ",
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp title /}}\n</script>",
+        "code": "function renderBoldP(value) {\n   return \"<p><strong>\" + value + \"</strong></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
+        "height": "60",
+        "onlyJsRender": true
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<em>Note:</em> the <em>this</em> pointer within the tag render function is the instance of the tag, and can be used in more advanced usage, as in the following example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "You can access <em>this.tagCtx.args</em>, <em>this.tagCtx.props</em>, <em>this.tagCtx.view.data</em> and more..."
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.views.tags(\"list\", function(array){\n  ...\n  var start = this.tagCtx.props.start,\n  ...\n  // Render tag content, this data item\n  ret += this.tagCtx.render(array[i]);\n  ..."
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{list members start=1 end=2}}\n ...\n{{/list}}"
+          }
+        ],
+        "code": "$.views.tags(\"list\", function(array){\n  var ret = \"\",\n    start = this.tagCtx.props.start,\n    end = this.tagCtx.props.end;\n  for (var i = start; i <= end; i++) {\n    // Render tag content, this data item\n    ret += this.tagCtx.render(array[i]);\n  }\n  return ret;\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><strong>{{:title}}</strong></p>\n  <ul>\n    {{list members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/list}}\n  </ul> \n</script>",
+        "height": "120",
+        "title": "Accessing more context from the tag render function",
+        "onlyJsRender": true
+      },
+      {
+        "_type": "para",
+        "title": "Using a tag template",
+        "text": "If the tag definition includes a template, but no render method, then the template will be used to render the template."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "If there is both a template and a render method, then the template will only be used if the render method returns <em>undefined</em>"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "We register two tags - the first as a simple <em>'render function'</em> tag, and the second using a <em>tagOptions</em> object."
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.views.tags({\n  boldp: renderBoldP,  \n  list: {\n    render: function(...){\n      ...\n    },\n    template: ...\n  }\n});"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "If there are no items to render, we will return undefined, so the tag will fall back on the template rendering."
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "render: function(array){\n  var ret = \"\",\n  ...\n  return ret || undefined;\n}"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "template: \"<li>Nothing to render</li>\""
+          }
+        ],
+        "code": "function renderBoldP(value) {\n   return \"<p><strong>\" + value + \"</strong></p>\";\n}\n\n$.views.tags({\n\n  boldp: renderBoldP,  \n\n  list: {\n    render: function(array){\n      var ret = \"\",\n        start = this.tagCtx.props.start,\n        end = this.tagCtx.props.end;\n      for (var i = start; i <= end; i++) {\n        if (array[i]) {\n          // Render tag content, for this data item\n          ret += this.tagCtx.content.render(array[i]);\n        }\n      }\n      return ret || undefined;\n    },\n    template: \"<li>Nothing to render</li>\"\n  }\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\n",
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp \"Members 2 to 4\"/}}\n  <ul>\n    {{list members start=1 end=3}} \n      <li>\n        {{:name}}\n      </li>\n    {{/list}}\n  </ul> \n  {{boldp \"Members 5 to 8\"/}}\n  <ul>\n    {{list members start=4 end=7}} \n      <li>\n        {{:name}}\n      </li>\n    {{/list}}\n  </ul> \n</script>",
+        "height": "200",
+        "onlyJsRender": true,
+        "title": "Registering multiple tags, using functions or templates for rendering..."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "You can pass in an existing template as an additional <em>parentTemplate</em> parameter, on  <em>any</em> call to  <em>$.views.tags(...)</em>."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In that way the tag you are registering becomes a 'private tag resource' for the <em>parentTemplate</em>, rather than being registered globally:"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "",
+        "name": "converters",
+        "object": "$.views",
+        "method": true,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Add one or more tags as private resources for a parent template",
+            "params": [
+              {
+                "_type": "param",
+                "name": "namedTags",
+                "type": "object",
+                "optional": false,
+                "description": "Object (hash) of keys (name of tag) and values (render function or tagOptions)"
+              },
+              {
+                "_type": "param",
+                "name": "parentTemplate",
+                "type": "object or string",
+                "optional": true,
+                "description": "Owner template - to which this/these tag(s) are being added as private resources"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.tags({\n  myTag1: ...,\n  myTag2: ...\n}, parentTemplate);",
+            "description": "Add multiple tags as resources, to a parent template"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "Custom tags and 'tag controls'",
+        "text": "If you use JsViews, your custom tag can be developed into a fully functional <em>tag control</em>, with its own life-cycle, properties and methods, etc. It can be used as a <em>presenter</em> according to the MVP pattern."
+      },
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "customtags",
+            "label": "Concepts: custom tags"
+          }
+        ]
+      },
+      {
+        "_type": "links",
+        "title": "See also, the samples:",
+        "links": [],
+        "topics": [
+          {
+            "hash": "samples/jsr/tags",
+            "label": "JsRender custom tags"
+          },
+          {
+            "hash": "samples/tagcontrols",
+            "label": "JsViews tag controls"
+          }
+        ]
+      }
+    ]
   },
   "url()": {
     "title": "$.views.converters.url()",
@@ -3002,6 +3657,26 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     "path": "",
     "sections": [
       {
+        "_type": "para",
+        "title": "What are converters?",
+        "text": "In JsRender, a converter is a convenient way of processing or formatting data-value, or the result of expression evaluation - as in:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "{{html:movie.description}} - this data is HTML encoded\n{{url:getTheFilePath()}} - this expression will be URL-encode\n{{daymonth:invoice.date}} - this date uses my formatter "
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "You use built-in converters to HTML-encode, attribute-encod, or URL-encode. And you can register custom converters."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "With JsViews, you can use converters with two-way data-binding, and you will have a <em>convert</em> and a <em>convertBack</em> converter - one for each direction."
+      },
+      {
         "_type": "api",
         "typeLabel": "API:",
         "title": "$.views.converters(name, converterFn)",
@@ -3023,7 +3698,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
               },
               {
                 "_type": "param",
-                "name": "converter",
+                "name": "converterFn",
                 "type": "function",
                 "optional": false,
                 "description": "Converter function. Takes <b>val</b> parameter and returns converted value"
@@ -3071,7 +3746,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "code": "$.views.converters(\"upper\", function(val) {\n  return val.toUpperCase();\n});\n\nvar person = {name: \"Robert\", nickname: \"Bob\"};\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);",
         "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{:name}}<br/>\n  Upper case nickname: {{upper:nickname}}<br/>\n  {{upper: \"this will be upper case too\"}} \n</script>",
         "height": "90",
-        "title": "Using a custom converter"
+        "title": "Using a custom converter",
+        "onlyJsRender": true
       },
       {
         "_type": "para",
@@ -3109,7 +3785,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Normal:</label> {{full:first last}}<br/>\n  <label>Reverse:</label> {{full:first last format=\"reverse\"}}<br/> \n</script>",
         "code": "$.views.converters(\"full\", function(first, last) {\n  var format = this.tagCtx.props.format;  \n  return format === \"reverse\" ? last.toUpperCase() + \" \" + first : first + \" \" + last;\n});\n\nvar person = {first: \"Xavier\", last: \"Prieto\"};\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);",
         "height": "70",
-        "title": "Accessing more context from the converter"
+        "title": "Accessing more context from the converter",
+        "onlyJsRender": true
       },
       {
         "_type": "api",
@@ -3156,7 +3833,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "para",
         "title": "",
-        "text": "In that way the converter you are registering becomes a 'private converter resource' for the <em>parentTemplate</em>, rather than being registed globally:"
+        "text": "In that way the converter you are registering becomes a 'private converter resource' for the <em>parentTemplate</em>, rather than being registered globally:"
       },
       {
         "_type": "api",
@@ -4486,6 +5163,88 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "height": "200"
       }
     ]
+  },
+  "samples/jsr/tags": {
+    "title": "Custom tags",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.views.tags({\n  sort: function( array ){\n    var ret = \"\";\n    if ( this.tagCtx.props.reverse ) {\n      ...\n    } else {\n      ...\n    }\n    return ret;\n  }\n});"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{sort languages tmpl=\"#sortedTemplate\"/}}\n...\n\n{{sort languages reverse=true}}\n  ...\n{{/sort}}"
+          }
+        ],
+        "sampleName": "jsrender/tags",
+        "onlyJsRender": true,
+        "url": "samples/jsrender/tags/sample",
+        "height": "160"
+      }
+    ]
+  },
+  "samples/jsr/helpers": {
+    "title": "Helpers, and layout templates",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This sample shows both <em>passing helpers to template.render()</em> and <em>Rendering an array as a non-repeating layout</em>"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "To render a <em>non-repeating</em> template against an array, with content above or below the repeating items, wrap the array - as <em>render([myArray])</em> - and include <em>{{for #data}}</em> for the repeating section."
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var html = $(\"#movieTemplate\").render(\n  // Wrap movies array in an array, to render as a layout with header and footer\n  [movies],\n  // pass in helpers\n  {\n    reverseSort: reverse,\n    ...\n  }\n);\n"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{for #data}}\n  <tr>\n    <td>{{>~format(title)}}</td>\n    <td>\n      {{sort languages reverse=~reverseSort}}\n        <div><b>{{>name}}</b></div>\n      {{/sort}}\n    </td>\n  </tr>\n{{/for}}\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": ""
+          }
+        ],
+        "sampleName": "jsrender/helpers",
+        "url": "samples/jsrender/helpers/sample",
+        "height": "165"
+      }
+    ]
   }
 };
 content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocCategories")) ||
@@ -4736,7 +5495,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "{{!-- ... --}}"
           },
           {
-            "name": "customtags",
+            "name": "customtagsapi",
             "label": "Custom tags"
           }
         ],
@@ -5091,6 +5850,14 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
               }
             ],
             "expanded": true
+          },
+          {
+            "name": "samples/jsr/tags",
+            "label": "Custom tags"
+          },
+          {
+            "name": "samples/jsr/helpers",
+            "label": "Helpers"
           }
         ],
         "expanded": true

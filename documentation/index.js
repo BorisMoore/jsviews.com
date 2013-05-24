@@ -566,7 +566,7 @@ function signature(api) {
 		ret += "(";
 		for (i=0, l=signature.params.length; i<l; i++) {
 			param = signature.params[i];
-			ret += (param.optional ? "[" : "") + (i ? "," : "") + param.name + (param.optional ? "]" : ""); 
+			ret += (param.optional ? "[" : "") + (i ? ", " : "") + param.name + (param.optional ? "]" : ""); 
 		}
 		ret += ")";
 	}
