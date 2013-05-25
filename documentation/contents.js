@@ -487,7 +487,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         },
         "markup": "{{:name}}",
         "height": "40",
-        "onlyJsRender": true
+        "onlyJsRender": true,
+        "title": "{{:dataproperty}}"
       },
       {
         "_type": "sample",
@@ -525,7 +526,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         },
         "markup": "{{:name}}: lives in <b>{{:address.city}}</b>.<br />\n\nHere is <em>~root.address.city</em>: <b>{{:~root.address.city}}</b><br />\n\nHere is <em>~#data.address.city</em>: <b>{{:#data.address.city}}</b>",
         "height": "80",
-        "onlyJsRender": true
+        "onlyJsRender": true,
+        "title": "{{:data.paths}}"
       },
       {
         "_type": "sample",
@@ -571,7 +573,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           }
         ],
         "height": "60",
-        "onlyJsRender": true
+        "onlyJsRender": true,
+        "title": "{{:#index ...}}"
       },
       {
         "_type": "links",
@@ -621,8 +624,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "para",
-        "title": "Here is an example:",
-        "text": ""
+        "title": "",
+        "text": "Here is an example:"
       },
       {
         "_type": "sample",
@@ -652,7 +655,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         },
         "markup": "{{:description}}<br/>\n{{>description}}",
         "onlyJsRender": true,
-        "height": "60"
+        "height": "60",
+        "title": ""
       },
       {
         "_type": "links",
@@ -703,8 +707,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "para",
-        "title": "Here is an example:",
-        "text": ""
+        "title": "",
+        "text": "Here is an example:"
       },
       {
         "_type": "sample",
@@ -727,7 +731,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "onlyJsRender": true,
         "height": "60",
         "code": "var people = [\n  {\n    \"name\": \"Pete\",\n    \"address\": {\n      \"city\": \"Seattle\"\n    }\n  },\n  {\n    \"name\": \"Heidi\",\n    \"address\": {\n      \"city\": \"Sidney\"\n    }\n  }\n];\n\nvar html = $(\"#peopleTemplate\").render(people);\n\n$(\"#peopleList\").html(html);",
-        "html": "<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:name}} lives in {{include tmpl=\"#addressTemplate\"/}}\n  </div>\n</script>\n\n<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n    <b>{{>address.city}}</b>\n</script>\n\n<div id=\"peopleList\"></div>"
+        "html": "<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:name}} lives in {{include tmpl=\"#addressTemplate\"/}}\n  </div>\n</script>\n\n<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n    <b>{{>address.city}}</b>\n</script>\n\n<div id=\"peopleList\"></div>",
+        "title": ""
       },
       {
         "_type": "links",
@@ -806,8 +811,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "para",
-        "title": "Here are some examples:",
-        "text": ""
+        "title": "",
+        "text": "Here are some examples:"
       },
       {
         "_type": "sample",
@@ -845,7 +850,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             }
           }
         ],
-        "markup": "<div>\n  {{:name}} lives in\n  {{for address}}\n    <b>{{>city}}</b>\n  {{/for}}\n</div>"
+        "markup": "<div>\n  {{:name}} lives in\n  {{for address}}\n    <b>{{>city}}</b>\n  {{/for}}\n</div>",
+        "title": "{{for object}}"
       },
       {
         "_type": "sample",
@@ -873,7 +879,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "html": "<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:name}} lives in {{for address tmpl=\"#addressTemplate\" /}}\n  </div>\n</script>\n\n<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n    <b>{{>city}}</b>\n</script>\n\n<div id=\"peopleList\"></div>",
         "code": "var people = [\n  {\n    \"name\": \"Pete\",\n    \"address\": {\n      \"city\": \"Seattle\"\n    }\n  },\n  {\n    \"name\": \"Heidi\",\n    \"address\": {\n      \"city\": \"Sidney\"\n    }\n  }\n];\n\nvar html = $(\"#peopleTemplate\").render(people);\n\n$(\"#peopleList\").html(html);",
         "onlyJsRender": true,
-        "height": "60"
+        "height": "60",
+        "title": "{{for object tmpl=... /}}"
       },
       {
         "_type": "sample",
@@ -914,7 +921,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         },
         "markup": "<b>{{:title}}</b>\n<ul>\n  {{for members}}\n      <li>{{:name}} lives in <b>{{:address.city}}</b></li>\n  {{/for}}\n</ul>",
         "onlyJsRender": true,
-        "height": "100"
+        "height": "100",
+        "title": "{{for array}}"
       },
       {
         "_type": "para",
@@ -980,7 +988,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           "members": []
         },
         "height": "80",
-        "onlyJsRender": true
+        "onlyJsRender": true,
+        "title": "{{for array}}...{{else}}...{{/for}}"
       },
       {
         "_type": "links",
@@ -1365,7 +1374,8 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           }
         ],
         "onlyJsRender": true,
-        "height": "300"
+        "height": "300",
+        "title": "{{if}}...{{else}}...{{/if}}"
       }
     ]
   },
