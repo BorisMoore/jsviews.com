@@ -453,6 +453,137 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         ],
         "description": "<em>Get the value of the data path or expression</em>, and insert it into the rendered output as a string",
         "sectionTypes": {}
+      },
+      {
+        "_type": "para",
+        "title": "Here are some examples:",
+        "text": "(Note the use of different kinds of data-path and expression in the different examples)"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "Data:",
+            "code": "{name: \"Pete\"}"
+          },
+          {
+            "_type": "template",
+            "title": "Template:",
+            "markup": "{{:name}}"
+          }
+        ],
+        "data": {
+          "name": "Pete"
+        },
+        "markup": "{{:name}}",
+        "height": "40",
+        "onlyJsRender": true
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "{\n  name: \"Pete\",\n  address: {\n    city: \"Seattle\"\n  }\n}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "<em>~root</em> is the top-level data, and <em>#data</em> is the current data item"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{:name}} ... {{:address.city}}\n\n... {{:~root.address.city}}\n\n... {{:#data.address.city}}"
+          }
+        ],
+        "data": {
+          "name": "Pete",
+          "address": {
+            "city": "Seattle"
+          }
+        },
+        "markup": "{{:name}}: lives in <b>{{:address.city}}</b>.<br />\n\nHere is <em>~root.address.city</em>: <b>{{:~root.address.city}}</b><br />\n\nHere is <em>~#data.address.city</em>: <b>{{:#data.address.city}}</b>",
+        "height": "80",
+        "onlyJsRender": true
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "[\n  {name: \"Pete\", ...},\n  {name: \"Heidi\", ...}\n]"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "<em>#xxx</em> is the \"xxx\" property of the current view - so <em>#index</em> is the <em>view.index</em> "
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{:#index+1}}"
+          }
+        ],
+        "markup": "<b>{{:#index+1}}:</b>\n{{:name}}: lives in <b>{{:address.city}}</b>.<br />",
+        "data": [
+          {
+            "name": "Pete",
+            "address": {
+              "city": "Seattle"
+            }
+          },
+          {
+            "name": "Heidi",
+            "address": {
+              "city": "Sidney"
+            }
+          }
+        ],
+        "height": "60",
+        "onlyJsRender": true
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "samples/jsr/converters",
+            "label": "Sample: Converters and encoding"
+          }
+        ]
       }
     ]
   },
@@ -487,6 +618,53 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         ],
         "description": "<em>Get the HTML-encoded value of the data path or expression</em>, and insert it into the rendered output",
         "sectionTypes": {}
+      },
+      {
+        "_type": "para",
+        "title": "Here is an example:",
+        "text": ""
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "{description: \"A <b>very nice</b> appartment\"}"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{:description}}\n...\n{{>description}}"
+          }
+        ],
+        "data": {
+          "description": "A <b>very nice</b> appartment"
+        },
+        "markup": "{{:description}}<br/>\n{{>description}}",
+        "onlyJsRender": true,
+        "height": "60"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "samples/jsr/converters",
+            "label": "Sample: Converters and encoding"
+          }
+        ]
       }
     ]
   },
@@ -522,6 +700,46 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         ],
         "description": "<em>Template composition</em>: &mdash; Include the referenced template: <em>tmpl</em>, rendered using the current data context.",
         "sectionTypes": {}
+      },
+      {
+        "_type": "para",
+        "title": "Here is an example:",
+        "text": ""
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{:name}} lives in {{include tmpl=\"#addressTemplate\"/}}\n"
+          }
+        ],
+        "onlyJsRender": true,
+        "height": "60",
+        "code": "var people = [\n  {\n    \"name\": \"Pete\",\n    \"address\": {\n      \"city\": \"Seattle\"\n    }\n  },\n  {\n    \"name\": \"Heidi\",\n    \"address\": {\n      \"city\": \"Sidney\"\n    }\n  }\n];\n\nvar html = $(\"#peopleTemplate\").render(people);\n\n$(\"#peopleList\").html(html);",
+        "html": "<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:name}} lives in {{include tmpl=\"#addressTemplate\"/}}\n  </div>\n</script>\n\n<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n    <b>{{>address.city}}</b>\n</script>\n\n<div id=\"peopleList\"></div>"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "samples/jsr/composition",
+            "label": "Samples: Template composition"
+          }
+        ]
       }
     ]
   },
@@ -547,8 +765,19 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
                 "description": "A data path, or an object or array"
               }
             ],
-            "sections": [],
-            "example": "{{for billing.address}}\n {{:street}}\n{{/for}}",
+            "sections": [
+              {
+                "_type": "para",
+                "title": "",
+                "text": "<b>Note:</b> The data context inside the <em>{{for}}</em> block is the object returned by the path or expression."
+              },
+              {
+                "_type": "para",
+                "title": "",
+                "text": "If the object returned is an array, then the block is rendered once for each item, and the data context for each rendered block is the data item from the array."
+              }
+            ],
+            "example": "{{for billing.address}}\n {{:city}}\n{{/for}}",
             "description": "Render the block content of the tag for the given object, or iterate over the given array",
             "variant": "{{for pathOrExpr}}...{{/for}}"
           },
@@ -574,6 +803,196 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         ],
         "description": "<em>Template composition</em>: &mdash; Render the block content of the {{for}} tag (or the referenced external template), using the object or array specified by the path or expression as data context. If it is an array, iterate over the array, rendering once for each item.",
         "sectionTypes": {}
+      },
+      {
+        "_type": "para",
+        "title": "Here are some examples:",
+        "text": ""
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{:name}} lives in \n{{for address}}\n  <b>{{>city}}</b>\n{{/for}}\n"
+          }
+        ],
+        "code": "",
+        "onlyJsRender": true,
+        "height": "60",
+        "html": "",
+        "data": [
+          {
+            "name": "Pete",
+            "address": {
+              "city": "Seattle"
+            }
+          },
+          {
+            "name": "Heidi",
+            "address": {
+              "city": "Sidney"
+            }
+          }
+        ],
+        "markup": "<div>\n  {{:name}} lives in\n  {{for address}}\n    <b>{{>city}}</b>\n  {{/for}}\n</div>"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{:name}} lives in {{for address tmpl=\"#addressTemplate\" /}}"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n    <b>{{>city}}</b>\n</script>\n"
+          }
+        ],
+        "html": "<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:name}} lives in {{for address tmpl=\"#addressTemplate\" /}}\n  </div>\n</script>\n\n<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n    <b>{{>city}}</b>\n</script>\n\n<div id=\"peopleList\"></div>",
+        "code": "var people = [\n  {\n    \"name\": \"Pete\",\n    \"address\": {\n      \"city\": \"Seattle\"\n    }\n  },\n  {\n    \"name\": \"Heidi\",\n    \"address\": {\n      \"city\": \"Sidney\"\n    }\n  }\n];\n\nvar html = $(\"#peopleTemplate\").render(people);\n\n$(\"#peopleList\").html(html);",
+        "onlyJsRender": true,
+        "height": "60"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<b>{{:title}}</b>\n<ul>\n  {{for members}}\n      <li>{{:name}} ...</li>\n  {{/for}}\n</ul>"
+          }
+        ],
+        "html": "",
+        "code": "",
+        "data": {
+          "title": "The A team",
+          "members": [
+            {
+              "name": "Pete",
+              "address": {
+                "city": "Seattle"
+              }
+            },
+            {
+              "name": "Heidi",
+              "address": {
+                "city": "Sidney"
+              }
+            }
+          ]
+        },
+        "markup": "<b>{{:title}}</b>\n<ul>\n  {{for members}}\n      <li>{{:name}} lives in <b>{{:address.city}}</b></li>\n  {{/for}}\n</ul>",
+        "onlyJsRender": true,
+        "height": "100"
+      },
+      {
+        "_type": "para",
+        "title": "Using the {{else}} tag with {{for}}",
+        "text": "Using the {{else}} tag between <em>{{for}}</em> and <em>{{/for}}</em>, allows alternate rendering based on the object or array returned from the path or expression <em>{{for pathOrExpr}}</em>"
+      },
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{for ...}}...{{else}}...{{/for}}",
+        "name": "name",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Render alternate blocks depending on whether an array is empty or not",
+            "params": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "object or array",
+                "optional": true,
+                "description": "A data path, or an object or array"
+              }
+            ],
+            "sections": [],
+            "example": "{{for members}}\n    Name: {{:name}}\n{{else}}\n    No members...\n{{/for}}",
+            "description": "Render first block if array is not empty, otherwise render second block",
+            "variant": "{{for pathOrExpr}...{{else}}...{{/for}}"
+          }
+        ],
+        "description": "<em>Conditional blocks</em>: &mdash; Render the block content of the {{for}} tag (or referenced template) if the object is defined and is not an empty array, otherwise render the {{else}} block (or template)",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{for members}}\n  <div>{{:name}}</div>\n{{else}}\n  <div>No members!</div>\n{{/for}}\n"
+          }
+        ],
+        "markup": "<b>{{:title}}</b>\n{{for members}}\n  <div>{{:name}}</div>\n{{else}}\n  <div>No members!</div>\n{{/for}}\n",
+        "data": {
+          "title": "The A team",
+          "members": []
+        },
+        "height": "80",
+        "onlyJsRender": true
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "samples/jsr/paths",
+            "label": "Sample: Paths"
+          }
+        ]
       }
     ]
   },
@@ -635,6 +1054,28 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "_type": "para",
         "title": "",
         "text": "as shown in <a href=\"#samples/tagcontrols/tabs\">this sample</a>."
+      },
+      {
+        "_type": "links",
+        "title": "See also",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "iftag",
+            "label": "API: {{if}}"
+          },
+          {
+            "_type": "topic",
+            "hash": "fortag",
+            "label": "API: {{for}}"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/tagcontrols/tabs",
+            "label": "Sample: tabs control"
+          }
+        ]
       }
     ]
   },
@@ -716,7 +1157,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
               {
                 "_type": "para",
                 "title": "",
-                "text": "<b>Note:</b> The data context inside the {{if}} block is the same as the outer context"
+                "text": "<b>Note:</b> The data context inside the <em>{{if}}</em> block is the same as the outer context"
               }
             ],
             "example": "{{if nickname}}\n    Nickname: {{:nickname}}\n{{/if}}",
@@ -756,7 +1197,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "para",
-        "title": "Using the {{else}} tag with {{/if}}",
+        "title": "Using the {{else}} tag with {{if}}",
         "text": "Using the {{else}} tag between <em>{{if}}</em> and <em>{{/if}}</em>, allows alternate rendering based on '<em>if ... else ...</em>' logic:"
       },
       {
@@ -817,7 +1258,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "variant": "{{if pathOrExpr1 tmpl=nameOrExpr1 }}{{else tmpl=nameOrExpr2 }}{{/if}}"
           }
         ],
-        "description": "<em>Conditional inclusion</em>: &mdash; Render the block content of the {{if}} tag (or referenced template) if the expression is true, otherwise render the {{else}} block (or template)",
+        "description": "<em>Alternative conditional blocks</em>: &mdash; Render the block content of the {{if}} tag (or referenced template) if the expression is true, otherwise render the {{else}} block (or template)",
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -855,7 +1296,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "variant": "{{if pathOrExpr1}}...{{else pathOrExpr2}}...{{else}}...{{/if}"
           }
         ],
-        "description": "<em>Conditional inclusion</em>: &mdash; Render the first {{if}} or {{else}} block for which the expression is true. If none are true, and there is an {{else}} without an expression, render that block",
+        "description": "<em>Multiple alternative conditional blocks</em>: &mdash; Render the first {{if}} or {{else}} block for which the expression is true. If none are true, and there is an {{else}} without an expression, render that block",
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -864,6 +1305,67 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           "sample": "sample",
           "links": "links"
         }
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "[\n  {title: \"The A team\", members: [...], standby: [...]},\n  {title: \"The B team\", members: [], standby: [...]},\n  {title: \"The C team\", standby: []}\n]"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{if members && members.length}}\n  ...\n{{else standby && standby.length}}\n  Standby only:\n  ...\n{{else}}\n  No members!\n{{/if}}"
+          }
+        ],
+        "markup": "<h4>{{:title}}</h4>\n{{if members && members.length}}\n  <ul>\n    {{for members}}\n      <li>{{:name}}</li>\n    {{/for}}\n  </ul>\n{{else standby && standby.length}}\n  Standby only:\n  <ul>\n    {{for standby}}\n      <li>{{:name}}</li>\n    {{/for}}\n  </ul>\n{{else}}\n  No members!\n{{/if}}",
+        "data": [
+          {
+            "title": "The A team",
+            "members": [
+              {
+                "name": "Pete"
+              },
+              {
+                "name": "Heidi"
+              }
+            ],
+            "standby": [
+              {
+                "name": "Xavier"
+              }
+            ]
+          },
+          {
+            "title": "The B team",
+            "members": [],
+            "standby": [
+              {
+                "name": "Robert"
+              },
+              {
+                "name": "Adriana"
+              }
+            ]
+          },
+          {
+            "title": "The C team",
+            "standby": []
+          }
+        ],
+        "onlyJsRender": true,
+        "height": "300"
       }
     ]
   },
@@ -3301,28 +3803,23 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "links",
-        "title": "",
+        "title": "See also:",
         "links": [],
         "topics": [
           {
             "_type": "topic",
             "hash": "customtags",
             "label": "Concepts: custom tags"
-          }
-        ]
-      },
-      {
-        "_type": "links",
-        "title": "See also, the samples:",
-        "links": [],
-        "topics": [
-          {
-            "hash": "samples/jsr/tags",
-            "label": "JsRender custom tags"
           },
           {
+            "_type": "topic",
+            "hash": "samples/jsr/tags",
+            "label": "Sample: JsRender custom tags"
+          },
+          {
+            "_type": "topic",
             "hash": "samples/tagcontrols",
-            "label": "JsViews tag controls"
+            "label": "Sample: JsViews tag controls"
           }
         ]
       }
@@ -5012,6 +5509,22 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "hash": "samples/jsr/converters",
             "label": "Converters and encoding"
+          },
+          {
+            "hash": "samples/jsr/composition",
+            "label": "Template composition"
+          },
+          {
+            "hash": "samples/jsr/tags",
+            "label": "Custom tags"
+          },
+          {
+            "hash": "samples/jsr/helpers",
+            "label": "Helpers"
+          },
+          {
+            "hash": "samples/jsr/paths",
+            "label": "Paths"
           }
         ]
       }
@@ -5205,7 +5718,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "para",
         "title": "",
-        "text": "This sample shows both <em>passing helpers to template.render()</em> and <em>Rendering an array as a non-repeating layout</em>"
+        "text": "This sample shows both <em>passing helpers to template.render()</em> and <em>rendering an array as a non-repeating layout</em>"
       },
       {
         "_type": "sample",
@@ -5243,6 +5756,92 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "sampleName": "jsrender/helpers",
         "url": "samples/jsrender/helpers/sample",
         "height": "165"
+      }
+    ]
+  },
+  "samples/jsr/paths": {
+    "title": "Paths",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [],
+        "sampleName": "jsrender/paths",
+        "height": "320",
+        "onlyJsRender": true,
+        "url": "samples/jsrender/paths/sample"
+      }
+    ]
+  },
+  "samples/jsr/composition": {
+    "title": "Template composition",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "samples/jsr/composition/tmpl",
+            "label": "tmpl parameter"
+          },
+          {
+            "hash": "samples/jsr/composition/subtemplates",
+            "label": "Using sub-templates"
+          },
+          {
+            "hash": "samples/jsr/composition/tmplobjects",
+            "label": "Contextual template objects"
+          }
+        ]
+      }
+    ]
+  },
+  "customtagsapi": {
+    "title": "Custom tags",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Defining custom tags",
+        "text": "JsRender deliberately has only a small number of built-in tags - each of which is very flexible and useful. This is intended to reduce the 'learning curve'. And at the same time JsRender makes it very easy to create your own custom tags:"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "tags()",
+            "label": "API: $.views.tags()"
+          },
+          {
+            "_type": "topic",
+            "hash": "customtags",
+            "label": "Concepts: custom tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/jsr/tags",
+            "label": "Sample: JsRender custom tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/tagcontrols",
+            "label": "Sample: JsViews tag controls"
+          }
+        ]
       }
     ]
   }
@@ -5858,6 +6457,10 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
           {
             "name": "samples/jsr/helpers",
             "label": "Helpers"
+          },
+          {
+            "name": "samples/jsr/paths",
+            "label": "Paths"
           }
         ],
         "expanded": true

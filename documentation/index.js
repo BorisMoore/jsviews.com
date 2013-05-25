@@ -587,14 +587,12 @@ function getContent(topics, categories) {
 }
 
 function parse(val) {
+	var data;
 	try {
-		return $.parseJSON(val);
+		eval("data=" + val + ";");
+		return data;
 	} catch(e) {
-		if (this.tagCtx && this.tagCtx.params === "data") {
-			var res = parse.call({}, "[" + val + "]");
-			return res ? res[0] : {};
-		}
-		alert("Invalid content")
+		alert("Invalid content");
 	}
 }
 
