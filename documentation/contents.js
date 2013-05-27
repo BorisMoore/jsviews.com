@@ -324,7 +324,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     ]
   },
   "jsvapi": {
-    "title": "JsViews",
+    "title": "JsViews API - Data-driven UI",
     "path": "",
     "sections": [
       {
@@ -373,7 +373,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     ]
   },
   "jsrapi": {
-    "title": "JsRender",
+    "title": "JsRender API - Templated UI",
     "path": "",
     "sections": [
       {
@@ -988,8 +988,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           "members": []
         },
         "height": "80",
-        "onlyJsRender": true,
-        "title": "{{for array}}...{{else}}...{{/for}}"
+        "onlyJsRender": true
       },
       {
         "_type": "links",
@@ -1401,7 +1400,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     ]
   },
   "jsoapi": {
-    "title": "JsObservable",
+    "title": "JsObservable API - Observing data",
     "path": "",
     "sections": [
       {
@@ -1695,7 +1694,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "topic",
             "hash": "jsrtags",
-            "label": "Built-in tags"
+            "label": "Built-in template tags"
           },
           {
             "_type": "topic",
@@ -2487,7 +2486,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     "sections": []
   },
   "jsrtags": {
-    "title": "Built-in tags",
+    "title": "Built-in template tags",
     "path": "",
     "sections": [
       {
@@ -2917,32 +2916,28 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         "links": [],
         "topics": [
           {
-            "hash": "jsvviewsobject",
+            "hash": "viewsobject",
             "label": "$.views object"
           },
           {
-            "hash": "jsvtemplateobject",
+            "hash": "templateobject",
             "label": "template object"
           },
           {
-            "hash": "jsvviewobject",
+            "hash": "viewobject",
             "label": "view object"
           },
           {
-            "hash": "jsvtagobject",
+            "hash": "tagobject",
             "label": "tag object"
           },
           {
-            "hash": "jsvviewcontextobject",
-            "label": "View context object"
+            "hash": "viewcontextobject",
+            "label": "view context object"
           },
           {
-            "hash": "jsvtagcontextobject",
-            "label": "Tag context object"
-          },
-          {
-            "hash": "jsvlinkcontextobject",
-            "label": "Link context object"
+            "hash": "tagcontextobject",
+            "label": "tag context object"
           }
         ]
       }
@@ -5854,6 +5849,47 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         ]
       }
     ]
+  },
+  "jsvobjects": {
+    "title": "JsViews objects",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "jsvviewsobject",
+            "label": "$.views object"
+          },
+          {
+            "hash": "jsvtemplateobject",
+            "label": "template object"
+          },
+          {
+            "hash": "jsvviewobject",
+            "label": "view object"
+          },
+          {
+            "hash": "jsvtagobject",
+            "label": "tag object"
+          },
+          {
+            "hash": "jsvviewcontextobject",
+            "label": "View context object"
+          },
+          {
+            "hash": "jsvtagcontextobject",
+            "label": "Tag context object"
+          },
+          {
+            "hash": "jsvlinkcontextobject",
+            "label": "Link context object"
+          }
+        ]
+      }
+    ]
   }
 };
 content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocCategories")) ||
@@ -5868,7 +5904,8 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
       },
       {
         "name": "jsvplaying",
-        "label": "Playing with JsViews"
+        "label": "Playing with JsViews",
+        "hidden": true
       }
     ],
     "expanded": true
@@ -6065,7 +6102,8 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "label": "MVVM and MVP"
       }
     ],
-    "expanded": false
+    "expanded": true,
+    "hidden": true
   },
   {
     "name": "jsrapi",
@@ -6214,7 +6252,8 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "tag context object"
           }
         ],
-        "expanded": false
+        "expanded": true,
+        "hidden": true
       }
     ],
     "expanded": true
@@ -6250,7 +6289,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "$(...).link()"
           }
         ],
-        "expanded": false
+        "expanded": true
       },
       {
         "name": "jsvunlink",
@@ -6316,7 +6355,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "label": "Custom Tags - Tag Controls"
       },
       {
-        "name": "jsrobjects",
+        "name": "jsvobjects",
         "label": "JsViews objects",
         "categories": [
           {
@@ -6349,10 +6388,11 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "Link context object"
           }
         ],
-        "expanded": false
+        "expanded": true
       }
     ],
-    "expanded": false
+    "expanded": true,
+    "hidden": true
   },
   {
     "name": "jsoapi",
@@ -6427,7 +6467,8 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": false
       }
     ],
-    "expanded": false
+    "expanded": true,
+    "hidden": true
   },
   {
     "name": "samples",
@@ -6477,7 +6518,8 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
       },
       {
         "name": "samples/jso",
-        "label": "JsObservable"
+        "label": "JsObservable",
+        "hidden": true
       },
       {
         "name": "samples/jsv",
@@ -6510,7 +6552,8 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "expanded": true
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       }
     ],
     "expanded": true

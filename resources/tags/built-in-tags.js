@@ -3,7 +3,7 @@
 //#region TEMPLATES
 
 var	treeNodeTmpl = $.templates(
-		"<li data-link=\"class{:~tag.tree.selected === #data ? 'selected' : 'unselected'}\">" +
+		"{^{if !hidden || ~tag.tree.editable}}<li data-link=\"class{:~tag.tree.selected === #data ? 'selected' : 'unselected'}\">" +
 			"{^{if categories && categories.length }}" +
 				"<span class=\"toggle\">{^{:expanded ? '-' : '+' }}</span>" +
 			"{{else}}" +
@@ -16,6 +16,7 @@ var	treeNodeTmpl = $.templates(
 				"{{if ~parentTags.treeNode }}" +
 					"<img class=\"remove\" src=\"../resources/images/close.png\" />" +
 				"{{/if}}" +
+				"<button class=\"hide cmdbtn\" data-link=\"hidden ? 'show' : 'hide'\"></button>" +
 				"<label>label: <input data-link=\"label\" /></label>" +
 				"<label>name: <input data-link=\"name\" /></label>" +
 				"<div class=\"bottom\"></div>" +
@@ -31,7 +32,7 @@ var	treeNodeTmpl = $.templates(
 					"{{/for}}" +
 				"</ul>" +
 			"</li>" +
-		"{{/if}}"),
+		"{{/if}}{{/if}}"),
 
 	treeTmpl  = $.templates(
 
@@ -124,6 +125,10 @@ var	treeNodeTmpl = $.templates(
 				.on( "click", ".down", function(ev) {
 					$.view(this).ctx.tag.moveCategoryDown();
 					ev.stopImmediatePropagation();
+				})
+				.on( "click", ".hide", function(ev) {
+					$.view(this).ctx.tag.hideCategory();
+					ev.stopImmediatePropagation();
 				});
 		},
 		template: treeTmpl,
@@ -198,6 +203,10 @@ var	treeNodeTmpl = $.templates(
 			if (index + 1 < categories.length) {
 				$.observable(categories).move(index, index+1);
 			}
+		},
+		hideCategory: function() {
+			var category = this.parent.data.categories[this.tagCtx.view.index];
+			$.observable(category).setProperty("hidden", !category.hidden);
 		}
 	},
 

@@ -19,25 +19,32 @@
 	
 <script id="pageTmpl" type="text/x-jsrender">
 	<h3 class="titlebar">JsRender and JsViews documentation <em>Work in progress</em></h3>
-	{^{page class="sidebar" }}
+	{^{page class="sidebar"}}
 		{^{tree categories selected=~tag.category /}}
 	{{else ~tabTmpl=~templates.tabsContent class="content"}}
 		<div data-link="class{:~tag.editable ? 'currenttopic edit' : 'currenttopic'}}">
-		{^{if ~tag.hasDetail}}
-			{^{tabs tabCaption="Documentation" ~page=~tag class="summary" }}
-				{{include tmpl=~tabTmpl ~mode="summary" /}}
-			{{else tabCaption="Deep dive" ~page=~tag class="summary"}}
-				{{include tmpl=~tabTmpl ~mode="detail" /}}
-			{{/tabs}}
-		{{else ~tag.editable}}
-			{^{tabs tabCaption="Edit" ~page=~tag class="edit"}}
-				{{include tmpl=~tabTmpl ~mode="edit" /}}
-			{{/tabs}}
-		{{else}}
-			{^{tabs tabCaption="Documentation" ~page=~tag class="summary" }}
-				{{include tmpl=~tabTmpl ~mode="summary" /}}
-			{{/tabs}}
-		{{/if}}
+			<div class="{{:~tag.editable ? 'edit' : 'susmmary'}} tabcontent">
+				{^{if ~tag.editable ~mode="edit" }}
+					{^{for topics[~tag.category^name] }}
+						<h2><label>Title: <input class="title" data-link="title" /></label></h2>
+						{^{selectList sections }}
+							{{sectionButtons ~root.sectionTypes /}}			
+							{^{section _type ~mode ~sectionTypes=~root.sectionTypes[_type].sectionTypes /}}				
+						{{/selectList}}
+					{{/for}}
+					{{sectionButtons ~root.sectionTypes append=true/}}			
+					<button class="savedata cmdbtn">save</button>
+				{{else  ~mode="summary"}}
+					{^{for topics[~tag.category^name] }}
+						<h2>{{>title}}</h2>
+						{^{for sections ~root.sectionTypes }}
+							{^{section _type ~mode /}}				
+						{{/for}}
+					{{else}}
+						No topic
+					{{/for}}
+				{{/if}}
+			</div>
 		</div>
 		{^{if ~tag.editable}}
 			<div class="save-div">
@@ -56,28 +63,6 @@
 </script>
 
 <script id="tabsContentTmpl" type="text/x-jsrender">
-	<div class="{{:~mode}}mode tabcontent">
-		{{if ~mode==="edit" }}
-			{^{for topics[~page.category^name] }}
-				<h2><label>Title: <input class="title" data-link="title" /></label></h2>
-				{^{selectList sections }}
-					{{sectionButtons ~root.sectionTypes /}}			
-					{^{section _type ~mode ~sectionTypes=~root.sectionTypes[_type].sectionTypes /}}				
-				{{/selectList}}
-			{{/for}}
-			{{sectionButtons ~root.sectionTypes append=true/}}			
-			<button class="savedata cmdbtn">save</button>
-		{{else}}
-			{^{for topics[~page.category^name] }}
-				<h2>{{>title}}</h2>
-				{^{for sections ~root.sectionTypes }}
-					{{if ~mode!=="summary" || !detail}} {^{section _type ~mode /}}{{/if}}				
-				{{/for}}
-			{{else}}
-				No topic
-			{{/for}}
-		{{/if}}
-	</div>
 </script>
 
 <!--======================= Section Templates =======================-->
@@ -249,7 +234,7 @@
 	<div class="topiclinks">
 		<div>{{>topicsHeader}}</div>
 		{^{for topics}}
-			<div><a href="{{>~url(hash)}}">{{>label}}</a></div>
+			{{if ~mode === "edit" || !~parentTags.page.getCategory(hash).hidden}}<div><a href="{{>~url(hash)}}">{{>label}}</a></div>{{/if}}
 		{{/for}}
 	</div>
 </script>

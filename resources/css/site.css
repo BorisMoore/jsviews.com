@@ -135,6 +135,17 @@ select[size] {
 	margin: 5px;
 }
 
+.hidechkbx {
+	display: inline-block;
+	vertical-align: middle;
+	border: 1px solid #555;
+	font-size: 7pt;
+	line-height: 11px;
+	background-color: #f8f8f8;
+	color: Blue;
+	margin: 5px;
+}
+
 .insertsection {
 	margin:  0 5px 0 0;
 }

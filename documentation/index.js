@@ -28,13 +28,6 @@ var	page,
 				tree = page.tree,
 				tabs = page.tabs;
 
-			tabs.onSelectionChange = function() {
-				var editable = tabs.selectedIndex === page.modes.edit;
-				$.observable(page).setProperty({
-					editable: editable
-				});
-				$.observable(tree).setProperty("editable", editable);
-			};
 			tree.onSelectionChange = function(selected) {
 				$.observable(page).setProperty({
 					hasDetail: selected.hasDetail
@@ -205,7 +198,7 @@ var	page,
 			sample.data2 = $.extend(true, {}, sample.data);
 			$.observable(sample).setProperty("tryIt", !sample.tryIt );
 		},
-		getCategory: function(hash) {
+		getCategory: function(hash, navigate) {
 			function getCategoryNode(name, categories, parent) {
 				stack.push(parent);
 				var category,
@@ -214,6 +207,9 @@ var	page,
 					category = categories[l];
 					if (category.name === name || category.categories && (category = getCategoryNode(name, category.categories, category))) {
 						while (parent = stack.pop()) {
+							if (parent.hidden) {
+								hidden = parent;
+							}
 							parent.expanded = true;
 						}
 						return category
@@ -221,16 +217,16 @@ var	page,
 				}
 				stack.pop();
 			}
-			var category,
+			var category, hidden,
 				stack = [],
 				categories = this.data.categories;
 				
 			category = hash && getCategoryNode(hash, categories) || categories[0];
 			hash = category.name;
-			if (hash === location.hash.slice(1)) {
-				return category;
+			if (navigate && hash !== location.hash.slice(1)) {
+				location.hash = "#" + hash;
 			}
-			location.hash = "#" + hash;
+			return hidden || category;
 		}
 	},
 
@@ -489,16 +485,14 @@ var	page,
 //#region TEMPLATES
 
 	templates = {
-		page: $.templates("#pageTmpl"),
-		tabsContent: $.templates({
-			markup: "#tabsContentTmpl",
+		page: $.templates({
+			markup: "#pageTmpl",
 			tags: {
 				sectionButtons: sectionButtonsTag,
 				sectionHeader: sectionHeaderTag
 			}
-		})
+		}),
 	},
-
 	sectionTemplates = {
 		summary: {
 			para: $.templates("#paraTmpl"),

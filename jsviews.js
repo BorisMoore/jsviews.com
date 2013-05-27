@@ -1,3 +1,4 @@
+﻿///#source 1 1 /jsrender.js
 /*! JsRender v1.0pre: http://github.com/BorisMoore/jsrender */
 /*
 * Optimized version of jQuery Templates, for rendering to string.
@@ -1474,6 +1475,7 @@
 
 })(this, this.jQuery);
 
+///#source 1 1 /jquery.observable.js
 /*! jsObservable: http://github.com/BorisMoore/jsviews */
 /*
  * Subcomponent of JsViews
@@ -2037,6 +2039,7 @@
 	};
 })(this, this.jQuery || this.jsviews);
 
+///#source 1 1 /jquery.views.js
 /*! JsViews v1.0pre: http://github.com/BorisMoore/jsviews */
 /*
 * Interactive data-driven views using templates and data-linking.
@@ -3090,6 +3093,8 @@
 						}
 						tag._elCnt = linkInfo.elCnt;
 						if (tag && (!tag.onBeforeLink || tag.onBeforeLink() !== false) && !tag._.bound) {
+							// By default we data-link depth-first ("on the way in"), which is better for perf. But if a tag needs nested tags to be linked (refreshed)
+							// first, before linking its content, then make onBeforeLink() return false. In that case we data-link depth-first, so nested tags will have already refreshed.
 							tag._.bound = true;
 							view = tag.tagCtx.view;
 							addDataBinding(undefined, tag._prv, view, view.data||outerData, linkInfo.id);
@@ -3353,6 +3358,11 @@
 			propertyChangeHandler.call(linkCtx, ev, eventArgs, linkFn);
 			// If the link expression uses a custom tag, the propertyChangeHandler call will call renderTag, which will set tagCtx on linkCtx
 		}
+
+// Consider for issue https://github.com/BorisMoore/jsviews/issues/158 arrayChange support on data-link etc.
+		//handler.array = function() {
+		//	...
+		//}
 
 		linkCtx._ctxCb = getContextCb(linkCtx.view); // _ctxCb is for filtering/appending to dependency paths: function(path, object) { return [(object|path)*]}
 		linkCtx._hdlr = handler;
@@ -4169,3 +4179,4 @@
 	topView._.onRender = addBindingMarkers;
 
 })(this, this.jQuery);
+
