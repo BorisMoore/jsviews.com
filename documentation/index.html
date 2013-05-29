@@ -1,6 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+	<link href="../resources/css/tree.css" rel="stylesheet" type="text/css" />
+	<link href="../resources/css/tabs.css" rel="stylesheet" type="text/css" />
+	<link href="../resources/css/site.css" rel="stylesheet" type="text/css" />
 	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
 	<script src="../jsviews.js" type="text/javascript"></script>
 	<script src="../datatypes.js" type="text/javascript"></script>
@@ -8,9 +11,6 @@
 	
 	<script src="../resources/tags/built-in-tags.js" type="text/javascript"></script>
 
-	<link href="../resources/css/tree.css" rel="stylesheet" type="text/css" />
-	<link href="../resources/css/tabs.css" rel="stylesheet" type="text/css" />
-	<link href="../resources/css/site.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="pageContent"></div>
@@ -37,8 +37,8 @@
 				{{else  ~mode="summary"}}
 					{^{for topics[~tag.category^name] }}
 						<h2>{{>title}}</h2>
-						{^{for sections ~root.sectionTypes }}
-							{^{section _type ~mode /}}				
+						{{for sections ~root.sectionTypes }}
+							{{section _type ~mode /}}				
 						{{/for}}
 					{{else}}
 						No topic

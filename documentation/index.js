@@ -101,9 +101,9 @@ var	page,
 
 	// methods
 		iframeLoaded: function(tagId, loadScript) {
-			var sample = _jsv.bindings[tagId];
-			if (sample) {
-				sample.linkCtx.tag.sampleFrame.getScript(loadScript);
+			var frame = _jsv.bindings[tagId];
+			if (frame) {
+				frame.linkCtx.tag.getScript(loadScript);
 			}
 		},
 		addSignature: function(view) {
@@ -383,7 +383,7 @@ var	page,
 			var self = this,
 				iframeWnd = self.iframeWnd = $(self.parentElem).find(".sampleframe")[0].contentWindow;
 			if (iframeWnd) {
-				iframeWnd._tgId = self.parents.section._tgId;
+				iframeWnd._tgId = self._tgId;
 			}
 			self.parent.tabs.onSelectionChange = function() {
 				self.onTabChange.apply(self, arguments);
@@ -423,10 +423,10 @@ var	page,
 				return "<!DOCTYPE html>\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "    <script src=\"http://code.jquery.com/jquery.js\"></script>\n"
-					+ "    <script src=\"http://www.jsviews.com/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"
 					+ "    <link href=\"http://www.jsviews.com/documentation/"
 							+ (url || "samples/resources/css/samples") + ".css\" rel=\"stylesheet\"/>\n"
+					+ "    <script src=\"http://code.jquery.com/jquery.js\"></script>\n"
+					+ "    <script src=\"http://www.jsviews.com/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"
 					+ "</head>\n"
 					+ "<body>\n\n"
 					+ (tryItData.html

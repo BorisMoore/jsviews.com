@@ -324,7 +324,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     ]
   },
   "jsvapi": {
-    "title": "JsViews API - Data-driven UI",
+    "title": "JsViews",
     "path": "",
     "sections": [
       {
@@ -373,7 +373,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     ]
   },
   "jsrapi": {
-    "title": "JsRender API - Templated UI",
+    "title": "JsRender",
     "path": "",
     "sections": [
       {
@@ -1400,7 +1400,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     ]
   },
   "jsoapi": {
-    "title": "JsObservable API - Observing data",
+    "title": "JsObservable",
     "path": "",
     "sections": [
       {
@@ -1737,7 +1737,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       {
         "_type": "para",
         "title": "JsViews: A platform for data-bound single-page apps",
-        "text": "JsViews provides dynamic data-bound views, built on top of JsRender templates. It \"brings JsRender templates to life\". So lets start with the JsRender template we ended up with in the <a href=\"#jsrplaying\">Playing with JsRender</a> topic:"
+        "text": "JsViews provides dynamic data-bound views, built on top of JsRender templates. It \"brings JsRender templates to life\". So let's start with the JsRender template we ended up with in the <a href=\"#jsrplaying\">Playing with JsRender</a> topic:"
       },
       {
         "_type": "sample",
@@ -3431,7 +3431,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "para",
-        "title": "",
+        "title": "Adding helpers as private resources for a parent template",
         "text": "You can pass in an existing template as an additional <em>parentTemplate</em> parameter, on  <em>any</em> call to  <em>$.views.helpers(...)</em>."
       },
       {
@@ -3639,8 +3639,179 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           },
           {
             "_type": "code",
+            "title": "Declaring the custom tag",
+            "code": "function renderBoldP(value) {\n  return \"<p><strong>\" + value + \"</strong></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);"
+          },
+          {
+            "_type": "template",
+            "title": "Using the tag",
+            "markup": "This is the title:{{boldp title /}}"
+          }
+        ],
+        "title": "Simple custom tag using just a function",
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  This is the title:{{boldp title /}}\n</script>",
+        "code": "function renderBoldP(value) {\n   return \"<p><strong>\" + value + \"</strong></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
+        "height": "80",
+        "onlyJsRender": true
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<em>Note:</em> the <em>this</em> pointer within the tag render function is the instance of the tag, and can be used in more advanced usage, as in the next two examples:"
+      },
+      {
+        "_type": "para",
+        "title": "Wrapping block content using a template-based custom tag",
+        "text": "First of all - what if we want our tag to be used as a block tag, and to render itself by wrapping the rendered block content with the <em>bold p</em> html as in:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "{{boldp}}\n  This is inside our block content:<br/>\n  <em>{{:title}}</em>\n{{/boldp}}"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
             "title": "",
-            "code": "function renderBoldP(value) {\n   ... (return rendered content)\n}\n\n$.views.tags(\"boldp\", renderBoldP);"
+            "text": "To render the block content, we call <em>this.tagCtx.render()</em>:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "return \"<p><strong>\" + this.tagCtx.render() + \"</strong></p>\";\n"
+          }
+        ],
+        "title": "Rendering block content from a custom tag function",
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    This is inside our block content:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
+        "code": "function renderBoldP() {\n   return \"<p><strong>\" + this.tagCtx.render() + \"</strong></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
+        "height": "80"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "As well as calling the <em>render()</em> method of <em>this.tagCtx</em>, you can access <em>this.tagCtx.args</em>, <em>this.tagCtx.props</em>, <em>this.tagCtx.view.data</em> and more..."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The <em>tagCtx.args</em> are the unnamed parameters. So in this example, there are two of them:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "{{someTag title name}}"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In addition to being accessible as <em>tagCtx.args</em>, unnamed parameters are also passed directly as parameters to the render method (if your tag is using one):"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "function someTagRenderMethod(title, name) {\n  // Here, this.tagCtx.args[1] and the name parameter are the same thing\n}"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Now here is an example which has one unnamed parameter and two named parameters. You can access named parameters from <em>tagCtx.props</em>:"
+      },
+      {
+        "_type": "template",
+        "title": "",
+        "markup": "{{range members start=2 end=4}}"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "We'll use that in our third sample, to show accessing properties from the render function of the tag:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "This sample defines a <em>{{range}}</em> tag which iterates over an array which you pass as (unnamed) parameter. It also allows you to set named parameters <em>start</em> and <em>end</em>, to determine the range of iteration. (See also the <a href=\"#samples/jsr/tags/range\">for_range</a> sample, for a more advanced implementation of a similar custom tag.)"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "You call it like this:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{range members start=1 end=2}}\n ...\n{{/range}}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "And the render function code accesses context to get at those named and unnamed parameters... :"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.views.tags(\"range\", function(array){\n  ...\n  var start = this.tagCtx.props.start,\n  ...\n  // Render tag content, for this data item\n  ret += this.tagCtx.render(array[i]);\n  ..."
+          }
+        ],
+        "code": "$.views.tags(\"range\", function(array){\n  var ret = \"\",\n    start = this.tagCtx.props.start,\n    end = this.tagCtx.props.end;\n  for (var i = start; i <= end; i++) {\n    // Render tag content, for this data item\n    ret += this.tagCtx.render(array[i]);\n  }\n  return ret;\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><strong>{{:title}}</strong></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
+        "height": "120",
+        "title": "Accessing tagCtx properties from the tag render function",
+        "onlyJsRender": true
+      },
+      {
+        "_type": "para",
+        "title": "Using a tag template instead of a render function",
+        "text": "If the tag definition includes a template, but no render method, then the template will be used to render the tag. Let's re-implement all three examples above using custom tags which use templates instead of render functions."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "Declaring the custom tag",
+            "code": "$.views.tags(\"boldp\", {\n  template: \"<p><strong>{{:~tag.tagCtx.args[0]}}</strong></p>\"\n});"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "As you see, the template is accessing the unnamed parameter tagCtx.args[0]."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "The result is identical to the other implementation using a function. You call it just the same:"
           },
           {
             "_type": "template",
@@ -3648,16 +3819,10 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "markup": "{{boldp title /}}"
           }
         ],
-        "title": "Simple custom tag ",
+        "code": "$.views.tags(\"boldp\", {\n  template: \"<p><strong>{{:~tag.tagCtx.args[0]}}</strong></p>\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp title /}}\n</script>",
-        "code": "function renderBoldP(value) {\n   return \"<p><strong>\" + value + \"</strong></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
-        "height": "60",
-        "onlyJsRender": true
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "<em>Note:</em> the <em>this</em> pointer within the tag render function is the instance of the tag, and can be used in more advanced usage, as in the following example:"
+        "title": "Simple custom tag using just a template",
+        "height": "60"
       },
       {
         "_type": "sample",
@@ -3674,34 +3839,86 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "para",
             "title": "",
-            "text": "You can access <em>this.tagCtx.args</em>, <em>this.tagCtx.props</em>, <em>this.tagCtx.view.data</em> and more..."
+            "text": "To render block content, we use <em>{{include tmpl=~tag.tagCtx.content/}}</em>"
           },
           {
             "_type": "code",
             "title": "",
-            "code": "$.views.tags(\"list\", function(array){\n  ...\n  var start = this.tagCtx.props.start,\n  ...\n  // Render tag content, this data item\n  ret += this.tagCtx.render(array[i]);\n  ..."
+            "code": "template: \"<p><strong>{{include tmpl=#~tag.tagCtx.content/}}</strong></p>\""
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Here we are accessing the <em>content</em> property on the <em>tagCtx</em>, which provides a compiled template for the block content."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "(It is also made available as a <em>content</em> property on the <em>view</em> object - and can be accessed from within a template using <em>#content</em> - which is an example of a <em>view path</em> - equivalent to <em>#view.content</em>.)"
+          }
+        ],
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    This is the title:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
+        "code": "$.views.tags(\"boldp\", {\n  template: \"<p><strong>{{include tmpl=~tag.tagCtx.content/}}</strong></p>\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
+        "height": "80",
+        "title": "Rendering block content from a custom tag template"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Finally let's re-implement the third example using just a template. \n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Even this example can be implemented as a custom tag which has no code at all. - Just a template, which is also able to access all the context that we were able to access from code in our <em>render()</em> function above."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This illustrates the power of declarative templates..."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "The template accesses the same context as the function code above, to get at those named and unnamed parameters... :"
           },
           {
             "_type": "template",
             "title": "",
-            "markup": "{{list members start=1 end=2}}\n ...\n{{/list}}"
+            "markup": "{{for ~tag.tagCtx.args[0]}}\n  {{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\n    {{include tmpl=~tag.tagCtx.content/}}\n  {{/if}}\n{{/for}}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Then after filtering for the items within the chosen range, using nested <em>{{for}}{{if}</em> tags, it renders the original block content for those items using <em>{{include tmpl=~tag.tagCtx.content/}}</em>."
           }
         ],
-        "code": "$.views.tags(\"list\", function(array){\n  var ret = \"\",\n    start = this.tagCtx.props.start,\n    end = this.tagCtx.props.end;\n  for (var i = start; i <= end; i++) {\n    // Render tag content, this data item\n    ret += this.tagCtx.render(array[i]);\n  }\n  return ret;\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><strong>{{:title}}</strong></p>\n  <ul>\n    {{list members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/list}}\n  </ul> \n</script>",
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><strong>{{:title}}</strong></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
+        "code": "$.views.tags(\"range\", {\n  template: \n    \"{{for ~tag.tagCtx.args[0]}}\" +\n      \"{{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\" +\n        \"{{include tmpl=~tag.tagCtx.content/}}\" +\n      \"{{/if}}\" +\n    \"{{/for}}\"\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "120",
-        "title": "Accessing more context from the tag render function",
-        "onlyJsRender": true
+        "title": " Accessing more context from the tag template"
       },
       {
         "_type": "para",
-        "title": "Using a tag template",
-        "text": "If the tag definition includes a template, but no render method, then the template will be used to render the template."
+        "title": "Custom tags using both a render function <strong>and</strong> a template",
+        "text": "If there is both a template and a render method, then the template will only be used if the render method returns <em>undefined</em>"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "If there is both a template and a render method, then the template will only be used if the render method returns <em>undefined</em>"
+        "text": "Let's take our <em>{{range}}</em> example using a render function, but provide a template which will be used for as \"fallback\" rendering for the tag in the case when there are no items to render in the chosen range:"
       },
       {
         "_type": "sample",
@@ -3718,22 +3935,37 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "para",
             "title": "",
-            "text": "We register two tags - the first as a simple <em>'render function'</em> tag, and the second using a <em>tagOptions</em> object."
-          },
-          {
-            "_type": "code",
-            "title": "",
-            "code": "$.views.tags({\n  boldp: renderBoldP,  \n  list: {\n    render: function(...){\n      ...\n    },\n    template: ...\n  }\n});"
+            "text": "First we will change the original code to test whether the item exists in the array, before rendering the block content."
           },
           {
             "_type": "para",
             "title": "",
-            "text": "If there are no items to render, we will return undefined, so the tag will fall back on the template rendering."
+            "text": "And secondly, we will make sure that when there is an item we do render the block content and not the template. So we call <em>this.tagCtx.content.render(array[i])</em>, rather than <em>this.tagCtx.render(array[i])</em>."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "That's because  <em>this.tagCtx.render(...)</em> will actually look to see if there is template associated with the tag, (either a template on the tag definition, or a tmpl property on the tag) - in which case it will render that template and not the block content... "
           },
           {
             "_type": "code",
             "title": "",
-            "code": "render: function(array){\n  var ret = \"\",\n  ...\n  return ret || undefined;\n}"
+            "code": "for (var i = start; i <= end; i++) {\n  if (array[i]) {\n    // Render tag block content, for this data item\n    ret += this.tagCtx.content.render(array[i]);\n  }\n}\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Finally, if there are no items to render, we will return undefined, so the tag will fall back on the template rendering."
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "return ret || undefined;\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "And here is the \"fallback\" template:"
           },
           {
             "_type": "template",
@@ -3741,15 +3973,15 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
             "markup": "template: \"<li>Nothing to render</li>\""
           }
         ],
-        "code": "function renderBoldP(value) {\n   return \"<p><strong>\" + value + \"</strong></p>\";\n}\n\n$.views.tags({\n\n  boldp: renderBoldP,  \n\n  list: {\n    render: function(array){\n      var ret = \"\",\n        start = this.tagCtx.props.start,\n        end = this.tagCtx.props.end;\n      for (var i = start; i <= end; i++) {\n        if (array[i]) {\n          // Render tag content, for this data item\n          ret += this.tagCtx.content.render(array[i]);\n        }\n      }\n      return ret || undefined;\n    },\n    template: \"<li>Nothing to render</li>\"\n  }\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\n",
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp \"Members 2 to 4\"/}}\n  <ul>\n    {{list members start=1 end=3}} \n      <li>\n        {{:name}}\n      </li>\n    {{/list}}\n  </ul> \n  {{boldp \"Members 5 to 8\"/}}\n  <ul>\n    {{list members start=4 end=7}} \n      <li>\n        {{:name}}\n      </li>\n    {{/list}}\n  </ul> \n</script>",
+        "code": "$.views.tags({\n  range: {\n    render: function(array){\n      var ret = \"\",\n        start = this.tagCtx.props.start,\n        end = this.tagCtx.props.end;\n      for (var i = start; i <= end; i++) {\n        if (array[i]) {\n          // Render tag block content, for this data item\n          ret += this.tagCtx.content.render(array[i]);\n        }\n      }\n      return ret || undefined;\n    },\n    template: \"<li>Nothing to render</li>\"\n  }\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\n",
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <h3>Members 2 to 4</h3>\n  <ul>\n    {{range members start=1 end=3}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n\n  <h3>Members 5 to 8</h3>\n  <ul>\n    {{range members start=4 end=7}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
         "height": "200",
         "onlyJsRender": true,
-        "title": "Registering multiple tags, using functions or templates for rendering..."
+        "title": "A render() function and a template as \"fallback\""
       },
       {
         "_type": "para",
-        "title": "",
+        "title": "Adding tags as private resources for a parent template",
         "text": "You can pass in an existing template as an additional <em>parentTemplate</em> parameter, on  <em>any</em> call to  <em>$.views.tags(...)</em>."
       },
       {
@@ -3819,7 +4051,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "topic",
             "hash": "samples/jsr/tags",
-            "label": "Sample: JsRender custom tags"
+            "label": "Samples: JsRender custom tags"
           },
           {
             "_type": "topic",
@@ -4329,7 +4561,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "para",
-        "title": "",
+        "title": "Adding converters as private resources for a parent template",
         "text": "You can pass in an existing template as an additional <em>parentTemplate</em> parameter, on  <em>any</em> call to  <em>$.views.converters(...)</em>."
       },
       {
@@ -4824,7 +5056,7 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
       },
       {
         "_type": "para",
-        "title": "",
+        "title": "Adding templates as private resources for a parent template",
         "text": "You can pass in an existing template as an additional <em>parentTemplate</em> parameter, on  <em>any</em> call to  <em>$.templates(...)</em>. In that way the template you are registering becomes a 'private template resource' for the <em>parentTemplate</em>."
       },
       {
@@ -5687,32 +5919,19 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
     "path": "",
     "sections": [
       {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "sample": "sample",
-          "links": "links"
-        },
-        "sections": [
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
           {
-            "_type": "code",
-            "title": "",
-            "code": "$.views.tags({\n  sort: function( array ){\n    var ret = \"\";\n    if ( this.tagCtx.props.reverse ) {\n      ...\n    } else {\n      ...\n    }\n    return ret;\n  }\n});"
+            "hash": "samples/jsr/tags/wrap-content",
+            "label": "Wrapping content"
           },
           {
-            "_type": "template",
-            "title": "",
-            "markup": "{{sort languages tmpl=\"#sortedTemplate\"/}}\n...\n\n{{sort languages reverse=true}}\n  ...\n{{/sort}}"
+            "hash": "samples/jsr/tags/extend-for",
+            "label": "Extending for"
           }
-        ],
-        "sampleName": "jsrender/tags",
-        "onlyJsRender": true,
-        "url": "samples/jsrender/tags/sample",
-        "height": "160"
+        ]
       }
     ]
   },
@@ -5740,12 +5959,27 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "para",
             "title": "",
-            "text": "To render a <em>non-repeating</em> template against an array, with content above or below the repeating items, wrap the array - as <em>render([myArray])</em> - and include <em>{{for #data}}</em> for the repeating section."
+            "text": "For more information about helpers, see the <a href=\"#helpers()\">$.views.helpers()</a> API topic."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "This sample shows passing in helpers to the <em>render()</em> method:"
           },
           {
             "_type": "code",
             "title": "",
-            "code": "var html = $(\"#movieTemplate\").render(\n  // Wrap movies array in an array, to render as a layout with header and footer\n  [movies],\n  // pass in helpers\n  {\n    reverseSort: reverse,\n    ...\n  }\n);\n"
+            "code": "var html = $(\"#movieTemplate\").render(\n  // Pass in data\n  [movies],\n  // Pass in helpers\n  {\n    reverseSort: reverse,\n    ...\n  }\n);\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "In this case our template renders an array (with sort-order based on the <em>~reverseSort</em> boolean value we pass in as a helper)."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "To make our template render just once, rather than iterating over the <em>movies</em> array, we wrap the array - as <em>render([myArray])</em> - and then <em>within the template</em> we do the iteration, using <em>{{for #data}}</em>."
           },
           {
             "_type": "template",
@@ -5779,7 +6013,78 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           "sample": "sample",
           "links": "links"
         },
-        "sections": [],
+        "sections": [
+          {
+            "_type": "para",
+            "title": "Data paths, helper paths and view paths",
+            "text": "This sample shows the use of different kinds of <em>path</em>, in JsRender tag expressions."
+          },
+          {
+            "_type": "para",
+            "title": "Data paths:",
+            "text": "The following example shows a data path, <em>address.street</em> for 'drilling down' into data from the current data item."
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{>address.street}}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "And here is an example of a slightly more complex expression, with a null check for <em>address</em>:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{if address && address.street}}"
+          },
+          {
+            "_type": "para",
+            "title": "Helper paths",
+            "text": "Helper paths start with \"~\". Here is a helper path (in this case, to a helper method):"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{for ~combine(phones, cells)}}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "The following shows helper paths referencing a 'helper properties' (objects, or values):"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{:~lateMessages.noAddress || ~messages.noAddress}}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "And here is an example of a helper path, <em>frstNm</em>, which is actually an 'alias' for the <em>firstName</em>, taken from an outer data-context, and is passed in through the nesting data contexts of the 'views':"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{for ... ~frstNm=firstName}}\n  ... {{>~frstNm}} ...\n{{else}}\n  ... {{>~frstNm}} ...\n{{/for}}"
+          },
+          {
+            "_type": "para",
+            "title": "View paths",
+            "text": "View paths start with \"#\":"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{>#data}}\n\n{{>#parent.parent.data.firstName}}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "A view path is a way to access the current 'view' object (instance of a rendered template or of the block content of a tag), and drill into its properties. The examples above access <em>view.data</em> and <em>view.parent.parent.data.firstName</em>  "
+          }
+        ],
         "sampleName": "jsrender/paths",
         "height": "320",
         "onlyJsRender": true,
@@ -5890,6 +6195,97 @@ content.topics = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
         ]
       }
     ]
+  },
+  "samples/jsr/tags/wrap-content": {
+    "title": "Custom tags: wrapping content",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "Composition with custom tags",
+            "text": "This sample shows some basic custom tags implemented as simple render functions, or templates, and in each case shows how the tag can incorporate block content..."
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{mytag}}\n  {{>title}}\n{{/fntag}}\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "...into its rendering."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "A variant, is to incorporate external content (through a tag parameter such as <em>tmpl</em>, referencing an external template) into the rendered output..."
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{mytag tmpl=\"#externalcontent\"/}}\n"
+          }
+        ],
+        "sampleName": "jsrender/tags/wrap-content",
+        "url": "samples/jsrender/tags/wrap-content/sample",
+        "height": "220"
+      }
+    ]
+  },
+  "samples/jsr/tags/extend-for": {
+    "title": "Custom tags: extending the {{for}} tag",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "An extended <strong>({for}}</strong> tag",
+            "text": "<em>{{for_range}}</em> inherits from <em>{{for}}</em>, and adds\nsupport for iterating over a range (<em>start</em> to <em>end</em>) of items within an array,\nor for iterating directly over integers from <em>start</em> integer to <em>end</em> integer."
+          },
+          {
+            "_type": "template",
+            "title": "Range of items from array",
+            "markup": "{{for_range members start=1 end=3}}\n  ...\n{{else}}\n  ...\n{{/for_range}}"
+          },
+          {
+            "_type": "template",
+            "title": "Range of integers",
+            "markup": "{{for_range start=10 end=40}}\n  ...\n{{else}}\n  ...\n{{/for_range}}"
+          },
+          {
+            "_type": "code",
+            "title": "Derive from <strong>{{for}}</strong> tag",
+            "code": "$.views.tags({\n  for_range: $.extend(true, {}, $.views.tags.for, {\n    render: function(val) {\n      ...\n      return $.views.tags.for.render.apply(this, val ? [val] : arguments);\n    }\n  })\n});\n"
+          }
+        ],
+        "sampleName": "jsrender/tags/extend-for",
+        "url": "samples/jsrender/tags/extend-for/sample",
+        "height": "520"
+      }
+    ]
   }
 };
 content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocCategories")) ||
@@ -5939,7 +6335,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "Declaring dependencies"
           }
         ],
-        "expanded": false
+        "expanded": true
       },
       {
         "name": "templates",
@@ -5950,7 +6346,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "Composition"
           }
         ],
-        "expanded": false
+        "expanded": true
       },
       {
         "name": "views",
@@ -6391,7 +6787,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": true
       }
     ],
-    "expanded": true,
+    "expanded": false,
     "hidden": true
   },
   {
@@ -6467,7 +6863,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": false
       }
     ],
-    "expanded": true,
+    "expanded": false,
     "hidden": true
   },
   {
@@ -6503,7 +6899,18 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
           },
           {
             "name": "samples/jsr/tags",
-            "label": "Custom tags"
+            "label": "Custom tags",
+            "categories": [
+              {
+                "name": "samples/jsr/tags/wrap-content",
+                "label": "Wrapping content"
+              },
+              {
+                "name": "samples/jsr/tags/extend-for",
+                "label": "Extending for"
+              }
+            ],
+            "expanded": true
           },
           {
             "name": "samples/jsr/helpers",

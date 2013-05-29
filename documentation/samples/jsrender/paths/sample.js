@@ -23,15 +23,8 @@ var people = [
   }
 ];
 
-$.views.tags({
-  notLast: function( content ) {
-    var array = this.parent.data;
-    return array[ array.length - 1 ] === this.data ? "" : content( this );
-  }
-});
-
 $.views.helpers({
-  combine: function( arr1, arr2 ) {
+  combine: function(arr1, arr2) {
     return arr1 && arr2 ? arr1.concat(arr2) : arr1 || arr2;
   },
   messages: {
@@ -40,5 +33,9 @@ $.views.helpers({
 });
 
 $("#peopleList").html(
-  $("#peopleTemplate").render( people, {lateMessages: { noAddress: "Absolutely no address!..."}})
+  $("#peopleTemplate").render(people,
+    {lateMessages: {
+      noAddress: "Absolutely no address!..."}
+    }
+  )
 );

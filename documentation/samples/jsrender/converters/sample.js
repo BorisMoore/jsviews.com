@@ -39,5 +39,5 @@ $.views.converters({
 });
 
 $("#movieList").html(
-  $("#movieTemplate").render( movies )
+  $("#movieTemplate").render(movies)
 );

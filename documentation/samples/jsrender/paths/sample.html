@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link href="sample.css" rel="stylesheet" />
   <script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
   <script src="../../../../jsviews.js"></script>
 
-  <link href="sample.css" rel="stylesheet" />
   <script src="../../resources/iframeLoadScript.js" type="text/javascript"></script>
 </head>
 <body>
@@ -40,7 +40,8 @@
   <i>
     {{>firstName}}
 
-    {{if address && address.street}}  {{!-- address may be null or undefined --}}
+    {{if address && address.street}}
+      {{!-- address may be null or undefined --}}
       lives in {{>address.street}}.
     {{else}}
       {{:~lateMessages.noAddress || ~messages.noAddress}}
