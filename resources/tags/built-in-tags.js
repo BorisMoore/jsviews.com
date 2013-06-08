@@ -14,7 +14,7 @@ var	treeNodeTmpl = $.templates(
 				"<button class=\"down cmdbtn\">down</button>" +
 				"<button class=\"add cmdbtn\">add</button>" +
 				"{{if ~parentTags.treeNode }}" +
-					"<img class=\"remove\" src=\"../resources/images/close.png\" />" +
+					"<img class=\"remove\" src=\"resources/images/close.png\" />" +
 				"{{/if}}" +
 				"<button class=\"hide cmdbtn\" data-link=\"hidden ? 'show' : 'hide'\"></button>" +
 				"<label>label: <input data-link=\"label\" /></label>" +
@@ -96,9 +96,7 @@ var	treeNodeTmpl = $.templates(
 
 	treeTag = {
 		init: function(tagCtx) {
-			this.data = tagCtx.view.data;
-			this.selected = tagCtx.props.selected; // selected node data
-			this.parent.tree = this;
+			this.parent.setTree(this);
 		},
 		onAfterLink: function() {
 			var self = this;
@@ -112,7 +110,7 @@ var	treeNodeTmpl = $.templates(
 				})
 				.on( "click", ".remove", function(ev) {
 					$.view(this).ctx.tag.remove();
-					ev.stopImmediatePropagation(); // This is because there
+					ev.stopImmediatePropagation();
 				})
 				.on( "click", ".add", function(ev) {
 					$.view(this).ctx.tag.addCategory();
@@ -213,9 +211,9 @@ var	treeNodeTmpl = $.templates(
 // {{selectList}}
 // Derives from {{for}} control
 
-	selectListTag = $.extend(true, {}, $.views.tags.for, { // This tag control derives from the {{for}} tag.
+	selectListTag = $.extend(true, {}, $.views.tags["for"], { // This tag control derives from the {{for}} tag.
 		onArrayChange: function(ev, eventArgs) {
-			$.views.tags.for.onArrayChange.apply(this, arguments);
+			$.views.tags["for"].onArrayChange.apply(this, arguments);
 			if (eventArgs.change === "insert" || eventArgs.change === "move") {
 				this.toggleSelect(eventArgs.index);
 			}

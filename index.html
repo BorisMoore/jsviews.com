@@ -1,24 +1,574 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+	<link href="resources/css/tree.css" rel="stylesheet" type="text/css" />
+	<link href="resources/css/tabs.css" rel="stylesheet" type="text/css" />
 	<link href="resources/css/site.css" rel="stylesheet" type="text/css" />
+	<link href="resources/css/contents.css" rel="stylesheet" type="text/css" />
+
+	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+	<script src="download/jsviews.js" type="text/javascript"></script>
+	<script src="datatypes.js" type="text/javascript"></script>
+	<script src="documentation/contents-categories.js"></script>
+
+	<script src="resources/tags/built-in-tags.js" type="text/javascript"></script>
+<!--======================= Page Controls =======================-->
+	
+<script id="pageTmpl" type="text/x-jsrender">
+	<div data-link="class{:topCategory^name === 'home' ? ' home' : ' nothome'}">
+		<div class="topnav page-width">
+			<div class="main-item unselected" id="logo-jsrender">
+				<img class="logo" src="resources/images/logo-jsr.png" />
+				<div class='main-item-title'><span class="title-bold">Js</span>Render</div>
+				<img class="menupointer" src="resources/images/triangle.png" />
+			</div>
+			<div class="main-item unselected" id="logo-jsviews">
+				<img class="logo" src="resources/images/logo-jsv.png" />
+				<div class='main-item-title'	><span class="title-bold">Js</span>Views</div>
+				<img class="menupointer" src="resources/images/triangle.png" />
+			</div>
+			<div class="main-item unselected" id="logo-jsobservable">
+				<img class="logo" src="resources/images/logo-jso.png" />
+				<div class='main-item-title'><span class="title-bold">Js</span>Observable</div>
+				<img class="menupointer" src="resources/images/triangle.png" />
+			</div>
+		</div>
+		<div class="divider">
+			<span class="about">
+				<span class="caption" data-link="topCategory^heading"></span>
+				<span class="sub caption" data-link="topCategory^description"></span>
+			</span>
+			<a href="#download" class="buttonbox">Download</a>
+			<a href="#github" class="buttonbox github">View on GitHub</a>
+		</div>
+
+		<div class="filler"><span></span><span></span><span></span><span></span><span></span></div>
+
+		<table><tbody><tr class="content">
+{^{page classnm="sidenav"}}
+	{^{if topCategory^home}}
+		{^{if ~tag.editable ~mode="edit" }}
+			{^{selectList topCategory^home.leftsections left=true}}
+				{{sectionButtons ~root.sectionTypes /}}
+				{^{section _type ~mode ~sectionTypes=~root.sectionTypes[_type].sectionTypes/}}
+			{{/selectList}}
+		{{else  ~mode="summary"}}
+			{^{for topCategory^home.leftsections}}
+				{^{section _type "summary"/}}
+			{{/for}}
+		{{/if}}
+	{{else}}
+		{^{tree topCategory /}}
+	{{/if}}
+{{else ~tabTmpl=~templates.tabsContent classnm="topic"}}
+	<div data-link="class{:~tag.editable ? 'currenttopic edit' : 'currenttopic'}}">
+		<div class="{{:~tag.editable ? 'edit' : 'summary'}}">
+			{^{if ~tag.editable ~mode="edit" }}
+				{^{for topCategory.home || #data[topCategory^name][~tag.category^name] }}
+					<h2><label>Title: <input class="title" data-link="title" /></label></h2>
+					{^{selectList sections }}
+						{{sectionButtons ~root.sectionTypes /}}
+						{^{section _type ~mode ~sectionTypes=~root.sectionTypes[_type].sectionTypes /}}
+					{{/selectList}}
+				{{/for}}
+				{{sectionButtons ~root.sectionTypes append=true/}}
+				<button class="savedata cmdbtn">save</button>
+			{{else ~mode="summary"}}
+				{^{if topCategory^home}}
+					{^{for topCategory^home}}
+						<span class="hometopic">
+							<h2>{{:title}}</h2>
+							{{for sections}}
+								{{section _type ~mode /}}
+							{{/for}}
+						</span>
+						<span class="nextarrow">
+							<a href="#{{:next}}">More...<img src="resources/images/arrow-{{:prefix}}.png" /></a>
+						</span>
+					{{/for}}
+				{{else}}
+					{^{for #data[topCategory^name][~tag.category^name] }}
+						<h2>{{:title}}</h2>
+						{{for sections}}
+							{{section _type ~mode /}}
+						{{/for}}
+					{{else}}
+						No topic
+					{{/for}}
+				{{/if}}
+			{{/if}}
+		</div>
+	</div>
+	{^{if ~tag.editable}}
+		<div class="save-div">
+			<label>Topics<textarea class="savetext" data-link="{getContent:#data[topCategory^name]}"></textarea></label>
+			<label>Categories<textarea class="savetext" data-link="{getContent:categories}"></textarea></label>
+		</div>
+	{{/if}}
+{{/page}}
+	</tr></tbody><tbody><tr id="download"><td class="panel sidenav">
+	
+	<h2>JsRender, JsViews and JsObservable Downloads</h2>
+	<div class="para">To download these files, right-click and select "Save as..." from the menu.</div>
+		
+	<h2>Latest versions:</h2>
+	<div class="para">These links will always point to the latest version. (They move to the new current version with each new release).</div>
+
+	<div class="title">JsRender</div>
+	<div class="para">Uncompressed (for development): <a href="download/jsrender.js">jsrender.js</a>.
+	Compressed (for production): <a href="download/jsrender.min.js">jsrender.min.js</a>. (Source map available <a href="download/jsrender.min.js.map">here</a>).</div>
+	
+	<div class="title">JsViews - single file <span>(includes JsRender, JsObservable and JsViews)</span></div>
+	<div class="para">Uncompressed (for development): <a href="download/jsviews.js">jsviews.js</a>.
+	Compressed (for production): <a href="download/jsviews.min.js">jsviews.min.js</a>. (Source map available <a href="download/jsviews.min.js.map">here</a>).</div>
+
+	<div class="title">JsViews and JsObservable - separate files <span>(to be used with jsrender.js)</span></div>
+	<div class="para">Uncompressed (for development): <a href="download/jquery.views.js">jquery.views.js</a>.
+	Compressed (for production): <a href="download/jquery.views.min.js">jquery.views.min.js</a>. (Source map available <a href="download/jquery.views.min.js.map">here</a>).</div>
+	<div class="para">Uncompressed (for development): <a href="download/jquery.observable.js">jquery.observable.js</a>.
+	Compressed (for production): <a href="download/jquery.observable.min.js">jquery.observable.min.js</a>. (Source map available <a href="download/jquery.observable.min.js.map">here</a>).</div>
+
+	<h2>Specific named versions:</h2>
+
+	<div class="para">(These links will continue to point to the specific version, even after subsequent new releases).</div>
+
+	<div class="title">JsRender beta</div>
+
+	<div class="para"><b>Status: </b>JsRender is currently beta. V1.0 is planned to be available right after JsViews official beta release is complete.</div>
+	<div class="para">Uncompressed (for development): <a href="download/jsrender-1.0.0-beta.js">jsrender-1.0.0-beta.js</a>.
+	Compressed (for production): <a href="download/jsrender-1.0.0-beta.min.js">jsrender-1.0.0-beta.min.js</a>.</div>
+
+	<div class="title">JsViews pre beta <span>(single file version)</span></div>
+
+	<div class="para"><b>Status: </b>JsViews is currently a beta candidate.
+	It will be officially labelled "beta" as soon as reasonably complete documentation for the JsViews and
+		<br />JsObservable APIs has been made available on this site. (Coming soon...)</div>
+	
+	<div class="para">Uncompressed (for development): <a href="download/jsviews-1.0.0-alpha.js">jsviews-1.0.0-alpha.js</a>.
+	Compressed (for production): <a href="download/jsviews-1.0.0-alpha.min.js">jsviews-1.0.0-alpha.min.js</a>.</div>
+
+	<div class="title">JsViews and JsObservable <span>(Separate files)</span></div>
+	
+	<div class="para">Uncompressed (for development): <a href="download/jquery.views-1.0.0-alpha.js">jquery.views-1.0.0-alpha.js</a>.
+	Compressed (for production): <a href="download/jquery.views-1.0.0-alpha.min.js">jquery.views-1.0.0-alpha.min.js</a>.</div>
+	<div class="para">Uncompressed (for development): <a href="download/jquery.observable-1.0.0-alpha.js">jquery.observable-1.0.0-alpha.js</a>.
+	Compressed (for production): <a href="download/jquery.observable-1.0.0-alpha.min.js">jquery.observable-1.0.0-alpha.min.js</a>.</div>
+
+	</td></tr><tr id="github" ><td class="panel sidenav">
+
+	<h2>JsRender, JsViews and JsObservable source code on GitHub</h2>
+
+	<div class="title">JsViews source code</div>
+
+	<div class="para">JsViews and JsObservable are available under the <a href="https://raw.github.com/BorisMoore/jsviews/master/MIT-LICENSE.txt">MIT License</a>.</div>
+	<div class="para">The source code for both JsViews and JsObservable is developed on the <a href="https://github.com/BorisMoore/jsviews">github.com/BorisMoore/jsviews</a> GitHub repository.</div>
+
+	<div class="title">JsRender source code</div>
+	<div class="para">JsRender is available under the <a href="https://raw.github.com/BorisMoore/jsrender/master/MIT-LICENSE.txt">MIT License</a>.</div>
+
+	<div class="para">JsRender source code is developed on a separate GitHub repository, at <a href="https://github.com/BorisMoore/jsrender">github.com/BorisMoore/jsrender</a>.</div>
+
+	<div class="title">jsviews.com: <span>Source code for this single page app web site:</span></div>
+	<div class="para">This <em>jsviews.com</em> web site is a single page app, built entirely using JsViews. Source code is also on GitHub, on the <a href="https://github.com/BorisMoore/jsviews.com">github.com/BorisMoore/jsviews.com</a> GitHub repository.</div>
+
+	</td></tr></tbody></table>
+
+	<div class="footer">
+	</div>
+	<div class="menus bottom">
+		<a class="unselected" href="#home">Home</a>
+		<a class="unselected" href="#getstarted">Getting Started</a>
+		<a class="unselected" href="#concepts">Concepts</a>
+		<a class="unselected" href="#jsvapi">JsViews API</a>
+		<a class="unselected" href="#jsrapi">JsRender API</a>
+		<a class="unselected" href="#jsoapi">JsObservable API</a>
+		<a class="unselected" href="#samples">Samples</a>
+	</div>
+</div>
+
+</script>
+
+<script id="pagePanelTmpl" type="text/x-jsrender">
+	<td class="panel {{attr:~tag.tagCtx.props.classnm}}">
+		{{include tmpl=#content /}}
+	</td>
+</script>
+
+<script id="tabsContentTmpl" type="text/x-jsrender">
+</script>
+
+<!--======================= Section Templates =======================-->
+
+<script id="sectionHeaderTmpl" type="text/x-jsrender">
+	{{if ~tag.parent.selected}}
+		<div class="typeHeader">{{:_type}} <label class="isdetail">detail: <input type="checkbox" data-link="detail" /></label></div>
+		<div>
+			<label>Title: <input class="title" data-link="title" /></label>
+		</div>
+	{{else title}}
+		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+	{{/if}}
+</script>
+
+<script id="paraTmpl" type="text/x-jsrender">
+	{{if title}}
+		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+	{{/if}}
+	<div class="para">{{:text}}</div>
+</script>
+
+<script id="apiTmpl" type="text/x-jsrender">
+	<div class="apisignatures">
+		{{if title}}
+			<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+		{{/if}}
+		<div class="apidesc">{{:description}}</div>
+		{{for signatures ~api=#data}}
+			<div class="signature">
+				<div class="apiheader">
+					<span class="signature">{{:~signature(~api)}}</span> {{if ~api.returns}}<label class="returns">returns: <span>{{:~api.returns}}</span></label>{{/if}}
+				</div>
+				<div class="title">{{:title}}</div>
+				<div class="descblock">
+					<span class="desc">{{:description}}</span>
+					<pre class="example">{{:example}}</pre>
+				</div>
+				{{if params.length}}
+					<div class="params">
+						<div>Parameters</div>
+						{{for params}}
+							<div>
+								<label>{{:name}} <span class="type">({{:type}}{{if optional}} - optional{{/if}})</span></label>
+								<div class="paramdesc">{{:description}}</div>
+							</div>
+						{{/for}}
+					</div>
+				{{/if}}
+				{{for sections ~root.sectionTypes }}
+					{{if ~mode!=="summary" || !detail}} {^{section _type ~mode /}}{{/if}}				
+				{{/for}}
+			</div>
+		{{/for}}
+	</div>
+</script>
+
+<script id="tagTmpl" type="text/x-jsrender">
+	<div class="apisignatures">
+		{{if title}}
+			<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+		{{/if}}
+		<div class="apidesc">{{:description}}</div>
+		{{for signatures ~api=#data}}
+			<div class="signature">
+				<div class="apiheader">
+					<span class="signature">{{:variant}}</span>
+				</div>
+				<div class="title">{{:title}}</div>
+				<div class="descblock">
+					<span class="desc">{{:description}}</span>
+					<pre class="example">{{:example}}</pre>
+				</div>
+				{{if args.length}}
+					<div class="params">
+						<div>Arguments</div>
+						{{for args}}
+							<div>
+								<label>{{:name}} <span class="type">({{:type}}{{if optional}} - optional{{/if}})</span></label>
+								<div class="paramdesc">{{:description}}</div>
+							</div>
+						{{/for}}
+					</div>
+				{{/if}}
+				{{if params.length}}
+					<div class="params">
+						<div>Named Parameters</div>
+						{{for params}}
+							<div>
+								<label>{{:propName}}={{:name}} <span class="type">({{:type}}{{if optional}} - optional{{/if}})</span></label>
+								<div class="paramdesc">{{:description}}</div>
+							</div>
+						{{/for}}
+					</div>
+				{{/if}}
+				{{for sections ~root.sectionTypes }}
+					{{if ~mode!=="summary" || !detail}} {^{section _type ~mode /}}{{/if}}				
+				{{/for}}
+			</div>
+		{{/for}}
+	</div>
+</script>
+
+<script id="dataTmpl" type="text/x-jsrender">
+	{{if title}}
+		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+	{{/if}}
+	<div>
+		<pre data-link="{stringify:data}"></pre>
+	</div>
+</script>
+
+<script id="templateTmpl" type="text/x-jsrender">
+	{{if title}}
+		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+	{{/if}}
+	<div>
+		<pre data-link="markup"></pre>
+	</div>
+</script>
+
+<script id="codeTmpl" type="text/x-jsrender">
+	{{if title}}
+		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+	{{/if}}
+	<div>
+		<pre data-link="code"></pre>
+	</div>
+</script>
+
+<script id="sampleTmpl" type="text/x-jsrender">
+	<div class="samplesection">
+	{{if title}}
+		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+	{{/if}}
+	{{if ~mode !== "edit"}}
+		<div class="tryitButtons">
+			<button class="tryit" data-link="~tag.sampleFrame.tryIt ? 'How it works' : 'Try it'"></button>
+			<button class="revertSample" data-link="css-visibility{:~tag.sampleFrame.ranIt ? 'visible' : 'hidden'}">Clear Changes</button>
+		</div>
+		<div class="sample">
+			{^{sampleFrame /}}
+			{{for ~tag.sampleFrame ~sections=sections}}
+				{^{tabs tabCaption="How it works"}}
+					{{for ~sections}}
+						{{if ~mode!=="summary" || !detail}}{^{section _type ~mode /}}{{/if}}
+					{{/for}}
+				{{else tabCaption="Code"}}
+					<div class="show">
+						{{sampleFields/}}
+					</div>
+				{{else tabCaption="Full Code"}}
+					{{sampleFields "full"/}}
+				{{else tabCaption="Try it"}}
+					<div class="runButtons">
+						<button class="runSample" data-link="disabled{:!ranIt}">Run code</button>
+						<button class="revertSample" data-link="disabled{:!ranIt}">Clear changes</button>
+					</div>
+					<div class="try">
+						{{sampleFields "edit"/}}
+					</div>
+				{{/tabs}}
+			{{/for}}
+		</div>
+	{{else}}	
+		<div class="sample">
+			{{for sections ~root.sectionTypes }}
+				{{if ~mode!=="summary" || !detail}}{{section _type ~mode /}}{{/if}}
+			{{/for}}
+		</div>
+	{{/if}}
+	</div>
+</script>
+
+<script id="linksTmpl" type="text/x-jsrender">
+	{{if title}}
+		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+	{{/if}}
+	<div class="links">
+		<div>{{:linksHeader}}</div>
+		{^{for links}}
+			<div><a href="{{:url}}">{{:label}}</a></div>
+		{{/for}}
+	</div>
+	<div class="topiclinks">
+		<div>{{:topicsHeader}}</div>
+		{^{for topics}}
+			<div><a href="{{:~url(hash)}}">{{:label}}</a></div>
+		{{/for}}
+	</div>
+</script>
+
+<!--======================= Edit-Mode Section Templates =======================-->
+
+<script id="editParaTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div>
+		<textarea data-link="text" rows="5"></textarea>
+	</div>
+</script>
+
+<script id="editApiTmpl" type="text/x-jsrender">
+	<div class="api">
+		{{sectionHeader /}}
+		<label>Name: <input data-link="name" /></label>
+		<label>Object: <input data-link="object" /></label>
+		<label>Return type: <input data-link="returns" /></label>
+		<label>Method: <input type="checkbox" data-link="method" /></label><br />
+		<label>Description: <input class="description" data-link="description" /></label>
+		
+		<div class="signatures">
+			<div>Signatures</div>
+			{^{for signatures}}
+				<div class="signature">
+					<label>Title: <input class="description" data-link="title" /></label><br />
+					<label>Example: <textarea data-link="example"></textarea></label>
+					<label>Description: <input class="description" data-link="description" /></label>
+					<img class="removesection signature" src="resources/images/close.png" />
+					<div class="params">
+						<div>Parameters</div>
+						{^{for params}}
+							<div>
+								<label>Name: <input data-link="name" /></label>
+								<label>Type: <input data-link="type" /></label>
+								<label>Optional: <input type="checkbox" data-link="optional" /></label>
+								<label>Description: <input class="description" data-link="description" /></label>
+								<img class="removesection param" src="resources/images/close.png" />
+							</div>
+						{{/for}}
+					</div>
+					<button class="addparam cmdbtn">add parameter</button>
+					{^{selectList sections ~apisections=sections}}
+						{{sectionButtons ~sectionTypes ~sectionType="api" /}}			
+						{^{section _type ~mode ~apisections /}}				
+					{{/selectList}}
+					{{sectionButtons ~sectionTypes ~sectionType="api" append=true /}}			
+				</div>
+			{{/for}}
+		</div>
+		<button class="addsignature cmdbtn">add signature</button>
+	</div>
+</script>
+
+<script id="editTagTmpl" type="text/x-jsrender">
+	<div class="api">
+		{{sectionHeader /}}
+		<label>Description: <input class="description" data-link="description" /></label>
+		
+		<div class="signatures">
+			<div>Signatures</div>
+			{^{for signatures}}
+				<div class="signature">
+					<label>Title: <input class="description" data-link="title" /></label>
+					<label>Variant: <input class="description" data-link="variant" /></label><br />
+					<label>Example: <textarea data-link="example"></textarea></label>
+					<label>Description: <input class="description" data-link="description" /></label>
+					<img class="removesection signature" src="resources/images/close.png" />
+					<div class="params">
+						<div>Arguments</div>
+						{^{for args}}
+							<div>
+								<label>Name: <input data-link="name" /></label>
+								<label>Type: <input data-link="type" /></label>
+								<label>Optional: <input type="checkbox" data-link="optional" /></label>
+								<label>Description: <input class="description" data-link="description" /></label>
+								<img class="removesection param" src="resources/images/close.png" />
+							</div>
+						{{/for}}
+					</div>
+					<button class="addarg cmdbtn">add argument</button>
+					<div class="params">
+						<div>Parameters</div>
+						{^{for params}}
+							<div>
+								<label>Property Name: <input data-link="propName" /></label>
+								<label>Name: <input data-link="name" /></label>
+								<label>Type: <input data-link="type" /></label>
+								<label>Optional: <input type="checkbox" data-link="optional" /></label>
+								<label>Description: <input class="description" data-link="description" /></label>
+								<img class="removesection param" src="resources/images/close.png" />
+							</div>
+						{{/for}}
+					</div>
+					<button class="addparam cmdbtn">add parameter</button>
+					{^{selectList sections ~apisections=sections}}
+						{{sectionButtons ~sectionTypes ~sectionType="tag" /}}			
+						{^{section _type ~mode ~apisections /}}				
+					{{/selectList}}
+					{{sectionButtons ~sectionTypes ~sectionType="tag" append=true /}}			
+				</div>
+			{{/for}}
+		</div>
+		<button class="addsignature cmdbtn">add signature</button>
+	</div>
+</script>
+
+<script id="editDataTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div>
+		<textarea data-link="{stringify:data:parse}"></textarea>
+	</div>
+</script>
+
+<script id="editTemplateTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div>
+		<textarea data-link="markup" rows="5"></textarea>
+	</div>
+</script>
+
+<script id="editCodeTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div>
+		<textarea data-link="code" rows="5"></textarea>
+	</div>
+</script>
+
+<script id="editSampleTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div>
+		<label>sample name: <input data-link="sampleName" /></label>
+		<label>url: <input data-link="url" /></label>
+		<label>height: <input data-link="height" /></label>
+		<label>JsRender only: <input data-link="onlyJsRender" type="checkbox"/></label><br />
+		<label>markup<textarea data-link="markup" rows="5"></textarea></label>
+		<label>data<textarea data-link="{stringify:data:parse}" rows="5"></textarea></label>
+		<label>html<textarea data-link="html" rows="5"></textarea></label>
+		<label>code<textarea data-link="code" rows="5"></textarea></label>
+		<label>How it works:</label>
+		{^{selectList sections}}
+			{{sectionButtons ~sectionTypes ~sectionType="sample" /}}			
+			{^{section _type ~mode sections /}}				
+		{{/selectList}}
+		{{sectionButtons ~sectionTypes ~sectionType="sample" append=true /}}			
+	</div>
+</script>
+
+<script id="editLinksTmpl" type="text/x-jsrender">
+	{{sectionHeader /}}
+	<div class="links">
+		<div>Links</div>
+		{^{for links}}
+			<div>
+				<label>Title: </label><input data-link="label" />
+				<label>url: </label><input data-link="url" />
+				<img class="removesection link" src="resources/images/close.png" />
+			</div>
+		{{/for}}
+	</div>
+	<button class="addlink cmdbtn">add link</button>
+	<div class="topics">
+		<div>Topics</div>
+		{^{for topics}}
+			<div>
+				<label>Title: </label><input data-link="label" />
+				<label>hash: </label><input data-link="hash" />
+				<img class="removesection topic" src="resources/images/close.png" />
+			</div>
+		{{/for}}
+	</div>
+	<button class="addtopic cmdbtn">add topic</button>
+</script>
 </head>
 <body>
-
-<div class="pageContent">
-	<h3>JsRender and JsViews documentation <em>(Work in progress)</em></h3>
-	
-	<ul>
-<!--		<li><a href="documentation">Documentation for JsRender, JsViews and JsObservable</a></li>-->
-		<li><a href="documentation/#gettingstarted">Documentation for JsRender: Getting Started</a></li>
-<!--		<li><a href="documentation/#concepts">Concepts</a></li>-->
-		<li><a href="documentation/#jsrapi">JsRender API - Templated UI</a></li>
-<!--		<li><a href="documentation/#jsvapi">JsViews API - Data-driven UI</a></li>
-		<li><a href="documentation/#jsoapi">JsObservable API - Observing data</a></li>-->
-		<li><a href="documentation/#samples">Samples</a></li>
-	</ul>
-
-	<em>Coming soon</em> - additional topics for JsRender, and full documentation for JsViews and JsObservable
-</div>
+	<div class="menus top">
+		<a href="#home" id="home" class="unselected">Home</a>
+		<a href="#getstarted" id="getstarted" class="unselected">Getting Started</a>
+		<a href="#concepts" id="concepts" class="unselected">Concepts</a>
+		<a href="#jsvapi" id="jsvapi" class="unselected">JsViews API</a>
+		<a href="#jsrapi" id="jsrapi" class="unselected">JsRender API</a>
+		<a href="#jsoapi" id="jsoapi" class="unselected">JsObservable API</a>
+		<a href="#samples" id="samples" class="unselected">Samples</a>
+	</div>
+	<div id="content"></div>
+	<script src="index.js" type="text/javascript"></script>
 </body>
 </html>

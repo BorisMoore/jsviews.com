@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="sample.css" rel="stylesheet" />
+  <script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+  <script src="../../../download/jsviews.js"></script>
+
+  <script src="../../resources/iframeLoadScript.js" type="text/javascript"></script>
+</head>
+<body>
+<script id="movieTemplate" type="text/x-jsrender">
+  <thead>
+    <tr>
+      <th>Title
+        <button id="formatBtn">
+          {{>~buttonCaption('case')}}
+        </button>
+      </th>
+      <th>
+        <button id="sortBtn">
+          {{>~buttonCaption('sort')}}
+        </button>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{for #data}}
+      <tr>
+        <td>{{>~format(title)}}</td>
+        <td>
+          {{sort languages reverse=~reverseSort}}
+            <div><b>{{>name}}</b></div>
+          {{/sort}}
+        </td>
+      </tr>
+    {{/for}}
+  </tbody>
+</script>
+
+<table id="movieList"></table>
+
+</body>
+</html>

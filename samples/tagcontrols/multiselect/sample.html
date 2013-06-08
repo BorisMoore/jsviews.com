@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="sample.css" rel="stylesheet" />
+	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+	<script src="../../../download/jsviews.js"></script>
+	<script src="../../resources/iframeLoadScript.js" type="text/javascript"></script>
+</head>
+<body>
+<script id="liTmpl" type="text/x-jsrender">
+  <li>{{:name}}</li>
+</script>
+
+<script id="myTmpl" type="text/x-jsrender">
+  {{!-- tag syntax--}}
+  {^{multisel items=items selected=selectedItems/}}
+
+  {{!-- alternative element-based syntax--}}
+  <select data-link="{multisel items=items selected=selectedItems}"></select>
+
+  <h4>Selected Items</h4>
+
+  {^{multisel items=selectedItems selected=selectedSelectedItems /}}
+
+  <ul>{^{for selectedItems tmpl="#liTmpl" /}}</ul>
+  
+  <h4>Selected selected items</h4>
+
+  {{!-- You can use element-based syntax for {{for}} too if you want...)--}}
+  <ul data-link="{for selectedSelectedItems tmpl='#liTmpl'}"></ul>
+</script>
+
+<p>
+  <button id="add">add item</button>
+  <button id="remove">remove item</button>
+</p>
+
+<div id="page"></div>
+</body>
+</html>

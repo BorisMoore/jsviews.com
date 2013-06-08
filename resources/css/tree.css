@@ -1,7 +1,7 @@
 ﻿.tree {
-	margin-top: 0;
+	margin: 14px 0 0;
 	overflow: auto;
-	padding: 5px 0;
+	padding: 0;
 }
 
 .tree li li {
@@ -52,9 +52,11 @@
 }
 
 .tree .selected {
-	background-color:yellow;
-	border:1px solid grey;
-	max-width: 220px;
+	background-color: white;
+	border:1px solid #2881AF;
+	padding: 2px;
+	cursor: default;
+	margin-right: 3px;
 }
 
 .tree .selected label {
@@ -64,7 +66,8 @@
 }
 
 .tree .unselected {
-	border:1px solid white;
+	padding: 3px;
+	cursor: pointer;
 }
 
 .tree .bottom {

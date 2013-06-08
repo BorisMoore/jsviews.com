@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="sample.css" rel="stylesheet" />
+  <script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+  <script src="../../../download/jsviews.js"></script>
+
+  <script src="../../resources/iframeLoadScript.js" type="text/javascript"></script>
+</head>
+<body>
+<table>
+  <thead><tr>
+    <th>Title (loc:English)</th><th>Title (loc:French)</th>
+    <th>No Convert</th><th>HTML Encode</th>
+  </tr></thead>
+  <tbody id="movieList"></tbody>
+</table>
+
+<script id="movieTemplate" type="text/x-jsrender">
+  <tr title="{{attr:availability}}">
+    <td>{{loc:title lang='EN'}}</td>
+    <td>{{loc:title lang='FR'}}</td>
+    <td class="synopsis">{{:synopsis}}</td>
+    <td class="synopsis">{{>synopsis}}</td>
+  </tr>
+</script>
+
+</body>
+</html>
