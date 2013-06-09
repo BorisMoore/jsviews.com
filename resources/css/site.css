@@ -3,6 +3,7 @@
 	margin: 0;
 	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
 	font-size: 15px;
+	overflow-y: scroll;
 }
 
 .home, .nothome {
@@ -302,6 +303,18 @@ img.logo {
 .home .currenttopic {
 	padding-top: 0;
 	margin-top: -5px;
+}
+
+.home pre {
+	margin: 10px 0 10px;
+}
+
+.home .para {
+	margin: 10px 0 10px 0;
+}
+
+.home .title {
+	margin: 10px 10px 0px 0;
 }
 
 .footer {
