@@ -1,10 +1,10 @@
 ﻿var content = $.views.documentation.content,
 useStorage = content.allowEdit;
 
-content.concepts = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/concepts")) ||
+content.explore = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/explore")) ||
 {
-  "concepts": {
-    "title": "Concepts",
+  "explore": {
+    "title": "Explore",
     "path": "",
     "sections": [
       {

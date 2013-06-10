@@ -21,8 +21,8 @@ content.getstarted = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocT
             "label": "Playing with JsViews"
           },
           {
-            "hash": "concepts",
-            "label": "Concepts"
+            "hash": "explore",
+            "label": "Explore"
           },
           {
             "_type": "topic",
@@ -241,7 +241,7 @@ content.getstarted = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocT
           {
             "_type": "para",
             "title": "",
-            "text": "Within the block the current item is now the person (item in the array), and there we have an <em>{{if people}}...{{/if}}</em> block tag, which takes an expression as parameter."
+            "text": "Within the block the current item is now the person (item in the array), and there we have an <em>{{if nickname}}...{{/if}}</em> block tag, which takes an expression as parameter."
           },
           {
             "_type": "para",

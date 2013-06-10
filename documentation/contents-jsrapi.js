@@ -1059,7 +1059,7 @@ content.jsrapi = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "topic",
             "hash": "customtags",
-            "label": "Concepts: custom tags"
+            "label": "Explore: custom tags"
           },
           {
             "_type": "topic",
@@ -3303,7 +3303,7 @@ content.jsrapi = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopic
           {
             "_type": "topic",
             "hash": "customtags",
-            "label": "Concepts: custom tags"
+            "label": "Explore: custom tags"
           },
           {
             "_type": "topic",

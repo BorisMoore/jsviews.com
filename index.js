@@ -1,7 +1,7 @@
 ﻿(function(window, $, undefined) {
 "use strict";
 
-var	page, category, topCategory, homeCategory, topCategoryName, hash,
+var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 	content = $.views.documentation.content,
 	allowEdit = true,
 //#region TAG CONTROLS
@@ -13,7 +13,7 @@ var	page, category, topCategory, homeCategory, topCategoryName, hash,
 			var categoryPromise;
 			window.page = page = this;
 			page.data =  tagCtx.view.data;
-			page.category = category;
+			page.category = selectedCategory;
 		},
 		onAfterLink: function() {
 			var page = this;
@@ -85,7 +85,7 @@ var	page, category, topCategory, homeCategory, topCategoryName, hash,
 	// methods
 		setTree: function(tree) {
 			this.tree = tree;
-			$.observable(tree).setProperty("selected", category);
+			$.observable(tree).setProperty("selected", selectedCategory);
 			tree.onSelectionChange = function(selected) {
 				$.observable(page).setProperty({
 					hasDetail: selected.hasDetail
@@ -197,6 +197,31 @@ var	page, category, topCategory, homeCategory, topCategoryName, hash,
 			sample.markup2 = sample.markup;
 			sample.data2 = $.extend(true, {}, sample.data);
 			$.observable(sample).setProperty("tryIt", !sample.tryIt );
+		},
+		hideCategory: function(hash) {
+			function getCategoryNode(name, categories, parent) {
+				stack.push(parent);
+				var category,
+					l = categories.length;
+				while (l--) {
+					category = categories[l];
+					if (category.name === name || category.categories && (category = getCategoryNode(name, category.categories, category))) {
+						while (parent = stack.pop()) {
+							if (parent.hidden) {
+								return parent;
+							}
+						}
+						return category
+					}
+				}
+				stack.pop();
+			}
+			var hidden,
+				stack = [],
+				categories = this.data.categories;
+				
+			hidden = hash && getCategoryNode(hash, categories);
+			return hidden && hidden.hidden;
 		}
 	},
 
@@ -524,8 +549,8 @@ sectionTag.templates = sectionTemplates
 
 function getCategory(hash, fetch) {
 	function getCategoryNode(name, categories, parent) {
-		if (category = categories[0][name]) {
-			return topCategory = homeCategory = category;
+		if (selectedCategory = categories[0][name]) {
+			return topCategory = homeCategory = selectedCategory;
 		}
 		topCategory = undefined;
 		stack.push(parent);
@@ -535,56 +560,42 @@ function getCategory(hash, fetch) {
 			if (category.name === name || category.categories && (category = getCategoryNode(name, category.categories, category))) {
 				while (parent = stack.pop()) {
 					topCategory = parent;
-					parent.expanded = true;
+					if (!parent.expanded) {
+						$.observable(parent).setProperty("expanded", true);
+					}
 				}
 				return category
 			}
 		}
 		stack.pop();
 	}
-	var stack = [],
-		categories = content.categories;
-	
-	if (topCategoryName) {
-		$("#" + topCategoryName)
-			.removeClass("selected")
-			.addClass("unselected");
-	}
-	category = hash && getCategoryNode(hash, categories) || categories[0].jsrender;
+	var category,
+		stack = [],
+		categories = content.categories,
+		oldTopCategory = topCategoryName;
+	selectedCategory = hash && getCategoryNode(hash, categories) || categories[0].jsrender;
 
-	topCategory = topCategory || category;
+	topCategory = topCategory || selectedCategory;
 	topCategoryName = topCategory.name;
 
-	$("#" + topCategoryName)
-		.removeClass("unselected")
-		.addClass("selected");
-
+	if (topCategoryName !== oldTopCategory) {
+		if (oldTopCategory) {
+			$("#" + oldTopCategory)
+				.removeClass("selected")
+				.addClass("unselected");
+		}
+		$("#" + topCategoryName)
+			.removeClass("unselected")
+			.addClass("selected");
+	}
 	if (topCategory && fetch && !topCategory.loaded) {
 		topCategory.loaded = true;
 		return $.getScript("documentation/contents-" + topCategory.name + ".js");
 	}
-	return $.when(true);
+	return $.Deferred().resolve().promise();
 }
-var repeat, done;
 
 function fetchCategory() {
-	if (done) {
-		done = false;
-		return;
-	}
-	var wasSpecialHash = (hash === "#download" || hash === "#github") && hash;
-	if (location.hash === "#download" || location.hash === "#github") {
-		if (!hash) {
-			// Browser refresh while on download or github page. We reset to jsviews.com home.
-			repeat = location.hash;
-			location.hash = "jsrender";
-			$("body").addClass(repeat.slice(1)); // This will hide other sections and just show the download or github page
-			return fetchCategory();
-		}
-		hash = location.hash;
-		$("body").addClass(hash.slice(1)); // This will hide other sections and just show the download or github page
-		return;
-	}
 	if (!location.hash || location.hash === "#home") {
 		location.hash = homeCategory && homeCategory.key || "jsrender";
 		if (this) {
@@ -595,31 +606,25 @@ function fetchCategory() {
 	var oldTopCategory = topCategory;
 	return getCategory(location.hash.slice(1), true)
 		.then(function() {
-			if (wasSpecialHash) {
-				$("body").removeClass(wasSpecialHash.slice(1))
-			}
-			if (repeat) {
-				location.hash = hash = repeat;
-				repeat = false;
-				done = true;
-			}
 			if (page) {
-				$.observable(content).setProperty("topCategory", topCategory || category);
+				$.observable(content).setProperty("topCategory", topCategory || selectedCategory);
 				$.observable(page).setProperty({
-					category: category
+					category: selectedCategory
 				});
 				if (page.tree) { // If tree not yet instantiated, will set selection in page.setTree()
-					$.observable(page.tree).setProperty("selected", category);
+					$.observable(page.tree).setProperty("selected", selectedCategory);
 				}
-				if (oldTopCategory && oldTopCategory.key) {
-					$("#logo-" + oldTopCategory.key)
-						.removeClass("selected")
-						.addClass("unselected");
-				}
-				if (topCategory.key) {
-					$("#logo-" + topCategory.key)
-						.removeClass("unselected")
-						.addClass("selected");
+				if (oldTopCategory !== topCategory) {
+					if (oldTopCategory && oldTopCategory.key) {
+						$("#logo-" + oldTopCategory.key)
+							.removeClass("selected")
+							.addClass("unselected");
+					}
+					if (topCategory.key) {
+						$("#logo-" + topCategory.key)
+							.removeClass("unselected")
+							.addClass("selected");
+					}
 				}
 				window.scrollTo(0, 0);
 			}
@@ -703,14 +708,13 @@ $.views.converters({
 	stringify: stringify,
 	parse: parse,
 	test: function(val){
-		debugger;
+
 	}
 });
 
-var fetched = fetchCategory();
-if (fetched) {
-	fetched.then(function() {
-		content.topCategory = topCategory || category;
+fetchCategory()
+	.then(function() {
+		content.topCategory = topCategory || selectedCategory;
 
 		templates.page.link("#content", content, {templates: templates});
 
@@ -726,7 +730,6 @@ if (fetched) {
 			location.hash = this.id.slice(5);
 		});
 	});
-}
 //#endregion
 
 })(this, this.jQuery);

@@ -222,7 +222,7 @@ margin: 2px;
 }
 
 .apisignatures, .samplesection {
-	border: 1px solid #2c77ba;
+	border: 1px solid #2881AF;
 	background-color: white;
 	margin: 35px -2px 35px -16px;
 	padding: 4px 14px 10px 14px;
@@ -266,18 +266,18 @@ margin: 2px;
 }
 
 .apisignatures .params {
-	border: 1px solid #2c77ba;
+	border: 1px solid #2881AF;
 	margin-top: 5px; 
 }
 
 .apisignatures .params > div {
-	border: 1px solid #2c77ba;
+	border-top: 1px solid #2881AF;
 	padding: 3px;
-	background-color: #e2ebef;
+	background-color: #f2f2f2;
 }
 
 .apisignatures .params > div:first-child {
-	background-color: #2c77ba;
+	background-color: #2881AF;
 	color: #FFFFFF;
 }
 

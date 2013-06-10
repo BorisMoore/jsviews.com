@@ -5,8 +5,8 @@
 	<link href="resources/css/tabs.css" rel="stylesheet" type="text/css" />
 	<link href="resources/css/site.css" rel="stylesheet" type="text/css" />
 	<link href="resources/css/contents.css" rel="stylesheet" type="text/css" />
-
-	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+<script src="jquery-1.10.0.js"></script>
+<!--	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>-->
 	<script src="download/jsviews.js" type="text/javascript"></script>
 	<script src="datatypes.js" type="text/javascript"></script>
 	<script src="documentation/contents-categories.js"></script>
@@ -106,83 +106,21 @@
 		</div>
 	{{/if}}
 {{/page}}
-	</tr></tbody><tbody><tr id="download"><td class="panel sidenav">
-	
-	<h2>JsRender, JsViews and JsObservable Downloads</h2>
-	<div class="para">To download these files, right-click and select "Save as..." from the menu.</div>
-		
-	<h2>Latest versions:</h2>
-	<div class="para">These links will always point to the latest version. (They move to the new current version with each new release).</div>
-
-	<div class="title">JsRender</div>
-	<div class="para">Uncompressed (for development): <a href="download/jsrender.js">jsrender.js</a>.
-	Compressed (for production): <a href="download/jsrender.min.js">jsrender.min.js</a>. (Source map available <a href="download/jsrender.min.js.map">here</a>).</div>
-	
-	<div class="title">JsViews - single file <span>(includes JsRender, JsObservable and JsViews)</span></div>
-	<div class="para">Uncompressed (for development): <a href="download/jsviews.js">jsviews.js</a>.
-	Compressed (for production): <a href="download/jsviews.min.js">jsviews.min.js</a>. (Source map available <a href="download/jsviews.min.js.map">here</a>).</div>
-
-	<div class="title">JsViews and JsObservable - separate files <span>(to be used with jsrender.js)</span></div>
-	<div class="para">Uncompressed (for development): <a href="download/jquery.views.js">jquery.views.js</a>.
-	Compressed (for production): <a href="download/jquery.views.min.js">jquery.views.min.js</a>. (Source map available <a href="download/jquery.views.min.js.map">here</a>).</div>
-	<div class="para">Uncompressed (for development): <a href="download/jquery.observable.js">jquery.observable.js</a>.
-	Compressed (for production): <a href="download/jquery.observable.min.js">jquery.observable.min.js</a>. (Source map available <a href="download/jquery.observable.min.js.map">here</a>).</div>
-
-	<h2>Specific named versions:</h2>
-
-	<div class="para">(These links will continue to point to the specific version, even after subsequent new releases).</div>
-
-	<div class="title">JsRender beta</div>
-
-	<div class="para"><b>Status: </b>JsRender is currently beta. V1.0 is planned to be available right after JsViews official beta release is complete.</div>
-	<div class="para">Uncompressed (for development): <a href="download/jsrender-1.0.0-beta.js">jsrender-1.0.0-beta.js</a>.
-	Compressed (for production): <a href="download/jsrender-1.0.0-beta.min.js">jsrender-1.0.0-beta.min.js</a>.</div>
-
-	<div class="title">JsViews pre beta <span>(single file version)</span></div>
-
-	<div class="para"><b>Status: </b>JsViews is currently a beta candidate.
-	It will be officially labelled "beta" as soon as reasonably complete documentation for the JsViews and
-		<br />JsObservable APIs has been made available on this site. (Coming soon...)</div>
-	
-	<div class="para">Uncompressed (for development): <a href="download/jsviews-1.0.0-alpha.js">jsviews-1.0.0-alpha.js</a>.
-	Compressed (for production): <a href="download/jsviews-1.0.0-alpha.min.js">jsviews-1.0.0-alpha.min.js</a>.</div>
-
-	<div class="title">JsViews and JsObservable <span>(Separate files)</span></div>
-	
-	<div class="para">Uncompressed (for development): <a href="download/jquery.views-1.0.0-alpha.js">jquery.views-1.0.0-alpha.js</a>.
-	Compressed (for production): <a href="download/jquery.views-1.0.0-alpha.min.js">jquery.views-1.0.0-alpha.min.js</a>.</div>
-	<div class="para">Uncompressed (for development): <a href="download/jquery.observable-1.0.0-alpha.js">jquery.observable-1.0.0-alpha.js</a>.
-	Compressed (for production): <a href="download/jquery.observable-1.0.0-alpha.min.js">jquery.observable-1.0.0-alpha.min.js</a>.</div>
-
-	</td></tr><tr id="github" ><td class="panel sidenav">
-
-	<h2>JsRender, JsViews and JsObservable source code on GitHub</h2>
-
-	<div class="title">JsViews source code</div>
-
-	<div class="para">JsViews and JsObservable are available under the <a href="https://raw.github.com/BorisMoore/jsviews/master/MIT-LICENSE.txt">MIT License</a>.</div>
-	<div class="para">The source code for both JsViews and JsObservable is developed on the <a href="https://github.com/BorisMoore/jsviews">github.com/BorisMoore/jsviews</a> GitHub repository.</div>
-
-	<div class="title">JsRender source code</div>
-	<div class="para">JsRender is available under the <a href="https://raw.github.com/BorisMoore/jsrender/master/MIT-LICENSE.txt">MIT License</a>.</div>
-
-	<div class="para">JsRender source code is developed on a separate GitHub repository, at <a href="https://github.com/BorisMoore/jsrender">github.com/BorisMoore/jsrender</a>.</div>
-
-	<div class="title">jsviews.com: <span>Source code for this single page app web site:</span></div>
-	<div class="para">This <em>jsviews.com</em> web site is a single page app, built entirely using JsViews. Source code is also on GitHub, on the <a href="https://github.com/BorisMoore/jsviews.com">github.com/BorisMoore/jsviews.com</a> GitHub repository.</div>
-
-	</td></tr></tbody></table>
+	</tr></tbody></table>
 
 	<div class="footer">
 	</div>
 	<div class="menus bottom">
 		<a class="unselected" href="#home">Home</a>
-		<a class="unselected" href="#getstarted">Getting Started</a>
-		<a class="unselected" href="#concepts">Concepts</a>
-		<a class="unselected" href="#jsvapi">JsViews API</a>
+		<a class="unselected" href="#getstarted">Get Started</a>
+<!--		<a class="unselected" href="#explore">Explore</a>
+		<a class="unselected" href="#jsvapi">JsViews API</a>-->
 		<a class="unselected" href="#jsrapi">JsRender API</a>
-		<a class="unselected" href="#jsoapi">JsObservable API</a>
+<!--		<a class="unselected" href="#jsoapi">JsObservable API</a>-->
 		<a class="unselected" href="#samples">Samples</a>
+		<a class="unselected" href="#download">Downloads</a>
+		<a class="unselected" href="#community">Community</a>
+		<a class="unselected" href="#links">Links</a>
 	</div>
 </div>
 
@@ -382,7 +320,8 @@
 	<div class="topiclinks">
 		<div>{{:topicsHeader}}</div>
 		{^{for topics}}
-			<div><a href="{{:~url(hash)}}">{{:label}}</a></div>
+			{{if ~mode === "edit" || !~parentTags.page.hideCategory(hash)}}<div><a href="{{:~url(hash)}}">{{:label}}</a></div>{{/if}}
+			{{!--<div><a href="{{:~url(hash)}}">{{:label}}</a></div>--}}
 		{{/for}}
 	</div>
 </script>
@@ -561,12 +500,15 @@
 <body>
 	<div class="menus top">
 		<a href="#home" id="home" class="unselected">Home</a>
-		<a href="#getstarted" id="getstarted" class="unselected">Getting Started</a>
-		<a href="#concepts" id="concepts" class="unselected">Concepts</a>
-		<a href="#jsvapi" id="jsvapi" class="unselected">JsViews API</a>
+		<a href="#getstarted" id="getstarted" class="unselected">Get Started</a>
+<!--		<a href="#explore" id="explore" class="unselected">Explore</a>-->
+<!--		<a href="#jsvapi" id="jsvapi" class="unselected">JsViews API</a>-->
 		<a href="#jsrapi" id="jsrapi" class="unselected">JsRender API</a>
-		<a href="#jsoapi" id="jsoapi" class="unselected">JsObservable API</a>
+<!--		<a href="#jsoapi" id="jsoapi" class="unselected">JsObservable API</a>-->
 		<a href="#samples" id="samples" class="unselected">Samples</a>
+		<a href="#download" id="download" class="unselected">Downloads</a>
+		<a href="#community" id="community" class="unselected">Community</a>
+		<a href="#links" id="links" class="unselected">Links</a>
 	</div>
 	<div id="content"></div>
 	<script src="index.js" type="text/javascript"></script>

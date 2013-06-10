@@ -26,6 +26,7 @@
 	background-color: #f8f8f8;
 	color: Blue;
 	margin: 0 6px 2px 0;
+	padding-top: 1px;
 }
 
 .tree .remove {
@@ -37,7 +38,8 @@
 .tree .spacer {
 	display: inline-block;
 	width: 12px;
-	margin: 0 2px 3px 0;
+	margin: 0px 2px 2px 0;
+	margin-right: 2px;
 }
 
 .tree ul {
@@ -53,7 +55,7 @@
 
 .tree .selected {
 	background-color: white;
-	border:1px solid #2881AF;
+	border:1px solid rgba(40, 129, 175, 0.63);
 	padding: 2px;
 	cursor: default;
 	margin-right: 3px;

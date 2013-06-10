@@ -262,15 +262,15 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
       },
       {
         "name": "jsvplaying",
-        "label": "Playing with JsViews",
-        "hidden": false
+        "label": "Playing with JsViews"
       }
     ],
     "expanded": true
   },
   {
-    "name": "concepts",
-    "label": "Concepts",
+    "hidden": true,
+    "name": "explore",
+    "label": "Explore",
     "heading": "Concepts and Tutorials",
     "description": "Getting a fuller understanding of JsRender, JsViews and JsObservable",
     "categories": [
@@ -462,8 +462,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "label": "MVVM and MVP"
       }
     ],
-    "expanded": true,
-    "hidden": false
+    "expanded": true
   },
   {
     "name": "jsrapi",
@@ -575,6 +574,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": true
       },
       {
+        "hidden": true,
         "name": "jsrobjects",
         "label": "JsRender objects",
         "categories": [
@@ -614,13 +614,13 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "label": "tag context object"
           }
         ],
-        "expanded": true,
-        "hidden": false
+        "expanded": true
       }
     ],
     "expanded": true
   },
   {
+    "hidden": true,
     "name": "jsvapi",
     "label": "JsViews API - Data-driven UI",
     "heading": "JsViews API documentation",
@@ -755,10 +755,10 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": true
       }
     ],
-    "expanded": true,
-    "hidden": false
+    "expanded": true
   },
   {
+    "hidden": true,
     "name": "jsoapi",
     "label": "JsObservable API - Observing data",
     "heading": "JsObservable API documentation",
@@ -833,8 +833,7 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": true
       }
     ],
-    "expanded": true,
-    "hidden": false
+    "expanded": true
   },
   {
     "name": "samples",
@@ -896,9 +895,9 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
         "expanded": true
       },
       {
+        "hidden": true,
         "name": "samples/jso",
-        "label": "JsObservable",
-        "hidden": false
+        "label": "JsObservable"
       },
       {
         "name": "samples/jsv",
@@ -935,8 +934,73 @@ content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocC
             "expanded": true
           }
         ],
-        "expanded": true,
-        "hidden": false
+        "expanded": true
+      }
+    ],
+    "expanded": true
+  },
+  {
+    "name": "download",
+    "label": "Downloads",
+    "heading": "Downloading JsViews, JsRender and JsObservable",
+    "description": "",
+    "categories": [
+      {
+        "name": "download/latest",
+        "label": "Latest version",
+        "expanded": true
+      },
+      {
+        "name": "download/specific",
+        "label": "Specific versions",
+        "expanded": true
+      }
+    ],
+    "expanded": true
+  },
+  {
+    "name": "download",
+    "label": "Downloads",
+    "heading": "Downloading JsViews, JsRender and JsObservable",
+    "description": "",
+    "categories": [
+      {
+        "name": "download/specific",
+        "label": "Specific versions",
+        "expanded": true
+      }
+    ],
+    "expanded": true
+  },
+  {
+    "name": "community",
+    "label": "JsViews Community",
+    "heading": "JsViews and JsRender Community",
+    "description": "Viewing the source code, filing bugs or feature requests...",
+    "categories": [
+      {
+        "name": "github",
+        "label": "GitHub",
+        "expanded": true
+      }
+    ],
+    "expanded": true
+  },
+  {
+    "name": "links",
+    "label": "Links",
+    "heading": "Learning more",
+    "description": "Learning more - external links...",
+    "categories": [
+      {
+        "name": "learning",
+        "label": "Learning",
+        "expanded": true
+      },
+      {
+        "name": "blogs",
+        "label": "Blogs",
+        "expanded": true
       }
     ],
     "expanded": true
