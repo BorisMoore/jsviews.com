@@ -3,7 +3,7 @@
 
 var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 	content = $.views.documentation.content,
-	allowEdit = true,
+	allowEdit = false,
 //#region TAG CONTROLS
 
 // {{page}}
