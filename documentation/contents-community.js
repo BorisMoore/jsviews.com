@@ -20,12 +20,12 @@ content.community = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTo
     ]
   },
   "github": {
-    "title": "GitHub",
+    "title": "JsRender, JsViews and JsObservable source code on GitHub",
     "path": "",
     "sections": [
       {
         "_type": "para",
-        "title": "JsRender, JsViews and JsObservable source code on GitHub",
+        "title": "",
         "text": "<div class=\"title\">JsViews source code</div>"
       },
       {
