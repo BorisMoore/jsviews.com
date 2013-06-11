@@ -1,7 +1,6 @@
-﻿var content = $.views.documentation.content,
-useStorage = content.allowEdit;
+﻿var content = $.views.documentation.content;
 
-content.getstarted = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/getstarted")) ||
+content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/getstarted")) ||
 {
   "getstarted": {
     "title": "Getting started",

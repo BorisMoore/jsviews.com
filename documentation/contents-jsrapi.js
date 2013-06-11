@@ -1,7 +1,6 @@
-﻿var content = $.views.documentation.content,
-useStorage = content.allowEdit;
+﻿var content = $.views.documentation.content;
 
-content.jsrapi = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopicsjsrapi")) ||
+content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/jsrapi")) ||
 {
   "jsrapi": {
     "title": "JsRender",

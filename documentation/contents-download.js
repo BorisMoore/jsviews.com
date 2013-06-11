@@ -1,7 +1,6 @@
-﻿var content = $.views.documentation.content,
-useStorage = content.allowEdit;
+﻿var content = $.views.documentation.content;
 
-content.download = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopicsdownload")) ||
+content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/download")) ||
 {
   "download": {
     "title": "JsRender, JsViews and JsObservable Downloads",
@@ -30,7 +29,7 @@ content.download = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTop
       {
         "_type": "para",
         "title": "",
-        "text": "Uncompressed (for development): <a href=\"download/jsrender.js\">jsrender.js</a>.<br />\nCompressed (for production): <a href=\"download/jsrender.min.js\">jsrender.min.js</a>. (Source map available <a href=\"download/jsrender.min.js.map\">here</a>)."
+        "text": "Uncompressed (for development): <a href=\"download/jsrender.js\">jsrender.js</a>.<br />Compressed (for production): <a href=\"download/jsrender.min.js\">jsrender.min.js</a>. (Source map available <a href=\"download/jsrender.min.js.map\">here</a>)."
       },
       {
         "_type": "para",
@@ -40,7 +39,7 @@ content.download = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTop
       {
         "_type": "para",
         "title": "",
-        "text": "Uncompressed (for development): <a href=\"download/jsviews.js\">jsviews.js</a>.<br />\nCompressed (for production): <a href=\"download/jsviews.min.js\">jsviews.min.js</a>. (Source map available <a href=\"download/jsviews.min.js.map\">here</a>)."
+        "text": "Uncompressed (for development): <a href=\"download/jsviews.js\">jsviews.js</a>.<br />Compressed (for production): <a href=\"download/jsviews.min.js\">jsviews.min.js</a>. (Source map available <a href=\"download/jsviews.min.js.map\">here</a>)."
       },
       {
         "_type": "para",
@@ -50,24 +49,41 @@ content.download = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTop
       {
         "_type": "para",
         "title": "",
-        "text": "Uncompressed (for development): <a href=\"download/jquery.views.js\">jquery.views.js</a>.<br />\nCompressed (for production): <a href=\"download/jquery.views.min.js\">jquery.views.min.js</a>. (Source map available <a href=\"download/jquery.views.min.js.map\">here</a>)."
+        "text": "Uncompressed (for development): <a href=\"download/jquery.views.js\">jquery.views.js</a>.<br />Compressed (for production): <a href=\"download/jquery.views.min.js\">jquery.views.min.js</a>. (Source map available <a href=\"download/jquery.views.min.js.map\">here</a>)."
       },
       {
         "_type": "para",
         "title": "",
-        "text": "Uncompressed (for development): <a href=\"download/jquery.observable.js\">jquery.observable.js</a>.<br />\nCompressed (for production): <a href=\"download/jquery.observable.min.js\">jquery.observable.min.js</a>. (Source map available <a href=\"download/jquery.observable.min.js.map\">here</a>)."
+        "text": "Uncompressed (for development): <a href=\"download/jquery.observable.js\">jquery.observable.js</a>.<br />Compressed (for production): <a href=\"download/jquery.observable.min.js\">jquery.observable.min.js</a>. (Source map available <a href=\"download/jquery.observable.min.js.map\">here</a>)."
+      },
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "download/specific",
+            "label": "Specific versions"
+          }
+        ]
       }
     ]
-  },
-  "download/latest": {
-    "title": "Latest version",
-    "path": "",
-    "sections": []
   },
   "download/specific": {
     "title": "JsRender, JsViews and JsObservable Downloads",
     "path": "",
     "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "download",
+            "label": "Latest versions"
+          }
+]
+      },
       {
         "_type": "para",
         "title": "",
@@ -96,7 +112,7 @@ content.download = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTop
       {
         "_type": "para",
         "title": "",
-        "text": "Uncompressed (for development): <a href=\"download/jsrender-1.0.0-beta.js\">jsrender-1.0.0-beta.js</a>.<br />\nCompressed (for production): <a href=\"download/jsrender-1.0.0-beta.min.js\">jsrender-1.0.0-beta.min.js</a>."
+        "text": "Uncompressed (for development): <a href=\"download/jsrender-1.0.0-beta.js\">jsrender-1.0.0-beta.js</a>.<br />Compressed (for production): <a href=\"download/jsrender-1.0.0-beta.min.js\">jsrender-1.0.0-beta.min.js</a>."
       },
       {
         "_type": "para",
@@ -111,12 +127,12 @@ content.download = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTop
       {
         "_type": "para",
         "title": "",
-        "text": "Uncompressed (for development): <a href=\"download/jquery.views-1.0.0-alpha.js\">jquery.views-1.0.0-alpha.js</a>.<br />\nCompressed (for production): <a href=\"download/jquery.views-1.0.0-alpha.min.js\">jquery.views-1.0.0-alpha.min.js</a>."
+        "text": "Uncompressed (for development): <a href=\"download/jquery.views-1.0.0-alpha.js\">jquery.views-1.0.0-alpha.js</a>.<br />Compressed (for production): <a href=\"download/jquery.views-1.0.0-alpha.min.js\">jquery.views-1.0.0-alpha.min.js</a>."
       },
       {
         "_type": "para",
         "title": "",
-        "text": "Uncompressed (for development): <a href=\"download/jquery.observable-1.0.0-alpha.js\">jquery.observable-1.0.0-alpha.js</a>.<br />\nCompressed (for production): <a href=\"download/jquery.observable-1.0.0-alpha.min.js\">jquery.observable-1.0.0-alpha.min.js</a>."
+        "text": "Uncompressed (for development): <a href=\"download/jquery.observable-1.0.0-alpha.js\">jquery.observable-1.0.0-alpha.js</a>.<br />Compressed (for production): <a href=\"download/jquery.observable-1.0.0-alpha.min.js\">jquery.observable-1.0.0-alpha.min.js</a>."
       }
     ]
   }

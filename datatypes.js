@@ -73,7 +73,8 @@ $.map(sectionTypes, function(value, key) {
 
 $.views.documentation = {
   content: {
-  allowEdit: localStorage.getItem("JsViewsDocTopicsAllowEdit"),
+  allowEdit: localStorage.getItem("JsViewsDocTopics/allowEdit") === "true",
+  useStorage: localStorage.getItem("JsViewsDocTopics/useStorage") === "true",
   subTypes: {
     signature: { 
       _type: "signature",

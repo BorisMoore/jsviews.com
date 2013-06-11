@@ -1,7 +1,6 @@
-﻿var content = $.views.documentation.content,
-useStorage = content.allowEdit;
+﻿var content = $.views.documentation.content;
 
-content.jsvapi = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/jsvapi")) ||
+content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/jsvapi")) ||
 {
   "jsvapi": {
     "title": "JsViews",

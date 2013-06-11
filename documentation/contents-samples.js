@@ -1,7 +1,6 @@
-﻿var content = $.views.documentation.content,
-useStorage = content.allowEdit;
+﻿var content = $.views.documentation.content;
 
-content.samples = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/samples")) ||
+content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/samples")) ||
 {
   "samples": {
     "title": "Samples",

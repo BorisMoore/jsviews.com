@@ -1,7 +1,6 @@
-﻿var content = $.views.documentation.content,
-useStorage = content.allowEdit;
+﻿var content = $.views.documentation.content;
 
-content.categories = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocCategories")) ||
+content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocCategories")) ||
 [
   {
     "jsrender": {

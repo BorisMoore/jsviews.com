@@ -410,3 +410,13 @@ img.logo {
 	width: 94%;
 	vertical-align: middle;
  }
+
+body.dashboard {
+	padding: 40px;
+}
+
+body.dashboard label{
+	font-weight: bold;
+	display: block;
+}
+

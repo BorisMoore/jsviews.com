@@ -1,7 +1,6 @@
-﻿var content = $.views.documentation.content,
-useStorage = content.allowEdit;
+﻿var content = $.views.documentation.content;
 
-content.links = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopicslinks")) ||
+content.links = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/links")) ||
 {
   "links": {
     "title": "Links",
@@ -36,7 +35,17 @@ content.links = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics
       {
         "_type": "para",
         "title": "",
-        "text": "Content coming soon..."
+        "text": "MSDN 'Client Insight' articles on JsRender <a href=\"http://msdn.microsoft.com/en-us/magazine/hh882454.aspx\" >part one</a> and\n<a href=\"http://msdn.microsoft.com/en-us/magazine/hh975379.aspx\" >part two</a>\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Training course: <a href=\"http://johnpapa.net/new-course-on-jsrender-templating-fundamentals-with-javascript\" >JsRender Fundamentals</a> from John Papa on <a href=\"http://pluralsight.net/\" >Pluralsight</a> (3 hours of video)"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "More content coming soon..."
       }
     ]
   },
@@ -47,7 +56,12 @@ content.links = useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics
       {
         "_type": "para",
         "title": "",
-        "text": "Content coming soon..."
+        "text": "Boris Moore's blog: <a href=\"http://www.borismoore.com\"><em>Dancing with data</em></a>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "More content coming soon..."
       }
     ]
   }

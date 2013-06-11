@@ -650,14 +650,14 @@ function signature(api) {
 
 function getContent(topics) {
 	var name = topCategoryName,
-		path = "JsViewsDocTopics" + topCategoryName;
+		path = "JsViewsDocTopics/" + topCategoryName;
 
 	if (topCategoryName === "home") {
 		name = "categories";
 		path = "JsViewsDocCategories";
 	}
-	return "var content = $.views.documentation.content,\nuseStorage = content.allowEdit;\n\ncontent."
-		+ name + " = useStorage && $.parseJSON(localStorage.getItem(\"" + path + "\")) ||\n"
+	return "var content = $.views.documentation.content;\n\ncontent."
+		+ name + " = content.useStorage && $.parseJSON(localStorage.getItem(\"" + path + "\")) ||\n"
 		+ stringify(topics) + ";";
 }
 
@@ -681,10 +681,20 @@ function syntaxColor(val) { // todo
 
 function save(category) {
 	var topics,
-		categories = stringify(page.data.categories),
-		textareas = page.contents(".savetext", true);
+		categories = page.data.categories,
+		l = categories.length,
+		textareas = page.contents(".savetext", true),
+		loaded = [];
 
-	localStorage.setItem("JsViewsDocCategories", categories);
+	while (l-- > 1) {
+		loaded[l] =categories[l].loaded;
+		categories[l].loaded = false;
+	}
+	localStorage.setItem("JsViewsDocCategories", stringify(categories));
+	l = categories.length;
+	while (l-- > 1) {
+		categories[l].loaded = loaded[l];
+	}
 	localStorage.setItem("JsViewsDocCategory", category)
 	if (!category ) {
 		topics = page.data[topCategoryName];
