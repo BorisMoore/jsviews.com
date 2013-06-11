@@ -95,7 +95,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       "name": "home",
       "label": "JsViews",
       "heading": "The next-generation MVVM framework - bringing templates to life",
-      "description": "The power of MVVM, the flexibilty of JavaScript, the speed and ease of JsRender templates",
+      "description": "The power of MVVM, the flexibility of JavaScript, the speed and ease of JsRender templates",
       "key": "jsviews",
       "home": {
         "prefix": "jsv",
