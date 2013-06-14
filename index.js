@@ -420,10 +420,10 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 				return "<!DOCTYPE html>\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "    <link href=\"http://wwww.jsviews.com/"
+					+ "    <link href=\"http://www.jsviews.com/"
 							+ (url || "samples/resources/css/samples") + ".css\" rel=\"stylesheet\"/>\n"
 					+ "    <script src=\"http://code.jquery.com/jquery.js\"></script>\n"
-					+ "    <script src=\"http://wwww.jsviews.com/download/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"
+					+ "    <script src=\"http://www.jsviews.com/download/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"
 					+ "</head>\n"
 					+ "<body>\n\n"
 					+ (tryItData.html
