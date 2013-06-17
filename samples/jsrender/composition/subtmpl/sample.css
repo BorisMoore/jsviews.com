@@ -31,20 +31,3 @@ table td {
 	padding: 3px;
 	border: solid #77c 1px;
 }
-
-.role {
-	font-weight: bold;
-	font-style: italic;
-	background-color: Yellow;
-}
-
-.synopsis {
-	background-color: white;
-	padding: 15px;
-}
-
-.director {
-	font-weight: bold;
-	font-style: italic;
-	color: red;
-}

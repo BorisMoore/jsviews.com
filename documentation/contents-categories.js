@@ -264,7 +264,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "Playing with JsViews"
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loaded": false
   },
   {
     "hidden": true,
@@ -461,7 +462,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "MVVM and MVP"
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loaded": false
   },
   {
     "name": "jsrapi",
@@ -616,7 +618,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loaded": false
   },
   {
     "hidden": true,
@@ -754,7 +757,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loaded": false
   },
   {
     "hidden": true,
@@ -832,7 +836,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loaded": false
   },
   {
     "name": "samples",
@@ -855,6 +860,14 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "samples/jsr/composition/tmpl",
                 "label": "tmpl parameter"
+              },
+              {
+                "name": "samples/jsr/composition/fromstrings",
+                "label": "From strings"
+              },
+              {
+                "name": "samples/jsr/composition/remotetmpl",
+                "label": "Remote templates"
               },
               {
                 "name": "samples/jsr/composition/subtemplates",
@@ -955,7 +968,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loaded": false
   },
   {
     "name": "download",
@@ -969,7 +983,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loaded": false
   },
   {
     "name": "community",
@@ -983,7 +998,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loaded": false
   },
   {
     "name": "links",
@@ -1002,6 +1018,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loaded": false
   }
 ];

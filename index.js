@@ -91,6 +91,9 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 					hasDetail: selected.hasDetail
 				});
 				save(location.hash = selected.name);
+				if (tree.editable) {
+					tree.refresh();
+				}
 			};
 			tree.onExpansionChange = function(selected) {
 				save(selected.name);
@@ -418,6 +421,9 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 		render: function(mode) {
 			function fullCode() {
 				return "<!DOCTYPE html>\n"
+					+ "<!-- To run current sample code in your own environment, copy this to an html page.\n"
+					+ "Note: If the sample uses relative paths to other resources on www.jsviews.com,\n"
+					+ "create corresponding resources on your own site. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
 					+ "    <link href=\"http://www.jsviews.com/"
@@ -649,16 +655,21 @@ function signature(api) {
 }
 
 function getContent(topics) {
-	var name = topCategoryName,
+	var ret,
+		categories = page.data.categories,
+		name = topCategoryName,
 		path = "JsViewsDocTopics/" + topCategoryName;
 
-	if (topCategoryName === "home") {
+	if (topics === categories) {
 		name = "categories";
 		path = "JsViewsDocCategories";
 	}
-	return "var content = $.views.documentation.content;\n\ncontent."
+	ret = "var content = $.views.documentation.content;\n\ncontent."
 		+ name + " = content.useStorage && $.parseJSON(localStorage.getItem(\"" + path + "\")) ||\n"
 		+ stringify(topics) + ";";
+	return topics === categories
+		? ret.replace(",\n    \"loaded\": true", "") // remove loaded=true fields for content files in categories list 
+		: ret;
 }
 
 function stringify(val) {
@@ -700,7 +711,7 @@ function save(category) {
 		topics = page.data[topCategoryName];
 		textareas[0].value = getContent(topics);
 		localStorage.setItem("JsViewsDocTopics/" + topCategoryName, stringify(topics));
-		textareas[1].value = categories;
+		textareas[1].value = getContent(categories);
 	}
 }
 

@@ -1,0 +1,1 @@
+﻿$.templates("address", "<b>{{>city}}</b>");

@@ -160,6 +160,114 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
+  "samples/jsr/composition/fromstrings": {
+    "title": "Composition using named templates compiled from markup strings",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "Simple example of composition",
+            "text": "We register two named templates, compiled from markup strings:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.templates({\n  people: '<div>{{:name}} lives in {{for address tmpl=\"address\" /}}</div>',\n  address: '<b>{{>city}}</b>'\n});\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "The first one uses the second as a nested template:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{for address tmpl=\"address\" /}}"
+          }
+        ],
+        "sampleName": "jsrender/composition/fromstrings",
+        "height": "90",
+        "onlyJsRender": true,
+        "url": "samples/jsrender/composition/fromstrings/sample"
+      }
+    ]
+  },
+  "samples/jsr/composition/remotetmpl": {
+    "title": "Loading remote templates",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "Asynchronous loading of templates from the server",
+            "text": "This sample takes the <a href=\"#samples/jsr/composition/fromstrings\">Template composition/From strings</a> sample, and modifies it to use templates loaded from the server."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "This illustrates one approach to loading remote templates: the template file on the server is a javascript file which registers a named template."
+          },
+          {
+            "_type": "code",
+            "title": "Template resource on the server: address.js ",
+            "code": "$.templates(\"address\", \"<b>{{>city}}</b>\");"
+          },
+          {
+            "_type": "para",
+            "title": "lazyGetTemplate() helper function",
+            "text": "We use a helper to \"lazily\" fetch the template, asynchronously, but only if it has not yet been fetched. Also, we make sure the template only gets compiled from a string <em>once</em>."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "(Note that for optimal performance, it is always best to ensure that the <em>$.template(... markup)</em> method, which compiles a template from a string, is only ever called once for a given string). "
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "function lazyGetTemplate(name) {\n  var deferred = $.Deferred();\n  if ($.templates[name]) {\n    deferred.resolve();\n  } else {\n    $.getScript(...).then(function() {\n      ...  \n      deferred.resolve();\n    });\n  }\n  return deferred.promise();\n}\n"
+          },
+          {
+            "_type": "para",
+            "title": "When all templates are loaded...",
+            "text": "Once the requested template (along with any nested templates used as as part of the template composition) is loaded, the <em>render()</em> method can be called (or the <em>link()</em> method if you are using <em>JsViews</em>):"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.when(\n    lazyGetTemplate(\"people\"),\n    ...  \n  )\n  .done(function() {\n      // Render or link once all templates for template composition are loaded\n      var html = $.templates.people.render(people);\n      ...\n    });\n"
+          }
+        ],
+        "sampleName": "jsrender/composition/remotetmpl",
+        "url": "samples/jsrender/composition/remotetmpl/sample",
+        "height": "90",
+        "onlyJsRender": true
+      }
+    ]
+  },
   "samples/jsr/composition/subtemplates": {
     "title": "Sample: Template composition, using sub-templates",
     "path": "",
@@ -216,9 +324,19 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         },
         "sections": [
           {
+            "_type": "para",
+            "title": "",
+            "text": "<em>subTemplates</em> is an object which holds references to compiled templates. We pass it in as helper object in the <em>render()</em> call:"
+          },
+          {
             "_type": "code",
             "title": "",
             "code": "var subTemplates = {\n  columnTemplate: $.templates(\"#columnTemplate\"),\n  ...\n};\n\nvar html = movieTemplate.render(movies, subTemplates);"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Now each of the compiled templates, such as <em>subTemplates.columnTemplate</em> can be accessed from the outer template, and used for composition. Sub templates are acessed as regular helper objects such as <em>~columnTemplate</em>."
           },
           {
             "_type": "template",
@@ -362,7 +480,33 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           "sample": "sample",
           "links": "links"
         },
-        "sections": [],
+        "sections": [
+          {
+            "_type": "para",
+            "title": "A multiselect custom tag control ",
+            "text": "This is a fairly advanced sample: A multiselect control which supports both the inline data-binding syntax:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{^{multisel items=items selected=selectedItems/}}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "and the element-based data-link syntax, using a &lt;select&gt; tag:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<select data-link=\\\"{multisel items=items selected=selectedItems}\\\"></select>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "It provides two array  properties, <em>items</em> and <em>selectedItems</em>. Both use observable arrayChange data-binding, so you can (as in the example) use two-way binding between the <em>selectedItems</em> property of one <em>multiselect</em> and the <em>items</em> of another, following a cascading pattern."
+          }
+        ],
         "sampleName": "tagcontrols/multiselect",
         "height": "450",
         "url": "samples/tagcontrols/multiselect/sample"
