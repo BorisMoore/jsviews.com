@@ -306,7 +306,7 @@ img.logo {
 	font-size: 15px;
 }
 
-.topic {
+.panel.topic {
 	width: 76%;
 	height: 100%;
 	background-color:#f8f8f5;
@@ -349,8 +349,19 @@ img.logo {
 	width: 100%;
 }
 
+.footer img {
+	display: none;
+}
+
+.home .footer img {
+	display: inline;
+	vertical-align: middle;
+	width: 90px;
+	margin: -1px 0 0 8px; 
+}
+
 .home .footer {
-	height: 45px;
+	height: 35px;
 }
 
 .more {

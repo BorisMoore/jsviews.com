@@ -90,7 +90,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "You can hit <em>Try it</em>, modify the template or the data, then hit <em>Run Code</em> to see the effect immediately, in the running sample above."
+            "text": "You can hit <em>Try it</em>, modify the template or the data, then hit <em>Run Code</em> to see the effect immediately in the running sample above."
           },
           {
             "_type": "para",
@@ -131,7 +131,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "",
-        "text": "OK - a few interesting things there. For example, if you tried changing the data, and providing an array instead of an object, you will have seen that the template rendered once for each item in the array. <br/><br/>But before we look at more details on the template rendering, let's look at how you get a compiled template object for you markup, (<em>myTemplate</em> in the code example above) so you can call the render method. <br/><br/>The next working example shows you that."
+        "text": "OK - a few interesting things there. For example, if you tried changing the data, and provided an array instead of an object, you will have seen that the template rendered once for each item in the array. <br/><br/>But before we look at more details on the template rendering, let's look at how you get a compiled template object for your markup (the <em>myTemplate</em> object in the code example above) so you can call the render method. <br/><br/>The next working example shows you that."
       },
       {
         "_type": "sample",
@@ -188,6 +188,11 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "_type": "para",
             "title": "",
             "text": "For example if you change the template to produce a <em>&lt;tr></em>, you will want to insert the output into the tbody of a table, by adding a <em>&lt;table>&lt;tbody></em> target container - as in the following:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr><td><label>Name:</label> {{:name}}</td></tr>\n</script>"
           }
         ],
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>",
@@ -199,7 +204,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "What else is in templates?",
-        "text": "JsRender template have a very rich feature set, yet a small number of predefined tags. The links at the moment of this topic give details on some of the features."
+        "text": "JsRender template have a very rich feature-set, yet a small number of predefined tags. The links at the bottom of this topic give details on some of the features."
       },
       {
         "_type": "para",
@@ -331,7 +336,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "If you look at the code you will see it is almost identical to the previous JsRender sample. One difference though: The two lines for rendering the template as a string and then inserting it into the DOM:"
+            "text": "If you look at the code you will see it is almost identical to the previous JsRender sample. One difference though: the two lines for rendering the template as a string and then inserting it into the DOM:"
           },
           {
             "_type": "code",
@@ -462,7 +467,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "The code for \"setProperty\" makes sense, given what we have already seen. You call <em style=\"white-space:nowrap\">$.observable(myObject)</em> to get an 'observable form of your object' which will provide you appropriate methods you can call: <em style=\"white-space:nowrap\">setProperty(...)</em> if it was an object, and <em>insert, remove, refresh</em> and <em>move</em>, if it was an array. "
+            "text": "The code for \"setProperty\" should make sense, given what we have already seen. You call <em style=\"white-space:nowrap\">$.observable(myObject)</em> to get an 'observable form of your object' which will provide you with appropriate methods you can call: <em style=\"white-space:nowrap\">setProperty(...)</em> if it was an object, and <em>insert, remove, refresh</em> and <em>move</em>, if it was an array. "
           },
           {
             "_type": "para",
@@ -497,7 +502,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "template",
             "title": "",
-            "markup": "<td>{^{:name}}</td>"
+            "markup": "<td>{{:name}}</td>"
           },
           {
             "_type": "para",
@@ -523,7 +528,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "",
-        "text": "But the fact that the data-linked tag is wrapped by an HTML element means that if we want we can replace it by an 'element-base' syntax:"
+        "text": "But the fact that the data-linked tag is wrapped by an HTML element means that if we want we can replace it by an 'element-based' syntax:"
       },
       {
         "_type": "template",
@@ -554,7 +559,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "Try changing it back to the data-linked tag syntax. You will see that the sample works just the same..."
+            "text": "Try changing it back to the data-linked tag syntax, with <em>{^{</em>. You will see that the sample works just the same..."
           }
         ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td colspan=\"2\">\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr>\n      <td data-link=\"name\"></td>\n      <td>\n        <button class=\"changeBtn\">Change</button>\n      </td>\n    </tr>\n  {{/for}}\n</script>",
@@ -602,12 +607,12 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "A more complete sample:",
-        "text": "This was just a glimpse of some of the richness of JsViews data-linking. The next sample let's you see a more fully-fledged example, which you can experiment with."
+        "text": "This was just a glimpse of some of the richness of JsViews data-linking. The next sample lets you see a more fully-fledged example, which you can experiment with."
       },
       {
         "_type": "para",
         "title": "",
-        "text": "See the links section below, for more details on features and APIs."
+        "text": "More details on JsViews features and APIs will be available soon, and will be added to the <em>Links</em> section below."
       },
       {
         "_type": "sample",
@@ -677,8 +682,13 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "title": "data-linking to &lt;select>... and much more..."
       },
       {
-        "_type": "links",
+        "_type": "para",
         "title": "Links",
+        "text": "(Coming soon - additional links to topics about JsViews features and API)"
+      },
+      {
+        "_type": "links",
+        "title": "",
         "links": [],
         "topics": [
           {
@@ -735,4 +745,4 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       }
     ]
   }
-}
+};

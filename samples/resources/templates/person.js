@@ -1,1 +1,1 @@
-﻿$.templates("person", "<label>Name:</label> {{:name}}");
+﻿$.templates("person", "<label>Name:</label> {{:name}} ");

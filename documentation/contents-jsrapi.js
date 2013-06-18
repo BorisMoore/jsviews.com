@@ -1594,7 +1594,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The first approach has the advantage of keeping your template declaration independent of you HTML markup that you are loading into the browser. Indeed you may want to provide the template markup strings for your templates in different application-specific ways, such as loading string from the server, creating 'computed' template markup strings on the fly, etc. "
+        "text": "The first approach has the advantage of keeping your template declaration independent of the HTML markup that you are loading into the browser. Indeed you may want to provide the template markup strings for your templates in different application-specific ways, such as loading string from the server, creating 'computed' template markup strings on the fly, etc."
       },
       {
         "_type": "para",

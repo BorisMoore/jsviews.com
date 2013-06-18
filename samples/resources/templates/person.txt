@@ -1,1 +1,1 @@
-﻿<label>Name:</label> {{:name}} 
+﻿<label> Name:</label> {{:name}} 
