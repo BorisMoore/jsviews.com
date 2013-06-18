@@ -349,12 +349,15 @@ img.logo {
 	width: 100%;
 }
 
-.footer img {
+.footer span{
 	display: none;
 }
 
-.home .footer img {
+.home .footer span{
 	display: inline;
+}
+
+.home .footer img {
 	vertical-align: middle;
 	width: 90px;
 	margin: -1px 0 0 8px; 
