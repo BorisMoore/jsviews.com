@@ -95,7 +95,7 @@ content.community = content.useStorage && $.parseJSON(localStorage.getItem("JsVi
       {
         "_type": "para",
         "title": "",
-        "text": "This <em>jsviews.com</em> web site is a single page app, built entirely using JsViews. Source code is also on GitHub, on the <a href=\"https://github.com/BorisMoore/jsviews.com\">github.com/BorisMoore/jsviews.com</a> GitHub repository."
+        "text": "This <em>www.jsviews.com</em> web site is a single page app, built entirely using JsViews. Source code is also on GitHub, on the <a href=\"https://github.com/BorisMoore/jsviews.com\">github.com/BorisMoore/jsviews.com</a> GitHub repository."
       },
       {
         "_type": "para",

@@ -944,6 +944,29 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               }
             ],
             "expanded": true
+          },
+          {
+            "name": "samples/editable",
+            "label": "Editable data",
+            "categories": [
+              {
+                "name": "samples/editable/tags",
+                "label": "data-linked tags"
+              },
+              {
+                "name": "samples/editable/elems",
+                "label": "data-linked elements"
+              },
+              {
+                "name": "samples/editable/toplevelfor",
+                "label": "top-level elems with {for...}"
+              },
+              {
+                "name": "samples/editable/observe",
+                "label": "observable.observe()"
+              }
+            ],
+            "expanded": true
           }
         ],
         "expanded": true

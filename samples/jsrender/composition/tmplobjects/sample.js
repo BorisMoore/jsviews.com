@@ -28,12 +28,12 @@ var movies = [
 
 var movieTemplate = $.templates("#movieTemplate");
 
-var subTemplates = {
+var nestedTemplates = {
   columnTemplate: $.templates("#columnTemplate"),
   rowTemplate: $.templates("#rowTemplate"),
   conditionalTemplate: $.templates("#conditionalTemplate")
 };
 
-var html = movieTemplate.render(movies, subTemplates);
+var html = movieTemplate.render(movies, nestedTemplates);
 
 $("#movieList").html(html);

@@ -24,6 +24,22 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "JsViews"
           }
         ]
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<em>Note:</em> New samples are being added regularly to this set of samples."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also:"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<ul>\n<li>the <a href=\"https://github.com/BorisMoore/jsrender/tree/master/demos\">demos</a> folder of the JsRender GitHub repository - available <a href=\"http://borismoore.github.io/jsrender/demos/index.html\">here</a> as live samples.</li>\n<li>the <a href=\"https://github.com/BorisMoore/jsviews/tree/master/demos\">demos</a> folder of the JsViews GitHub repository - or <a href=\"http://borismoore.github.io/jsviews/demos/index.html\">here</a> as live samples.</li>\n</ul>",
+        "detail": false
       }
     ]
   },
@@ -57,6 +73,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "Paths"
           }
         ]
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also the additional samples in the <a href=\"https://github.com/BorisMoore/jsrender/tree/master/demos\">demos</a> folder of the JsRender GitHub repository (available <a href=\"http://borismoore.github.io/jsrender/demos/index.html\">here</a> as live samples)."
       }
     ]
   },
@@ -72,6 +93,14 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "hash": "samples/jsr/composition/tmpl",
             "label": "tmpl parameter"
+          },
+          {
+            "hash": "samples/jsr/composition/fromstrings",
+            "label": "From strings"
+          },
+          {
+            "hash": "samples/jsr/composition/remotetmpl",
+            "label": "Remote templates"
           },
           {
             "hash": "samples/jsr/composition/subtemplates",
@@ -157,6 +186,30 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "onlyJsRender": true,
         "height": "235",
         "title": ""
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also the following samples which are variants of this sample:\n"
+      },
+      {
+        "_type": "links",
+        "title": "",
+        "links": [
+          {
+            "_type": "link",
+            "hash": "hash",
+            "label": "using sub-templates",
+            "url": "#samples/jsr/composition/subtmpl"
+          },
+          {
+            "_type": "link",
+            "hash": "hash",
+            "label": "contextual template objects",
+            "url": "#samples/jsr/composition/tmplobjects"
+          }
+        ],
+        "topics": []
       }
     ]
   },
@@ -164,6 +217,16 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "title": "Composition using named templates compiled from markup strings",
     "path": "",
     "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "All of the templates referenced by <em>tmpl=...</em> in the preceding <a href=\"#samples/jsr/composition/tmpl\">tmpl parameter</a> sample were declared as script blocks. But they could equally have been compiled from markup strings."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is a simple example:"
+      },
       {
         "_type": "sample",
         "typeLabel": "Sample:",
@@ -201,6 +264,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "height": "90",
         "onlyJsRender": true,
         "url": "samples/jsrender/composition/fromstrings/sample"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In the next <a href=\"#samples/jsr/composition/remotetmpl\">remote templates</a> sample we will show a modified version of this sample but with the strings fetched \"lazily\" from the server."
       }
     ]
   },
@@ -208,6 +276,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "title": "Loading remote templates",
     "path": "",
     "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This sample takes the preceding <a href=\"#samples/jsr/composition/fromstrings\">template composition/from strings</a> sample, and modifies it to use templates loaded from the server."
+      },
       {
         "_type": "sample",
         "typeLabel": "Sample:",
@@ -223,12 +296,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "Asynchronous loading of templates from the server",
-            "text": "This sample takes the <a href=\"#samples/jsr/composition/fromstrings\">Template composition/From strings</a> sample, and modifies it to use templates loaded from the server."
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "This illustrates one approach to loading remote templates: the template file on the server is a javascript file which registers a named template."
+            "text": "This sample illustrates one approach to loading remote templates: the template file on the server is a javascript file which registers a named template."
           },
           {
             "_type": "code",
@@ -273,6 +341,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "path": "",
     "sections": [
       {
+        "_type": "para",
+        "title": "",
+        "text": "This sample takes the previous <a href=\"#samples/jsr/composition/tmpl\">tmpl parameter</a> sample and modifies it to declare nested templates as <em>sub-templates</em> of the calling template."
+      },
+      {
         "_type": "sample",
         "typeLabel": "Sample:",
         "sectionTypes": {
@@ -312,6 +385,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "path": "",
     "sections": [
       {
+        "_type": "para",
+        "title": "",
+        "text": "This sample takes the previous <a href=\"#samples/jsr/composition/tmpl\">tmpl parameter</a> sample and provides  nested templates to the calling template, by passing them in as compiled template objects, associated with a helper object."
+      },
+      {
         "_type": "sample",
         "typeLabel": "Sample:",
         "sectionTypes": {
@@ -326,17 +404,22 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "<em>subTemplates</em> is an object which holds references to compiled templates. We pass it in as helper object in the <em>render()</em> call:"
-          },
-          {
-            "_type": "code",
-            "title": "",
-            "code": "var subTemplates = {\n  columnTemplate: $.templates(\"#columnTemplate\"),\n  ...\n};\n\nvar html = movieTemplate.render(movies, subTemplates);"
+            "text": "<em>nestedTemplates</em> is an object which holds references to compiled template objects for each of the nested templates. We pass it in as a helper object in the <em>render()</em> call."
           },
           {
             "_type": "para",
             "title": "",
-            "text": "Now each of the compiled templates, such as <em>subTemplates.columnTemplate</em> can be accessed from the outer template, and used for composition. Sub templates are acessed as regular helper objects such as <em>~columnTemplate</em>."
+            "text": "(Note we could also have provided the templates via helper objects registered globally with <em><a href=\"#helpers()\">$.views.helpers(...)</a></em>)."
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var nestedTemplates = {\n  columnTemplate: $.templates(\"#columnTemplate\"),\n  ...\n};\n\nvar html = movieTemplate.render(movies, subTemplates);"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Now each of the compiled templates, such as <em>nestedTemplates.columnTemplate</em> can be accessed from the outer template, and used for composition. Templates are accessed as regular helper objects such as <em>~columnTemplate</em>."
           },
           {
             "_type": "template",
@@ -700,6 +783,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "Tag controls"
           }
         ]
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
       }
     ]
   },
@@ -954,5 +1042,297 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "title": "Samples: JsObservable",
     "path": "",
     "sections": []
+  },
+  "samples/editable/tags": {
+    "title": "Editable data: data-linked tags",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This is the first of <a href=\"#samples/editable\">four samples</a> exploring alternative patterns for creating two-way binding and providing UI for editing data."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "Data-linked tags: {^{for ...}}, {^{:...}}, etc.",
+            "text": "This sample uses data-linked tags for <em>{^{for ...}}</em> (iteration over arrays) and for <em>{^{:...}}</em> and <em>{^{>...}}</em> (one-way data binding):"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{^{for movies}}\n  <tr class=\"hover\" data-link=\"css-background-color{:~bgColor()}\">\n      <td>\n      {^{:#index + 1}}: {^{>title}}\n      </td>\n      <td>\n      {^{for languages}}\n          <div>{^{>name}}</div>\n      {{/for}}\n    </td>\n    ...\n  </tr>\n{{/for}}"
+          },
+          {
+            "_type": "para",
+            "title": "Data-linked elements: &lt;input data-link=\"...\"/&gt;",
+            "text": "But for two-way data binding of the textboxes in the detail view it uses data-linked &lt;input/&gt; elements:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{^{for movies[selectedIndex]}}\n  ...\n  <input data-link=\"title\" />\n  ...\n  {^{for languages}}\n    ...\n    <input data-link=\"name\" />\n    ...\n  {{/for}}\n  ...\n{{/for}}\n"
+          }
+        ],
+        "sampleName": "editabledata/linkedtags",
+        "url": "samples/editabledata/linkedtags/sample",
+        "height": "300"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In the <a href=\"#samples/editable/elems\">next sample</a> we will replace the data-linked tags for one-way binding by equivalent data-linked elements. "
+      }
+    ]
+  },
+  "samples/editable/elems": {
+    "title": "Editable data: data-linked elements",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This sample modifies the <a href=\"#samples/editable/tags\">previous sample</a> by replacing the data-linked tags for one-way binding with equivalent data-linked elements."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "Data-linked elements: &lt;span data-link=\"...\"&gt; etc.",
+            "text": "This sample uses data-linked tags for <em>{^{for ...}}</em> (iteration over arrays) but it uses data-linked elements for one-way data binding:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{^{for movies}}\n  <tr class=\"hover\" data-link=\"css-background-color{:~bgColor()}\">\n      <td>\n        <span data-link=\"#index + 1\"></span>:\n        <span data-link=\"title\"></span>\n      </td>\n      <td>\n      {^{for languages}}\n        <div data-link=\"name\"></div>\n      {{/for}}\n    </td>\n    ...\n  </tr>\n{{/for}}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "as well as for the two-way data binding of the textboxes in the detail view:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{^{for movies[selectedIndex]}}\n  ...\n  <input data-link=\"title\" />\n  ...\n  {^{for languages}}\n    ...\n    <input data-link=\"name\" />\n    ...\n  {{/for}}\n  ...\n{{/for}}\n"
+          }
+        ],
+        "sampleName": "editabledata/linkedelems",
+        "url": "samples/editabledata/linkedelems/sample",
+        "height": "300"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In the <a href=\"#samples/editable/toplevelfor\">next sample</a> we will replace some of the templated content by top-level data-linked elements, and we will show how to use <em>{for}</em> bindings with data-linked elements. "
+      }
+    ]
+  },
+  "samples/editable/toplevelfor": {
+    "title": "Editable data: top-level data-linked elements, and data-link using {for ...}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This sample modifies the <a href=\"#samples/editable/elems\">previous sample</a> by replacing some of the templated content by top-level data-linked elements. It also shows how to use <em>{for}</em> bindings with data-linked elements."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "Data-linked top-level elements: &lt;div data-link=\"...\"&gt; etc.",
+            "text": "This sample uses data-linking on top-level elements (i.e. elements that are not part of rendered templates): "
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.link(true, \"#linkedContent\", app)"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<div id=\"linkedContent\">\n  <table>\n    ...\n    <tbody class=\"movies\" data-link=\"{for movies tmpl='movieTmpl'}\"></tbody>\n  </table>\n\n  <div class=\"detail\" data-link=\"{for movies[selectedIndex] tmpl='#detailTemplate'}\"></div>\n</div>"
+          },
+          {
+            "_type": "para",
+            "title": "Data-linked {for} binding: data-link=\"{for ...}\"",
+            "text": "The data-linked <em>&lt;tbody&gt;</em> element uses a <em>{for ...}</em> binding, referencing a template -"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<tbody class=\"movies\" data-link=\"{for movies tmpl='movieTmpl'}\"></tbody>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": " - so it is the element-based data-linking equivalent of "
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{^{for movies tmpl='movieTmpl'}}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "and the content of the <em>&lt;tbody&gt;</em> is automatically incrementally updated when the <em>movies</em> array is modified."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Similarly the whole detail view, with its dynamic linking to the selected movie item, is achieved by a single data-linked top-level <em>&lt;div ...&gt;</em>, using <em>{for ...}</em> referencing a template:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<div class=\"detail\" data-link=\"{for movies[selectedIndex] tmpl='#detailTemplate'}\"></div>"
+          }
+        ],
+        "sampleName": "editabledata/toplevelfor",
+        "url": "samples/editabledata/toplevelfor/sample",
+        "height": "300"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In the <a href=\"#samples/editable/observe\">next sample</a> we will replace the declarative top-level binding for the detail view by a programmatic approach, using <em>observable.observe()</em>. "
+      }
+    ]
+  },
+  "samples/editable/observe": {
+    "title": "Editable data: using observable.observe()",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This sample modifies the <a href=\"#samples/editable/toplevelfor\">previous sample</a> by replacing the declarative top-level binding for the detail view by a programmatic approach, using <em>observable.observe()</em>."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "We will replace the top-level data-linked element for the detail view:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<div id=\"movieDetail\" class=\"detail\"></div>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "by an unlinked element:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<div id=\"movieDetail\" class=\"detail\"></div>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Now, we will set up a listener for observable changes in the selectedIndex property of our <em>app</em> object, and when it changes we will insert or remove data-linked templated content for the selected data item, within our <em>movieDetail</em> element. "
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.observable.observe(app, \"selectedIndex\",  function(event, args) {\n  var selectedIndex = args.value;\n  if (selectedIndex > -1) {\n    $.link.detailTmpl(\"#movieDetail\", app.movies[selectedIndex]);\n  } else {\n    $(\"#movieDetail\").empty();\n  }\n});"
+          }
+        ],
+        "sampleName": "editabledata/observe",
+        "url": "samples/editabledata/observe/sample",
+        "height": "300"
+      }
+    ]
+  },
+  "samples/editable": {
+    "title": "Editable data",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "These four samples explore alternative patterns for creating two-way binding and providing UI for editing data."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The UI for all four is visually identical, but the approach to templated rendering and data-linking is different."
+      },
+      {
+        "_type": "links",
+        "title": "",
+        "links": [
+          {
+            "_type": "link",
+            "hash": "hash",
+            "label": ""
+          }
+        ],
+        "topics": [
+          {
+            "hash": "samples/editable/tags",
+            "label": "Using data-linked tags: {^{...}}"
+          },
+          {
+            "hash": "samples/editable/elems",
+            "label": "Using data-linked elements"
+          },
+          {
+            "hash": "samples/editable/toplevelfor",
+            "label": "Top-level data-linked elements, and data-link using {for ...}"
+          },
+          {
+            "hash": "samples/editable/observe",
+            "label": "Using observable.observe() to bind to data changes"
+          }
+        ]
+      }
+    ]
   }
 };
