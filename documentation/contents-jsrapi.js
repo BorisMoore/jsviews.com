@@ -1594,12 +1594,58 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The first approach has the advantage of keeping your template declaration independent of the HTML markup that you are loading into the browser. Indeed you may want to provide the template markup strings for your templates in different application-specific ways, such as loading string from the server, creating 'computed' template markup strings on the fly, etc."
+        "text": "The first approach has the advantage of keeping your template declaration independent of the HTML markup that you are loading into the browser. Indeed you may want to provide the template markup strings for your templates in different application-specific ways, such as loading the string from the server (using a script file or text or html file), creating 'computed' template markup strings on the fly, etc."
       },
       {
         "_type": "para",
         "title": "",
         "text": "Here is an example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "The <em>person.js</em> script registers a named <em>\"person\"</em> template:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.templates(\"person\", \"<label>Name:</label> {{:name}} \");"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "We load the script from the server, and it registers our template. As soon as the script is loaded, we call out template's <a href=\"#rendertmpl\"><em>render(...)</em></a> method:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.getScript(\".../person.js\", function() {\n    var html = $.render.person(people);\n    $(\"#peopleList\").html(html);\n  });\n"
+          }
+        ],
+        "markup": "\n",
+        "data": {},
+        "code": "$.getScript(\"http://www.jsviews.com/samples/resources/templates/person.js\", function() {\n    var html = $.render.person(people);\n    $(\"#peopleList\").html(html);\n  });\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];",
+        "html": "<div id=\"peopleList\"></div>",
+        "onlyJsRender": true,
+        "height": "40",
+        "title": "Registering a template from a markup string (in this case, fetched  from the server in a script file):"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "And here is a variant of the same sample, where we fetch a text file containing the template markup:"
       },
       {
         "_type": "sample",
@@ -1615,29 +1661,29 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "The markup string is fetched in an AJAX request, and used to register a named template..."
+            "text": "The markup string is fetched in an AJAX request (the <em>person.txt</em> file)."
           },
           {
-            "_type": "code",
+            "_type": "template",
             "title": "",
-            "code": "$.get(\"templates/person.txt\", function(value) {\n  $.templates(\"personTmpl\", value);\n});"
+            "markup": "<label> Name:</label> {{:name}}"
           },
           {
             "_type": "para",
             "title": "",
-            "text": "... and then in the code we call the <a href=\"#rendertmpl\"><em>render</em></a> method for the named template:"
+            "text": "As soon as the request returns, we use the markup string to compile the <em>personTemplate</em> object, and then call it's <a href=\"#rendertmpl\"><em>render(...)</em></a> method:"
           },
           {
             "_type": "code",
             "title": "",
-            "code": "var html = $.render.personTmpl(people);\n"
+            "code": "$.get(\"...person.txt\", function(value) {\n  personTemplate = $.templates(value);\n  var html = personTemplate.render(people);\n  $(\"#peopleList\").html(html);\n});"
           }
         ],
-        "html": "<button id=\"show\">Show People</button>\n\n<div id=\"peopleList\"></div>\n",
-        "code": "$.get(\"templates/person.txt\", function(value) {\n  $.templates(\"personTmpl\", value);\n});\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\n$(\"#show\").on(\"click\", function(){\n  var html = $.render.personTmpl(people);\n  $(\"#peopleList\").html(html);\n});",
-        "title": "Registering a template from a markup string (in this case, fetched  from the server):",
+        "html": "<div id=\"peopleList\"></div>\n",
+        "code": "var personTemplate;\n\n$.get(\"templates/person.txt\", function(value) {\n  personTemplate = $.templates(value);\n  var html = personTemplate.render(people);\n  $(\"#peopleList\").html(html);\n});\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];",
+        "title": "Registering a template from a markup string (fetched  from the server in a text file):",
         "onlyJsRender": true,
-        "height": "70"
+        "height": "40"
       },
       {
         "_type": "para",
@@ -1690,7 +1736,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nvar html = $.render.personTmpl(people);\n\n$(\"#peopleList\").html(html);",
         "title": "Registering a template declared in script block:",
         "onlyJsRender": true,
-        "height": "70"
+        "height": "40"
       },
       {
         "_type": "links",
