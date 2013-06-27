@@ -479,7 +479,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "{{mytag}}\n  {{>title}}\n{{/fntag}}\n"
+            "markup": "{{fntag}}\n  {{>title}}\n{{/fntag}}\n"
           },
           {
             "_type": "para",
