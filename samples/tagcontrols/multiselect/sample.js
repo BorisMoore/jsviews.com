@@ -1,37 +1,23 @@
 $.views.tags({
   multisel: {
-    init: function(tagCtx, linkCtx) {
-      this._optionsTmpl = $.templates(
-          "{^{for ~tag.items}}" +
-            "<option>{{:name}}</option>" +
-          "{{/for}}"
-        );
-      this.items = tagCtx.props.items;
-      this.selectedItems = tagCtx.props.selected;
+    init: function(tagCtx) {
+      var self = this;
+      self._optionsTmpl = "{^{for ~tag.items}}<option>{{:name}}</option>{{/for}}";
+      self.items = tagCtx.props.items;
+      self.selectedItems = tagCtx.props.selected || [];
 
-      if (linkCtx) {
-        // This is to support the syntax: 
-        // <select data-link="{multisel items=items selected=selectedItems}"></select> 
-        // Note: If you only support one syntax, you can remove this 
-        // and simply declare template: "..." below 
-        linkCtx.elem.multiple = "multiple";
-        tagCtx.tmpl = this._optionsTmpl;
+      if (self._.inline) {
+        self.tagCtx.tmpl = "<select multiple='multiple'>" + self._optionsTmpl + "</select>";
       } else {
-        // And this is to support the syntax: {^{multisel items=items selected=selectedItems/}}. 
-        // Note: If you only support one syntax, you can remove this 
-        // and simply declare template: "..." below 
-        tagCtx.tmpl = $.templates(
-          "<select multiple='multiple'>" +
-            "{{include tmpl=~tag._optionsTmpl/}}" +
-          "</select>"
-        );
+        self.linkCtx.elem.multiple = "multiple";
+        self.tagCtx.tmpl = self._optionsTmpl;
       }
     },
     onAfterLink: function() {
       var self = this;
       if (!self.elem) {
-        self.elem = self.linkCtx ? $(self.parentElem) : self.contents("select");
-        self.elem.on("change", function(ev) {
+        self.elem = self._.inline ? self.contents("select") : $(self.parentElem);
+        self.elem.on("change", function(ev, evargs) {
           var item = self.items[ev.target.selectedIndex],
             newSelection = self.elem.find("option").map(function(i) {
               return this.selected && self.items[i] || null; 
@@ -51,7 +37,6 @@ $.views.tags({
       $([self.items]).off("arrayChange", self.updateItems);
     },
     attr: "html",
-    //template: //you can put the template here if you only want to support one syntax.
 
     //METHODS
     updateSelection: function() {
