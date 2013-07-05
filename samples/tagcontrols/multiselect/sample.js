@@ -1,6 +1,6 @@
 $.views.tags({
   multisel: {
-    init: function(tagCtx) {
+    init: function(tagCtx, linkCtx) {
       this._optionsTmpl = $.templates(
           "{^{for ~tag.items}}" +
             "<option>{{:name}}</option>" +
@@ -9,18 +9,18 @@ $.views.tags({
       this.items = tagCtx.props.items;
       this.selectedItems = tagCtx.props.selected;
 
-      if (this.linkCtx) {
+      if (linkCtx) {
         // This is to support the syntax: 
         // <select data-link="{multisel items=items selected=selectedItems}"></select> 
         // Note: If you only support one syntax, you can remove this 
         // and simply declare template: "..." below 
-        this.linkCtx.elem.multiple = "multiple";
-        this.tagCtx.tmpl = this._optionsTmpl;
+        linkCtx.elem.multiple = "multiple";
+        tagCtx.tmpl = this._optionsTmpl;
       } else {
         // And this is to support the syntax: {^{multisel items=items selected=selectedItems/}}. 
         // Note: If you only support one syntax, you can remove this 
         // and simply declare template: "..." below 
-        this.tagCtx.tmpl = $.templates(
+        tagCtx.tmpl = $.templates(
           "<select multiple='multiple'>" +
             "{{include tmpl=~tag._optionsTmpl/}}" +
           "</select>"
@@ -31,7 +31,7 @@ $.views.tags({
       var self = this;
       if (!self.elem) {
         self.elem = self.linkCtx ? $(self.parentElem) : self.contents("select");
-        self.elem.on("change", function(ev, evargs) {
+        self.elem.on("change", function(ev) {
           var item = self.items[ev.target.selectedIndex],
             newSelection = self.elem.find("option").map(function(i) {
               return this.selected && self.items[i] || null; 

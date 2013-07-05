@@ -1626,12 +1626,17 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "We load the script from the server, and it registers our template. As soon as the script is loaded, we call out template's <a href=\"#rendertmpl\"><em>render(...)</em></a> method:"
+            "text": "We load the script from the server, and it registers our template. As soon as the script is loaded, we call the <a href=\"#$render\"><em>render(...)</em></a> method for our template:"
           },
           {
             "_type": "code",
             "title": "",
             "code": "$.getScript(\".../person.js\", function() {\n    var html = $.render.person(people);\n    $(\"#peopleList\").html(html);\n  });\n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "<em>Note:</em> For a more sophisticated example of lazy loading of scripts for registering templates, see the <a href=\"#samples/jsr/composition/remotetmpl\">remote templates</a> sample."
           }
         ],
         "markup": "\n",
@@ -1671,7 +1676,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "As soon as the request returns, we use the markup string to compile the <em>personTemplate</em> object, and then call it's <a href=\"#rendertmpl\"><em>render(...)</em></a> method:"
+            "text": "As soon as the request returns, we use the markup string to compile the <em>personTemplate</em> object, and then call it's <a href=\"#tmplrender\"><em>render(...)</em></a> method:"
           },
           {
             "_type": "code",

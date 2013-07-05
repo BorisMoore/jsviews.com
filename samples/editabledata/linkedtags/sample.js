@@ -41,7 +41,7 @@ function bgColor() {
       ? "yellow"
       : (this.index%2 ? "#fdfdfe" : "#efeff2");
 }
-bgColor.depends = "~root.selectedIndex"
+bgColor.depends = ["#index", "~root.selectedIndex"];
 
 $.link.movieTmpl("#movieList", app)
   .on("click", ".addMovie", function() {

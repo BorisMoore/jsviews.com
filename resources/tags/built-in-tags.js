@@ -54,7 +54,7 @@ var	treeNodeTmpl = $.templates(
 			"</tr>" +
 			"<tr class=\"tabscontent\">" +
 				"<td colspan=\"{{:~tag.tagCtxs.length}}\">" +
-					"{^{for tmpl=~tag.tagCtxs[~tag.selectedIndex].content /}}" +
+					"{^{for ^tmpl=~tag.tagCtxs[~tag.selectedIndex].content /}}" +
 				"</td>" +
 			"</tr>" +
 		"</tbody></table>"),

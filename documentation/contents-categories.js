@@ -38,7 +38,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "template",
             "title": "A template (with a conditional section using an {{if...}} tag):",
-            "markup": "<div>\n   <em>Name:</em> {{:name}}\n   {{if showNickname}}\n      (Goes by <em>{{:nickname}}</em>)\n   {{/if}}\n</div>"
+            "markup": "<div>\n   <em>Name:</em> {{:name}}\n   {{if showNickname && nickname}}\n      (Goes by <em>{{:nickname}}</em>)\n   {{/if}}\n</div>"
           }
         ],
         "sections": [
@@ -66,8 +66,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               },
               {
                 "_type": "para",
-                "title": "{{if showNickname}}...{{/if}}",
-                "text": "An <em>{{if}}</em> tag: Render the block content only if the expression is true..."
+                "title": "{{if showNickname && nickname}}...{{/if}}",
+                "text": "An <em>{{if}}</em> tag: Render the block content only if the expression (<em>showNickname && nickname</em>) is true..."
               }
             ],
             "data": [
@@ -82,7 +82,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "showNickname": false
               }
             ],
-            "markup": "<div>\n   <em>Name:</em> {{:name}}\n   {{if showNickname}}\n      (Goes by <em>{{:nickname}}</em>)\n   {{/if}}\n</div>",
+            "markup": "<div>\n   <em>Name:</em> {{:name}}\n   {{if showNickname && nickname}}\n      (Goes by <em>{{:nickname}}</em>)\n   {{/if}}\n</div>",
             "onlyJsRender": true,
             "height": "85"
           }
@@ -109,7 +109,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "template",
             "title": "and a data-bound template:",
-            "markup": "<div>\n  <em>Name:</em> {^{:name}}\n  {^{if showNickname}}\n    (Goes by <em data-link=\"nickname\"></em>)\n  {{/if}}\n</div>\n"
+            "markup": "<div>\n  <em>Name:</em> {^{:name}}\n  {^{if showNickname && nickname}}\n    (Goes by <em data-link=\"nickname\"></em>)\n  {{/if}}\n</div>\n"
           },
           {
             "_type": "template",
@@ -132,7 +132,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "sections": [
               {
                 "_type": "para",
-                "title": "{^{name}} ... {^{if showNickname}}...",
+                "title": "{^{name}} ... {^{if showNickname && nickname}}...",
                 "text": "These are data-bound tags. When the underlying data changes, the data-value within the rendered template automatically updates too."
               },
               {
@@ -166,7 +166,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "markup": "",
             "onlyJsRender": false,
             "height": "106",
-            "html": "<div id=\"result\"></div>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n<div>\n  Edit: <input type=\"checkbox\" data-link=\"editable\"/>\n  <em>Name:</em> {^{:name}}\n  {^{if showNickname}}\n    (Goes by <em data-link=\"nickname\"></em>)\n  {{/if}}\n  {^{if editable}}\n    <div>\n      <input data-link=\"name\"/>\n      <input data-link=\"nickname\"/>\n      <input type=\"checkbox\" data-link=\"showNickname\"/>\n    </div>\n  {{/if}}\n</div>\n\n</script>",
+            "html": "<div id=\"result\"></div>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n<div>\n  Edit: <input type=\"checkbox\" data-link=\"editable\"/>\n  <em>Name:</em> {^{:name}}\n  {^{if showNickname && nickname}}\n    (Goes by <em data-link=\"nickname\"></em>)\n  {{/if}}\n  {^{if editable}}\n    <div>\n      <input data-link=\"name\"/>\n      <input data-link=\"nickname\"/>\n      <input type=\"checkbox\" data-link=\"showNickname\"/>\n    </div>\n  {{/if}}\n</div>\n\n</script>",
             "code": "var data = [\n  {\n    \"name\": \"Robert\",\n    \"nickname\": \"Bob\",\n    \"showNickname\": true\n  },\n  {\n    \"name\": \"Susan\",\n    \"nickname\": \"Sue\",\n    \"showNickname\": false\n  }\n];\n\nvar template = $.templates(\"#theTmpl\");\n\ntemplate.link(\"#result\", data);"
           }
         ]

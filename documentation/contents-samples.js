@@ -282,6 +282,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "text": "This sample takes the preceding <a href=\"#samples/jsr/composition/fromstrings\">template composition/from strings</a> sample, and modifies it to use templates loaded from the server."
       },
       {
+        "_type": "para",
+        "title": "",
+        "text": "(See also the simple examples of loading templates from the server, in the <a href=\"#samples/jsr/composition/remotetmpl\">compile templates</a> API topic.)"
+      },
+      {
         "_type": "sample",
         "typeLabel": "Sample:",
         "sectionTypes": {
@@ -479,7 +484,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "{{mytag}}\n  {{>title}}\n{{/fntag}}\n"
+            "markup": "{{mytag}}\n  {{>title}}\n{{/mytag}}\n"
           },
           {
             "_type": "para",
@@ -1087,7 +1092,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "sampleName": "editabledata/linkedtags",
         "url": "samples/editabledata/linkedtags/sample",
-        "height": "300"
+        "height": "400"
       },
       {
         "_type": "para",
