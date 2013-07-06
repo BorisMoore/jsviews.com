@@ -3595,7 +3595,10 @@
 
 	function callAfterLink(tag, tagCtx) {
 		var cvt, linkedElem, elem, isRadio,val, l,
-			linkCtx = tag.linkCtx = tag.linkCtx || {};
+			linkCtx = tag.linkCtx = tag.linkCtx || {
+				tag: tag,
+				data: tagCtx.view.data
+			};
 		
 		if (tag.onAfterLink) {
 			tag.onAfterLink(tagCtx, linkCtx);
