@@ -6,7 +6,7 @@
 * Copyright 2013, Boris Moore
 * Released under the MIT License.
 */
-// informal pre beta commit counter: 40) (Beta Candidate)
+// informal pre V1.0 commit counter: v1.0.0-beta (40)
 
 (function(global, jQuery, undefined) {
 	// global is the this object, which is window when running in the usual browser environment.
@@ -262,7 +262,6 @@
 
 			if (linkCtx) {
 				linkCtx.tag = tag;
-				tag.linkCtx = linkCtx;
 				tagCtx.ctx = extendCtx(tagCtx.ctx, linkCtx.view.ctx);
 			}
 			tag.tagCtx = tagCtx;
@@ -1212,7 +1211,7 @@
 			if (err) {
 				syntaxError(params);
 			} else {
-				if (bindings && rtPrnDot) {
+				if (bindings && rtPrnDot && !aposed && !quoted) {
 					// This is a binding to a path in which an object is returned by a helper/data function/expression, e.g. foo()^x.y or (a?b:c)^x.y
 					// We create a compiled function to get the object instance (which will be called when the dependent data of the subexpression changes, to return the new object, and trigger re-binding of the subsequent path)
 					if (!named || boundName || bindto) {
@@ -2048,7 +2047,7 @@
 * Copyright 2013, Boris Moore
 * Released under the MIT License.
 */
-// informal pre beta commit counter: v1.0.0-alpha (40) (Beta Candidate)
+// informal pre beta commit counter: v1.0.0-alpha (41) (Beta Candidate)
 
 (function(global, $, undefined) {
 	// global is the this object, which is window when running in the usual browser environment.
@@ -2180,38 +2179,36 @@
 						fromAttr = defaultAttr(source);
 						setter = fnSetters[fromAttr];
 						sourceValue = $isFunction(fromAttr) ? fromAttr(source) : setter ? $source[setter]() : $source.attr(fromAttr);
+						cnvtName = to[1];
+						to = to[0]; // [object, path]
+						if (cnvtName) {
+							if ($isFunction(cnvtName)) {
+								cvtBack = cnvtName;
+							} else {
+								cvtBack = view.tmpl.converters;
+								cvtBack = cvtBack && cvtBack[cnvtName] || $views.converters[cnvtName];
+							}
+						}
+						if (cvtBack) {
+							sourceValue = cvtBack.call(tag, sourceValue);
+						}
 
 						// Set linkCtx on view, dynamically, just during this handler call
 						oldLinkCtx = view.linkCtx;
 						view.linkCtx = linkCtx;
-						if ((!onBeforeChange || !(cancel = onBeforeChange.call(view, ev, sourceValue) === false)) && 
-								(!tag || !tag.onBeforeChange || !(cancel = tag.onBeforeChange(ev, sourceValue) === false)) && 
+						if ((!onBeforeChange || !(cancel = onBeforeChange.call(view, ev, sourceValue) === false)) &&
+								(!tag || !tag.onBeforeChange || !(cancel = tag.onBeforeChange(ev, sourceValue) === false)) &&
 								sourceValue !== undefined) {
-							cnvtName = to[1];
-							to = to[0]; // [object, path]
-							target = to[0];
-							target = target._jsvOb ? target._ob : target;
-							to = to[2] || to[1];
-							if ($isFunction(cnvtName)) {
-								sourceValue = cnvtName.call(tag, sourceValue); // onChange
+							if (tag && tag.onChange) {
+								sourceValue = tag.onChange(sourceValue);
 							}
-							cnvtName = tag && tag.linkCtx && tag.linkCtx.convertBack || cnvtName;
-							if (cnvtName) {
-								if ($isFunction(cnvtName)) {
-									cvtBack = cnvtName;
-								} else {
-									cvtBack = view.tmpl.converters;
-									cvtBack = cvtBack && cvtBack[cnvtName] || $views.converters[cnvtName];
-								}
-							}
-							if (cvtBack) {
-								sourceValue = cvtBack.call(tag, sourceValue);
-							}
+							target = to[0]; // [object, path]
 							if (sourceValue !== undefined && target) {
+								target = target._jsvOb ? target._ob : target;
 								if (tag) {
 									tag._.chging = true; // marker to prevent tag change event triggering its own refresh
 								}
-								$observable(target).setProperty(to, sourceValue);
+								$observable(target).setProperty(to[2] || to[1], sourceValue);
 								if (tag) {
 									delete tag._.chging; // clear the marker
 								}
@@ -2642,28 +2639,29 @@
 	//---------------
 
 	function observeAndBind(linkCtx, source, target) { //TODO? linkFnArgs) {;
-		var tag, binding, cvtBack, paths, lastPath, pathIndex, bindto, bindtoOb, linkedElem, l,
+		var binding, l,
+			linkedElem = linkCtx.linkedElem,
+			cvtBk = linkCtx.convertBack,
+			tag = linkCtx.tag,
 			depends = [],
 			bindId = linkCtx._bndId || "" + bindingKey++,
 			handler = linkCtx._hdlr;
 
 		delete linkCtx._bndId;
 
-		if (tag = linkCtx.tag) {
+		if (tag) {
 			// Use the 'depends' paths set on linkCtx.tag - which may have been set on declaration
 			// or in events: init, render, onBeforeLink, onAfterLink etc.
 			depends = tag.depends || depends;
 			depends = $isFunction(depends) ? tag.depends(tag) : depends;
-			cvtBack = tag.onChange;
 		}
-		cvtBack = cvtBack || linkCtx.convertBack;
 		if (!linkCtx._depends || ("" + linkCtx._depends !== "" + depends)) {
 			// Only bind the first time, or if the new depends (toString) has changed from when last bound
 			if (linkCtx._depends) {
 				// Unobserve previous binding
 				$observe(source, linkCtx._depends, handler, true);
 			}
-			binding = $observe($.isArray(source) ? [source] : source , paths = linkCtx.fn.paths || linkCtx.fn, depends, handler, linkCtx._ctxCb);
+			binding = $observe($.isArray(source) ? [source] : source , linkCtx.fn.paths || linkCtx.fn, depends, handler, linkCtx._ctxCb);
 			// The binding returned by $observe has a bnd array with the source objects of the individual bindings.
 			binding.elem = target; // The target of all the individual bindings
 			binding.linkCtx = linkCtx;
@@ -2671,7 +2669,8 @@
 			// Add to the _jsvBnd on the target the view id and binding id - for unbinding when the target element is removed
 			target._jsvBnd = target._jsvBnd || "";
 			target._jsvBnd += "&" + bindId;
-			if (linkedElem = linkCtx.linkedElem) {
+			if (linkedElem) {
+				binding.to = [[], cvtBk];
 				l = linkedElem.length;
 				while (l--) {
 					linkedElem[l]._jsvBnd = target._jsvBnd;
@@ -2683,31 +2682,8 @@
 			// Store the binding.
 			bindingStore[bindId] = binding; // Note: If this corresponds to a data-linked tag, we are replacing the
 			// temporarily stored tag by the stored binding. The tag will now be at binding.linkCtx.tag
-
-			if (cvtBack !== undefined) {
-				// Two-way binding.
-				// We set the binding.to[1] to be the cvtBack, and  binding.to[0] to be either the path to the target, or [object, path] where the target is the path on the provided object.
-				// So for a path with an object call: a.b.getObject().d.e, then we set to[0] to be [returnedObject, "d.e"], and we bind to the path on the returned object as target
-				// Otherwise our target is the first path, paths[0], which we will convert with contextCb() for paths like ~a.b.c or #x.y.z
-//TODO add support for two-way binding with bound named props and no bindto expression. <input data-link="{:a ^foo=b:}"
-//- currently will not bind to the correct target - but bindto does gives workaround
-				if (bindto = paths.to) {
-					paths = bindto;
-				}
-				pathIndex = paths.length;
-				while (pathIndex && "" + (lastPath = paths[--pathIndex]) !== lastPath) {}; // If the lastPath is an object (e.g. with _jsvOb property), take preceding one
-				if (lastPath) {
-					lastPath = paths[pathIndex] = lastPath.split("^").join("."); // We don't need the "^" since binding has happened. For to binding, require just "."s
-					binding.to = (lastPath.charAt(0) === "."
-						? [[bindtoOb = paths[pathIndex-1], lastPath.slice(1)], cvtBack]
-						: [linkCtx._ctxCb(paths[0]) || [source, paths[0]], cvtBack]);
-					if (bindto && bindtoOb) {
-						// This is a bindto binding {:expr bindto=someob().some.path:}
-						// If it returned an object, we need to call the callback to get the object instance, so we bind to the final path (.some.path) starting from that object
-						// TODO add unit tests for this scenario
-						binding.to[0][0] = linkCtx._ctxCb(bindtoOb, source);
-					}
-				}
+			if (linkedElem || cvtBk !== undefined) {
+				bindTo(binding, cvtBk);
 			}
 		}
 	}
@@ -2809,7 +2785,6 @@
 					parentView.link(from, targetEl, prevNode, nextNode, html);
 					parentView.data = oldData;
 					parentView.ctx = oldCtx;
-					
 //}, 0);
 				}
 			}
@@ -3076,7 +3051,7 @@
 			// The prevNode will be in the returned query, since we called markPrevOrNextNode() on it.
 			// But it may have contained nodes that satisfy the selector also.
 			if (prevNode) {
-				// Find the last contained node one to use as the prevNode - so we only link subsequent elems in the query
+				// Find the last contained node of prevNode, to use as the prevNode - so we only link subsequent elems in the query
 				prevNodes = qsa ? prevNode.querySelectorAll(linkViewsSel) : $(linkViewsSel, prevNode).get();
 				prevNode = prevNodes.length ? prevNodes[prevNodes.length - 1] : prevNode;
 			}
@@ -3594,33 +3569,40 @@
 	}
 
 	function callAfterLink(tag, tagCtx) {
-		var cvt, linkedElem, elem, isRadio,val, l,
+		var cvt, linkedElem, elem, isRadio, val, bindings, binding, i, l,
 			linkCtx = tag.linkCtx = tag.linkCtx || {
 				tag: tag,
 				data: tagCtx.view.data
 			};
-		
+
 		if (tag.onAfterLink) {
 			tag.onAfterLink(tagCtx, linkCtx);
 		}
-		
+
 		if ((linkedElem = linkCtx.linkedElem) && (elem = linkedElem[0])) {
 			isRadio = elem.type === "radio";
 			cvt = linkCtx.convert;
-			val = cvt 
+			val = cvt
 				? ($isFunction(cvt)
 					? cvt(tagCtx.args[0])
 					: $views._cnvt(cvt, tagCtx.view, tagCtx))
 				: tagCtx.args[0];
-	
+
 			if (elem !== linkCtx.elem) {
 				l = linkedElem.length;
 				while (l--) {
 					elem = linkedElem[l];
 					elem._jsvLnkdEl = true;
-					elem._jsvBnd = linkCtx.elem ? linkCtx.elem._jsvBnd : tag._prv._jsvBnd; 
-					// For data-linked tags, identify the linkedElem with the tag, for "to" binding
-					// For data-linked elements, if not yet bound, we identify when the linkCtx.elem is bound 
+					if (tag._.inline) {
+						// For data-linked tags, identify the linkedElem with the tag, for "to" binding
+						// For data-linked elements, if not yet bound, we identify when the linkCtx.elem is bound
+						elem._jsvBnd = linkCtx.elem ? linkCtx.elem._jsvBnd : tag._prv._jsvBnd;
+						bindings = elem._jsvBnd.slice(1).split("&");
+						i = bindings.length;
+						while (i--) {
+							bindTo(bindingStore[bindings[i]], linkCtx.convertBack);
+						}
+					}
 					if (isRadio) {
 						// For radio button, set to checked if val === value. For others set val() to val, below
 						elem.checked = val === elem.value;
@@ -3633,6 +3615,39 @@
 				} else {
 					linkedElem.val(val);
 				}
+			}
+		}
+	}
+	function bindTo(binding, cvtBk) {
+		// Two-way binding.
+		// We set the binding.to[1] to be the cvtBack, and  binding.to[0] to be either the path to the target, or [object, path] where the target is the path on the provided object.
+		// So for a path with an object call: a.b.getObject().d.e, then we set to[0] to be [returnedObject, "d.e"], and we bind to the path on the returned object as target
+		// Otherwise our target is the first path, paths[0], which we will convert with contextCb() for paths like ~a.b.c or #x.y.z
+//TODO add support for two-way binding with bound named props and no bindto expression. <input data-link="{:a ^foo=b:}"
+//- currently will not bind to the correct target - but bindto does gives workaround
+		var bindto, pathIndex, lastPath, bindtoOb,
+			lct =  binding.linkCtx,
+			source = lct.data,
+			paths = lct.fn.paths;
+		if (binding) {
+			if (bindto = paths.to) {
+				paths = bindto;
+			}
+			pathIndex = paths.length;
+			while (pathIndex && "" + (lastPath = paths[--pathIndex]) !== lastPath) {}; // If the lastPath is an object (e.g. with _jsvOb property), take preceding one
+			if (lastPath) {
+				lastPath = paths[pathIndex] = lastPath.split("^").join("."); // We don't need the "^" since binding has happened. For to binding, require just "."s
+				binding.to = (lastPath.charAt(0) === "."
+					? [[bindtoOb = paths[pathIndex-1], lastPath.slice(1)], cvtBk] // someexpr().lastpath - so need to get the bindtoOb object returned from the expression
+					: [lct._ctxCb(paths[0]) || [source, paths[0]], cvtBk]);
+				if (bindto && bindtoOb) {
+					// This is a bindto binding {:expr bindto=someob().some.path:}
+					// If it returned an object, we need to call the callback to get the object instance, so we bind to the final path (.some.path) starting from that object
+					// TODO add unit tests for this scenario
+					binding.to[0][0] = lct._ctxCb(bindtoOb, source);
+				}
+			} else {
+				binding.to = [[], cvtBk];
 			}
 		}
 	}
@@ -3843,7 +3858,7 @@
 			if (view && path) {
 				if (path._jsvOb){
 					return path._jsvOb.call(view.tmpl, object, view, $views);
-				} 
+				}
 				if (path.charAt(0) === "~") {
 					// We return new items to insert into the sequence, replacing the "~a.b.c" string:
 					// [helperObject 'a', "a.b.c" currentDataItem] so currentDataItem becomes the object for subsequent paths.
