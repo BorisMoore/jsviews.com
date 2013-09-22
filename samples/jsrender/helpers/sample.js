@@ -1,7 +1,7 @@
 $.views.tags({
 
   // Tag to reverse-sort an array
-  sort: function(array){
+  sort: function(array) {
     var ret = "";
     if (this.tagCtx.props.reverse) {
       // Render in reverse order
@@ -42,11 +42,11 @@ function myFormatFunction(value) {
 }
 
 $("#movieList")
-  .on("click", "#sortBtn", function(){
+  .on("click", "#sortBtn", function() {
     reverse = !reverse;
     renderList();
   })
-  .on("click", "#formatBtn", function(){
+  .on("click", "#formatBtn", function() {
     upperCase = !upperCase;
     renderList();
   });

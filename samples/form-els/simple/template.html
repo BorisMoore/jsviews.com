@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <link href="samples/form-els/simple/sample.css" rel="stylesheet"/>
+</head>
+<body>
+<h3>JsViews data-linking to form elements - within a rendered template</h3>
+<div class="subhead">Binding string values to UI elements
+  (without converters)</div>
+
+<script id="tmpl" type="text/x-jsrender">
+  Note that <em>amount</em> is a string - so here is <em>amount + 1</em>:
+  <b data-link="amount+1"></b><br/><br/>
+
+  <div class="box">
+    <b>Amount: <em>span</em><br/><br/>
+    {^{:amount}}</b><br/><br/>
+  </div>
+
+  <div class="box">
+    <b>Choose listbox/dropdown: <em>checkbox:</em></b><br/><br/>
+    <input type="checkbox" data-link="listbox" />Show as listbox:<br/>
+  </div>
+
+  <div class="box">
+    <b>Amount: <em>text box</em></b><br/><br/>
+    <input data-link="amount"/><br/><br/>
+
+    <b>Amount: <em>dropdown or listbox</em></b><br/><br/>
+    <select data-link="{:amount:} size{:listbox ? 4 : null}">
+      <option>0</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+    </select><br/><br/>
+
+    <b>Amount: <em>radio buttons</em></b><br/><br/>
+    <input type="radio" name="amt" value="0" data-link="amount" />
+      0<br/>
+    <input type="radio" name="amt" value="1" data-link="amount" />
+      1<br/>
+    <input type="radio" name="amt" value="2" data-link="amount" />
+      2<br/>
+    <input type="radio" name="amt" value="3" data-link="amount" />
+      3<br/><br/>
+
+    <b>Amount: <em>text area</em></b><br/><br/>
+    <textarea data-link="amount" rows="2" cols="10"></textarea><br/><br/>
+  </div>
+</script>
+
+<div id="amountPickers"></div>
+
+<!--<script src="samples/form-els/simple/template.js"></script> <!-- uncomment for testing as standalone page-->
+</body>
+</html>

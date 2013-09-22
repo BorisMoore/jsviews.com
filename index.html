@@ -1,18 +1,18 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<link href="resources/css/tree.css" rel="stylesheet" type="text/css" />
-	<link href="resources/css/tabs.css" rel="stylesheet" type="text/css" />
-	<link href="resources/css/site.css" rel="stylesheet" type="text/css" />
-	<link href="resources/css/contents.css" rel="stylesheet" type="text/css" />
-	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
-	<script src="download/jsviews.js" type="text/javascript"></script>
-	<script src="datatypes.js" type="text/javascript"></script>
+	<link href="resources/css/tree.css" rel="stylesheet"/>
+	<link href="resources/css/tabs.css" rel="stylesheet"/>
+	<link href="resources/css/site.css" rel="stylesheet"/>
+	<link href="resources/css/contents.css" rel="stylesheet"/>
+	<script src="http://coDe.jquery.com/jquery.js"></script>
+	<script src="download/jsviews.js"></script>
+	<script src="datatypes.js"></script>
 	<script src="documentation/contents-categories.js"></script>
 
-	<script src="resources/tags/built-in-tags.js" type="text/javascript"></script>
+	<script src="resources/tags/built-in-tags.js"></script>
 <!--======================= Page Controls =======================-->
-	
+
 <script id="pageTmpl" type="text/x-jsrender">
 	<div data-link="class{:topCategory^name === 'home' ? ' home' : ' nothome'}">
 		<div class="topnav page-width">
@@ -71,7 +71,7 @@
 					{{/selectList}}
 				{{/for}}
 				{{sectionButtons ~root.sectionTypes append=true/}}
-				<button class="savedata cmdbtn">save</button>
+				<button class="savedata cmdbtn">save</button> <a href="dash.html" class="cmdbtn">dashboard</a>
 			{{else ~mode="summary"}}
 				{^{if topCategory^home}}
 					{^{for topCategory^home}}
@@ -184,7 +184,7 @@
 					</div>
 				{{/if}}
 				{{for sections ~root.sectionTypes }}
-					{{if ~mode!=="summary" || !detail}} {^{section _type ~mode /}}{{/if}}				
+					{{if ~mode!=="summary" || !detail}} {^{section _type ~mode /}}{{/if}}
 				{{/for}}
 			</div>
 		{{/for}}
@@ -230,7 +230,7 @@
 					</div>
 				{{/if}}
 				{{for sections ~root.sectionTypes }}
-					{{if ~mode!=="summary" || !detail}} {^{section _type ~mode /}}{{/if}}				
+					{{if ~mode!=="summary" || !detail}} {^{section _type ~mode /}}{{/if}}
 				{{/for}}
 			</div>
 		{{/for}}
@@ -276,29 +276,9 @@
 		</div>
 		<div class="sample">
 			{^{sampleFrame /}}
-			{{for ~tag.sampleFrame ~sections=sections}}
-				{^{tabs tabCaption="How it works"}}
-					{{for ~sections}}
-						{{if ~mode!=="summary" || !detail}}{^{section _type ~mode /}}{{/if}}
-					{{/for}}
-				{{else tabCaption="Code"}}
-					<div class="show">
-						{{sampleFields/}}
-					</div>
-				{{else tabCaption="Full Code"}}
-					{{sampleFields "full"/}}
-				{{else tabCaption="Try it"}}
-					<div class="runButtons">
-						<button class="runSample" data-link="disabled{:!ranIt}">Run code</button>
-						<button class="revertSample" data-link="disabled{:!ranIt}">Clear changes</button>
-					</div>
-					<div class="try">
-						{{sampleFields "edit"/}}
-					</div>
-				{{/tabs}}
-			{{/for}}
+			{{for ~tag.sampleFrame ~sections=sections tmpl=~tabsTmpl()/}}
 		</div>
-	{{else}}	
+	{{else}}
 		<div class="sample">
 			{{for sections ~root.sectionTypes }}
 				{{if ~mode!=="summary" || !detail}}{{section _type ~mode /}}{{/if}}
@@ -342,14 +322,14 @@
 		<label>Name: <input data-link="name" /></label>
 		<label>Object: <input data-link="object" /></label>
 		<label>Return type: <input data-link="returns" /></label>
-		<label>Method: <input type="checkbox" data-link="method" /></label><br />
+		<label>Method: <input type="checkbox" data-link="method" /></label><br/>
 		<label>Description: <input class="description" data-link="description" /></label>
-		
+
 		<div class="signatures">
 			<div>Signatures</div>
 			{^{for signatures}}
 				<div class="signature">
-					<label>Title: <input class="description" data-link="title" /></label><br />
+					<label>Title: <input class="description" data-link="title" /></label><br/>
 					<label>Example: <textarea data-link="example"></textarea></label>
 					<label>Description: <input class="description" data-link="description" /></label>
 					<img class="removesection signature" src="resources/images/close.png" />
@@ -367,10 +347,10 @@
 					</div>
 					<button class="addparam cmdbtn">add parameter</button>
 					{^{selectList sections ~apisections=sections}}
-						{{sectionButtons ~sectionTypes ~sectionType="api" /}}			
-						{^{section _type ~mode ~apisections /}}				
+						{{sectionButtons ~sectionTypes ~sectionType="api" /}}
+						{^{section _type ~mode ~apisections /}}
 					{{/selectList}}
-					{{sectionButtons ~sectionTypes ~sectionType="api" append=true /}}			
+					{{sectionButtons ~sectionTypes ~sectionType="api" append=true /}}
 				</div>
 			{{/for}}
 		</div>
@@ -382,13 +362,13 @@
 	<div class="api">
 		{{sectionHeader /}}
 		<label>Description: <input class="description" data-link="description" /></label>
-		
+
 		<div class="signatures">
 			<div>Signatures</div>
 			{^{for signatures}}
 				<div class="signature">
 					<label>Title: <input class="description" data-link="title" /></label>
-					<label>Variant: <input class="description" data-link="variant" /></label><br />
+					<label>Variant: <input class="description" data-link="variant" /></label><br/>
 					<label>Example: <textarea data-link="example"></textarea></label>
 					<label>Description: <input class="description" data-link="description" /></label>
 					<img class="removesection signature" src="resources/images/close.png" />
@@ -420,10 +400,10 @@
 					</div>
 					<button class="addparam cmdbtn">add parameter</button>
 					{^{selectList sections ~apisections=sections}}
-						{{sectionButtons ~sectionTypes ~sectionType="tag" /}}			
-						{^{section _type ~mode ~apisections /}}				
+						{{sectionButtons ~sectionTypes ~sectionType="tag" /}}
+						{^{section _type ~mode ~apisections /}}
 					{{/selectList}}
-					{{sectionButtons ~sectionTypes ~sectionType="tag" append=true /}}			
+					{{sectionButtons ~sectionTypes ~sectionType="tag" append=true /}}
 				</div>
 			{{/for}}
 		</div>
@@ -458,17 +438,29 @@
 		<label>sample name: <input data-link="sampleName" /></label>
 		<label>url: <input data-link="url" /></label>
 		<label>height: <input data-link="height" /></label>
-		<label>JsRender only: <input data-link="onlyJsRender" type="checkbox"/></label><br />
+		<label>JsRender only: <input data-link="onlyJsRender" type="checkbox"/></label><br/>
+		<div class="tabs">
+			<div>Code tabs:</div>
+			{^{for codetabs}}
+				<div>
+					<label>label: <input data-link="label" /></label>
+					<label>url: <input data-link="url" /></label>
+					<img class="removesection codetab" src="resources/images/close.png" />
+				</div>
+			{{/for}}
+		</div>
+		<button class="addcodetab cmdbtn">add tab</button><br/>
+
 		<label>markup<textarea data-link="markup" rows="5"></textarea></label>
 		<label>data<textarea data-link="{stringify:data:parse}" rows="5"></textarea></label>
 		<label>html<textarea data-link="html" rows="5"></textarea></label>
 		<label>code<textarea data-link="code" rows="5"></textarea></label>
 		<label>How it works:</label>
 		{^{selectList sections}}
-			{{sectionButtons ~sectionTypes ~sectionType="sample" /}}			
-			{^{section _type ~mode sections /}}				
+			{{sectionButtons ~sectionTypes ~sectionType="sample" /}}
+			{^{section _type ~mode sections /}}
 		{{/selectList}}
-		{{sectionButtons ~sectionTypes ~sectionType="sample" append=true /}}			
+		{{sectionButtons ~sectionTypes ~sectionType="sample" append=true /}}
 	</div>
 </script>
 
@@ -512,6 +504,6 @@
 		<a href="#links" id="links" class="unselected">Links</a>
 	</div>
 	<div id="content"></div>
-	<script src="index.js" type="text/javascript"></script>
+	<script src="index.js"></script>
 </body>
 </html>

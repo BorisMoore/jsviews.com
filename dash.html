@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<link href="resources/css/site.css" rel="stylesheet" type="text/css" />
-	<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
-	<script src="download/jsviews.js" type="text/javascript"></script>
-	<script src="datatypes.js" type="text/javascript"></script>
+	<link href="resources/css/site.css" rel="stylesheet"/>
+	<script src="http://code.jquery.com/jquery.js"></script>
+	<script src="download/jsviews.js"></script>
+	<script src="datatypes.js"></script>
 	<script src="documentation/contents-categories.js"></script>
 </head>
 <body class="dashboard">
@@ -14,8 +14,8 @@
 	<p><button id="save">Save to storage</button></p>
 	<a href="/">JsViews.com</a>
 	<a href="/jsviews.com/index.html">local JsViews.com</a>
-	
-	<script type="text/javascript">
+
+	<script>
 		var content = $.views.documentation.content;
 		content.allowEdit = localStorage.getItem("JsViewsDocTopics/allowEdit") === "true";
 		content.useStorage = localStorage.getItem("JsViewsDocTopics/useStorage") === "true";
@@ -35,7 +35,7 @@
 
 		function save(categoryName) {
 			$.getScript("documentation/contents-" + categoryName + ".js")
-			.then(function (){
+			.then(function () {
 				localStorage.setItem("JsViewsDocTopics/" + categoryName, stringify(content[categoryName]));
 			});
 		}

@@ -1,0 +1,23 @@
+body {
+	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	padding: 0 0 0 5px;
+}
+
+.subhead {
+	margin: 3px 0 5px 0;
+	font-weight: bolder;
+	color: #116;
+	font-family: Arial;
+	font-size: 10pt;
+}
+
+.box {
+	border: 1px solid #777;
+	padding: 10px;
+	margin: 13px 5px 10px 0;
+}
+
+select {
+	width: 40px;
+}

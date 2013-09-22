@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <link href="samples/form-els/converters/day-to-int.css" rel="stylesheet"/>
+</head>
+<body>
+
+<b>Using converters to bind <em>integer</em> data values (index of day in week) to
+ <em>string</em> in UI (name of day): <em>"{intToDay:dayOff:dayToInt}"</em></b><br/><br/>
+
+<table class="three">
+  <thead><tr><th>Data</th><th>DayOff</th><th>Choose day off</th></tr></thead>
+  <tbody id="linked"></tbody>
+</table>
+<div><em>To edit, enter part of the name, or the number, or click here:</em>
+<button id="changeDay">Change day</button></div>
+
+<script id="linkedTmpl" type="text/x-jsrender">
+  <tr>
+    <td data-link="dayOff"></td>
+    <td data-link="{intToDay:dayOff}"></td>
+    <td><input data-link="{intToDay:dayOff:dayToInt} title{:dayOff}" /></td>
+  </tr>
+</script>
+
+<!--<script src="samples/form-els/converters/day-to-int.js"></script> <!-- uncomment for testing as standalone page-->
+</body>
+</html>

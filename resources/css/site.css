@@ -360,7 +360,7 @@ img.logo {
 .home .footer img {
 	vertical-align: middle;
 	width: 90px;
-	margin: -1px 0 0 8px; 
+	margin: -1px 0 0 8px;
 }
 
 .home .footer {
@@ -373,7 +373,7 @@ img.logo {
 	top: -40px;
 	font-style: italic;
 }
- 
+
  .morebtn {
 	 height: 37px;
 	 margin-bottom: -14px;
@@ -407,17 +407,17 @@ img.logo {
 	-o-transition-duration: .4s;
 	-webkit-transition-duration: .4s;
 	transition-duration: .4s;
-} 
+}
 
  .nextarrow:hover {
 	cursor: pointer;
-} 
+}
 
  .nextarrow:hover img {
 	opacity: 1.0;
 	filter: alpha(opacity=100);
 	border: 1px solid #C3CFD5;
-} 
+}
 
 .hometopic {
 	display: inline-block;

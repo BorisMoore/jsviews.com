@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <script src="samples/tag-controls/multiselect/multiselect.js" type="text/javascript"></script>
+  <link href="samples/tag-controls/multiselect/sample.css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>JsViews 'multiselect' tag control: The {{multisel}} tag</h3>
+
+<script id="liTmpl" type="text/x-jsrender">
+  <li>{{:name}}</li>
+</script>
+
+<script id="myTmpl" type="text/x-jsrender">
+  {{!-- tag syntax--}}
+  {^{multisel items=items selected=selectedItems size=6 /}}
+
+  {{!-- alternative element-based syntax - allowing you to set styles, etc. --}}
+  <select data-link="{multisel items=items selected=selectedItems size=6 }" class="multisel2"></select>
+
+  <h4>Selected Items</h4>
+  {^{multisel items=selectedItems selected=selectedSelectedItems ^size=selectedItems.length /}}
+
+  <ul>{^{for selectedItems tmpl="#liTmpl" /}}</ul>
+
+  <h4>Selected selected items</h4>
+
+  {{!-- You can use element-based syntax for {{for}} too if you want...) --}}
+  <ul data-link="{for selectedSelectedItems tmpl='#liTmpl'}"></ul>
+</script>
+
+<p>
+  <button id="add">add item</button>
+  <button id="remove">remove item</button>
+</p>
+
+<div id="page"></div>
+
+<!--<script src="samples/tag-controls/multiselect/sample.js"></script> <!-- uncomment for testing as standalone page-->
+</body>
+</html>

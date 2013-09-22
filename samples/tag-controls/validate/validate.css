@@ -1,0 +1,57 @@
+﻿body {
+	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	padding: 0 0 0 5px;
+}
+
+.val-msg {
+	margin: 5px;
+}
+
+.invalid.val-msg {
+	border: 2px solid red;
+}
+
+.radiogroup.val-msg {
+	padding: 3px;
+	display: inline-block;
+}
+
+.radiogroup.invalid.val-msg {
+	margin: 3px;
+}
+
+select.invalid.val-msg {
+	margin: 4px;
+}
+
+select.val-msg {
+	margin: 5px;
+}
+
+input {
+	margin: 3px;
+}
+
+input[type=radio] {
+	margin: 3px 3px 3px 5px;
+	padding: 0;
+}
+
+label.error {
+	color: red;
+	font-style: italic;
+}
+
+.wizard {
+	width: 600px;
+	height: 360px;
+	border: 1px solid #40478E;
+	padding: 10px;
+}
+
+.wizard button {
+	float: right;
+	margin: 3px;
+}
+

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <link href="samples/form-els/converters/sample.css" rel="stylesheet"/>
+</head>
+<body>
+<h3>Data-linking to form elements, using two-way converters
+    (<em>convert</em> and <em>convert back</em>)</h3>
+
+<script id="tmpl" type="text/x-jsrender">
+  <div class="box">
+    <b>Using converters to convert between <em>"base 0"</em> data values and
+    <em>"base 1"</em> UI values: <em>"{plus1:listbox:minus1}"</em></b><br/><br/>
+
+    <input data-link="{plus1:amount:minus1}" />
+    <span data-link="{plus1:amount}" class="calculated"></span>
+    <span data-link="{:amount}" class="calculated"></span><br/><br/>
+  </div>
+
+  <div class="box">
+    <b>Using converters to invert a <em>boolean</em> data value:
+    <em>"{not:listbox:not}"</em></b><br/><br/>
+    <input type="checkbox" data-link="listbox" />Show as listbox:<br/>
+    <input type="checkbox" data-link="{not:listbox:not}" />Show as dropdown<br/>
+  </div>
+
+  <div class="box">
+    <b>Using converters to bind <em>number</em> data values to <em>string</em>
+    values in UI elements: <em>"{intToStr:listbox:strToInt}"</em></b><br/><br/>
+    <input data-link="{intToStr:amount:strToInt}"/><br/><br/>
+
+    <select data-link="{intToStr:amount:strToInt} size{:listbox ? 4 : null}">
+      <option>0</option>
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+    </select><br/><br/>
+
+    <input type="radio" name="amt" value="0" data-link="{intToStr:amount:strToInt}" />
+      0<br/>
+    <input type="radio" name="amt" value="1" data-link="{intToStr:amount:strToInt}" />
+      1<br/>
+    <input type="radio" name="amt" value="2" data-link="{intToStr:amount:strToInt}" />
+      2<br/>
+    <input type="radio" name="amt" value="3" data-link="{intToStr:amount:strToInt}" />
+      3<br/><br/>
+
+    <textarea data-link="{intToStr:amount:strToInt}" rows="2" cols="10"></textarea><br/><br/>
+  </div>
+
+  <div class="box">
+    <b>Using converters to bind <em>number</em> data values to UI elements, using bit-masks: <em>"{getBit:amount:setBit}"</em></b><br/><br/>
+    <input type="checkbox" data-bit="0" data-link="{getBit:amount:setBit}" /> bit 0<br/>
+    <input type="checkbox" data-bit="1" data-link="{getBit:amount:setBit}" /> bit 1<br/>
+  </div>
+
+</script>
+
+<div id="amountPickers"></div>
+
+<!--<script src="samples/form-els/converters/sample.js"></script> <!-- uncomment for testing as standalone page-->
+</body>
+</html>

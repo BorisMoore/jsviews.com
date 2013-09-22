@@ -27,7 +27,7 @@ $.views.tags({
   },
 
   // Tag with render method to reverse-sort an array
-  sort: function(array){
+  sort: function(array) {
     var ret = "";
     if (this.tagCtx.props.reverse) {
       // Render in reverse order

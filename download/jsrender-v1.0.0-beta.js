@@ -968,7 +968,7 @@
 		markup = markup.replace(rEscapeQuotes, "\\$&");
 
 //TODO	result = tmplFnsCache[markup]; // Only cache if template is not named and markup length < ...,
-//and there are no bindings or subtemplates?? Consider standard optimization for data-link="a.b.c"
+//and there are no bindings or sub-templates?? Consider standard optimization for data-link="a.b.c"
 //		if (result) {
 //			tmpl.fn = result;
 //		} else {
@@ -1098,7 +1098,7 @@
 								: "{" + hash) + ");")
 							: tagName === ">"
 								? (hasEncoder = true, "h(" + params + ");")
-								: (getsVal = true, "(v=" + params + ")!=" + (isLinkExpr ? "=" : "") + 'u?v:"";') // Strict equality just for data-link="title{:expr}" so expr=null will remove title attribute 
+								: (getsVal = true, "(v=" + params + ")!=" + (isLinkExpr ? "=" : "") + 'u?v:"";') // Strict equality just for data-link="title{:expr}" so expr=null will remove title attribute
 						)
 						: (hasTag = true, "{tmpl:" // Add this tagCtx to the compiled code for the tagCtxs to be passed to renderTag()
 							+ (content ? nestedTmpls.length: "0") + "," // For block tags, pass in the key (nestedTmpls.length) to the nested content template

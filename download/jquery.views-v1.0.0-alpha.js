@@ -1700,7 +1700,7 @@
 			if (view && path) {
 				if (path._jsvOb){
 					return path._jsvOb.call(view.tmpl, object, view, $views);
-				} 
+				}
 				if (path.charAt(0) === "~") {
 					// We return new items to insert into the sequence, replacing the "~a.b.c" string:
 					// [helperObject 'a', "a.b.c" currentDataItem] so currentDataItem becomes the object for subsequent paths.

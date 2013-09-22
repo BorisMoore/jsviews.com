@@ -55,7 +55,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               "data": "data",
               "template": "template",
               "code": "code",
-              "sample": "sample",
               "links": "links"
             },
             "sections": [
@@ -126,7 +125,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               "data": "data",
               "template": "template",
               "code": "code",
-              "sample": "sample",
               "links": "links"
             },
             "sections": [
@@ -218,7 +216,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               "data": "data",
               "template": "template",
               "code": "code",
-              "sample": "sample",
               "links": "links"
             },
             "sections": [
@@ -439,7 +436,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "Linking, observing, disposing"
       },
       {
-        "name": "tagcontrols",
+        "name": "tag-controls",
         "label": "Tag Controls",
         "categories": [
           {
@@ -862,19 +859,19 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "label": "tmpl parameter"
               },
               {
-                "name": "samples/jsr/composition/fromstrings",
+                "name": "samples/jsr/composition/from-strings",
                 "label": "From strings"
               },
               {
-                "name": "samples/jsr/composition/remotetmpl",
+                "name": "samples/jsr/composition/remote-tmpl",
                 "label": "Remote templates"
               },
               {
-                "name": "samples/jsr/composition/subtemplates",
+                "name": "samples/jsr/composition/sub-templates",
                 "label": "Using sub-templates"
               },
               {
-                "name": "samples/jsr/composition/tmplobjects",
+                "name": "samples/jsr/composition/tmpl-objects",
                 "label": "Contextual template objects"
               }
             ],
@@ -916,54 +913,168 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "JsViews",
         "categories": [
           {
-            "name": "samples/jsv/converters",
-            "label": "Converters",
-            "categories": [
-              {
-                "name": "samples/converters/twoway",
-                "label": "Two-way binding and converters"
-              },
-              {
-                "name": "samples/converters/formels",
-                "label": "Form elements and converters"
-              }
-            ],
-            "expanded": true
-          },
-          {
-            "name": "samples/tagcontrols",
-            "label": "Tag controls",
-            "categories": [
-              {
-                "name": "samples/tagcontrols/tabs",
-                "label": "tabs control"
-              },
-              {
-                "name": "samples/tagcontrols/multiselect",
-                "label": "Multiselect"
-              }
-            ],
-            "expanded": true
-          },
-          {
             "name": "samples/editable",
             "label": "Editable data",
             "categories": [
               {
                 "name": "samples/editable/tags",
-                "label": "data-linked tags"
+                "label": "Data-linked tags"
               },
               {
                 "name": "samples/editable/elems",
-                "label": "data-linked elements"
+                "label": "Data-linked elements"
               },
               {
-                "name": "samples/editable/toplevelfor",
-                "label": "top-level elems with {for...}"
+                "name": "samples/editable/toplevel-for",
+                "label": "Top-level elems with {for...}"
               },
               {
                 "name": "samples/editable/observe",
                 "label": "observable.observe()"
+              }
+            ],
+            "expanded": true
+          },
+          {
+            "name": "samples/form-elems",
+            "label": "Form elements",
+            "categories": [
+              {
+                "name": "samples/form-els/simple",
+                "label": "Form element binding"
+              },
+              {
+                "name": "samples/form-els/array-binding",
+                "label": "Array binding"
+              },
+              {
+                "name": "samples/form-els/converters",
+                "label": "Two-way binding and converters"
+              },
+              {
+                "name": "samples/form-els/edit",
+                "label": "Edit tag control",
+                "hidden": true
+              },
+              {
+                "name": "samples/form-els/validation",
+                "label": "With validation",
+                "hidden": true
+              },
+              {
+                "name": "samples/form-els/submit",
+                "label": "Submitting the form",
+                "hidden": true
+              }
+            ],
+            "expanded": true
+          },
+          {
+            "name": "samples/tag-controls",
+            "label": "Tag controls",
+            "categories": [
+              {
+                "name": "samples/tag-controls/tabs",
+                "label": "tabs control"
+              },
+              {
+                "name": "samples/tag-controls/multiselect",
+                "label": "multiselect control"
+              },
+              {
+                "name": "samples/tag-controls/tree",
+                "label": "tree control",
+                "categories": [
+                  {
+                    "name": "samples/tag-controls/tree/visible-binding",
+                    "label": "tree with 'visible' binding"
+                  },
+                  {
+                    "name": "samples/tag-controls/tree/if-binding",
+                    "label": "tree with if-binding"
+                  },
+                  {
+                    "name": "samples/tag-controls/tree/editable",
+                    "label": "Editable tree"
+                  }
+                ],
+                "expanded": true
+              },
+              {
+                "name": "samples/tag-controls/edit",
+                "label": "edit control",
+                "categories": [
+                  {
+                    "name": "samples/tag-controls/edit/simple",
+                    "label": "Simple edit control"
+                  },
+                  {
+                    "name": "samples/tag-controls/edit/array-binding",
+                    "label": "Array binding"
+                  }
+                ],
+                "expanded": true
+              },
+              {
+                "name": "samples/tag-controls/validate",
+                "label": "validate control",
+                "categories": [
+                  {
+                    "name": "samples/tag-controls/validate/simple",
+                    "label": "Simple validate"
+                  },
+                  {
+                    "name": "samples/tag-controls/validate/group",
+                    "label": "Validation group"
+                  },
+                  {
+                    "name": "samples/tag-controls/validate/array-binding",
+                    "label": "Array binding"
+                  }
+                ],
+                "expanded": true
+              },
+              {
+                "name": "samples/tag-controls/datepicker",
+                "label": "datepicker control",
+                "categories": [
+                  {
+                    "name": "samples/tag-controls/datepicker/simple",
+                    "label": "Simple datepicker"
+                  },
+                  {
+                    "name": "samples/tag-controls/datepicker/variants",
+                    "label": "datepicker variants"
+                  },
+                  {
+                    "name": "samples/tag-controls/datepicker/with-validation",
+                    "label": "With validation"
+                  },
+                  {
+                    "name": "samples/tag-controls/datepicker/with-validation-wizard",
+                    "label": "With validation wizard"
+                  }
+                ],
+                "expanded": true
+              },
+              {
+                "name": "samples/tag-controls/slider",
+                "label": "slider control",
+                "categories": [
+                  {
+                    "name": "samples/tag-controls/slider/simple",
+                    "label": "Simple slider"
+                  },
+                  {
+                    "name": "samples/tag-controls/variants/simple",
+                    "label": "slider variants"
+                  },
+                  {
+                    "name": "samples/tag-controls/slider/with-validation",
+                    "label": "With validation"
+                  }
+                ],
+                "expanded": true
               }
             ],
             "expanded": true
@@ -972,7 +1083,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loaded": false
   },
   {
     "name": "download",
@@ -1004,10 +1116,13 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "name": "download/specific",
         "label": "Specific versions",
         "expanded": true
+      },
+      {
+        "name": "download",
+        "label": "Latest version"
       }
     ],
-    "expanded": true,
-    "loaded": false
+    "expanded": true
   },
   {
     "name": "community",

@@ -1,0 +1,32 @@
+﻿body {
+	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	padding: 0 0 0 5px;
+}
+
+.main-slider {
+	margin: 25px 0 25px;
+	width: 400px;
+	border: 2px solid green;
+	color red;
+}
+
+.svg-circles {
+	height: 102px;
+	width: 400px;
+	overflow: hidden;
+	border: 2px solid #aaa;
+}
+
+.svg-circle {
+	fill: transparent;
+	stroke-width: 1;
+}
+
+.ui-slider.val-msg {
+	margin: 20px 5px 5px 1px;
+}
+
+.ui-slider.val-msg.invalid.val-msg {
+	margin: 18px 5px 5px 0;
+}

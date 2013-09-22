@@ -48,7 +48,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "Linking, observing, disposing"
           },
           {
-            "hash": "tagcontrols",
+            "hash": "tag-controls",
             "label": "Tag Controls"
           },
           {
@@ -209,7 +209,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "title": "Inline tag binding",
     "path": "",
     "sections": []
-  },	
+  },
   "helpers": {
     "title": "Providing helpers",
     "path": "",
@@ -420,7 +420,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "tagcontrols": {
+  "tag-controls": {
     "title": "Tag Controls",
     "path": "",
     "sections": [
@@ -464,5 +464,5 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "title": "MVVM and MVP",
     "path": "",
     "sections": []
-  } 
+  }
 };

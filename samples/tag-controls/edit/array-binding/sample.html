@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <script src="samples/tag-controls/edit/edit.js" type="text/javascript"></script>
+  <link href="samples/tag-controls/edit/array-binding/sample.css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>JsViews 'edit' tag control: The {{edit}} tag</h3>
+
+<script id="myTmpl" type="text/x-jsrender">
+
+  Chosen person: <input data-link="person"/><br/>
+
+  <h3>Edit names</h3>
+  <p>
+    <button id="add">add person</button>
+  </p>
+  <p>
+  {^{for people}}
+      <img class="remove" src="http://www.jsviews.com/resources/images/close.png" />
+      {^{edit name /}}<br/>
+    {{/for}}
+  </p>
+
+  <h3>Data-linked tags</h3>
+
+  {^{edit person
+    convert="upper"
+    convertBack=~lower
+  }}
+    <input/>
+  {{/edit}}<br/>
+
+  {^{edit person
+    convert="upper"
+    convertBack=~lower
+  }}
+    <select size="6">
+      {^{for people}}
+        <option data-link="value{upper:name} {:name:}"></option>
+      {{/for}}
+    </select>
+  {{/edit}}
+
+  {^{edit person
+    convert='upper'
+    convertBack=~lower
+  }}
+    <div class="radiogroup">
+      {^{for people}}
+        <input type="radio" name="gp1" data-link="value{upper:name}"/><label>{^{:name}}</label><br/>
+      {{/for}}
+    </div>
+  {{/edit}}
+
+  <h3>Data-linked elements</h3>
+
+  <input data-link="{edit person
+    convert='upper'
+    convertBack=~lower
+  }"/><br/>
+
+  <select data-link="{edit person
+    convert='upper'
+    convertBack=~lower
+  } size{:people.length}">
+    {^{for people}}
+      <option value="{{upper:name}}" data-link="value^{upper:name} {:name}"></option>
+    {{/for}}
+  </select>
+
+  <div data-link="{edit person
+    convert='upper'
+    convertBack=~lower
+  }" class="radiogroup">
+      {^{for people}}
+        <input type="radio" name="gp2" value="{{upper:name}}" data-link="value^{upper:name}"/><label>{^{:name}}</label><br/>
+      {{/for}}
+  </div>
+</script>
+
+<div id="page"></div>
+
+<!--<script src="samples/tag-controls/edit/array-binding/sample.js"></script> <!-- uncomment for testing as standalone page-->
+</body>
+</html>

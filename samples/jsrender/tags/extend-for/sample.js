@@ -1,6 +1,6 @@
 // An extended {{for}} tag: {{for_range}} inherits from {{for}}, and adds
-// support for iterating over a range (start to end) of items within an array, 
-// or for iterating directly over integers from start integer to end integer  
+// support for iterating over a range (start to end) of items within an array,
+// or for iterating directly over integers from start integer to end integer
 $.views.tags({
   for_range: $.extend(true, {}, $.views.tags["for"], {
     render: function(val) {
@@ -14,7 +14,7 @@ $.views.tags({
           for (var i = start; i <= end; i++) {
             val.push(i);
           }
-        } else if ($.isArray(val)){
+        } else if ($.isArray(val)) {
           val = val.slice(start, end);
         }
       }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <link href="samples/form-els/array-binding/sample.css" rel="stylesheet"/>
+</head>
+<body>
+
+<script id="tmpl" type="text/x-jsrender">
+  <div class="box">
+    <b>Choose the range of amounts:</b>
+    <button id="more">more</button>
+    <button id="less" data-link="disabled{:amounts.length<3}">less</button>
+  </div>
+
+  <div class="box">
+    <b>Choose amount:</b><br/><br/>
+
+    <input data-link="{intToStr:amount:strToInt}"/><br/><br/>
+
+    {^{for amounts}}
+      <input type="radio" name="amt" value="{{:#data}}"
+        data-link="{intToStr:~root.amount:strToInt}" />
+      {{:#data}}<br/>
+    {{/for}}<br/>
+
+    <input type="checkbox" data-link="listbox" />Show as listbox:<br/>
+    <select data-link="{intToStr:amount:strToInt} size{:listbox ? amounts.length : null}">
+      {^{for amounts}}
+        <option data-link="selected{:~root.amount===#data}">{{:#data}}</option>
+      {{/for}}
+    </select>
+  </div>
+
+  <div class="box">
+    <b>Choose amount (by setting bits!):</b><br/><br/>
+
+    {^{for bits}}
+      <input type="checkbox" data-bit="{{:#data}}"
+        data-link="{getBit:~root.amount:setBit}" />
+      bit {{:#data}}<br/>
+    {{/for}}
+  </div>
+</script>
+
+<div id="amountPickers"></div>
+
+<!--<script src="samples/form-els/array-binding/sample.js"></script> <!-- uncomment for testing as standalone page-->
+</body>
+</html>

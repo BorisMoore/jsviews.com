@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+  <script src="samples/tag-controls/datepicker/datepicker.js" type="text/javascript"></script>
+  <link href="samples/tag-controls/datepicker/datepicker.css" rel="stylesheet"/>
+</head>
+<body>
+
+<h3>JsViews 'datepicker' tag control - using jQuery UI datepicker widget: The {{datepicker}} tag</h3>
+
+<script id="myTmpl" type="text/x-jsrender">
+
+  <h4>Choose a start date:</h4>
+
+  {^{datepicker startDate
+    changeMonth=true
+    ^maxDate=endDate
+  /}}
+
+  <h4>Choose an end date:</h4>
+
+  {^{datepicker endDate
+    ^minDate=startDate
+  /}}
+
+  <h4>Choose a day during the chosen period:</h4>
+
+  <p>
+    <label>Number of months:</label>
+    <select data-link="{:~page.monthsSpan:tonum}">
+      <option value="1" data-link="selected{:~selOption()}">1 month</option>
+      <option value="2" data-link="selected{:~selOption()}">2 months</option>
+      <option value="3" data-link="selected{:~selOption()}">3 months</option>
+      <option value="4" data-link="selected{:~selOption()}">4 months</option>
+    </select>
+  </p>
+
+  {^{datepicker middleDate
+    ^minDate=startDate
+    ^maxDate=endDate
+    ^numberOfMonths=~page.monthsSpan
+  }}
+    <div></div>
+  {{/datepicker}}
+
+  <h4>Your chosen day:</h4>
+
+  <div data-link="middleDate || 'No date chosen!'" class="chosenday"></div>
+
+  <h4>Set the middle date directly:</h4>
+
+  {^{datepicker middleDate /}}
+
+</script>
+
+<div id="page"></div>
+
+<!--<script src="samples/tag-controls/datepicker/simple/sample.js"></script> <!-- uncomment for testing as standalone page-->
+</body>
+</html>

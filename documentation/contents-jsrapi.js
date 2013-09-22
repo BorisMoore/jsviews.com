@@ -125,7 +125,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -156,7 +155,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -182,7 +180,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "city": "Seattle"
           }
         },
-        "markup": "{{:name}}: lives in <b>{{:address.city}}</b>.<br />\n\nHere is <em>~root.address.city</em>: <b>{{:~root.address.city}}</b><br />\n\nHere is <em>~#data.address.city</em>: <b>{{:#data.address.city}}</b>",
+        "markup": "{{:name}}: lives in <b>{{:address.city}}</b>.<br/>\n\nHere is <em>~root.address.city</em>: <b>{{:~root.address.city}}</b><br/>\n\nHere is <em>~#data.address.city</em>: <b>{{:#data.address.city}}</b>",
         "height": "80",
         "onlyJsRender": true,
         "title": "{{:data.paths}}"
@@ -195,7 +193,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -215,7 +212,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "markup": "{{:#index+1}}"
           }
         ],
-        "markup": "<b>{{:#index+1}}:</b>\n{{:name}}: lives in <b>{{:address.city}}</b>.<br />",
+        "markup": "<b>{{:#index+1}}:</b>\n{{:name}}: lives in <b>{{:address.city}}</b>.<br/>",
         "data": [
           {
             "name": "Pete",
@@ -293,7 +290,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -376,7 +372,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -480,7 +475,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -519,7 +513,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -548,7 +541,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -630,7 +622,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -846,7 +837,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -897,7 +887,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "onlyJsRender": true,
-        "height": "300",
+        "height": "310",
         "title": "{{if}}...{{else}}...{{/if}}"
       }
     ]
@@ -959,7 +949,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "as shown in <a href=\"#samples/tagcontrols/tabs\">this sample</a>."
+        "text": "as shown in <a href=\"#samples/tag-controls/tabs\">this sample</a>."
       },
       {
         "_type": "links",
@@ -978,7 +968,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "samples/tagcontrols/tabs",
+            "hash": "samples/tag-controls/tabs",
             "label": "Sample: tabs control"
           }
         ]
@@ -1067,7 +1057,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "samples/tagcontrols",
+            "hash": "samples/tag-controls",
             "label": "Sample: JsViews tag controls"
           }
         ]
@@ -1158,7 +1148,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "description": "Render a template against data, and return a string.",
         "sectionTypes": {
           "para": "para",
-          "api": "api",
           "data": "data",
           "template": "template",
           "code": "code",
@@ -1274,7 +1263,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "description": "Render a template against data, along with helper objects or context, and return a string",
         "sectionTypes": {
           "para": "para",
-          "api": "api",
           "data": "data",
           "template": "template",
           "code": "code",
@@ -1305,7 +1293,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -1405,7 +1392,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "description": "Render a named template against data, along with helper objects or context, and return a string",
         "sectionTypes": {
           "para": "para",
-          "api": "api",
           "data": "data",
           "template": "template",
           "code": "code",
@@ -1426,7 +1412,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -1522,7 +1507,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "description": "Render a named template against data, along with helper objects or context, and return a string",
         "sectionTypes": {
           "para": "para",
-          "api": "api",
           "data": "data",
           "template": "template",
           "code": "code",
@@ -1543,7 +1527,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -1609,7 +1592,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -1636,7 +1618,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "<em>Note:</em> For a more sophisticated example of lazy loading of scripts for registering templates, see the <a href=\"#samples/jsr/composition/remotetmpl\">remote templates</a> sample."
+            "text": "<em>Note:</em> For a more sophisticated example of lazy loading of scripts for registering templates, see the <a href=\"#samples/jsr/composition/remote-tmpl\">remote templates</a> sample."
           }
         ],
         "markup": "\n",
@@ -1685,7 +1667,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "html": "<div id=\"peopleList\"></div>\n",
-        "code": "var personTemplate;\n\n$.get(\"templates/person.txt\", function(value) {\n  personTemplate = $.templates(value);\n  var html = personTemplate.render(people);\n  $(\"#peopleList\").html(html);\n});\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];",
+        "code": "var personTemplate;\n\n$.get(\"resources/templates/person.txt\", function(value) {\n  personTemplate = $.templates(value);\n  var html = personTemplate.render(people);\n  $(\"#peopleList\").html(html);\n});\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];",
         "title": "Registering a template from a markup string (fetched  from the server in a text file):",
         "onlyJsRender": true,
         "height": "40"
@@ -1819,7 +1801,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "description": "Create one or more compiled templates - optionally registered as named templates",
         "sectionTypes": {
           "para": "para",
-          "api": "api",
           "data": "data",
           "template": "template",
           "code": "code",
@@ -1848,7 +1829,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var myTmpl = $.templates(\"<label>Name:</label> {{:name}}\");\n\nvar person = {name: \"Robert\"};\n\nvar html = myTmpl.render(person);\n\n$(\"#peopleList\").html(html);",
         "title": "Compile a template from a string",
         "onlyJsRender": true,
-        "height": "70"
+        "height": "40"
       },
       {
         "_type": "sample",
@@ -1858,7 +1839,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -1876,7 +1856,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "title": "Get template object for script block template",
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>",
         "code": "var myTmpl = $.templates(\"#personTemplate\");\n\nvar person = {name: \"Robert\"};\n\nvar html = myTmpl.render(person);\n\n$(\"#peopleList\").html(html);",
-        "height": "70"
+        "height": "40"
       },
       {
         "_type": "sample",
@@ -1886,7 +1866,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -1898,7 +1877,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "code": "$.templates(\"personTmpl\", \"<label>Name:</label> {{:name}}\");\n\nvar person = {name: \"Robert\"};\n\nvar html = $.render.personTmpl(person);\n\n$(\"#peopleList\").html(html);",
         "html": "<div id=\"peopleList\"></div>",
-        "height": "70",
+        "height": "40",
         "title": "Register named template from a string"
       },
       {
@@ -1909,7 +1888,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -1922,7 +1900,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar person = {name: \"Robert\"};\n\nvar html = $.render.personTmpl(person);\n\n$(\"#peopleList\").html(html);",
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>",
         "title": "Register named template from script block",
-        "height": "70"
+        "height": "40"
       },
       {
         "_type": "para",
@@ -1960,7 +1938,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "description": "",
         "sectionTypes": {
           "para": "para",
-          "api": "api",
           "data": "data",
           "template": "template",
           "code": "code",
@@ -1976,7 +1953,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -1994,7 +1970,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{include tmpl=\"labelTmpl\"/}} {{:name}}\n</script>",
         "code": "$.templates({\n  personTmpl: \"#personTemplate\",\n  labelTmpl: \"<label>Name:</label>\"\n});\n\nvar person = {name: \"Robert\"};\n\nvar html = $.render.personTmpl(person);\n\n$(\"#peopleList\").html(html);",
         "title": "Registering multiple templates",
-        "height": "70"
+        "height": "40"
       },
       {
         "_type": "para",
@@ -2100,7 +2076,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "description": "",
         "sectionTypes": {
           "para": "para",
-          "api": "api",
           "data": "data",
           "template": "template",
           "code": "code",
@@ -2116,7 +2091,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -2144,7 +2118,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{upper:~append(\"Mr \", name)}}\n</script>",
         "code": "// Register a template along with a converter and a helper that it will use.\n// These resources are private to the template, rather than being registered\n// globally using $.views.converters or $.views.helpers\n$.templates(\"personTmpl\", {\n  markup: \"#personTemplate\",\n  converters: {\n    upper: function(val) {return val.toUpperCase();}\n  },\n  helpers: {\n    append: function(a, b) {return a + b;}\n  }\n});\n\nvar person = {name: \"Robert\"};\n\nvar html = $.render.personTmpl(person);\n\n$(\"#peopleList\").html(html);",
         "title": "Register a named template along with specified resources",
-        "height": "70"
+        "height": "40"
       },
       {
         "_type": "para",
@@ -2164,7 +2138,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -2177,7 +2150,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var personTmpl = $.templates(\"#personTemplate\");\n\n$.templates(\"labelTmpl\", \"<label>Name: </label>\", personTmpl);\n\nvar person = {name: \"Robert\"};\n\nvar html = personTmpl.render(person);\n\n$(\"#peopleList\").html(html);",
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{include tmpl=\"labelTmpl\"/}} {{:name}}\n</script>",
         "title": "Add a \"labelTmpl\" template resource as a 'sub template' - a private resource for an existing \"personTemplate\"",
-        "height": "70"
+        "height": "40"
       },
       {
         "_type": "links",
@@ -2196,7 +2169,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "samples/jsr/composition/subtemplates",
+            "hash": "samples/jsr/composition/sub-templates",
             "label": "Sample: sub-templates"
           }
         ]
@@ -2304,7 +2277,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -2338,7 +2310,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -2358,9 +2329,9 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "(You can also access the full data object: <em>this.tagCtx.view.data</em>)"
           }
         ],
-        "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Normal:</label> {{full:first last}}<br/>\n  <label>Reverse:</label> {{full:first last format=\"reverse\"}}<br/> \n</script>",
+        "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <p><label>Normal:</label> {{full:first last}}</p>\n  <p><label>Reverse:</label> {{full:first last format=\"reverse\"}}</p> \n</script>",
         "code": "$.views.converters(\"full\", function(first, last) {\n  var format = this.tagCtx.props.format;  \n  return format === \"reverse\" ? last.toUpperCase() + \" \" + first : first + \" \" + last;\n});\n\nvar person = {first: \"Xavier\", last: \"Prieto\"};\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);",
-        "height": "70",
+        "height": "90",
         "title": "Accessing more context from the converter",
         "onlyJsRender": true
       },
@@ -2458,7 +2429,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "See also the following samples:",
-        "text": "<a href=\"#samples/jsr/converters\"><em>Converters and encoding</em></a><br/>\n<a href=\"#samples/converters/twoway\"><em>Two-way binding and converters</em></a><br/>\n<a href=\"#samples/converters/formels\"><em>Form elements and converters</em></a><br/>"
+        "text": "<a href=\"#samples/jsr/converters\"><em>Converters and encoding</em></a><br/>\n<a href=\"#samples/converters/two-way\"><em>Two-way binding and converters</em></a><br/>\n<a href=\"#samples/converters/form-els\"><em>Form elements and converters</em></a><br/>"
       },
       {
         "_type": "links",
@@ -2518,7 +2489,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -2626,7 +2596,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -2734,7 +2703,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -2869,7 +2837,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             ],
             "args": [],
             "sections": [],
-            "example": "$.views.tags(\"mytag\", function(...){\n  ...return rendered content\n});\n\n{{mytag ...}} ... {{/mytag}}",
+            "example": "$.views.tags(\"mytag\", function(...) {\n  ...return rendered content\n});\n\n{{mytag ...}} ... {{/mytag}}",
             "description": "Register a simple 'render' function as a custom tag,"
           },
           {
@@ -2893,7 +2861,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             ],
             "args": [],
             "sections": [],
-            "example": "$.views.tags(\"mytag\", {\n  render: function(...){...},\n  template: ...\n});\n\n{{mytag ...}} ... {{/mytag}}",
+            "example": "$.views.tags(\"mytag\", {\n  render: function(...) {...},\n  template: ...\n});\n\n{{mytag ...}} ... {{/mytag}}",
             "description": "Register a custom tag using a tagOptions object"
           },
           {
@@ -2932,7 +2900,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -2981,7 +2948,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -2997,7 +2963,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "title": "Rendering block content from a custom tag function",
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    This is inside our block content:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    <p>This is inside our block content:</p>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
         "code": "function renderBoldP() {\n   return \"<p><strong>\" + this.tagCtx.render() + \"</strong></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
         "onlyJsRender": true
@@ -3050,7 +3016,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -3077,10 +3042,10 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "code",
             "title": "",
-            "code": "$.views.tags(\"range\", function(array){\n  ...\n  var start = this.tagCtx.props.start,\n  ...\n  // Render tag content, for this data item\n  ret += this.tagCtx.render(array[i]);\n  ..."
+            "code": "$.views.tags(\"range\", function(array) {\n  ...\n  var start = this.tagCtx.props.start,\n  ...\n  // Render tag content, for this data item\n  ret += this.tagCtx.render(array[i]);\n  ..."
           }
         ],
-        "code": "$.views.tags(\"range\", function(array){\n  var ret = \"\",\n    start = this.tagCtx.props.start,\n    end = this.tagCtx.props.end;\n  for (var i = start; i <= end; i++) {\n    // Render tag content, for this data item\n    ret += this.tagCtx.render(array[i]);\n  }\n  return ret;\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
+        "code": "$.views.tags(\"range\", function(array) {\n  var ret = \"\",\n    start = this.tagCtx.props.start,\n    end = this.tagCtx.props.end;\n  for (var i = start; i <= end; i++) {\n    // Render tag content, for this data item\n    ret += this.tagCtx.render(array[i]);\n  }\n  return ret;\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><strong>{{:title}}</strong></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
         "height": "120",
         "title": "Accessing tagCtx properties from the tag render function",
@@ -3099,7 +3064,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -3138,7 +3102,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -3163,7 +3126,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "(It is also made available as a <em>content</em> property on the <em>view</em> object - and can be accessed from within a template using <em>#content</em> - which is an example of a <em>view path</em> - equivalent to <em>#view.content</em>.)"
           }
         ],
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    This is the title:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    <p>This is the title:</p>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
         "code": "$.views.tags(\"boldp\", {\n  template: \"<p><strong>{{include tmpl=~tag.tagCtx.content/}}</strong></p>\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
         "title": "Rendering block content from a custom tag template"
@@ -3191,7 +3154,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -3235,7 +3197,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -3280,7 +3241,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "markup": "template: \"<li>Nothing to render</li>\""
           }
         ],
-        "code": "$.views.tags({\n  range: {\n    render: function(array){\n      var ret = \"\",\n        start = this.tagCtx.props.start,\n        end = this.tagCtx.props.end;\n      for (var i = start; i <= end; i++) {\n        if (array[i]) {\n          // Render tag block content, for this data item\n          ret += this.tagCtx.content.render(array[i]);\n        }\n      }\n      return ret || undefined;\n    },\n    template: \"<li>Nothing to render</li>\"\n  }\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\n",
+        "code": "$.views.tags({\n  range: {\n    render: function(array) {\n      var ret = \"\",\n        start = this.tagCtx.props.start,\n        end = this.tagCtx.props.end;\n      for (var i = start; i <= end; i++) {\n        if (array[i]) {\n          // Render tag block content, for this data item\n          ret += this.tagCtx.content.render(array[i]);\n        }\n      }\n      return ret || undefined;\n    },\n    template: \"<li>Nothing to render</li>\"\n  }\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\n",
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <h3>Members 2 to 4</h3>\n  <ul>\n    {{range members start=1 end=3}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n\n  <h3>Members 5 to 8</h3>\n  <ul>\n    {{range members start=4 end=7}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
         "height": "200",
         "onlyJsRender": true,
@@ -3362,7 +3323,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "samples/tagcontrols",
+            "hash": "samples/tag-controls",
             "label": "Sample: JsViews tag controls"
           }
         ]
@@ -3421,7 +3382,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -3450,7 +3410,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -3479,7 +3438,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [
@@ -3603,7 +3561,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "data": "data",
           "template": "template",
           "code": "code",
-          "sample": "sample",
           "links": "links"
         },
         "sections": [

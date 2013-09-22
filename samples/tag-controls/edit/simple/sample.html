@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <script src="samples/tag-controls/edit/edit.js" type="text/javascript"></script>
+  <link href="samples/tag-controls/edit/simple/sample.css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>JsViews 'edit' tag control: The {{edit}} tag</h3>
+
+<script id="myTmpl" type="text/x-jsrender">
+  person: <input data-link="person"/><br/>
+  agree: <input type="checkbox" data-link="agree"/><br/>
+
+  person2: <input data-link="person2"/>
+
+  <h3>linkTo</h3>
+  person->person2: <input data-link="{:person linkTo=person2:}"/><br/>
+  person2->person: <input data-link="{:person2 linkTo=person:}"/>
+
+  <h3>Data-linked tags</h3>
+
+  {^{edit person
+    convert="upper"
+    convertBack=~lower
+  }}
+    <input/>
+  {{/edit}}<br/>
+
+  person->person2:
+  {^{edit person
+    convert="upper"
+    convertBack=~lower
+    linkTo=person2
+  }}
+    <input/>
+  {{/edit}}<br/>
+
+
+  Agree:
+  {^{edit agree }}
+    <input type="checkbox"/>
+  {{/edit}}<br/>
+
+  {^{edit person
+    convert="upper"
+    convertBack=~lower
+  }}
+    <select size="3">
+      <option value="JO">Jo</option>
+      <option value="MARY">Mary</option>
+      <option value="XAVIER">Xavier</option>
+    </select>
+  {{/edit}}
+
+  {^{edit person
+    convert='upper'
+    convertBack=~lower
+  }}
+    <div class="radiogroup">
+      <input type="radio" person="gp2" value="JO"/><label>Jo</label><br/>
+      <input type="radio" person="gp2" value="MARY"/><label>Mary</label><br/>
+      <input type="radio" person="gp2" value="XAVIER"/><label>Xavier</label><br/>
+    </div>
+  {{/edit}}
+
+  {^{edit person
+    convert="upper"
+    convertBack=~lower
+  }}
+    <textarea></textarea>
+  {{/edit}}
+
+  <h3>Data-linked elements</h3>
+
+  <input data-link="{edit person
+    convert='upper'
+    convertBack=~lower
+  }"/><br/>
+
+  person->person2:
+  <input data-link="{edit person
+    convert='upper'
+    convertBack=~lower
+    linkTo=person2
+  }"/><br/>
+
+  Agree: <input type="checkbox" data-link="{edit agree}"/><br/>
+
+  <select size="3" data-link="{edit person
+    convert='upper'
+    convertBack=~lower
+  }">
+    <option value="JO">Jo</option>
+    <option value="MARY">Mary</option>
+    <option value="XAVIER">Xavier</option>
+  </select>
+
+  <div data-link="{edit person
+    convert='upper'
+    convertBack=~lower
+  }" class="radiogroup">
+    <input type="radio" name="gp1" value="JO"/><label>Jo</label><br/>
+    <input type="radio" name="gp1" value="MARY"/><label>Mary</label><br/>
+    <input type="radio" name="gp1" value="XAVIER"/><label>Xavier</label><br/>
+  </div>
+
+  <textarea data-link="{edit person
+    convert='upper'
+    convertBack=~lower
+  }"></textarea>
+</script>
+
+<div id="page"></div>
+
+<!--<script src="samples/tag-controls/edit/simple/sample.js"></script> <!-- uncomment for testing as standalone page-->
+</body>
+</html>

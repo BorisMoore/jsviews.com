@@ -11,7 +11,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 	pageTag = {
 		init: function(tagCtx) {
 			var categoryPromise;
-			window.page = page = this;
+			window.pagetag = page = this;
 			page.data =  tagCtx.view.data;
 			page.category = selectedCategory;
 		},
@@ -40,6 +40,9 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 				.on("click", ".addtopic", function() {
 					page.addTopic($.view(this));
 				})
+				.on("click", ".addcodetab", function() {
+					page.addCodeTab($.view(this));
+				})
 				.on("click", ".removesection", function() {
 					var view = $.view(this)
 					page.removeSection(view.get("array").data, view.getIndex());
@@ -53,8 +56,10 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 					section.sampleFrame.runCode(true);
 				})
 				.on("click", ".tryit", function() {
-					var sampleSection = $.view(this).parent.tag;
-					sampleSection.tabs.setTab(sampleSection.tabs.selectedIndex === 3 ? 0 : 3);
+					var sampleSection = $.view(this).parent.tag,
+						tabsControl = sampleSection.tabs,
+						tryitTab = tabsControl.tabCount - 1;
+					tabsControl.setTab(tabsControl.selectedIndex === tryitTab ? 0 : tryitTab);
 				})
 				.on("keyup", ".try textarea", function() {
 					$.observable($.view(this).ctx.parentTags.section.sampleFrame).setProperty("ranIt", true);
@@ -79,7 +84,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 			summary: 0,
 			edit: 2
 		},
-		mode: 0,	
+		mode: 0,
 		editable: false,
 
 	// methods
@@ -131,6 +136,11 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 			var topics = view.data[topCategoryName],
 				newTopic = $.extend(true, {}, this.data.subTypes.topic);
 			$.observable(topics).insert(topics.length, newTopic);
+		},
+		addCodeTab: function(view) {
+			var tabs = view.data.codetabs,
+				newTab = $.extend(true, {}, this.data.subTypes.codetab);
+			$.observable(tabs).insert(tabs.length, newTab);
 		},
 		addSection: function(view, type, sectionType, append) {
 			function getLinks(cat, recurse) {
@@ -222,7 +232,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 			var hidden,
 				stack = [],
 				categories = this.data.categories;
-				
+
 			hidden = hash && getCategoryNode(hash, categories);
 			return hidden && hidden.hidden;
 		}
@@ -265,14 +275,14 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 					}
 					self.toggleSelect();
 				});
-				self.contents(".toggleselect:first", true).on("click", function() {
+				self.contents(true, ".toggleselect:first").on("click", function() {
 					self.toggleSelect();
 				});
-				self.contents(".up", true).on("click", function(ev) {
+				self.contents(true, ".up").on("click", function(ev) {
 					self.moveUp();
 					ev.stopImmediatePropagation();
 				});
-				self.contents(".down", true).on("click", function(ev) {
+				self.contents(true, ".down").on("click", function(ev) {
 					self.moveDown();
 					ev.stopImmediatePropagation();
 				});
@@ -311,13 +321,13 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 		}
 	},
 
-// {{sectionButton}} 
+// {{sectionButton}}
 
 	sectionButtonsTag = {
 		render: function(sectionTypes) {
 			var ret = "<div class=\"buttons\">",
 				nestedSectionType = this.ctx.sectionType;
-			for (var type in sectionTypes) {	
+			for (var type in sectionTypes) {
 				ret += "<button class=\""
 							+ (this.tagCtx.props.append ? "append " : "")
 							+ "insertsection cmdbtn\" "
@@ -339,7 +349,8 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 	sampleFrameTag = {
 		init: function(tagCtx) {
 			var self = this,
-				data = self.origData = self.parents.section.data;
+				data = self.origData = self.parents.section.data,
+				codetabs = data.codetabs;
 			if (data.sampleName) {
 				data.url = "samples/" + data.sampleName + "/sample";
 			}
@@ -348,18 +359,31 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 			self.getScript =  function(loadScript) {
 				self.loadScript = loadScript;
 				if (data.url) {
-					var html = $.trim(self.iframeWnd.document.body.innerHTML);
+					var html = $.trim(self.iframeWnd.document.body.innerHTML),
+						toremove = html.indexOf("\n<!--<script src=\"samples"),
+						header = self.iframeWnd.document.head.innerHTML;
+					if (toremove > 0) {
+						html = html.slice(0, toremove);
+					}
+					header = header.slice(header.indexOf('jquery.js"></script>\n') + 21);
 					$.get(data.url + ".js", function(content) {
 						loadScript({code: content});
 						self.sampleData = {
 							url: data.url,
 							html: html,
+							header: header,
 							code: content
 						};
 						self.tryItData = {
 							html: html,
+							header: header,
 							code: content
 						};
+						$.each(codetabs, function(index, tab) {
+							$.get(tab.url, function(content) {
+								self.tryItData['c' + index] = self.sampleData['c' + index] = content
+							}, "text");
+						});
 					}, "text");
 				} else {
 					loadScript(data);
@@ -378,7 +402,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 				}
 			};
 		},
-		template: "<iframe src=\"{{attr:url||'samples/resources/iframeDefault'}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}px;\"></iframe>",
+		template: "<iframe src=\"{{attr:url||'samples/iframeDefault'}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}px;\"></iframe>",
 		onBeforeLink: function() {
 			var self = this,
 				iframeWnd = self.iframeWnd = $(self.parentElem).find(".sampleframe")[0].contentWindow;
@@ -393,11 +417,8 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 			this.iframeWnd = this.parent.sampleFrame = this.parentElem = undefined;
 		},
 		onTabChange: function(index, tabs) {
-			//if (index === 3) {
-			//	$.observable(this).setProperty("sampleData", this.tryItData);
-			//}
 			$.observable(this).setProperty({
-				tryIt: index === 3
+				tryIt: index === tabs.tabCount - 1
 			});
 		},
 		runCode: function(revert) {
@@ -418,22 +439,32 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 		init: function() {
 			this.data = this.tagCtx.view.data.tryItData;
 		},
-		render: function(mode) {
+		render: function(mode, arg1, arg2) {
 			function fullCode() {
+				var code = tryItData.code,
+					codeInHeader = code && code.indexOf("$(function()") === 0,
+					html = tryItData.html;
 				return "<!DOCTYPE html>\n"
 					+ "<!-- To run current sample code in your own environment, copy this to an html page.\n"
 					+ "Note: If the sample uses relative paths to other resources on www.jsviews.com,\n"
 					+ "create corresponding resources on your own site. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "    <link href=\"http://www.jsviews.com/"
-							+ (url || "samples/resources/css/samples") + ".css\" rel=\"stylesheet\"/>\n"
-					+ "    <script src=\"http://code.jquery.com/jquery.js\"></script>\n"
-					+ "    <script src=\"http://www.jsviews.com/download/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"
+					+ "  <script src=\"http://code.jquery.com/jquery.js\"></script>\n"
+					+ (url
+						? ("  <base href=\"http://www.jsviews.com\"/>\n"
+							+ tryItData.header
+							+ (codeInHeader
+								? ("<script>\n" + code
+									+ "\n</script>\n")
+								: ""))
+						: ("  <link href=\"http://www.jsviews.com/samples/resources/css/samples\" rel=\"stylesheet\"/>\n"
+							+ "  <script src=\"http://code.jquery.com/jquery.js\"></script>\n"
+							+ "  <script src=\"http://www.jsviews.com/download/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"))
 					+ "</head>\n"
 					+ "<body>\n\n"
-					+ (tryItData.html
-						? (tryItData.html + "\n\n<script>\n" + tryItData.code)
+					+ (html
+						? (html + (code && !codeInHeader ? "\n<script>\n" + code + "\n</script>" : ""))
 						: (tryItData.markup
 							? ("<div id=\"result\"></div>\n\n"
 								+ "<script id=\"theTmpl\" type=\"text/x-jsrender\">\n"
@@ -443,19 +474,20 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 								+ "var data = " + stringify(tryItData.data) + ";\n\n"
 								+ "var template = $.templates(\"#theTmpl\");\n\n"
 								+ "var htmlOutput = template.render(data);\n\n"
-								+ "$(\"#result\").html(htmlOutput);")
+								+ "$(\"#result\").html(htmlOutput);"
+								+ "\n</script>"
+							)
 							: ""
 						)
 					)
-					+ "\n</script>\n\n"
-					+ "</body>\n"
+					+ "\n\n</body>\n"
 					+ "</html>\n";
 			}
 
 			function renderField(type, label) {
 				var value = tryItData[type],
 					isData = type === "data";
-				return value 
+				return value
 					? "<label>" + (label||type) + ":"
 						+ (editable ? "<textarea" : "<pre")
 						+ " data-link=\""
@@ -465,7 +497,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 						) + "\">"
 						+ (editable ? "</textarea>" : "</pre>")
 						+ "</label>"
-					: ""; 
+					: "";
 			}
 			var ret = "",
 				tryItData = this.data,
@@ -474,6 +506,8 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 				url = this.parents.section.data.url;
 			if (mode === "full") {
 				ret += "<textarea class=\"fullcode\">" + $.views.converters.html(fullCode()) + "</textarea>";
+			} else if (mode === "code") {
+				ret += renderField(arg1, arg2);
 			} else if (tryItData.html) {
 				ret += renderField("html") + renderField("code", "javascript");
 			} else if (tryItData.markup) {
@@ -523,13 +557,49 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 				tags: {
 					sampleFrame: sampleFrameTag,
 					sampleFields: sampleFieldsTag
+				},
+				helpers: {
+					tabsTmpl: function() {
+						var tab,
+							codetabs = this.data.codetabs || [],
+							codetabsLength = codetabs.length,
+							template = '{^{tabs tabCaption="How it works"}}' +
+							'{{for ~sections}}' +
+								'{{if ~mode!=="summary" || !detail}}{^{section _type ~mode /}}{{/if}}' +
+							'{{/for}}' +
+						'{{else tabCaption="Code"}}' +
+							'<div class="show">' +
+								'{{sampleFields/}}' +
+							'</div>';
+
+						for (tab = 0; tab < codetabsLength; tab++) { // Add an {{else}} block for each codetab
+							template += '{{else tabCaption="' + codetabs[tab].label + '"}}' +
+								'<div class="codetab">' +
+									'{{sampleFields "code" "c' + tab + '" "' + codetabs[tab].url + '"/}}' +
+								'</div>';
+						}
+
+						template +=
+						'{{else tabCaption="Full Code"}}' +
+							'{{sampleFields "full"/}}' +
+						'{{else tabCaption="Try it"}}' +
+							'<div class="runButtons">' +
+								'<button class="runSample" data-link="disabled{:!ranIt}">Run code</button>' +
+								'<button class="revertSample" data-link="disabled{:!ranIt}">Clear changes</button>' +
+							'</div>' +
+							'<div class="try">' +
+								'{{sampleFields "edit"/}}' +
+							'</div>' +
+						'{{/tabs}}';
+						return template;
+					}
 				}
 			}),
 			links: $.templates({
 				markup: "#linksTmpl",
 				helpers: {
 					url: function(hash) {
-						return location.pathname +"#" +  hash;	
+						return location.pathname +"#" +  hash;
 					}
 				}
 			})
@@ -541,7 +611,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 			data: $.templates("#editDataTmpl"),
 			template: $.templates("#editTemplateTmpl"),
 			code: $.templates("#editCodeTmpl"),
-			sample: $.templates("#editSampleTmpl"),	
+			sample: $.templates("#editSampleTmpl"),
 			links: $.templates("#editLinksTmpl")
 		}
 	};
@@ -613,6 +683,10 @@ function fetchCategory() {
 	return getCategory(location.hash.slice(1), true)
 		.then(function() {
 			if (page) {
+				var topCategoryName = topCategory.name
+				if (topCategoryName !== "home" && !content[topCategoryName]) {
+					throw topCategoryName + " not loaded. Ensure content.categories." + topCategoryName + ".loaded has not been saved as 'true'";
+				}
 				$.observable(content).setProperty("topCategory", topCategory || selectedCategory);
 				$.observable(page).setProperty({
 					category: selectedCategory
@@ -647,7 +721,7 @@ function signature(api) {
 		ret += "(";
 		for (i=0, l=signature.params.length; i<l; i++) {
 			param = signature.params[i];
-			ret += (param.optional ? "[" : "") + (i ? ", " : "") + param.name + (param.optional ? "]" : ""); 
+			ret += (param.optional ? "[" : "") + (i ? ", " : "") + param.name + (param.optional ? "]" : "");
 		}
 		ret += ")";
 	}
@@ -668,7 +742,7 @@ function getContent(topics) {
 		+ name + " = content.useStorage && $.parseJSON(localStorage.getItem(\"" + path + "\")) ||\n"
 		+ stringify(topics) + ";";
 	return topics === categories
-		? ret.replace(",\n    \"loaded\": true", "") // remove loaded=true fields for content files in categories list 
+		? ret.replace(",\n    \"loaded\": true", "") // remove loaded=true fields for content files in categories list
 		: ret;
 }
 
@@ -694,7 +768,7 @@ function save(category) {
 	var topics,
 		categories = page.data.categories,
 		l = categories.length,
-		textareas = page.contents(".savetext", true),
+		textareas = page.contents(true, ".savetext"),
 		loaded = [];
 
 	while (l-- > 1) {
@@ -728,7 +802,7 @@ $.views.converters({
 	getContent: getContent,
 	stringify: stringify,
 	parse: parse,
-	test: function(val){
+	test: function(val) {
 
 	}
 });

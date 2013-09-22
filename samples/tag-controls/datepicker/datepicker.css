@@ -1,0 +1,22 @@
+body {
+	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	padding: 0 0 0 5px;
+}
+
+.blueborder {
+	color: green;
+	border: blue solid 2px;
+}
+
+div.hasDatepicker {
+	display: inline-block;
+}
+
+.chosenday {
+	font-weight: bold;
+	font-style: italic;
+	border: 2px solid green;
+	color: blue;
+	padding: 5px;
+}

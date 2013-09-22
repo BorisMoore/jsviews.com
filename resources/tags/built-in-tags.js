@@ -59,7 +59,7 @@ var	treeNodeTmpl = $.templates(
 			"</tr>" +
 		"</tbody></table>"),
 
-//#endregion		
+//#endregion
 
 //#region TAG CONTROLS
 
@@ -68,6 +68,7 @@ var	treeNodeTmpl = $.templates(
 	tabsTag = {
 		init: function(tagCtx) {
 			this.selectedIndex = tagCtx.props.selectedTab || 0;
+			this.tabCount = this.tagCtxs.length;
 			(this.parents.section || this.parents.page).tabs = this;
 		},
 		render: function() {
@@ -76,7 +77,7 @@ var	treeNodeTmpl = $.templates(
 		},
 		onAfterLink: function() {
 			var self = this;
-			self.contents(".tabstrip", true).first()
+			self.contents(true, ".tabstrip").first()
 				.on("click", ".header_false", function() {
 					self.setTab($.view(this).index);
 				});
@@ -241,7 +242,7 @@ var	treeNodeTmpl = $.templates(
 		}
 	});
 
-//#endregion		
+//#endregion
 
 //#region INITIALIZATION
 
@@ -254,5 +255,5 @@ $.views.tags({
 	selectList: selectListTag
 });
 
-//#endregion		
+//#endregion
 })(this, this.jQuery);

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link href="sample.css" rel="stylesheet" />
-  <script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
-  <script src="../../../../download/jsviews.js"></script>
-
-  <script src="../../../resources/iframeLoadScript.js" type="text/javascript"></script>
+  <base href="../../../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <link href="samples/jsrender/composition/tmpl/sample.css" rel="stylesheet"/>
 </head>
 <body>
+
 <script id="movieTemplate" type="text/x-jsrender">
   <tr>
     {{include tmpl="#headerTemplate"/}}
@@ -73,5 +74,6 @@
 <tbody id="movieList"></tbody>
 </table>
 
+<!--<script src="samples/jsrender/composition/tmpl/sample.js"></script> <!-- uncomment for testing as standalone page-->
 </body>
 </html>

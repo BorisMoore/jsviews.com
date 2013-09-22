@@ -1,0 +1,35 @@
+body {
+	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	padding: 0 0 0 5px;
+}
+
+table tr {
+	color: blue;
+	height: 25px;
+}
+
+table {
+	border-collapse: collapse;
+	border: 2px solid blue;
+	padding: 2px;
+	background-color: #f8f8f8;
+	width: 500px;
+	margin: 13px 0 15px 5px;
+}
+
+thead tr {
+	color: #009;
+	border-bottom: solid #77c 2px;
+	background-color: #E8E8F7;
+}
+
+thead th {
+	padding: 5px;
+	border: 1px solid #77c;
+}
+
+table td {
+	padding: 3px;
+	border: solid #77C 1px;
+}
