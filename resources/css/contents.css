@@ -7,16 +7,16 @@
 }
 
 .removesection {
-	margin:  0 15px;
+	margin: 0 15px;
 	vertical-align: middle;
 	cursor: pointer;
 	float: right;
 	padding: 8px;
 }
 
-.removesection.param, .removesection.signature, .removesection.topic, .removesection.link , .removesection.codetab {
+.removesection.param, .removesection.signature, .removesection.topic, .removesection.link, .removesection.codetab {
 	float: none;
-	margin:  4px;
+	margin: 4px;
 }
 
 .cmdbtn {
@@ -48,13 +48,13 @@ a.cmdbtn {
 }
 
 .insertsection {
-	margin:  0 5px 0 0;
+	margin: 0 5px 0 0;
 }
 
 .mode-edit {
 	margin-top: 3px;
-	background-color:yellow;
-	border:1px solid #666666;
+	background-color: yellow;
+	border: 1px solid #666666;
 	padding: 5px;
 }
 
@@ -68,7 +68,7 @@ a.cmdbtn {
 	margin: 1px;
 }
 
-.mode-edit .params div:first-child, .mode-edit .signatures div:first-child  {
+.mode-edit .params div:first-child, .mode-edit .signatures div:first-child {
 	font-size: 12px;
 	font-weight: bold;
 	margin-bottom: 2px;
@@ -78,7 +78,7 @@ a.cmdbtn {
 	border: 1px solid #AAAAAA;
 	margin: 3px;
 	padding: 5px;
-	background-color:  rgb(255, 248, 198);
+	background-color: rgb(255, 248, 198);
 }
 
 .mode-edit .params label, .mode-edit .signatures label {
@@ -99,7 +99,7 @@ a.cmdbtn {
 
 .mode-editview {
 	margin-top: 3px;
-	border:1px solid #CCCCCC;
+	border: 1px solid #CCCCCC;
 	padding: 5px;
 }
 
@@ -139,7 +139,7 @@ a.cmdbtn {
 	float: left;
 }
 
-.save-div label:last-of-type  {
+.save-div label:last-of-type {
 	float: right;
 }
 
@@ -203,9 +203,10 @@ a.cmdbtn {
 }
 
 .mode-edit textarea {
-width: 99.5%;
-margin: 2px;
+	width: 99.5%;
+	margin: 2px;
 }
+
 .mode-edit .signatures > .signature {
 	border-top: 2px solid #851d1d;
 	padding: 10px 0 0 0;
@@ -260,7 +261,7 @@ margin: 2px;
 
 .signature .descblock {
 	overflow: hidden;
-	}
+}
 
 .signature .descblock .desc {
 	float: left;
@@ -278,7 +279,6 @@ margin: 2px;
 	font-family: monospace;
 	padding: 7px;
 	margin: 0;
-
 }
 
 .apisignatures .params {
@@ -403,4 +403,11 @@ margin: 2px;
 
 .nonitalic {
 	font-style: normal;
+}
+
+.loading {
+	font-style: italic;
+	font-size: larger;
+	color: #41687C;
+	padding: 20px 0 0 10px;
 }

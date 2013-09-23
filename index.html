@@ -72,7 +72,7 @@
 				{{/for}}
 				{{sectionButtons ~root.sectionTypes append=true/}}
 				<button class="savedata cmdbtn">save</button> <a href="dash.html" class="cmdbtn">dashboard</a>
-			{{else ~mode="summary"}}
+			{{else topCategory^loaded ~mode="summary"}}
 				{^{if topCategory^home}}
 					{^{for topCategory^home}}
 						<span class="hometopic">
@@ -95,6 +95,8 @@
 						No topic
 					{{/for}}
 				{{/if}}
+			{{else}}
+				<div class="loading">{^{:topCategory.loading}}</div>
 			{{/if}}
 		</div>
 	</div>

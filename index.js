@@ -664,11 +664,26 @@ function getCategory(hash, fetch) {
 			.removeClass("unselected")
 			.addClass("selected");
 	}
+	var loadedPromise = $.Deferred();
+	$.observable(content).setProperty("topCategory", topCategory || selectedCategory);
 	if (topCategory && fetch && !topCategory.loaded) {
-		topCategory.loaded = true;
-		return $.getScript("documentation/contents-" + topCategory.name + ".js");
+		if (!topCategory.loading) {
+			topCategory.loading = " ";
+			$.getScript("documentation/contents-" + topCategory.name + ".js")
+				.then(function() {
+					$.observable(topCategory).setProperty("loaded", true);
+					loadedPromise.resolve();
+				});
+				setTimeout(function() {
+					if (!topCategory.loaded) {
+						$.observable(topCategory).setProperty("loading", "Loading...");
+					}
+				}, 300);
+			}
+	} else {
+		loadedPromise.resolve();
 	}
-	return $.Deferred().resolve().promise();
+	return loadedPromise.promise();
 }
 
 function fetchCategory() {
@@ -685,9 +700,8 @@ function fetchCategory() {
 			if (page) {
 				var topCategoryName = topCategory.name
 				if (topCategoryName !== "home" && !content[topCategoryName]) {
-					throw topCategoryName + " not loaded. Ensure content.categories." + topCategoryName + ".loaded has not been saved as 'true'";
+					throw topCategoryName + " not loaded. Ensure category.loaded not saved as 'true'...";
 				}
-				$.observable(content).setProperty("topCategory", topCategory || selectedCategory);
 				$.observable(page).setProperty({
 					category: selectedCategory
 				});
@@ -695,6 +709,7 @@ function fetchCategory() {
 					$.observable(page.tree).setProperty("selected", selectedCategory);
 				}
 				if (oldTopCategory !== topCategory) {
+					oldTopCategory.loading = false;
 					if (oldTopCategory && oldTopCategory.key) {
 						$("#logo-" + oldTopCategory.key)
 							.removeClass("selected")
