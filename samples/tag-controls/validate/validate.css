@@ -9,7 +9,7 @@
 }
 
 .invalid.val-msg {
-	border: 2px solid red;
+	border: 2px solid #cf321d;
 }
 
 .radiogroup.val-msg {
@@ -39,7 +39,7 @@ input[type=radio] {
 }
 
 label.error {
-	color: red;
+	color: #cf321d;
 	font-style: italic;
 }
 

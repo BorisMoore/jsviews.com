@@ -22,7 +22,7 @@ input, select, textarea {
 }
 
 .val-title-error {
-	color: #d10000;
+	color: #cf321d;
 	font-weight: bold;
 	font-style: italic;
 }

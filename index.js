@@ -12,7 +12,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 		init: function(tagCtx) {
 			var categoryPromise;
 			window.pagetag = page = this;
-			page.data =  tagCtx.view.data;
+			page.data =  content;
 			page.category = selectedCategory;
 		},
 		onAfterLink: function() {
@@ -133,7 +133,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 			$.observable(links).insert(links.length, newLink);
 		},
 		addTopic: function(view) {
-			var topics = view.data[topCategoryName],
+			var topics = view.data.topics,
 				newTopic = $.extend(true, {}, this.data.subTypes.topic);
 			$.observable(topics).insert(topics.length, newTopic);
 		},
@@ -362,6 +362,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 					var html = $.trim(self.iframeWnd.document.body.innerHTML),
 						toremove = html.indexOf("\n<!--<script src=\"samples"),
 						header = self.iframeWnd.document.head.innerHTML;
+						header = header.replace(/^.*sample-viewer.*$/m, "");
 					if (toremove > 0) {
 						html = html.slice(0, toremove);
 					}
@@ -630,7 +631,8 @@ function getCategory(hash, fetch) {
 		}
 		topCategory = undefined;
 		stack.push(parent);
-		var l = categories.length;
+		var category,
+			l = categories.length;
 		while (l--) {
 			category = categories[l];
 			if (category.name === name || category.categories && (category = getCategoryNode(name, category.categories, category))) {
@@ -645,10 +647,12 @@ function getCategory(hash, fetch) {
 		}
 		stack.pop();
 	}
-	var category,
+	var topCat, // specific to this getScript call
 		stack = [],
 		categories = content.categories,
-		oldTopCategory = topCategoryName;
+		oldTopCategory = topCategoryName,
+		loadedPromise = $.Deferred();
+
 	selectedCategory = hash && getCategoryNode(hash, categories) || categories[0].jsrender;
 
 	topCategory = topCategory || selectedCategory;
@@ -664,19 +668,22 @@ function getCategory(hash, fetch) {
 			.removeClass("unselected")
 			.addClass("selected");
 	}
-	var loadedPromise = $.Deferred();
+
 	$.observable(content).setProperty("topCategory", topCategory || selectedCategory);
+
 	if (topCategory && fetch && !topCategory.loaded) {
 		if (!topCategory.loading) {
-			topCategory.loading = " ";
+			topCategory.loading = " "; // true, but render blank until after timeout
+			topCat = topCategory; // Specific to this getCategory() call. (Global topCategory var may change before then() returns)
+
 			$.getScript("documentation/contents-" + topCategory.name + ".js")
 				.then(function() {
-					$.observable(topCategory).setProperty("loaded", true);
+					$.observable(topCat).setProperty("loaded", true);
 					loadedPromise.resolve();
 				});
 				setTimeout(function() {
-					if (!topCategory.loaded) {
-						$.observable(topCategory).setProperty("loading", "Loading...");
+					if (!topCat.loaded) {
+						$.observable(topCat).setProperty("loading", "Loading...");
 					}
 				}, 300);
 			}
@@ -709,7 +716,7 @@ function fetchCategory() {
 					$.observable(page.tree).setProperty("selected", selectedCategory);
 				}
 				if (oldTopCategory !== topCategory) {
-					oldTopCategory.loading = false;
+					oldTopCategory.loading = ""; // false
 					if (oldTopCategory && oldTopCategory.key) {
 						$("#logo-" + oldTopCategory.key)
 							.removeClass("selected")
@@ -745,7 +752,7 @@ function signature(api) {
 
 function getContent(topics) {
 	var ret,
-		categories = page.data.categories,
+		categories = content.categories,
 		name = topCategoryName,
 		path = "JsViewsDocTopics/" + topCategoryName;
 
@@ -781,7 +788,7 @@ function syntaxColor(val) { // todo
 
 function save(category) {
 	var topics,
-		categories = page.data.categories,
+		categories = content.categories,
 		l = categories.length,
 		textareas = page.contents(true, ".savetext"),
 		loaded = [];
@@ -797,7 +804,7 @@ function save(category) {
 	}
 	localStorage.setItem("JsViewsDocCategory", category)
 	if (!category ) {
-		topics = page.data[topCategoryName];
+		topics = content[topCategoryName];
 		textareas[0].value = getContent(topics);
 		localStorage.setItem("JsViewsDocTopics/" + topCategoryName, stringify(topics));
 		textareas[1].value = getContent(categories);
@@ -824,6 +831,10 @@ $.views.converters({
 
 fetchCategory()
 	.then(function() {
+		var selectedLogo,
+			categories = content.categories,
+			l = categories.length;
+
 		content.topCategory = topCategory || selectedCategory;
 
 		templates.page.link("#content", content, {templates: templates});
@@ -833,12 +844,28 @@ fetchCategory()
 		$("#logo-" + topCategory.key)
 			.removeClass("unselected")
 			.addClass("selected");
-		var selectedLogo = $(".main-item.selected");
+
+		selectedLogo = $(".main-item.selected");
+
 		$(".main-item").on("click", function() {
 			selectedLogo.removeClass("selected").addClass("unselected");
 			selectedLogo = $(this).addClass("selected").removeClass("unselected");
 			location.hash = this.id.slice(5);
 		});
+
+		while (l--) {
+			// lazy load other content in the background
+			(function() { // Equivalent to $.proxy. Ensure category is specific to this call
+				var category = categories[l];
+				if (l && !category.hidden && !category.loading) {
+					category.loading = " ";
+					$.getScript("documentation/contents-" + category.name + ".js")
+						.then(function() {
+							$.observable(category).setProperty("loaded", true);
+						});
+				}
+			})();
+		}
 	});
 //#endregion
 

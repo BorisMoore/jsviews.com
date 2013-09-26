@@ -20,8 +20,12 @@
 <script id="myTmpl" type="text/x-jsrender">
 {^{validation}}
 <div class="wizard">
-  <button id="next" data-link="css-visibility{:~page.pane !== 2  ? 'visible' : 'hidden'} disabled{:!~tag.isValid}">Next</button>
-  <button id="prev" data-link="css-visibility{:~page.pane ? 'visible' : 'hidden'}">Back</button>
+  <button id="next"
+    data-link="css-visibility{:~page.pane!==2?'visible':'hidden'} disabled{:!~tag.isValid}">
+    Next</button>
+  <button id="prev"
+    data-link="css-visibility{:~page.pane?'visible':'hidden'}">
+    Back</button>
   {^{if ~page.pane === 0 }}
 
     <br/><br/>

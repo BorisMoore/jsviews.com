@@ -308,6 +308,11 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "_type": "topic",
             "hash": "jsrapi",
             "label": "JsRender API"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/jsr",
+            "label": "JsRender samples"
           }
         ]
       }
@@ -472,7 +477,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "But in our case, the first problem is to know <em>which</em> person object should be modified by this particular button. The <em>this</em> pointer in the click-handler is the element, and our code: "
+            "text": "But in our case, the first problem is to know <em>which</em> person object should be modified by this particular button. The <em>this</em> pointer in the click-handler is the element, and our code:"
           },
           {
             "_type": "code",
@@ -482,7 +487,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "let's us get the <em>view</em> (an 'instance' of a rendered template, or template tag block) and hence to the data item (in this case the <em>person</em>) we want to modify."
+            "text": "- let's us get the <em>view</em> (an 'instance' of a rendered template, or template tag block) and hence to the data item (in this case the <em>person</em>) we want to modify."
           },
           {
             "_type": "para",
@@ -518,7 +523,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "Data-linked tags...",
-        "text": "So far have used data-linked template tags for data-linking, as in:"
+        "text": "So far we have used data-linked template tags for data-linking, as in:"
       },
       {
         "_type": "template",
@@ -740,6 +745,11 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "_type": "topic",
             "hash": "jsoapi",
             "label": "JsObservable API"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/jsv",
+            "label": "JsViews samples"
           }
         ]
       }
