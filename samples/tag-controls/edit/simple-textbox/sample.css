@@ -1,0 +1,21 @@
+body {
+	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	padding: 0 0 0 5px;
+}
+
+.subhead {
+	margin: 35px 0 5px 0;
+	font-weight: bolder;
+	color: #116;
+	font-family: Arial;
+	font-size: 10pt;
+}
+
+pre {
+	font-size: 10pt;
+	border-left: 3px solid #aaa;
+	padding: 0 0 0 8px;
+	margin: 20px 0 20px;
+	overflow: auto;
+}

@@ -1,8 +1,22 @@
-﻿(function(global, $, undefined) {
-// global is the 'this' object (window when running in browser).
+﻿/*
+ * Sample JsViews tag control: {{validate}} control,
+ * derived from {{edit}} control, and {{validation}} group control 
+ * http://www.jsviews.com/download/sample-tag-controls/validate/validate.js
+ * Used in samples: 
+ * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation
+ * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation-wizard
+ * http://www.jsviews.com/#samples/tag-controls/slider/with-validation
+ * http://www.jsviews.com/#samples/tag-controls/validate/simple
+ * http://www.jsviews.com/#samples/tag-controls/validate/group
+ * http://www.jsviews.com/#samples/tag-controls/validate/array-binding
+ * Copyright 2013, Boris Moore
+ * Released under the MIT License.
+ */
+
+(function($) {
 "use strict";
 
-var editTag = $.views.tags["edit"]; // We will derive from the editTag
+var editTag = $.views.tags["edit"]; // We will derive from the edit tag
 
 $.views.tags({
   validation: {
@@ -56,7 +70,8 @@ $.views.tags({
     dataBoundOnly: true,
   },
   validate: $.extend(true, {}, editTag, {
-    onInit: function(tagCtx, linkCtx) { // onInit() is called by the base {{edit}} tag, at the end of its init()
+    onInit: function(tagCtx, linkCtx) { 
+      // onInit() is called by the base {{edit}} tag, at the end of its init()
       this.validationGroup = this.parents.validation;
       if (this.validationGroup) {
         this.validationGroup.addChild(this);
@@ -219,4 +234,4 @@ $.views.tags.validate.validators({
   }
 });
 
-})(this, this.jQuery);
+})(this.jQuery);

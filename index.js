@@ -1,7 +1,7 @@
 ﻿(function(window, $, undefined) {
 "use strict";
 
-var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
+var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 	content = $.views.documentation.content,
 	allowEdit = false,
 //#region TAG CONTROLS
@@ -72,9 +72,13 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 							$.observable(page.tree).setProperty("editable", editable);
 						}
 						$.observable(page).setProperty("editable", editable);
+						save();
 						return false;
 					}
 				});
+		},
+		onDispose: function() {
+			save();
 		},
 		template: "#pagePanelTmpl",
 
@@ -515,7 +519,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, hash,
 				ret += renderField("markup", "template markup") + renderField("data");
 			}
 			return ret;
- 		}
+		}
 	},
 
 //#endregion
@@ -694,15 +698,14 @@ function getCategory(hash, fetch) {
 }
 
 function fetchCategory() {
-	if (!location.hash || location.hash === "#home") {
-		location.hash = homeCategory && homeCategory.key || "jsrender";
-		if (this) {
-			return;
-		}
+	save();
+	var oldTopCategory = topCategory,
+		lochash = location.hash;
+
+	if (!lochash || lochash === "#home") {
+		lochash = homeCategory && homeCategory.key || "jsrender";
 	}
-	hash = location.hash;
-	var oldTopCategory = topCategory;
-	return getCategory(location.hash.slice(1), true)
+	return getCategory(lochash.slice(1), true)
 		.then(function() {
 			if (page) {
 				var topCategoryName = topCategory.name
@@ -751,21 +754,41 @@ function signature(api) {
 }
 
 function getContent(topics) {
-	var ret,
+	if (!topics) {
+		return ""
+	}
+	var ret, l, topic,
 		categories = content.categories,
 		name = topCategoryName,
-		path = "JsViewsDocTopics/" + topCategoryName;
+		path = "JsViewsDocTopics/" + topCategoryName,
+		loaded = {},
+		loading = {};
 
 	if (topics === categories) {
 		name = "categories";
 		path = "JsViewsDocCategories";
+		l =  topics.length;
+		while (l--) {
+			topic = topics[l];
+			loaded[l] = topic.loaded;
+			loading[l] = topic.loading;
+			delete topic.loading;
+			delete topic.loaded;
+		}
 	}
+
 	ret = "var content = $.views.documentation.content;\n\ncontent."
 		+ name + " = content.useStorage && $.parseJSON(localStorage.getItem(\"" + path + "\")) ||\n"
 		+ stringify(topics) + ";";
-	return topics === categories
-		? ret.replace(",\n    \"loaded\": true", "") // remove loaded=true fields for content files in categories list
-		: ret;
+
+	if (topics === categories) {
+		l =  topics.length;
+		while (l--) {
+			topics[l].loading = loaded[l];
+			topics[l].loaded = loading[l];
+		}
+	}
+	return ret;
 }
 
 function stringify(val) {
@@ -786,27 +809,33 @@ function syntaxColor(val) { // todo
 	return $.views.converters.html(val);
 }
 
-function save(category) {
-	var topics,
-		categories = content.categories,
-		l = categories.length,
-		textareas = page.contents(true, ".savetext"),
-		loaded = [];
+function save() {
+	if (content.editable) {
+		var topics, category,
+			categories = content.categories,
+			l = categories.length,
+			textareas = page.contents(true, ".savetext"),
+			loaded = {},
+			loading = {};
 
-	while (l-- > 1) {
-		loaded[l] =categories[l].loaded;
-		categories[l].loaded = false;
-	}
-	localStorage.setItem("JsViewsDocCategories", stringify(categories));
-	l = categories.length;
-	while (l-- > 1) {
-		categories[l].loaded = loaded[l];
-	}
-	localStorage.setItem("JsViewsDocCategory", category)
-	if (!category ) {
+		while (l-- > 1) {
+			category = categories[l];
+			loaded[l] = category.loaded;
+			loading[l] = category.loading;
+			categories[l].loaded = false;
+			categories[l].loading = "";
+		}
+		localStorage.setItem("JsViewsDocCategories", stringify(categories));
+		l = categories.length;
+		while (l-- > 1) {
+			categories[l].loaded = loaded[l];
+			categories[l].loading = loading[l];
+		}
 		topics = content[topCategoryName];
+		if (topics) {
+			localStorage.setItem("JsViewsDocTopics/" + topCategoryName, stringify(topics));
+		}
 		textareas[0].value = getContent(topics);
-		localStorage.setItem("JsViewsDocTopics/" + topCategoryName, stringify(topics));
 		textareas[1].value = getContent(categories);
 	}
 }
@@ -840,6 +869,7 @@ fetchCategory()
 		templates.page.link("#content", content, {templates: templates});
 
 		$(window).on('hashchange', fetchCategory);
+		$(window).on('unload', save);
 
 		$("#logo-" + topCategory.key)
 			.removeClass("unselected")

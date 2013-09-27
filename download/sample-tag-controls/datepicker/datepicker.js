@@ -1,6 +1,14 @@
-﻿(function(global, $, undefined) {
-// global is the this object, which is window when running in the usual browser environment.
-// $ is the global var jQuery
+﻿/*
+ * Sample JsViews tag control: {{datepicker}} control
+ * http://www.jsviews.com/download/sample-tag-controls/datepicker/datepicker.js
+ * Used in samples:
+ * http://www.jsviews.com/#samples/tag-controls/datepicker/simple
+ * http://www.jsviews.com/#samples/tag-controls/datepicker/variants
+ * Copyright 2013, Boris Moore
+ * Released under the MIT License.
+ */
+
+(function($) {
 "use strict";
 
 $.views.tags({
@@ -56,4 +64,5 @@ $.views.tags({
     dataBoundOnly: true
   }
 });
-})(this, this.jQuery);
+
+})(this.jQuery);

@@ -87,7 +87,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           }
         ],
         "title": ""
-      }
+      },
+      "loading": ""
     },
     "jsviews": {
       "loaded": true,
@@ -261,8 +262,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "Playing with JsViews"
       }
     ],
-    "expanded": true,
-    "loaded": false
+    "expanded": true
   },
   {
     "hidden": true,
@@ -459,8 +459,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "MVVM and MVP"
       }
     ],
-    "expanded": true,
-    "loaded": false
+    "expanded": true
   },
   {
     "name": "jsrapi",
@@ -615,8 +614,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true,
-    "loaded": false
+    "expanded": true
   },
   {
     "hidden": true,
@@ -754,8 +752,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true,
-    "loaded": false
+    "expanded": true
   },
   {
     "hidden": true,
@@ -833,8 +830,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true,
-    "loaded": false
+    "expanded": true
   },
   {
     "name": "samples",
@@ -1005,8 +1001,12 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "label": "edit control",
                 "categories": [
                   {
-                    "name": "samples/tag-controls/edit/simple",
-                    "label": "Simple edit control"
+                    "name": "samples/tag-controls/edit/simple-textbox",
+                    "label": "Simple textbox control"
+                  },
+                  {
+                    "name": "samples/tag-controls/edit/generic",
+                    "label": "Generic edit control"
                   },
                   {
                     "name": "samples/tag-controls/edit/array-binding",
@@ -1066,7 +1066,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                     "label": "Simple slider"
                   },
                   {
-                    "name": "samples/tag-controls/variants/simple",
+                    "name": "samples/tag-controls/slider/variants",
                     "label": "slider variants"
                   },
                   {
@@ -1083,28 +1083,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true,
-    "loaded": false
-  },
-  {
-    "name": "download",
-    "label": "Downloads",
-    "heading": "Downloading JsViews, JsRender and JsObservable",
-    "description": "",
-    "categories": [
-      {
-        "name": "download/latest",
-        "label": "Latest version",
-        "expanded": true
-      },
-      {
-        "name": "download/specific",
-        "label": "Specific versions",
-        "expanded": true
-      }
-    ],
-    "expanded": true,
-    "loaded": false
+    "expanded": true
   },
   {
     "name": "download",
@@ -1120,6 +1099,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "name": "download",
         "label": "Latest version"
+      },
+      {
+        "name": "download/tag-controls",
+        "label": "Sample tag controls"
       }
     ],
     "expanded": true
@@ -1136,8 +1119,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true,
-    "loaded": false
+    "expanded": true
   },
   {
     "name": "links",
@@ -1156,7 +1138,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true,
-    "loaded": false
+    "expanded": true
   }
 ];

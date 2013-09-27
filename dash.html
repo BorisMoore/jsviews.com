@@ -21,6 +21,7 @@
 		content.useStorage = localStorage.getItem("JsViewsDocTopics/useStorage") === "true";
 		$.link(true, "body", $.views.documentation.content);
 		$.observable.observe(content, "allowEdit", "useStorage", function(ev, eventArgs) {
+			// save setting in local storage, so it will persist when we navigate to index.html
 			localStorage.setItem("JsViewsDocTopics/" + eventArgs.path, eventArgs.value);
 		})
 		$("#save").on("click", function() {
@@ -28,7 +29,6 @@
 				l = categories.length;
 			while (l-- > 1) {
 				save(categories[l].name);
-				categories[l].loaded = false;
 			}
 			localStorage.setItem("JsViewsDocCategories", stringify(categories));
 		});

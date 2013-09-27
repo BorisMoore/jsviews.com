@@ -1,5 +1,14 @@
-﻿(function(global, $, undefined) {
-// global is the 'this' object (window when running in browser).
+﻿/*
+ * Sample JsViews tag control: {{datepicker}} control, derived from {{edit}} control
+ * http://www.jsviews.com/download/sample-tag-controls/datepicker/datepicker-derived.js
+ * Used in samples: 
+ * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation
+ * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation-wizard
+ * Copyright 2013, Boris Moore
+ * Released under the MIT License.
+ */
+
+(function($) {
 "use strict";
 
 var editTag = $.views.tags["edit"]; // We will derive from the editTag
@@ -39,4 +48,5 @@ $.views.tags({
     }
   })
 });
-})(this, this.jQuery);
+
+})(this.jQuery);

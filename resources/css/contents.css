@@ -411,3 +411,15 @@ a.cmdbtn {
 	color: #41687C;
 	padding: 20px 0 0 10px;
 }
+
+.para li {
+	margin-left: -10px;
+	list-style-type: square;
+	padding: 2px;
+}
+
+.para li li {
+	margin-left: -10px;
+	list-style-type: circle;
+	padding: 2px;
+}
