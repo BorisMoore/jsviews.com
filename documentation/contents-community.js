@@ -19,7 +19,7 @@ content.community = content.useStorage && $.parseJSON(localStorage.getItem("JsVi
       {
         "_type": "para",
         "title": "",
-        "text": "<a href=\"http://stackoverflow.com/questions/tagged/jsrender\">JsRender on StackOverflow</a><br/>\n<a href=\"http://stackoverflow.com/questions/tagged/jsviews\">JsRender on StackOverflow</a>"
+        "text": "<a href=\"http://stackoverflow.com/questions/tagged/jsrender\">JsRender on StackOverflow</a><br/>\n<a href=\"http://stackoverflow.com/questions/tagged/jsviews\">JsViews on StackOverflow</a>"
       },
       {
         "_type": "para",
