@@ -450,9 +450,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 					codeInHeader = code && code.indexOf("$(function()") === 0,
 					html = tryItData.html;
 				return "<!DOCTYPE html>\n"
-					+ "<!-- To run current sample code in your own environment, copy this to an html page.\n"
-					+ "Note: If the sample uses relative paths to other resources on www.jsviews.com,\n"
-					+ "create corresponding resources on your own site. -->\n\n"
+					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
 					+ "  <script src=\"http://code.jquery.com/jquery.js\"></script>\n"

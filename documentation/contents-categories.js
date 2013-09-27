@@ -1092,13 +1092,13 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     "description": "",
     "categories": [
       {
+        "name": "download",
+        "label": "Latest version"
+      },
+      {
         "name": "download/specific",
         "label": "Specific versions",
         "expanded": true
-      },
-      {
-        "name": "download",
-        "label": "Latest version"
       },
       {
         "name": "download/tag-controls",
