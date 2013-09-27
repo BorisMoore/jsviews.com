@@ -619,7 +619,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/multiselect/multiselect.js",
+            "url": "download/sample-tag-controls/multiselect/multiselect.js",
             "label": "multiselect.js"
           }
         ],
@@ -945,7 +945,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "label": "tabs.js",
-            "url": "samples/tag-controls/tabs/tabs.js"
+            "url": "download/sample-tag-controls/tabs/tabs.js"
           }
         ],
         "sampleName": "tag-controls/tabs",
@@ -1314,8 +1314,12 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
-            "hash": "samples/tag-controls/edit/simple",
-            "label": "Simple edit control"
+            "hash": "samples/tag-controls/edit/simple-textbox",
+            "label": "Simple textbox control"
+          },
+          {
+            "hash": "samples/tag-controls/edit/generic",
+            "label": "Generic edit control"
           },
           {
             "hash": "samples/tag-controls/edit/array-binding",
@@ -1438,7 +1442,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "Simple slider"
           },
           {
-            "hash": "samples/tag-controls/variants/simple",
+            "hash": "samples/tag-controls/slider/variants",
             "label": "slider variants"
           },
           {
@@ -1484,7 +1488,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/datepicker/datepicker.js",
+            "url": "download/sample-tag-controls/datepicker/datepicker.js",
             "label": "datepicker.js"
           }
         ],
@@ -1519,7 +1523,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/datepicker/datepicker.js",
+            "url": "download/sample-tag-controls/datepicker/datepicker.js",
             "label": "datepicker.js"
           }
         ],
@@ -1559,19 +1563,19 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/edit/edit.js",
+            "url": "download/sample-tag-controls/generic-edit/edit.js",
             "label": "edit.js"
           },
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/validate/validation.js",
+            "url": "download/sample-tag-controls/validate/validate.js",
             "label": "validation.js"
           },
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/datepicker/datepicker-derived.js",
+            "url": "download/sample-tag-controls/datepicker/datepicker-derived.js",
             "label": "datepicker.js"
           }
         ],
@@ -1628,19 +1632,19 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/edit/edit.js",
+            "url": "download/sample-tag-controls/generic-edit/edit.js",
             "label": "edit.js"
           },
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/validate/validation.js",
+            "url": "download/sample-tag-controls/validate/validate.js",
             "label": "validation.js"
           },
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/datepicker/datepicker-derived.js",
+            "url": "download/sample-tag-controls/datepicker/datepicker-derived.js",
             "label": "datepicker.js"
           }
         ],
@@ -1661,7 +1665,14 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "sample",
         "typeLabel": "Sample:",
-        "codetabs": [],
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/treeview/tree-if.js",
+            "label": "tree-if.js"
+          }
+        ],
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -1729,7 +1740,14 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "sample",
         "typeLabel": "Sample:",
-        "codetabs": [],
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/treeview/tree-if.js",
+            "label": "tree-if.js"
+          }
+        ],
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -1829,7 +1847,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/slider/slider.js",
+            "url": "download/sample-tag-controls/slider/slider.js",
             "label": "slider.js"
           }
         ],
@@ -1873,7 +1891,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "samples/tag-controls/variants/simple": {
+  "samples/tag-controls/slider/variants": {
     "title": "Sample: Slider variants",
     "path": "",
     "sections": [
@@ -1884,7 +1902,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/slider/slider.js",
+            "url": "download/sample-tag-controls/slider/slider.js",
             "label": "slider.js"
           }
         ],
@@ -1919,19 +1937,19 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/edit/edit.js",
+            "url": "download/sample-tag-controls/generic-edit/edit.js",
             "label": "edit.js"
           },
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/validate/validation.js",
+            "url": "download/sample-tag-controls/validate/validate.js",
             "label": "validation.js"
           },
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/slider/slider-derived.js",
+            "url": "download/sample-tag-controls/slider/slider-derived.js",
             "label": "slider.js"
           }
         ],
@@ -1981,13 +1999,13 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/edit/edit.js",
+            "url": "download/sample-tag-controls/generic-edit/edit.js",
             "label": "edit.js"
           },
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/validate/validation.js",
+            "url": "download/sample-tag-controls/validate/validate.js",
             "label": "validation.js"
           }
         ],
@@ -2003,11 +2021,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "_type": "para",
             "title": "",
             "text": "The <em>{{validate}}</em> tag derives from the <em>{{edit}}</em> tag, and can similarly be used as <em>textbox</em>, <em>checkbox</em>, <em>dropdown</em>, <em>radio buttons</em>, <em>textarea</em>.\n"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "In each case optional properties can be specified on the edit tag, not only for <em>convert</em>, <em>convertBack</em>, <em>linkTo</em> etc., but also properties specifying validation tests to be applied.\n"
           },
           {
             "_type": "para",
@@ -2107,13 +2120,13 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/edit/edit.js",
+            "url": "download/sample-tag-controls/generic-edit/edit.js",
             "label": "edit.js"
           },
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/tag-controls/validate/validation.js",
+            "url": "download/sample-tag-controls/validate/validate.js",
             "label": "validation.js"
           }
         ],
@@ -2478,7 +2491,14 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "sample",
         "typeLabel": "Sample:",
-        "codetabs": [],
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/generic-edit/edit.js",
+            "label": "edit.js"
+          }
+        ],
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -2490,7 +2510,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This sample is similar to the previous <a href=\"#samples/tag-controls/edit/simple\">edit control</a> sample - but here the <em>people</em> array can be modified - by adding or removing people, or changing their <em>name</em> property."
+            "text": "This sample is similar to the previous <a href=\"#samples/tag-controls/edit/generic\">edit control</a> sample - but here the <em>people</em> array can be modified - by adding or removing people, or changing their <em>name</em> property."
           },
           {
             "_type": "code",
@@ -2520,29 +2540,34 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "samples/tag-controls/edit/simple": {
-    "title": "Sample: Simple edit control",
+  "samples/tag-controls/edit/generic": {
+    "title": "Sample: Generic edit control",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "This sample show a custom <em>{{edit}}</em> tag control."
+        "text": "This sample takes the previous <a href=\"#samples/tag-controls/edit/simple-textbox\">simple textbox</a> sample a lot further, and shows a powerful generic custom <em>{{edit}}</em> tag control which allows you to provide <em>editable data</em> support through two-way data-binding associated with any of the standard <em>HTML Form</em> controls."
       },
       {
         "_type": "para",
         "title": "",
-        "text": "It can be used to provide editable controls in many forms: - a <em>text box</em>, <em>dropdown</em>, <em>checkbox</em>, <em>radio button group</em>, or <em>textarea</em> - and for each it allows <em>convert</em> and <em>convertBack</em> converters to be associated with the control."
+        "text": "It can be associated with a <em>text box</em>, a <em>dropdown</em>, a <em>checkbox</em>, a <em>radio button group</em>, or a <em>textarea</em>."
       },
       {
         "_type": "para",
         "title": "",
-        "text": "It also provides <em>linkTo</em> support to allow two-way binding where the <em>'bind from'</em> source data node and the <em>'bind to'</em> target data node are different nodes (as distinct from normal two-way binding on a single data node)."
+        "text": "Note that you can also data-link directly to <em>HTML Form elements</em>, as shown in the <a href=\"#samples/form-elems\">Form elements</a> samples. "
       },
       {
         "_type": "para",
         "title": "",
-        "text": "The <em>{{edit}}</em> control can be used with either data-linked tag syntax (<em>{^{edit ...}}</em>) or element-based data-linking syntax (<em>data-link=\"{edit ...}\"</em>)."
+        "text": "However, the <em>{{edit}}</em> custom tag allows you to provide additional functionality, along with the syntactic advantages and power of custom tags: <em>{{mytag mydata myproperty=xxx...}}</em>:\n<ul><li>You can use it as the starting point for your own tags, (and if you wish you can remove functionality, to create something simpler, as was done in the <a href=\"#samples/tag-controls/simple-textbox\">simple text box</a> example).</li>\n<li>Alternatively you can use it as the <em>base class</em> for your own custom tag.</li>\n<li>See the later <a href=\"#samples/tag-controls/datepicker\">datepicker</a> and <a href=\"#samples/tag-controls/slider\">slider</a> samples for examples of using the <em>{{edit}}</em> as base class for your own control. You could use the same approach to create a tag that encapsulates other <em>jQuery UI</em> widgets, or that wraps controls from other client-side UI libraries.</li></ul>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Out of the box, <em>{{edit}}</em> already provides some useful functionality beyond the simple data-linked <a href=\"#samples/form-elems\">form elements</a>:\n<ul><li>It allows optional <em>convert</em> and <em>convertBack</em> converters to be associated with the control - no matter what type of control it is (<em>radio buttons</em>, <em>select</em>, <em>textarea</em>...).</li>\n<li>It also provides <em>linkTo</em> support to allow two-way binding where the <em>'bind from'</em> source data node and the <em>'bind to'</em> target data node are different nodes (as distinct from normal two-way binding on a single data node).</li>\n<li>The <em>{{edit}}</em> control can be used with either data-linked tag syntax (<em>{^{edit ...}}</em>) or element-based data-linking syntax (<em>data-link=\"{edit ...}\"</em>).\n</li></ul>"
       },
       {
         "_type": "para",
@@ -2552,7 +2577,14 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "sample",
         "typeLabel": "Sample:",
-        "codetabs": [],
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/generic-edit/edit.js",
+            "label": "edit.js"
+          }
+        ],
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -2647,8 +2679,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "markup": "<textarea data-link=\"{edit person ...}\"></textarea>"
           }
         ],
-        "sampleName": "tag-controls/edit/simple",
-        "url": "samples/tag-controls/edit/simple/sample",
+        "sampleName": "tag-controls/edit/generic",
+        "url": "samples/tag-controls/edit/generic/sample",
         "height": "1000"
       }
     ]
@@ -2660,7 +2692,20 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "sample",
         "typeLabel": "Sample:",
-        "codetabs": [],
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/generic-edit/edit.js",
+            "label": "edit.js"
+          },
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/validate/validate.js",
+            "label": "validation.js"
+          }
+        ],
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -2699,6 +2744,86 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "url": "samples/tag-controls/validate/array-binding/sample",
         "height": "975",
         "title": "The  {{validate}} tag with &lt;option> collections or &ltinput type=\\\"radio\\\"> collections data-linked to arrays"
+      }
+    ]
+  },
+  "samples/tag-controls/edit/simple-textbox": {
+    "title": "Sample: Simple textbox control",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This sample show a simple custom <em>{{textbox}}</em> tag control."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "It can be considered as a first step towards a more advanced control, such as the generic <em>{{edit}}</em> control shown in the <a href=\"#samples/tag-controls/edit/generic\">next sample</a>."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/textbox/simple-textbox.js",
+            "label": "simple textbox"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "This sample illustrates the simplest possible custom tag control supporting <em>two-way data-binding</em>."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "By using a template which includes an <em>input</em> element:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<input/>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "and then, in the <em>onAfterLink</em> handler, setting the <em>linkedElem</em> property to be a jQuery object containing that <em>input</em> element:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.views.tags({\n  textbox: {\n    onAfterLink: function() {\n      <em>this.linkedElem = this.contents(\"input\");</em>\n    },\n    template: \"<input/>\"\n  }\n});"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "JsViews automatically sets up two-way data-linking on the <em>input</em> element."
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Now you can get two-binding to your data, simply by setting the path to the data as parameter on your <em>{{textbox}}</em> tag:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{textbox my.data.path /}}"
+          }
+        ],
+        "sampleName": "tag-controls/edit/simple-textbox",
+        "url": "samples/tag-controls/edit/simple-textbox/sample",
+        "height": "340"
       }
     ]
   }

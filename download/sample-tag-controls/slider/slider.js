@@ -1,5 +1,13 @@
-﻿(function(global, $, undefined) {
-// global is the 'this' object (window when running in browser).
+﻿/*
+ * Sample JsViews tag control: {{slider}} control
+ * http://www.jsviews.com/download/sample-tag-controls/slider/slider.js
+ * Used in samples: http://www.jsviews.com/#samples/tag-controls/slider/simple
+ * Used in samples: http://www.jsviews.com/#samples/tag-controls/slider/variants
+ * Copyright 2013, Boris Moore
+ * Released under the MIT License.
+ */
+
+(function($) {
 "use strict";
 
 $.views.tags({
@@ -51,4 +59,6 @@ $.views.tags({
     dataBoundOnly: true
   }
 });
-})(this, this.jQuery);
+
+})(this.jQuery);
+
