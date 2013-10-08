@@ -397,6 +397,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "",
         "text": "JsViews data-link syntax takes two forms:\n\n<ul class=\"textbefore\"><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
+      },
+      {
+        "_type": "para",
+        "title": "See also:",
+        "text": "<ul><li>Tutorial sequence of samples: <a href=\"#samples/data-link\">Data-linking tags and elements</a></li></ul>"
       }
     ]
   },
@@ -499,7 +504,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "See also:",
-        "text": "<ul><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
+        "text": "<ul>\n<li>JsViews API topic: <a href=\"#linked-elem-syntax\">Data-linked elements</a></li>\n<li>Tutorial sequence of samples: <a href=\"#samples/data-link\">Data-linking tags and elements</a></li>\n</ul>"
       }
     ]
   },
@@ -665,8 +670,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "para",
-        "title": "See also the JsViews API topic:",
-        "text": "<ul><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li></ul>"
+        "title": "See also:",
+        "text": "<ul>\n<li>JsViews API topic: <a href=\"#linked-tag-syntax\">Data-linked tags</a></li>\n<li>Tutorial sequence of samples: <a href=\"#samples/data-link\">Data-linking tags and elements</a></li>\n</ul>"
       }
     ]
   }
