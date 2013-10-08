@@ -4297,7 +4297,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     ]
   },
   "samples/data-link": {
-    "title": "Data-linking tags and elements",
+    "title": "Data-linking tags and elements (tutorial sequence)",
     "path": "",
     "sections": [
       {

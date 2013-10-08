@@ -184,6 +184,11 @@ content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsVie
         "_type": "para",
         "title": "<b>{{validate/}}</b> and <b>{{validation/}}</b>:",
         "text": "<ul>\n  <li><a href=\"download/sample-tag-controls/validate/validate.js\">validate.js</a> used in the\n    <a href=\"#samples/tag-controls/datepicker/with-validation\">datepicker with validation</a>,\n    <a href=\"#samples/tag-controls/datepicker/with-validation-wizard\">datepicker with validation wizard</a>,\n    <a href=\"#samples/tag-controls/slider/with-validation\">slider with validation</a>,<br/>\n    <a href=\"#samples/tag-controls/validate/simple\">validate simple</a>\n    and <a href=\"#samples/tag-controls/validate/group\">validate group</a> samples\n  </li>\n</ul>"
+      },
+      {
+        "_type": "para",
+        "title": "<b>{{range/}}</b>:",
+        "text": "<ul>\n  <li><a href=\"download/sample-tag-controls/range/range.js\">range.js</a> used in the\n    <a href=\"#samples/tag-controls/range\">range</a> sample\n  </li>\n</ul>"
       }
     ]
   }
