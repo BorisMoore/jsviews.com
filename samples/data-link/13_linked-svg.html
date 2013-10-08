@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <link href="samples/samples.css" rel="stylesheet" />
+</head>
+<body>
+<style>
+  .svg { height: 300px; }
+</style>
+
+<div id="result"></div>
+
+<script id="svgTemplate" type="text/x-jsrender">
+  <p>
+    Text: <input data-link="text" /><br/>
+    x: <input data-link="x" /><br/>
+    y: <input data-link="y" /><br/>
+    Text color: <input data-link="textcolor" /><br/>
+    Color: <input data-link="color" /><br/>
+    Rotate: <input data-link="angle" />
+  </p>
+
+  <svg class="svg">
+    <ellipse stroke-width="2" rx="140" ry="50"
+      data-link="
+        cx{:x}
+        cy{:y}
+        fill{:color}
+        stroke{:textcolor}
+        transform{:'rotate(' + angle + ' ' + x + ' ' + y + ')'}
+      "
+    ></ellipse>
+    <text data-link="
+        x{:x}
+        y{:y}
+        fill{:textcolor}
+        text{:text}
+        transform{:'rotate(' + angle + ' ' + x + ' ' + y + ')'}
+      "
+    ></text>
+   </svg>
+</script>
+
+<!--<script src="samples/data-link/13_linked-svg.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

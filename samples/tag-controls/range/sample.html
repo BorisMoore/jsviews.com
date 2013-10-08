@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <script src="download/sample-tag-controls/range/range.js" type="text/javascript"></script>
+  <link href="samples/tag-controls/range/sample.css" rel="stylesheet" />
+</head>
+<body>
+
+<div id="team"></div>
+
+<script id="teamTemplate" type="text/x-jsrender">
+
+<div class="left">
+  <b>Choose the range</b><br/><br/>
+
+  Start:
+  <select data-link="{:start:strToInt}">
+    {^{range start=1 end=10}}
+      <option>{{:#data}}</option>
+    {{/range}}
+  </select>
+
+  End:
+  <select data-link="{:end:strToInt}">
+    {^{range start=1 end=10}}
+      <option>{{:#data}}</option>
+    {{/range}}
+  </select>
+
+  <ul>
+    {^{range members ^start=start-1 ^end=end}}
+      <li>
+        {^{:#index + ~root.start}}. {^{:name}}
+      </li>
+    {{else}}
+      <li>No items</li>
+    {{/range}}
+  </ul>
+</div>
+
+<div class="left">
+  <b>Edit the list</b><br/><br/>
+  <div class="buttons">
+    <button id="add">Add</button>
+  </div>
+
+  <ol>
+    {^{for members}}
+      <li>
+        <input data-link="name" />
+        <img class="remove" src="http://www.jsviews.com/resources/images/close.png" />
+      </li>
+    {{/for}}
+  </ol>
+</div>
+
+</script>
+
+<!--<script src="samples/tag-controls/range/sample.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

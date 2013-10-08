@@ -1,7 +1,7 @@
 ﻿/*
  * Sample JsViews tag control: {{edit}} control
  * http://www.jsviews.com/download/sample-tag-controls/generic-edit/edit.js
- * Used in samples: 
+ * Used in samples:
  * http://www.jsviews.com/#samples/tag-controls/edit
  * http://www.jsviews.com/#samples/tag-controls/datepicker
  * http://www.jsviews.com/#samples/tag-controls/slider

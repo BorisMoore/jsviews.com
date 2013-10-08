@@ -382,8 +382,14 @@ a.cmdbtn {
 }
 
 .para {
-	/*margin-right: 30px;*/
 	margin: 10px 10px 10px 0;
+}
+
+.para > ul {
+	margin: 0;
+}
+.para > ul.textbefore {
+	margin: 10px 0 0 0;
 }
 
 .fullcode {

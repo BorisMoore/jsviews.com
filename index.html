@@ -116,9 +116,9 @@
 	<div class="menus bottom">
 		<a class="unselected" href="#home">Home</a>
 		<a class="unselected" href="#getstarted">Get Started</a>
-<!--		<a class="unselected" href="#explore">Explore</a>
-		<a class="unselected" href="#jsvapi">JsViews API</a>-->
+<!--		<a class="unselected" href="#explore">Explore</a>-->
 		<a class="unselected" href="#jsrapi">JsRender API</a>
+		<a class="unselected" href="#jsvapi">JsViews API</a>
 <!--		<a class="unselected" href="#jsoapi">JsObservable API</a>-->
 		<a class="unselected" href="#samples">Samples</a>
 		<a class="unselected" href="#download">Downloads</a>
@@ -155,7 +155,9 @@
 	{{if title}}
 		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
 	{{/if}}
-	<div class="para">{{:text}}</div>
+	{{if text}}
+	  <div class="para">{{:text}}</div>
+	{{/if}}
 </script>
 
 <script id="apiTmpl" type="text/x-jsrender">
@@ -497,8 +499,8 @@
 		<a href="#home" id="home" class="unselected">Home</a>
 		<a href="#getstarted" id="getstarted" class="unselected">Get Started</a>
 <!--		<a href="#explore" id="explore" class="unselected">Explore</a>-->
-<!--		<a href="#jsvapi" id="jsvapi" class="unselected">JsViews API</a>-->
 		<a href="#jsrapi" id="jsrapi" class="unselected">JsRender API</a>
+		<a href="#jsvapi" id="jsvapi" class="unselected">JsViews API</a>
 <!--		<a href="#jsoapi" id="jsoapi" class="unselected">JsObservable API</a>-->
 		<a href="#samples" id="samples" class="unselected">Samples</a>
 		<a href="#download" id="download" class="unselected">Downloads</a>

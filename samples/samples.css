@@ -65,6 +65,13 @@ td.center {
 	text-align: center;
 }
 
-#result>div {
+#result > div {
 	padding: 4px;
+}
+
+.spanbox {
+	border: 1px solid blue;
+	padding: 5px;
+	display: inline-block;
+	margin: 8px;
 }

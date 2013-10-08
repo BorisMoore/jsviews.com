@@ -1,0 +1,37 @@
+body {
+	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	padding: 0 0 0 5px;
+}
+
+.buttons {
+	margin-bottom: 15px;
+}
+
+li {
+	margin-bottom: 10px;
+}
+
+ul {
+	padding-left: 0px;
+}
+
+ol {
+	padding-left: 22px;
+}
+
+ul li {
+	list-style: none;
+	margin-left: 0px;
+}
+
+.left {
+	float: left;
+	margin-right: 20px;
+	border: 1px solid grey;
+	padding: 20px;
+}
+
+select {
+	margin-right: 15px;
+}

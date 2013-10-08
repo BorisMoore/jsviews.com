@@ -124,27 +124,27 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 				$._removeData(newSignature);
 				$._removeData(newSignature.params);
 			}
-			$.observable(signatures).insert(length, newSignature);
+			$.observable(signatures).insert(newSignature);
 		},
 		addParam: function(view, isTagArg) {
 			var params = isTagArg ? view.data.args : view.data.params,
 				newParam = $.extend(true, {}, this.data.subTypes.param);
-			$.observable(params).insert(params.length, newParam);
+			$.observable(params).insert(newParam);
 		},
 		addLink: function(view) {
 			var links = view.data.links,
 				newLink = $.extend(true, {}, this.data.subTypes.link);
-			$.observable(links).insert(links.length, newLink);
+			$.observable(links).insert(newLink);
 		},
 		addTopic: function(view) {
 			var topics = view.data.topics,
 				newTopic = $.extend(true, {}, this.data.subTypes.topic);
-			$.observable(topics).insert(topics.length, newTopic);
+			$.observable(topics).insert(newTopic);
 		},
 		addCodeTab: function(view) {
 			var tabs = view.data.codetabs,
 				newTab = $.extend(true, {}, this.data.subTypes.codetab);
-			$.observable(tabs).insert(tabs.length, newTab);
+			$.observable(tabs).insert(newTab);
 		},
 		addSection: function(view, type, sectionType, append) {
 			function getLinks(cat, recurse) {
@@ -353,7 +353,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 	sampleFrameTag = {
 		init: function(tagCtx) {
 			var self = this,
-				data = self.origData = self.parents.section.data,
+				data = $.parseJSON(stringify(self.origData = self.parents.section.data)),
 				codetabs = data.codetabs;
 			if (data.sampleName) {
 				data.url = "samples/" + data.sampleName + "/sample";
@@ -428,7 +428,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 		},
 		runCode: function(revert) {
 			if (revert) {
-				$.observable(this.tryItData).setProperty(this.sampleData);
+				$.observable(this.tryItData).setProperty(this.origData);
 				$.observable(this).setProperty("ranIt", !revert);
 			};
 			try {
@@ -461,7 +461,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 								? ("<script>\n" + code
 									+ "\n</script>\n")
 								: ""))
-						: ("  <link href=\"http://www.jsviews.com/samples/resources/css/samples\" rel=\"stylesheet\"/>\n"
+						: ("  <link href=\"http://www.jsviews.com/samples/samples.css\" rel=\"stylesheet\"/>\n"
 							+ "  <script src=\"http://code.jquery.com/jquery.js\"></script>\n"
 							+ "  <script src=\"http://www.jsviews.com/download/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"))
 					+ "</head>\n"
@@ -476,8 +476,10 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 								+ "<script>\n"
 								+ "var data = " + stringify(tryItData.data) + ";\n\n"
 								+ "var template = $.templates(\"#theTmpl\");\n\n"
-								+ "var htmlOutput = template.render(data);\n\n"
-								+ "$(\"#result\").html(htmlOutput);"
+								+ (onlyJsRender
+									? ("var htmlOutput = template.render(data);\n\n"
+										+ "$(\"#result\").html(htmlOutput);")
+									: "template.link(\"#result\", data);")
 								+ "\n</script>"
 							)
 							: ""
@@ -701,7 +703,7 @@ function fetchCategory() {
 		lochash = location.hash;
 
 	if (!lochash || lochash === "#home") {
-		lochash = homeCategory && homeCategory.key || "jsrender";
+		lochash = homeCategory && homeCategory.key || "#jsrender";
 	}
 	return getCategory(lochash.slice(1), true)
 		.then(function() {
@@ -782,8 +784,8 @@ function getContent(topics) {
 	if (topics === categories) {
 		l =  topics.length;
 		while (l--) {
-			topics[l].loading = loaded[l];
-			topics[l].loaded = loading[l];
+			topics[l].loading = loading[l];
+			topics[l].loaded = loaded[l];
 		}
 	}
 	return ret;

@@ -205,7 +205,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "code",
             "title": "",
-            "code": "$.observable(people).insert(people.length, {name: ...});\n"
+            "code": "$.observable(people).insert({name: ...});\n"
           }
         ],
         "sections": [
@@ -241,7 +241,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "onlyJsRender": false,
             "height": "175",
             "html": "<table><tbody id=\"result\"></tbody></table>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr><td>\n      <button class=\"change\">Change</button>\n      <button class=\"remove\">X</button>\n      {^{:name}} \n    </td></tr>\n  {{/for}}\n</script>",
-            "code": "var template = $.templates(\"#theTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar counter = 1;\n\ntemplate.link(\"#result\", {people: people});\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert(people.length, {name: \"name\" + counter++});\n})\n\n$(\"#result\")\n  .on(\"click\", \".change\", function(){\n    var dataItem = $.view(this).data;\n    $.observable(dataItem).setProperty(\"name\", dataItem.name + \"*\");\n  })\n  .on(\"click\", \".remove\", function(){\n    var index = $.view(this).index;\n    $.observable(people).remove(index);\n  });"
+            "code": "var template = $.templates(\"#theTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar counter = 1;\n\ntemplate.link(\"#result\", {people: people});\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert({name: \"name\" + counter++});\n})\n\n$(\"#result\")\n  .on(\"click\", \".change\", function(){\n    var dataItem = $.view(this).data;\n    $.observable(dataItem).setProperty(\"name\", dataItem.name + \"*\");\n  })\n  .on(\"click\", \".remove\", function(){\n    var index = $.view(this).index;\n    $.observable(people).remove(index);\n  });"
           }
         ]
       }
@@ -617,7 +617,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     "expanded": true
   },
   {
-    "hidden": true,
     "name": "jsvapi",
     "label": "JsViews API - Data-driven UI",
     "heading": "JsViews API documentation",
@@ -629,9 +628,25 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       },
       {
+        "name": "linked-template-syntax",
+        "label": "Data-link template syntax",
+        "expanded": true,
+        "categories": [
+          {
+            "name": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "name": "linked-elem-syntax",
+            "label": "Data-linked elements"
+          }
+        ]
+      },
+      {
         "name": "jsvrendertmpl",
         "label": "Render a template",
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "jsvlinktmpl",
@@ -650,7 +665,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "$(...).link()"
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "jsvunlink",
@@ -669,7 +685,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "$(...).unlink()"
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "$view",
@@ -684,12 +701,14 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "$(...).view()"
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "jsvcompiletmpl",
         "label": "Compile/register/get a template",
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "jsvregister",
@@ -709,11 +728,13 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "$.views.helpers()"
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "jsvtagcontrols",
-        "label": "Custom Tags - Tag Controls"
+        "label": "Custom Tags - Tag Controls",
+        "hidden": true
       },
       {
         "name": "jsvobjects",
@@ -749,7 +770,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Link context object"
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       }
     ],
     "expanded": true
@@ -909,6 +931,54 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "JsViews",
         "categories": [
           {
+            "name": "samples/data-link",
+            "label": "Data-linking tags and elements",
+            "categories": [
+              {
+                "name": "samples/data-link/from-render-to-link",
+                "label": "From rendering to linking"
+              },
+              {
+                "name": "samples/data-link/for-and-if",
+                "label": "Linking {^{for}} and {^{if}}"
+              },
+              {
+                "name": "samples/data-link/class",
+                "label": "Linking class"
+              },
+              {
+                "name": "samples/data-link/toggle",
+                "label": "Toggling class with data-link"
+              },
+              {
+                "name": "samples/data-link/attributes",
+                "label": "Linking attributes"
+              },
+              {
+                "name": "samples/data-link/visibility",
+                "label": "Linking visibility"
+              },
+              {
+                "name": "samples/data-link/hover",
+                "label": "Linking visibility and hover"
+              },
+              {
+                "name": "samples/data-link/css",
+                "label": "Linking CSS attributes"
+              },
+              {
+                "name": "samples/data-link/svg",
+                "label": "Linking SVG elements"
+              },
+              {
+                "name": "samples/data-link/computed",
+                "label": "Computed ....!!",
+                "hidden": true
+              }
+            ],
+            "expanded": true
+          },
+          {
             "name": "samples/editable",
             "label": "Editable data",
             "categories": [
@@ -946,6 +1016,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "samples/form-els/converters",
                 "label": "Two-way binding and converters"
+              },
+              {
+                "name": "samples/form-els/visible-binding",
+                "label": "Form elements and visibility"
               },
               {
                 "name": "samples/form-els/edit",
@@ -1075,6 +1149,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                   }
                 ],
                 "expanded": true
+              },
+              {
+                "name": "samples/tag-controls/range",
+                "label": "range control"
               }
             ],
             "expanded": true

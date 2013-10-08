@@ -1,8 +1,8 @@
 ﻿/*
  * Sample JsViews tag control: {{validate}} control,
- * derived from {{edit}} control, and {{validation}} group control 
+ * derived from {{edit}} control, and {{validation}} group control
  * http://www.jsviews.com/download/sample-tag-controls/validate/validate.js
- * Used in samples: 
+ * Used in samples:
  * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation
  * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation-wizard
  * http://www.jsviews.com/#samples/tag-controls/slider/with-validation
@@ -70,7 +70,7 @@ $.views.tags({
     dataBoundOnly: true,
   },
   validate: $.extend(true, {}, editTag, {
-    onInit: function(tagCtx, linkCtx) { 
+    onInit: function(tagCtx, linkCtx) {
       // onInit() is called by the base {{edit}} tag, at the end of its init()
       this.validationGroup = this.parents.validation;
       if (this.validationGroup) {

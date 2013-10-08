@@ -14,10 +14,10 @@
 myTmpl.link("#page", model);
 
 $("#add").on("click", function() {
-  $.observable(items).insert(items.length, {name: "new" + count++});
-})
+  $.observable(items).insert({name: "new" + count++});
+});
 
 $("#remove").on("click", function() {
-  $.observable(items).remove(items.length - 1);
-})
+  $.observable(items).remove();
+});
 

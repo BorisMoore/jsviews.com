@@ -9,6 +9,11 @@ content.community = content.useStorage && $.parseJSON(localStorage.getItem("JsVi
       {
         "_type": "para",
         "title": "",
+        "text": "<em><small>(Work in progress. Other topics to follow...)</small></em>"
+      },
+      {
+        "_type": "para",
+        "title": "",
         "text": "<div class=\"title\">StackOverflow</div>"
       },
       {

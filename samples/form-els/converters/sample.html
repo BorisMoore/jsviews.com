@@ -40,28 +40,36 @@
       <option>3</option>
     </select><br/><br/>
 
-    <input type="radio" name="amt" value="0" data-link="{intToStr:amount:strToInt}" />
+    <input type="radio" name="amt" value="0"
+      data-link="{intToStr:amount:strToInt}" />
       0<br/>
-    <input type="radio" name="amt" value="1" data-link="{intToStr:amount:strToInt}" />
+    <input type="radio" name="amt" value="1"
+      data-link="{intToStr:amount:strToInt}" />
       1<br/>
-    <input type="radio" name="amt" value="2" data-link="{intToStr:amount:strToInt}" />
+    <input type="radio" name="amt" value="2"
+      data-link="{intToStr:amount:strToInt}" />
       2<br/>
-    <input type="radio" name="amt" value="3" data-link="{intToStr:amount:strToInt}" />
+    <input type="radio" name="amt" value="3"
+      data-link="{intToStr:amount:strToInt}" />
       3<br/><br/>
 
-    <textarea data-link="{intToStr:amount:strToInt}" rows="2" cols="10"></textarea><br/><br/>
+    <textarea data-link="{intToStr:amount:strToInt}"
+      rows="2" cols="10"></textarea><br/><br/>
   </div>
 
   <div class="box">
-    <b>Using converters to bind <em>number</em> data values to UI elements, using bit-masks: <em>"{getBit:amount:setBit}"</em></b><br/><br/>
-    <input type="checkbox" data-bit="0" data-link="{getBit:amount:setBit}" /> bit 0<br/>
-    <input type="checkbox" data-bit="1" data-link="{getBit:amount:setBit}" /> bit 1<br/>
+    <b>Using converters to bind <em>number</em> data values to UI elements,
+      using bit-masks: <em>"{getBit:amount:setBit}"</em></b><br/><br/>
+    <input type="checkbox" data-bit="0"
+      data-link="{getBit:amount:setBit}" /> bit 0<br/>
+    <input type="checkbox" data-bit="1"
+      data-link="{getBit:amount:setBit}" /> bit 1<br/>
   </div>
 
 </script>
 
 <div id="amountPickers"></div>
 
-<!--<script src="samples/form-els/converters/sample.js"></script> <!-- uncomment for testing as standalone page-->
+<!--<script src="samples/form-els/converters/sample.js"></script> <!--uncomment for testing as standalone page-->
 </body>
 </html>

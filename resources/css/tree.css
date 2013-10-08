@@ -55,7 +55,7 @@
 
 .tree .selected {
 	background-color: white;
-	border:1px solid rgba(40, 129, 175, 0.63);
+	border: 1px solid rgba(40, 129, 175, 0.63);
 	padding: 2px;
 	cursor: default;
 	margin-right: 3px;

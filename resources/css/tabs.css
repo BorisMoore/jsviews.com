@@ -30,12 +30,11 @@
 	width: 100%;
 	border-collapse: collapse;
 	border: none;
-
 }
 
 .tabstrip {
 	border-right: solid 1px #bbb;
-	height: 26px
+	height: 26px;
 }
 
 .tabstrip > th.header_true {

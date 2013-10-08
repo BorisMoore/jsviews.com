@@ -3,7 +3,7 @@
 <head>
   <base href="../../../../" />
   <script src="http://code.jquery.com/jquery.js"></script>
-  <script src="download/jsviews.js"></script>
+  <script src="download/jsrender.js"></script>
   <script src="samples/sample-viewer.js"></script>
   <link href="samples/jsrender/tags/extend-for/sample.css" rel="stylesheet"/>
 </head>
@@ -14,62 +14,62 @@
 <script id="teamTemplate" type="text/x-jsrender">
   <h4>Members 2 to 4</h4>
   <ul>
-    {{for_range members start=1 end=3}}
+    {{range members start=1 end=3}}
       <li>
         {{:name}}
       </li>
     {{else}}
       <li>No items</li>
-    {{/for_range}}
+    {{/range}}
   </ul>
 
   <h4>Members 2 to end</h4>
   <ul>
-    {{for_range members start=1}}
+    {{range members start=1}}
       <li>
         {{:name}}
       </li>
     {{else}}
       <li>No items</li>
-    {{/for_range}}
+    {{/range}}
   </ul>
 
   <h4>Members 5 to 8</h4>
   <ul>
-    {{for_range members start=4 end=7}}
+    {{range members start=4 end=7}}
       <li>
         {{:name}}
       </li>
     {{else}}
       <li>No items</li>
-    {{/for_range}}
+    {{/range}}
   </ul>
 
   <h4>Integers 3 to 7</h4>
   <ul>
-    {{for_range start=3 end=7}}
+    {{range start=3 end=7}}
       <li>
         {{:#data}}
       </li>
     {{else}}
       <li>No items</li>
-    {{/for_range}}
+    {{/range}}
   </ul>
 
 
   <h4>Integers from 4 to 0</h4>
   <ul>
-    {{for_range start=4}}
+    {{range start=4}}
       <li>
         {{:#data}}
       </li>
     {{else}}
       <li>No items</li>
-    {{/for_range}}
+    {{/range}}
   </ul>
 
 </script>
 
-<!--<script src="samples/jsrender/tags/extend-for/sample.js"></script> <!-- uncomment for testing as standalone page-->
+<!--<script src="samples/jsrender/tags/extend-for/sample.js"></script> <!--uncomment for testing as standalone page-->
 </body>
 </html>

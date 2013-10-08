@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="iso-8859-1">
+  <base href="../../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <link href="samples/form-els/visible-binding/sample.css" rel="stylesheet"/>
+</head>
+<body>
+<h4>Purchase a movie ticket</h4>
+
+<script id="moviePurchaseTemplate" type="text/x-jsrender">
+  <div class="box">
+    <div class="subhead"
+      data-link="~selectedTitle(selectedMovie) || 'Choose a movie'"
+    ></div>
+
+    <select data-link="selectedMovie" class="full">
+      <option value="none">Choose...</option>
+      {{for ~movies}}
+        <option value="{{:#index}}">{{>title}}</option>
+      {{/for}}
+    </select>
+
+    <div data-link="visible{:selectedMovie!=='none' }">
+
+      <div class="subhead"
+        data-link="{:name ? 'Name:' : 'Type your name here:'}"
+      ></div>
+      <div>
+        <input
+          data-link="name"
+          placeholder="Enter your name..."
+        /></div>
+
+      <div data-link="visible{:name}">
+        <div class="subhead"
+          data-link="{:request
+            ? 'Special requests:'
+            : 'Type special requests here:'}
+          visible{:name}"
+        ></div>
+        <div>
+          <textarea
+            data-link="request"
+            rows="4" cols="25"
+            placeholder="Enter any special requests..."
+          ></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div data-link="visible{:name && selectedMovie!=='none'}">
+
+    <h3>Ticket order form</h3>
+
+    <div class="box">
+      <div>Ticket for <em data-link="name" ></em> to movie:
+        <em data-link="~selectedTitle(selectedMovie)" ></em>
+      </div>
+      <div data-link="visible{:request}">
+        <em>Your special request:</em>
+        <pre data-link="request" ></pre>
+      </div>
+      <div>
+        <b>Ticket Price:</b>
+        <span
+          data-link="~convertedPrice(selectedMovie, selectedCurrency)"
+        ></span>
+        <div>Choose currency for payment:
+          <input type="checkbox" data-link="~app.chooseCurrency" />
+        </div>
+      </div>
+      <div>
+        <button id="submitOrder">Submit order</button>
+      </div>
+    </div>
+
+    <div class="box" data-link="visible{:~app.chooseCurrency}">
+      <div class="subhead">Choose Currency:</div>
+      {{for ~currencies ~details=#data}}
+        <input
+          type="radio"
+          name="currencyPicker"
+          value="{{:#index}}"
+          data-link="~details.selectedCurrency"
+        />{{:label}}<br/>
+      {{/for}}
+    </div>
+
+  </div>
+</script>
+
+<div id="moviePurchase"></div>
+
+<!--<script src="samples/form-els/visible-binding/sample.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

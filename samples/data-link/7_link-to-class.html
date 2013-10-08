@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <link href="samples/samples.css" rel="stylesheet" />
+</head>
+<body>
+<style>
+  .person { padding: 3px; margin: 5px; }
+  .special { color: blue; font-style: italic; }
+</style>
+
+<div id="people"></div>
+
+<script id="peopleTemplate" type="text/x-jsrender">
+  <button id="add">Add person</button><br />
+  Reverse name: <input type="checkbox" data-link="reverse"/>
+  {^{for people}}
+    <div class="person">
+      Lead: <input type="checkbox" data-link="isLead"/>
+      <span data-link="class{:isLead?'special':''}">
+        {^{if ~root.reverse}}
+          <b>{{:last}}</b>, {{:first}}
+        {{else}}
+          {{:first}} <b>{{:last}}</b>
+        {{/if}}
+      </span>
+    </div>
+  {{/for}}
+</script>
+
+<!--<script src="samples/data-link/7_link-to-class.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

@@ -9,7 +9,7 @@ content.links = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsD
       {
         "_type": "para",
         "title": "",
-        "text": "Content coming soon..."
+        "text": "<em><small>(Work in progress. Other topics to follow...)</small></em>"
       },
       {
         "_type": "links",

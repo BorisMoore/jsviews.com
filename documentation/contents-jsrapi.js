@@ -3,9 +3,14 @@
 content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/jsrapi")) ||
 {
   "jsrapi": {
-    "title": "JsRender",
+    "title": "JsRender API topics",
     "path": "",
     "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<em>Note:</em> New topics are being added regularly to this documentation."
+      },
       {
         "_type": "links",
         "title": "",
@@ -1081,7 +1086,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "There are three ways of calling the <em>render()</em> method:\n<ul><li>If you have a reference to the <em>template object</em>, call <a href=\"#tmplrender\"><em>template.render(...)</em></a></li>\n<li>If you have a registered the template by name (<em>\"myTmpl\"</em>), call <a href=\"#$render\"><em>$.render.myTmpl(...)</em></a></li>\n<li>If the template is declared in a script block, with selector <em>\"#myTmpl\"</em>, you can also call <a href=\"#$()render\"><em>$(\"#myTmpl\").render(...)</em></a></li></ul>"
+        "text": "There are three ways of calling the <em>render()</em> method:\n<ul class=\"textbefore\"><li>If you have a reference to the <em>template object</em>, call <a href=\"#tmplrender\"><em>template.render(...)</em></a></li>\n<li>If you have a registered the template by name (<em>\"myTmpl\"</em>), call <a href=\"#$render\"><em>$.render.myTmpl(...)</em></a></li>\n<li>If the template is declared in a script block, with selector <em>\"#myTmpl\"</em>, you can also call <a href=\"#$()render\"><em>$(\"#myTmpl\").render(...)</em></a></li></ul>"
       },
       {
         "_type": "links",
@@ -1572,7 +1577,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "There are two ways to create a template:\n<ul><li>Pass the markup string to the <a href=\"#$templates\"><em>$.templates()</em></a> method, which will compile it as a template object, and optionally register it by name</li>\n<li>Declare the template in a script block with <em>type=\"text/x-jsrender\"</em> (or at least a type other than the default <em>text/javascript</em>). In that case JsRender will automatically call <em>$.templates()</em>. You will only need to call it yourself if you want to access the <em>template object</em></li></ul>"
+        "text": "There are two ways to create a template:\n<ul class=\"textbefore\"><li>Pass the markup string to the <a href=\"#$templates\"><em>$.templates()</em></a> method, which will compile it as a template object, and optionally register it by name</li>\n<li>Declare the template in a script block with <em>type=\"text/x-jsrender\"</em> (or at least a type other than the default <em>text/javascript</em>). In that case JsRender will automatically call <em>$.templates()</em>. You will only need to call it yourself if you want to access the <em>template object</em></li></ul>"
       },
       {
         "_type": "para",
@@ -1745,7 +1750,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Simple scenarios",
-        "text": "<em>$.templates()</em> is powerful and flexible. You can use it for many scenarios, including the following:\n<ul>\n<li>Compile a template from a string</li>\n<li>Get a template object for a template declared in a script block</li>\n<li>Register a template (from either a string or a script block declaration) as a <em>named template</em></li>\n</ul>\n"
+        "text": "<em>$.templates()</em> is powerful and flexible. You can use it for many scenarios, including the following:\n<ul class=\"textbefore\">\n<li>Compile a template from a string</li>\n<li>Get a template object for a template declared in a script block</li>\n<li>Register a template (from either a string or a script block declaration) as a <em>named template</em></li>\n</ul>\n"
       },
       {
         "_type": "api",
@@ -1985,7 +1990,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Advanced scenarios: Associating private resources with templates",
-        "text": "<em>$.templates()</em> can also be used for the following more advanced scenarios:\n<ul>\n<li>Compile a template, (or multiple templates) along with specified resources to be available only within that template</li>\n<li>Compile one or more templates to be added to the set of private resources of another (already compiled) template</li>\n</ul>\n"
+        "text": "<em>$.templates()</em> can also be used for the following more advanced scenarios:\n<ul class=\"textbefore\">\n<li>Compile a template, (or multiple templates) along with specified resources to be available only within that template</li>\n<li>Compile one or more templates to be added to the set of private resources of another (already compiled) template</li>\n</ul>\n"
       },
       {
         "_type": "para",
@@ -2218,7 +2223,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "You use built-in converters to HTML-encode, attribute-encod, or URL-encode. And you can register custom converters."
+        "text": "You use built-in converters to HTML-encode, attribute-encode, or URL-encode. And you can register custom converters."
       },
       {
         "_type": "para",
@@ -3022,7 +3027,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "This sample defines a <em>{{range}}</em> tag which iterates over an array which you pass as (unnamed) parameter. It also allows you to set named parameters <em>start</em> and <em>end</em>, to determine the range of iteration. (See also the <a href=\"#samples/jsr/tags/range\">for_range</a> sample, for a more advanced implementation of a similar custom tag.)"
+            "text": "This sample defines a <em>{{range}}</em> tag which iterates over an array which you pass as (unnamed) parameter. It also allows you to set named parameters <em>start</em> and <em>end</em>, to determine the range of iteration. (See also the <a href=\"#samples/jsr/tags/range\">range</a> sample, for a more advanced implementation of a similar custom tag.)"
           },
           {
             "_type": "para",

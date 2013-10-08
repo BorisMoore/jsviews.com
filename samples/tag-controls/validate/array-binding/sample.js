@@ -41,7 +41,7 @@ myTmpl.link("#page", model, {
     validation.refreshValidates();
   })
   .on("click", "#add", function() {
-    $.observable(model.people).insert(model.people.length, {name: "new" + count++});
+    $.observable(model.people).insert({name: "new" + count++});
   })
   .on("click", ".remove", function() {
     var view = $.view(this);

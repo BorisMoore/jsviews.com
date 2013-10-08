@@ -181,7 +181,7 @@ var	treeNodeTmpl = $.templates(
 			var childNodes,
 				nodeData = this.data;
 			nodeData.categories = nodeData.categories || [];
-			$.observable(this.data.categories).insert(nodeData.categories.length, {
+			$.observable(this.data.categories).insert({
 				name: "name" + this.tree._newNodeCounter++,
 				label: ""
 			});

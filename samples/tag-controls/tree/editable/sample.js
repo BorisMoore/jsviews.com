@@ -28,7 +28,7 @@
       $.observable(parentFolders).remove(index);
     },
     addFolder: function() {
-      $.observable(this.data.folders).insert(this.data.folders.length, {
+      $.observable(this.data.folders).insert({
         name: "new folder",
         folders: []
       });

@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsrender.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <link href="samples/samples.css" rel="stylesheet" />
+</head>
+<body>
+<style>
+  .person { padding: 3px; margin: 5px; }
+  .special { color: blue; font-style: italic; }
+  .details { color: green; border: 2px solid grey;
+             display: inline-block; padding: 3px; margin-left: 40px; }
+  .question { width: 24px; vertical-align: text-bottom; }
+</style>
+
+<div id="people"></div>
+
+<script id="peopleTemplate" type="text/x-jsrender">
+  {{for people}}
+    <div class="person">
+      <span class="{{if role.indexOf('Lead')>=0}}special{{/if}}">
+        {{:first}} <b>{{:last}}</b>
+      </span>
+      <span class="details">
+        {{:role}}
+      </span>
+    </div>
+  {{/for}}
+</script>
+
+<!--<script src="samples/data-link/1_if-tag-in-attribute.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

@@ -10,7 +10,11 @@
 			catch(e) {}
 		}
 		if (sampleData.markup) {
-			$('#result').html($.templates(sampleData.markup).render(sampleData.data));
+			if (sampleData.onlyJsRender) {
+				$('#result').html($.templates(sampleData.markup).render(sampleData.data));
+			} else {
+				$.templates(sampleData.markup).link('#result', sampleData.data);
+			}
 		}
 	});
 });

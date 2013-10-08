@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <link href="samples/samples.css" rel="stylesheet" />
+</head>
+<body>
+<style>
+  .person { padding: 3px; margin: 5px; }
+  .special { color: blue; font-style: italic; }
+  .red-border { border: 1px solid red; padding: 3px; }
+  .details { color: green; border: 2px solid grey;
+             padding: 3px; margin-left :40px; }
+</style>
+
+<div id="people"></div>
+
+<script id="peopleTemplate" type="text/x-jsrender">
+  <button data-link="
+      disabled{:people.length > 2}
+      title{:people.length > 2 ? 'The team is complete!' : null}
+    "
+    id="add"
+  >
+    Add person
+  </button>
+  <button id="remove">Remove last person</button><br />
+<br />
+  {^{for people}}
+    <div class="person">
+      Lead: <input type="checkbox" data-link="isLead"/>
+      <span class="red-border"
+        data-link="class{merge:isLead toggle='special'}"
+      >
+        {{:first}} <b>{{:last}}</b>
+      </span>
+      <span data-link="
+          {:role}
+          {merge:isLead toggle='- (Lead)'}
+        "
+        class="details"
+      ></span>
+  </div>
+  {{/for}}
+</script>
+
+<!--<script src="samples/data-link/9_linked-attributes.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

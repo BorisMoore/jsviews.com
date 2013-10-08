@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <link href="samples/samples.css" rel="stylesheet" />
+</head>
+<body>
+
+<div id="result"></div>
+
+<script id="svgTemplate" type="text/x-jsrender">
+  <p>
+    Color: <input data-link="color" /><br/>
+    Width: <input data-link="width" /><br/>
+    Height: <input data-link="height" /><br/>
+    Border color: <input data-link="border" /><br/>
+    Border thickness: <input data-link="thickness" />
+  </p>
+  <div style="border-style: solid;"
+    data-link="
+      css-background-color{:color}
+      css-width{:width}
+      css-height{:height}
+      css-border-width{:thickness}
+      css-border-color{:border}
+    "
+  ></div>
+</script>
+
+<!--<script src="samples/data-link/12_linked-css.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

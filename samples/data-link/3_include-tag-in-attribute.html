@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="../../" />
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="download/jsviews.js"></script>
+  <script src="samples/sample-viewer.js"></script>
+  <link href="samples/samples.css" rel="stylesheet" />
+</head>
+<body>
+<style>
+  .person { padding: 3px; margin: 5px; cursor: pointer; }
+  .special { color: blue; font-style: italic; }
+  .details { color: green; border: 2px solid grey;
+             display:none; padding: 3px; margin-left :40px; }
+  .question { width: 24px; vertical-align: text-bottom; }
+</style>
+
+<div id="people"></div>
+
+<script id="peopleTemplate" type="text/x-jsrender">
+  {{for people}}
+    <div
+      class="person"
+      {{include tmpl="#attributesTmpl" ~id='role_'+#index /}}
+    >
+      <span class="{{if role.indexOf('Lead')>=0}}special{{/if}}" >
+        {{:first}} <b>{{:last}}</b>
+      </span>
+      <img class="question" src="samples/data-link/question.jpg"/>
+
+      <span class="details" id="role_{{:#index}}">
+        {{:role}}
+      </span>
+    </div>
+  {{/for}}
+</script>
+
+<script type="text/x-jsrender" id="attributesTmpl">
+  onmouseover="$('#{{:~id}}').show();"
+  onmouseout="$('#{{:~id}}').hide();"
+</script>
+
+<!--<script src="samples/data-link/3_include-tag-in-attribute.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>
