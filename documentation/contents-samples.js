@@ -936,6 +936,10 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "hash": "samples/tag-controls/slider",
             "label": "slider control"
+          },
+          {
+            "hash": "samples/tag-controls/range",
+            "label": "range control"
           }
         ]
       }
@@ -4319,28 +4323,32 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "Linking class"
           },
           {
-            "hash": "samples/data-link/conditional",
-            "label": "Conditional sections"
-          },
-          {
-            "hash": "samples/data-link/textnodes",
-            "label": "Linking textnodes"
+            "hash": "samples/data-link/toggle",
+            "label": "Toggling class with data-link"
           },
           {
             "hash": "samples/data-link/attributes",
             "label": "Linking attributes"
           },
           {
-            "hash": "samples/data-link/css",
-            "label": "Linking css attributes"
-          },
-          {
             "hash": "samples/data-link/visibility",
             "label": "Linking visibility"
           },
           {
+            "hash": "samples/data-link/hover",
+            "label": "Linking visibility and hover"
+          },
+          {
+            "hash": "samples/data-link/css",
+            "label": "Linking CSS attributes"
+          },
+          {
             "hash": "samples/data-link/svg",
             "label": "Linking SVG elements"
+          },
+          {
+            "hash": "samples/data-link/computed",
+            "label": "Computed ....!!"
           }
         ]
       },
