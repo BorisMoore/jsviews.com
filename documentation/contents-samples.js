@@ -831,6 +831,10 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
+            "hash": "samples/data-link",
+            "label": "Data-linking tags and elements"
+          },
+          {
             "hash": "samples/editable",
             "label": "Editable data"
           },
