@@ -102,30 +102,30 @@ var	treeNodeTmpl = $.templates(
 		onAfterLink: function() {
 			var self = this;
 			self.contents("ul")
-				.on( "click", ".selected, .unselected", function() {
+				.on("click", ".selected, .unselected", function() {
 					$.view(this).ctx.tag.select();
 				})
-				.on( "click", ".toggle", function(ev) {
+				.on("click", ".toggle", function(ev) {
 					$.view(this).ctx.tag.toggle();
 					ev.stopImmediatePropagation();
 				})
-				.on( "click", ".remove", function(ev) {
+				.on("click", ".remove", function(ev) {
 					$.view(this).ctx.tag.remove();
 					ev.stopImmediatePropagation();
 				})
-				.on( "click", ".add", function(ev) {
+				.on("click", ".add", function(ev) {
 					$.view(this).ctx.tag.addCategory();
 					ev.stopImmediatePropagation();
 				})
-				.on( "click", ".up", function(ev) {
+				.on("click", ".up", function(ev) {
 					$.view(this).ctx.tag.moveCategoryUp();
 					ev.stopImmediatePropagation();
 				})
-				.on( "click", ".down", function(ev) {
+				.on("click", ".down", function(ev) {
 					$.view(this).ctx.tag.moveCategoryDown();
 					ev.stopImmediatePropagation();
 				})
-				.on( "click", ".hide", function(ev) {
+				.on("click", ".hide", function(ev) {
 					$.view(this).ctx.tag.hideCategory();
 					ev.stopImmediatePropagation();
 				});

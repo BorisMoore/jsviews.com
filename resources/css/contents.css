@@ -6,6 +6,10 @@
 	overflow: auto;
 }
 
+.title~div>pre {
+	margin-top: 5px;
+}
+
 .removesection {
 	margin: 0 15px;
 	vertical-align: middle;
@@ -428,4 +432,8 @@ a.cmdbtn {
 	margin-left: -10px;
 	list-style-type: circle;
 	padding: 2px;
+}
+
+hr {
+	border: 2px solid #2881AF;
 }

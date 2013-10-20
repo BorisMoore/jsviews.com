@@ -31,7 +31,7 @@
 
 .menus a { /*width: 14.31%;  -  original */
 	margin: -2px -2px -9px -2px; /*width: 11%;*/ /*margin: -2px 0 -9px 11%; reduced*/ /*width: 9.7%;*/
-	width: 12.5%;
+	width: 9.99%;
 	display: inline-block;
 	text-align: center;
 	font-size: 9pt;
@@ -45,7 +45,7 @@
 	padding: 4px 0 2px;
 	color: #41687C;
 	font-weight: bold;
-	font-size: larger;
+	font-size: 10.92pt;
 	padding-bottom: 2px;
 	margin-bottom: -7px;
 }
@@ -84,7 +84,6 @@
 }
 
 .menus.bottom a { /*width: 24%;*/
-	width: 12.46%;
 	margin: 4px -3px 4px -3px;
 	padding: 2px 0 2px;
 	color: #e5e5e5;

@@ -340,7 +340,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-"jsrcustomtags": {
+  "jsrcustomtags": {
     "title": "JsRender custom tags",
     "path": "",
     "sections": []
@@ -464,5 +464,57 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "title": "MVVM and MVP",
     "path": "",
     "sections": []
+  },
+  "interop": {
+    "title": "Using with other libraries",
+    "path": "",
+    "sections": [
+    ]
+  },
+  "globalvars": {
+    "title": "Global variables",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "JsRender, JsViews and global variables",
+        "text": "JsRender and JsViews do not set the global var $."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "\nIf you are using jQuery with JsRender, JsRender defines jQuery,views, jQuery.templates, etc. but does not create any global variables.\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "So you can write:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.noConflict();\n\nvar template = jQuery.templates(...);\n\njQuery.views.helpers(...);\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "If you are not using jQuery, JsRender creates a global var: jsviews - which you use to replace the jQuery global.\n"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "var template = jsviews.templates(...);\n\njsviews.views.helpers(...);\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "You can test for JsRender as follows:\n"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "if (window.jQuery && window.jQuery.views || window.jsviews) { \n  // JsRender is loaded\n}"
+      }
+    ]
   }
 };

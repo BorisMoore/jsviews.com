@@ -270,7 +270,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "sections": [
           {
             "_type": "template",
-            "title": "{{if}} tag blocks wrap <strong>part</strong> of an HTML &lt;td> tag",
+            "title": "{{if}} tag blocks wrap <b>part</b> of an HTML &lt;td> tag",
             "markup": "<td \n  {{if lastName}}\n    >{{:firstName}}</td><td>{{:lastName}}\n  {{else}}\n    colspan=\"2\">{{:firstName}}\n  {{/if}}\n</td>\n"
           }
         ],
@@ -288,7 +288,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Rules for a well-formed template in JsViews:",
-        "text": "With JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\n<ul class=\"textbefore\"><li>JsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a ^ character (so that for example a <em>{{for}}</em> tag becomes a data-linked <em>{^{for}}</em> tag) - and in that case the rendered content will change dynamically whenever the bound data changes <em>'observably'</em>.</li>\n<li>But tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.</li>\n<li>Similarly, tags which wrap opening or closing tag in such a way as to produce 'mal-formed HTML' will not be valid.</li>\n<li>In fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.</li>\n<li>In each of the invalid scenarios mentioned above, <strong><em>the JsRender tags needs to be replaced by corresponding data-linked element syntax</em></strong>. See <a href=\"#linked-template-syntax\">the next section</a>, for details.</li></ul>\n"
+        "text": "With JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\n<ul class=\"textbefore\"><li>JsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a ^ character (so that for example a <em>{{for}}</em> tag becomes a data-linked <em>{^{for}}</em> tag) - and in that case the rendered content will change dynamically whenever the bound data changes <em>'observably'</em>.</li>\n<li>But tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.</li>\n<li>Similarly, tags which wrap opening or closing tag in such a way as to produce 'mal-formed HTML' will not be valid.</li>\n<li>In fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.</li>\n<li>In each of the invalid scenarios mentioned above, <b><em>the JsRender tags needs to be replaced by corresponding data-linked element syntax</em></b>. See <a href=\"#linked-template-syntax\">the next section</a>, for details.</li></ul>\n"
       }
     ]
   },

@@ -14,10 +14,10 @@ $.views.tags({
     onAfterLink: function() {
       var self = this;
       self.contents("li").first()
-        .on( "click", ".toggle", function() {
+        .on("click", ".toggle", function() {
           self.toggle();
         })
-        .on( "click", ".selectable", function() {
+        .on("click", ".selectable", function() {
           self.select();
         });
     },

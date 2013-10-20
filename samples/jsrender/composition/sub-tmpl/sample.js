@@ -35,6 +35,6 @@ $.templates("movieTemplate", {
   }
 });
 
-$( "#movieList" ).html(
+$("#movieList").html(
   $.render.movieTemplate(movies)
 );

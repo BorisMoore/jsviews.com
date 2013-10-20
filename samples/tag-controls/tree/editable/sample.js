@@ -6,13 +6,13 @@
     onAfterLink: function() {
       var self = this;
       self.contents("li").first()
-      .on( "click", ".toggle", function() {
+      .on("click", ".toggle", function() {
         self.toggle();
       })
-      .on( "click", ".remove", function() {
+      .on("click", ".remove", function() {
         self.remove();
       })
-      .on( "click", ".add", function() {
+      .on("click", ".add", function() {
         self.addFolder();
       });
     },
@@ -55,4 +55,4 @@ var rootFolder = {
 
 var pageTmpl = $.templates("#pageTemplate");
 
-$( "#pageContent").link(pageTmpl, rootFolder);
+$("#pageContent").link(pageTmpl, rootFolder);

@@ -31,7 +31,7 @@ var currencies = [
     movies: movies,
     convertedPrice: function(selectedMovie, selectedCurrency) {
       var currency = currencies[selectedCurrency];
-      if ( selectedMovie !== "none") {
+      if (selectedMovie !== "none") {
         return currency.symbol
           + parseFloat(movies[selectedMovie].ticketPrice * currency.rate)
             .toFixed(2);
@@ -43,11 +43,11 @@ var currencies = [
     }
   };
 
-$.templates( "moviePurchaseTemplate", "#moviePurchaseTemplate" );
+$.templates("moviePurchaseTemplate", "#moviePurchaseTemplate");
 
-$.link.moviePurchaseTemplate( "#moviePurchase", orderDetails, contextHelpers );
+$.link.moviePurchaseTemplate("#moviePurchase", orderDetails, contextHelpers);
 
-$( "#submitOrder" ).on( "click", function() {
+$("#submitOrder").on("click", function() {
   alert("You ordered a movie ticket as follows:\n"
     + (window.JSON
     ? JSON.stringify(orderDetails, null, 1).slice(1,-1)

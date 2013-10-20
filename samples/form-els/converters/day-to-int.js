@@ -8,7 +8,7 @@ $.views.converters({
     var dayOff = parseInt(val);
     if (isNaN(dayOff)) {
       for (var i = 0; i < 7; i++) {
-        if ( days[ i ].toLowerCase().slice(0, val.length) === val.toLowerCase()) {
+        if (days[ i ].toLowerCase().slice(0, val.length) === val.toLowerCase()) {
           dayOff = i;
           break;
         }
@@ -27,9 +27,9 @@ $.views.converters({
 });
 
 // Observable property change
-$( "#changeDay" ).on("click", function() {
+$("#changeDay").on("click", function() {
   var dayOff = myWeek.dayOff;
-  $.observable( myWeek ).setProperty( "dayOff", dayOff < 6 ? dayOff + 1 : 0);
+  $.observable(myWeek).setProperty("dayOff", dayOff < 6 ? dayOff + 1 : 0);
 });
 
 var myTmpl = $.templates("#linkedTmpl")

@@ -462,7 +462,6 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 									+ "\n</script>\n")
 								: ""))
 						: ("  <link href=\"http://www.jsviews.com/samples/samples.css\" rel=\"stylesheet\"/>\n"
-							+ "  <script src=\"http://code.jquery.com/jquery.js\"></script>\n"
 							+ "  <script src=\"http://www.jsviews.com/download/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"))
 					+ "</head>\n"
 					+ "<body>\n\n"

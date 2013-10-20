@@ -457,6 +457,25 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "name": "mvvm-mvp",
         "label": "MVVM and MVP"
+      },
+      {
+        "name": "interop",
+        "label": "Using with other librairies",
+        "categories": [
+          {
+            "name": "nojquery",
+            "label": "JsRender without jQuery"
+          },
+          {
+            "name": "globalvars",
+            "label": "Global variables"
+          },
+          {
+            "name": "delimiters",
+            "label": "Choosing delimiters"
+          }
+        ],
+        "expanded": true
       }
     ],
     "expanded": true
@@ -612,6 +631,16 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           }
         ],
         "expanded": true
+      },
+      {
+        "name": "nojqueryapi",
+        "label": "JsRender without jQuery",
+        "hidden": true
+      },
+      {
+        "name": "jsrsettings",
+        "label": "Settings",
+        "hidden": true
       }
     ],
     "expanded": true
@@ -772,17 +801,25 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         ],
         "expanded": true,
         "hidden": true
+      },
+      {
+        "name": "jsvsettings",
+        "label": "Settings",
+        "hidden": true
       }
     ],
     "expanded": true
   },
   {
-    "hidden": true,
     "name": "jsoapi",
     "label": "JsObservable API - Observing data",
     "heading": "JsObservable API documentation",
     "description": "Detailed API docs on using JsObservable for observing or triggering data changes in a single-page app",
     "categories": [
+      {
+        "name": "$observable",
+        "label": "Observable objects and arrays"
+      },
       {
         "name": "propchange",
         "label": "Modify an object observably",
@@ -807,34 +844,23 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "$.observable(array).remove()"
           },
           {
-            "name": "refresh",
-            "label": "$.observable(array).refresh()"
-          },
-          {
             "name": "move",
             "label": "$.observable(array).move()"
+          },
+          {
+            "name": "refresh",
+            "label": "$.observable(array).refresh()"
           }
         ],
         "expanded": true
       },
       {
         "name": "observeobjectsarrays",
-        "label": "Observe objects and arrays",
+        "label": "Respond to data changes",
         "categories": [
           {
             "name": "onpropchange",
-            "label": "onPropertyChange",
-            "categories": [
-              {
-                "name": "propchangehandler",
-                "label": "PropertyChangeEventHandler"
-              },
-              {
-                "name": "propchangeevargs",
-                "label": "PropertyChangeEventArguments"
-              }
-            ],
-            "expanded": true
+            "label": "onPropertyChange"
           },
           {
             "name": "onarrchange",
@@ -842,11 +868,13 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "name": "observe",
-            "label": "$.observable.observe()"
+            "label": "$.observable.observe()",
+            "hidden": true
           },
           {
             "name": "unobserve",
-            "label": "unobserve()"
+            "label": "unobserve()",
+            "hidden": true
           }
         ],
         "expanded": true

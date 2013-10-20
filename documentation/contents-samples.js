@@ -382,7 +382,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "code",
             "title": "Using sub-templates",
-            "code": "$.templates( \"movieTemplate\", {\n  markup: \"#movieTemplate\",\n  templates: {\n    columnTemplate: \"#columnTemplate\",\n    ...\n  }\n});\n"
+            "code": "$.templates(\"movieTemplate\", {\n  markup: \"#movieTemplate\",\n  templates: {\n    columnTemplate: \"#columnTemplate\",\n    ...\n  }\n});\n"
           },
           {
             "_type": "para",
@@ -565,7 +565,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "sections": [
           {
             "_type": "para",
-            "title": "A <strong>{{range}}</strong> tag - extending the <strong>{{for}}</strong> tag",
+            "title": "A <b>{{range}}</b> tag - extending the <b>{{for}}</b> tag",
             "text": "<em>{{range}}</em> inherits from <em>{{for}}</em>, and adds\nsupport for iterating over a range (<em>start</em> to <em>end</em>) of items within an array,\nor for iterating directly over integers from <em>start</em> integer to <em>end</em> integer."
           },
           {
@@ -580,7 +580,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           },
           {
             "_type": "code",
-            "title": "Derive from <strong>{{for}}</strong> tag",
+            "title": "Derive from <b>{{for}}</b> tag",
             "code": "$.views.tags({\n  range: $.extend(true, {}, $.views.tags[\"for\"], {\n    render: function(val) {\n      ...\n      return $.views.tags[\"for\"].render.apply(this, val ? [val] : arguments);\n    }\n  })\n});\n"
           }
         ],
@@ -1745,7 +1745,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "code",
             "title": "",
-            "code": "$.views.tags({\n  tree: {\n    onAfterLink: function() {\n      var self = this;\n      self.contents(\"li\").first()\n        .on( \"click\", \".toggle\", function() {\n          self.toggle();\n        })\n        .on( \"click\", \".selectable\", function() {\n          self.select();\n        });\n    },\n    template: \"#treeTemplate\",\n\n    //PROPERTIES\n    expanded: false, // default to unexpanded\n\n    //METHODS\n    toggle: function() {\n      $.observable(this).setProperty(\"expanded\", !this.expanded);\n    },\n    ...\n  }\n});"
+            "code": "$.views.tags({\n  tree: {\n    onAfterLink: function() {\n      var self = this;\n      self.contents(\"li\").first()\n        .on(\"click\", \".toggle\", function() {\n          self.toggle();\n        })\n        .on(\"click\", \".selectable\", function() {\n          self.select();\n        });\n    },\n    template: \"#treeTemplate\",\n\n    //PROPERTIES\n    expanded: false, // default to unexpanded\n\n    //METHODS\n    toggle: function() {\n      $.observable(this).setProperty(\"expanded\", !this.expanded);\n    },\n    ...\n  }\n});"
           },
           {
             "_type": "para",
@@ -3623,7 +3623,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       },
       {
         "_type": "para",
-        "title": "Data-linking to toggle <strong>one class</strong> in a className list",
+        "title": "Data-linking to toggle <b>one class</b> in a className list",
         "text": "In this page of the tutorial we will show how to use data-link to toggle a <em>class</em>."
       },
       {
@@ -3691,7 +3691,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       },
       {
         "_type": "para",
-        "title": "Using the <strong>merge</strong> converter to toggle the class",
+        "title": "Using the <b>merge</b> converter to toggle the class",
         "text": "You just add the <em>{merge:</em> converter, data-link to a boolean value, and then set the <em>toggle='...'</em> named parameter to the string (the name of your class) that you want to toggle:"
       },
       {
@@ -3738,7 +3738,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       },
       {
         "_type": "para",
-        "title": "Using the <strong>merge</strong> converter to toggle the <strong>'- (Lead)'</strong> term in the role",
+        "title": "Using the <b>merge</b> converter to toggle the <b>'- (Lead)'</b> term in the role",
         "text": "We can actually use the built-in <em>merge</em> converter also to add and remove the <em>- (Lead)</em> string from the <em>role</em>, too."
       },
       {
@@ -3984,6 +3984,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           "links": "links"
         },
         "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Using <em>data-link</em> to bind to <em>CSS attributes</em> on DOM elements:"
+          },
           {
             "_type": "template",
             "title": "",
@@ -4285,7 +4290,18 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           "code": "code",
           "links": "links"
         },
-        "sections": [],
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Using <em>data-link</em> to bind to <em>svg</em> elements:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "<svg class=\"svg\">\n  <ellipse stroke-width=\"2\" rx=\"140\" ry=\"50\"\n    data-link=\"\n      cx{:x}\n      cy{:y}\n      fill{:color}\n      stroke{:textcolor}\n      transform{:'rotate(' + angle + ' ' + x + ' ' + y + ')'}\n    \"\n  ></ellipse>\n  <text data-link=\"\n      x{:x}\n      y{:y}\n      fill{:textcolor}\n      text{:text}\n      transform{:'rotate(' + angle + ' ' + x + ' ' + y + ')'}\n    \"\n  ></text>\n</svg>"
+          }
+        ],
         "url": "samples/data-link/13_linked-svg",
         "height": "500"
       },

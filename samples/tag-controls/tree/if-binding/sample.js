@@ -6,7 +6,7 @@
     onAfterLink: function() {
       var self = this;
       self.contents("li").first()
-        .on( "click", ".toggle", function() {
+        .on("click", ".toggle", function() {
           self.toggle();
         });
     },
@@ -37,4 +37,4 @@ var rootFolder = {
 
 var pageTmpl = $.templates("#pageTemplate");
 
-$( "#pageContent").link(pageTmpl, rootFolder);
+$("#pageContent").link(pageTmpl, rootFolder);

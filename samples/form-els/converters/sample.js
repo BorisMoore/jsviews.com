@@ -14,6 +14,12 @@ $.views.converters({
   strToInt: function (value) {
     return parseInt(value);
   },
+  intToStr2: function (value) {
+    return "" + value;
+  },
+  strToInt2: function (value) {
+    return parseInt(value);
+  },
   setBit: function (value) {
     // "Convert Back": If checked, set this bit on the data,
     // or if unchecked, unset this bit on the data
@@ -37,6 +43,7 @@ $.views.converters({
 });
 
 var data = {
+  group: "Group ONE",
   amount: 3,
   listbox: false
 };
