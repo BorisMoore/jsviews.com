@@ -40,7 +40,7 @@ $.templates({
   detailTmpl: "#detailTemplate"
 });
 
-$.observable.observe(app, "selectedIndex",  function(event, args) {
+$.observe(app, "selectedIndex",  function(event, args) {
   var selectedIndex = args.value;
   if (selectedIndex > -1) {
     $.link.detailTmpl("#movieDetail", app.movies[selectedIndex]);

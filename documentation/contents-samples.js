@@ -1193,18 +1193,18 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "In the <a href=\"#samples/editable/observe\">next sample</a> we will replace the declarative top-level binding for the detail view by a programmatic approach, using <em>observable.observe()</em>. "
+        "text": "In the <a href=\"#samples/editable/observe\">next sample</a> we will replace the declarative top-level binding for the detail view by a programmatic approach, using <em>$.observe()</em>. "
       }
     ]
   },
   "samples/editable/observe": {
-    "title": "Editable data: Using observable.observe()",
+    "title": "Editable data: Using $.observe()",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "This sample modifies the <a href=\"#samples/editable/toplevel-for\">previous sample</a> by replacing the declarative top-level binding for the detail view by a programmatic approach, using <em>observable.observe()</em>."
+        "text": "This sample modifies the <a href=\"#samples/editable/toplevel-for\">previous sample</a> by replacing the declarative top-level binding for the detail view by a programmatic approach, using <em>$.observe()</em>."
       },
       {
         "_type": "sample",
@@ -1245,7 +1245,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "code",
             "title": "",
-            "code": "$.observable.observe(app, \"selectedIndex\",  function(event, args) {\n  var selectedIndex = args.value;\n  if (selectedIndex > -1) {\n    $.link.detailTmpl(\"#movieDetail\", app.movies[selectedIndex]);\n  } else {\n    $(\"#movieDetail\").empty();\n  }\n});"
+            "code": "$.observe(app, \"selectedIndex\",  function(event, args) {\n  var selectedIndex = args.value;\n  if (selectedIndex > -1) {\n    $.link.detailTmpl(\"#movieDetail\", app.movies[selectedIndex]);\n  } else {\n    $(\"#movieDetail\").empty();\n  }\n});"
           }
         ],
         "codetabs": [],
@@ -1294,7 +1294,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           },
           {
             "hash": "samples/editable/observe",
-            "label": "Using observable.observe() to bind to data changes"
+            "label": "Using $.observe() to bind to data changes"
           }
         ]
       }

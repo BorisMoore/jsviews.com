@@ -169,7 +169,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "code": "var data = [\n  {\n    \"name\": \"Robert\",\n    \"nickname\": \"Bob\",\n    \"showNickname\": true\n  },\n  {\n    \"name\": \"Susan\",\n    \"nickname\": \"Sue\",\n    \"showNickname\": false\n  }\n];\n\nvar template = $.templates(\"#theTmpl\");\n\ntemplate.link(\"#result\", data);"
           }
         ]
-      }
+      },
+      "loading": ""
     },
     "jsobservable": {
       "loaded": true,
@@ -244,7 +245,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "code": "var template = $.templates(\"#theTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar counter = 1;\n\ntemplate.link(\"#result\", {people: people});\n\n$(\"#addBtn\").on(\"click\", function(){\n  $.observable(people).insert({name: \"name\" + counter++});\n})\n\n$(\"#result\")\n  .on(\"click\", \".change\", function(){\n    var dataItem = $.view(this).data;\n    $.observable(dataItem).setProperty(\"name\", dataItem.name + \"*\");\n  })\n  .on(\"click\", \".remove\", function(){\n    var index = $.view(this).index;\n    $.observable(people).remove(index);\n  });"
           }
         ]
-      }
+      },
+      "loading": ""
     }
   },
   {
@@ -868,12 +870,22 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "name": "observe",
-            "label": "$.observable.observe()",
-            "hidden": true
+            "label": "$.observe()",
+            "hidden": false
           },
           {
             "name": "unobserve",
-            "label": "unobserve()",
+            "label": "$.unobserve()",
+            "hidden": true
+          },
+          {
+            "name": "observeAll",
+            "label": "$.observable().observeAll()",
+            "hidden": true
+          },
+          {
+            "name": "unobserveAll",
+            "label": "$.observable().unobserveAll()",
             "hidden": true
           }
         ],
@@ -1024,7 +1036,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               },
               {
                 "name": "samples/editable/observe",
-                "label": "observable.observe()"
+                "label": "$.observe()"
               }
             ],
             "expanded": true
@@ -1043,7 +1055,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               },
               {
                 "name": "samples/form-els/converters",
-                "label": "Two-way binding and converters"
+                "label": "2-way binding and converters"
               },
               {
                 "name": "samples/form-els/visible-binding",

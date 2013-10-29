@@ -87,7 +87,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "code",
         "title": "",
-        "code": "$.observable(person).setProperty(\"address.street\", \"Main St.\");"
+        "code": "$.observable(person).setProperty(\"address.street\", \"Main St\");"
       },
       {
         "_type": "api",
@@ -158,10 +158,10 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "code",
             "title": "Modify the value of a property on a chosen path:",
-            "code": "$.observable(person).setProperty(\"address.street\", \"Main St.\");\n"
+            "code": "$.observable(person).setProperty(\"address.street\", \"Main St\");\n"
           }
         ],
-        "code": "var person = {\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty(\"address.street\", \"Main St.\");\n});\n\n$(\"#revert\").on(\"click\", function() {\n  $.observable(person).setProperty(\"address.street\", \"1st Ave\");\n});\n\nvar tmpl = $.templates(\"Street: {^{:address.street}}\");\n\ntmpl.link(\"#result\", person);\n",
+        "code": "var person = {\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty(\"address.street\", \"Main St\");\n});\n\n$(\"#revert\").on(\"click\", function() {\n  $.observable(person).setProperty(\"address.street\", \"1st Ave\");\n});\n\nvar tmpl = $.templates(\"Street: {^{:address.street}}\");\n\ntmpl.link(\"#result\", person);\n",
         "html": "<button id=\"modify\">set to new value</button>\n<button id=\"revert\">set back to original value</button>\n\n<p id=\"result\"><p>",
         "height": "90",
         "title": ""
@@ -194,15 +194,15 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "$.observable(person).setProperty(\"address.street\", \"1st Ave\");\n"
           }
         ],
-        "code": "var person = {\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty(\"address.street\", \"Main St.\");\n});\n\n$(\"#revert\").on(\"click\", function() {\n  $.observable(person).setProperty(\"address.street\", \"1st Ave\");\n});\n\n$(person.address).on(\"propertyChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"The '\" + eventArgs.path + \"' is '\" + eventArgs.value + \"'.\";\n  $(\"#messages\").append(message + \"<br/>\");\n}",
+        "code": "var person = {\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty(\"address.street\", \"Main St\");\n});\n\n$(\"#revert\").on(\"click\", function() {\n  $.observable(person).setProperty(\"address.street\", \"1st Ave\");\n});\n\n$(person.address).on(\"propertyChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"The '\" + eventArgs.path + \"' is '\" + eventArgs.value + \"'.\";\n  $(\"#messages\").append(message + \"<br/>\");\n}",
         "html": "<button id=\"modify\">set to new value</button>\n<button id=\"revert\">set back to original value</button>\n\n<p id=\"messages\"><p>",
         "title": "",
         "height": "110"
       },
       {
         "_type": "para",
-        "title": "Sample: Observable property change, with $.observable.observe(...)",
-        "text": "This sample uses <a href=\"#observe\">observe()</a> to listen to the observable property changes."
+        "title": "Sample: Observable property change, with $.observe(...)",
+        "text": "This sample uses <a href=\"#observe\">$.observe()</a> to listen to the observable property changes."
       },
       {
         "_type": "sample",
@@ -219,15 +219,15 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "code",
             "title": "",
-            "code": "$.observable.observe(person, \"address.street\", changeHandler);"
+            "code": "$.observe(person, \"address.street\", changeHandler);"
           },
           {
             "_type": "code",
             "title": "Modify the value of a property on a chosen path:",
-            "code": "$.observable(person).setProperty(\"address.street\", \"Main St.\");"
+            "code": "$.observable(person).setProperty(\"address.street\", \"Main St\");"
           }
         ],
-        "code": "var person = {\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty(\"address.street\", \"Main St.\");\n});\n\n$(\"#revert\").on(\"click\", function() {\n  $.observable(person).setProperty(\"address.street\", \"1st Ave\");\n});\n\n$.observable.observe(person, \"address.street\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"The '\" + eventArgs.path + \"' is '\" + eventArgs.value + \"'.\";\n  if (ev.data) {\n    message += \"\\n\\nThe full path is '\" + ev.data.fullPath + \"'.\";\n  }\n  $(\"#messages\").append(message + \"<br/>\");\n}",
+        "code": "var person = {\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty(\"address.street\", \"Main St\");\n});\n\n$(\"#revert\").on(\"click\", function() {\n  $.observable(person).setProperty(\"address.street\", \"1st Ave\");\n});\n\n$.observe(person, \"address.street\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"The '\" + eventArgs.path + \"' is '\" + eventArgs.value + \"'.\";\n  if (ev.data) {\n    message += \"\\n\\nThe full path is '\" + ev.data.fullPath + \"'.\";\n  }\n  $(\"#messages\").append(message + \"<br/>\");\n}",
         "html": "<button id=\"modify\">set to new value</button>\n<button id=\"revert\">set back to original value</button>\n\n<p id=\"messages\"><p>",
         "height": "110",
         "title": ""
@@ -287,7 +287,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "We register a single listener for the observable property changes on both objects - with one call to <a href=\"#observe\">observe()</a>."
+        "text": "We register a single listener for the observable property changes on both objects - with one call to <a href=\"#observe\">$.observe()</a>."
       },
       {
         "_type": "sample",
@@ -304,15 +304,15 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "code",
             "title": "Modify two properties, on different paths:",
-            "code": "$.observable(person).setProperty(\n  {\n    name: \"Hermione\",\n    \"address.street\": \"Main St.\"\n  }\n);"
+            "code": "$.observable(person).setProperty(\n  {\n    name: \"Hermione\",\n    \"address.street\": \"Main St\"\n  }\n);"
           },
           {
             "_type": "code",
-            "title": "Observe both changes with a single observe() handler:",
-            "code": "$.observable.observe(person, \"name\", \"address.street\", changeHandler); "
+            "title": "Observe both changes with a single $.observe() handler:",
+            "code": "$.observe(person, \"name\", \"address.street\", changeHandler); "
           }
         ],
-        "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St.\"\n    }\n  );\n\n});\n\n$(\"#revert\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Pete\",\n      \"address.street\": \"1st Ave.\"\n    }\n  );\n\n});\n\n$.observable.observe(person, \"name\", \"address.street\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"The '\" + eventArgs.path + \"' is '\" + eventArgs.value + \"'.\";\n  if (ev.data) {\n    message += \"\\n\\nThe full path is '\" + ev.data.fullPath + \"'.\";\n  }\n  $(\"#messages\").append(message + \"<br/>\");\n}",
+        "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St\"\n    }\n  );\n\n});\n\n$(\"#revert\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Pete\",\n      \"address.street\": \"1st Ave.\"\n    }\n  );\n\n});\n\n$.observe(person, \"name\", \"address.street\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"The '\" + eventArgs.path + \"' is '\" + eventArgs.value + \"'.\";\n  if (ev.data) {\n    message += \"\\n\\nThe full path is '\" + ev.data.fullPath + \"'.\";\n  }\n  $(\"#messages\").append(message + \"<br/>\");\n}",
         "html": "<button id=\"modify\">Set new values</button>\n<button id=\"revert\">Return to original values</button>\n\n<p id=\"messages\"><p>",
         "title": "",
         "height": "110"
@@ -485,7 +485,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Sample: Inserting items at a chosen index",
-        "text": "Here we modify the sample above, by specifying the index where we want to insert, rather than simply appending. We'll also show the alternative <a href=\"#observe\">$observable.observe()</a> API for attaching our handler:"
+        "text": "Here we modify the sample above, by specifying the index where we want to insert, rather than simply appending. We'll also show the alternative <a href=\"#observe\">$.observe()</a> API for attaching our handler:"
       },
       {
         "_type": "sample",
@@ -502,7 +502,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "code",
             "title": "",
-            "code": "$.observable.observe([things], changeHandler);"
+            "code": "$.observe(things, changeHandler);"
           },
           {
             "_type": "code",
@@ -510,7 +510,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "$.observable(things).insert(\n  index,\n  items\n);"
           }
         ],
-        "code": "var things = [{id: \"item1\"}, {id: \"item2\"}],\n  count = 3;\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(things).insert(\n    1,\n    {id: \"item\" + count++}\n  );\n});\n\n$(\"#prepend\").on(\"click\", function() {\n  $.observable(things).insert(\n    0,\n    [\n      {id: \"item\" + count++},\n      {id: \"item\" + count++}\n    ]\n  );\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$.observable.observe([things], changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) added at index: \" + eventArgs.index;\n  $(\"#messages\").append(message + \"<br/>\");\n}",
+        "code": "var things = [{id: \"item1\"}, {id: \"item2\"}],\n  count = 3;\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(things).insert(\n    1,\n    {id: \"item\" + count++}\n  );\n});\n\n$(\"#prepend\").on(\"click\", function() {\n  $.observable(things).insert(\n    0,\n    [\n      {id: \"item\" + count++},\n      {id: \"item\" + count++}\n    ]\n  );\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$.observe(things, changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) added at index: \" + eventArgs.index;\n  $(\"#messages\").append(message + \"<br/>\");\n}",
         "html": "<div class=\"left\">\n  <button id=\"insert\">Insert an item at index 1</button>\n  <button id=\"prepend\">Prepend two items</button><br/><br/>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"left\" id=\"messages\">\n  <b>Messages:</b><br/><br/>\n</div>",
         "height": "150",
         "title": ""
@@ -649,7 +649,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Sample: Removing one or more items at a chosen index",
-        "text": "Here we modify the sample above, by specifying the number of items to remove. We'll also show the alternative <a href=\"#observe\">$observable.observe()</a> API for attaching our handler:"
+        "text": "Here we modify the sample above, by specifying the number of items to remove. We'll also show the alternative <a href=\"#observe\">$.observe()</a> API for attaching our handler:"
       },
       {
         "_type": "sample",
@@ -666,7 +666,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "code",
             "title": "",
-            "code": "$.observable.observe([things], changeHandler);"
+            "code": "$.observe(things, changeHandler);"
           },
           {
             "_type": "code",
@@ -674,7 +674,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "$.observable(things).remove(0, 2);\n"
           }
         ],
-        "code": "var things = [\n  {id: \"item1\"},\n  {id: \"item2\"},\n  {id: \"item3\"},\n  {id: \"item4\"}\n];\n\n$(\"#remove0\").on(\"click\", function() {\n  $.observable(things).remove(0, 2);\n});\n\n$(\"#remove1\").on(\"click\", function() {\n  $.observable(things).remove(1);\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$.observable.observe([things], changeHandler);\n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) removed at index: \" + eventArgs.index;\n  $(\"#messages\").append(message + \"<br/>\");\n}",
+        "code": "var things = [\n  {id: \"item1\"},\n  {id: \"item2\"},\n  {id: \"item3\"},\n  {id: \"item4\"}\n];\n\n$(\"#remove0\").on(\"click\", function() {\n  $.observable(things).remove(0, 2);\n});\n\n$(\"#remove1\").on(\"click\", function() {\n  $.observable(things).remove(1);\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$.observe(things, changeHandler);\n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) removed at index: \" + eventArgs.index;\n  $(\"#messages\").append(message + \"<br/>\");\n}",
         "html": "<div class=\"left\">\n  <button id=\"remove0\">Remove 2 items at 0</button>\n  <button id=\"remove1\">Remove item 1</button><br/><br/>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"left\" id=\"messages\">\n  <b>Messages:</b><br/><br/>\n</div>",
         "height": "150",
         "title": ""
@@ -896,11 +896,11 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "hash": "observe",
-            "label": "$.observable.observe()"
+            "label": "$.observe()"
           },
           {
             "hash": "unobserve",
-            "label": "unobserve()"
+            "label": "$.unobserve()"
           }
         ]
       }
@@ -918,7 +918,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "To handle the <em>propertyChange</em> changes you have two alternatives:\n<ul class=\"textbefore\">\n<li>use jQuery <em>.on()</em> to attach an event handler to the object</li>\n<li>use <a href=\"#observe\">$.observable.observe()</a> to associate a handler with the object, or with a <em>path</em> including the object</li>\n</ul>"
+        "text": "To handle the <em>propertyChange</em> changes you have two alternatives:\n<ul class=\"textbefore\">\n<li>use jQuery <em>.on()</em> to attach an event handler to the object</li>\n<li>use <a href=\"#observe\">$.observe()</a> to associate a handler with the object, or with a <em>path</em> including the object</li>\n</ul>"
       },
       {
         "_type": "code",
@@ -927,8 +927,8 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "code",
-        "title": "Using <a href=\"#observe\">$.observable.observe()</a>",
-        "code": "$.observable.observe(myObject, changeHandler); "
+        "title": "Using <a href=\"#observe\">$.observe()</a>",
+        "code": "$.observe(myObject, changeHandler); "
       },
       {
         "_type": "para",
@@ -946,7 +946,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "signatures": [
           {
             "_type": "signature",
-            "title": "propertyChange event handler",
+            "title": "",
             "params": [
               {
                 "_type": "param",
@@ -960,7 +960,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
                 "name": "eventArgs",
                 "type": "object",
                 "optional": false,
-                "description": "JsViews propertyChange event object, with properties <b>path</b>,  <b>value</b> and <b>oldValue</b>. (With <b>change</b>=<em>\"prop\"</em>)"
+                "description": "JsViews propertyChange event object, with properties <b>path</b>,  <b>value</b> and <b>oldValue</b>. (With <b>change</b>=<em>\"set\"</em>)"
               }
             ],
             "args": [],
@@ -969,7 +969,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "description": "Handler for JsViews observable property change events"
           }
         ],
-        "description": "",
+        "description": "An event handler for propertyChange events",
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -1002,7 +1002,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "function changeHandler(ev, eventArgs) {\n  var message = ... + eventArgs.path + ... + eventArgs.value ...;\n  ...\n}"
           }
         ],
-        "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St.\"\n    }\n  );\n\n});\n\n$(\"#revert\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Pete\",\n      \"address.street\": \"1st Ave.\"\n    }\n  );\n\n});\n\nvar tmpl = $.templates(\n   \"Name: <input data-link=\\\"name\\\" />\"\n + \"Street: <input data-link=\\\"address.street\\\" />\"\n);\n\ntmpl.link(\"#result\", person);\n\n$(person).on(\"propertyChange\", changeHandler); \n\n$(person.address).on(\"propertyChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n\n  var message = \"The new '\" + eventArgs.path + \"' is '\"\n                  + eventArgs.value + \"'.\";\n\n  $(\"#messages\").append(message + \"<br/>\");\n}",
+        "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St\"\n    }\n  );\n\n});\n\n$(\"#revert\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Pete\",\n      \"address.street\": \"1st Ave.\"\n    }\n  );\n\n});\n\nvar tmpl = $.templates(\n   \"Name: <input data-link=\\\"name\\\" />\"\n + \"Street: <input data-link=\\\"address.street\\\" />\"\n);\n\ntmpl.link(\"#result\", person);\n\n$(person).on(\"propertyChange\", changeHandler); \n\n$(person.address).on(\"propertyChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n\n  var message = \"The new '\" + eventArgs.path + \"' is '\"\n                  + eventArgs.value + \"'.\";\n\n  $(\"#messages\").append(message + \"<br/>\");\n}",
         "html": "<div class=\"left\">\n  <button id=\"modify\">set to new values</button>\n  <button id=\"revert\">set back to original values</button><br/><br/>\n\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"left\" id=\"messages\">\n  <b>Messages:</b><br/><br/>\n</div>",
         "height": "200",
         "title": "Handling property change events"
@@ -1021,7 +1021,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "To handle the <em>arrayChange</em> changes you have two alternatives:\n<ul class=\"textbefore\">\n<li>use jQuery <em>.on()</em> to attach an event handler to the array</li>\n<li>use <a href=\"#observe\">$.observable.observe()</a> to associate a handler with the array, or with a <em>path</em> including the array</li>\n</ul>"
+        "text": "To handle the <em>arrayChange</em> changes you have two alternatives:\n<ul class=\"textbefore\">\n<li>use jQuery <em>.on()</em> to attach an event handler to the array</li>\n<li>use <a href=\"#observe\">$.observe()</a> to associate a handler with the array, or with a <em>path</em> including the array</li>\n</ul>"
       },
       {
         "_type": "code",
@@ -1035,8 +1035,8 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "code",
-        "title": "Using <a href=\"#observe\">$.observable.observe()</a>",
-        "code": "$.observable.observe(myArray, changeHandler); "
+        "title": "Using <a href=\"#observe\">$.observe()</a>",
+        "code": "$.observe(myArray, changeHandler); "
       },
       {
         "_type": "para",
@@ -1054,7 +1054,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "signatures": [
           {
             "_type": "signature",
-            "title": "arrayChange event handler",
+            "title": "",
             "params": [
               {
                 "_type": "param",
@@ -1077,7 +1077,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "description": "Handler for JsViews observable array change events"
           }
         ],
-        "description": "",
+        "description": "An event handler for arrayChange events",
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -1095,7 +1095,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "observe": {
-    "title": "Observing data: $.observable.observe()",
+    "title": "Observing data: $.observe()",
     "path": "",
     "sections": [
       {
@@ -1106,27 +1106,225 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Data-linked templates respond to those events automatically, but if you want to run code in response to data-change events you have two alternatives:\n<ul class=\"textbefore\">\n<li>use jQuery <em>.on()</em> to attach the <a href=\"#onpropchange\">propertyChange</a> or <a href=\"#onarrchange\">arrayChange</a> event handler to any object or array you want to 'listen to'</li>\n<li>use <em>$.observable.observe()</em> to associate a handler with one or more objects, arrays, or <em>paths</em></li>\n</ul>"
+        "text": "Data-linked templates respond to those events automatically, but if you want to run code in response to data-change events you have two alternatives:\n<ul class=\"textbefore\">\n<li>use jQuery <em>.on()</em> to attach the <a href=\"#onpropchange\">propertyChange</a> or <a href=\"#onarrchange\">arrayChange</a> event handler to any object or array you want to 'listen to'</li>\n<li>use <em>$.observe()</em> to associate a handler with one or more objects, arrays, or <em>paths</em></li>\n</ul>"
       },
       {
         "_type": "code",
-        "title": "Using $.observable.observe()",
-        "code": "$.observable.observe(myArray, changeHandler);"
+        "title": "Using $.observe()",
+        "code": "$.observe(myObjectOrArray, ..., changeHandler);"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "This approach allows you to register a single handler listen to changes on more multiple targets, which can include both objects and arrays."
+        "text": "This approach allows you to register a single handler to listen to changes on multiple targets, which can include both objects and arrays."
+      },
+      {
+        "_type": "para",
+        "title": "Examples:",
+        "text": "1. Observe changes to a specific property:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.observe(person, \"firstName\", changeHandler);"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "In addition this approach allows you to specify the targets by the effectively declarative approach of using data-paths."
+        "text": "2. Observe changes to a specific property <em>of type array</em>:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.observe(person, \"phones\", changeHandler);\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here <em>changeHandler</em> will handle both:\n<ul>\n<li>array changes, and</li> \n<li>setting a new value to the property (switching to a new array, or setting to null or undefined)</li>\n</ul>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "3. Observe changes to <em>any</em> property on an object:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.observe(person, \"*\", changeHandler); \n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here <em>changeHandler</em> will handle both:\n<ul>\n<li>any changes to the value of <b>any</b> property of the object</li> \n<li>in addition, in the case of any property that is of type <em>array</em>, it will also handle <em>array change events</em> for that property</li>\n</ul>\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "4. Observe changes on an array:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.observe(person.phones, changeHandler); "
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "5. Observe multiple objects/properties/arrays:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.observe(person, \"lastName\", \"phones\", \"address.street\", changeHandler);"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here <em>changeHandler</em> will handle both:\n<ul>\n<li>changes to <em>lastName</em></li> \n<li>array changes to the current <em>phones</em> (array), or changes if a new array is assigned to the <em>phones</em> property</li>\n<li>changes to the <em>street</em> property of the <em>address</em> property of <em>person</em></li>\n</ul>\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "6. Observe paths under more than object:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.observe(person1, \"lastName\", \"address.*\", person2, \"firstName\", person3, \"*\", \"address.*\", changeHandler);"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here <em>changeHandler</em> handles:\n<ul>\n<li>for <em>person1</em>: changes to <em>lastName</em> and any <em>address</em> property</li> \n<li>for <em>person2</em>: changes to <em>firstName</em></li>\n<li>for <em>person3</em>: changes to any property of the <em>person3</em> object itself, and to any property of the <em>person3.address</em> object</li>\n</ul>\n"
       },
       {
         "_type": "para",
         "title": "Paths: leaf changes or deep changes",
         "text": "By default you listen to the leaf of a path, but you can specify if you want to listen to listen also to changes on objects higher up the path..."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "For example, here:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.observe(team, \"manager.address.street\", changeHandler);"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<em>changeHandler</em> will be called if the value of the <em>street</em> property of the <em>team.manager.address</em> object changes. So it is listening to leaf changes on the path <em>\"manager.address.street\"</em>."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "It will not be called if the <em>team.manager</em> property is swapped to a different <em>manager</em> object, or if the <em>team.manager.address</em> property is swapped to a different <em>address</em> object."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "But by a simple syntax change, the path can be made to listen to changes not only on the leaf property, but also changes on objects higher up the path. These are <em>deep changes</em> on the path: "
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "For example, this path:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.observe(team, \"manager.address^street\", changeHandler);"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "will listen to changes to the <em>street</em> property of <em>address</em>, or the <em>address</em> property of <em>manager</em>."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "And the following:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.observe(team, \"manager^address.street\", changeHandler);"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "will listen to changes to the <em>street</em> property of <em>address</em>, the <em>address</em> property of <em>manager</em>, <em><b>and</b></em> the <em>manager</em> property of <em>team</em>."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Simply replace a '.' with a '^' at the level up to which you want to listen to changes."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "(If you know that in your app the objects higher up the path will never change dynamically, then stick with the default <em>leaf</em> binding, since that will provide better perf optimization...)"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "$.observe(objectOrArray, ..., myHandler)",
+        "name": "observe",
+        "object": "$",
+        "method": true,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "objectOrArray",
+                "type": "object",
+                "optional": false,
+                "description": "objectOrArray to be 'observed'"
+              },
+              {
+                "_type": "param",
+                "name": "path",
+                "type": "string",
+                "optional": true,
+                "description": "One or more paths specifying properties to be 'observed'"
+              },
+              {
+                "_type": "param",
+                "name": "...",
+                "type": "string",
+                "optional": true,
+                "description": "Additional paths"
+              },
+              {
+                "_type": "param",
+                "name": "myHandler",
+                "type": "function",
+                "optional": false,
+                "description": "Event handler being registered (See <b>API: function myHandler</b> below for details)"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.observe(person, \"address.street\", myHandler); ",
+            "description": "Handle observable property or array change events"
+          }
+        ],
+        "description": "Register a handler for observable changes on one or more objects or data paths",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
       },
       {
         "_type": "api",
@@ -1139,30 +1337,30 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "signatures": [
           {
             "_type": "signature",
-            "title": "propertyChange event handler",
+            "title": "",
             "params": [
               {
                 "_type": "param",
                 "name": "ev",
                 "type": "object",
                 "optional": false,
-                "description": "jQuery event object"
+                "description": "jQuery event object, with properties which include <ul class=\"textbefore\"><li><b>target</b>: the object which changed</li><li><b>data</b>: JsViews metadata, including: <b>fullPath</b> (the data-linking path such as \"address.street\")</li></ul>"
               },
               {
                 "_type": "param",
                 "name": "eventArgs",
                 "type": "object",
                 "optional": false,
-                "description": "JsViews propertyChange event object, with properties <b>path</b>,  <b>value</b> and <b>oldValue</b>"
+                "description": "JsViews event object for property or array changes, with properties <b>change</b> and additional properties specific to the 'change' type:<ul style='font-style:normal'><li>For <em>setProperty</em>: <b>path</b>, <b>value</b> and <b>oldValue</b>. (With <b>change</b>=<em>\"set\"</em>)</li><li>For <em>insert</em>: <b>index</b> and <b>items</b>. (With <b>change</b>=<em>\"insert\"</em>)</li><li>For <em>remove</em>: <b>index</b> and <b>numToRemove</b>. (With <b>change</b>=<em>\"remove\"</em>)</li><li>For <em>move</em>: <b>oldIndex</b>, <b>index</b> and <b>items</b>. (With <b>change</b>=<em>\"move\"</em>)</li><li>For <em>refresh</em>: <b>oldItem</b>. (With <b>change</b>=<em>\"refresh\"</em>)</li></ul>"
               }
             ],
             "args": [],
             "sections": [],
-            "example": "$(person).on(\"propertyChange\", myHandler); ",
-            "description": "Handler for JsViews observable property change events"
+            "example": "$.observe(person, \"address.street\", myHandler); ",
+            "description": "Handler for observable property or array change events"
           }
         ],
-        "description": "",
+        "description": "An event handler for observable data changes - registered using <em>$.observe(...)</em> or <em>$(object).observe(...)</em>",
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -1171,6 +1369,11 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "sample": "sample",
           "links": "links"
         }
+      },
+      {
+        "_type": "para",
+        "title": "Samples:",
+        "text": "Here is a sample showing <em>$.observe(person, \"name\", \"address^*\", changeHandler);</em>"
       },
       {
         "_type": "sample",
@@ -1185,25 +1388,93 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         },
         "sections": [
           {
-            "_type": "code",
-            "title": "Add a handler for <b>propertyChange</b> events on the <b>person</b> object:",
-            "code": "$(person).on(\"propertyChange\", changeHandler); \n"
+            "_type": "para",
+            "title": "Register a handler for changes: ",
+            "text": "We handle changes in the <em>name</em>  and <em>address</em> properties of the <b>person</b>, and <em>any property</em> of the <b>address</b>:"
           },
           {
             "_type": "code",
             "title": "",
+            "code": "$.observe(person, \"name\", \"address^*\", changeHandler);"
+          },
+          {
+            "_type": "code",
+            "title": "Define the handler:",
             "code": "function changeHandler(ev, eventArgs) {\n  var message = ... + eventArgs.path + ... + eventArgs.value ...;\n  ...\n}"
+          },
+          {
+            "_type": "template",
+            "title": "Template also binds to 'deep paths'",
+            "markup": "<input data-link=\"address^street\" />"
+          },
+          {
+            "_type": "code",
+            "title": "Modify values through template binding or buttons:",
+            "code": "$(\"#changeAddress\").on(\"click\", function() {\n  $.observable(person).setProperty(\n    \"address\", \n    {\n      street: \"New Street\",\n      ZIP: \"99999\"\n    }\n..."
           }
         ],
-        "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St.\"\n    }\n  );\n\n});\n\n$(\"#revert\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Pete\",\n      \"address.street\": \"1st Ave.\"\n    }\n  );\n\n});\n\nvar tmpl = $.templates(\n   \"Name: <input data-link=\\\"name\\\" />\"\n + \"Street: <input data-link=\\\"address.street\\\" />\"\n);\n\ntmpl.link(\"#result\", person);\n\n$(person).on(\"propertyChange\", changeHandler); \n\n$(person.address).on(\"propertyChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n\n  var message = \"The new '\" + eventArgs.path + \"' is '\"\n                  + eventArgs.value + \"'.\";\n\n  $(\"#messages\").append(message + \"<br/>\");\n}",
-        "html": "<div class=\"left\">\n  <button id=\"modify\">set to new values</button>\n  <button id=\"revert\">set back to original values</button><br/><br/>\n\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"left\" id=\"messages\">\n  <b>Messages:</b><br/><br/>\n</div>",
-        "height": "200",
-        "title": "Handling property change events"
+        "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n    ZIP: \"34009\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St\",\n      \"address.ZIP\": \"45008\"\n    }\n  );\n\n});\n\n$(\"#changeAddress\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    \"address\", \n    {\n      street: \"New Street\",\n      ZIP: \"99999\"\n    }\n  );\n\n});\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\n$.observe(person, \"name\", \"address^*\", changeHandler);\n\nfunction changeHandler(ev, eventArgs) {\n\n  var message = \"The new <b>\" + eventArgs.path + \"</b> is <em>\"\n                + JSON.stringify(eventArgs.value) + \"</em>.\";\n\n  $(\"#messages\").append(message + \"<br/>\");\n}",
+        "html": "<div class=\"left\">\n  <button id=\"modify\">Change leaf values</button>\n  <button id=\"changeAddress\">New address</button><br/><br/>\n\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"left\" id=\"messages\">\n  <b>Messages:</b><br/><br/>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>ZIP:</td><td><input data-link=\"address^ZIP\" /></td></tr>\n  </tbody></table>\n</script>",
+        "height": "230",
+        "title": "Handling change events using $.observe()"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Now we modify the above sample to show <em>$.observe(person, ...);</em> also handling <em>array</em> properties: a <b>phones</b> property of <em>person</em>"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "Register a handler for changes: ",
+            "text": "We handle changes in the <em>name</em>, <em>address</em> and <em>phones</em> properties of the <b>person</b>, and <em>any property</em> of the <b>address</b>:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.observe(person, \"name\", \"address^street\", \"phones\", changeHandler);"
+          },
+          {
+            "_type": "para",
+            "title": "Define our handler:",
+            "text": "(Note that it outputs <em>all</em> the fields of <em>eventArgs</em>)"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "function changeHandler(ev, eventArgs) {\n  var message = \"\";\n  for (var key in eventArgs) {\n    message += ... key ... eventArgs[key]...\n  }\n  ...\n}"
+          }
+        ],
+        "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n$(\"#modify\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St\",\n    }\n  );\n\n});\n\n$(\"#changeObjects\").on(\"click\", function() {\n\n  $.observable(person).setProperty({\n    address: {street: \"New Street\"},\n    phones: [{number:\"123 123 1234\"}]\n  });\n\n});\n\n$(\"#insert\").on(\"click\", function() {\n\n  $.observable(person.phones).insert({\n    number:\"123 123 1234\"\n  });\n\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n\n});\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\n$.observe(person, \"name\", \"address^street\", \"phones\", changeHandler);\n\nfunction changeHandler(ev, eventArgs) {\n\n  var message = \"\";\n  for (var key in eventArgs) {\n    message += \"<b>\" + key + \":</b> \" + JSON.stringify(eventArgs[key]) + \"<br/>\";\n  }\n\n  $(\"#messages\").append(message + \"<br/>\");\n}\n",
+        "html": "<div class=\"left\">\n  <button id=\"modify\">Change name and street</button><br/>\n  <button id=\"changeObjects\">New address and phones</button><br/>\n  <button id=\"insert\">Add phone</button><br/><br/>\n\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"left\" id=\"messages\">\n  <b>Messages:</b><br/><br/>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <input data-link=\"number\" />\n            <img class=\"remove\" src=\"http://www.jsviews.com/resources/images/close.png\" />\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>\n",
+        "height": "450",
+        "title": "Handling both property change and array change events, using $.observe()"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "But notice that if you change the value of a phone number, our handler does not 'listen' to that change."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": ""
       }
     ]
   },
   "unobserve": {
-    "title": "unobserve()",
+    "title": "$.unobserve()",
     "path": "",
     "sections": []
   },
@@ -1255,6 +1526,28 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "",
         "text": "Note that you don't need hold on to the <em>observable</em> wrapped object for reuse. It is so lightweight you can just call <em>$.observable(...)</em> again every time you need to make further changes to your object or array."
+      }
+    ]
+  },
+  "observeAll": {
+    "title": "$(...).observeAll()",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The next topic: <em><a href=\"#observeAll\">.observeAll()</a></em> shows you one way you can include those changes too. We'll listen to <b><em>all</em></b> the changes under <em>person.phones</em> - adding and removing of child objects, changes in properties of child objects, etc."
+      }
+    ]
+  },
+  "unobserveAll": {
+    "title": "$().unobserveAll()",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
       }
     ]
   }

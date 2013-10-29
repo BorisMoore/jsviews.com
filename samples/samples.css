@@ -23,6 +23,10 @@ table {
 	margin-top: 13px;
 }
 
+table.nowidth, table.nowidth input {
+	width: auto;
+}
+
 thead tr {
 	color: #009;
 	border-bottom: solid #77c 2px;
@@ -83,3 +87,10 @@ td.center {
 	padding: 10px;
 }
 
+.remove, button {
+	cursor: pointer;
+}
+
+button {
+	margin-bottom: 3px;
+}
