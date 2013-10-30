@@ -1596,7 +1596,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Samples:",
-        "text": "Here is a copy of a sample from the <em><a href=\"#observe\">$.observe()</a></em> topic, on which we have using <em>observe/unobserve</em> to provide a <em>Log changes</em> checkbox:"
+        "text": "Here is a copy of a sample from the <em><a href=\"#observe\">$.observe()</a></em> topic, on which we have used <em>observe/unobserve</em> to provide a <em>Log changes</em> checkbox:"
       },
       {
         "_type": "sample",
@@ -1664,7 +1664,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The above call will remove handlers for all properties of <em>person</em>, so choosing <em>Try it</em> and making that change will stop the changes to <em>name</em> or setting the <em>address</em> from showing in the log, but changes in <em>street</em> or <em>zip</em> on teh <em>address</em> object will still show."
+        "text": "The above call will remove handlers for <em>all properties</em> of <em>person</em>, so choosing <em>Try it</em> and making that change will stop the changes to <em>name</em> or <em>setting</em> the <em>address</em> from showing in the log, but changes in <em>street</em> or <em>zip</em> on the <em>address</em> object will still show."
       },
       {
         "_type": "para",
