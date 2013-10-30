@@ -881,12 +881,12 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "observeAll",
             "label": "$.observable().observeAll()",
-            "hidden": true
+            "hidden": false
           },
           {
             "name": "unobserveAll",
             "label": "$.observable().unobserveAll()",
-            "hidden": true
+            "hidden": false
           }
         ],
         "expanded": true

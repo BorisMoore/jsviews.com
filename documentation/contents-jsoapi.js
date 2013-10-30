@@ -1314,6 +1314,61 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "sections": [],
             "example": "$.observe(person, \"address.street\", myHandler); ",
             "description": "Handle observable property or array change events"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "object",
+                "type": "object",
+                "optional": false,
+                "description": "object to be 'observed'"
+              },
+              {
+                "_type": "param",
+                "name": "\"*\"",
+                "type": "string",
+                "optional": false,
+                "description": "wild card path - for <em>all</em> properties"
+              },
+              {
+                "_type": "param",
+                "name": "myHandler",
+                "type": "function",
+                "optional": false,
+                "description": "Event handler being registered (See <b>API: function myHandler</b> below for details)"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.observe(person, \"*\", myHandler); ",
+            "description": "Handle all property change events on an object"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "array",
+                "type": "array",
+                "optional": false,
+                "description": "objectOrArray to be 'observed'"
+              },
+              {
+                "_type": "param",
+                "name": "myHandler",
+                "type": "function",
+                "optional": false,
+                "description": "Event handler being registered (See <b>API: function myHandler</b> below for details)"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.observe(phones, myHandler); ",
+            "description": "Handle array change events on an array"
           }
         ],
         "description": "Register a handler for observable changes on one or more objects or data paths",
@@ -1360,7 +1415,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "description": "Handler for observable property or array change events"
           }
         ],
-        "description": "An event handler for observable data changes - registered using <em>$.observe(...)</em> or <em>$(object).observe(...)</em>",
+        "description": "An event handler for observable data changes - registered using <em>$.observe(...)</em> or <em>$.observable(object).observeAll(...)</em>",
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -1517,6 +1572,11 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
+        "text": "The <em><a href=\"#observeAll\">.observeAll()</a></em> API provides a very simple way include those changes too."
+      },
+      {
+        "_type": "para",
+        "title": "",
         "text": ""
       }
     ]
@@ -1580,7 +1640,55 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "args": [],
             "sections": [],
             "example": "$.unobserve(person, \"address.street\", myHandler); ",
-            "description": "Remove handler for observable property or array change events"
+            "description": "Remove handler for observable  changes on specific paths"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "objectOrArray",
+                "type": "object",
+                "optional": false,
+                "description": "objectOrArray to be 'observed'"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.unobserve(person); ",
+            "description": "Remove all handlers for all observable changes to target object/array"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "objectOrArray",
+                "type": "object",
+                "optional": false,
+                "description": "objectOrArray to be 'observed'"
+              },
+              {
+                "_type": "param",
+                "name": "path",
+                "type": "string",
+                "optional": true,
+                "description": "One or more paths specifying properties to be 'observed'"
+              },
+              {
+                "_type": "param",
+                "name": "...",
+                "type": "string",
+                "optional": true,
+                "description": "Additional paths"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.unobserve(person, \"address.street\");",
+            "description": "Remove any handlers targetting specific properties or paths"
           }
         ],
         "description": "Unregister a handler for observable changes on one or more objects or data paths",
@@ -1619,7 +1727,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n    ZIP: \"34009\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St\",\n      \"address.ZIP\": \"45008\"\n    }\n  );\n});\n\n$(\"#changeAddress\").on(\"click\", function() {\n  $.observable(person).setProperty(\n    \"address\", \n    {\n      street: \"New Street\",\n      ZIP: \"99999\"\n    }\n  );\n});\n\n$(\"#clear\").on(\"click\", function() {\n  $(\"#messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observe(person, \"name\", \"address^*\", changeHandler);\n  } else {\n    $.unobserve(person, \"name\", \"address^*\", changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"The new <b>\" + eventArgs.path + \"</b> is <em>\"\n                + JSON.stringify(eventArgs.value) + \"</em>.\";\n\n  $(\"#messages\").append(message + \"<br/>\");\n}",
         "html": "<div class=\"left\">\n  <button id=\"modify\">Change leaf values</button>\n  <button id=\"changeAddress\">New address</button><br/><br/>\n\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"left\">\n  <b>Log changes: <input type=\"checkbox\" checked id=\"attach\"/></b>\n  <button class=\"right\" id=\"clear\">Clear</button><br/><br/>\n  <div id=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>ZIP:</td><td><input data-link=\"address^ZIP\" /></td></tr>\n  </tbody></table>\n</script>",
         "height": "230",
-        "title": "Handling both property change and array change events, using $.observe()"
+        "title": "Using $.unobserve() to remove handlers"
       },
       {
         "_type": "para",
@@ -1694,7 +1802,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "- but in addition it will not listen to <em>setting</em> the <em>phones</em> property of <em>person</em> "
+        "text": "- but in addition it will stop listening to <em>setting</em> the <em>phones</em> property of <em>person</em> "
       },
       {
         "_type": "sample",
@@ -1716,7 +1824,8 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div class=\"left\">\n  <button id=\"modify\">Change name and street</button><br/>\n  <button id=\"changeObjects\">New address and phones</button><br/>\n  <button id=\"insert\">Add phone</button><br/><br/>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"left\">\n  <b>Log changes: <input type=\"checkbox\" checked id=\"attach\"/></b>\n  <button class=\"right\" id=\"clear\">Clear</button><br/><br/>\n  <div id=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            {{:number}}\n            <img class=\"remove\" src=\"http://www.jsviews.com/resources/images/close.png\" />\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St\",\n    }\n  );\n});\n\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    address: {street: \"New Street\"},\n    phones: [{number:\"123 123 1234\"}]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones).insert({\n    number:\"123 123 1234\"\n  });\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n});\n\n$(\"#clear\").on(\"click\", function() {\n  $(\"#messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observe(person, \"name\", \"address^street\", \"phones\", changeHandler);\n  } else {\n    $.unobserve(person, \"name\", \"address^street\", \"phones\", changeHandler);\n  }\n}\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  for (var key in eventArgs) {\n    message += \"<b>\" + key + \":</b> \" + JSON.stringify(eventArgs[key]) + \"<br/>\";\n  }\n  $(\"#messages\").append(message + \"<br/>\");\n}",
-        "height": "350"
+        "height": "350",
+        "title": "Modified sample showing also unobserve() for arrays:"
       }
     ]
   },
@@ -1772,24 +1881,264 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "observeAll": {
-    "title": "$(...).observeAll()",
+    "title": "Observing all objects in an object hierarchy: $.observable().observeAll()",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "The next topic: <em><a href=\"#observeAll\">.observeAll()</a></em> shows you one way you can include those changes too. We'll listen to <b><em>all</em></b> the changes under <em>person.phones</em> - adding and removing of child objects, changes in properties of child objects, etc."
+        "text": "The <em>.observeAll()</em> API allows you to register a single handler to listen to <b><em>all</em></b> the changes under a chosen object or array."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This means that no matter how complex the hierarchy of objects under the targeted object or array, and no matter how complex the structural changes made to that object hierarchy, the handler will continue to listen to any change on any object or array in the tree."
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.observable(myObjectOrArray).observeAll(myHandler)"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "$.observable(objectOrArray).observeAll(myHandler)",
+        "name": "observeAll",
+        "object": "$.observable(objectOrArray)",
+        "method": true,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "myHandler",
+                "type": "function",
+                "optional": false,
+                "description": "Event handler being registered (See <b>API: function myHandler</b> below for details)"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.observable(person).observeAll(myHandler)",
+            "description": "Observe all changes under an object or array"
+          }
+        ],
+        "description": "Register an event handler to observe all changes in an object and on any nested object or array in the 'object graph'  under it",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The <em>myHandler</em> function registered using the <em>.observeAl()</em> is identical to the handler use with <em><a href=\"#$observe\">$.observe()</a></em>:"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "function myHandler(ev, eventArgs) { ... }",
+        "name": "myHandler",
+        "object": "",
+        "method": true,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "ev",
+                "type": "object",
+                "optional": false,
+                "description": "jQuery event object, with properties which include <ul class=\"textbefore\"><li><b>target</b>: the object which changed</li><li><b>data</b>: JsViews metadata, including: <b>fullPath</b> (the data-linking path such as \"address.street\")</li></ul>"
+              },
+              {
+                "_type": "param",
+                "name": "eventArgs",
+                "type": "object",
+                "optional": false,
+                "description": "JsViews event object for property or array changes, with properties <b>change</b> and additional properties specific to the 'change' type:<ul style='font-style:normal'><li>For <em>setProperty</em>: <b>path</b>, <b>value</b> and <b>oldValue</b>. (With <b>change</b>=<em>\"set\"</em>)</li><li>For <em>insert</em>: <b>index</b> and <b>items</b>. (With <b>change</b>=<em>\"insert\"</em>)</li><li>For <em>remove</em>: <b>index</b> and <b>numToRemove</b>. (With <b>change</b>=<em>\"remove\"</em>)</li><li>For <em>move</em>: <b>oldIndex</b>, <b>index</b> and <b>items</b>. (With <b>change</b>=<em>\"move\"</em>)</li><li>For <em>refresh</em>: <b>oldItem</b>. (With <b>change</b>=<em>\"refresh\"</em>)</li></ul>"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.observe(person, \"address.street\", myHandler); ",
+            "description": "Handler for observable property or array change events"
+          }
+        ],
+        "description": "An event handler for observable data changes - registered using <em>$.observe(...)</em> or <em>$.observable(object).observeAll(...)</em>",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "Sample:",
+        "text": "We'll use the <em>observeAll()</em> API to update our last sample in the <em><a href=\"#$observe\">$.observe()</a></em> topic, so that now we will be able to include listening to newly added items in the phone array, which we were not able to achieve in our previous version...:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "A single observeAll call for observing all the objects",
+            "text": "Even phone objects added to the phones array will automatically be 'listened' to by our handler, without us needing to write any additional code."
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.observable(person).observeAl(changeHandler);"
+          },
+          {
+            "_type": "code",
+            "title": "Define our handler:",
+            "code": "function changeHandler(ev, eventArgs) {\n  var message = \"\";\n  for (var key in eventArgs) {\n    message += ... key ... eventArgs[key]...\n  }\n  ...\n}"
+          }
+        ],
+        "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St\",\n    }\n  );\n});\n\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    address: {street: \"New Street\"},\n    phones: [{number:\"123 123 1234\"}]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones).insert({\n    number:\"123 123 1234\"\n  });\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n});\n\n$(\"#clear\").on(\"click\", function() {\n  $(\"#messages\").empty();\n});\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\n$.observable(person).observeAll(changeHandler);\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  for (var key in eventArgs) {\n    message += \"<b>\" + key + \":</b> \" + JSON.stringify(eventArgs[key]) + \"<br/>\";\n  }\n  $(\"#messages\").append(message + \"<br/>\");\n}\n",
+        "html": "<div class=\"left\">\n  <button id=\"modify\">Change name and street</button><br/>\n  <button id=\"changeObjects\">New address and phones</button><br/>\n  <button id=\"insert\">Add phone</button><br/><br/>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"left\">\n  <b>Messages</b> <button class=\"right\" id=\"clear\">Clear</button><br/><br/>\n  <div id=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <input data-link=\"number\" />\n            <img class=\"remove\" src=\"http://www.jsviews.com/resources/images/close.png\" />\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>\n",
+        "height": "350",
+        "title": "Handling both property change and array change events, using .observeAll()"
       }
     ]
   },
   "unobserveAll": {
-    "title": "$().unobserveAll()",
+    "title": "$.observable().unobserveAll()",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "paragraph"
+        "text": "Just as  <em><a href=\"#observeAll\">$.observable(objectOrArray).<b>observeAll</b>(myHandler)</a></em> will traverse the whole hierarchy of objects or arrays under the root <em>objectOrArray</em> and attach the handler to each object, similarly <em>$.observable(objectOrArray).<b>unobserveAll</b><(myHandler)</em> will traverse the whole hierarchy and remove the handler from any object to which it has been attached."
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "$.observable(objectOrArray).unobserveAll(myHandler)",
+        "name": "unobserveAll",
+        "object": "$.observable(obOrArray)",
+        "method": true,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "myHandler",
+                "type": "function",
+                "optional": true,
+                "description": "Event handler being registered (See <b>API: function myHandler</b> below for details)"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.observable(person).unobserveAll(myHandler); ",
+            "description": "Remove handler from object/array and from all nested objects"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "objectOrArray",
+                "type": "object",
+                "optional": false,
+                "description": "objectOrArray to be 'observed'"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.observable(person).unobserveAll(); ",
+            "description": "Remove <b>all</b> handlers for observable changes, from  an object/array and from all nested objects"
+          }
+        ],
+        "description": "Remove a handler for observable changes, from an object or array, and from any nested objects or arrays under it",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "Samples:",
+        "text": "Here is a copy of a sample from the <em><a href=\"#observeAll\">.observeAll()</a></em> topic, on which we have used <em>observeAll/unobserveAll</em> to provide a <em>Log changes</em> checkbox:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "Call unobserveAll on the root, to stop 'listening'...",
+            "code": "function logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}"
+          }
+        ],
+        "html": "<div class=\"left\">\n  <button id=\"modify\">Change name and street</button><br/>\n  <button id=\"changeObjects\">New address and phones</button><br/>\n  <button id=\"insert\">Add phone</button><br/><br/>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"left\">\n  <b>Log changes: <input type=\"checkbox\" checked id=\"attach\"/></b>\n  <button class=\"right\" id=\"clear\">Clear</button><br/><br/>\n  <div id=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <input data-link=\"number\" />\n            <img class=\"remove\" src=\"http://www.jsviews.com/resources/images/close.png\" />\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St\",\n    }\n  );\n});\n\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    address: {street: \"New Street\"},\n    phones: [{number:\"123 123 1234\"}]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones).insert({\n    number:\"123 123 1234\"\n  });\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n});\n\n$(\"#clear\").on(\"click\", function() {\n  $(\"#messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  for (var key in eventArgs) {\n    message += \"<b>\" + key + \":</b> \" + JSON.stringify(eventArgs[key]) + \"<br/>\";\n  }\n  $(\"#messages\").append(message + \"<br/>\");\n}",
+        "height": "350"
+      },
+      {
+        "_type": "para",
+        "title": "$.unobserveAll variant",
+        "text": "<em>Omitting the handler:</em>"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.observable(objectOrArray).unobserve()"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The above call will remove <em>all</em> change handlers from the object, and any nested objects."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "To test it, you can choose <em>Try it</em> in the sample above, and replace the unobserveAll call by <em>$.observable(person).unobserveAll();</em>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "You'll see that unchecking will then have the effect of removing not only the logging handler, but also the JsViews data-link binding handler used in the template. Now, changes will trigger neither log messages, nor template updates."
       }
     ]
   }
