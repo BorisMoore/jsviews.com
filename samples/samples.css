@@ -87,6 +87,10 @@ td.center {
 	padding: 10px;
 }
 
+.right {
+	float: right;
+}
+
 .remove, button {
 	cursor: pointer;
 }
