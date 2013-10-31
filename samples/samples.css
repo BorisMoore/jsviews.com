@@ -80,21 +80,48 @@ td.center {
 	margin: 8px;
 }
 
-.left {
-	float: left;
-	margin-right: 20px;
-	border: 1px solid grey;
-	padding: 10px;
-}
-
-.right {
-	float: right;
-}
-
 .remove, button {
 	cursor: pointer;
 }
 
 button {
 	margin-bottom: 3px;
+}
+
+.left, .logBox {
+	float: left;
+	border: 1px solid grey;
+	padding: 10px 10px 4px 10px;
+}
+
+.left {
+	margin-right: 20px;
+}
+
+.logBox .clear {
+	float: right;
+	margin: -3px -3px 5px 0 
+}
+
+.logBox label {
+	font-style: italic;
+	font-weight: bold;
+}
+
+.logBox .messages {
+  width: 546px;
+  clear: right;
+  border-top: 2px solid #ccc;
+  padding-top: 4px;
+}
+
+.logBox .messages  > div > div {
+	border-bottom: 1px solid #eee;
+	padding: 2px;
+}
+
+.logBox .messages > div > div:last-child {
+	border-bottom: 2px solid #ccc;
+	padding-bottom: 7px;
+	margin-bottom: 4px;
 }

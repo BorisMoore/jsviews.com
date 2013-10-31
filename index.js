@@ -466,7 +466,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 					+ "</head>\n"
 					+ "<body>\n\n"
 					+ (html
-						? (html + (code && !codeInHeader ? "\n<script>\n" + code + "\n</script>" : ""))
+						? (html + (code && !codeInHeader ? "\n\n<script>\n" + code + "\n</script>" : ""))
 						: (tryItData.markup
 							? ("<div id=\"result\"></div>\n\n"
 								+ "<script id=\"theTmpl\" type=\"text/x-jsrender\">\n"

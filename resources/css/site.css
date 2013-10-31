@@ -9,7 +9,7 @@
 .home, .nothome {
 	background-color: white;
 	overflow-x: hidden;
-	width: 1240px;
+	width: 1241px;
 	max-width: 100%;
 	margin: auto;
 }
@@ -20,9 +20,9 @@
 
 .menus.top {
 	position: fixed;
-	width: 1238px;
+	width: 1239px;
 	left: 50%;
-	margin: 0 0 -4px -620px;
+	margin: 0 0 -4px -621px;
 	z-index: 10;
 	border-bottom: 1px solid #407BB1;
 	padding: 0 0 0 2px;
@@ -31,7 +31,7 @@
 
 .menus a { /*width: 14.31%;  -  original */
 	margin: -2px -2px -9px -2px; /*width: 11%;*/ /*margin: -2px 0 -9px 11%; reduced*/ /*width: 9.7%;*/
-	width: 9.99%;
+	width: 9.98%;
 	display: inline-block;
 	text-align: center;
 	font-size: 9pt;

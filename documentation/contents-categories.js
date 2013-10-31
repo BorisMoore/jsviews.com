@@ -307,6 +307,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "composition",
             "label": "Composition"
+          },
+          {
+            "name": "jQueryTemplates",
+            "label": "Migrating from jQuery Templates"
           }
         ],
         "expanded": true

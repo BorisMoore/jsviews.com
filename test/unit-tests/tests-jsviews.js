@@ -5047,7 +5047,7 @@ test("MVVM", function() {
 	function Person(name, address, phones) {
 		this._name = name;
 		this._address = address;
-		this._phones = phones; // Last name does not use a getter, and so does not trigger a lazyGet. (Normally all properties would use getters)
+		this._phones = phones;
 	}
 
 	var personProto = {
