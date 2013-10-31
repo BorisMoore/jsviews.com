@@ -315,7 +315,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St\"\n    }\n  );\n\n});\n\n$(\"#revert\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Pete\",\n      \"address.street\": \"1st Ave.\"\n    }\n  );\n\n});\n\n$.observe(person, \"name\", \"address.street\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"The '\" + eventArgs.path + \"' is '\" + eventArgs.value + \"'.\";\n  if (ev.data) {\n    message += \"\\n\\nThe full path is '\" + ev.data.fullPath + \"'.\";\n  }\n  $(\"#messages\").append(message + \"<br/>\");\n}",
         "html": "<button id=\"modify\">Set new values</button>\n<button id=\"revert\">Return to original values</button>\n\n<p id=\"messages\"><p>",
         "title": "",
-        "height": "110"
+        "height": "150"
       }
     ]
   },
@@ -445,7 +445,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "code": "var things = [{id: \"item1\"}, {id: \"item2\"}],\n  count = 3;\n\n$(\"#append\").on(\"click\", function() {\n  $.observable(things).insert(\n    {id: \"item\" + count++}\n  );\n});\n\n$(\"#insert2\").on(\"click\", function() {\n  $.observable(things).insert(\n    [\n      {id: \"item\" + count++},\n      {id: \"item\" + count++}\n    ]\n  );\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);",
-        "html": "<div class=\"left\">\n  <button id=\"append\">Append an item</button><br/><br/>\n\n  <div id=\"result\"></div>\n</div>",
+        "html": "<div class=\"left\">\n  <button id=\"append\">Append an item</button>\n  <div id=\"result\"></div>\n</div>",
         "height": "150",
         "title": ""
       },
@@ -477,8 +477,8 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "$.observable(things).insert(\n  [\n    {id: \"item\" + count++},\n    {id: \"item\" + count++}\n  ]\n);"
           }
         ],
-        "code": "var things = [{id: \"item1\"}, {id: \"item2\"}],\n  count = 3;\n\n$(\"#append1\").on(\"click\", function() {\n  $.observable(things).insert(\n    {id: \"item\" + count++}\n  );\n});\n\n$(\"#append2\").on(\"click\", function() {\n  $.observable(things).insert(\n    [\n      {id: \"item\" + count++},\n      {id: \"item\" + count++}\n    ]\n  );\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\n$(\"#clear\").on(\"click\", function() {\n  $(\"#messages\").empty();\n});\n\ntmpl.link(\"#result\", things);\n\n$([things]).on(\"arrayChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) added at index: \" + eventArgs.index;\n  $(\"#messages\").append(message + \"<br/>\");\n}",
-        "html": "<div class=\"left\">\n  <button id=\"append1\">Append an item</button>\n  <button id=\"append2\">Append two items</button><br/><br/>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label> <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>",
+        "code": "var things = [{id: \"item1\"}, {id: \"item2\"}],\n  count = 3;\n\n$(\"#append1\").on(\"click\", function() {\n  $.observable(things).insert(\n    {id: \"item\" + count++}\n  );\n});\n\n$(\"#append2\").on(\"click\", function() {\n  $.observable(things).insert(\n    [\n      {id: \"item\" + count++},\n      {id: \"item\" + count++}\n    ]\n  );\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$([things]).on(\"arrayChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) added at index: \" + eventArgs.index;\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "html": "<div class=\"left\">\n  <button id=\"append1\">Append an item</button>\n  <button id=\"append2\">Append two items</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Changes:</label>\n  <div class=\"messages\"></div>\n</div>",
         "height": "150",
         "title": ""
       },
@@ -510,8 +510,8 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "$.observable(things).insert(\n  index,\n  items\n);"
           }
         ],
-        "code": "var things = [{id: \"item1\"}, {id: \"item2\"}],\n  count = 3;\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(things).insert(\n    1,\n    {id: \"item\" + count++}\n  );\n});\n\n$(\"#prepend\").on(\"click\", function() {\n  $.observable(things).insert(\n    0,\n    [\n      {id: \"item\" + count++},\n      {id: \"item\" + count++}\n    ]\n  );\n});\n\n$(\"#clear\").on(\"click\", function() {\n  $(\"#messages\").empty();\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$.observe(things, changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) added at index: \" + eventArgs.index;\n  $(\"#messages\").append(message + \"<br/>\");\n}",
-        "html": "<div class=\"left\">\n  <button id=\"insert\">Insert an item at index 1</button>\n  <button id=\"prepend\">Prepend two items</button><br/><br/>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label> <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>",
+        "code": "var things = [{id: \"item1\"}, {id: \"item2\"}],\n  count = 3;\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(things).insert(\n    1,\n    {id: \"item\" + count++}\n  );\n});\n\n$(\"#prepend\").on(\"click\", function() {\n  $.observable(things).insert(\n    0,\n    [\n      {id: \"item\" + count++},\n      {id: \"item\" + count++}\n    ]\n  );\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$.observe(things, changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) added at index: \" + eventArgs.index;\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "html": "<div class=\"left\">\n  <button id=\"insert\">Insert item at index 1</button>\n  <button id=\"prepend\">Prepend 2 items</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Changes:</label>\n  <div class=\"messages\"></div>\n</div>",
         "height": "150",
         "title": ""
       }
@@ -604,7 +604,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "code": "var things = [\n  {id: \"item1\"},\n  {id: \"item2\"},\n  {id: \"item3\"}\n];\n\n$(\"#remove\").on(\"click\", function() {\n  $.observable(things).remove();\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);",
-        "html": "<div class=\"left\">\n  <button id=\"remove\">Remove last item</button><br/><br/>\n\n  <div id=\"result\"></div>\n</div>",
+        "html": "<div class=\"left\">\n  <button id=\"remove\">Remove last item</button>\n  <div id=\"result\"></div>\n</div>",
         "height": "135",
         "title": ""
       },
@@ -637,12 +637,12 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "code",
-            "title": "Remove item at index 0 or index 1",
+            "title": "Remove item at index 0 or index 1:",
             "code": "$.observable(things).remove(0);\n...\n$.observable(things).remove(1);\n"
           }
         ],
-        "code": "var things = [\n  {id: \"item1\"},\n  {id: \"item2\"},\n  {id: \"item3\"}\n];\n\n$(\"#remove0\").on(\"click\", function() {\n  $.observable(things).remove(0);\n});\n\n$(\"#remove1\").on(\"click\", function() {\n  $.observable(things).remove(1);\n});\n\n$(\"#clear\").on(\"click\", function() {\n  $(\"#messages\").empty();\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$([things]).on(\"arrayChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) removed at index: \" + eventArgs.index;\n  $(\"#messages\").append(message + \"<br/>\");\n}",
-        "html": "<div class=\"left\">\n  <button id=\"remove0\">Remove item 0</button>\n  <button id=\"remove1\">Remove item 1</button><br/><br/>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label> <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>",
+        "code": "var things = [\n  {id: \"item1\"},\n  {id: \"item2\"},\n  {id: \"item3\"}\n];\n\n$(\"#remove0\").on(\"click\", function() {\n  $.observable(things).remove(0);\n});\n\n$(\"#remove1\").on(\"click\", function() {\n  $.observable(things).remove(1);\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$([things]).on(\"arrayChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) removed at index: \" + eventArgs.index;\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "html": "<div class=\"left\">\n  <button id=\"remove0\">Remove item 0</button>\n  <button id=\"remove1\">Remove item 1</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Changes:</label>\n  <div class=\"messages\"></div>\n</div>",
         "height": "135",
         "title": "Observable array change - remove item at chosen index"
       },
@@ -670,12 +670,12 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "code",
-            "title": "Remove 2 items at index 0:",
+            "title": "Remove two items at index 0:",
             "code": "$.observable(things).remove(0, 2);\n"
           }
         ],
-        "code": "var things = [\n  {id: \"item1\"},\n  {id: \"item2\"},\n  {id: \"item3\"},\n  {id: \"item4\"}\n];\n\n$(\"#remove0\").on(\"click\", function() {\n  $.observable(things).remove(0, 2);\n});\n\n$(\"#remove1\").on(\"click\", function() {\n  $.observable(things).remove(1);\n});\n\n$(\"#clear\").on(\"click\", function() {\n  $(\"#messages\").empty();\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$.observe(things, changeHandler);\n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) removed at index: \" + eventArgs.index;\n  $(\"#messages\").append(message + \"<br/>\");\n}",
-        "html": "<div class=\"left\">\n  <button id=\"remove0\">Remove 2 items at 0</button>\n  <button id=\"remove1\">Remove item 1</button><br/><br/>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label> <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>",
+        "code": "var things = [\n  {id: \"item1\"},\n  {id: \"item2\"},\n  {id: \"item3\"},\n  {id: \"item4\"}\n];\n\n$(\"#remove0\").on(\"click\", function() {\n  $.observable(things).remove(0, 2);\n});\n\n$(\"#remove1\").on(\"click\", function() {\n  $.observable(things).remove(1);\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$.observe(things, changeHandler);\n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) removed at index: \" + eventArgs.index;\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "html": "<div class=\"left\">\n  <button id=\"remove0\">Remove 2 items at 0</button>\n  <button id=\"remove1\">Remove item 1</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Changes:</label>\n  <div class=\"messages\"></div>\n</div>",
         "height": "150",
         "title": ""
       }
@@ -765,8 +765,8 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "$.observable(things).refresh(\n  (things.length === 5 ? otherItems : items)\n);\n"
           }
         ],
-        "code": "var items = [\n    {id: \"item1\"},\n    {id: \"item2\"},\n    {id: \"item3\"},\n    {id: \"item4\"},\n    {id: \"item5\"}\n  ],\n  otherItems = [\n    {id: \"otherItem1\"},\n    {id: \"otherItem2\"},\n    {id: \"otherItem3\"}\n  ],\n  things = [\n    items[0],\n    items[1],\n    items[2],\n    items[3],\n    items[4]\n  ];\n\n$(\"#sort\").on(\"click\", function() {\n  $.observable(things).refresh(\n    things.reverse()\n  );\n});\n\n$(\"#replace\").on(\"click\", function() {\n  $.observable(things).refresh(\n    (things.length === 5 ? otherItems : items)\n  );\n});\n\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$([things]).on(\"arrayChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"Previous length: \" + eventArgs.oldItems.length\n     + \". New length: \" + ev.target.length;\n\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
-        "html": "<div class=\"left\">\n  <button id=\"sort\">Reverse sort the items</button><br/>\n  <button id=\"replace\">Replace the items</button><br/><br/>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Changes:</label> <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>",
+        "code": "var items = [\n    {id: \"item1\"},\n    {id: \"item2\"},\n    {id: \"item3\"},\n    {id: \"item4\"},\n    {id: \"item5\"}\n  ],\n  otherItems = [\n    {id: \"otherItem1\"},\n    {id: \"otherItem2\"},\n    {id: \"otherItem3\"}\n  ],\n  things = [\n    items[0],\n    items[1],\n    items[2],\n    items[3],\n    items[4]\n  ];\n\n$(\"#sort\").on(\"click\", function() {\n  $.observable(things).refresh(\n    things.reverse()\n  );\n});\n\n$(\"#replace\").on(\"click\", function() {\n  $.observable(things).refresh(\n    (things.length === 5 ? otherItems : items)\n  );\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$([things]).on(\"arrayChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"Previous length: \" + eventArgs.oldItems.length\n     + \". New length: \" + ev.target.length;\n\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "html": "<div class=\"left\">\n  <button id=\"sort\">Reverse sort the items</button><br/>\n  <button id=\"replace\">Replace the items</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Changes:</label>\n  <div class=\"messages\"></div>\n</div>",
         "height": "200",
         "title": ""
       }
@@ -870,8 +870,8 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "$.observable(things).move(0, 1, 2);"
           }
         ],
-        "code": "var things = [\n  {id: \"item1\"},\n  {id: \"item2\"},\n  {id: \"item3\"},\n  {id: \"item4\"},\n  {id: \"item5\"}\n];\n\n$(\"#move1\").on(\"click\", function() {\n  $.observable(things).move(2, 0);\n});\n\n$(\"#move2\").on(\"click\", function() {\n  $.observable(things).move(0, 3, 2);\n});\n\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$([things]).on(\"arrayChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) moved from index: \"\n  + eventArgs.oldIndex + \" to index: \" + eventArgs.index;\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
-        "html": "<div class=\"left\">\n  <button id=\"move1\">Move 1 item at from 2 to 0</button><br/>\n  <button id=\"move2\">Move 2 items from 0 to 3</button><br/><br/>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Changes:</label> <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>",
+        "code": "var things = [\n  {id: \"item1\"},\n  {id: \"item2\"},\n  {id: \"item3\"},\n  {id: \"item4\"},\n  {id: \"item5\"}\n];\n\n$(\"#move1\").on(\"click\", function() {\n  $.observable(things).move(2, 0);\n});\n\n$(\"#move2\").on(\"click\", function() {\n  $.observable(things).move(0, 3, 2);\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$([things]).on(\"arrayChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) moved from index: \"\n  + eventArgs.oldIndex + \" to index: \" + eventArgs.index;\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "html": "<div class=\"left\">\n  <button id=\"move1\">Move 1 item at from 2 to 0</button><br/>\n  <button id=\"move2\">Move 2 items from 0 to 3</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Changes:</label>\n  <div class=\"messages\"></div>\n</div>",
         "height": "200",
         "title": ""
       }
@@ -1002,8 +1002,8 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "function changeHandler(ev, eventArgs) {\n  var message = ... + eventArgs.path + ... + eventArgs.value ...;\n  ...\n}"
           }
         ],
-        "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St\"\n    }\n  );\n\n});\n\n$(\"#revert\").on(\"click\", function() {\n\n  $.observable(person).setProperty(\n    {\n      name: \"Pete\",\n      \"address.street\": \"1st Ave.\"\n    }\n  );\n\n});\n\n$(\"#clear\").on(\"click\", function() {\n  $(\"#messages\").empty();\n});\n\nvar tmpl = $.templates(\n   \"Name: <input data-link=\\\"name\\\" />\"\n + \"Street: <input data-link=\\\"address.street\\\" />\"\n);\n\ntmpl.link(\"#result\", person);\n\n$(person).on(\"propertyChange\", changeHandler); \n\n$(person.address).on(\"propertyChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n\n  var message = \"The new '\" + eventArgs.path + \"' is '\"\n                  + eventArgs.value + \"'.\";\n\n  $(\"#messages\").append(message + \"<br/>\");\n}",
-        "html": "<div class=\"left\">\n  <button id=\"modify\">set to new values</button>\n  <button id=\"revert\">set back to original values</button><br/><br/>\n\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label> <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>",
+        "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  }\n};\n\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty(\n    {\n      name: \"Hermione\",\n      \"address.street\": \"Main St\"\n    }\n  );\n});\n\n$(\"#revert\").on(\"click\", function() {\n  $.observable(person).setProperty(\n    {\n      name: \"Pete\",\n      \"address.street\": \"1st Ave.\"\n    }\n  );\n});\n\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\nvar tmpl = $.templates(\n   \"Name: <input data-link=\\\"name\\\" /><br/>\"\n + \"Street: <input data-link=\\\"address.street\\\" />\"\n);\n\ntmpl.link(\"#result\", person);\n\n$(person).on(\"propertyChange\", changeHandler); \n\n$(person.address).on(\"propertyChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"The new '\" + eventArgs.path + \"' is '\"\n                  + eventArgs.value + \"'.\";\n\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "html": "<div class=\"left\">\n  <button id=\"modify\">set to new values</button><br/>\n  <button id=\"revert\">set back to original values</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>",
         "height": "200",
         "title": "Handling property change events"
       }

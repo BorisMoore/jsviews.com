@@ -2929,7 +2929,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "markup": "This is the title:{{boldp title /}}"
           }
         ],
-        "title": "Simple custom tag using just a function",
+        "title": "1 - Simple custom tag using just a function",
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  This is the title:{{boldp title /}}\n</script>",
         "code": "function renderBoldP(value) {\n   return \"<p><b>\" + value + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
@@ -2972,7 +2972,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "return \"<p><b>\" + this.tagCtx.render() + \"</b></p>\";\n"
           }
         ],
-        "title": "Rendering block content from a custom tag function",
+        "title": "2 - Rendering block content from a custom tag function",
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    <p>This is inside our block content:</p>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
         "code": "function renderBoldP() {\n   return \"<p><b>\" + this.tagCtx.render() + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
@@ -3058,13 +3058,18 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "$.views.tags(\"range\", function(array) {\n  var ret = \"\",\n    start = this.tagCtx.props.start,\n    end = this.tagCtx.props.end;\n  for (var i = start; i <= end; i++) {\n    // Render tag content, for this data item\n    ret += this.tagCtx.render(array[i]);\n  }\n  return ret;\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><b>{{:title}}</b></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
         "height": "120",
-        "title": "Accessing tagCtx properties from the tag render function",
+        "title": "3 - Accessing tagCtx properties from the tag render function",
         "onlyJsRender": true
       },
       {
         "_type": "para",
         "title": "Using a tag template instead of a render function",
-        "text": "If the tag definition includes a template, but no render method, then the template will be used to render the tag. Let's re-implement all three examples above using custom tags which use templates instead of render functions."
+        "text": "If the tag definition includes a template, but no render method, then the template will be used to render the tag."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Let's re-implement all three examples above using custom tags which use templates instead of render functions."
       },
       {
         "_type": "sample",
@@ -3100,7 +3105,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "code": "$.views.tags(\"boldp\", {\n  template: \"<p><b>{{:~tag.tagCtx.args[0]}}</b></p>\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp title /}}\n</script>",
-        "title": "Simple custom tag using just a template",
+        "title": "1b - Simple custom tag using just a template",
         "height": "60",
         "onlyJsRender": true
       },
@@ -3123,7 +3128,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "code",
             "title": "",
-            "code": "template: \"<p><b>{{include tmpl=#~tag.tagCtx.content/}}</b></p>\""
+            "code": "template: \"<p><b>{{include tmpl=~tag.tagCtx.content/}}</b></p>\""
           },
           {
             "_type": "para",
@@ -3133,13 +3138,13 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "(It is also made available as a <em>content</em> property on the <em>view</em> object - and can be accessed from within a template using <em>#content</em> - which is an example of a <em>view path</em> - equivalent to <em>#view.content</em>.)"
+            "text": "It is also made available as a <em>content</em> property on the <em>view</em> object - and can be accessed from within a template using <em>#content</em> - which is an example of a <em>view path</em> - equivalent to <em>#view.content</em>. You can try out that alternative syntax by choosing <em>Try it</em> and changing the template above to <em>\"&lt;p>&lt;b>{{include tmpl=#content/}}&lt;/b>&lt;/p>\"</em>."
           }
         ],
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    <p>This is the title:</p>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
         "code": "$.views.tags(\"boldp\", {\n  template: \"<p><b>{{include tmpl=~tag.tagCtx.content/}}</b></p>\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
-        "title": "Rendering block content from a custom tag template"
+        "title": "2b - Rendering block content from a custom tag template"
       },
       {
         "_type": "para",
@@ -3186,7 +3191,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><b>{{:title}}</b></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
         "code": "$.views.tags(\"range\", {\n  template: \n    \"{{for ~tag.tagCtx.args[0]}}\" +\n      \"{{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\" +\n        \"{{include tmpl=~tag.tagCtx.content/}}\" +\n      \"{{/if}}\" +\n    \"{{/for}}\"\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "120",
-        "title": " Accessing more context from the tag template",
+        "title": " 3b - Accessing more context from the tag template",
         "onlyJsRender": true
       },
       {

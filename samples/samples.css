@@ -98,6 +98,10 @@ button {
 	margin-right: 20px;
 }
 
+.left > #result {
+	margin-top: 7px;
+}
+
 .logBox .clear {
 	float: right;
 	margin: -3px -3px 5px 0 
