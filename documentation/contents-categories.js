@@ -267,7 +267,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     "expanded": true
   },
   {
-    "hidden": true,
     "name": "explore",
     "label": "Explore",
     "heading": "Concepts and Tutorials",
@@ -283,19 +282,23 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "name": "ajax",
-            "label": "Ajax requests"
+            "label": "Ajax requests",
+            "hidden": true
           },
           {
             "name": "observabledata",
-            "label": "Observable data"
+            "label": "Observable data",
+            "hidden": true
           },
           {
             "name": "computed",
-            "label": "Computed observables"
+            "label": "Computed observables",
+            "hidden": true
           },
           {
             "name": "dependencies",
-            "label": "Declaring dependencies"
+            "label": "Declaring dependencies",
+            "hidden": true
           }
         ],
         "expanded": true
@@ -313,7 +316,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Migrating from jQuery Templates"
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "views",
@@ -324,7 +328,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "View hierarchy"
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "renderorlink",
@@ -347,7 +352,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Inline tag binding"
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "helpers",
@@ -366,7 +372,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Helper paths"
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "converters",
@@ -393,7 +400,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "expanded": true
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "customtags",
@@ -408,7 +416,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Custom tags as controls"
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "tagexpressions",
@@ -435,11 +444,13 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "View paths"
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "linkobservedispose",
-        "label": "Linking, observing, disposing"
+        "label": "Linking, observing, disposing",
+        "hidden": true
       },
       {
         "name": "tag-controls",
@@ -458,11 +469,13 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Tag methods and properties"
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "mvvm-mvp",
-        "label": "MVVM and MVP"
+        "label": "MVVM and MVP",
+        "hidden": true
       },
       {
         "name": "interop",
@@ -481,7 +494,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Choosing delimiters"
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       }
     ],
     "expanded": true

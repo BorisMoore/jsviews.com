@@ -5108,7 +5108,7 @@ test("MVVM", function() {
 
 	Phone.prototype = phoneProto;
 
-	var person = new Person("pete", new Address("1stAve"), []),
+	var person = new Person("pete", new Address("1st Ave"), []),
 		message = '',
 		ret = '',
 		input,
@@ -5131,12 +5131,12 @@ test("MVVM", function() {
 	$("#result").empty();
 
 	// ............................... Assert .................................
-	equal(ret, "|1stAve/1stAve--InputStreet/InputStreet--oldAddressChgStreet/oldAddressChgStreet--newAddressStreet/newAddressStreet--newAddressChgStreet/newAddressChgStreet",
+	equal(ret, "|1st Ave/1st Ave--InputStreet/InputStreet--oldAddressChgStreet/oldAddressChgStreet--newAddressStreet/newAddressStreet--newAddressChgStreet/newAddressChgStreet",
 		"Paths with computed/getters: address()^street() - Swapping object higher in path then updating leaf getter, works correctly");
 
 	// =============================== Arrange ===============================
 
-	person = new Person("pete", new Address("1stAve"), []);
+	person = new Person("pete", new Address("1st Ave"), []);
 
 	// ................................ Act ..................................
 	ret = "";
@@ -5156,12 +5156,12 @@ test("MVVM", function() {
 	$("#result").empty();
 
 	// ............................... Assert .................................
-	equal(ret, "|1stAve/1stAve--InputStreet/InputStreet--oldAddressChgStreet/oldAddressChgStreet--newAddressStreet/newAddressStreet--newAddressChgStreet/newAddressChgStreet",
+	equal(ret, "|1st Ave/1st Ave--InputStreet/InputStreet--oldAddressChgStreet/oldAddressChgStreet--newAddressStreet/newAddressStreet--newAddressChgStreet/newAddressChgStreet",
 		"Paths with computed/getters: address().street() - Paths with computed/getter followed by '.' still update preceding getter"
 		+ "- same as if there was a '^' separator");
 	// =============================== Arrange ===============================
 
-	person = new Person("pete", new Address("1stAve"), [new Phone({number: "phone1"}), new Phone({number:"phone2"})]);
+	person = new Person("pete", new Address("1st Ave"), [new Phone({number: "phone1"}), new Phone({number:"phone2"})]);
 
 	// ................................ Act ..................................
 	ret = "";
@@ -5189,7 +5189,7 @@ test("MVVM", function() {
 		+ " " + $._data(person.address()).events.propertyChange.length + "|";
 
 	// ............................... Assert .................................
-	equal(message, '{\"change\":\"set\",\"path\":\"street\",\"value\":\"InputStreet\",\"oldValue\":\"1stAve\"}\n\
+	equal(message, '{\"change\":\"set\",\"path\":\"street\",\"value\":\"InputStreet\",\"oldValue\":\"1st Ave\"}\n\
 {\"change\":\"set\",\"path\":\"street\",\"value\":\"oldAddressChgStreet\",\"oldValue\":\"InputStreet\"}\n\
 {\"change\":\"set\",\"path\":\"address\",\"value\":{\"_street\":\"newAddressStreet\"},\"oldValue\":{\"_street\":\"oldAddressChgStreet\"}}\n\
 {\"change\":\"set\",\"path\":\"street\",\"value\":\"newAddressChgStreet\",\"oldValue\":\"newAddressStreet\"}\n',
@@ -5235,7 +5235,7 @@ test("MVVM", function() {
 
 	getResult = function(sep){ret += (sep || "|") + $("#result").text();};
 
-	person = new Person("pete", new Address("1stAve"), [new Phone({number: "phone1"}), new Phone({number:"phone2"})]);
+	person = new Person("pete", new Address("1st Ave"), [new Phone({number: "phone1"}), new Phone({number:"phone2"})]);
 
 	// ................................ Act ..................................
 	ret = "";
@@ -5278,7 +5278,7 @@ test("MVVM", function() {
 		"Array operations with getters allow complete functionality, and track the modified tree at all times");
 	// =============================== Arrange ===============================
 
-	person = new Person("pete", new Address("1stAve"), [new Phone({number: "phone1"}), new Phone({number:"phone2"})]);
+	person = new Person("pete", new Address("1st Ave"), [new Phone({number: "phone1"}), new Phone({number:"phone2"})]);
 
 	// ................................ Act ..................................
 	ret = "";
