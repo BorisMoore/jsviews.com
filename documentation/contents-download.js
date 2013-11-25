@@ -188,7 +188,7 @@ content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsVie
       {
         "_type": "para",
         "title": "<b>{{range/}}</b>:",
-        "text": "<ul>\n  <li><a href=\"download/sample-tag-controls/range/range.js\">range.js</a> used in the\n    <a href=\"#samples/tag-controls/range\">range</a> sample\n  </li>\n</ul>"
+        "text": "<ul>\n  <li><a href=\"download/sample-tag-controls/range/range.js\">range.js</a> used in the\n    <a href=\"#samples/jsr/tags/extend-for\">extending for</a> JsRender sample and the <a href=\"#samples/tag-controls/range\">range</a> JsViews sample\n  </li>\n</ul>"
       }
     ]
   }

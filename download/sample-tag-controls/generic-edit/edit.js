@@ -77,11 +77,6 @@ $.views.tags({
     onUpdate: function(ev, eventArgs, tagCtxs) {
       return false; // don't rerender
     },
-    //onBeforeChange: function(ev, val) {
-    //}
-    //onChange: function(val) {
-    //  return val;
-    //},
     dataBoundOnly: true
   }
 });

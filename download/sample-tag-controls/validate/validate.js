@@ -108,14 +108,14 @@ $.views.tags({
       this.clearMessage();
       return false; // don't rerender
     },
-    onBeforeChange: function(ev, val) {
+    onBeforeChange: function(ev, eventArgs) {
       if (this.preventInvalidData) {
-        this.validate(val);
+        this.validate(eventArgs.value);
         return this.isValid;
         // Allow data to be updated to invalid values - unless preventInvalidData set to true
       }
     },
-    onDispose: function(ev, eventArgs, tagCtxs) {
+    onDispose: function() {
       if (this.validationGroup) {
         this.validationGroup.removeChild(this);
       }

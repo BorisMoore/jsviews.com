@@ -46,11 +46,8 @@ $.views.tags({
       return false; // return false so as not to re-render every time.
       // Here we don't need to render, so return false for better perf.
     },
-    //onBeforeChange: function(ev, val) {
+    //onBeforeChange: function(ev, eventArgs) {
     //  return true; // return false to cancel change
-    //},
-    //onChange: function(val) {
-    //  return val;
     //},
     setValue: function(value) {
       if (value !== undefined && value !== this.value) {

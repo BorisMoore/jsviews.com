@@ -553,6 +553,16 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "path": "",
     "sections": [
       {
+        "_type": "para",
+        "title": "",
+        "text": "This sample shows a custom tag: <em>{{range}}</em> - extending the <em>{{for}}</em> tag, used with JsRender (code: <a href=\"download/sample-tag-controls/range/range.js\">range.js</a>)."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "(See also the <a href=\"#samples/tag-controls/range\">tag-controls/range</a> sample - which uses the same tag with JsViews, as a data-linked custom tag control)."
+      },
+      {
         "_type": "sample",
         "typeLabel": "Sample:",
         "sectionTypes": {
@@ -584,7 +594,14 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "code": "$.views.tags({\n  range: $.extend(true, {}, $.views.tags[\"for\"], {\n    render: function(val) {\n      ...\n      return $.views.tags[\"for\"].render.apply(this, val ? [val] : arguments);\n    }\n  })\n});\n"
           }
         ],
-        "codetabs": [],
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/range/range.js",
+            "label": "range.js"
+          }
+        ],
         "sampleName": "jsrender/tags/extend-for",
         "url": "samples/jsrender/tags/extend-for/sample",
         "height": "530",
@@ -4406,7 +4423,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "We use the <em>{{range}}</em> to create a drop-down to select an integer between 1 and 10 as the <em>start</em> integer (...and similarly for the <em>end</em> integer)."
+            "text": "We use the <em>{{range}}</em> custom tag to create a drop-down to select an integer between 1 and 10 as the <em>start</em> integer (...and similarly for the <em>end</em> integer)."
           },
           {
             "_type": "template",
@@ -4416,7 +4433,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "Then we again use the <em>{{range}}</em> to show a partial list of team members."
+            "text": "Then we again use the <em>{{range}}</em> tag to show a partial list of team members."
           },
           {
             "_type": "para",

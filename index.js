@@ -384,11 +384,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 							header: header,
 							code: content
 						};
-						$.each(codetabs, function(index, tab) {
-							$.get(tab.url, function(content) {
-								self.tryItData['c' + index] = self.sampleData['c' + index] = content
-							}, "text");
-						});
+						codetabs && self.loadTabs(codetabs);
 					}, "text");
 				} else {
 					loadScript(data);
@@ -404,8 +400,17 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 						html: data.html,
 						code: data.code
 					};
+					codetabs && self.loadTabs(codetabs);
 				}
 			};
+		},
+		loadTabs: function(codetabs) {
+			var self = this;
+			$.each(codetabs, function(index, tab) {
+				$.get(tab.url, function(content) {
+					self.tryItData['c' + index] = self.sampleData['c' + index] = content
+				}, "text");
+			});
 		},
 		template: "<iframe src=\"{{attr:url||'samples/iframeDefault'}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}px;\"></iframe>",
 		onBeforeLink: function() {
