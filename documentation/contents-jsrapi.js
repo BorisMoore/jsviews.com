@@ -1047,7 +1047,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "topics": [
           {
             "_type": "topic",
-            "hash": "tags()",
+            "hash": "tags",
             "label": "API: $.views.tags()"
           },
           {
@@ -1086,7 +1086,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "There are three ways of calling the <em>render()</em> method:\n<ul class=\"textbefore\"><li>If you have a reference to the <em>template object</em>, call <a href=\"#tmplrender\"><em>template.render(...)</em></a></li>\n<li>If you have a registered the template by name (<em>\"myTmpl\"</em>), call <a href=\"#$render\"><em>$.render.myTmpl(...)</em></a></li>\n<li>If the template is declared in a script block, with selector <em>\"#myTmpl\"</em>, you can also call <a href=\"#$()render\"><em>$(\"#myTmpl\").render(...)</em></a></li></ul>"
+        "text": "There are three ways of calling the <em>render()</em> method:\n<ul class=\"textbefore\"><li>If you have a reference to the <em>template object</em>, call <a href=\"#tmplrender\"><em>template.render(...)</em></a></li>\n<li>If you have a registered the template by name (<em>\"myTmpl\"</em>), call <a href=\"#d.render\"><em>$.render.myTmpl(...)</em></a></li>\n<li>If the template is declared in a script block, with selector <em>\"#myTmpl\"</em>, you can also call <a href=\"#db.render\"><em>$(\"#myTmpl\").render(...)</em></a></li></ul>"
       },
       {
         "_type": "links",
@@ -1098,11 +1098,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "template.render()"
           },
           {
-            "hash": "$render",
+            "hash": "d.render",
             "label": "$.render.myTmpl()"
           },
           {
-            "hash": "$()render",
+            "hash": "db.render",
             "label": "$(\"#myTmpl\").render()"
           }
         ]
@@ -1341,7 +1341,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       }
     ]
   },
-  "$render": {
+  "d.render": {
     "title": "Rendering a named template without needing the template object",
     "path": "",
     "sections": [
@@ -1358,7 +1358,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "...then you can call the <a href=\"#tmplrender\"><em>render()</em></a> method of the template without needing to hold on to the compiled template object returned from <a href=\"#$templates\"><em>$.templates(...)</em></a>."
+        "text": "...then you can call the <a href=\"#tmplrender\"><em>render()</em></a> method of the template without needing to hold on to the compiled template object returned from <a href=\"#d.templates\"><em>$.templates(...)</em></a>."
       },
       {
         "_type": "para",
@@ -1456,7 +1456,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       }
     ]
   },
-  "$()render": {
+  "db.render": {
     "title": "jQuery instance method to render a template declared in a script block",
     "path": "",
     "sections": [
@@ -1473,7 +1473,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "...then you can call the <a href=\"#tmplrender\"><em>render()</em></a> method of the template without needing to hold on to the compiled template object returned from <a href=\"#$templates\"><em>$.templates(...)</em></a>."
+        "text": "...then you can call the <a href=\"#tmplrender\"><em>render()</em></a> method of the template without needing to hold on to the compiled template object returned from <a href=\"#d.templates\"><em>$.templates(...)</em></a>."
       },
       {
         "_type": "para",
@@ -1582,7 +1582,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "There are two ways to create a template:\n<ul class=\"textbefore\"><li>Pass the markup string to the <a href=\"#$templates\"><em>$.templates()</em></a> method, which will compile it as a template object, and optionally register it by name</li>\n<li>Declare the template in a script block with <em>type=\"text/x-jsrender\"</em> (or at least a type other than the default <em>text/javascript</em>). In that case JsRender will automatically call <em>$.templates()</em>. You will only need to call it yourself if you want to access the <em>template object</em></li></ul>"
+        "text": "There are two ways to create a template:\n<ul class=\"textbefore\"><li>Pass the markup string to the <a href=\"#d.templates\"><em>$.templates()</em></a> method, which will compile it as a template object, and optionally register it by name</li>\n<li>Declare the template in a script block with <em>type=\"text/x-jsrender\"</em> (or at least a type other than the default <em>text/javascript</em>). In that case JsRender will automatically call <em>$.templates()</em>. You will only need to call it yourself if you want to access the <em>template object</em></li></ul>"
       },
       {
         "_type": "para",
@@ -1618,7 +1618,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "We load the script from the server, and it registers our template. As soon as the script is loaded, we call the <a href=\"#$render\"><em>render(...)</em></a> method for our template:"
+            "text": "We load the script from the server, and it registers our template. As soon as the script is loaded, we call the <a href=\"#d.render\"><em>render(...)</em></a> method for our template:"
           },
           {
             "_type": "code",
@@ -1711,7 +1711,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "Then in the code we call the <a href=\"#$templates\"><em>$.templates</em></a> method with a jQuery selector for that script block, to register our template as a named template. (We could also hold on to the template object, which is the returned value...)  "
+            "text": "Then in the code we call the <a href=\"#d.templates\"><em>$.templates</em></a> method with a jQuery selector for that script block, to register our template as a named template. (We could also hold on to the template object, which is the returned value...)  "
           },
           {
             "_type": "code",
@@ -1741,14 +1741,14 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "links": [],
         "topics": [
           {
-            "hash": "$templates",
+            "hash": "d.templates",
             "label": "$.templates()"
           }
         ]
       }
     ]
   },
-  "$templates": {
+  "d.templates": {
     "title": "Registering templates: $.templates()",
     "path": "",
     "sections": [
@@ -2005,7 +2005,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Note that as an alternative you can register resources (<em>helpers</em>, <em>converters</em>, <em>custom tags</em> or <em>templates</em>) globally, using <a href=\"#helpers()\"><em>$.views.helpers()</em></a>, <a href=\"#converters()\"><em>$.views.converters()</em></a>, <a href=\"#tags()\"><em>$.views.tags()</em></a>, or <a href=\"#$templates\"><em>$.templates()</em></a> - rather than making them private to the template that needs to reference them."
+        "text": "Note that as an alternative you can register resources (<em>helpers</em>, <em>converters</em>, <em>custom tags</em> or <em>templates</em>) globally, using <a href=\"#helpers\"><em>$.views.helpers</em></a>, <a href=\"#converters\"><em>$.views.converters()</em></a>, <a href=\"#tags\"><em>$.views.tags()</em></a>, or <a href=\"#d.templates\"><em>$.templates()</em></a> - rather than making them private to the template that needs to reference them."
       },
       {
         "_type": "api",
@@ -2196,22 +2196,22 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "links": [],
         "topics": [
           {
-            "hash": "converters()",
+            "hash": "converters",
             "label": "$.views.converters()"
           },
           {
-            "hash": "tags()",
+            "hash": "tags",
             "label": "$.views.tags()"
           },
           {
-            "hash": "helpers()",
+            "hash": "helpers",
             "label": "$.views.helpers()"
           }
         ]
       }
     ]
   },
-  "converters()": {
+  "converters": {
     "title": "Registering converters: $.views.converters()",
     "path": "",
     "sections": [
@@ -2447,22 +2447,22 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "links": [],
         "topics": [
           {
-            "hash": "html()",
+            "hash": "html",
             "label": "$.views.converters.html()"
           },
           {
-            "hash": "attr()",
+            "hash": "attr",
             "label": "$.views.converters.attr()"
           },
           {
-            "hash": "url()",
+            "hash": "url",
             "label": "$.views.converters.url()"
           }
         ]
       }
     ]
   },
-  "html()": {
+  "html": {
     "title": "$.views.converters.html()",
     "path": "",
     "sections": [
@@ -2574,7 +2574,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       }
     ]
   },
-  "attr()": {
+  "attr": {
     "title": "$.views.converters.attr()",
     "path": "",
     "sections": [
@@ -2681,7 +2681,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       }
     ]
   },
-  "url()": {
+  "url": {
     "title": "$.views.converters.url()",
     "path": "",
     "sections": [
@@ -2783,7 +2783,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       }
     ]
   },
-  "tags()": {
+  "tags": {
     "title": "Registering custom tags: $.views.tags()",
     "path": "",
     "sections": [
@@ -3345,7 +3345,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       }
     ]
   },
-  "helpers()": {
+  "helpers": {
     "title": "Registering helpers: $.views.helpers()",
     "path": "",
     "sections": [

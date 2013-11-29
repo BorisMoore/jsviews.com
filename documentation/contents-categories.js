@@ -498,7 +498,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "hidden": true
   },
   {
     "name": "jsrapi",
@@ -554,11 +555,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "template.render()"
           },
           {
-            "name": "$render",
+            "name": "d.render",
             "label": "$.render.myTmpl()"
           },
           {
-            "name": "$()render",
+            "name": "db.render",
             "label": "$(\"#myTmpl\").render()"
           }
         ],
@@ -569,7 +570,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "Compile/register/get a template",
         "categories": [
           {
-            "name": "$templates",
+            "name": "d.templates",
             "label": "$.templates()"
           }
         ],
@@ -580,30 +581,30 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "Register helpers, converters, tags...",
         "categories": [
           {
-            "name": "converters()",
+            "name": "converters",
             "label": "$.views.converters()",
             "categories": [
               {
-                "name": "html()",
+                "name": "html",
                 "label": "$.views.converters.html()"
               },
               {
-                "name": "attr()",
+                "name": "attr",
                 "label": "$.views.converters.attr()"
               },
               {
-                "name": "url()",
+                "name": "url",
                 "label": "$.views.converters.url()"
               }
             ],
             "expanded": true
           },
           {
-            "name": "tags()",
+            "name": "tags",
             "label": "$.views.tags()"
           },
           {
-            "name": "helpers()",
+            "name": "helpers",
             "label": "$.views.helpers()"
           }
         ],
@@ -706,11 +707,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "template.link()"
           },
           {
-            "name": "jsv$link",
+            "name": "jsv.d.link",
             "label": "$.link()"
           },
           {
-            "name": "jsv$()link",
+            "name": "jsv.db.link",
             "label": "$(...).link()"
           }
         ],
@@ -726,11 +727,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "template.unlink()"
           },
           {
-            "name": "jsv$unlink",
+            "name": "jsv.d.unlink",
             "label": "$.unlink()"
           },
           {
-            "name": "jsv$()unlink",
+            "name": "jsv.db.unlink",
             "label": "$(...).unlink()"
           }
         ],
@@ -742,11 +743,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "Access views",
         "categories": [
           {
-            "name": "jsv$view",
+            "name": "jsv.d.view",
             "label": "$.view()"
           },
           {
-            "name": "jsv$()view()",
+            "name": "jsv.db.view",
             "label": "$(...).view()"
           }
         ],
@@ -764,16 +765,16 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "Register helpers, converters, tags...",
         "categories": [
           {
-            "name": "jsvconverters()",
+            "name": "jsvconverters",
             "label": "$.views.converters()",
             "expanded": true
           },
           {
-            "name": "jsvtags()",
+            "name": "jsvtags",
             "label": "$.views.tags()"
           },
           {
-            "name": "jsvhelpers()",
+            "name": "jsvhelpers",
             "label": "$.views.helpers()"
           }
         ],

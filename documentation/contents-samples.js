@@ -387,7 +387,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "Now <em>\"columnTemplate\"</em> is a named template available only to the <em>\"movieTemplate\"</em>. (See <a href=\"#$templates\">$.templates()</a>)."
+            "text": "Now <em>\"columnTemplate\"</em> is a named template available only to the <em>\"movieTemplate\"</em>. (See <a href=\"#d.templates\">$.templates()</a>)."
           },
           {
             "_type": "template",
@@ -431,7 +431,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "(Note we could also have provided the templates via helper objects registered globally with <em><a href=\"#helpers()\">$.views.helpers(...)</a></em>)."
+            "text": "(Note we could also have provided the templates via helper objects registered globally with <em><a href=\"#helpers\">$.views.helpers(...)</a></em>)."
           },
           {
             "_type": "code",
@@ -698,7 +698,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "For more information about helpers, see the <a href=\"#helpers()\">$.views.helpers()</a> API topic."
+            "text": "For more information about helpers, see the <a href=\"#helpers\">$.views.helpers()</a> API topic."
           },
           {
             "_type": "para",
@@ -3441,7 +3441,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "Notice that we declared our converters just for this <em>peopleTmpl</em>, by passing in the template as the last parameter.<br/> See <a href=\"#converters()\">Registering converters</a>."
+        "text": "Notice that we declared our converters just for this <em>peopleTmpl</em>, by passing in the template as the last parameter.<br/> See <a href=\"#converters\">Registering converters</a>."
       },
       {
         "_type": "para",

@@ -157,7 +157,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "... and then in the code we call the <a href=\"#$templates\"><em>$.templates</em></a> method with a jQuery selector for that script block, to get the compiled template."
+            "text": "... and then in the code we call the <a href=\"#d.templates\"><em>$.templates</em></a> method with a jQuery selector for that script block, to get the compiled template."
           },
           {
             "_type": "code",

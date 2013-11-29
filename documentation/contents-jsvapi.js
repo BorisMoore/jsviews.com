@@ -60,7 +60,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       }
     ]
   },
-  "jsvtags()": {
+  "jsvtags": {
     "title": "$.views.tags()",
     "path": "",
     "sections": []
@@ -90,11 +90,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "template.link()"
           },
           {
-            "hash": "jsv$link",
+            "hash": "jsv.d.link",
             "label": "$.link()"
           },
           {
-            "hash": "jsv$()link",
+            "hash": "jsv.db.link",
             "label": "$(...).link()"
           }
         ]
@@ -106,12 +106,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "path": "",
     "sections": []
   },
-  "jsv$link": {
+  "jsv.d.link": {
     "title": "$.link()",
     "path": "",
     "sections": []
   },
-  "jsv$()link": {
+  "jsv.db.link": {
     "title": "$(...).link()",
     "path": "",
     "sections": []
@@ -130,11 +130,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "template.unlink()"
           },
           {
-            "hash": "jsv$unlink",
+            "hash": "jsv.d.unlink",
             "label": "$.unlink()"
           },
           {
-            "hash": "jsv$()unlink",
+            "hash": "jsv.db.unlink",
             "label": "$(...).unlink()"
           }
         ]
@@ -146,12 +146,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "path": "",
     "sections": []
   },
-  "jsv$unlink": {
+  "jsv.d.unlink": {
     "title": "$.unlink()",
     "path": "",
     "sections": []
   },
-  "jsv$()unlink": {
+  "jsv.db.unlink": {
     "title": "$(...).unlink()",
     "path": "",
     "sections": []
@@ -166,23 +166,23 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "links": [],
         "topics": [
           {
-            "hash": "jsv$view",
+            "hash": "jsv.d.view",
             "label": "$.view()"
           },
           {
-            "hash": "jsv$()view()",
+            "hash": "jsv.db.view",
             "label": "$(...).view()"
           }
         ]
       }
     ]
   },
-  "jsv$view": {
+  "jsv.d.view": {
     "title": "$.view()",
     "path": "",
     "sections": []
   },
-  "jsv$()view()": {
+  "jsv.db.view": {
     "title": "$(...).view()",
     "path": "",
     "sections": []
@@ -202,22 +202,22 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "links": [],
         "topics": [
           {
-            "hash": "jsvconverters()",
+            "hash": "jsvconverters",
             "label": "$.views.converters()"
           },
           {
-            "hash": "jsvtags()",
+            "hash": "jsvtags",
             "label": "$.views.tags()"
           },
           {
-            "hash": "jsvhelpers()",
+            "hash": "jsvhelpers",
             "label": "$.views.helpers()"
           }
         ]
       }
     ]
   },
-  "jsvconverters()": {
+  "jsvconverters": {
     "title": "$.views.converters()",
     "path": "",
     "sections": []
@@ -292,7 +292,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       }
     ]
   },
-  "jsvhelpers()": {
+  "jsvhelpers": {
     "title": "$.views.helpers()",
     "path": "",
     "sections": []
