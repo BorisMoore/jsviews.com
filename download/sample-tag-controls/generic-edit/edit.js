@@ -51,7 +51,7 @@ $.views.tags({
                   addedView.contents("input")[0]._jsvBnd
                     = (tag._.inline ? tag._prv._jsvBnd : tag.linkedElem[0]._jsvBnd) + "+";
                   // Create cloned 'to-binding' for new radio button inputs.
-                  // Note: the "+" is added to ensure emoving elems (radio buttons)
+                  // Note: the "+" is added to ensure removing elems (radio buttons)
                   // with cloned bindings will not trigger unbinding of the 'parent'.
                 }
               }, arrayView.tmpl);

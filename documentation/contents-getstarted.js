@@ -281,27 +281,27 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "_type": "topic",
-            "hash": "data",
+            "hash": "explore/data",
             "label": "Data"
           },
           {
             "_type": "topic",
-            "hash": "templates",
+            "hash": "explore/templates",
             "label": "Templates"
           },
           {
             "_type": "topic",
-            "hash": "views",
+            "hash": "explore/views",
             "label": "Views"
           },
           {
             "_type": "topic",
-            "hash": "tagexpressions",
+            "hash": "explore/tagexpressions",
             "label": "Tag expressions"
           },
           {
             "_type": "topic",
-            "hash": "customtags",
+            "hash": "explore/customtags",
             "label": "Custom tags"
           },
           {
@@ -703,37 +703,37 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "_type": "topic",
-            "hash": "data",
+            "hash": "explore/data",
             "label": "Data"
           },
           {
             "_type": "topic",
-            "hash": "views",
+            "hash": "explore/views",
             "label": "Views"
           },
           {
             "_type": "topic",
-            "hash": "linkobservedispose",
+            "hash": "explore/linkobservedispose",
             "label": "Linking, observing, disposing"
           },
           {
             "_type": "topic",
-            "hash": "computed",
+            "hash": "explore/computed",
             "label": "Computed observables"
           },
           {
             "_type": "topic",
-            "hash": "dependencies",
+            "hash": "explore/dependencies",
             "label": "Declaring dependencies"
           },
           {
             "_type": "topic",
-            "hash": "tag-controls",
+            "hash": "explore/tag-controls",
             "label": "Tag Controls"
           },
           {
             "_type": "topic",
-            "hash": "mvvm-mvp",
+            "hash": "explore/mvvm-mvp",
             "label": "MVVM and MVP"
           },
           {

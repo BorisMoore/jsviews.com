@@ -1553,7 +1553,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "objectsorvm",
+            "hash": "explore/objectsorvm",
             "label": "Plain objects or View Model"
           }
         ]
@@ -1833,7 +1833,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "objectsorvm",
+            "hash": "explore/objectsorvm",
             "label": "Plain objects or View Model"
           }
         ]
@@ -2037,7 +2037,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "observeAll with View Model object hierarchies",
-        "text": "The <em>observeAll()</em> API works equally well with View Model objects or plain objects. See <a href=\"#objectsorvm\">plain objects or View Model</a>. At the end of that topic we show our <em>observeAll()</em> sample above, using View Model objects."
+        "text": "The <em>observeAll()</em> API works equally well with View Model objects or plain objects. See <a href=\"#explore/objectsorvm\">plain objects or View Model</a>. At the end of that topic we show our <em>observeAll()</em> sample above, using View Model objects."
       },
       {
         "_type": "links",
@@ -2056,7 +2056,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "objectsorvm",
+            "hash": "explore/objectsorvm",
             "label": "Plain objects or View Model"
           }
         ]
@@ -2191,7 +2191,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "unobserveAll with View Model object hierarchies",
-        "text": "The <em>unobserveAll()</em> API works equally well with View Model objects or plain objects. See <a href=\"#objectsorvm\">plain objects or View Model</a>. At the end of that topic we show our <em>unobserveAll()</em> sample above, using View Model objects."
+        "text": "The <em>unobserveAll()</em> API works equally well with View Model objects or plain objects. See <a href=\"#explore/objectsorvm\">plain objects or View Model</a>. At the end of that topic we show our <em>unobserveAll()</em> sample above, using View Model objects."
       },
       {
         "_type": "links",
@@ -2210,7 +2210,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "objectsorvm",
+            "hash": "explore/objectsorvm",
             "label": "Plain objects or View Model"
           }
         ]

@@ -273,30 +273,30 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     "description": "Getting a fuller understanding of JsRender, JsViews and JsObservable",
     "categories": [
       {
-        "name": "data",
+        "name": "explore/data",
         "label": "Data",
         "categories": [
           {
-            "name": "objectsorvm",
+            "name": "explore/objectsorvm",
             "label": "Plain objects or View Model"
           },
           {
-            "name": "ajax",
+            "name": "explore/ajax",
             "label": "Ajax requests",
             "hidden": true
           },
           {
-            "name": "observabledata",
+            "name": "explore/observabledata",
             "label": "Observable data",
             "hidden": true
           },
           {
-            "name": "computed",
+            "name": "explore/computed",
             "label": "Computed observables",
             "hidden": true
           },
           {
-            "name": "dependencies",
+            "name": "explore/dependencies",
             "label": "Declaring dependencies",
             "hidden": true
           }
@@ -304,15 +304,15 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       },
       {
-        "name": "templates",
+        "name": "explore/templates",
         "label": "Templates",
         "categories": [
           {
-            "name": "composition",
+            "name": "explore/composition",
             "label": "Composition"
           },
           {
-            "name": "jQueryTemplates",
+            "name": "explore/jQueryTemplates",
             "label": "Migrating from jQuery Templates"
           }
         ],
@@ -320,11 +320,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       },
       {
-        "name": "views",
+        "name": "explore/views",
         "label": "Views",
         "categories": [
           {
-            "name": "viewhierarchy",
+            "name": "explore/viewhierarchy",
             "label": "View hierarchy"
           }
         ],
@@ -332,23 +332,23 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       },
       {
-        "name": "renderorlink",
+        "name": "explore/renderorlink",
         "label": "Rendering versus linking",
         "categories": [
           {
-            "name": "renderasstring",
+            "name": "explore/renderasstring",
             "label": "String-based rendering"
           },
           {
-            "name": "linkingtohtml",
+            "name": "explore/linkingtohtml",
             "label": "Data-binding to HTML"
           },
           {
-            "name": "data-link",
+            "name": "explore/data-link",
             "label": "Element-based: data-link"
           },
           {
-            "name": "inlinebinding",
+            "name": "explore/inlinebinding",
             "label": "Inline tag binding"
           }
         ],
@@ -356,19 +356,19 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       },
       {
-        "name": "helpers",
+        "name": "explore/helpers",
         "label": "Providing helpers",
         "categories": [
           {
-            "name": "registerhelper",
+            "name": "explore/registerhelper",
             "label": "Registering helpers"
           },
           {
-            "name": "passhelper",
+            "name": "explore/passhelper",
             "label": "Passing in helpers"
           },
           {
-            "name": "helperpaths",
+            "name": "explore/helperpaths",
             "label": "Helper paths"
           }
         ],
@@ -376,24 +376,24 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       },
       {
-        "name": "converters",
+        "name": "explore/converters",
         "label": "Converters",
         "categories": [
           {
-            "name": "jsr-converter",
+            "name": "explore/jsr-converter",
             "label": "converters in JsRender",
             "expanded": true
           },
           {
-            "name": "jsv-converter",
+            "name": "explore/jsv-converter",
             "label": "converters in JsViews",
             "categories": [
               {
-                "name": "jsv-converter1way",
+                "name": "explore/jsv-converter1way",
                 "label": "one-way binding converter"
               },
               {
-                "name": "jsv-converterback",
+                "name": "explore/jsv-converterback",
                 "label": "2-way binding - convert back"
               }
             ],
@@ -404,15 +404,15 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       },
       {
-        "name": "customtags",
+        "name": "explore/customtags",
         "label": "Custom tags",
         "categories": [
           {
-            "name": "jsrcustomtags",
+            "name": "explore/jsrcustomtags",
             "label": "JsRender custom tags"
           },
           {
-            "name": "tagsascontrols",
+            "name": "explore/tagsascontrols",
             "label": "Custom tags as controls"
           }
         ],
@@ -420,27 +420,27 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       },
       {
-        "name": "tagexpressions",
+        "name": "explore/tagexpressions",
         "label": "Tag expressions",
         "categories": [
           {
-            "name": "allowcode",
+            "name": "explore/allowcode",
             "label": "Allow code?"
           },
           {
-            "name": "expressions",
+            "name": "explore/expressions",
             "label": "Expressions"
           },
           {
-            "name": "expressions/datapath",
+            "name": "explore/expressions/datapath",
             "label": "Data paths"
           },
           {
-            "name": "expressions/helperpath",
+            "name": "explore/expressions/helperpath",
             "label": "Helper paths"
           },
           {
-            "name": "expressions/viewpath",
+            "name": "explore/expressions/viewpath",
             "label": "View paths"
           }
         ],
@@ -448,24 +448,24 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       },
       {
-        "name": "linkobservedispose",
+        "name": "explore/linkobservedispose",
         "label": "Linking, observing, disposing",
         "hidden": true
       },
       {
-        "name": "tag-controls",
+        "name": "explore/tag-controls",
         "label": "Tag Controls",
         "categories": [
           {
-            "name": "taghierarchy",
+            "name": "explore/taghierarchy",
             "label": "Tag hierarchy"
           },
           {
-            "name": "taglifecycle",
+            "name": "explore/taglifecycle",
             "label": "Tag lifecycle"
           },
           {
-            "name": "tagmethods",
+            "name": "explore/tagmethods",
             "label": "Tag methods and properties"
           }
         ],
@@ -473,24 +473,24 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       },
       {
-        "name": "mvvm-mvp",
+        "name": "explore/mvvm-mvp",
         "label": "MVVM and MVP",
         "hidden": true
       },
       {
-        "name": "interop",
+        "name": "explore/interop",
         "label": "Using with other librairies",
         "categories": [
           {
-            "name": "nojquery",
+            "name": "explore/nojquery",
             "label": "JsRender without jQuery"
           },
           {
-            "name": "globalvars",
+            "name": "explore/globalvars",
             "label": "Global variables"
           },
           {
-            "name": "delimiters",
+            "name": "explore/delimiters",
             "label": "Choosing delimiters"
           }
         ],
@@ -498,8 +498,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       }
     ],
-    "expanded": true,
-    "hidden": true
+    "expanded": true
   },
   {
     "name": "jsrapi",

@@ -12,54 +12,54 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
-            "hash": "data",
+            "hash": "explore/data",
             "label": "Data"
           },
           {
-            "hash": "templates",
+            "hash": "explore/templates",
             "label": "Templates"
           },
           {
-            "hash": "views",
+            "hash": "explore/views",
             "label": "Views"
           },
           {
-            "hash": "renderorlink",
+            "hash": "explore/renderorlink",
             "label": "Rendering versus linking"
           },
           {
-            "hash": "helpers",
+            "hash": "explore/helpers",
             "label": "Providing helpers"
           },
           {
-            "hash": "converters",
+            "hash": "explore/converters",
             "label": "Converters"
           },
           {
-            "hash": "customtags",
+            "hash": "explore/customtags",
             "label": "Custom tags"
           },
           {
-            "hash": "tagexpressions",
+            "hash": "explore/tagexpressions",
             "label": "Tag expressions"
           },
           {
-            "hash": "linkobservedispose",
+            "hash": "explore/linkobservedispose",
             "label": "Linking, observing, disposing"
           },
           {
-            "hash": "tag-controls",
+            "hash": "explore/tag-controls",
             "label": "Tag Controls"
           },
           {
-            "hash": "mvvm-mvp",
+            "hash": "explore/mvvm-mvp",
             "label": "MVVM and MVP"
           }
         ]
       }
     ]
   },
-  "data": {
+  "explore/data": {
     "title": "Data",
     "path": "",
     "sections": [
@@ -69,30 +69,30 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
-            "hash": "objectsorvm",
+            "hash": "explore/objectsorvm",
             "label": "Plain objects or View Model"
           },
           {
-            "hash": "ajax",
+            "hash": "explore/ajax",
             "label": "Ajax requests"
           },
           {
-            "hash": "observabledata",
+            "hash": "explore/observabledata",
             "label": "Observable data"
           },
           {
-            "hash": "computed",
+            "hash": "explore/computed",
             "label": "Computed observables"
           },
           {
-            "hash": "dependencies",
+            "hash": "explore/dependencies",
             "label": "Declaring dependencies"
           }
         ]
       }
     ]
   },
-  "objectsorvm": {
+  "explore/objectsorvm": {
     "title": "Plain objects or View Model",
     "path": "",
     "sections": [
@@ -523,7 +523,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
-            "hash": "composition",
+            "hash": "explore/composition",
             "label": "Composition"
           }
         ]
@@ -545,7 +545,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
-            "hash": "viewhierarchy",
+            "hash": "explore/viewhierarchy",
             "label": "View hierarchy"
           }
         ]
@@ -567,19 +567,19 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
-            "hash": "renderasstring",
+            "hash": "explore/renderasstring",
             "label": "String-based rendering"
           },
           {
-            "hash": "linkingtohtml",
+            "hash": "explore/linkingtohtml",
             "label": "Data-binding to HTML"
           },
           {
-            "hash": "data-link",
+            "hash": "explore/data-link",
             "label": "Element-based: data-link"
           },
           {
-            "hash": "inlinebinding",
+            "hash": "explore/inlinebinding",
             "label": "Inline tag binding"
           }
         ]
@@ -616,15 +616,15 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
-            "hash": "registerhelper",
+            "hash": "explore/registerhelper",
             "label": "Registering helpers"
           },
           {
-            "hash": "passhelper",
+            "hash": "explore/passhelper",
             "label": "Passing in helpers"
           },
           {
-            "hash": "helperpaths",
+            "hash": "explore/helperpaths",
             "label": "Helper paths"
           }
         ]
@@ -656,11 +656,11 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
-            "hash": "jsr-converter",
+            "hash": "explore/jsr-converter",
             "label": "converters in JsRender"
           },
           {
-            "hash": "jsv-converter",
+            "hash": "explore/jsv-converter",
             "label": "converters in JsViews"
           }
         ]
@@ -682,11 +682,11 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
-            "hash": "jsv-converter1way",
+            "hash": "explore/jsv-converter1way",
             "label": "one-way binding converter"
           },
           {
-            "hash": "jsv-converterback",
+            "hash": "explore/jsv-converterback",
             "label": "2-way binding - convert back"
           }
         ]
@@ -725,11 +725,11 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
-            "hash": "jsrcustomtags",
+            "hash": "explore/jsrcustomtags",
             "label": "JsRender custom tags"
           },
           {
-            "hash": "tagsascontrols",
+            "hash": "explore/tagsascontrols",
             "label": "Custom tags as controls"
           }
         ]
@@ -756,23 +756,23 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
-            "hash": "allowcode",
+            "hash": "explore/allowcode",
             "label": "Allow code?"
           },
           {
-            "hash": "expressions",
+            "hash": "explore/expressions",
             "label": "Expressions"
           },
           {
-            "hash": "expressions/datapath",
+            "hash": "explore/expressions/datapath",
             "label": "Data paths"
           },
           {
-            "hash": "expressions/helperpath",
+            "hash": "explore/expressions/helperpath",
             "label": "Helper paths"
           },
           {
-            "hash": "expressions/viewpath",
+            "hash": "explore/expressions/viewpath",
             "label": "View paths"
           }
         ]
@@ -826,15 +826,15 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
-            "hash": "taghierarchy",
+            "hash": "explore/taghierarchy",
             "label": "Tag hierarchy"
           },
           {
-            "hash": "taglifecycle",
+            "hash": "explore/taglifecycle",
             "label": "Tag lifecycle"
           },
           {
-            "hash": "tagmethods",
+            "hash": "explore/tagmethods",
             "label": "Tag methods and properties"
           }
         ]
