@@ -928,7 +928,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "code",
         "title": "Using <a href=\"#observe\">$.observe()</a>",
-        "code": "$.observe(myObject, changeHandler); "
+        "code": "$.observe(myObject, \"*\" , changeHandler); // Choose path \"*\" to listen to changes on all properties of myObject "
       },
       {
         "_type": "para",
@@ -2171,7 +2171,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "code",
         "title": "",
-        "code": "$.observable(objectOrArray).unobserve()"
+        "code": "$.observable(objectOrArray).unobserveAll()"
       },
       {
         "_type": "para",
