@@ -2,11 +2,16 @@
 	float: left;
 	border: 1px solid grey;
 	padding: 10px 10px 4px 10px;
+	margin: 8px 0;
+}
+
+.clearboth {
+	clear: both;
 }
 
 .logBox .clear {
 	float: right;
-	margin: -3px -3px 5px 0 
+	margin: -3px -3px 5px 0
 }
 
 .logBox label {
@@ -15,10 +20,10 @@
 }
 
 .logBox .messages {
-  width: 546px;
-  clear: right;
-  border-top: 2px solid #ccc;
-  padding-top: 4px;
+	width: 546px;
+	clear: right;
+	border-top: 2px solid #ccc;
+	padding-top: 4px;
 }
 
 .logBox .messages  > div > div {

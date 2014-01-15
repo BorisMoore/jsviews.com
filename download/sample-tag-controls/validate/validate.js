@@ -16,7 +16,7 @@
 (function($) {
 "use strict";
 
-var editTag = $.views.tags["edit"]; // We will derive from the edit tag
+var editTag = $.views.tags.edit; // We will derive from the edit tag
 
 $.views.tags({
   validation: {
@@ -78,8 +78,7 @@ $.views.tags({
       }
     },
     onAfterLink: function(tagCtx, linkCtx) {
-      var validateMethod, groupValidation,
-        tag = this,
+      var tag = this,
         props = tagCtx.props;
 
       editTag.onAfterLink.apply(tag, arguments);
@@ -130,10 +129,10 @@ $.views.tags({
 
       if (val === undefined) {
         // If no val passed in, get current value from linkedElem, and validate that
-        if (linkedElems[0] && linkedElems[0].type === "radio") {
+        if (tag._.radioGroup && linkedElems) {
           linkedElems = linkedElems.filter(":checked");
         }
-        linkedElem = linkedElems[0];
+        linkedElem = linkedElems && linkedElems[0];
         val = "";
         if (linkedElem) {
           val = linkedElem.type === "checkbox" ? linkedElem.checked : linkedElem.value;

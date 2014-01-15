@@ -34,7 +34,7 @@ $.views.tags({
       }
       return $.views.tags["for"].render.apply(this, val ? [val] : arguments);
     },
-    onArrayChange: function(ev, eventArgs) {
+    onArrayChange: function(ev, eventArgs) { // override onArrayChange of {{for}} tag implementation
       this.refresh();
     }
   })

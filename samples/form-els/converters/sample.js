@@ -8,19 +8,19 @@ $.views.converters({
   not: function(val) {
     return !val;
   },
-  intToStr: function (value) {
+  intToStr: function(value) {
     return "" + value;
   },
-  strToInt: function (value) {
+  strToInt: function(value) {
     return parseInt(value);
   },
-  intToStr2: function (value) {
+  intToStr2: function(value) {
     return "" + value;
   },
-  strToInt2: function (value) {
+  strToInt2: function(value) {
     return parseInt(value);
   },
-  setBit: function (value) {
+  setBit: function(value) {
     // "Convert Back": If checked, set this bit on the data,
     // or if unchecked, unset this bit on the data
     var mask = 1 << this.linkCtx.elem.getAttribute("data-bit"),
@@ -32,7 +32,7 @@ $.views.converters({
     // Use the mask to set or unset that bit on the data,
     // and return the modified value
   },
-  getBit: function (value) {
+  getBit: function(value) {
     // "Convert": Get the bit from the data,
     // and check or uncheck the checkbox
     return (value >>

@@ -41,14 +41,14 @@
 /* Hierarchy of named folders */
 var rootFolder = {
   name: "Categories", folders: [
-    { name: "Drama", folders: [
-      { name: "Courtroom", folders: [] },
-      { name: "Political", folders: [] }
+    {name: "Drama", folders: [
+      {name: "Courtroom", folders: []},
+      {name: "Political", folders: []}
     ]},
-    { name: "Classic", folders: [
-      { name: "Musicals", folders: [
-        { name: "Jazz", folders: [] },
-        { name: "R&B/Soul", folders: [] }
+    {name: "Classic", folders: [
+      {name: "Musicals", folders: [
+        {name: "Jazz", folders: []},
+        {name: "R&B/Soul", folders: []}
       ]}
     ]}
   ]};

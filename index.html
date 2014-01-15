@@ -5,7 +5,7 @@
 	<link href="resources/css/tabs.css" rel="stylesheet"/>
 	<link href="resources/css/site.css" rel="stylesheet"/>
 	<link href="resources/css/contents.css" rel="stylesheet"/>
-	<script src="http://coDe.jquery.com/jquery.js"></script>
+	<script src="http://code.jquery.com/jquery.js"></script>
 	<script src="download/jsviews.js"></script>
 	<script src="datatypes.js"></script>
 	<script src="documentation/contents-categories.js"></script>
@@ -51,7 +51,7 @@
 				{{sectionButtons ~root.sectionTypes /}}
 				{^{section _type ~mode ~sectionTypes=~root.sectionTypes[_type].sectionTypes/}}
 			{{/selectList}}
-		{{else  ~mode="summary"}}
+		{{else ~mode="summary"}}
 			{^{for topCategory^home.leftsections}}
 				{^{section _type "summary"/}}
 			{{/for}}

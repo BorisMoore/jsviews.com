@@ -527,6 +527,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "{{for ...}}"
           },
           {
+            "name": "propstag",
+            "label": "{{props ...}}"
+          },
+          {
             "name": "iftag",
             "label": "{{if ...}}"
           },
@@ -672,7 +676,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     "description": "Detailed API docs on using JsViews for dynamic data-driven sites, or MVVM",
     "categories": [
       {
-        "name": "jsvtags",
+        "name": "jsvtemplatetags",
         "label": "Template tags",
         "expanded": true
       },

@@ -15,7 +15,7 @@ var movies = [{
 ];
 
 $.views.converters({
-  loc: function (value) {
+  loc: function(value) {
     var language = this.tagCtx.props.lang;
     var result = "";
 

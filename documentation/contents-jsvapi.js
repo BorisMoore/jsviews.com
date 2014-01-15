@@ -17,7 +17,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "links": [],
         "topics": [
           {
-            "hash": "jsvtags",
+            "hash": "jsvtemplatetags",
             "label": "Template tags"
           },
           {
@@ -222,7 +222,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "path": "",
     "sections": []
   },
-  "jsvtags": {
+  "jsvtemplatetags": {
     "title": "JsViews template tags",
     "path": "",
     "sections": [
@@ -234,7 +234,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Calling the <a href=\"#rendertmpl\">.render()</a> method work just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the <a href=\"#jsvlinktmpl\">.link()</a> method - which will first render and then add data binding (<em>data-link the template</em>)."
+        "text": "Calling the <a href=\"#rendertmpl\">.render()</a> method works just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the <a href=\"#jsvlinktmpl\">.link()</a> method - which will first render and then add data binding (<em>data-link the template</em>)."
       },
       {
         "_type": "para",

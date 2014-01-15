@@ -1,5 +1,5 @@
 $.views.converters({
-    strToInt: function (value) {
+    strToInt: function(value) {
       return parseInt(value);
     }
   });

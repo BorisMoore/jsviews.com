@@ -262,7 +262,8 @@ img.logo {
 
 .filler span {
 	display: inline-block;
-	width: 248px;
+	width: 20%;
+	max-width: 248px;
 	height: 20px;
 }
 

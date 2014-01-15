@@ -153,7 +153,7 @@ var	treeNodeTmpl = $.templates(
 		init: function(tagCtx) {
 			this.data = tagCtx.view.data;
 			this.tree = this.parents.tree;
- 		},
+		},
 		template: treeNodeTmpl,
 
 	// methods

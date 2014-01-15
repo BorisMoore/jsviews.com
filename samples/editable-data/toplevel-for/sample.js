@@ -3,16 +3,16 @@ var counter = 0,
     {
       title:"Meet Joe Black",
       languages: [
-        { name: "English" },
-        { name: "French" }
+        {name: "English"},
+        {name: "French"}
       ]
     },
     {
       title:"Eyes Wide Shut",
       languages: [
-        { name: "German" },
-        { name: "French" },
-        { name: "Spanish" }
+        {name: "German"},
+        {name: "French"},
+        {name: "Spanish"}
       ]
     }
   ],
@@ -51,7 +51,7 @@ $.link(true, "#linkedContent", app)
     $.observable(movies).insert({
       title: "NewTitle" + counter ,
       languages: [
-        { name: "NewLanguage" + counter++ }
+        {name: "NewLanguage" + counter++}
       ]}
     );
     // Set selection on the added item
@@ -83,7 +83,7 @@ $.link(true, "#linkedContent", app)
 
 $("#deletelast").on("click", function() {
   if (movies.length) {
-    var languages = movies[ movies.length - 1 ].languages;
+    var languages = movies[movies.length - 1].languages;
     $.observable(languages).remove();
   }
 });

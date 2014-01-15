@@ -47,16 +47,16 @@ var movies = [
   {
     title: "Meet Joe Black",
     languages: [
-      { name: "English" },
-      { name: "French" }
+      {name: "English"},
+      {name: "French"}
     ]
   },
   {
     title: "Eyes Wide Shut",
     languages: [
-      { name: "French" },
-      { name: "German" },
-      { name: "Spanish" }
+      {name: "French"},
+      {name: "German"},
+      {name: "Spanish"}
     ]
   }
 ];

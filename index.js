@@ -1,6 +1,5 @@
 ﻿(function(window, $, undefined) {
 "use strict";
-
 var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 	content = $.views.documentation.content,
 	allowEdit = false,
@@ -353,7 +352,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 	sampleFrameTag = {
 		init: function(tagCtx) {
 			var self = this,
-				data = $.parseJSON(stringify(self.origData = self.parents.section.data)),
+				data = $.parseJSON(stringify(self.parents.section.data)),
 				codetabs = data.codetabs;
 			if (data.sampleName) {
 				data.url = "samples/" + data.sampleName + "/sample";
@@ -365,15 +364,17 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 				if (data.url) {
 					var html = $.trim(self.iframeWnd.document.body.innerHTML),
 						toremove = html.indexOf("\n<!--<script src=\"samples"),
-						header = self.iframeWnd.document.head.innerHTML;
-						header = header.replace(/^.*sample-viewer.*$/m, "");
+						header = self.iframeWnd.document.head || "";
 					if (toremove > 0) {
 						html = html.slice(0, toremove);
 					}
-					header = header.slice(header.indexOf('jquery.js"></script>\n') + 21);
+					if (header) { // Fails in IE8 or earlier
+						header = header.innerHTML.replace(/^.*sample-viewer.*$/m, "");
+						header = header.slice(header.indexOf('jquery.js"></script>\n') + 21);
+					}
 					$.get(data.url + ".js", function(content) {
 						loadScript({code: content});
-						self.sampleData = {
+						self.origData = self.sampleData = {
 							url: data.url,
 							html: html,
 							header: header,
@@ -387,8 +388,8 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 						codetabs && self.loadTabs(codetabs);
 					}, "text");
 				} else {
-					loadScript(data);
-					self.sampleData = {
+				  loadScript(data);
+					self.origData = self.sampleData = {
 						data: data.data,
 						markup: data.markup,
 						html: data.html,

@@ -1,0 +1,8 @@
+﻿.jsonview li {
+    margin-left: -20px;
+    list-style-type: none;
+    padding: 2px;
+}
+.jsonview {
+    margin: 0;
+}

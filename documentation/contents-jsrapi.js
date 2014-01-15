@@ -66,6 +66,10 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "{{for ...}}"
           },
           {
+            "hash": "propstag",
+            "label": "{{props ...}}"
+          },
+          {
             "hash": "iftag",
             "label": "{{if ...}}"
           },
@@ -86,7 +90,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "assigntag": {
-    "title": "{{: ...}}",
+    "title": "Template tag: {{: ...}}",
     "path": "",
     "sections": [
       {
@@ -251,7 +255,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "htmltag": {
-    "title": "{{> ...}}",
+    "title": "Template tag: {{> ...}}",
     "path": "",
     "sections": [
       {
@@ -332,7 +336,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "includetag": {
-    "title": "{{include tmpl=... /}}",
+    "title": "Template tag: {{include tmpl=... /}}",
     "path": "",
     "sections": [
       {
@@ -407,7 +411,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "fortag": {
-    "title": "{{for ...}}",
+    "title": "Template tag: {{for ...}}",
     "path": "",
     "sections": [
       {
@@ -457,7 +461,15 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
                 "propName": "tmpl"
               }
             ],
-            "args": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "object or array",
+                "optional": true,
+                "description": "A data path, or an object or array"
+              }
+            ],
             "sections": [],
             "example": "{{for billing.address tmpl=\"addressTmpl\" /}}",
             "description": "Render the specified template for the given object, or iterate over the given array",
@@ -529,10 +541,10 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "template",
             "title": "",
-            "markup": "<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n    <b>{{>city}}</b>\n</script>\n"
+            "markup": "<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n  <b>{{>city}}</b>\n</script>\n"
           }
         ],
-        "html": "<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:name}} lives in {{for address tmpl=\"#addressTemplate\" /}}\n  </div>\n</script>\n\n<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n    <b>{{>city}}</b>\n</script>\n\n<div id=\"result\"></div>",
+        "html": "<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:name}} lives in {{for address tmpl=\"#addressTemplate\" /}}\n  </div>\n</script>\n\n<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n  <b>{{>city}}</b>\n</script>\n\n<div id=\"result\"></div>",
         "code": "var people = [\n  {\n    \"name\": \"Pete\",\n    \"address\": {\n      \"city\": \"Seattle\"\n    }\n  },\n  {\n    \"name\": \"Heidi\",\n    \"address\": {\n      \"city\": \"Sidney\"\n    }\n  }\n];\n\nvar html = $(\"#peopleTemplate\").render(people);\n\n$(\"#result\").html(html);",
         "onlyJsRender": true,
         "height": "70",
@@ -636,12 +648,255 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "markup": "{{for members}}\n  <div>{{:name}}</div>\n{{else}}\n  <div>No members!</div>\n{{/for}}\n"
           }
         ],
-        "markup": "<b>{{:title}}</b>\n{{for members}}\n  <div>{{:name}}</div>\n{{else}}\n  <div>No members!</div>\n{{/for}}\n",
-        "data": {
-          "title": "The A team",
-          "members": []
+        "markup": "<b>{{:title}}</b>\n<ul>\n  {{for members}}\n    <li><b>Name:</b> {{:name}}</li>\n  {{else}}\n    <li>No members!</li>\n  {{/for}}\n</ul>",
+        "data": [
+          {
+            "title": "The A team",
+            "members": []
+          },
+          {
+            "title": "The B team",
+            "members": [
+              {
+                "name": "Pete"
+              }
+            ]
+          }
+        ],
+        "height": "140",
+        "onlyJsRender": true
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "samples/jsr/paths",
+            "label": "Sample: Paths"
+          }
+        ]
+      }
+    ]
+  },
+  "propstag": {
+    "title": "Template tag: {{props ...}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{props ...}}",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "{{props}} using an inline block",
+            "params": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "object",
+                "optional": true,
+                "description": "A data path, or an object"
+              }
+            ],
+            "sections": [
+              {
+                "_type": "para",
+                "title": "",
+                "text": "<b>Note:</b> The data context inside the <em>{{props}}</em> block is an object with properties <em>key</em> and <em>props</em>:"
+              },
+              {
+                "_type": "code",
+                "title": "",
+                "code": "{\n  key: propertyName,\n  prop: propertyValue // could be a string, number, object, etc.\n}"
+              }
+            ],
+            "example": "{{props billing.address}}\n <b>{{>key}}</b>: {{>prop}}\n{{/props}}",
+            "description": "Render the block content of the tag for each property of the given object",
+            "variant": "{{props pathOrExpr}}...{{/props}}"
+          },
+          {
+            "_type": "signature",
+            "title": "{{props}} using an external template",
+            "params": [
+              {
+                "_type": "param",
+                "name": "nameOrExpr",
+                "type": "object or string",
+                "optional": true,
+                "description": "The name of a template, or a template object, to be rendered instead of block content",
+                "propName": "tmpl"
+              }
+            ],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "object",
+                "optional": false,
+                "description": "A data path, or an object"
+              }
+            ],
+            "sections": [],
+            "example": "{{props billing.address tmpl=\"addressTmpl\" /}}",
+            "description": "Render the specified template once for each property of the given object",
+            "variant": "{{props pathOrExpr tmpl=nameOrExpr /}}"
+          }
+        ],
+        "description": "<em>Template composition</em>: &mdash; Iterate over the properties of the object, and render the block content of the {{props}} tag (or the referenced external template) once for each property &mdash; using as data context: <em>{<b>key</b>: propertyName, <b>prop</b>: propertyValue}</em>.",
+        "sectionTypes": {}
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here are some examples:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
         },
-        "height": "80",
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "...\n{{props address}}\n  <b>{{>key}}:</b> {{>prop}}<br/>\n{{/props}}\n"
+          }
+        ],
+        "code": "",
+        "onlyJsRender": true,
+        "height": "230",
+        "html": "",
+        "data": [
+          {
+            "name": "Pete",
+            "address": {
+              "street": "12 Pike Place",
+              "city": "Seattle",
+              "ZIP": "98101"
+            }
+          },
+          {
+            "name": "Heidi",
+            "address": {
+              "street": "5000 Broadway",
+              "city": "Sidney",
+              "country": "Australia"
+            }
+          }
+        ],
+        "markup": "<table><tbody>\n  <tr><td><b>name:</b> {{:name}}</td></tr>\n  <tr><td> \n  {{props address}}\n    <b>{{>key}}:</b> {{>prop}}<br/>\n  {{/props}}\n  </td></tr>\n</tbody></table>",
+        "title": "{{props object}}"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{props address tmpl=\"#addressTemplate\" /}}"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n  <b>{{>key}}:</b> {{>prop}}<br/>\n</script>\n"
+          }
+        ],
+        "html": "<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <table><tbody>\n    <tr><td><b>name:</b> {{:name}}</td></tr>\n    <tr><td> \n      {{props address tmpl=\"#addressTemplate\" /}}\n    </td></tr>\n  </tbody></table>\n</script>\n\n<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n  <b>{{>key}}:</b> {{>prop}}<br/>\n</script>\n\n<div id=\"result\"></div>",
+        "code": "var people = [\n  {\n    \"name\": \"Pete\",\n    \"address\": {\n      \"street\": \"12 Pike Place\",\n      \"city\": \"Seattle\",\n      \"ZIP\": \"98101\"\n    }\n  },\n  {\n    \"name\": \"Heidi\",\n    \"address\": {\n      \"street\": \"5000 Broadway\",\n      \"city\": \"Sidney\",\n      \"country\": \"Australia\"\n    }\n  }\n];\n\nvar html = $(\"#peopleTemplate\").render(people);\n\n$(\"#result\").html(html);",
+        "onlyJsRender": true,
+        "height": "230",
+        "title": "{{props object tmpl=... /}}"
+      },
+      {
+        "_type": "para",
+        "title": "Using the {{else}} tag with {{props}}",
+        "text": "Using the {{else}} tag between <em>{{props}}</em> and <em>{{/props}}</em>, allows alternate rendering based on the object returned from the path or expression <em>{{props pathOrExpr}}</em>"
+      },
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{props ...}}...{{else}}...{{/props}}",
+        "name": "name",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Render alternate blocks depending on whether an object is empty or not",
+            "params": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "object",
+                "optional": true,
+                "description": "A data path, or an object"
+              }
+            ],
+            "sections": [],
+            "example": "{{props address}}\n    Key: {{:key}} Value: {{:prop}}\n{{else}}\n    No properties...\n{{/for}}",
+            "description": "Render first block if object is not empty, otherwise render second block",
+            "variant": "{{for pathOrExpr}...{{else}}...{{/for}}"
+          }
+        ],
+        "description": "<em>Conditional blocks</em>: &mdash; Render the block content of the {{prop}} tag (or referenced template) if the object is defined and is not an empty object (no properties), otherwise render the {{else}} block (or template)",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{props address}}\n  <b>{{>key}}:</b> {{>prop}}<br/>\n{{else}}\n  The address is blank (no properties)!\n{{/props}}"
+          }
+        ],
+        "markup": "<table><tbody>\n  <tr><td><b>name:</b> {{:name}}</td></tr>\n  <tr><td> \n  {{props address}}\n    <b>{{>key}}:</b> {{>prop}}<br/>\n  {{else}}\n    The address is blank (no properties)!\n  {{/props}}\n  </td></tr>\n</tbody></table>",
+        "data": [
+          {
+            "name": "Pete",
+            "address": {
+              "street": "12 Pike Place",
+              "city": "Seattle",
+              "ZIP": "98101"
+            }
+          },
+          {
+            "name": "Heidi",
+            "address": {}
+          }
+        ],
+        "height": "200",
         "onlyJsRender": true
       },
       {
@@ -659,7 +914,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "iftag": {
-    "title": "{{if ...}}",
+    "title": "Template tag: {{if ...}}",
     "path": "",
     "sections": [
       {
@@ -898,7 +1153,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "elsetag": {
-    "title": "{{else ...}}",
+    "title": "'else' tag: {{else ...}}",
     "path": "",
     "sections": [
       {
@@ -2815,7 +3070,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "When you also use JsViews, custom tag acquire a whole new dimension. &mdash; They become <em>tag controls</em>, and you can build rich and complex single page apps cleanly and simply using custom tag controls - following an MVP or MVVM coding pattern. "
+        "text": "When you also use JsViews, custom tags acquire a whole new dimension. &mdash; They become <em>tag controls</em>, and you can build rich and complex single page apps cleanly and simply using custom tag controls - following an MVP or MVVM coding pattern. "
       },
       {
         "_type": "api",
@@ -2973,7 +3228,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "title": "2 - Rendering block content from a custom tag function",
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    <p>This is inside our block content:</p>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    This is inside our block content:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
         "code": "function renderBoldP() {\n   return \"<p><b>\" + this.tagCtx.render() + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
         "onlyJsRender": true
@@ -3141,7 +3396,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "It is also made available as a <em>content</em> property on the <em>view</em> object - and can be accessed from within a template using <em>#content</em> - which is an example of a <em>view path</em> - equivalent to <em>#view.content</em>. You can try out that alternative syntax by choosing <em>Try it</em> and changing the template above to <em>\"&lt;p>&lt;b>{{include tmpl=#content/}}&lt;/b>&lt;/p>\"</em>."
           }
         ],
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    <p>This is the title:</p>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    This is the title:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
         "code": "$.views.tags(\"boldp\", {\n  template: \"<p><b>{{include tmpl=~tag.tagCtx.content/}}</b></p>\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
         "title": "2b - Rendering block content from a custom tag template"
@@ -3357,7 +3612,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "But often the values you will want to insert are not actually take from the data, but rather from other parameters or <em>metadata</em> which you want to use. And often you will want to process the values, using helper functions or other code, e.g. for converting values to other formats, or for computed values."
+        "text": "But often the values you will want to insert are not actually taken from the data, but rather from other parameters or <em>metadata</em> which you want to use. And often you will want to process the values, using helper functions or other code, e.g. for converting values to other formats, or for computed values."
       },
       {
         "_type": "para",
