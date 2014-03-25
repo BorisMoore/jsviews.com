@@ -2,7 +2,7 @@
  * Sample JsViews tag control: {{multiselect}} control
  * http://www.jsviews.com/download/sample-tag-controls/multiselect/multiselect.js
  * Used in samples: http://www.jsviews.com/#samples/tag-controls/multiselect
- * Copyright 2013, Boris Moore
+ * Copyright 2014, Boris Moore
  * Released under the MIT License.
  */
 
@@ -19,13 +19,13 @@ $.views.tags({
 
       if (tag._.inline) {
         if (!tagCtx.content) {
-          tag.template = tagCtx.tmpl = "<select multiple='multiple'>" + tag._optionsTmpl + "</select>";
+          tag.template = "<select multiple='multiple'>" + tag._optionsTmpl + "</select>";
         } else {
           $.views.sub.error("{{multiselect}} must be empty");
         }
       } else {
         linkCtx.elem.multiple = "multiple";
-        tag.tagCtx.tmpl = tag._optionsTmpl;
+        tag.template = tag._optionsTmpl;
       }
     },
     onAfterLink: function(tagCtx, linkCtx) {

@@ -2,7 +2,7 @@
  * Sample JsViews tag control: {{tree}} control using visible{...} binding
  * http://www.jsviews.com/download/sample-tag-controls/treeview/tree-visible.js
  * Used in samples: http://www.jsviews.com/#samples/tag-controls/tree/visible-binding
- * Copyright 2013, Boris Moore
+ * Copyright 2014, Boris Moore
  * Released under the MIT License.
  */
 
@@ -21,7 +21,7 @@ $.views.tags({
           self.select();
         });
     },
-    template: "#treeTemplate",
+    template: "#treeTemplate", // See http://www.jsviews.com/#samples/tag-controls/tree/visible-binding
 
     //PROPERTIES
     expanded: false, // default to unexpanded
@@ -33,7 +33,8 @@ $.views.tags({
     select: function() {
       $.observable(this).setProperty("selected", !this.selected);
     },
-    dataBoundOnly: true
+    dataBoundOnly: true,
+    autoBind: true
   }
 });
 

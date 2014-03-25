@@ -6,7 +6,7 @@
  * http://www.jsviews.com/#samples/tag-controls/datepicker
  * http://www.jsviews.com/#samples/tag-controls/slider
  * http://www.jsviews.com/#samples/tag-controls/validate
- * Copyright 2013, Boris Moore
+ * Copyright 2014, Boris Moore
  * Released under the MIT License.
  */
 
@@ -17,33 +17,31 @@ $.views.tags({
   edit: {
     init: function(tagCtx, linkCtx) {
       if (this._.inline && !tagCtx.content) {
-        this.template = tagCtx.tmpl = "<input/>";
+        this.template = "<input/>";
       }
       if (this.onInit) { // Allow derived tags to implement onInit
-        this.onInit(tagCtx, linkCtx)
+        this.onInit(tagCtx, linkCtx);
       }
     },
     onAfterLink: function(tagCtx, linkCtx) {
-      linkCtx.convertBack = tagCtx.props.convertBack;
-      linkCtx.convert = tagCtx.props.convert;
-
       var target, arrayView,
         tag = this;
       if (
           !tag.linkedElem
           || tag.linkedElem[0] && !tag.linkedElem[0].parentNode
-          || tag._.radioGroup
+          || tag._.radio
         ) {
         target = tag._.inline
-          ? tag.contents("select,textarea,input,div.radiogroup")[0]
+          ? tag.contents("select,textarea,input,.radiogroup")[0]
           : linkCtx.elem;
         if (tag._.inline && target && $.view(target).tag !== tag) {
           // The target element is contained in another tag - so we will find it
           target = undefined;
         }
         tag.linkedElem = $(target);
-        if (target && target.tagName === "DIV") {
-          if (!tag._.radioGroup) {
+        if (tag.linkedElem.hasClass("radiogroup")) {
+          if (!tag._.radio) {
+            tag._.radio = true;
             arrayView = tag.linkedElem.view(true);
             if (arrayView && arrayView.type === "array") {
               $.views.helpers("onAfterCreate", function(addedView) {
@@ -57,8 +55,6 @@ $.views.tags({
               }, arrayView.tmpl);
             }
           }
-          tag._.radioGroup = true;
-          tag.linkedElem = tag.linkedElem.find("input[type=radio]");
         }
         if (!tag.linkedElem.length) {
           // {{edit}} wraps another tag, such {{slider}}

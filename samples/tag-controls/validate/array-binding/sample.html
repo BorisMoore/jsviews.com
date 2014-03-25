@@ -48,25 +48,25 @@
 
   <h3>Choose a person with a name of at least 5 letters!</h3>
 
-  {^{validate person
+  {^{validate person ~people=people
     minLength=5
     convert="upper"
     convertBack=~lower
   }}
     <select size="5">
-      {^{for people}}
-        <option data-link="value{upper:name} {:name:}"></option>
+      {^{for ~people}}
+        <option data-link="value{upper:name} {:name}"></option>
       {{/for}}
     </select>
   {{/validate}}
 
-  {^{validate person
+  {^{validate person ~people=people
     minLength=5
     convert='upper'
     convertBack=~lower
   }}
     <div class="radiogroup">
-      {^{for people}}
+      {^{for ~people}}
         <input type="radio" name="gp1" data-link="value{upper:name}"/><label>{^{:name}}</label><br/>
       {{/for}}
     </div>

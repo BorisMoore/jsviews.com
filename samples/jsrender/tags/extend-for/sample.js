@@ -8,7 +8,7 @@ $.views.tags({
         end = this.tagCtx.props.end;
 
       if (start || end) {
-        if (val === undefined) {
+        if (!this.tagCtx.args.length) {
           val = [];
           end = end || 0;
           for (var i = start; i <= end; i++) {

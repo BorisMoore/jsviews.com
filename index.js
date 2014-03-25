@@ -635,16 +635,16 @@ sectionTag.templates = sectionTemplates
 //#region HELPER FUNCTIONS
 
 function getCategory(hash, fetch) {
-	function getCategoryNode(name, categories, parent) {
+	function getCategoryNode(name, subcategories, parent) {
 		if (selectedCategory = categories[0][name]) {
 			return topCategory = homeCategory = selectedCategory;
 		}
 		topCategory = undefined;
 		stack.push(parent);
 		var category,
-			l = categories.length;
+			l = subcategories.length;
 		while (l--) {
-			category = categories[l];
+			category = subcategories[l];
 			if (category.name === name || category.categories && (category = getCategoryNode(name, category.categories, category))) {
 				while (parent = stack.pop()) {
 					topCategory = parent;

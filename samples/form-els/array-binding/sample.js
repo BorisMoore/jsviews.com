@@ -45,6 +45,8 @@ function setData() {
   }
   $.observable(bits).refresh(newBits);
   $.observable(amounts).refresh(newAmounts);
+  //$.observable(data).setProperty(data.amount-1);
+  //$.observable(data).setProperty(data.amount);
 }
 
 setData();

@@ -642,7 +642,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "<select data-link=\\\"{multisel items=items selected=selectedItems}\\\"></select>"
+            "markup": "<select data-link=\"{multisel items=items selected=selectedItems}\"></select>"
           },
           {
             "_type": "para",
@@ -1619,7 +1619,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "{^{validate startDate\n  required=true\n  ^maxday=endDate\n}}\n  {^{datepicker ^numberOfMonths=2 /}}\n{{/validate}}"
+            "markup": "{^{validate startDate\n  required=true\n  ^maxday=endDate\n}}\n  {^{datepicker numberOfMonths=2 /}}\n{{/validate}}"
           }
         ],
         "codetabs": [
@@ -1686,11 +1686,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "{^{validation}}\n  ...\n  <button id=\"next\" data-link=\"... disabled{:!~tag.isValid}\">Next</button>\n  ...\n  <h4>Choose a start date:</h4> \n  {^{validate startDate\n    required=true\n    ^maxday=endDate\n  }}\n    {^{datepicker ^numberOfMonths=1 /}}\n  {{/validate}}\n  ...\n{{/validation}}\n"
+            "markup": "{^{validation}}\n  ...\n  <button id=\"next\" data-link=\"... disabled{:!~tag.isValid}\">Next</button>\n  ...\n  <h4>Choose a start date:</h4> \n  {^{validate startDate\n    required=true\n    ^maxday=endDate\n  }}\n    {^{datepicker numberOfMonths=1 /}}\n  {{/validate}}\n  ...\n{{/validation}}\n"
           }
         ],
         "title": "",
-        "height": "450",
+        "height": "465",
         "codetabs": [
           {
             "_type": "codetab",
@@ -2650,12 +2650,12 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "{^{edit person ...}}\n  <select>\n    {^{for people}}\n      <option data-link=\"value{upper:name} {:name:}\"></option>\n    {{/for}}\n  </select>\n{{/edit}}\n"
+            "markup": "{^{edit person ...}}\n  <select>\n    {^{for ~people}}\n      <option data-link=\"value{upper:name} {:name}\"></option>\n    {{/for}}\n  </select>\n{{/edit}}\n"
           },
           {
             "_type": "template",
             "title": "",
-            "markup": "{^{edit person ...}}\n  <div class=\"radiogroup\">\n    {^{for people}}\n      <input type=\"radio\" name=\"gp1\" data-link=\"value{upper:name}\"/>...\n    {{/for}}\n  </div>\n{{/edit}}\n"
+            "markup": "{^{edit person ...}}\n  <div class=\"radiogroup\">\n    {^{for ~people}}\n      <input type=\"radio\" name=\"gp1\" data-link=\"value{upper:name}\"/>...\n    {{/for}}\n  </div>\n{{/edit}}\n"
           }
         ],
         "title": "The  {{edit}} tag with &lt;option> collections or &ltinput type=\\\"radio\\\"> collections data-linked to arrays",
@@ -2928,7 +2928,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "code",
             "title": "",
-            "code": "$.views.tags({\n  textbox: {\n    onAfterLink: function() {\n      <em>this.linkedElem = this.contents(\"input\");</em>\n    },\n    template: \"<input/>\"\n  }\n});"
+            "code": "$.views.tags({\n  textbox: {\n    onAfterLink: function() {\n      this.linkedElem = this.contents(\"input\");\n    },\n    template: \"<input/>\"\n  }\n});"
           },
           {
             "_type": "para",
@@ -3900,7 +3900,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "markup": "<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n"
           }
         ],
-        "markup": "<p>\n<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n  I am {^{:disableButton?'disabled':'enabled'}}\n</button><br/><br/>\n</p>\n<p>\nDisable: <input data-link=\"disableButton\" type=\"checkbox\" /><br/>\nSet title: <input data-link=\"theTitle\" />\n</p>",
+        "markup": "<p>\n<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n  I am {^{:disableButton?'disabled':'enabled'}}\n</button><br/><br/>\n</p>\n<p>\nDisable: <input data-link=\"disableButton\" type=\"checkbox\" /><br/>\nSet button (on hover) title: <input data-link=\"theTitle\" />\n</p>",
         "data": {
           "theTitle": "the title",
           "disableButton": false
@@ -3930,7 +3930,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "Add a person, then mouse over the disable button to see the <em>title</em> message..."
+        "text": "Add a person, then mouse over the disabled <em>Add person</em> button to see the <em>title</em> message..."
       },
       {
         "_type": "sample",

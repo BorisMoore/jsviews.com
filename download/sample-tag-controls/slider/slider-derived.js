@@ -2,7 +2,7 @@
  * Sample JsViews tag control: {{slider}} control, derived from {{edit}} control
  * http://www.jsviews.com/download/sample-tag-controls/slider/slider-derived.js
  * Used in samples: http://www.jsviews.com/#samples/tag-controls/slider/with-validation
- * Copyright 2013, Boris Moore
+ * Copyright 2014, Boris Moore
  * Released under the MIT License.
  */
 
@@ -15,7 +15,7 @@ $.views.tags({
   slider: $.extend(true, {}, editTag, {
     init: function(tagCtx, linkCtx) {
       if (this._.inline && !tagCtx.content) {
-        this.template = tagCtx.tmpl = "<div></div>";
+        this.template = "<div></div>";
       }
     },
     onAfterLink: function(tagCtx, linkCtx) {

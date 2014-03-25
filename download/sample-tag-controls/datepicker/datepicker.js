@@ -4,7 +4,7 @@
  * Used in samples:
  * http://www.jsviews.com/#samples/tag-controls/datepicker/simple
  * http://www.jsviews.com/#samples/tag-controls/datepicker/variants
- * Copyright 2013, Boris Moore
+ * Copyright 2014, Boris Moore
  * Released under the MIT License.
  */
 
@@ -15,13 +15,10 @@ $.views.tags({
   datepicker: {
     init: function(tagCtx, linkCtx) {
       if (this._.inline && !tagCtx.content) {
-        this.template = tagCtx.tmpl = "<input/>";
+        this.template = "<input/>";
       }
     },
     onAfterLink: function(tagCtx, linkCtx) {
-      linkCtx.convertBack = tagCtx.props.convertBack;
-      linkCtx.convert = tagCtx.props.convert;
-
       var tag = this;
       if (!tag.linkedElem) {
         tag.linkedElem = tag._.inline ? tag.contents("*").first() : $(linkCtx.elem);

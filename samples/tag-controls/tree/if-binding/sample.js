@@ -1,7 +1,7 @@
 ﻿$.views.tags({
   tree: {
-    init: function(tagCtx, linkCtx, ctx) {
-      this.data = tagCtx.view.data;
+    render: function(val) {
+      this.data = val;
     },
     onAfterLink: function() {
       var self = this;
@@ -16,7 +16,8 @@
     toggle: function() {
       $.observable(this.data).setProperty("expanded", !this.data.expanded);
     },
-    dataBoundOnly: true
+    dataBoundOnly: true,
+    autoBind: true
   }
 });
 

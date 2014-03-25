@@ -34,7 +34,7 @@
       required=true
       ^maxday=endDate
     }}
-      {^{datepicker ^numberOfMonths=1 /}}
+      {^{datepicker numberOfMonths=1 /}}
     {{/validate}}
 
     <h4>Choose an end date:</h4>
@@ -43,7 +43,7 @@
       required=true
       ^minday=startDate
     }}
-      {^{datepicker ^numberOfMonths=2 /}}
+      {^{datepicker numberOfMonths=2 /}}
     {{/validate}}
 
   {{else ~page.pane === 1 }}
@@ -53,8 +53,8 @@
     <p>
       <label>Number of months:</label>
       <select data-link="{:~page.monthsSpan:tonum}">
-        <option value="1" data-link="selected{:~selOption()}">1 month</option>
-        <option value="2" data-link="selected{:~selOption()}">2 months</option>
+        <option value="1">1 month</option>
+        <option value="2">2 months</option>
       </select>
     </p>
 
@@ -67,8 +67,8 @@
       ^maxday=endDate
     }}
       {^{datepicker
-        ^minDate=startDate
-        ^maxDate=endDate
+        ^minDate=~root.startDate
+        ^maxDate=~root.endDate
         ^numberOfMonths=~page.monthsSpan
       }}
         <div></div>

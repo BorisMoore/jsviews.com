@@ -4,7 +4,7 @@
  * Used in samples:
  * http://www.jsviews.com/#samples/tag-controls/range
  * http://www.jsviews.com/#samples/jsr/tags/extend-for
- * Copyright 2013, Boris Moore
+ * Copyright 2014, Boris Moore
  * Released under the MIT License.
  */
 
@@ -22,7 +22,7 @@ $.views.tags({
         end = this.tagCtx.props.end;
 
       if (start || end) {
-        if (val === undefined) {
+        if (!this.tagCtx.args.length) {
           val = [];
           end = end || 0;
           for (var i = start; i <= end; i++) {

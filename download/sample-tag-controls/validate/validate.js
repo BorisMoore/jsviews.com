@@ -9,7 +9,7 @@
  * http://www.jsviews.com/#samples/tag-controls/validate/simple
  * http://www.jsviews.com/#samples/tag-controls/validate/group
  * http://www.jsviews.com/#samples/tag-controls/validate/array-binding
- * Copyright 2013, Boris Moore
+ * Copyright 2014, Boris Moore
  * Released under the MIT License.
  */
 
@@ -69,6 +69,7 @@ $.views.tags({
     isValid: true,
     dataBoundOnly: true,
   },
+
   validate: $.extend(true, {}, editTag, {
     onInit: function(tagCtx, linkCtx) {
       // onInit() is called by the base {{edit}} tag, at the end of its init()
@@ -125,12 +126,10 @@ $.views.tags({
         props = tag.tagCtx.props,
         linkedElems = tag.linkedElem;
 
-      this.isValid = false; // Assume failure!
-
       if (val === undefined) {
         // If no val passed in, get current value from linkedElem, and validate that
-        if (tag._.radioGroup && linkedElems) {
-          linkedElems = linkedElems.filter(":checked");
+        if (tag._.radio && linkedElems) {
+          linkedElems = linkedElems.find("input:checked");
         }
         linkedElem = linkedElems && linkedElems[0];
         val = "";
@@ -147,8 +146,8 @@ $.views.tags({
       this.isValid = true;
       for (var validator in this.validators) {
         condition = props[validator];
-        testName = validator;
         if (condition !== undefined && this.validators[validator].test(condition, val)) {
+          testName = validator;
           this.isValid = false;
           break;
         }

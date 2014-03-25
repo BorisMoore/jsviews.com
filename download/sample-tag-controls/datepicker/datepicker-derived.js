@@ -4,7 +4,7 @@
  * Used in samples:
  * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation
  * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation-wizard
- * Copyright 2013, Boris Moore
+ * Copyright 2014, Boris Moore
  * Released under the MIT License.
  */
 

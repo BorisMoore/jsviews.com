@@ -2,7 +2,7 @@
  * Sample JsViews tag control: {{tree}} control using {^{if}} binding
  * http://www.jsviews.com/download/sample-tag-controls/treeview/tree-if.js
  * Used in samples: http://www.jsviews.com/#samples/tag-controls/tree/if-binding
- * Copyright 2013, Boris Moore
+ * Copyright 2014, Boris Moore
  * Released under the MIT License.
  */
 
@@ -11,8 +11,8 @@
 
 $.views.tags({
   tree: {
-    init: function(tagCtx, linkCtx, ctx) {
-      this.data = tagCtx.view.data;
+    render: function(val) {
+      this.data = val;
     },
     onAfterLink: function() {
       var self = this;
@@ -21,13 +21,14 @@ $.views.tags({
           self.toggle();
         });
     },
-    template: "#treeTemplate",
+    template: "#treeTemplate", // See http://www.jsviews.com/#samples/tag-controls/tree/if-binding
 
     //METHODS
     toggle: function() {
       $.observable(this.data).setProperty("expanded", !this.data.expanded);
     },
-    dataBoundOnly: true
+    dataBoundOnly: true,
+    autoBind: true
   }
 });
 

@@ -63,8 +63,5 @@ var myTmpl = $.templates("#myTmpl"),
   };
 
 myTmpl.link("#page", model, {
-  page: pageOptions,
-  selOption: function() {
-    return this.linkCtx.elem.value === pageOptions.monthsSpan.toString();
-  }
+  page: pageOptions
 });

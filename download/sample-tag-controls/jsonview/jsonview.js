@@ -2,7 +2,7 @@
  * Sample JsViews tag control: {{jsonview}} control
  * http://www.jsviews.com/download/sample-tag-controls/jsonview/jsonview.js
 
- * Copyright 2013, Boris Moore
+ * Copyright 2014, Boris Moore
  * Released under the MIT License.
 */
 
@@ -42,13 +42,14 @@
         + '</ul>'
         + '{{/if}}}'
       + '{{else}}'
-        + '"{^{:#data}}"'
+        + '"{^{>#data}}"'
       + '{{/if}}',
       helpers: {
         isObject: isObject,
         notEmpty: notEmpty,
         isArray: $.isArray
       }
-    }
+    },
+    autoBind: true
   });
 })(this.jQuery);

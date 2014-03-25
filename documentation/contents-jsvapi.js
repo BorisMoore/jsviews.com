@@ -440,6 +440,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "text": "Now if the <em>members</em> changes, our rendered template content will automatically update to show the additional inserted (or removed) members in the list."
       },
       {
+        "_type": "para",
+        "title": "",
+        "text": "Here is a live sample of the data-linked <em>{^{for}}</em> tag:"
+      },
+      {
         "_type": "sample",
         "typeLabel": "Sample:",
         "codetabs": [],
@@ -469,12 +474,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Here is a complete version: the <a href=\"#samples/tag-controls/range\">JsViews \"range\" tag control</a> sample."
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "It lets you modify both the <em>members</em> list and the <em>name</em> properties, and see how they automatically trigger updates in other parts of the page which bind to the same data. "
+        "text": "And here is <a href=\"#samples/tag-controls/range\">a link to a complete sample</a> showing a data-linked <em>{^{range}}</em> tag. It lets you modify both the <em>members</em> list and the <em>name</em> properties, and see how they automatically trigger updates in other parts of the page which bind to the same data."
       },
       {
         "_type": "para",

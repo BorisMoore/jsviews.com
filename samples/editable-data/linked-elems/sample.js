@@ -86,6 +86,6 @@ $("#deletelast").on("click", function() {
 });
 
 $("#showdata").on("click", function() {
-  $("#console").append("<hr/>" + window.cnt);
+  $("#console").append("<hr/>");
   $("#console").append($("#showData").render(movies));
 });

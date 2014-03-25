@@ -3,7 +3,7 @@
  * http://www.jsviews.com/download/sample-tag-controls/slider/slider.js
  * Used in samples: http://www.jsviews.com/#samples/tag-controls/slider/simple
  * Used in samples: http://www.jsviews.com/#samples/tag-controls/slider/variants
- * Copyright 2013, Boris Moore
+ * Copyright 2014, Boris Moore
  * Released under the MIT License.
  */
 
@@ -14,7 +14,7 @@ $.views.tags({
   slider: {
     init: function(tagCtx, linkCtx) {
       if (this._.inline && !tagCtx.content) {
-        this.template = tagCtx.tmpl = "<div></div>";
+        this.template = "<div></div>";
       }
     },
     onAfterLink: function(tagCtx, linkCtx) {

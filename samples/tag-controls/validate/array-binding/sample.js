@@ -49,4 +49,3 @@ myTmpl.link("#page", model, {
     validation.validate();
   });
 var validation = $.view("#validate").ctx.tag;
-

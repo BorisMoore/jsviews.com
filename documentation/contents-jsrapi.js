@@ -3197,7 +3197,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "para",
-        "title": "Wrapping block content using a template-based custom tag",
+        "title": "Wrapping block content using a function-based custom tag",
         "text": "First of all - what if we want our tag to be used as a block tag, and to render itself by wrapping the rendered block content with the <em>bold p</em> html as in:"
       },
       {
@@ -3219,17 +3219,17 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "To render the block content, we call <em>this.tagCtx.render()</em>:"
+            "text": "To render the block content, we call <em>this.tagCtx.render(val)</em>:"
           },
           {
             "_type": "code",
             "title": "",
-            "code": "return \"<p><b>\" + this.tagCtx.render() + \"</b></p>\";\n"
+            "code": "function renderBoldP(val) {\n   return \"<p><b>\" + this.tagCtx.render(val) + \"</b></p>\";\n}"
           }
         ],
         "title": "2 - Rendering block content from a custom tag function",
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    This is inside our block content:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
-        "code": "function renderBoldP() {\n   return \"<p><b>\" + this.tagCtx.render() + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
+        "code": "function renderBoldP(val) {\n   return \"<p><b>\" + this.tagCtx.render(val) + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
         "onlyJsRender": true
       },

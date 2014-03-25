@@ -71,9 +71,6 @@ invalid.depends = ["startDate", "endDate"];
 
 myTmpl.link("#page", model, {
   page: pageOptions,
-  selOption: function() {
-    return this.linkCtx.elem.value === pageOptions.monthsSpan;
-  },
   invalid: invalid
 })
 .on("click", "#next", function() {
