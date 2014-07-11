@@ -41,8 +41,10 @@
           + '{{/props}}'
         + '</ul>'
         + '{{/if}}}'
-      + '{{else}}'
+      + '{{else #data+""===#data}}'
         + '"{^{>#data}}"'
+      + '{{else}}'
+        + '{^{>#data+""}}'
       + '{{/if}}',
       helpers: {
         isObject: isObject,
