@@ -21,8 +21,10 @@ function sort(array) {
 			for (i = arguments.length; i; i--) {
 				ret += sort.call(this, arguments[ i - 1 ]);
 			}
-		} else for (var i = array.length; i; i--) {
-			ret += this.tagCtx.render(array[ i - 1 ]);
+		} else {
+			for (var i = array.length; i; i--) {
+				ret += this.tagCtx.render(array[ i - 1 ]);
+			}
 		}
 	} else {
 		// Render in original order

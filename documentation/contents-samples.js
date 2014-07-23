@@ -1063,7 +1063,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "{^{for movies[selectedIndex]}}\n  ...\n  <input data-link=\"title\" />\n  ...\n  {^{for languages}}\n    ...\n    <input data-link=\"name\" />\n    ...\n  {{/for}}\n  ...\n{{/for}}\n"
+            "markup": "{^{for movies[selectedIndex]}}\n  ...\n  <input data-link=\"title trigger=true\" />\n  ...\n  {^{for languages}}\n    ...\n    <input data-link=\"name\" />\n    ...\n  {{/for}}\n  ...\n{{/for}}\n"
           }
         ],
         "codetabs": [],
@@ -1116,7 +1116,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "{^{for movies[selectedIndex]}}\n  ...\n  <input data-link=\"title\" />\n  ...\n  {^{for languages}}\n    ...\n    <input data-link=\"name\" />\n    ...\n  {{/for}}\n  ...\n{{/for}}\n"
+            "markup": "{^{for movies[selectedIndex]}}\n  ...\n  <input data-link=\"title trigger=true\" />\n  ...\n  {^{for languages}}\n    ...\n    <input data-link=\"name\" />\n    ...\n  {{/for}}\n  ...\n{{/for}}\n"
           }
         ],
         "codetabs": [],
@@ -2103,7 +2103,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "<input data-link=\"{validate name\n  convert='upper'\n  convertBack=~lower\n  linkTo=name2\n}\"/>"
+            "markup": "<input data-link=\"{validate name trigger=true\n  convert='upper'\n  convertBack=~lower\n  linkTo=name2\n}\"/>"
           },
           {
             "_type": "template",
@@ -2267,7 +2267,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "<div id=\"amountPickers\">\n  ...\n  <span data-link=\"amount\"></span>\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount\" />\n  ...\n  <select data-link=\"amount\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"amount\" />\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</div>"
+            "markup": "<div id=\"amountPickers\">\n  ...\n  <span data-link=\"amount\"></span>\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount trigger=true\" />\n  ...\n  <select data-link=\"amount\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"amount\" />\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</div>"
           },
           {
             "_type": "para",
@@ -2333,7 +2333,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "<script id=\"tmpl\" type=\"text/x-jsrender\">\n  ...\n  <b data-link=\"amount+1\"></b>\n  ...\n  {^{:amount}}\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount\" />\n  ...\n  <select data-link=\"{:amount:} size{:listbox ? 4 : null}\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"amount\" />\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</script>\n\n<div id=\"amountPickers\"></div>\n"
+            "markup": "<script id=\"tmpl\" type=\"text/x-jsrender\">\n  ...\n  <b data-link=\"amount+1\"></b>\n  ...\n  {^{:amount}}\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount trigger=true\" />\n  ...\n  <select data-link=\"{:amount:} size{:listbox ? 4 : null}\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"amount\" />\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</script>\n\n<div id=\"amountPickers\"></div>\n"
           }
         ],
         "url": "samples/form-els/simple/template",
@@ -2370,7 +2370,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "<input data-link=\"{plus1:amount:minus1}\" />\n<span data-link=\"{plus1:amount}\"></span>"
+            "markup": "<input data-link=\"{plus1:amount trigger=true:minus1}\" />\n<span data-link=\"{plus1:amount}\"></span>"
           },
           {
             "_type": "code",
@@ -2390,7 +2390,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "<input data-link=\"{intToStr:amount:strToInt}\"/>...\n<select data-link=\"{intToStr:amount:strToInt} ...\">...\n<input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"{intToStr:amount:strToInt}\" />...\n<textarea data-link=\"{intToStr:amount:strToInt}\" ...></textarea>..."
+            "markup": "<input data-link=\"{intToStr:amount trigger=true:strToInt}\"/>...\n<select data-link=\"{intToStr:amount:strToInt} ...\">...\n<input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"{intToStr:amount:strToInt}\" />...\n<textarea data-link=\"{intToStr:amount:strToInt}\" ...></textarea>..."
           },
           {
             "_type": "code",
@@ -2466,7 +2466,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "<td><input data-link=\"{intToDay:dayOff:dayToInt} title{:dayOff}\" /></td>"
+            "markup": "<td><input data-link=\"{intToDay:dayOff trigger=true:dayToInt} title{:dayOff}\" /></td>"
           }
         ],
         "url": "samples/form-els/converters/day-to-int",
@@ -2741,7 +2741,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "<input data-link=\"{edit name\n  convert='upper'\n  convertBack=~lower\n  linkTo=name2\n}\"/>"
+            "markup": "<input data-link=\"{edit name trigger=true\n  convert='upper'\n  convertBack=~lower\n  linkTo=name2\n}\"/>"
           },
           {
             "_type": "template",
@@ -3900,7 +3900,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "markup": "<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n"
           }
         ],
-        "markup": "<p>\n<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n  I am {^{:disableButton?'disabled':'enabled'}}\n</button><br/><br/>\n</p>\n<p>\nDisable: <input data-link=\"disableButton\" type=\"checkbox\" /><br/>\nSet button (on hover) title: <input data-link=\"theTitle\" />\n</p>",
+        "markup": "<p>\n<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n  I am {^{:disableButton?'disabled':'enabled'}}\n</button><br/><br/>\n</p>\n<p>\nDisable: <input data-link=\"disableButton\" type=\"checkbox\" /><br/>\nSet button (on hover) title: <input data-link=\"theTitle trigger=true\" />\n</p>",
         "data": {
           "theTitle": "the title",
           "disableButton": false

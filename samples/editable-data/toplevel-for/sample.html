@@ -45,12 +45,12 @@
 <script id="detailTemplate" type="text/x-jsrender">
   <div>
     <div class="title">Title:</div>
-    <div><input data-link="title" /></div>
+    <div><input data-link="title trigger=true" /></div>
     <div class="title">
       Languages: <span class="addLanguage">Add</span>
     </div>
     {^{for languages}}
-      <input data-link="name" />
+      <input data-link="name trigger=true" />
       <img class="removeLanguage"
         src="http://www.jsviews.com/resources/images/close.png" />
     {{/for}}

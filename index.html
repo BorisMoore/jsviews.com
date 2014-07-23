@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+	<link rel="Shortcut Icon" type="image/ico" href="resources/images/logo-jsv.png">
 	<link href="resources/css/tree.css" rel="stylesheet"/>
 	<link href="resources/css/tabs.css" rel="stylesheet"/>
 	<link href="resources/css/site.css" rel="stylesheet"/>
@@ -64,7 +65,7 @@
 		<div class="{{:~tag.editable ? 'edit' : 'summary'}}">
 			{^{if ~tag.editable ~mode="edit" }}
 				{^{for topCategory.home || #data[topCategory^name][~tag.category^name] }}
-					<h2><label>Title: <input class="title" data-link="title" /></label></h2>
+					<h2><label>Title: <input class="title" data-link="title trigger=true" /></label></h2>
 					{^{selectList sections }}
 						{{sectionButtons ~root.sectionTypes /}}
 						{^{section _type ~mode ~sectionTypes=~root.sectionTypes[_type].sectionTypes /}}
@@ -144,7 +145,7 @@
 	{{if ~tag.parent.selected}}
 		<div class="typeHeader">{{:_type}} <label class="isdetail">detail: <input type="checkbox" data-link="detail" /></label></div>
 		<div>
-			<label>Title: <input class="title" data-link="title" /></label>
+			<label>Title: <input class="title" data-link="title trigger=true" /></label>
 		</div>
 	{{else title}}
 		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
@@ -316,35 +317,35 @@
 <script id="editParaTmpl" type="text/x-jsrender">
 	{{sectionHeader /}}
 	<div>
-		<textarea data-link="text" rows="5"></textarea>
+		<textarea data-link="text trigger=true" rows="5"></textarea>
 	</div>
 </script>
 
 <script id="editApiTmpl" type="text/x-jsrender">
 	<div class="api">
 		{{sectionHeader /}}
-		<label>Name: <input data-link="name" /></label>
-		<label>Object: <input data-link="object" /></label>
-		<label>Return type: <input data-link="returns" /></label>
+		<label>Name: <input data-link="name trigger=true" /></label>
+		<label>Object: <input data-link="object trigger=true" /></label>
+		<label>Return type: <input data-link="returns trigger=true" /></label>
 		<label>Method: <input type="checkbox" data-link="method" /></label><br/>
-		<label>Description: <input class="description" data-link="description" /></label>
+		<label>Description: <input class="description" data-link="description trigger=true" /></label>
 
 		<div class="signatures">
 			<div>Signatures</div>
 			{^{for signatures}}
 				<div class="signature">
-					<label>Title: <input class="description" data-link="title" /></label><br/>
-					<label>Example: <textarea data-link="example"></textarea></label>
-					<label>Description: <input class="description" data-link="description" /></label>
+					<label>Title: <input class="description" data-link="title trigger=true" /></label><br/>
+					<label>Example: <textarea data-link="example trigger=true"></textarea></label>
+					<label>Description: <input class="description" data-link="description trigger=true" /></label>
 					<img class="removesection signature" src="resources/images/close.png" />
 					<div class="params">
 						<div>Parameters</div>
 						{^{for params}}
 							<div>
-								<label>Name: <input data-link="name" /></label>
-								<label>Type: <input data-link="type" /></label>
+								<label>Name: <input data-link="name trigger=true" /></label>
+								<label>Type: <input data-link="type trigger=true" /></label>
 								<label>Optional: <input type="checkbox" data-link="optional" /></label>
-								<label>Description: <input class="description" data-link="description" /></label>
+								<label>Description: <input class="description" data-link="description trigger=true" /></label>
 								<img class="removesection param" src="resources/images/close.png" />
 							</div>
 						{{/for}}
@@ -365,25 +366,25 @@
 <script id="editTagTmpl" type="text/x-jsrender">
 	<div class="api">
 		{{sectionHeader /}}
-		<label>Description: <input class="description" data-link="description" /></label>
+		<label>Description: <input class="description" data-link="description trigger=true" /></label>
 
 		<div class="signatures">
 			<div>Signatures</div>
 			{^{for signatures}}
 				<div class="signature">
-					<label>Title: <input class="description" data-link="title" /></label>
-					<label>Variant: <input class="description" data-link="variant" /></label><br/>
-					<label>Example: <textarea data-link="example"></textarea></label>
-					<label>Description: <input class="description" data-link="description" /></label>
+					<label>Title: <input class="description" data-link="title trigger=true" /></label>
+					<label>Variant: <input class="description" data-link="variant trigger=true" /></label><br/>
+					<label>Example: <textarea data-link="example trigger=true"></textarea></label>
+					<label>Description: <input class="description" data-link="description trigger=true" /></label>
 					<img class="removesection signature" src="resources/images/close.png" />
 					<div class="params">
 						<div>Arguments</div>
 						{^{for args}}
 							<div>
-								<label>Name: <input data-link="name" /></label>
-								<label>Type: <input data-link="type" /></label>
+								<label>Name: <input data-link="name trigger=true" /></label>
+								<label>Type: <input data-link="type trigger=true" /></label>
 								<label>Optional: <input type="checkbox" data-link="optional" /></label>
-								<label>Description: <input class="description" data-link="description" /></label>
+								<label>Description: <input class="description" data-link="description trigger=true" /></label>
 								<img class="removesection param" src="resources/images/close.png" />
 							</div>
 						{{/for}}
@@ -393,11 +394,11 @@
 						<div>Parameters</div>
 						{^{for params}}
 							<div>
-								<label>Property Name: <input data-link="propName" /></label>
-								<label>Name: <input data-link="name" /></label>
-								<label>Type: <input data-link="type" /></label>
+								<label>Property Name: <input data-link="propName trigger=true" /></label>
+								<label>Name: <input data-link="name trigger=true" /></label>
+								<label>Type: <input data-link="type trigger=true" /></label>
 								<label>Optional: <input type="checkbox" data-link="optional" /></label>
-								<label>Description: <input class="description" data-link="description" /></label>
+								<label>Description: <input class="description" data-link="description trigger=true" /></label>
 								<img class="removesection param" src="resources/images/close.png" />
 							</div>
 						{{/for}}
@@ -418,47 +419,47 @@
 <script id="editDataTmpl" type="text/x-jsrender">
 	{{sectionHeader /}}
 	<div>
-		<textarea data-link="{stringify:data:parse}"></textarea>
+		<textarea data-link="{stringify:data trigger=true:parse}"></textarea>
 	</div>
 </script>
 
 <script id="editTemplateTmpl" type="text/x-jsrender">
 	{{sectionHeader /}}
 	<div>
-		<textarea data-link="markup" rows="5"></textarea>
+		<textarea data-link="markup trigger=true" rows="5"></textarea>
 	</div>
 </script>
 
 <script id="editCodeTmpl" type="text/x-jsrender">
 	{{sectionHeader /}}
 	<div>
-		<textarea data-link="code" rows="5"></textarea>
+		<textarea data-link="code trigger=true" rows="5"></textarea>
 	</div>
 </script>
 
 <script id="editSampleTmpl" type="text/x-jsrender">
 	{{sectionHeader /}}
 	<div>
-		<label>sample name: <input data-link="sampleName" /></label>
-		<label>url: <input data-link="url" /></label>
-		<label>height: <input data-link="height" /></label>
+		<label>sample name: <input data-link="sampleName trigger=true" /></label>
+		<label>url: <input data-link="url trigger=true" /></label>
+		<label>height: <input data-link="height trigger=true" /></label>
 		<label>JsRender only: <input data-link="onlyJsRender" type="checkbox"/></label><br/>
 		<div class="tabs">
 			<div>Code tabs:</div>
 			{^{for codetabs}}
 				<div>
-					<label>label: <input data-link="label" /></label>
-					<label>url: <input data-link="url" /></label>
+					<label>label: <input data-link="label trigger=true" /></label>
+					<label>url: <input data-link="url trigger=true" /></label>
 					<img class="removesection codetab" src="resources/images/close.png" />
 				</div>
 			{{/for}}
 		</div>
 		<button class="addcodetab cmdbtn">add tab</button><br/>
 
-		<label>markup<textarea data-link="markup" rows="5"></textarea></label>
-		<label>data<textarea data-link="{stringify:data:parse}" rows="5"></textarea></label>
-		<label>html<textarea data-link="html" rows="5"></textarea></label>
-		<label>code<textarea data-link="code" rows="5"></textarea></label>
+		<label>markup<textarea data-link="markup trigger=true" rows="5"></textarea></label>
+		<label>data<textarea data-link="{stringify:data trigger=true:parse}" rows="5"></textarea></label>
+		<label>html<textarea data-link="html trigger=true" rows="5"></textarea></label>
+		<label>code<textarea data-link="code trigger=true" rows="5"></textarea></label>
 		<label>How it works:</label>
 		{^{selectList sections}}
 			{{sectionButtons ~sectionTypes ~sectionType="sample" /}}
@@ -474,8 +475,8 @@
 		<div>Links</div>
 		{^{for links}}
 			<div>
-				<label>Title: </label><input data-link="label" />
-				<label>url: </label><input data-link="url" />
+				<label>Title: </label><input data-link="label trigger=true" />
+				<label>url: </label><input data-link="url trigger=true" />
 				<img class="removesection link" src="resources/images/close.png" />
 			</div>
 		{{/for}}
@@ -485,8 +486,8 @@
 		<div>Topics</div>
 		{^{for topics}}
 			<div>
-				<label>Title: </label><input data-link="label" />
-				<label>hash: </label><input data-link="hash" />
+				<label>Title: </label><input data-link="label trigger=true" />
+				<label>hash: </label><input data-link="hash trigger=true" />
 				<img class="removesection topic" src="resources/images/close.png" />
 			</div>
 		{{/for}}

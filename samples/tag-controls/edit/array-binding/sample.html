@@ -14,7 +14,7 @@
 
 <script id="myTmpl" type="text/x-jsrender">
 
-  Chosen person: <input data-link="person"/><br/>
+  Chosen person: <input data-link="person trigger=true"/><br/>
 
   <h3>Edit names</h3>
   <p>
@@ -23,13 +23,14 @@
   <p>
   {^{for people}}
       <img class="remove" src="http://www.jsviews.com/resources/images/close.png" />
-      {^{edit name /}}<br/>
+      {^{edit name trigger=true /}}<br/>
     {{/for}}
   </p>
 
   <h3>Data-linked tags</h3>
 
   {^{edit person
+    trigger=true
     convert="upper"
     convertBack=~lower
   }}
@@ -37,6 +38,7 @@
   {{/edit}}<br/>
 
   {^{edit person ~people=people
+    trigger=true
     convert="upper"
     convertBack=~lower
   }}
@@ -48,6 +50,7 @@
   {{/edit}}
 
   {^{edit person ~people=people
+    trigger=true
     convert='upper'
     convertBack=~lower
   }}
@@ -61,6 +64,7 @@
   <h3>Data-linked elements</h3>
 
   <input data-link="{edit person
+    trigger=true
     convert='upper'
     convertBack=~lower
   }"/><br/>

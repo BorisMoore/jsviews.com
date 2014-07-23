@@ -15,15 +15,15 @@
 <script id="myTmpl" type="text/x-jsrender">
   <div class="subhead">Data-linked input</div>
 
-  <pre>&lt;input data-link="person"/&gt;</pre>
+  <pre>&lt;input data-link="person trigger=true"/&gt;</pre>
 
-  <input data-link="person"/>
+  <input data-link="person trigger=true"/>
 
   <div class="subhead">Data-linked textbox tag</div>
 
-  <pre>&#123;^{textbox person /}&#125;</pre>
+  <pre>&#123;^{textbox person trigger=true/}&#125;</pre>
 
-  {^{textbox person /}}
+  {^{textbox person trigger=true/}}
 </script>
 
 <div id="page"></div>

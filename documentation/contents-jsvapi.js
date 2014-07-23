@@ -532,7 +532,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "template",
             "title": "A data-linked input element (two-way data-binding)",
-            "markup": "<input data-link=\"name\"/>"
+            "markup": "<input data-link=\"name trigger=true\"/>"
           },
           {
             "_type": "template",
@@ -545,7 +545,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "markup": "{^{:name}}"
           }
         ],
-        "markup": "<input data-link=\"name\"/>\n<span data-link=\"name\" class=\"spanbox\"></span>\n{^{:name}}",
+        "markup": "<input data-link=\"name trigger=true\"/>\n<span data-link=\"name\" class=\"spanbox\"></span>\n{^{:name}}",
         "data": {
           "name": "Jeff"
         },
@@ -556,7 +556,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Notice that the <em>&lt;input data-link=\"name\"/&gt;</em> tag automatically has <em>two-way data-binding</em>."
+        "text": "Notice that the <em>&lt;input data-link=\"name trigger=true\"/&gt;</em> tag automatically has <em>two-way data-binding</em>."
       },
       {
         "_type": "para",
@@ -596,7 +596,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "template",
         "title": "",
-        "markup": "<span data-link=\"{:name}\"></span>\n<span data-link=\"{:address.street}\"></span>\n<span data-link=\"{:~someHelper.computed() > 1}\"></span>\n\n<input data-link=\"{:name:}\"/>"
+        "markup": "<span data-link=\"{:name}\"></span>\n<span data-link=\"{:address.street}\"></span>\n<span data-link=\"{:~someHelper.computed() > 1}\"></span>\n\n<input data-link=\"{:name trigger=true:}\"/>"
       },
       {
         "_type": "para",
@@ -611,7 +611,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "template",
         "title": "",
-        "markup": "<input data-link=\"{myConverter:some.data.path:myConvertBack}\"/>\n\n<select data-link=\"{myConverter:some.data.path:myConvertBack}\">...</select>"
+        "markup": "<input data-link=\"{myConverter:some.data.path trigger=true:myConvertBack}\"/>\n\n<select data-link=\"{myConverter:some.data.path:myConvertBack}\">...</select>"
       },
       {
         "_type": "para",

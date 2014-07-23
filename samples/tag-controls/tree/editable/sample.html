@@ -5,32 +5,37 @@
   <script src="http://code.jquery.com/jquery.js"></script>
   <script src="download/jsviews.js"></script>
   <script src="samples/sample-viewer.js"></script>
+  <link href="samples/tag-controls/tree/editable/sample.css" rel="stylesheet" />
   <link href="download/sample-tag-controls/treeview/tree.css" rel="stylesheet" />
 </head>
 <body>
 
-<h3>JsViews 'editable tree' tag control: The {{tree}} tag</h3>
+<h3>JsViews 'editable tree' tag control: The {{editableTree}} tag</h3>
 <div class="subhead">Dynamic content blocks use <em>{^{if}}</em> binding</div>
 
 <div id="pageContent" class="folderView"></div>
 
 <script id="pageTemplate" type="text/x-jsrender">
-  <ul>{^{tree/}}</ul>
+  <div class="left">
+    <div class="label">
+      Editable: <input type="checkbox" data-link="editable" />
+    </div>
+    <ul>{^{editableTree/}}</ul>
+  </div>
+  <div class="right">
+    <br/>
+    <ul>{^{tree/}}</ul>
+  </div>
 </script>
 
 <script id="treeTemplate" type="text/x-jsrender">
   <li>
-    {^{if folders.length}}
+    {^{if folders && folders.length}}
       <span class="toggle">{^{:expanded ? '-' : '+'}}</span>
     {{else}}
       <span class="spacer">&bull;</span>
     {{/if}}
-    <input data-link="name" />
-    <span class="add">add</span>
-    {^{if ~parentTags.tree}}
-      {{!-- Don't allow removing the top-level tree control --}}
-      <img class="remove" src="http://www.jsviews.com/resources/images/close.png" />
-    {{/if}}
+    {^{>name}}
   </li>
   {^{if expanded}}
     <li>
@@ -40,6 +45,36 @@
         {{/for}}
       </ul>
     </li>
+  {{/if}}
+</script>
+
+
+<script id="editableTreeTemplate" type="text/x-jsrender">
+  {^{if ~root.editable}}
+    <li>
+      {^{if folders.length}}
+        <span class="toggle">{^{:expanded ? '-' : '+'}}</span>
+      {{else}}
+        <span class="spacer">&bull;</span>
+      {{/if}}
+      <input data-link="name trigger=true" />
+      <span class="add">add</span>
+      {^{if ~parentTags.editableTree}}
+        {{!-- Don't allow removing the top-level tree control --}}
+        <img class="remove" src="http://www.jsviews.com/resources/images/close.png" />
+      {{/if}}
+    </li>
+    {^{if expanded}}
+      <li>
+        <ul>
+          {^{for folders}}
+            {^{editableTree/}}
+          {{/for}}
+        </ul>
+      </li>
+    {{/if}}
+  {{else}}
+    {^{tree/}}
   {{/if}}
 </script>
 

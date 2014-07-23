@@ -16,7 +16,7 @@
     <b>Using converters to convert between <em>"base 0"</em> data values and
     <em>"base 1"</em> UI values: <em>"{plus1:listbox:minus1}"</em></b><br/><br/>
 
-    <input data-link="{plus1:amount:minus1}" />
+    <input data-link="{plus1:amount trigger=true:minus1}" />
     <span data-link="{plus1:amount}" class="calculated"></span>
     <span data-link="{:amount}" class="calculated"></span><br/><br/>
   </div>
@@ -31,7 +31,7 @@
   <div class="box">
     <b>Using converters to bind <em>number</em> data values to <em>string</em>
     values in UI elements: <em>"{intToStr:listbox:strToInt}"</em></b><br/><br/>
-    <input data-link="{intToStr:amount:strToInt}"/><br/><br/>
+    <input data-link="{intToStr:amount trigger=true:strToInt}"/><br/><br/>
 
     <select data-link="{intToStr:amount:strToInt} size{:listbox ? 4 : null}">
       <option>0</option>
@@ -53,7 +53,7 @@
       data-link="{intToStr:amount:strToInt}" />
       3<br/><br/>
 
-    <textarea data-link="{intToStr:amount:strToInt}"
+    <textarea data-link="{intToStr:amount trigger=true:strToInt}"
       rows="2" cols="10"></textarea><br/><br/>
   </div>
 

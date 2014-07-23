@@ -6,6 +6,26 @@
     onAfterLink: function() {
       var self = this;
       self.contents("li").first()
+        .on("click", ".toggle", function() {
+          self.toggle();
+        });
+    },
+    template: "#treeTemplate",
+
+    //METHODS
+    toggle: function() {
+      $.observable(this.data).setProperty("expanded", !this.data.expanded);
+    },
+    dataBoundOnly: true,
+    autoBind: true
+  },
+  editableTree: {
+    render: function(val) {
+      this.data = val;
+    },
+    onAfterLink: function() {
+      var self = this;
+      self.contents("li").first()
       .on("click", ".toggle", function() {
         self.toggle();
       })
@@ -16,7 +36,7 @@
         self.addFolder();
       });
     },
-    template: "#treeTemplate",
+    template: "#editableTreeTemplate",
 
     //METHODS
     toggle: function() {
@@ -41,6 +61,7 @@
 
 /* Hierarchy of named folders */
 var rootFolder = {
+  editable: true,
   name: "Categories", folders: [
     {name: "Drama", folders: [
       {name: "Courtroom", folders: []},

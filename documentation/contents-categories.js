@@ -114,7 +114,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "template",
             "title": "And within the template we will use two-way binding to allow editing of the underlying data:",
-            "markup": "{^{if editable}}\n  <div>\n    <input data-link=\"name\"/>\n    <input data-link=\"nickname\"/>\n    <input type=\"checkbox\" data-link=\"showNickname\"/>\n  </div>\n{{/if}}\n"
+            "markup": "{^{if editable}}\n  <div>\n    <input data-link=\"name trigger=true\"/>\n    <input data-link=\"nickname trigger=true\"/>\n    <input type=\"checkbox\" data-link=\"showNickname\"/>\n  </div>\n{{/if}}\n"
           }
         ],
         "sections": [
@@ -132,12 +132,12 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "_type": "para",
                 "title": "{^{name}} ... {^{if showNickname && nickname}}...",
-                "text": "These are data-bound tags. When the underlying data changes, the data-value within the rendered template automatically updates too."
+                "text": "These are data-bound tags. When the underlying data changes the data-value within the rendered template automatically updates too."
               },
               {
                 "_type": "para",
                 "title": "",
-                "text": "And change <em>{{if ...}}</em> to <em>{^{if ...}}</em> and it too will be data-bound. Now when the underlying data value or expression changes the whole rendered block content is automatically removed (or reinserted)."
+                "text": "Changing <em>{{if ...}}</em> to <em>{^{if ...}}</em> makes it data-bound. Now, when the underlying data value or expression changes the whole rendered block content is automatically removed or reinserted."
               },
               {
                 "_type": "para",
@@ -146,8 +146,13 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               },
               {
                 "_type": "para",
-                "title": "&lt;input data-link=\"name\"/&gt;",
+                "title": "&lt;input data-link=\"name trigger=true\"/&gt;",
                 "text": "And here, the input is automatically two-way data-bound to the <em>name</em> property of the underlying data. Change the value in the text box, and the underlying data automatically updates. Any other parts of the template that are data-linked to the same data property will then immediately update too."
+              },
+              {
+                "_type": "para",
+                "title": "",
+                "text": "Include 'trigger=true', and updates will happen as you type, not just when you leave the textbox."
               }
             ],
             "data": [
@@ -165,7 +170,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "markup": "",
             "onlyJsRender": false,
             "height": "106",
-            "html": "<div id=\"result\"></div>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n<div>\n  Edit: <input type=\"checkbox\" data-link=\"editable\"/>\n  <em>Name:</em> {^{:name}}\n  {^{if showNickname && nickname}}\n    (Goes by <em data-link=\"nickname\"></em>)\n  {{/if}}\n  {^{if editable}}\n    <div>\n      <input data-link=\"name\"/>\n      <input data-link=\"nickname\"/>\n      <input type=\"checkbox\" data-link=\"showNickname\"/>\n    </div>\n  {{/if}}\n</div>\n\n</script>",
+            "html": "<div id=\"result\"></div>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n<div>\n  Edit: <input type=\"checkbox\" data-link=\"editable\"/>\n  <em>Name:</em> {^{:name}}\n  {^{if showNickname && nickname}}\n    (Goes by <em data-link=\"nickname\"></em>)\n  {{/if}}\n  {^{if editable}}\n    <div>\n      <input data-link=\"name trigger=true\"/>\n      <input data-link=\"nickname trigger=true\"/>\n      <input type=\"checkbox\" data-link=\"showNickname\"/>\n    </div>\n  {{/if}}\n</div>\n\n</script>",
             "code": "var data = [\n  {\n    \"name\": \"Robert\",\n    \"nickname\": \"Bob\",\n    \"showNickname\": true\n  },\n  {\n    \"name\": \"Susan\",\n    \"nickname\": \"Sue\",\n    \"showNickname\": false\n  }\n];\n\nvar template = $.templates(\"#theTmpl\");\n\ntemplate.link(\"#result\", data);"
           }
         ]
@@ -224,12 +229,12 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "_type": "para",
                 "title": " $.observable(object).setProperty(...);",
-                "text": "<em>$.observable(dataItem)</em> makes dataItem <em>\"observable\"</em>, by providing a <em>setProperty(...)</em> method. The changes you make will be \"observed\" by the declarative data-binding in the template."
+                "text": "<em>$.observable(dataItem)</em> makes dataItem <em>\"observable\"</em>, by providing a <em>setProperty(...)</em> method.Use <em>setProperty</em> to change a value, and the change will be \"observed\" by the declarative data-binding in the template."
               },
               {
                 "_type": "para",
                 "title": "$.observable(array).insert(...);",
-                "text": "<em>$.observable(people)</em> makes the people array <em>\"observable\"</em>, by providing methods like <em>insert(...)</em> and <em>remove(...)</em>. The array changes you make will also be \"observed\" by data-bound elements and tags in the template - such as the <em>{^{for people}}</em> tag. Here the rendered block content of the tag will be incrementally added/removed for each added/removed array item - in response to your change."
+                "text": "<em>$.observable(people)</em> makes the people array <em>\"observable\"</em>, by providing methods like <em>insert(...)</em> and <em>remove(...)</em>. Use them to make changes to arrays, and the changes will be \"observed\" by data-bound elements and tags in the template - such as the <em>{^{for people}}</em> tag. Here the rendered block content of the tag will be incrementally added/removed for each added/removed array item - in response to your change."
               },
               {
                 "_type": "para",

@@ -33,7 +33,7 @@
     on this page!
   </p>
 
-  Chosen person: <input data-link="person"/><br/>
+  Chosen person: <input data-link="person trigger=true"/><br/>
 
   <h3>Edit names</h3>
   <p>
@@ -42,7 +42,7 @@
   <p>
   {^{for people}}
       <img class="remove" src="http://www.jsviews.com/resources/images/close.png" />
-      {^{validate name minLength=5 msg_minLength="Edit the name: At least %cond% letters!" /}}
+      {^{validate name trigger=true minLength=5 msg_minLength="Edit the name: At least %cond% letters!" /}}
     {{/for}}
   </p>
 
@@ -75,6 +75,7 @@
   <h3>Data-linked elements</h3>
 
   <input data-link="{validate person
+    trigger=true
     minLength=5
     convert='upper'
     convertBack=~lower

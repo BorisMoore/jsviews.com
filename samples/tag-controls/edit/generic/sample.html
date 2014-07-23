@@ -13,18 +13,19 @@
 <h3>JsViews 'edit' tag control: The {{edit}} tag</h3>
 
 <script id="myTmpl" type="text/x-jsrender">
-  person: <input data-link="person"/><br/>
+  person: <input data-link="person trigger=true"/><br/>
   agree: <input type="checkbox" data-link="agree"/><br/>
 
-  person2: <input data-link="person2"/>
+  person2: <input data-link="person2 trigger=true"/>
 
   <h3>linkTo</h3>
-  person->person2: <input data-link="person linkTo=person2"/><br/>
-  person2->person: <input data-link="person2 linkTo=person"/>
+  person->person2: <input data-link="person linkTo=person2 trigger=true"/><br/>
+  person2->person: <input data-link="person2 linkTo=person trigger=true"/>
 
   <h3>Data-linked tags</h3>
 
   {^{edit person
+    trigger=true
     convert="upper"
     convertBack=~lower
   }}
@@ -33,6 +34,7 @@
 
   person->person2:
   {^{edit person
+    trigger=true
     convert="upper"
     convertBack=~lower
     linkTo=person2
@@ -69,6 +71,7 @@
   {{/edit}}
 
   {^{edit person
+    trigger=true
     convert="upper"
     convertBack=~lower
   }}
@@ -77,19 +80,21 @@
 
   <h3>Data-linked elements</h3>
 
-  <input data-link="{edit person
+  <input data-link="{edit person trigger=true
+    trigger=true
     convert='upper'
     convertBack=~lower
   }"/><br/>
 
   person->person2:
-  <input data-link="{edit person
+  <input data-link="{edit person trigger=true
+    trigger=true
     convert='upper'
     convertBack=~lower
     linkTo=person2
   }"/><br/>
 
-  Agree: <input type="checkbox" data-link="{edit agree}"/><br/>
+  Agree: <input type="checkbox" data-link="{edit agree trigger=true}"/><br/>
 
   <select size="3" data-link="{edit person
     convert='upper'
@@ -109,7 +114,8 @@
     <input type="radio" name="gp1" value="XAVIER"/><label>Xavier</label><br/>
   </div>
 
-  <textarea data-link="{edit person
+  <textarea data-link="{edit person trigger=true
+    trigger=true
     convert='upper'
     convertBack=~lower
   }"></textarea>
