@@ -591,7 +591,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "code",
             "title": "Derive from <b>{{for}}</b> tag",
-            "code": "$.views.tags({\n  range: $.extend(true, {}, $.views.tags[\"for\"], {\n    render: function(val) {\n      ...\n      return $.views.tags[\"for\"].render.apply(this, val ? [val] : arguments);\n    }\n  })\n});\n"
+            "code": "$.views.tags({\n  range: {\n    // Inherit from {{for}} tag\n    baseTag: $.views.tags[\"for\"],\n\n    // Override the render method of {{for}}\n    render: function(val) {\n\n      ...\n\n      // Call the baseTag render method\n      return this.baseTag.render.apply(this, val ? [val] : arguments);\n    },\n\n    ...\n  }\n});\n"
           }
         ],
         "codetabs": [
@@ -792,7 +792,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "The following shows helper paths referencing a 'helper properties' (objects, or values):"
+            "text": "The following shows helper paths referencing 'helper properties' (objects, or values):"
           },
           {
             "_type": "template",
@@ -2944,6 +2944,16 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "_type": "template",
             "title": "",
             "markup": "{{textbox my.data.path /}}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "As an optional optimization, we can set the <em>onUpdate</em> handler of our tag control to return <em>false</em>. This has the effect that when the data changes, the control will not re-render itself completely. (The updating of the textbox content is already assured by the data-linked <em>input</em>, so re-rendering is unnecessary.)  "
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.views.tags({\n  textbox: {\n    onAfterLink: function() {\n      this.linkedElem = this.contents(\"input\");\n    },\n    onUpdate: function() {\n      return false;\n    },\n    template: \"<input/>\"\n  }\n});"
           }
         ],
         "sampleName": "tag-controls/edit/simple-textbox",

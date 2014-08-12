@@ -16,8 +16,7 @@
     toggle: function() {
       $.observable(this.data).setProperty("expanded", !this.data.expanded);
     },
-    dataBoundOnly: true,
-    autoBind: true
+    dataBoundOnly: true
   }
 });
 

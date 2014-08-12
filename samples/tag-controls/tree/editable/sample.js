@@ -16,8 +16,7 @@
     toggle: function() {
       $.observable(this.data).setProperty("expanded", !this.data.expanded);
     },
-    dataBoundOnly: true,
-    autoBind: true
+    dataBoundOnly: true
   },
   editableTree: {
     render: function(val) {
@@ -54,8 +53,7 @@
       });
       $.observable(this.data).setProperty("expanded", true);
     },
-    dataBoundOnly: true,
-    autoBind: true
+    dataBoundOnly: true
   }
 });
 

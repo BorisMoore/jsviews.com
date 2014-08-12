@@ -12,7 +12,12 @@
 $.views.tags({
   textbox: {
     onAfterLink: function() {
-      this.linkedElem = this.contents("input");
+      // Find input in contents, if not already found
+      this.linkedElem = this.linkedElem || this.contents("input");
+    },
+    onUpdate: function() {
+      // No need to re-render whole tag, when content updates.
+      return false; // 
     },
     template: "<input/>"
   }

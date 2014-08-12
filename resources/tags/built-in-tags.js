@@ -212,16 +212,24 @@ var	treeNodeTmpl = $.templates(
 // {{selectList}}
 // Derives from {{for}} control
 
-	selectListTag = $.extend(true, {}, $.views.tags["for"], { // This tag control derives from the {{for}} tag.
+	selectListTag = {
+		// This tag control derives from the {{for}} tag.
+		baseTag: $.views.tags["for"],
+
+		// overrides of {{for}} tag.
+
 		onArrayChange: function(ev, eventArgs) {
-			$.views.tags["for"].onArrayChange.apply(this, arguments);
+			// Call baseTag implementation
+			this.baseTag.onArrayChange.apply(this, arguments);
+
 			if (eventArgs.change === "insert" || eventArgs.change === "move") {
 				this.toggleSelect(eventArgs.index);
 			}
 		},
 		flow: false,
 
-	// methods
+		// additional methods
+
 		toggleSelect: function(index) {
 			this.item(index).toggleSelect();
 		},
@@ -229,7 +237,8 @@ var	treeNodeTmpl = $.templates(
 			return this.childTags()[index];
 		},
 
-	// events
+		// additional events
+
 		onToggleSelect: function(child) {
 			if (child === this.selectedChild) {
 				this.selectedChild = null;
@@ -240,7 +249,7 @@ var	treeNodeTmpl = $.templates(
 				this.selectedChild = child;
 			}
 		}
-	});
+	};
 
 //#endregion
 

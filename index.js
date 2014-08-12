@@ -8,8 +8,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 // {{page}}
 
 	pageTag = {
-		init: function(tagCtx) {
-			var categoryPromise;
+		init: function() {
 			window.pagetag = page = this;
 			page.data =  content;
 			page.category = selectedCategory;
@@ -43,7 +42,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 					page.addCodeTab($.view(this));
 				})
 				.on("click", ".removesection", function() {
-					var view = $.view(this)
+					var view = $.view(this);
 					page.removeSection(view.get("array").data, view.getIndex());
 				})
 				.on("click", ".runSample", function() {
@@ -63,7 +62,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 				.on("keyup", ".try textarea", function() {
 					$.observable($.view(this).ctx.parentTags.section.sampleFrame).setProperty("ranIt", true);
 				})
-				.on("contextmenu", function(ev) {
+				.on("contextmenu", function() {
 					if (allowEdit || content.allowEdit) {
 						var editable = !page.editable;
 						$.observable(content).setProperty("editable", editable);
@@ -163,7 +162,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 					}
 				}
 			}
-			var selectList, index, sections, hash, i, l, left,
+			var selectList, index, sections, hash, left,
 				category = this.category,
 				topics = this.data[topCategoryName],
 				topic = (topics || topCategory)[category.name],
@@ -227,7 +226,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 								return parent;
 							}
 						}
-						return category
+						return category;
 					}
 				}
 				stack.pop();
@@ -248,8 +247,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 			this.data = tagCtx.view.data;
 		},
 		render: function(type, mode) {
-			var ret,
-				editable = mode === "edit",
+			var editable = mode === "edit",
 				buttons = "";
 			if (editable) {
 				mode = this.selected ? mode : "editview";
@@ -337,7 +335,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 							+ (nestedSectionType ? "data-type=\"" + nestedSectionType + "\"" : "")
 						+ ">"
 							+ type
-						+ "</button>"
+						+ "</button>";
 			}
 			return ret + "</div>";
 		}
@@ -350,7 +348,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 	},
 
 	sampleFrameTag = {
-		init: function(tagCtx) {
+		init: function() {
 			var self = this,
 				data = $.parseJSON(stringify(self.parents.section.data)),
 				codetabs = data.codetabs;
@@ -363,7 +361,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 				self.loadScript = loadScript;
 				if (data.url) {
 					var html = $.trim(self.iframeWnd.document.body.innerHTML),
-						toremove = html.indexOf("\n<!--<script src=\"samples"),
+						toremove = html.indexOf("\n<!--<script src=\""),
 						header = self.iframeWnd.document.head || "";
 					if (toremove > 0) {
 						html = html.slice(0, toremove);
@@ -409,7 +407,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 			var self = this;
 			$.each(codetabs, function(index, tab) {
 				$.get(tab.url, function(content) {
-					self.tryItData['c' + index] = self.sampleData['c' + index] = content
+					self.tryItData['c' + index] = self.sampleData['c' + index] = content;
 				}, "text");
 			});
 		},
@@ -422,7 +420,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 			}
 			self.parent.tabs.onSelectionChange = function() {
 				self.onTabChange.apply(self, arguments);
-			}
+			};
 		},
 		onDispose: function() {
 			this.iframeWnd = this.parent.sampleFrame = this.parentElem = undefined;
@@ -436,12 +434,12 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 			if (revert) {
 				$.observable(this.tryItData).setProperty(this.origData);
 				$.observable(this).setProperty("ranIt", !revert);
-			};
+			}
 			try {
 				this.loadScript(this.tryItData);
 			}
 			catch (e) {
-				alert("Error: " + e)
+				alert("Error: " + e);
 			}
 		}
 	},
@@ -461,7 +459,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 					+ "<head>\n"
 					+ "  <script src=\"http://code.jquery.com/jquery.js\"></script>\n"
 					+ (url
-						? ("  <base href=\"http://www.jsviews.com\"/>\n"
+						? ("  <base href=\"http://www.jsviews.com/" + url.slice(0, url.lastIndexOf("/")) + "/\"/>\n"
 							+ tryItData.header
 							+ (codeInHeader
 								? ("<script>\n" + code
@@ -469,7 +467,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 								: ""))
 						: ("  <base href=\"http://www.jsviews.com/samples/\"/>\n"
 							+ "  <link href=\"samples.css\" rel=\"stylesheet\"/>\n"
-							+ "  <script src=\"http://www.jsviews.com/download/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"))
+							+ "  <script src=\"../download/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"))
 					+ "</head>\n"
 					+ "<body>\n\n"
 					+ (html
@@ -628,7 +626,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 	};
 
 sectionTemplates.editview = sectionTemplates.detail = sectionTemplates.summary; // for now
-sectionTag.templates = sectionTemplates
+sectionTag.templates = sectionTemplates;
 
 //#endregion
 
@@ -652,7 +650,7 @@ function getCategory(hash, fetch) {
 						$.observable(parent).setProperty("expanded", true);
 					}
 				}
-				return category
+				return category;
 			}
 		}
 		stack.pop();
@@ -714,7 +712,7 @@ function fetchCategory() {
 	return getCategory(lochash.slice(1), true)
 		.then(function() {
 			if (page) {
-				var topCategoryName = topCategory.name
+				var topCategoryName = topCategory.name;
 				if (topCategoryName !== "home" && !content[topCategoryName]) {
 					throw topCategoryName + " not loaded. Ensure category.loaded not saved as 'true'...";
 				}
@@ -745,7 +743,6 @@ function fetchCategory() {
 function signature(api) {
 	var param, i, l,
 		signature = this.data,
-		data = api,
 		ret = (api.object ? api.object + "." : "") + api.name;
 
 	if (api.method) {
@@ -761,7 +758,7 @@ function signature(api) {
 
 function getContent(topics) {
 	if (!topics) {
-		return ""
+		return "";
 	}
 	var ret, l, topic,
 		categories = content.categories,
@@ -806,7 +803,7 @@ function parse(val) {
 	try {
 		eval("data=" + val + ";");
 		return data;
-	} catch(e) {
+	} catch (e) {
 		alert("Invalid content");
 	}
 }
@@ -858,10 +855,7 @@ $.views.tags({
 $.views.converters({
 	getContent: getContent,
 	stringify: stringify,
-	parse: parse,
-	test: function(val) {
-
-	}
+	parse: parse
 });
 
 fetchCategory()

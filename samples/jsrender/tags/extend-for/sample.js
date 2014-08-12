@@ -2,7 +2,11 @@
 // support for iterating over a range (start to end) of items within an array,
 // or for iterating directly over integers from start integer to end integer
 $.views.tags({
-  range: $.extend(true, {}, $.views.tags["for"], {
+  range: {
+    // Inherit from {{for}} tag
+    baseTag: $.views.tags["for"],
+
+    // Override the render method of {{for}}
     render: function(val) {
       var start = this.tagCtx.props.start || 0,
         end = this.tagCtx.props.end;
@@ -18,9 +22,16 @@ $.views.tags({
           val = val.slice(start, end);
         }
       }
-      return $.views.tags["for"].render.apply(this, val ? [val] : arguments);
+
+      // Call the baseTag render method
+      return this.baseTag.render.apply(this, val ? [val] : arguments);
+    },
+
+    // override onArrayChange of the {{for}} tag implementation
+    onArrayChange: function(ev, eventArgs) {
+      this.refresh();
     }
-  })
+  }
 });
 
 var team = {

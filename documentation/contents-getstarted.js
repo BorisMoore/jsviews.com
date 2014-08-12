@@ -147,6 +147,11 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
+            "text": "Take a look at the <em>Code</em>, <em>Full Code</em> or <em>Try It</em> tabs."
+          },
+          {
+            "_type": "para",
+            "title": "",
             "text": "In the html you see that we put our markup in a script block with <em>type=\"text/x-jsrender\"</em>..."
           },
           {
@@ -182,7 +187,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "Again, you can play with the sample, by changing the data, or the markup, or the code."
+            "text": "Again, you can play with the sample in the <em>Try it</em> tab, by changing the data, or the markup, or the code."
           },
           {
             "_type": "para",

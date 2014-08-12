@@ -70,49 +70,50 @@ for (key in sectionTypes) {
         = sectionTypes.tag.sectionTypes[key]
         = key;  // Allow all section types to be inserted under an api or tag section except api and tag sections.
       if (key !== "sample") {
-        sectionTypes.sample.sectionTypes[key] = key; // Allow all section types to be inserted under a sample section except api, tag and sample sections.
+        // Allow all section types to be inserted under a sample section except api, tag and sample sections.
+        sectionTypes.sample.sectionTypes[key] = key;
       }
-    }
-};
+  }
+}
 
 $.views.documentation = {
   content: {
-  allowEdit: localStorage.getItem("JsViewsDocTopics/allowEdit") === "true",
-  useStorage: localStorage.getItem("JsViewsDocTopics/useStorage") === "true",
-  subTypes: {
-    signature: {
-      _type: "signature",
-      title: "title",
-      params: [],
-      args: [],
-      sections: [],
-      example: "",
-      description: ""
+    allowEdit: localStorage.getItem("JsViewsDocTopics/allowEdit") === "true",
+    useStorage: localStorage.getItem("JsViewsDocTopics/useStorage") === "true",
+    subTypes: {
+      signature: {
+        _type: "signature",
+        title: "title",
+        params: [],
+        args: [],
+        sections: [],
+        example: "",
+        description: ""
+      },
+      param: {
+        _type: "param",
+        name: "name",
+        type: "string",
+        optional: false,
+        description: ""
+      },
+      link: {
+        _type: "link",
+        hash: "hash",
+        label: ""
+      },
+      topic: {
+        _type: "topic",
+        hash: "hash",
+        label: ""
+      },
+      codetab: {
+        _type: "codetab",
+        name: "",
+        url: ""
+      }
     },
-    param: {
-      _type: "param",
-      name: "name",
-      type: "string",
-      optional: false,
-      description: ""
-    },
-    link: {
-      _type: "link",
-      hash: "hash",
-      label: ""
-    },
-    topic: {
-      _type: "topic",
-      hash: "hash",
-      label: ""
-    },
-    codetab: {
-      _type: "codetab",
-      name: "",
-      url: ""
-    }
-  },
-  sectionTypes: sectionTypes
-}
+    sectionTypes: sectionTypes
+  }
 };
 })(this, this.jQuery);

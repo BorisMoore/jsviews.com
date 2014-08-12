@@ -14,7 +14,7 @@
   }
 
   function notEmpty(val) {
-    return $.views.tags.props.getTgt(val).length;
+    return $.views.tags.props.dataMap.getTgt(val).length;
   }
 
   notEmpty.depends = "*";
@@ -51,7 +51,6 @@
         notEmpty: notEmpty,
         isArray: $.isArray
       }
-    },
-    autoBind: true
+    }
   });
 })(this.jQuery);

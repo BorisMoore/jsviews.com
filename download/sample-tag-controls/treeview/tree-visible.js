@@ -33,8 +33,7 @@ $.views.tags({
     select: function() {
       $.observable(this).setProperty("selected", !this.selected);
     },
-    dataBoundOnly: true,
-    autoBind: true
+    dataBoundOnly: true
   }
 });
 

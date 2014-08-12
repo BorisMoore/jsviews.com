@@ -112,7 +112,7 @@ content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsVie
       {
         "_type": "para",
         "title": "",
-        "text": "Uncompressed (for development): <a href=\"download/jsrender-1.0.0-beta.js\">jsrender-1.0.0-beta.js</a>.<br/>Compressed (for production): <a href=\"download/jsrender-1.0.0-beta.min.js\">jsrender-1.0.0-beta.min.js</a>. (Source map available <a href=\"download/jsrender-1.0.0-beta.min.js.map\">here</a>)."
+        "text": "Uncompressed (for development): <a href=\"download/jsrender-v1.0.0-beta.js\">jsrender-v1.0.0-beta.js</a>.<br/>Compressed (for production): <a href=\"download/jsrender-v1.0.0-beta.min.js\">jsrender-v1.0.0-beta.min.js</a>. (Source map available <a href=\"download/jsrender-v1.0.0-beta.min.js.map\">here</a>)."
       },
       {
         "_type": "para",
@@ -127,12 +127,12 @@ content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsVie
       {
         "_type": "para",
         "title": "",
-        "text": "Uncompressed (for development): <a href=\"download/jquery.views-1.0.0-alpha.js\">jquery.views-1.0.0-alpha.js</a>.<br/>Compressed (for production): <a href=\"download/jquery.views-1.0.0-alpha.min.js\">jquery.views-1.0.0-alpha.min.js</a>. (Source map available <a href=\"download/jquery.views-1.0.0-alpha.min.js.map\">here</a>)."
+        "text": "Uncompressed (for development): <a href=\"download/jquery.views-v1.0.0-alpha.js\">jquery.views-v1.0.0-alpha.js</a>.<br/>Compressed (for production): <a href=\"download/jquery.views-v1.0.0-alpha.min.js\">jquery.views-v1.0.0-alpha.min.js</a>. (Source map available <a href=\"download/jquery.views-v1.0.0-alpha.min.js.map\">here</a>)."
       },
       {
         "_type": "para",
         "title": "",
-        "text": "Uncompressed (for development): <a href=\"download/jquery.observable-1.0.0-alpha.js\">jquery.observable-1.0.0-alpha.js</a>.<br/>Compressed (for production): <a href=\"download/jquery.observable-1.0.0-alpha.min.js\">jquery.observable-1.0.0-alpha.min.js</a>. (Source map available <a href=\"download/jquery.observable-1.0.0-alpha.min.js.map\">here</a>)."
+        "text": "Uncompressed (for development): <a href=\"download/jquery.observable-v1.0.0-alpha.js\">jquery.observable-v1.0.0-alpha.js</a>.<br/>Compressed (for production): <a href=\"download/jquery.observable-v1.0.0-alpha.min.js\">jquery.observable-v1.0.0-alpha.min.js</a>. (Source map available <a href=\"download/jquery.observable-v1.0.0-alpha.min.js.map\">here</a>)."
       }
     ]
   },
