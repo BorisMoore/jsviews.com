@@ -107,7 +107,7 @@ content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsVie
       {
         "_type": "para",
         "title": "",
-        "text": "<b>Status: </b>JsRender is currently beta. V1.0 is planned to be available right after JsViews official beta release is complete."
+        "text": "<em>Status: JsRender is currently beta. V1.0 is planned to be available right after JsViews official beta release is complete.</em>"
       },
       {
         "_type": "para",
@@ -117,12 +117,27 @@ content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsVie
       {
         "_type": "para",
         "title": "",
-        "text": "<div class=\"title\">JsViews pre beta <span>(single file version)</span></div>"
+        "text": "<div class=\"title\">JsViews pre beta</div>"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "<b>Status: </b>JsViews is currently a beta candidate. It will be officially labelled \"beta\" as soon as reasonably complete documentation for the JsViews and JsObservable APIs has been made available on this site. (Coming soon...)"
+        "text": "<em>Status: JsViews is currently a beta candidate. It will be officially labelled \"beta\" as soon as reasonably complete documentation for the JsViews and JsObservable APIs has been made available on this site. (Coming soon...)</em>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<b>Single file version </b><em>(includes JsRender, JsObservable and JsViews)</em>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Uncompressed (for development): <a href=\"download/jsviews-v1.0.0-alpha.js\">jsviews-v1.0.0-alpha.js</a>.<br/>Compressed (for production): <a href=\"download/jsviews-v1.0.0-alpha.min.js\">jsviews-v1.0.0-alpha.min.js</a>. (Source map available <a href=\"download/jsviews-v1.0.0-alpha.min.js.map\">here</a>)."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<b>Separate files </b><em>(to be used with jsrender.js)</em>"
       },
       {
         "_type": "para",
