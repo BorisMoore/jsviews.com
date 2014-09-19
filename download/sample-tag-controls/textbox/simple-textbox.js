@@ -17,7 +17,7 @@ $.views.tags({
     },
     onUpdate: function() {
       // No need to re-render whole tag, when content updates.
-      return false; // 
+      return false;
     },
     template: "<input/>"
   }

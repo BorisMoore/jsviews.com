@@ -7,7 +7,7 @@ var data = {
     },
     {
       first:"Eugenia",
-      last: "Tyzak",
+      last: "Tyzak"
     }
   ]
 };

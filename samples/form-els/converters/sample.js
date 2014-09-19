@@ -39,7 +39,7 @@ $.views.converters({
       this.linkCtx.elem.getAttribute("data-bit") & 1) === 1;
     // Shift 0, 1 or 2 bits to the right,
     // and see if the first bit is set.
-  },
+  }
 });
 
 var data = {

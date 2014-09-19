@@ -8,7 +8,7 @@ var data = {
     {
       first:"Eugenia",
       last: "Tyzak",
-      role: "Visiting member",
+      role: "Visiting member"
     }
   ]
 };

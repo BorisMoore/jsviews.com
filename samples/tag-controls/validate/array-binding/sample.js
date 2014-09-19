@@ -12,7 +12,7 @@
 var myTmpl = $.templates("#myTmpl"),
   count = 0,
   pageOptions = {
-    noInvalidData: false,
+    noInvalidData: false
   },
   model = {
     person: "Maria",

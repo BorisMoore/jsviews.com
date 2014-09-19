@@ -20,7 +20,6 @@ table {
 	padding: 2px;
 	background-color: #f8f8f8;
 	width: 500px;
-	margin-top: 13px;
 }
 
 table.nowidth, table.nowidth input {
@@ -44,9 +43,10 @@ table td {
 }
 
 table input {
-	width: 96%;
-	border: 1px solid #000;
+	width: 94%;
+	border: 1px solid gray;
 	padding: 4px;
+	height: 15px;
 }
 
 td label {
@@ -85,14 +85,18 @@ td.center {
 }
 
 button {
-	margin-bottom: 3px;
+    margin-bottom: 3px;
+}
+
+.remove {
+	color: red;
 }
 
 .left {
 	float: left;
 	border: 1px solid grey;
 	padding: 10px 10px 4px 10px;
-	margin-right: 20px;
+	margin: 0 12px 8px -4px;
 }
 
 .left > #result {

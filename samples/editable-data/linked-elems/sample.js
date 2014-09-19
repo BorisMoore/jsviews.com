@@ -31,7 +31,7 @@ $.templates({
   movieTmpl: {
     markup: "#movieTemplate",
     helpers: {
-      bgColor: bgColor,
+      bgColor: bgColor
     }
   }
 });

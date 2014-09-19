@@ -67,7 +67,7 @@ $.views.tags({
       $.observable(this).setProperty("isValid", groupIsValid);
     },
     isValid: true,
-    dataBoundOnly: true,
+    dataBoundOnly: true
   },
 
   validate: $.extend(true, {}, editTag, {

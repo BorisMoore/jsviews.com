@@ -11,7 +11,7 @@
 
 var myTmpl = $.templates("#myTmpl"),
   pageOptions = {
-    noInvalidData: false,
+    noInvalidData: false
   },
   model = {
     agree: false,

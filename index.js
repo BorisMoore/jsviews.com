@@ -107,7 +107,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 			};
 		},
 		iframeLoaded: function(tagId, loadScript) {
-			var frame = _jsv.bindings[tagId];
+			var frame = _jsv.bindings[tagId]; // Note this requires debugMode true - so not good to keep like this.
 			if (frame) {
 				frame.linkCtx.tag.getScript(loadScript);
 			}
