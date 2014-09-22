@@ -50,7 +50,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 				})
 				.on("click", ".revertSample", function() {
 					var tag = $.view(this).ctx.tag,
-						section =  tag.tagName === "section" ? tag : tag.parents.section;
+						section =  tag.tagName === "section" ? tag : tag.parent.parents.section;
 					section.sampleFrame.runCode(true);
 				})
 				.on("click", ".tryit", function() {
@@ -251,7 +251,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 				buttons = "";
 			if (editable) {
 				mode = this.selected ? mode : "editview";
-				if (!this.parents.section || this.parents.section.selected) {
+				if (!this.parent.parents.section || this.parent.parents.section.selected) {
 					buttons = '<button class="toggleselect cmdbtn">' + (this.selected
 						? 'ok</button><button class="up cmdbtn">up</button><button class="down cmdbtn">down'
 						: "edit"
@@ -350,7 +350,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 	sampleFrameTag = {
 		init: function() {
 			var self = this,
-				data = $.parseJSON(stringify(self.parents.section.data)),
+				data = $.parseJSON(stringify(self.parent.parents.section.data)),
 				codetabs = data.codetabs;
 			if (data.sampleName) {
 				data.url = "samples/" + data.sampleName + "/sample";
@@ -386,12 +386,13 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 						codetabs && self.loadTabs(codetabs);
 					}, "text");
 				} else {
-				  loadScript(data);
+					loadScript(data);
 					self.origData = self.sampleData = {
 						data: data.data,
 						markup: data.markup,
 						html: data.html,
-						code: data.code
+						code: data.code,
+						onlyJsRender: data.onlyJsRender
 					};
 					self.tryItData = {
 						data: data.data,
@@ -512,7 +513,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 				tryItData = this.data,
 				onlyJsRender = this.tagCtx.view.data.origData.onlyJsRender,
 				editable = mode==="edit",
-				url = this.parents.section.data.url;
+				url = this.parent.parents.section.data.url;
 			if (mode === "full") {
 				ret += "<textarea class=\"fullcode\">" + $.views.converters.html(fullCode()) + "</textarea>";
 			} else if (mode === "code") {

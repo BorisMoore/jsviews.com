@@ -189,7 +189,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "city": "Seattle"
           }
         },
-        "markup": "{{:name}}: lives in <b>{{:address.city}}</b>.<br/>\n\nHere is <em>~root.address.city</em>: <b>{{:~root.address.city}}</b><br/>\n\nHere is <em>~#data.address.city</em>: <b>{{:#data.address.city}}</b>",
+        "markup": "{{:name}}: lives in <b>{{:address.city}}</b>.<br/>\n\nHere is <em>~root.address.city</em>: <b>{{:~root.address.city}}</b><br/>\n\nHere is <em>#data.address.city</em>: <b>{{:#data.address.city}}</b>",
         "height": "80",
         "onlyJsRender": true,
         "title": "{{:data.paths}}"
