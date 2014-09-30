@@ -366,7 +366,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "That line of code renders the template against the data (second parameter) and then inserts that data under the container element (first parameter), <em>and data-binds the HTML</em>. "
+            "text": "That line of code actually does three things:\n<ul class=\"textbefore\"><li>First it renders the template against the data (second parameter)</li>\n<li>Next, it inserts the resulting HTML under the container element (first parameter)</li>\n<li>Finally, it <em>data-binds the HTML</em> against the data</li></ul> "
           }
         ],
         "sampleName": "",

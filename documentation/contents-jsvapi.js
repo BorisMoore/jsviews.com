@@ -532,6 +532,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "template",
             "title": "A data-linked input element (two-way data-binding)",
+            "markup": "<input data-link=\"name\"/>"
+          },
+          {
+            "_type": "template",
+            "title": "Two-way data-binding with update triggered on every key down",
             "markup": "<input data-link=\"name trigger=true\"/>"
           },
           {
@@ -545,18 +550,18 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "markup": "{^{:name}}"
           }
         ],
-        "markup": "<input data-link=\"name trigger=true\"/>\n<span data-link=\"name\" class=\"spanbox\"></span>\n{^{:name}}",
+        "markup": "<input data-link=\"name\"/> <i>(Update on blur)</i><br/>\n<input data-link=\"name trigger=true\"/> <i>(Update on keydown)</i><br/>\n<span data-link=\"name\" class=\"spanbox\"></span>\n{^{:name}}",
         "data": {
           "name": "Jeff"
         },
         "onlyJsRender": false,
         "title": "",
-        "height": "70"
+        "height": "100"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "Notice that the <em>&lt;input data-link=\"name trigger=true\"/&gt;</em> tag automatically has <em>two-way data-binding</em>."
+        "text": "Notice that the <em>&lt;input data-link=\"name\"/&gt;</em> tag automatically has <em>two-way data-binding</em>."
       },
       {
         "_type": "para",
@@ -596,7 +601,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "template",
         "title": "",
-        "markup": "<span data-link=\"{:name}\"></span>\n<span data-link=\"{:address.street}\"></span>\n<span data-link=\"{:~someHelper.computed() > 1}\"></span>\n\n<input data-link=\"{:name trigger=true:}\"/>"
+        "markup": "<span data-link=\"{:name}\"></span>\n<span data-link=\"{:address.street}\"></span>\n<span data-link=\"{:~someHelper.computed() > 1}\"></span>\n\n<input data-link=\"{:name:}\"/>\n<input data-link=\"{:name trigger=true:}\"/>"
       },
       {
         "_type": "para",
@@ -606,12 +611,17 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
+        "text": "And in addition, for <em>&lt;input/&gt;</em>, <em>&lt;textarea&gt;</em>, you can optionally include  <em>trigger=true</em> to specify updating for every character entry (after keydown)."
+      },
+      {
+        "_type": "para",
+        "title": "",
         "text": "You can provide both convert and convertBack converters if you want. (See the <a href=\"#samples/form-els/converters\">two-way binding and converters</a> sample):"
       },
       {
         "_type": "template",
         "title": "",
-        "markup": "<input data-link=\"{myConverter:some.data.path trigger=true:myConvertBack}\"/>\n\n<select data-link=\"{myConverter:some.data.path:myConvertBack}\">...</select>"
+        "markup": "<input data-link=\"{myConverter:some.data.path:myConvertBack}\"/>\n\n<select data-link=\"{myConverter:some.data.path:myConvertBack}\">...</select>"
       },
       {
         "_type": "para",
@@ -651,7 +661,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "So examples would be: \n\n<ul class=\"textbefore\">\n<li><em>&lt;div data-link=\"{:name}\">&lt;/div></em> (one-way binding to innerText - default target attrib - so automatically HTML encodes).</li>\n<li><em>&lt;div data-link=\"html{:name}\">&lt;/div></em> (one-way binding to innerHTML)</li>\n<li><em>&lt;div data-link=\"text{:name}\">&lt;/div></em> (one-way binding to innerText - equivalent to default above)</li>\n<li><em>&lt;div data-link=\"html{>name}\">&lt;/div></em> (one-way binding to innerHTML but with HTML encoding)</li>\n<li><em>&lt;input data-link=\"{:name}\" /&gt;</em> (one-way binding to value - default target attrib)</li>\n<li><em>&lt;input data-link=\"value{:name}\" /&gt;</em> (one-way binding to value)</li>\n<li><em>&lt;input data-link=\"title{:name}\" /&gt;</em> (one-way binding to the title attribute)</li>\n<li><em>&lt;input data-link=\"{cvt:name:cvtBack}\" /&gt;</em>(two-way binding to value, with converters)</li>\n<li><em>&lt;input data-link=\"{cvt:name:cvtBack} title{:info.description}\" /&gt;</em>(two-way binding to value, with converters and one-way binding to title)</li>\n<li><em>&lt;div data-link=\"{myCustomTag name}\">&lt;/div></em> (data-linking a JsViews custom tag control - rendering as innerHTML - default target attrib for tags other than {: ...} - so can insert HTML markup)</li>\n<li><em>&lt;div data-link=\"text{myCustomTag name}\">&lt;/div></em> (data-linking a JsViews custom tag control - rendering as innerText - so automatically HTML encodes)</li>\n</ul>"
+        "text": "So examples would be: \n\n<ul class=\"textbefore\">\n<li><em>&lt;div data-link=\"{:name}\">&lt;/div></em> (one-way binding to innerText - default target attrib - so automatically HTML encodes).</li>\n<li><em>&lt;div data-link=\"html{:name}\">&lt;/div></em> (one-way binding to innerHTML)</li>\n<li><em>&lt;div data-link=\"text{:name}\">&lt;/div></em> (one-way binding to innerText - equivalent to default above)</li>\n<li><em>&lt;div data-link=\"html{>name}\">&lt;/div></em> (one-way binding to innerHTML but with HTML encoding)</li>\n<li><em>&lt;input data-link=\"{:name}\" /&gt;</em> (one-way binding to value - default target attrib)</li>\n<li><em>&lt;input data-link=\"value{:name}\" /&gt;</em> (one-way binding to value)</li>\n<li><em>&lt;input data-link=\"title{:name}\" /&gt;</em> (one-way binding to the title attribute)</li>\n<li><em>&lt;input data-link=\"{:name trigger=true:}\" /&gt;</em>(two-way binding to value, trigger on keydown) <br/>- equivalent to abbreviated syntax: <em>&lt;input data-link=\"name trigger=true\" /&gt;</em></li>\n<li><em>&lt;input data-link=\"{cvt:name:cvtBack}\" /&gt;</em>(two-way binding to value, with converters)</li>\n<li><em>&lt;input data-link=\"{cvt:name trigger=true:cvtBack}\" /&gt;</em>(two-way binding to value, with converters, and trigger on keydown)</li>\n<li><em>&lt;input data-link=\"{cvt:name:cvtBack} title{:info.description}\" /&gt;</em>(two-way binding to value, with converters and one-way binding to title)</li>\n<li><em>&lt;div data-link=\"{myCustomTag name}\">&lt;/div></em> (data-linking a JsViews custom tag control - rendering as innerHTML - default target attrib for tags other than {: ...} - so can insert HTML markup)</li>\n<li><em>&lt;div data-link=\"text{myCustomTag name}\">&lt;/div></em> (data-linking a JsViews custom tag control - rendering as innerText - so automatically HTML encodes)</li>\n</ul>"
       },
       {
         "_type": "para",

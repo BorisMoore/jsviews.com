@@ -743,13 +743,13 @@ function fetchCategory() {
 
 function signature(api) {
 	var param, i, l,
-		signature = this.data,
+		sig = this.data,
 		ret = (api.object ? api.object + "." : "") + api.name;
 
 	if (api.method) {
 		ret += "(";
-		for (i=0, l=signature.params.length; i<l; i++) {
-			param = signature.params[i];
+		for (i=0, l=sig.params.length; i<l; i++) {
+			param = sig.params[i];
 			ret += (param.optional ? "[" : "") + (i ? ", " : "") + param.name + (param.optional ? "]" : "");
 		}
 		ret += ")";

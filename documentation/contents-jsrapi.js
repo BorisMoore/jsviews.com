@@ -1803,12 +1803,12 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "code",
             "title": "",
-            "code": "var html = $(\"#personTemplates\").render(person);"
+            "code": "var html = $(\"#personTemplate\").render(person);"
           }
         ],
         "html": "<table><tbody id=\"person\"></tbody></table>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <tr>\n    <td>\n      {{:name}}\n    </td>\n  </tr>\n</script>",
         "code": "var person = {\n    name: \"Adriana\"\n  };\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);",
-        "title": "$.render.personTmpl(...):",
+        "title": "$(\"#personTemplate\").render(...):",
         "height": "60"
       },
       {
@@ -3287,7 +3287,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "This sample defines a <em>{{range}}</em> tag which iterates over an array which you pass as (unnamed) parameter. It also allows you to set named parameters <em>start</em> and <em>end</em>, to determine the range of iteration. (See also the <a href=\"#samples/jsr/tags/range\">range</a> sample, for a more advanced implementation of a similar custom tag.)"
+            "text": "This sample defines a <em>{{range}}</em> tag which iterates over an array which you pass as (unnamed) parameter. It also allows you to set named parameters <em>start</em> and <em>end</em>, to determine the range of iteration. (See also the <a href=\"#samples/tag-controls/range\">range</a> sample, for a more advanced implementation of a similar custom tag.)"
           },
           {
             "_type": "para",
