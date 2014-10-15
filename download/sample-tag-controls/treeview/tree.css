@@ -15,13 +15,15 @@
 .toggle {
 	cursor: pointer;
 	vertical-align: middle;
-	margin-right: 7px;
 	display: inline-block;
 	border: 1px solid #555;
 	text-align: center;
 	height: 12px;
 	width: 12px;
 	line-height: 11px;
+	padding-top: 1px;
+	font-size: 13px;
+	margin: 0 6px 2px 0;
 	background-color: #f8f8f8;
 	color: Blue;
 }

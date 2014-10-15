@@ -23,10 +23,10 @@
 	height: 12px;
 	width: 12px;
 	line-height: 11px;
+	padding-top: 1px;
+	margin: 0 6px 2px 0;
 	background-color: #f8f8f8;
 	color: Blue;
-	margin: 0 6px 2px 0;
-	padding-top: 1px;
 }
 
 .tree .remove {

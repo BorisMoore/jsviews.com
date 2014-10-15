@@ -45,7 +45,13 @@
 
 		<div class="filler"><span></span><span></span><span></span><span></span><span></span></div>
 
-		<table class="toptable"><tbody><tr class="content">
+		<div class="content">
+			<div class="gradient"></div>
+			<div class="rightcolor"></div>
+			<div class="sndivider">
+				<span class="caption" data-link="topCategory^heading"></span>
+			</div>
+			<div class="snfiller"><span></span><span></span></div>
 {^{page classnm="sidenav"}}
 	{^{if topCategory^home}}
 		{^{if ~tag.editable ~mode="edit" }}
@@ -109,32 +115,32 @@
 		</div>
 	{{/if}}
 {{/page}}
-	</tr></tbody></table>
-
-	<div class="footer"><span>JsViews in the industry:
-		<img src="resources/images/Outlook_rgb_Wht.png" style="width: 72px;" />
-		<img src="resources/images/layout-brand-sm.png" /></span>
+			<div class="footers">
+				<div class="footer"><span>JsViews in the industry:
+					<img src="resources/images/Outlook_rgb_Wht.png" style="width: 72px;" />
+					<img src="resources/images/layout-brand-sm.png" /></span>
+				</div>
+				<div class="menus bottom">
+					<a class="unselected" href="#home">Home</a>
+					<a class="unselected" href="#getstarted">Get Started</a>
+					<a class="unselected" href="#explore">Explore</a>
+					<a class="unselected" href="#jsrapi">JsRender API</a>
+					<a class="unselected" href="#jsvapi">JsViews API</a>
+					<a class="unselected" href="#jsoapi">JsObservable API</a>
+					<a class="unselected" href="#samples">Samples</a>
+					<a class="unselected" href="#download">Downloads</a>
+					<a class="unselected" href="#community">Community</a>
+					<a class="unselected" href="#links">Links</a>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="menus bottom">
-		<a class="unselected" href="#home">Home</a>
-		<a class="unselected" href="#getstarted">Get Started</a>
-		<!--<a class="unselected" href="#explore">Explore</a>-->
-		<a class="unselected" href="#jsrapi">JsRender API</a>
-		<a class="unselected" href="#jsvapi">JsViews API</a>
-		<a class="unselected" href="#jsoapi">JsObservable API</a>
-		<a class="unselected" href="#samples">Samples</a>
-		<a class="unselected" href="#download">Downloads</a>
-		<a class="unselected" href="#community">Community</a>
-		<a class="unselected" href="#links">Links</a>
-	</div>
-</div>
-
 </script>
 
 <script id="pagePanelTmpl" type="text/x-jsrender">
-	<td class="panel {{attr:~tag.tagCtx.props.classnm}}">
+	<div class="panel {{attr:~tag.tagCtx.props.classnm}}">
 		{{include tmpl=#content /}}
-	</td>
+	</div>
 </script>
 
 <script id="tabsContentTmpl" type="text/x-jsrender">
@@ -147,16 +153,24 @@
 		<div class="typeHeader">{{:_type}} <label class="isdetail">detail: <input type="checkbox" data-link="detail" /></label></div>
 		<div>
 			<label>Title: <input class="title" data-link="title trigger=true" /></label>
+			<label>anchor: <input data-link="anchor trigger=true" /></label>
 		</div>
 	{{else title}}
 		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
 	{{/if}}
 </script>
 
-<script id="paraTmpl" type="text/x-jsrender">
+<script id="sectionTitleTmpl" type="text/x-jsrender">
+	{{if anchor ~hash="#" + ~parentTags.page.category.name+'#'+anchor}}
+		<a id="{{:~hash}}$" href="/{{:~hash}}" data-link="{on ~parentTags.page.navTo ~hash}" class="anchor {{:title ? '' : 'notitle'}}"></a>
+	{{/if}}
 	{{if title}}
 		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
 	{{/if}}
+</script>
+
+<script id="paraTmpl" type="text/x-jsrender">
+	{{sectionTitle/}}
 	{{if text}}
 		<div class="para">{{:text}}</div>
 	{{/if}}
@@ -164,9 +178,7 @@
 
 <script id="apiTmpl" type="text/x-jsrender">
 	<div class="apisignatures">
-		{{if title}}
-			<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
-		{{/if}}
+		{{sectionTitle/}}
 		<div class="apidesc">{{:description}}</div>
 		{{for signatures ~api=#data}}
 			<div class="signature">
@@ -199,9 +211,7 @@
 
 <script id="tagTmpl" type="text/x-jsrender">
 	<div class="apisignatures">
-		{{if title}}
-			<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
-		{{/if}}
+		{{sectionTitle/}}
 		<div class="apidesc">{{:description}}</div>
 		{{for signatures ~api=#data}}
 			<div class="signature">
@@ -244,27 +254,21 @@
 </script>
 
 <script id="dataTmpl" type="text/x-jsrender">
-	{{if title}}
-		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
-	{{/if}}
+	{{sectionTitle/}}
 	<div>
 		<pre data-link="{stringify:data}"></pre>
 	</div>
 </script>
 
 <script id="templateTmpl" type="text/x-jsrender">
-	{{if title}}
-		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
-	{{/if}}
+	{{sectionTitle/}}
 	<div>
 		<pre data-link="markup"></pre>
 	</div>
 </script>
 
 <script id="codeTmpl" type="text/x-jsrender">
-	{{if title}}
-		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
-	{{/if}}
+	{{sectionTitle/}}
 	<div>
 		<pre data-link="code"></pre>
 	</div>
@@ -272,32 +276,28 @@
 
 <script id="sampleTmpl" type="text/x-jsrender">
 	<div class="samplesection">
-	{{if title}}
-		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
-	{{/if}}
-	{{if ~mode !== "edit"}}
-		<div class="tryitButtons">
-			<button class="tryit" data-link="~tag.sampleFrame.tryIt ? 'How it works' : 'Try it'"></button>
-			<button class="revertSample" data-link="css-visibility{:~tag.sampleFrame.ranIt ? 'visible' : 'hidden'}">Clear Changes</button>
-		</div>
-		<div class="sample">
-			{^{sampleFrame /}}
-			{{for ~tag.sampleFrame ~sections=sections tmpl=~tabsTmpl()/}}
-		</div>
-	{{else}}
-		<div class="sample">
-			{{for sections ~root.sectionTypes }}
-				{{if ~mode!=="summary" || !detail}}{{section _type ~mode /}}{{/if}}
-			{{/for}}
-		</div>
-	{{/if}}
+		{{sectionTitle/}}
+		{{if ~mode !== "edit"}}
+			<div class="tryitButtons">
+				<button class="tryIt" data-link="~tag.sampleFrame.tryIt ? 'How it works' : 'Try it'"></button><button
+						class="revertSample" data-link="visible{:~tag.sampleFrame.ranIt}">Clear Changes</button>
+			</div>
+			<div class="sample">
+				{^{sampleFrame /}}
+				{{for ~tag.sampleFrame ~sections=sections tmpl=~tabsTmpl()/}}
+			</div>
+		{{else}}
+			<div class="sample">
+				{{for sections ~root.sectionTypes }}
+					{{if ~mode!=="summary" || !detail}}{{section _type ~mode /}}{{/if}}
+				{{/for}}
+			</div>
+		{{/if}}
 	</div>
 </script>
 
 <script id="linksTmpl" type="text/x-jsrender">
-	{{if title}}
-		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
-	{{/if}}
+	{{sectionTitle/}}
 	<div class="links">
 		<div>{{:linksHeader}}</div>
 		{^{for links}}
@@ -496,20 +496,24 @@
 	<button class="addtopic cmdbtn">add topic</button>
 </script>
 </head>
+
 <body>
-	<div class="menus top">
-		<a href="#home" id="home" class="unselected">Home</a>
-		<a href="#getstarted" id="getstarted" class="unselected">Get Started</a>
-		<!--<a href="#explore" id="explore" class="unselected">Explore</a>-->
-		<a href="#jsrapi" id="jsrapi" class="unselected">JsRender API</a>
-		<a href="#jsvapi" id="jsvapi" class="unselected">JsViews API</a>
-		<a href="#jsoapi" id="jsoapi" class="unselected">JsObservable API</a>
-		<a href="#samples" id="samples" class="unselected">Samples</a>
-		<a href="#download" id="download" class="unselected">Downloads</a>
-		<a href="#community" id="community" class="unselected">Community</a>
-		<a href="#links" id="links" class="unselected">Links</a>
+	<div id="wrapper">
+  		<div class="menus top">
+			<a href="#home" id="home" class="unselected">Home</a>
+			<a href="#getstarted" id="getstarted" class="unselected">Get Started</a>
+			<a href="#explore" id="explore" class="unselected">Explore</a>
+			<a href="#jsrapi" id="jsrapi" class="unselected">JsRender API</a>
+			<a href="#jsvapi" id="jsvapi" class="unselected">JsViews API</a>
+			<a href="#jsoapi" id="jsoapi" class="unselected">JsObservable API</a>
+			<a href="#samples" id="samples" class="unselected">Samples</a>
+			<a href="#download" id="download" class="unselected">Downloads</a>
+			<a href="#community" id="community" class="unselected">Community</a>
+			<a href="#links" id="links" class="unselected">Links</a>
+		<div class="gradient2"></div>
+		</div>
+		<div id="content" class="container"></div>
 	</div>
-	<div id="content"></div>
 	<script src="index.js"></script>
 </body>
 </html>

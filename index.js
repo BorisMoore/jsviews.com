@@ -1,6 +1,6 @@
 ﻿(function(window, $, undefined) {
 "use strict";
-var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
+var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigating, skipLoad,
 	content = $.views.documentation.content,
 	allowEdit = false,
 //#region TAG CONTROLS
@@ -53,7 +53,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 						section =  tag.tagName === "section" ? tag : tag.parent.parents.section;
 					section.sampleFrame.runCode(true);
 				})
-				.on("click", ".tryit", function() {
+				.on("click", ".tryIt", function() {
 					var sampleSection = $.view(this).parent.tag,
 						tabsControl = sampleSection.tabs,
 						tryitTab = tabsControl.tabCount - 1;
@@ -237,6 +237,29 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 
 			hidden = hash && getCategoryNode(hash, categories);
 			return hidden && hidden.hidden;
+		},
+		navTo: function(lochash) {
+			if (lochash.indexOf("#", 1) > -1 && (navigating = document.getElementById(lochash + "$"))) {
+				skipLoad = true;
+				location.hash = lochash;
+				setTimeout(function() {
+					skipLoad = undefined;
+					console.log(navigating + " afterAsyncHash " + $("html, body").scrollTop());
+				}, 0);
+				$("html, body").delay(150).animate({ scrollTop: $(navigating).offset().top - 40 }, 625, function navComplete() {
+					// Gets called twice - once for body and once for html
+					if (navigating) {
+						navigating = undefined;
+					}
+					if (navigating === false) {
+						window.scrollTo(0, 0);
+					}
+				});
+			} else {
+				navigating = false;
+				window.scrollTo(0, 0);
+			}
+			return false;
 		}
 	},
 
@@ -248,7 +271,8 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 		},
 		render: function(type, mode) {
 			var editable = mode === "edit",
-				buttons = "";
+				buttons = "",
+				anchor = this.data.anchor;
 			if (editable) {
 				mode = this.selected ? mode : "editview";
 				if (!this.parent.parents.section || this.parent.parents.section.selected) {
@@ -259,8 +283,9 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 				}
 			}
 			this.tagCtx.tmpl = this.templates[mode][type];
-			buttons += this.tagCtx.render();
-			return editable ? ('<div class="mode-' + mode + '">' + buttons + "</div>") : buttons;
+				buttons += this.tagCtx.render();
+			return editable
+				? ('<div class="mode-' + mode + '">' + buttons + "</div>") : buttons;
 		},
 		onAfterLink: function() {
 			var self = this;
@@ -341,11 +366,19 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 		}
 	},
 
+// {{sectionTitle}}
+
+	sectionTitleTag = {
+		template: "#sectionTitleTmpl"
+	},
+
 // {{sectionHeader}}
 
 	sectionHeaderTag = {
 		template: "#sectionHeaderTmpl"
 	},
+
+// {{sampleFrame}}
 
 	sampleFrameTag = {
 		init: function() {
@@ -445,6 +478,8 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 		}
 	},
 
+// {{sampleFields}}
+
 	sampleFieldsTag = {
 		init: function() {
 			this.data = this.tagCtx.view.data.tryItData;
@@ -536,7 +571,8 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName,
 			markup: "#pageTmpl",
 			tags: {
 				sectionButtons: sectionButtonsTag,
-				sectionHeader: sectionHeaderTag
+				sectionHeader: sectionHeaderTag,
+				sectionTitle: sectionTitleTag
 			}
 		})
 	},
@@ -703,42 +739,47 @@ function getCategory(hash, fetch) {
 }
 
 function fetchCategory() {
-	save();
-	var oldTopCategory = topCategory,
-		lochash = location.hash;
+	if (!skipLoad) {
+		save();
+		var categoryName,
+			oldTopCategory = topCategory,
+			lochash = location.hash;
 
-	if (!lochash || lochash === "#home") {
-		lochash = homeCategory && homeCategory.key || "#jsrender";
+		if (!lochash || lochash === "#home") {
+			lochash = "#" + (homeCategory && homeCategory.key || "jsrender");
+		}
+		categoryName = lochash.split("#")[1];
+
+		return getCategory(categoryName, true)
+			.then(function() {
+				if (page) {
+					var topCategoryName = topCategory.name;
+					if (topCategoryName !== "home" && !content[topCategoryName]) {
+						throw topCategoryName + " not loaded. Ensure category.loaded not saved as 'true'...";
+					}
+					$.observable(page).setProperty({
+						category: selectedCategory
+					});
+					if (page.tree) { // If tree not yet instantiated, will set selection in page.setTree()
+						$.observable(page.tree).setProperty("selected", selectedCategory);
+					}
+					if (oldTopCategory !== topCategory) {
+						oldTopCategory.loading = ""; // false
+						if (oldTopCategory && oldTopCategory.key) {
+							$("#logo-" + oldTopCategory.key)
+								.removeClass("selected")
+								.addClass("unselected");
+						}
+						if (topCategory.key) {
+							$("#logo-" + topCategory.key)
+								.removeClass("unselected")
+								.addClass("selected");
+						}
+					}
+					page.navTo(lochash);
+				}
+			});
 	}
-	return getCategory(lochash.slice(1), true)
-		.then(function() {
-			if (page) {
-				var topCategoryName = topCategory.name;
-				if (topCategoryName !== "home" && !content[topCategoryName]) {
-					throw topCategoryName + " not loaded. Ensure category.loaded not saved as 'true'...";
-				}
-				$.observable(page).setProperty({
-					category: selectedCategory
-				});
-				if (page.tree) { // If tree not yet instantiated, will set selection in page.setTree()
-					$.observable(page.tree).setProperty("selected", selectedCategory);
-				}
-				if (oldTopCategory !== topCategory) {
-					oldTopCategory.loading = ""; // false
-					if (oldTopCategory && oldTopCategory.key) {
-						$("#logo-" + oldTopCategory.key)
-							.removeClass("selected")
-							.addClass("unselected");
-					}
-					if (topCategory.key) {
-						$("#logo-" + topCategory.key)
-							.removeClass("unselected")
-							.addClass("selected");
-					}
-				}
-				window.scrollTo(0, 0);
-			}
-		});
 }
 
 function signature(api) {
@@ -877,6 +918,8 @@ fetchCategory()
 			.addClass("selected");
 
 		selectedLogo = $(".main-item.selected");
+
+		page.navTo(location.hash);
 
 		$(".main-item").on("click", function() {
 			selectedLogo.removeClass("selected").addClass("unselected");
