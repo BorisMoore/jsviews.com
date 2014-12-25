@@ -4,6 +4,9 @@
 			$(document.body).html(sampleData.html);
 		}
 		if (sampleData.code) {
+			for (var tmpl in $.templates) {
+				delete $.templates[tmpl];
+			}
 			try {
 				(new Function(sampleData.code))();
 			}

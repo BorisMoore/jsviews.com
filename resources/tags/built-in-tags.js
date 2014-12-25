@@ -214,7 +214,7 @@ var	treeNodeTmpl = $.templates(
 
 	selectListTag = {
 		// This tag control derives from the {{for}} tag.
-		baseTag: $.views.tags["for"],
+		baseTag: "for",
 
 		// overrides of {{for}} tag.
 

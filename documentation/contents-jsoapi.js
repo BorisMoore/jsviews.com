@@ -1101,7 +1101,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Whenever objects or arrays are changed observably, JsViews raises the corresponding <a href=\"#onpropchange\">propertyChange</a> or <a href=\"#onarrchange\">onArrayChange</a> jQuery event."
+        "text": "Whenever objects or arrays are changed observably, JsViews raises the corresponding <a href=\"#onpropchange\">propertyChange</a> or <a href=\"#onarrchange\">arrayChange</a> jQuery event."
       },
       {
         "_type": "para",
@@ -1877,12 +1877,12 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "$.observable(myObject) and $.observable(myArray)",
-        "text": "If you pass an <em>object</em> to <em>$.observable()</em> then you obtain an <b><em>observable</em> object</b> (a very lightweight wrapper around your object), which provides a method for modifying object properties observably:\n<ul class=\"textbefore\">\n<li><a href=\"\">setProperty</a></li>\n</ul>"
+        "text": "If you pass an <em>object</em> to <em>$.observable()</em> then you obtain an <b><em>observable</em> object</b> (a very lightweight wrapper around your object), which provides a method for modifying object properties observably:\n<ul class=\"textbefore\">\n<li><a href=\"#setprop\">setProperty</a></li>\n</ul>"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "Similarly, if you pass an <em>array</em> to <em>$.observable()</em> then you obtain an <b><em>observable</em> array</b> (a lightweight wrapper around your array) which provides a different set of methods, specific to modifying arrays: \n<ul class=\"textbefore\">\n<li><a href=\"\">insert</a></li>\n<li><a href=\"\">remove</a></li>\n<li><a href=\"\">move</a></li>\n<li><a href=\"\">refresh</a></li>\n</ul>\n"
+        "text": "Similarly, if you pass an <em>array</em> to <em>$.observable()</em> then you obtain an <b><em>observable</em> array</b> (a lightweight wrapper around your array) which provides a different set of methods, specific to modifying arrays: \n<ul class=\"textbefore\">\n<li><a href=\"#insert\">insert</a></li>\n<li><a href=\"#remove\">remove</a></li>\n<li><a href=\"#move\">move</a></li>\n<li><a href=\"#refresh\">refresh</a></li>\n</ul>\n"
       },
       {
         "_type": "para",
@@ -2101,15 +2101,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "signature",
             "title": "",
-            "params": [
-              {
-                "_type": "param",
-                "name": "objectOrArray",
-                "type": "object",
-                "optional": false,
-                "description": "objectOrArray to be 'observed'"
-              }
-            ],
+            "params": [],
             "args": [],
             "sections": [],
             "example": "$.observable(person).unobserveAll(); ",

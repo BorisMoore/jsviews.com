@@ -591,7 +591,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "code",
             "title": "Derive from <b>{{for}}</b> tag",
-            "code": "$.views.tags({\n  range: {\n    // Inherit from {{for}} tag\n    baseTag: $.views.tags[\"for\"],\n\n    // Override the render method of {{for}}\n    render: function(val) {\n\n      ...\n\n      // Call the baseTag render method\n      return this.baseTag.render.apply(this, val ? [val] : arguments);\n    },\n\n    ...\n  }\n});\n"
+            "code": "$.views.tags({\n  range: {\n    // Inherit from {{for}} tag\n    baseTag: \"for\",\n\n    // Override the render method of {{for}}\n    render: function(val) {\n\n      ...\n\n      // Call the baseTag render method\n      return this.baseTag.render.apply(this, val ? [val] : arguments);\n    },\n\n    ...\n  }\n});\n"
           }
         ],
         "codetabs": [
@@ -3157,7 +3157,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "The details of adding data-linking to the above sample - and taking it forward to additional functionality - will be shown in the next sequence of samples: <a href=\"#\">xxx</a>. "
+        "text": "The details of adding data-linking to the above sample - and taking it forward to additional functionality - will be shown in the rest of this <a href=\"#samples/data-link\">tutorial sequence</a>. "
       },
       {
         "_type": "para",

@@ -1923,7 +1923,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "As soon as the request returns, we use the markup string to compile the <em>personTemplate</em> object, and then call it's <a href=\"#tmplrender\"><em>render(...)</em></a> method:"
+            "text": "As soon as the request returns, we use the markup string to compile the <em>personTemplate</em> object, and then call its <a href=\"#tmplrender\"><em>render(...)</em></a> method:"
           },
           {
             "_type": "code",

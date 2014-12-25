@@ -18,7 +18,7 @@
 $.views.tags({
   range: {
     // Inherit from {{for}} tag
-    baseTag: $.views.tags["for"],
+    baseTag: "for",
 
     // Override the render method of {{for}}
     render: function(val) {

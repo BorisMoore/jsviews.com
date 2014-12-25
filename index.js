@@ -244,7 +244,6 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 				location.hash = lochash;
 				setTimeout(function() {
 					skipLoad = undefined;
-					console.log(navigating + " afterAsyncHash " + $("html, body").scrollTop());
 				}, 0);
 				$("html, body").delay(150).animate({ scrollTop: $(navigating).offset().top - 40 }, 625, function navComplete() {
 					// Gets called twice - once for body and once for html

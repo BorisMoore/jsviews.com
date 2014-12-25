@@ -218,7 +218,7 @@ $.views.tags.validate.validators({
     }
   },
   minLength: {
-    message: "Minimun length: %cond%",
+    message: "Minimum length: %cond%",
     test: function(condition, val) {
       return val.length < condition;
     }
