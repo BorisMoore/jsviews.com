@@ -6,7 +6,7 @@
  * http://www.jsviews.com/#samples/tag-controls/datepicker
  * http://www.jsviews.com/#samples/tag-controls/slider
  * http://www.jsviews.com/#samples/tag-controls/validate
- * Copyright 2014, Boris Moore
+ * Copyright 2015, Boris Moore
  * Released under the MIT License.
  */
 
@@ -62,7 +62,7 @@ $.views.tags({
           if (tag.targetTag = tag.childTags()[0]) {
             tag.targetTag.onBeforeChange = function(ev, val) {
               return tag.onBeforeChange.call(tag, ev, val);
-            }
+            };
           }
         }
       }

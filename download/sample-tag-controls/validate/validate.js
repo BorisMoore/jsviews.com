@@ -9,14 +9,12 @@
  * http://www.jsviews.com/#samples/tag-controls/validate/simple
  * http://www.jsviews.com/#samples/tag-controls/validate/group
  * http://www.jsviews.com/#samples/tag-controls/validate/array-binding
- * Copyright 2014, Boris Moore
+ * Copyright 2015, Boris Moore
  * Released under the MIT License.
  */
 
 (function($) {
 "use strict";
-
-var editTag = $.views.tags.edit; // We will derive from the edit tag
 
 $.views.tags({
   validation: {
@@ -70,7 +68,8 @@ $.views.tags({
     dataBoundOnly: true
   },
 
-  validate: $.extend(true, {}, editTag, {
+  validate: {
+    baseTag: "edit",
     onInit: function(tagCtx, linkCtx) {
       // onInit() is called by the base {{edit}} tag, at the end of its init()
       this.validationGroup = this.parents.validation;
@@ -82,7 +81,7 @@ $.views.tags({
       var tag = this,
         props = tagCtx.props;
 
-      editTag.onAfterLink.apply(tag, arguments);
+      tag.baseApply(arguments);
 
       if (props.preventInvalidData !== undefined) {
         tag.preventInvalidData = props.preventInvalidData;
@@ -157,7 +156,12 @@ $.views.tags({
         if ($.isFunction(message)) {
           message = message(condition, val);
         }
-        tag.label.innerText = message.replace(/%cond%/g, condition).replace(/%val%/g, val);
+        message = message.replace(/%cond%/g, condition).replace(/%val%/g, val)
+        if (tag.label.textContent !== undefined) {
+          tag.label.textContent = message;
+        } else {
+          tag.label.innerText = message; // Older IE does not support textContent
+        }
         tag.messageElem.addClass("invalid");
       }
       if (this.validationGroup) {
@@ -173,9 +177,13 @@ $.views.tags({
     clearMessage: function() {
       // Clear previous message.
       this.messageElem.removeClass("invalid");
-      this.label.innerText = "";
+        if (this.label.textContent !== undefined) {
+          this.label.textContent = "";
+        } else {
+          this.label.innerText = ""; // Older IE does not support textContent
+        }
     }
-  })
+  }
 });
 
 $.views.tags.validate.validators({

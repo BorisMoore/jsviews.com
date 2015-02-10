@@ -4,7 +4,7 @@
  * Used in samples:
  * http://www.jsviews.com/#samples/tag-controls/range
  * http://www.jsviews.com/#samples/jsr/tags/extend-for
- * Copyright 2014, Boris Moore
+ * Copyright 2015, Boris Moore
  * Released under the MIT License.
  */
 
@@ -22,23 +22,26 @@ $.views.tags({
 
     // Override the render method of {{for}}
     render: function(val) {
-      var start = this.tagCtx.props.start || 0,
+      var array = val,
+        start = this.tagCtx.props.start || 0,
         end = this.tagCtx.props.end;
 
       if (start || end) {
         if (!this.tagCtx.args.length) {
-          val = [];
+          // No array argument passed from tag, so create a computed array of integers from start to end
+          array = [];
           end = end || 0;
           for (var i = start; i <= end; i++) {
-            val.push(i);
+            array.push(i);
           }
-        } else if ($.isArray(val)) {
-          val = val.slice(start, end);
+        } else if ($.isArray(array)) {
+          // There is an array argument and start and end properties, so render using the array truncated to the chosen range
+          array = array.slice(start, end);
         }
       }
 
-      // Call the baseTag render method
-      return this.baseTag.render.apply(this, val ? [val] : arguments);
+      // Call the {{for}} baseTag render method
+      return this.base(array);
     },
 
     // override onArrayChange of the {{for}} tag implementation

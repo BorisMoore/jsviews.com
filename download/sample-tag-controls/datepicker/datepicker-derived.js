@@ -4,17 +4,16 @@
  * Used in samples:
  * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation
  * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation-wizard
- * Copyright 2014, Boris Moore
+ * Copyright 2015, Boris Moore
  * Released under the MIT License.
  */
 
 (function($) {
 "use strict";
 
-var editTag = $.views.tags["edit"]; // We will derive from the editTag
-
 $.views.tags({
-  datepicker: $.extend(true, {}, editTag, {
+  datepicker: {
+    baseTag: "edit",
     onAfterLink: function(tagCtx, linkCtx) {
       var tag = this;
       if (!tag.linkedElem) {
@@ -35,7 +34,7 @@ $.views.tags({
       if (tagCtx.args[0] !== undefined && !tag.isInput) {
         tag.setValue(tagCtx.args[0]);
       }
-      editTag.onAfterLink.apply(tag, arguments);
+      tag.baseApply(arguments);
     },
     setValue: function(value) {
       if (value !== undefined && value !== this.value) {
@@ -46,7 +45,7 @@ $.views.tags({
     getValue: function() {
       return this.value;
     }
-  })
+  }
 });
 
 })(this.jQuery);
