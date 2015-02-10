@@ -1591,7 +1591,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "sampleName": "tag-controls/datepicker/variants",
-        "height": "1270",
+        "height": "1370",
         "url": "samples/tag-controls/datepicker/variants/sample"
       }
     ]
@@ -4330,7 +4330,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/data-link/13_linked-svg",
-        "height": "500"
+        "height": "510"
       },
       {
         "_type": "para",

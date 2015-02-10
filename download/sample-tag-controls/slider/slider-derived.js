@@ -2,17 +2,16 @@
  * Sample JsViews tag control: {{slider}} control, derived from {{edit}} control
  * http://www.jsviews.com/download/sample-tag-controls/slider/slider-derived.js
  * Used in samples: http://www.jsviews.com/#samples/tag-controls/slider/with-validation
- * Copyright 2014, Boris Moore
+ * Copyright 2015, Boris Moore
  * Released under the MIT License.
  */
 
 (function($) {
 "use strict";
 
-var editTag = $.views.tags["edit"]; // We will derive from the editTag
-
 $.views.tags({
-  slider: $.extend(true, {}, editTag, {
+  slider: {
+    baseTag: "edit",
     init: function(tagCtx, linkCtx) {
       if (this._.inline && !tagCtx.content) {
         this.template = "<div></div>";
@@ -40,16 +39,15 @@ $.views.tags({
         tag.linkedElem.width(tagCtx.props.width);
       }
       tag.setValue(tagCtx.args[0] || 0);
-      editTag.onAfterLink.apply(tag, arguments);
+      tag.baseApply(arguments);
     },
     setValue: function(value) {
       this.slider.value(value || 0);
     },
-    getValue: function(value) {
+    getValue: function() {
       return this.slider.value();
     }
-  })
+  }
 });
 
 })(this.jQuery);
-

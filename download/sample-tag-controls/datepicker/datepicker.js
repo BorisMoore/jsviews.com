@@ -4,7 +4,7 @@
  * Used in samples:
  * http://www.jsviews.com/#samples/tag-controls/datepicker/simple
  * http://www.jsviews.com/#samples/tag-controls/datepicker/variants
- * Copyright 2014, Boris Moore
+ * Copyright 2015, Boris Moore
  * Released under the MIT License.
  */
 
@@ -51,9 +51,6 @@ $.views.tags({
         this.value = value;
         this.linkedElem.datepicker("setDate", value);
       }
-    },
-    getValue: function() {
-      return this.value;
     },
     dataBoundOnly: true
   }

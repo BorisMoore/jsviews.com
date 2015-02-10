@@ -220,7 +220,7 @@ var	treeNodeTmpl = $.templates(
 
 		onArrayChange: function(ev, eventArgs) {
 			// Call baseTag implementation
-			this.baseTag.onArrayChange.apply(this, arguments);
+			this.baseApply(arguments);
 
 			if (eventArgs.change === "insert" || eventArgs.change === "move") {
 				this.toggleSelect(eventArgs.index);

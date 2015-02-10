@@ -1,11 +1,11 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.2.js"></script>
   <script src="../../../../download/jsviews.js"></script>
   <script src="../../../sample-viewer.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-  <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <link href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
   <script src="../../../../download/sample-tag-controls/datepicker/datepicker.js" type="text/javascript"></script>
   <link href="../../../../download/sample-tag-controls/datepicker/datepicker.css" rel="stylesheet"/>
   <link href="../../../../resources/css/contents.css" rel="stylesheet" />
@@ -72,7 +72,19 @@
     <div class="blueborder"></div>
   {{/datepicker}}
 
-  <h4>Element-based data-link syntax:</h4>
+  <h4>Element-based data-link syntax (input):</h4>
+
+  <pre>
+  &lt;input data-link="{datepicker ...}"/&gt;
+  </pre>
+
+  <input data-link="{datepicker middleDate
+    ^minDate=startDate
+    ^maxDate=endDate
+    ^numberOfMonths=~page.monthsSpan
+  }" class="blueborder"/>
+
+  <h4>Element-based data-link syntax (div):</h4>
 
   <pre>
   &lt;div data-link="{datepicker ...}">&lt;/div>

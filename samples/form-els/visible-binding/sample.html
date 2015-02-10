@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.2.js"></script>
   <script src="../../../download/jsviews.js"></script>
   <script src="../../sample-viewer.js"></script>
   <link href="sample.css" rel="stylesheet"/>
@@ -55,6 +55,18 @@
 
     <h3>Ticket order form</h3>
 
+    <div class="box" data-link="visible{:~app.chooseCurrency}">
+      <div class="subhead">Choose Currency:</div>
+      {{for ~currencies ~details=#data}}
+        <input
+          type="radio"
+          name="currencyPicker"
+          value="{{:#index}}"
+          data-link="~details.selectedCurrency"
+        />{{:label}}<br/>
+      {{/for}}
+    </div>
+
     <div class="box">
       <div>Ticket for <em data-link="name" ></em> to movie:
         <em data-link="~selectedTitle(selectedMovie)" ></em>
@@ -75,18 +87,6 @@
       <div>
         <button id="submitOrder">Submit order</button>
       </div>
-    </div>
-
-    <div class="box" data-link="visible{:~app.chooseCurrency}">
-      <div class="subhead">Choose Currency:</div>
-      {{for ~currencies ~details=#data}}
-        <input
-          type="radio"
-          name="currencyPicker"
-          value="{{:#index}}"
-          data-link="~details.selectedCurrency"
-        />{{:label}}<br/>
-      {{/for}}
     </div>
 
   </div>

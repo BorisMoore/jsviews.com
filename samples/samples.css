@@ -102,3 +102,7 @@ button {
 .left > #result {
 	margin-top: 7px;
 }
+
+input {
+	margin: 3px; 0
+}

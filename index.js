@@ -400,7 +400,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 					}
 					if (header) { // Fails in IE8 or earlier
 						header = header.innerHTML.replace(/^.*sample-viewer.*$/m, "");
-						header = header.slice(header.indexOf('jquery.js"></script>\n') + 21);
+						header = header.slice(header.indexOf('.js"></script>\n') + 15);
 					}
 					$.get(data.url + ".js", function(content) {
 						loadScript({code: content});
@@ -492,7 +492,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "  <script src=\"http://code.jquery.com/jquery.js\"></script>\n"
+					+ "  <script src=\"http://code.jquery.com/jquery-1.11.2.js\"></script>\n"
 					+ (url
 						? ("  <base href=\"http://www.jsviews.com/" + url.slice(0, url.lastIndexOf("/")) + "/\"/>\n"
 							+ tryItData.header

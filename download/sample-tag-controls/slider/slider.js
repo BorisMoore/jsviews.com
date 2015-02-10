@@ -1,9 +1,10 @@
 ﻿/*
  * Sample JsViews tag control: {{slider}} control
  * http://www.jsviews.com/download/sample-tag-controls/slider/slider.js
- * Used in samples: http://www.jsviews.com/#samples/tag-controls/slider/simple
- * Used in samples: http://www.jsviews.com/#samples/tag-controls/slider/variants
- * Copyright 2014, Boris Moore
+ * Used in samples:
+ * http://www.jsviews.com/#samples/tag-controls/slider/simple
+ * http://www.jsviews.com/#samples/tag-controls/slider/variants
+ * Copyright 2015, Boris Moore
  * Released under the MIT License.
  */
 
@@ -41,7 +42,7 @@ $.views.tags({
       tag.setValue(tagCtx.args[0] || 0);
     },
     onUpdate: function(ev, eventArgs, tagCtxs) {
-      return false; // return false so as not to re-render every time.
+      return false;
       // Here we don't need to render, so return false for better perf.
     },
     //onBeforeChange: function(ev, eventArgs) {
@@ -50,7 +51,7 @@ $.views.tags({
     setValue: function(value) {
       this.slider.value(value || 0);
     },
-    getValue: function(value) {
+    getValue: function() {
       return this.slider.value();
     },
     dataBoundOnly: true
