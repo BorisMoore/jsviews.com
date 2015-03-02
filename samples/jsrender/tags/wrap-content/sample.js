@@ -13,16 +13,9 @@ $.views.tags({
   // Tag with no render method. Just a template to
   // render HTML content including data, and the
   // rendered inline content.
-
-  // To use as a self-closing tag, with an external
-  // template, use named "template" property.
   tmpltag: {
     template: "Title:<br/><b>" +
-      "{{include " +
-          // block content
-            "tmpl=#content" +
-          // or external content
-            "||~tag.tagCtx.props.template/}}" +
+      "{{include tmpl=#content/}}" + // render the block content 
       "</b><br/>{{:languages.length}}&nbsp;languages."
   },
 
