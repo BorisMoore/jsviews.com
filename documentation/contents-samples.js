@@ -1539,20 +1539,20 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "datepicker with data-linked properties",
-            "markup": "{^{datepicker startDate\n  changeMonth=true\n  ^maxDate=endDate\n/}}"
+            "markup": "{^{datepicker startDate\n  _changeMonth=true\n  ^_maxDate=endDate\n/}}"
           },
           {
             "_type": "template",
             "title": "In-line datepicker with data-linked properties",
-            "markup": "{^{datepicker middleDate\n  ^minDate=startDate\n  ^maxDate=endDate\n  ^numberOfMonths=~page.monthsSpan\n}}\n  <div></div>\n{{/datepicker}}"
+            "markup": "{^{datepicker middleDate\n  ^_minDate=startDate\n  ^_maxDate=endDate\n  ^_numberOfMonths=~page.monthsSpan\n}}\n  <div></div>\n{{/datepicker}}"
           }
         ],
         "codetabs": [
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/datepicker/datepicker.js",
-            "label": "datepicker.js"
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
           }
         ],
         "sampleName": "tag-controls/datepicker/simple",
@@ -1586,8 +1586,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/datepicker/datepicker.js",
-            "label": "datepicker.js"
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
           }
         ],
         "sampleName": "tag-controls/datepicker/variants",
@@ -1619,7 +1619,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "{^{validate startDate\n  required=true\n  ^maxday=endDate\n}}\n  {^{datepicker numberOfMonths=2 /}}\n{{/validate}}"
+            "markup": "{^{validate startDate\n  required=true\n  ^maxday=endDate\n}}\n  {^{datepicker _numberOfMonths=2 /}}\n{{/validate}}"
           }
         ],
         "codetabs": [
@@ -1638,8 +1638,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/datepicker/datepicker-derived.js",
-            "label": "datepicker.js"
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
           }
         ],
         "sampleName": "tag-controls/datepicker/with-validation",
@@ -1686,7 +1686,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "{^{validation}}\n  ...\n  <button id=\"next\" data-link=\"... disabled{:!~tag.isValid}\">Next</button>\n  ...\n  <h4>Choose a start date:</h4> \n  {^{validate startDate\n    required=true\n    ^maxday=endDate\n  }}\n    {^{datepicker numberOfMonths=1 /}}\n  {{/validate}}\n  ...\n{{/validation}}\n"
+            "markup": "{^{validation}}\n  ...\n  <button id=\"next\" data-link=\"... disabled{:!~tag.isValid}\">Next</button>\n  ...\n  <h4>Choose a start date:</h4> \n  {^{validate startDate\n    required=true\n    ^maxday=endDate\n  }}\n    {^{datepicker _numberOfMonths=1 /}}\n  {{/validate}}\n  ...\n{{/validation}}\n"
           }
         ],
         "title": "",
@@ -1707,8 +1707,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/datepicker/datepicker-derived.js",
-            "label": "datepicker.js"
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
           }
         ],
         "sampleName": "tag-controls/datepicker/with-validation-wizard",
@@ -1890,7 +1890,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "<li>\n  ...\n  <input data-link=\"name\" />\n  <span class=\"add\">add</span>\n  {^{if ~parentTags.tree}}\n    {{!-- Don't allow removing the top-level tree control --}}\n    <img class=\"remove\" src=\"close.png\" />\n  {{/if}}\n</li>\n{^{if expanded}}\n  ...\n{{/if}}\n"
+            "markup": "<li>\n  ...\n  <input data-link=\"name\" />\n  <span class=\"add\">add</span>\n  {^{if ~parentTags.tree}}\n    {{!-- Don't allow removing the top-level tree control --}}\n    <span class=\"remove\"><span>\n  {{/if}}\n</li>\n{^{if expanded}}\n  ...\n{{/if}}\n"
           }
         ],
         "sampleName": "tag-controls/tree/editable",
@@ -1910,8 +1910,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/slider/slider.js",
-            "label": "slider.js"
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
           }
         ],
         "sectionTypes": {
@@ -1930,7 +1930,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "slider with initialized properties",
-            "markup": "{^{slider size range='min' min=1 max=200 width=400 orientation='vertical' /}}"
+            "markup": "{^{slider size _range='min' _min=1 _max=200 width=400 _orientation='vertical' /}}"
           },
           {
             "_type": "para",
@@ -1940,7 +1940,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "<div data-link=\"{slider size range='min' min=1 max=200 width=400 orientation='vertical'}\"></div>"
+            "markup": "<div data-link=\"{slider size _range='min' _min=1 max=200 _orientation='vertical' width=400}\"></div>"
           },
           {
             "_type": "template",
@@ -1965,8 +1965,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/slider/slider.js",
-            "label": "slider.js"
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
           }
         ],
         "sectionTypes": {
@@ -2012,8 +2012,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/slider/slider-derived.js",
-            "label": "slider.js"
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
           }
         ],
         "sectionTypes": {
@@ -2032,7 +2032,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "{^{validate size\n  min=20\n  max=150\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  {^{slider orientation='vertical' ... /}}\n{{/validate}}"
+            "markup": "{^{validate size\n  min=20\n  max=150\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  {^{slider _orientation='vertical' ... /}}\n{{/validate}}"
           },
           {
             "_type": "para",
@@ -2042,7 +2042,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "{^{validate size\n  min=50 max=100\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  <div data-link=\"{slider orientation='vertical' ...}\"></div>\n{{/validate}}"
+            "markup": "{^{validate size\n  min=50 max=100\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  <div data-link=\"{slider _orientation='vertical' ...}\"></div>\n{{/validate}}"
           }
         ],
         "sampleName": "tag-controls/slider/with-validation",

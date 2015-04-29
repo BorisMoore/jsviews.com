@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="http://code.jquery.com/jquery-1.11.2.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.2.js"></script>
   <script src="../../../download/jsviews.js"></script>
   <script src="../../sample-viewer.js"></script>
   <link href="sample.css" rel="stylesheet"/>
@@ -35,10 +35,7 @@
               <div data-link="name"></div>
             {{/for}}
           </td>
-          <td>
-            <img class="removeMovie"
-              src="http://www.jsviews.com/resources/images/close.png" />
-          </td>
+          <td><span class="removeMovie"></span></td>
         </tr>
       {{/for}}
     </tbody>
@@ -54,8 +51,7 @@
         </div>
         {^{for languages}}
           <input data-link="name trigger=true" />
-          <img class="removeLanguage"
-            src="http://www.jsviews.com/resources/images/close.png" />
+          <span class="removeLanguage"></span>
         {{/for}}
       </div>
     {{/for}}

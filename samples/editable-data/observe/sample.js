@@ -19,7 +19,7 @@ var counter = 0,
   app = {
     selectedIndex: null,
     movies: movies,
-    select: function select(index) {
+    select: function(index) {
       if (this.selectedIndex !== index) {
         $.observable(this)
           .setProperty("selectedIndex", index);

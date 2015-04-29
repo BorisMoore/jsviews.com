@@ -548,6 +548,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "{{!-- ... --}}"
           },
           {
+            "name": "allowcodetag",
+            "label": "{{* ... }} and {{*: ...}}"
+          },
+          {
             "name": "customtagsapi",
             "label": "Custom tags"
           }
@@ -1232,7 +1236,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
   },
   {
     "name": "download",
-    "label": "Downloads",
+    "label": "Download",
     "heading": "Downloading JsViews, JsRender and JsObservable",
     "description": "",
     "categories": [
@@ -1247,7 +1251,9 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       },
       {
         "name": "download/tag-controls",
-        "label": "Sample tag controls"
+        "label": "Sample tag controls",
+        "categories": [],
+        "expanded": true
       }
     ],
     "expanded": true

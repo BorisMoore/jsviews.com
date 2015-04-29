@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="http://code.jquery.com/jquery-1.11.2.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.2.js"></script>
   <script src="../../../../download/jsviews.js"></script>
   <script src="../../../sample-viewer.js"></script>
   <link href="../../../../download/sample-tag-controls/treeview/tree.css" rel="stylesheet" />
@@ -60,7 +60,7 @@
       <span class="add">add</span>
       {^{if ~tag.parent && ~tag.parent.tagName==='editableTree'}}
         {{!-- Don't allow removing the top-level tree control --}}
-        <img class="remove" src="http://www.jsviews.com/resources/images/close.png" />
+        <span class="remove"></span>
       {{/if}}
     </li>
     {^{if expanded}}

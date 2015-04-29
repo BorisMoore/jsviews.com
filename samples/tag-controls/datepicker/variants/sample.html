@@ -1,15 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="http://code.jquery.com/jquery-1.11.2.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.2.js"></script>
   <script src="../../../../download/jsviews.js"></script>
   <script src="../../../sample-viewer.js"></script>
-  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-  <link href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <link href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
   <script src="../../../../download/sample-tag-controls/datepicker/datepicker.js" type="text/javascript"></script>
-  <link href="../../../../download/sample-tag-controls/datepicker/datepicker.css" rel="stylesheet"/>
-  <link href="../../../../resources/css/contents.css" rel="stylesheet" />
-</head>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../sample.css" rel="stylesheet"/>
+  <head>
 <body>
 
 <h3>JsViews 'datepicker' tag control - using jQuery UI datepicker widget: Syntax variants</h3>
@@ -35,65 +35,83 @@
   <pre>&#123;^{datepicker .../}&#125;</pre>
 
   {^{datepicker middleDate
-    ^minDate=startDate
-    ^maxDate=endDate
-    ^numberOfMonths=~page.monthsSpan
+    ^_minDate=startDate
+    ^_maxDate=endDate
+    ^_numberOfMonths=~page.monthsSpan
+  /}}
+
+  <h4>Tag syntax specifying 'div' element and class</h4>
+
+<pre>
+&#123;^{datepicker
+  ...
+  class='blueborder'
+  elem='div'
+/}&#125;
+</pre>
+
+  {^{datepicker middleDate
+    ^_minDate=startDate
+    ^_maxDate=endDate
+    ^_numberOfMonths=~page.monthsSpan
+    class='blueborder'
+    elem='div'
   /}}
 
   <h4>Tag syntax, wrapping input element:</h4>
 
-  <pre>
-  &#123;^{datepicker ...}&#125;
-      &lt;input .../&gt;
-  &#123;^{/datepicker}&#125;
-  </pre>
+<pre>
+&#123;^{datepicker ...}&#125;
+    &lt;input .../&gt;
+&#123;^{/datepicker}&#125;
+</pre>
 
   {^{datepicker middleDate
-    ^minDate=startDate
-    ^maxDate=endDate
-    ^numberOfMonths=~page.monthsSpan
+    ^_minDate=startDate
+    ^_maxDate=endDate
+    ^_numberOfMonths=~page.monthsSpan
   }}
     <input class="blueborder" />
   {{/datepicker}}
 
   <h4>Tag syntax, wrapping div element:</h4>
 
-  <pre>
-  &#123;^{datepicker ...}&#125;
-      &lt;div ...> ... &lt;/div>
-  &#123;^{/datepicker}&#125;
-  </pre>
+<pre>
+&#123;^{datepicker ...}&#125;
+    &lt;div ...> ... &lt;/div>
+&#123;^{/datepicker}&#125;
+</pre>
 
-  {^{datepicker middleDate
-    ^minDate=startDate
-    ^maxDate=endDate
-    ^numberOfMonths=~page.monthsSpan
+  {^{datepicker middleDate width=400
+    ^_minDate=startDate
+    ^_maxDate=endDate
+    ^_numberOfMonths=~page.monthsSpan
   }}
     <div class="blueborder"></div>
   {{/datepicker}}
 
   <h4>Element-based data-link syntax (input):</h4>
 
-  <pre>
-  &lt;input data-link="{datepicker ...}"/&gt;
-  </pre>
+<pre>
+&lt;input data-link="{datepicker ...}"/&gt;
+</pre>
 
   <input data-link="{datepicker middleDate
-    ^minDate=startDate
-    ^maxDate=endDate
-    ^numberOfMonths=~page.monthsSpan
+    ^_minDate=startDate
+    ^_maxDate=endDate
+    ^_numberOfMonths=~page.monthsSpan
   }" class="blueborder"/>
 
   <h4>Element-based data-link syntax (div):</h4>
 
-  <pre>
-  &lt;div data-link="{datepicker ...}">&lt;/div>
-  </pre>
+<pre>
+&lt;div data-link="{datepicker ...}">&lt;/div>
+</pre>
 
   <div data-link="{datepicker middleDate
-    ^minDate=startDate
-    ^maxDate=endDate
-    ^numberOfMonths=~page.monthsSpan
+    ^_minDate=startDate
+    ^_maxDate=endDate
+    ^_numberOfMonths=~page.monthsSpan
   }" class="blueborder"></div>
 
 </script>

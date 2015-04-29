@@ -1,15 +1,16 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="http://code.jquery.com/jquery-1.11.2.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.2.js"></script>
   <script src="../../../../download/jsviews.js"></script>
   <script src="../../../sample-viewer.js"></script>
-  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-  <link href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <link href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
   <script src="../../../../download/sample-tag-controls/generic-edit/edit.js"></script>
-  <script src="../../../../download/sample-tag-controls/datepicker/datepicker-derived.js" type="text/javascript"></script>
-  <link href="../../../../download/sample-tag-controls/datepicker/datepicker.css" rel="stylesheet"/>
   <script src="../../../../download/sample-tag-controls/validate/validate.js"></script>
+  <link href="../sample.css" rel="stylesheet"/>
   <link href="../../../../download/sample-tag-controls/validate/validate.css" rel="stylesheet"/>
 </head>
 <body>
@@ -22,7 +23,7 @@
     required=true
     ^maxday=endDate
   }}
-    {^{datepicker numberOfMonths=2 /}}
+    {^{datepicker _numberOfMonths=2 /}}
   {{/validate}}
 
   <h4>Choose an end date:</h4>
@@ -31,7 +32,7 @@
     required=true
     ^minday=startDate
   }}
-    {^{datepicker numberOfMonths=2
+    {^{datepicker _numberOfMonths=2
     /}}
   {{/validate}}
 
@@ -56,9 +57,9 @@
     ^maxday=endDate
   }}
     {^{datepicker
-      ^minDate=~root.startDate
-      ^maxDate=~root.endDate
-      ^numberOfMonths=~page.monthsSpan
+      ^_minDate=~root.startDate
+      ^_maxDate=~root.endDate
+      ^_numberOfMonths=~page.monthsSpan
     }}
       <div></div>
     {{/datepicker}}

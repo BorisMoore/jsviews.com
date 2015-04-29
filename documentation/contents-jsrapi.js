@@ -82,6 +82,12 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "{{!-- ... --}}"
           },
           {
+            "_type": "topic",
+            "hash": "allowcodetag",
+            "label": "{{* ... }} and {{*: ...}}"
+          },
+          {
+            "_type": "topic",
             "hash": "customtagsapi",
             "label": "Custom tags"
           }
@@ -1153,12 +1159,12 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "elsetag": {
-    "title": "'else' tag: {{else ...}}",
+    "title": "Template tag: {{else ...}}",
     "path": "",
     "sections": [
       {
         "_type": "para",
-        "title": "{{else}} can be used with {{if}}, {{for}} or any custom tag!",
+        "title": "{{else}} can be used with <em><a href=\"#iftag\">{{if}}</a></em>, <em><a href=\"#fortag\">{{for}}</a></em> or any custom tag!",
         "text": "The <em>{{else}}</em> tag acts as a separator, to divide the content of a tag into two or more different content blocks.\n\n"
       },
       {
@@ -1236,7 +1242,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "commenttag": {
-    "title": "Comment tag: {{!-- ... --}}",
+    "title": "Template comment tag: {{!-- ... --}}",
     "path": "",
     "sections": [
       {
@@ -1283,6 +1289,273 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "",
         "text": "&mdash; but unlike the JsRender comment tag, the HTML comment will not be ignored by JsRender or JsViews. It will be included in the rendered output, and will get inserted into the DOM along with other rendered markup."
+      }
+    ]
+  },
+  "allowcodetag": {
+    "title": "Template tags: {{*... }} and {{*: ... }} (allow code)",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender templates allow you to write rich expressions within the template tags, such as <em>{{: someExpression}}</em>. Nevertheless, in order to improve encapsulation and maintainability, they don't allow <em>arbitrary</em> code. For example, they don't allow you to access global variables, like <em>window</em>. "
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "If you want complete freedom to insert any code into a compiled template, you can set <em>allowCode</em> to <em>true</em>, either globally, or specifically for that template. You can then insert any code by using the <em>{{* ... }}</em> tag, or you can return (render into the template output) the result of evaluating any expression, using the <em>{{*: ... }}</em> tag."
+      },
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{*... /}}",
+        "name": "for NAME",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Insert code",
+            "params": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "anyJavascriptCode ",
+                "type": "code",
+                "optional": false,
+                "description": ""
+              }
+            ],
+            "sections": [],
+            "example": "{{* window.myvar=2; myvar+=4; }}",
+            "description": "If allowCode is set to true, include any code in the compiled template.",
+            "variant": "{{* anyJavascriptCode /}}"
+          }
+        ],
+        "description": "Insert code into the template",
+        "sectionTypes": {}
+      },
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{{*: ... /}}",
+        "name": "for NAME",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "Evaluate expression",
+            "params": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "anyJavascriptExpression ",
+                "type": "code",
+                "optional": false,
+                "description": ""
+              }
+            ],
+            "sections": [],
+            "example": "{{*: myvar/2 }}",
+            "description": "If allowCode is set to true, evaluate any expression, and insert the result into the rendered output.",
+            "variant": "{{*: anyJavascriptExpression /}}"
+          }
+        ],
+        "description": "Evaluate any code expression",
+        "sectionTypes": {}
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is an example, with <em>allowCode</em> set to <em>true</em> globally:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.views.settings.allowCode= true;"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Enable allowCode in all templates:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.views.settings.allowCode= true;"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Define a global variable, then increment it:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{* window.myvar=2; myvar+=4; }}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Insert the value into the rendered output:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "<div> Initial value: {{*:myvar}}</div>"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Increment the value again, and output the new value:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "{{* window.myvar+=11; }}\n\n<div> New value: {{*:myvar}}</div>\n"
+          }
+        ],
+        "onlyJsRender": true,
+        "height": "70",
+        "code": "$.views.settings.allowCode= true; \n\nvar html = $(\"#myTemplate\").render();\n\n$(\"#result\").html(html);",
+        "html": "<script id=\"myTemplate\" type=\"text/x-jsrender\">\n\n  {{* window.myvar=2; myvar+=4; }}\n\n  <div> Initial value: {{*:myvar}}</div>\n\n  {{* window.myvar+=11; }}\n\n  <div> New value: {{*:myvar}}</div>\n\n</script>\n\n<div id=\"result\"></div>",
+        "title": "",
+        "markup": ""
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "And here is an example that uses both regular JsRender tags, like <em>{{for}}</em>, and <em>allowCode</em> tags:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.views.settings.allowCode= true; \n"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Define a global variable:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{* window.total = 0}}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Iterate through a list, and use <em>{{* ...}}</em> to increment the <em>total</em>, and <em>{{*:}}</em> to return each value:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "{{for list}}\n  {{* total += data}}\n    <li>\n      Amount {{:}} (Running total: {{*: total}})\n   </li>\n{{/for}}"
+          }
+        ],
+        "onlyJsRender": true,
+        "height": "140",
+        "code": "var data = {\n    title: \"My list\",\n    list: [2, 10.3, 77, -44, -5.5]\n  };\n\n$.views.settings.allowCode= true; \n\nvar html = $(\"#myTemplate\").render(data);\n\n$(\"#result\").html(html);",
+        "html": "<script id=\"myTemplate\" type=\"text/x-jsrender\">\n  {{* window.total = 0}}\n  <ol>\n    {{for list}}\n      {{* total += data}}\n        <li>\n          Amount {{:}} (Running total: {{*: total}})\n       </li>\n    {{/for}}\n  </ol>\n  <u>Total: {{*: total}}</u>\n</script>\n\n<div id=\"result\"></div>",
+        "title": ""
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is another example, in which we will replace the <em>{{for list}}</em> iteration by pure code-based iteration using <em>{{* ...}}</em>. This makes it easy to iterate only over the odd members of the array."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<br/>This time we will enable code insertion just for this template:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$.templates(..., {\n  markup: ...,\n  allowCode: true,\n  ...\n})"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Enable allowCode just for this template:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var tmpl = $.templates({\n    markup: \"#myTemplate\",\n    allowCode: true\n  });\n \nvar html = tmpl.render(data);"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Insert template code to iterate over odd numbers:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "{{* for (i=0; i<data.list.length; i+=2) { }}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Output the 1-based index and the value:"
+          },
+          {
+            "_type": "code",
+            "title": "",
+            "code": "{{*: i+1}}: Amount {{*:data.list[i]}}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Insert the end of the <em>for</em> block, <em>{{* <b>}</b> }}</em> into the template code:"
+          },
+          {
+            "_type": "template",
+            "title": "",
+            "markup": " {{* } }}"
+          },
+          {
+            "_type": "para",
+            "title": "",
+            "text": ""
+          }
+        ],
+        "onlyJsRender": true,
+        "height": "110",
+        "code": "var data = {\n    title: \"My list\",\n    list: [2, 10.3, 77, -44, -5.5]\n  };\n\nvar tmpl = $.templates({\n    markup: \"#myTemplate\",\n    allowCode: true\n  });\n \nvar html = tmpl.render(data);\n\n$(\"#result\").html(html);",
+        "html": "<script id=\"myTemplate\" type=\"text/x-jsrender\">\n  Here are the odd numbered items:\n  <ul>\n    {{* for (i=0; i<data.list.length; i+=2) { }}\n      <li>\n        {{*: i+1}}: Amount {{*:data.list[i]}}\n      </li>\n    {{* } }}\n  </ul>\n</script>\n\n<div id=\"result\"></div>",
+        "title": ""
       }
     ]
   },
@@ -1341,7 +1614,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "There are three ways of calling the <em>render()</em> method:\n<ul class=\"textbefore\"><li>If you have a reference to the <em>template object</em>, call <a href=\"#tmplrender\"><em>template.render(...)</em></a></li>\n<li>If you have a registered the template by name (<em>\"myTmpl\"</em>), call <a href=\"#d.render\"><em>$.render.myTmpl(...)</em></a></li>\n<li>If the template is declared in a script block, with selector <em>\"#myTmpl\"</em>, you can also call <a href=\"#db.render\"><em>$(\"#myTmpl\").render(...)</em></a></li></ul>"
+        "text": "There are three ways of calling the <em>render()</em> method:\n<ul class=\"textbefore\"><li>If you have a reference to the <em>template object</em>, call <a href=\"#tmplrender\"><em>template.render(...)</em></a></li>\n<li>If you have registered the template by name (<em>\"myTmpl\"</em>), call <a href=\"#d.render\"><em>$.render.myTmpl(...)</em></a></li>\n<li>If the template is declared in a script block, with selector <em>\"#myTmpl\"</em>, you can also call <a href=\"#db.render\"><em>$(\"#myTmpl\").render(...)</em></a></li></ul>"
       },
       {
         "_type": "links",
@@ -1888,7 +2161,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "markup": "\n",
         "data": {},
-        "code": "$.getScript(\"http://www.jsviews.com/samples/resources/templates/person.js\", function() {\n    var html = $.render.person(people);\n    $(\"#peopleList\").html(html);\n  });\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];",
+        "code": "$.getScript(\"//www.jsviews.com/samples/resources/templates/person.js\", function() {\n    var html = $.render.person(people);\n    $(\"#peopleList\").html(html);\n  });\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];",
         "html": "<div id=\"peopleList\"></div>",
         "onlyJsRender": true,
         "height": "40",

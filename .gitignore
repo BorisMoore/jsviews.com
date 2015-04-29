@@ -3,3 +3,6 @@
 ################################################################################
 
 *.config
+Scripts/_references.js
+node_modules
+/resources/previousImages

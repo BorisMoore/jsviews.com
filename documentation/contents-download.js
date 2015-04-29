@@ -158,12 +158,22 @@ content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsVie
       {
         "_type": "para",
         "title": "",
-        "text": "The following tag controls are used in the samples. Some are very rudimentary, others are more advanced and complete. "
+        "text": "<b>Note:</b> If you use these controls in your own applications, it is recommended to download the files, or copy the code, rather than loading directly from this location, since the implementations (and associated APIs) may change over time as new versions of the samples are introduced."
+      },
+      {
+        "_type": "para",
+        "title": "<b>Tag controls based on jQuery UI widgets:</b>",
+        "text": "The <a href=\"download/sample-tag-controls/jsviews-jqueryui-widgets.js\">jsviews-jqueryui-widgets.js</a> library provides the following tag controls, based on corresponding jQuery UI widgets:"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "If you use these controls in your own applications, it is recommended to download and copy the code rather than loading directly from this location, since the implementations (and associated APIs) may change over time as new versions of the samples are introduced."
+        "text": "<ul>\n  <li><em><b>{{autocomplete/}}</b></em> - based on <a href=\"https://jqueryui.com/autocomplete/\">jQuery UI autocomplete</a></li>\n  <li><em><b>{{accordion/}}</b></em> - based on <a href=\"https://jqueryui.com/accordion/\">jQuery UI accordion</a></li>\n  <li><em><b>{{autocomplete/}}</b></em> - based on <a href=\"https://jqueryui.com/autocomplete/\">jQuery UI autocomplete</a></li>\n  <li><em><b>{{button/}}</b></em> - based on <a href=\"https://jqueryui.com/button/\">jQuery UI button</a></li>\n  <li><em><b>{{buttonset/}}</b></em> - based on <a href=\"https://jqueryui.com/buttonset/\">jQuery UI buttonset</a></li>\n  <li><em><b>{{datepicker/}}</b></em> - based on <a href=\"https://jqueryui.com/datepicker/\">jQuery UI datepicker</a>\n<ul><li>used in the <a href=\"#samples/tag-controls/datepicker/simple\">simple datepicker</a>,\n<a href=\"#samples/tag-controls/datepicker/variants\">datepicker variants</a>,\n<a href=\"#samples/tag-controls/datepicker/with-validation\">datepicker with validation</a>\nand <a href=\"#samples/tag-controls/datepicker/with-validation-wizard\">datepicker with validation wizard</a> samples</li></ul></li>\n  <li><em><b>{{draggable/}}</b></em> - based on <a href=\"https://jqueryui.com/draggable/\">jQuery UI draggable</a></li>\n  <li><em><b>{{droppable/}}</b></em> - based on <a href=\"https://jqueryui.com/droppable/\">jQuery UI droppable</a></li>\n  <li><em><b>{{menu/}}</b></em> - based on <a href=\"https://jqueryui.com/menu/\">jQuery UI menu</a></li>\n  <li><em><b>{{progressbar/}}</b></em> - based on <a href=\"https://jqueryui.com/progressbar/\">jQuery UI progressbar</a></li>\n  <li><em><b>{{resizable/}}</b></em> - based on <a href=\"https://jqueryui.com/resizable/\">jQuery UI resizable</a></li>\n  <li><em><b>{{selectable/}}</b></em> - based on <a href=\"https://jqueryui.com/selectable/\">jQuery UI selectable</a></li>\n  <li><em><b>{{selectmenu/}}</b></em> - based on <a href=\"https://jqueryui.com/selectmenu/\">jQuery UI selectmenu</a></li>\n  <li><em><b>{{slider/}}</b></em> - based on <a href=\"https://jqueryui.com/slider/\">jQuery UI slider</a>\n<ul><li>used in the <a href=\"#samples/tag-controls/slider/simple\">simple slider</a>,\n<a href=\"#samples/tag-controls/slider/variants\">slider variants</a>\nand <a href=\"#samples/tag-controls/slider/with-validation\">slider with validation</a> samples</li></ul></li>\n  <li><em><b>{{sortable/}}</b></em> - based on <a href=\"https://jqueryui.com/sortable/\">jQuery UI sortable</a></li>\n  <li><em><b>{{spinner/}}</b></em> - based on <a href=\"https://jqueryui.com/spinner/\">jQuery UI spinner</a></li>\n  <li><em><b>{{tabs/}}</b></em> - based on <a href=\"https://jqueryui.com/tabs/\">jQuery UI tabs</a></li>\n</ul>"
+      },
+      {
+        "_type": "para",
+        "title": "<b>JsViews tag controls not using jQuery UI widgets:</b>",
+        "text": "The following tag controls, used in some of the samples, can be a starting point for your own custom tag controls. Some are very rudimentary, others are more advanced and complete. "
       },
       {
         "_type": "para",
@@ -184,16 +194,6 @@ content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsVie
         "_type": "para",
         "title": "<b>{{edit/}}</b>:",
         "text": "<ul>\n  <li><a href=\"download/sample-tag-controls/generic-edit/edit.js\">edit.js</a> used in the\n    <a href=\"#samples/tag-controls/edit\">edit</a>,\n    <a href=\"#samples/tag-controls/datepicker\">datepicker</a>,\n    <a href=\"#samples/tag-controls/slider\">slider</a>\n    and <a href=\"#samples/tag-controls/validate\">validate</a> samples\n  </li>\n</ul>"
-      },
-      {
-        "_type": "para",
-        "title": "<b>{{datepicker/}}</b>:",
-        "text": "<ul>\n  <li><a href=\"download/sample-tag-controls/datepicker/datepicker.js\">datepicker.js</a> used in the\n    <a href=\"#samples/tag-controls/datepicker/simple\">simple datepicker</a>\n    and <a href=\"#samples/tag-controls/datepicker/variants\">datepicker variants</a> samples\n  </li>\n  <li><a href=\"download/sample-tag-controls/datepicker/datepicker-derived.js\">datepicker-derived.js</a> used in the\n    <a href=\"#samples/tag-controls/datepicker/with-validation\">datepicker with validation</a>\n    and <a href=\"#samples/tag-controls/datepicker/with-validation-wizard\">datepicker with validation wizard</a> samples\n  </li>\n</ul>"
-      },
-      {
-        "_type": "para",
-        "title": "<b>{{slider/}}</b>:",
-        "text": "<ul>\n  <li><a href=\"download/sample-tag-controls/slider/slider.js\">slider.js</a> used in the\n    <a href=\"#samples/tag-controls/slider/simple\">simple slider</a>\n    and <a href=\"#samples/tag-controls/slider/variants\">slider variants</a> samples\n  </li>\n  <li><a href=\"download/sample-tag-controls/slider/slider-derived.js\">slider-derived.js</a> used in\n    <a href=\"#samples/tag-controls/slider/with-validation\">slider with validation</a> sample\n  </li>\n</ul>"
       },
       {
         "_type": "para",

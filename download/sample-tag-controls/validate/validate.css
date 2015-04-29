@@ -1,10 +1,4 @@
-﻿body {
-	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
-	font-size: 15px;
-	padding: 0 0 0 5px;
-}
-
-.val-msg {
+﻿.val-msg {
 	margin: 5px;
 	margin-bottom: 10px;
 }
@@ -19,7 +13,7 @@
 }
 
 .radiogroup.invalid.val-msg {
-	margin: 3px;
+	margin: 5px;
 }
 
 select.invalid.val-msg {
@@ -43,16 +37,3 @@ label.error {
 	color: #cf321d;
 	font-style: italic;
 }
-
-.wizard {
-	width: 600px;
-	height: 360px;
-	border: 1px solid #40478E;
-	padding: 10px;
-}
-
-.wizard button {
-	float: right;
-	margin: 3px;
-}
-

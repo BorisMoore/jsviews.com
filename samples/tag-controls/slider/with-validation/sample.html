@@ -1,14 +1,14 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="http://code.jquery.com/jquery-1.11.2.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.2.js"></script>
   <script src="../../../../download/jsviews.js"></script>
   <script src="../../../sample-viewer.js"></script>
-  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-  <link href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <link href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../sample.css" rel="stylesheet" />
   <script src="../../../../download/sample-tag-controls/generic-edit/edit.js"></script>
-  <script src="../../../../download/sample-tag-controls/slider/slider-derived.js"></script>
-  <link href="../../../../download/sample-tag-controls/slider/slider.css" rel="stylesheet"/>
   <script src="../../../../download/sample-tag-controls/validate/validate.js"></script>
   <link href="../../../../download/sample-tag-controls/validate/validate.css" rel="stylesheet"/>
 </head>
@@ -37,8 +37,9 @@
 
   <h4>Full range</h4>
   <div data-link="{slider size
-    range='min'
-    min=1 max=200
+    _range='min'
+    _min=1
+    _max=200
   }" class="main-slider"></div>
 
   <h4>Limited range: 50 - 100</h4>
@@ -49,11 +50,11 @@
     preventInvalidData=~page.noInvalidData
   }}
     <div data-link="{slider
-      orientation='vertical'
-      height=150
-      range='min'
-      min=0
-      max=200
+      _orientation='vertical'
+      _height=150
+      _range='min'
+      _min=0
+      _max=200
     }"></div>
   {{/validate}}
 
@@ -66,11 +67,11 @@
     preventInvalidData=~page.noInvalidData
   }}
     {^{slider
-      orientation='vertical'
-      height=150
-      range='min'
-      min=0
-      max=200
+      _orientation='vertical'
+      _height=150
+      _range='min'
+      _min=0
+      _max=200
     /}}
   {{/validate}}
 

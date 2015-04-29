@@ -10,7 +10,12 @@
 			try {
 				(new Function(sampleData.code))();
 			}
-			catch(e) {}
+			catch(e) {
+				$('#result').html(
+					"Error in template. <button onclick='$(\"#details\").toggle()'>details</button> <div style='display:none;' id=details><em>"
+					+ e.message + "</em><div>"
+				);
+			}
 		}
 		if (sampleData.markup) {
 			if (sampleData.onlyJsRender) {

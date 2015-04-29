@@ -1,12 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="http://code.jquery.com/jquery-1.11.2.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.2.js"></script>
   <script src="../../../../download/jsviews.js"></script>
   <script src="../../../sample-viewer.js"></script>
   <script src="../../../../download/sample-tag-controls/generic-edit/edit.js"></script>
   <script src="../../../../download/sample-tag-controls/validate/validate.js"></script>
   <link href="../../../../download/sample-tag-controls/validate/validate.css" rel="stylesheet"/>
+  <link href="../sample.css" rel="stylesheet"/>
 </head>
 <body>
 
@@ -39,7 +40,7 @@
   </p>
   <p>
   {^{for people}}
-      <img class="remove" src="http://www.jsviews.com/resources/images/close.png" />
+      <span class="remove"></span>
       {^{validate name trigger=true minLength=5 msg_minLength="Edit the name: At least %cond% letters!" /}}
     {{/for}}
   </p>

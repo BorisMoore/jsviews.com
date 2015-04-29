@@ -7,6 +7,8 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 
 // {{page}}
 
+	sampleFrames = {},
+
 	pageTag = {
 		init: function() {
 			window.pagetag = page = this;
@@ -107,10 +109,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 			};
 		},
 		iframeLoaded: function(tagId, loadScript) {
-			var frame = _jsv.bindings[tagId]; // Note this requires debugMode true - so not good to keep like this.
-			if (frame) {
-				frame.linkCtx.tag.getScript(loadScript);
-			}
+			sampleFrames[tagId].getScript(loadScript);
 		},
 		addSignature: function(view) {
 			var signatures = view.data.signatures,
@@ -278,7 +277,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 					buttons = '<button class="toggleselect cmdbtn">' + (this.selected
 						? 'ok</button><button class="up cmdbtn">up</button><button class="down cmdbtn">down'
 						: "edit"
-					) + '</button><img class="removesection" src="resources/images/close.png" /><br/>';
+					) + '</button><span class="removesection"></span><br/>';
 				}
 			}
 			this.tagCtx.tmpl = this.templates[mode][type];
@@ -295,7 +294,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 					return false;
 				});
 				self.contents().on("click", function(ev) {
-					if ($(ev.target).is("cmdbtn,a,input,textarea,button,img")) {
+					if ($(ev.target).is("cmdbtn,a,input,textarea,button,img,.removesection")) {
 						return;
 					}
 					self.toggleSelect();
@@ -449,7 +448,8 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 			var self = this,
 				iframeWnd = self.iframeWnd = $(self.parentElem).find(".sampleframe")[0].contentWindow;
 			if (iframeWnd) {
-				iframeWnd._tgId = self._tgId;
+//		iframeWnd._tgId = self._tgId;
+				sampleFrames[iframeWnd._tgId = self._tgId] = self;
 			}
 			self.parent.tabs.onSelectionChange = function() {
 				self.onTabChange.apply(self, arguments);
@@ -492,17 +492,17 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "  <script src=\"http://code.jquery.com/jquery-1.11.2.js\"></script>\n"
+					+ "  <script src=\"//code.jquery.com/jquery-1.11.2.js\"></script>\n"
 					+ (url
-						? ("  <base href=\"http://www.jsviews.com/" + url.slice(0, url.lastIndexOf("/")) + "/\"/>\n"
+						? ("  <base href=\"//www.jsviews.com/" + url.slice(0, url.lastIndexOf("/")) + "/\"/>\n"
 							+ tryItData.header
 							+ (codeInHeader
 								? ("<script>\n" + code
 									+ "\n</script>\n")
 								: ""))
-						: ("  <base href=\"http://www.jsviews.com/samples/\"/>\n"
+						: ("  <base href=\"//www.jsviews.com/samples/\"/>\n"
 							+ "  <link href=\"samples.css\" rel=\"stylesheet\"/>\n"
-							+ "  <script src=\"../download/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"))
+							+ "  <script src=\"./../download/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"))
 					+ "</head>\n"
 					+ "<body>\n\n"
 					+ (html
@@ -613,7 +613,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 								'{{if ~mode!=="summary" || !detail}}{^{section _type ~mode /}}{{/if}}' +
 							'{{/for}}' +
 						'{{else tabCaption="Code"}}' +
-							'<div class="show">' +
+							'<div class="code">' +
 								'{{sampleFields/}}' +
 							'</div>';
 

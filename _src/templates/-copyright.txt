@@ -1,0 +1,2 @@
+ * Copyright 2015, Boris Moore
+ * Released under the MIT License.

@@ -14,7 +14,7 @@ var	treeNodeTmpl = $.templates(
 				"<button class=\"down cmdbtn\">down</button>" +
 				"<button class=\"add cmdbtn\">add</button>" +
 				"{{if ~parentTags.treeNode }}" +
-					"<img class=\"remove\" src=\"resources/images/close.png\" />" +
+					"<span class=\"remove\"></span>" +
 				"{{/if}}" +
 				"<button class=\"hide cmdbtn\" data-link=\"hidden ? 'show' : 'hide'\"></button>" +
 				"<label>label: <input data-link=\"label trigger=true\" /></label>" +

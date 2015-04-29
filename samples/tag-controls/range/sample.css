@@ -13,7 +13,7 @@ li {
 }
 
 ul {
-	padding-left: 0px;
+	padding-left: 0;
 }
 
 ol {
@@ -22,7 +22,7 @@ ol {
 
 ul li {
 	list-style: none;
-	margin-left: 0px;
+	margin-left: 0;
 }
 
 .left {
@@ -30,6 +30,24 @@ ul li {
 	margin-right: 20px;
 	border: 1px solid grey;
 	padding: 20px;
+}
+
+.remove {
+	margin-right: -7px;
+	display: inline-block;
+}
+
+.remove:after {
+	color: #be614c;
+	font-weight: bold;
+	padding: 0 6px 2px;
+	content: 'x';
+	cursor: pointer;
+}
+
+.remove:hover:after {
+	color: red;
+	background-color: #dbffe0;
 }
 
 select {

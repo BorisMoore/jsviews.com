@@ -14,5 +14,19 @@ input, select, textarea {
 }
 
 .remove {
+	margin-right: -7px;
+	display: inline-block;
+}
+
+.remove:after {
+	color: #be614c;
+	font-weight: bold;
+	padding: 0 6px 2px;
+	content: 'x';
 	cursor: pointer;
+}
+
+.remove:hover:after {
+	color: red;
+	background-color: #dbffe0;
 }

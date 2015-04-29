@@ -1,13 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="http://code.jquery.com/jquery-1.11.2.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.2.js"></script>
   <script src="../../../../download/jsviews.js"></script>
   <script src="../../../sample-viewer.js"></script>
-  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-  <link href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
-  <script src="../../../../download/sample-tag-controls/slider/slider.js"></script>
-  <link href="../../../../download/sample-tag-controls/slider/slider.css" rel="stylesheet"/>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <link href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../sample.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -40,7 +40,7 @@
 
 <pre>&#123;^{slider size .../}&#125;</pre>
 
-{^{slider size range='min' min=1 max=200 width=400 /}}
+{^{slider size _range='min' _min=1 _max=200 width=400 /}}
 
 <h4>Tag syntax, wrapping element:</h4>
 
@@ -50,7 +50,7 @@
 &#123;^{/slider}&#125;
 </pre>
 
-{^{slider size range='min' min=1 max=200}}
+{^{slider size _range='min' _min=1 _max=200}}
   <div class="main-slider"></div>
 {{/slider}}
 
@@ -60,7 +60,7 @@
 &lt;div data-link="{slider size ...}">&lt;/div>
 </pre>
 
-<div data-link="{slider size range='min' min=1 max=200}" class="main-slider"></div>
+<div data-link="{slider size _range='min' _min=1 _max=200}" class="main-slider"></div>
 
 <h4>Size:</h4>
 

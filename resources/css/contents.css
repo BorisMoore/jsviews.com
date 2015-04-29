@@ -1,151 +1,164 @@
-﻿pre {
-    font-size: 10pt;
-    border-left: 3px solid #aaa;
-    padding: 0 0 0 8px;
-    margin: 20px 0 20px;
-    overflow: auto;
+pre {
+	font-size: 10pt;
+	border-left: 3px solid #aaa;
+	padding: 5px 0 0 8px;
+	margin: 20px 0 20px;
+	overflow: auto;
 }
 
 .title ~ div > pre {
-    margin-top: 5px;
+	margin-top: 5px;
 }
 
 .removesection {
-    margin: 0 15px;
-    vertical-align: middle;
-    cursor: pointer;
-    float: right;
-    padding: 8px;
+	cursor: pointer;
+	float: right;
+	display: inline-block;
+	margin-right: -7px;
+	padding-right: 4px;
 }
 
-    .removesection.param, .removesection.signature, .removesection.topic, .removesection.link, .removesection.codetab {
-        float: none;
-        margin: 4px;
-    }
+.removesection:after {
+	color: #be614c;
+	font-weight: bold;
+	padding: 0 6px 2px;
+	content: 'x';
+	cursor: pointer;
+}
+
+.removesection:hover:after {
+	color: red;
+	background-color: #dbffe0;
+}
+
+	.removesection.param, .removesection.signature, .removesection.topic, .removesection.link, .removesection.codetab {
+		float: none;
+	}
 
 .cmdbtn {
-    cursor: pointer;
-    display: inline-block;
-    vertical-align: middle;
-    border: 1px solid #555;
-    font-size: 7pt;
-    line-height: 11px;
-    background-color: #f8f8f8;
-    color: Blue;
-    margin: 5px;
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: middle;
+	border: 1px solid #555;
+	font-size: 7pt;
+	line-height: 11px;
+	background-color: #f8f8f8;
+	color: Blue;
+	margin: 5px;
 }
 
 a.cmdbtn {
-    border: 1px solid green;
-    padding: 3px;
+	border: 1px solid green;
+	padding: 3px;
 }
 
 .hidechkbx {
-    display: inline-block;
-    vertical-align: middle;
-    border: 1px solid #555;
-    font-size: 7pt;
-    line-height: 11px;
-    background-color: #f8f8f8;
-    color: Blue;
-    margin: 5px;
+	display: inline-block;
+	vertical-align: middle;
+	border: 1px solid #555;
+	font-size: 7pt;
+	line-height: 11px;
+	background-color: #f8f8f8;
+	color: Blue;
+	margin: 5px;
 }
 
 .insertsection {
-    margin: 0 5px 0 0;
+	margin: 0 5px 0 0;
 }
 
 .mode-edit {
-    margin-top: 3px;
-    background-color: yellow;
-    border: 1px solid #666666;
-    padding: 5px;
+	margin-top: 3px;
+	background-color: yellow;
+	border: 1px solid #666666;
+	padding: 5px;
 }
 
-    .mode-edit input.heading {
-        width: 55%;
-        padding: 3px;
-    }
+	.mode-edit input.heading {
+		width: 55%;
+		padding: 3px;
+	}
 
-    .mode-edit input {
-        padding: 2px;
-        margin: 1px;
-    }
+	.mode-edit input {
+		padding: 2px;
+		margin: 1px;
+	}
 
-    .mode-edit .params div:first-child, .mode-edit .signatures div:first-child {
-        font-size: 12px;
-        font-weight: bold;
-        margin-bottom: 2px;
-    }
+	.mode-edit .params div:first-child, .mode-edit .signatures div:first-child {
+		font-size: 12px;
+		font-weight: bold;
+		margin-bottom: 2px;
+	}
 
-    .mode-edit .params, .mode-edit .signatures {
-        border: 1px solid #AAAAAA;
-        margin: 3px;
-        padding: 5px;
-        background-color: rgb(255, 248, 198);
-    }
+	.mode-edit .params, .mode-edit .signatures {
+		border: 1px solid #AAAAAA;
+		margin: 3px;
+		padding: 5px;
+		background-color: rgb(255, 248, 198);
+	}
 
-        .mode-edit .params label, .mode-edit .signatures label {
-            font-size: 11px;
-        }
+		.mode-edit .params label, .mode-edit .signatures label {
+			font-size: 11px;
+		}
 
-        .mode-edit .params input, .mode-edit .signatures input {
-            height: 14px;
-        }
+		.mode-edit .params input, .mode-edit .signatures input {
+			height: 14px;
+		}
 
-            .mode-edit .params input.description, .mode-edit .signatures input.description {
-                width: 280px;
-            }
+			.mode-edit .params input.description, .mode-edit .signatures input.description {
+				width: 280px;
+			}
 
-    .mode-edit input.description {
-        width: 55%;
-    }
+	.mode-edit input.description {
+		width: 55%;
+	}
 
 .mode-editview {
-    margin-top: 3px;
-    border: 1px solid #CCCCCC;
-    padding: 5px;
+	margin-top: 3px;
+	border: 1px solid #CCCCCC;
+	padding: 5px;
 }
 
 .typeHeader {
-    position: relative;
-    top: -15px;
-    font-size: larger;
-    font-style: italic;
-    font-weight: bold;
-    width: 34%; /*less than padding-left of .buttons*/
+	position: relative;
+	top: -3px;
+	font-size: larger;
+	font-style: italic;
+	font-weight: bold;
+	width: 34%; /*less than padding-left of .buttons*/
 }
 
-    .typeHeader .isdetail {
-        font-size: small;
-        font-style: normal;
-        font-weight: normal;
-    }
+	.typeHeader .isdetail {
+		font-size: small;
+		font-style: normal;
+		font-weight: normal;
+	}
 
 .savetext, .sample .try textarea {
-    width: 99%;
-    padding: 5px;
-    height: 200px;
-    margin: 5px 0 0 -3px;
-    border: 1px solid #bbb;
+	width: 99%;
+	padding: 5px 0 5px 5px;
+	height: 201px;
+	margin: 5px 0 0 -3px;
+	border: 1px solid #bbb;
 }
 
 .savetext {
-    height: 600px;
+	height: 600px;
+	width: 459px;
 }
 
 .save-div {
-    margin-top: 5px;
+	margin-top: 5px;
 }
 
-    .save-div label {
-        width: 49%;
-        float: left;
-    }
+	.save-div label {
+		width: 49%;
+		float: left;
+	}
 
-        .save-div label:last-of-type {
-            float: right;
-        }
+		.save-div label:last-of-type {
+			float: right;
+		}
 
 /*.mode-summary, .mode-detail {
 	margin: 10px 0 10px 0;
@@ -153,288 +166,329 @@ a.cmdbtn {
 }*/
 
 .sample .try label {
-    width: 100%;
-    float: left;
-    font-style: italic;
-    margin-top: -16px;
+	width: 100%;
+	float: left;
+	font-style: italic;
+	margin-top: -16px;
 }
 
-    .sample .try label:last-of-type {
-        float: left;
-        margin-top: 12px;
-    }
+	.sample .try label:last-of-type {
+		float: left;
+		margin: 12px 0 -4px 0;
+	}
 
 .sample .try button {
-    float: left;
+	float: left;
 }
 
-.sample .show label {
-    float: left;
-    font-style: italic;
-    width: 50%;
+.sample .code label {
+	width: 50%;
+	float: left;
+	font-style: italic;
+	margin-top: -4px;
+}
+
+.codetab {
+	width: 98%;
 }
 
 .sample .codetab label {
-    font-style: italic;
+	font-style: italic;
+	margin: -4px;
 }
 
 .sample .codetab pre {
-    font-style: normal;
+	font-style: normal;
+	height: 451px;
+	margin: 7px -12px -14px -4px;
+	border: solid 1px rgba(0, 0, 166, 0.25);
+	padding: 5px 0 5px 5px;
 }
 
-.sample .show pre {
-    font-style: normal;
-    height: 447px;
-    margin: 20px 0 0;
+.sample .code, .sample .fullcode {
+	  margin: -1px -2px -4px -3px;
+}
+
+.sample .codetab {
+	  margin: -5px -2px -4px 1px;
+}
+
+.sample .code pre, .sample .fullcode pre {
+	font-style: normal;
+	height: 450px;
+	margin: 7px 9px 0 0;
+	border: solid 1px rgba(0, 0, 166, 0.25);
+	padding: 5px 0 5px 5px;
+}
+
+.fullcode {
+	height: 477px;
+	width: 99%;
+	margin-right: 5px;
 }
 
 .sample .try .bottom {
-    height: 30px;
-    clear: both;
+	height: 30px;
+	clear: both;
 }
 
 .mode-edit .links, .mode-edit .topics {
-    border: 1px solid #aaa;
-    padding: 2px;
-    margin-top: 4px;
+	border: 1px solid #aaa;
+	padding: 2px;
+	margin-top: 4px;
 }
 
-    .mode-edit .links label, .mode-edit .topics label {
-        display: inline-block;
-        width: 38px;
-        text-align: right;
-        margin-right: 3px;
-    }
+	.mode-edit .links label, .mode-edit .topics label {
+		display: inline-block;
+		width: 38px;
+		text-align: right;
+		margin-right: 3px;
+	}
 
 .mode-edit textarea {
-    width: 99.5%;
-    margin: 2px;
+	width: 99.5%;
+	margin: 2px;
 }
 
 .mode-edit .signatures > .signature {
-    border-top: 2px solid #851d1d;
-    padding: 10px 0 0 0;
-    margin-bottom: 5px;
-    margin-top: 18px;
+	border-top: 2px solid #851d1d;
+	padding: 10px 0 0 0;
+	margin-bottom: 5px;
+	margin-top: 18px;
 }
 
 .apiheaders {
-    border: 1px solid #bbb;
-    padding: 2px;
+	border: 1px solid #bbb;
+	padding: 2px;
 }
 
 .apiheader, .apiheader .sreturns span {
-    text-align: center;
-    font-weight: bold;
-    font-family: monospace;
-    font-size: 15px;
+	text-align: center;
+	font-weight: bold;
+	font-family: monospace;
+	font-size: 15px;
 }
 
-    .apiheader .returns {
-        margin-left: 30px;
-        font-family: Verdana;
-        font-style: italic;
-        font-size: 13px;
-    }
+	.apiheader .returns {
+		margin-left: 30px;
+		font-family: Verdana;
+		font-style: italic;
+		font-size: 13px;
+	}
 
-        .apiheader .returns span {
-            font-style: normal;
-            font-weight: normal;
-        }
+		.apiheader .returns span {
+			font-style: normal;
+			font-weight: normal;
+		}
 
 .apisignatures, .samplesection {
-    border: 1px solid #2881AF;
-    background-color: white;
-    margin: 35px -2px 35px -16px;
-    padding: 4px 11px 11px 11px;
+	border: 1px solid #2881AF;
+	background-color: white;
+	margin: 35px -2px 35px -16px;
+	padding: 4px 11px 11px 11px;
 }
 
-    .apisignatures .title span {
-        font-size: 14pt;
-        font-family: monospace;
-        font-weight: bold;
-        font-style: normal;
-    }
+	.apisignatures .title span {
+		font-size: 14pt;
+		font-family: monospace;
+		font-weight: bold;
+		font-style: normal;
+	}
 
-    .apisignatures > .signature {
-        border-top: 2px solid #851d1d;
-        padding: 10px 0 0 0;
-        margin-bottom: 5px;
-        margin-top: 18px;
-    }
+	.apisignatures > .signature {
+		border-top: 2px solid #851d1d;
+		padding: 10px 0 0 0;
+		margin-bottom: 5px;
+		margin-top: 18px;
+	}
 
 .signature .descblock {
-    overflow: hidden;
+	overflow: hidden;
 }
 
-    .signature .descblock .desc {
-        float: left;
-        width: 45%;
-        margin-bottom: 3px;
-        font-style: italic;
-        border: 1px solid rgb(202, 117, 117);
-        padding: 7px;
-    }
+	.signature .descblock .desc {
+		float: left;
+		width: 45%;
+		margin-bottom: 3px;
+		font-style: italic;
+		border: 1px solid rgb(202, 117, 117);
+		padding: 7px;
+	}
 
-    .signature .descblock .example {
-        float: right;
-        width: 45%;
-        border: 1px solid rgb(202, 117, 117);
-        font-family: monospace;
-        padding: 7px;
-        margin: 0;
-    }
+	.signature .descblock .example {
+		float: right;
+		width: 45%;
+		border: 1px solid rgb(202, 117, 117);
+		font-family: monospace;
+		padding: 7px;
+		margin: 0;
+	}
 
 .apisignatures .params {
-    border: 1px solid #2881AF;
-    margin-top: 5px;
+	border: 1px solid #2881AF;
+	margin-top: 5px;
 }
 
-    .apisignatures .params > div {
-        border-top: 1px solid #2881AF;
-        padding: 3px;
-        background-color: #f2f2f2;
-    }
+	.apisignatures .params > div {
+		border-top: 1px solid #2881AF;
+		padding: 3px;
+		background-color: #f2f2f2;
+	}
 
-        .apisignatures .params > div:first-child {
-            background-color: #2881AF;
-            color: #FFFFFF;
-        }
+		.apisignatures .params > div:first-child {
+			background-color: #2881AF;
+			color: #FFFFFF;
+		}
 
-    .apisignatures .params label {
-        display: block;
-        font-family: monospace;
-        font-size: 15px;
-    }
+	.apisignatures .params label {
+		display: block;
+		font-family: monospace;
+		font-size: 15px;
+	}
 
-        .apisignatures .params label .type {
-            font-family: Verdana;
-            font-size: 13px;
-        }
+		.apisignatures .params label .type {
+			font-family: Verdana;
+			font-size: 13px;
+		}
 
-    .apisignatures .params div .paramdesc {
-        font-style: italic;
-        padding: 5px 0 5px;
-    }
+	.apisignatures .params div .paramdesc {
+		font-style: italic;
+		padding: 5px 0 5px;
+	}
 
 .editmode input.title, .mode-edit input.title {
-    width: 500px;
-    margin-bottom: 5px;
+	width: 500px;
+	margin-bottom: 5px;
 }
 
 .signature > .title {
-    font-style: italic;
-    font-size: larger;
-    width: 100%;
+	font-style: italic;
+	font-size: larger;
+	width: 100%;
 }
 
 .sampleframe {
-    width: 100%;
-    border: none;
-    border: 2px solid #670404;
-    margin: 2px 0 15px -2px;
+	width: 100%;
+	border: none;
+	border: 2px solid #670404;
+	margin: 2px 0 15px -2px;
 }
 
 .sample {
-    position: relative;
-    padding: 2px;
+	position: relative;
+	padding: 2px;
 }
 
-    .sample .tabstrip > .sample td, .sample .tabscontent > td {
-        border: solid 1px rgba(0, 0, 166, 0.41);
-        border-right: solid 2px rgba(30, 30, 210, 0.59);
-    }
+	.sample .tabstrip > .sample td, .sample .tabscontent > td {
+		border: solid 1px rgba(0, 0, 166, 0.41);
+		border-right: solid 2px rgba(30, 30, 210, 0.59);
+	}
 
-    .sample .tabstrip > th {
-        border-bottom: solid 1px rgba(30, 30, 210, 0.55);
-    }
+	.sample .tabstrip > th {
+		border-bottom: solid 1px rgba(30, 30, 210, 0.55);
+	}
 
-        .sample .tabstrip > th.header_true {
-            border: solid 1px rgba(0, 0, 166, 0.41);
-            border-right: solid 2px rgba(30, 30, 210, 0.59);
-            border-bottom: solid 1px #eee;
-            border-top: solid 1px rgba(0, 0, 166, 0.8);
-        }
+		.sample .tabstrip > th.header_true {
+			border: solid 1px rgba(0, 0, 166, 0.41);
+			border-right: solid 2px rgba(30, 30, 210, 0.59);
+			border-bottom: solid 1px #eee;
+			border-top: solid 1px rgba(0, 0, 166, 0.8);
+		}
 
 .runSample, .revertSample, .tryIt {
-    margin: 5px 2px;
+	margin: 5px 2px;
 }
 
 .runButtons {
-    margin: -18px auto 0 auto;
-    text-align: center;
+	margin: -18px auto 0 auto;
+	text-align: center;
 }
 
 .tryitButtons {
-    position: relative;
-    top: -2px;
-    font-size: 8pt;
-    display: inline;
+	position: relative;
+	top: -2px;
+	font-size: 8pt;
+	display: inline;
 }
 
 .title {
-    font-size: larger;
-    margin: 10px 10px 6px 0;
-    display: inline-block;
-    font-weight: bold;
-    font-style: italic;
+	font-size: larger;
+	margin: 10px 10px 6px 0;
+	display: inline-block;
+	font-weight: bold;
+	font-style: italic;
 }
 
-    .title span {
-        font-weight: normal;
-        font-style: italic;
-    }
+	.title span {
+		font-weight: normal;
+		font-style: italic;
+	}
 
 .para {
-    margin: 10px 10px 10px 0;
+	margin: 10px 10px 10px 0;
 }
 
-    .para > ul {
-        margin: 0;
-    }
+	.para > ul {
+		margin: 0;
+	}
 
-        .para > ul.textbefore {
-            margin: 10px 0 0 0;
-        }
-
-.fullcode {
-    height: 477px;
-    width: 100%;
-    margin: -2px 0 0 -3px;
-}
+		.para > ul.textbefore {
+			margin: 10px 0 0 0;
+		}
 
 .currenttopic {
-    background-color: #f8f8f5;
-    padding: 8px 14px;
+	background-color: #f8f8f5;
+	padding: 8px 14px;
 }
 
-    .currenttopic.edit {
-        background-color: #F0F0D7;
-    }
+	.currenttopic.edit {
+		background-color: #F0F0D7;
+	}
 
 .nonitalic {
-    font-style: normal;
+	font-style: normal;
 }
 
 .loading {
-    font-style: italic;
-    font-size: larger;
-    color: #41687C;
-    padding: 20px 0 0 10px;
+	font-style: italic;
+	font-size: larger;
+	color: #41687C;
+	padding: 20px 0 0 10px;
 }
 
 .para li {
-    margin-left: -10px;
-    list-style-type: square;
-    padding: 2px;
+	margin-left: -10px;
+	list-style-type: square;
+	padding: 2px;
 }
 
-    .para li li {
-        margin-left: -10px;
-        list-style-type: circle;
-        padding: 2px;
-    }
+	.para li li {
+		margin-left: -10px;
+		list-style-type: circle;
+		padding: 2px;
+	}
 
 hr {
-    border: 2px solid #2881AF;
+	border: 2px solid #2881AF;
+}
+
+a {
+	display: inline-block;
+	position: relative;
+	text-decoration:none;
+}
+
+a:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	display: inline-block;
+	height: 17px;
+	width: 100%;
+	border-bottom: 1px solid;
+	margin-top: 1px;
+}
+
+.topiclinks {
+	line-height:20px;
 }

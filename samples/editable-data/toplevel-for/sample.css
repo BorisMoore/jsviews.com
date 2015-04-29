@@ -25,7 +25,7 @@ table {
 	clear: both;
 	border: 2px solid #4242ae;
 	width: 380px;
-	margin: 4px 0 4px 0px;
+	margin: 4px 0 4px 0;
 	padding: 2px;
 	background-color: #f8f8f8;
 }
@@ -109,9 +109,23 @@ table td {
 }
 
 .removeLanguage, .removeMovie {
+	margin-right: 3px;
+	display: inline-block;
+	float: right;
+}
+
+.removeLanguage:after, .removeMovie:after {
+	color: #be614c;
+	font-weight: bold;
+	padding: 0 6px 2px;
+	content: 'x';
 	float: right;
 	cursor: pointer;
-	padding: 6px;
+}
+
+.removeLanguage:hover:after, .removeMovie:hover:after {
+	color: red;
+	background-color: #dbffe0;
 }
 
 .detail .title .addLanguage {

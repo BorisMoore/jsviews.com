@@ -30,8 +30,19 @@
 
 .remove {
 	cursor: pointer;
-	vertical-align: middle;
-	margin-right: 7px;
+	margin-left: -8px;
+}
+
+.remove:after {
+	color: #be614c;
+	padding: 0 6px 2px;
+	font-weight: bold;
+	content: 'x';
+}
+
+.remove:hover:after {
+	color: red;
+	background-color: #dbffe0;
 }
 
 .spacer {

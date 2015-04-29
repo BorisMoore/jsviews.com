@@ -2,12 +2,22 @@
 <html>
 <head>
 	<title>JsRender/JsViews</title>
-	<link rel="Shortcut Icon" type="image/ico" href="resources/images/logo-jsv.png">
-	<link href="resources/css/tree.css" rel="stylesheet"/>
+	<link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png?v=1">
+	<link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png?v=1">
+	<link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-touch-icon-72x72.png?v=1">
+	<link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-touch-icon-76x76.png?v=1">
+	<link rel="icon" type="image/png" href="/icons/favicon-32x32.png?v=1" sizes="32x32">
+	<link rel="icon" type="image/png" href="/icons/favicon-16x16.png?v=1" sizes="16x16">
+	<link rel="manifest" href="/icons/manifest.json?v=1">
+	<link rel="shortcut icon" href="/icons/favicon.ico?v=1">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="msapplication-config" content="/icons/browserconfig.xml?v=1">
+	<meta name="theme-color" content="#f2e5e5">	<link href="resources/css/tree.css" rel="stylesheet"/>
 	<link href="resources/css/tabs.css" rel="stylesheet"/>
 	<link href="resources/css/site.css" rel="stylesheet"/>
+	<link href="resources/css/dataurls.css" rel="stylesheet"/>
 	<link href="resources/css/contents.css" rel="stylesheet"/>
-	<script src="http://code.jquery.com/jquery-1.11.2.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.2.js"></script>
 	<script src="download/jsviews.js"></script>
 	<script src="datatypes.js"></script>
 	<script src="documentation/contents-categories.js"></script>
@@ -19,19 +29,19 @@
 	<div data-link="class{:topCategory^name === 'home' ? ' home' : ' nothome'}">
 		<div class="topnav page-width">
 			<div class="main-item unselected" id="logo-jsrender">
-				<img class="logo" src="resources/images/logo-jsr.png" />
+				<a class="logo jsr"></a>
 				<div class='main-item-title'><span class="title-bold">Js</span>Render</div>
-				<img class="menupointer" src="resources/images/triangle.png" />
+				<div class="menupointer"></div>
 			</div>
 			<div class="main-item unselected" id="logo-jsviews">
-				<img class="logo" src="resources/images/logo-jsv.png" />
+				<a class="logo jsv"></a>
 				<div class='main-item-title'	><span class="title-bold">Js</span>Views</div>
-				<img class="menupointer" src="resources/images/triangle.png" />
+				<div class="menupointer"></div>
 			</div>
 			<div class="main-item unselected" id="logo-jsobservable">
-				<img class="logo" src="resources/images/logo-jso.png" />
+				<a class="logo jso"" ></a>
 				<div class='main-item-title'><span class="title-bold">Js</span>Observable</div>
-				<img class="menupointer" src="resources/images/triangle.png" />
+				<div class="menupointer"></div>
 			</div>
 		</div>
 		<div class="divider">
@@ -90,7 +100,7 @@
 							{{/for}}
 						</span>
 						<span class="nextarrow">
-							<a href="#{{:next}}">More...<img src="resources/images/arrow-{{:prefix}}.png" /></a>
+							<a href="#{{:next}}">More...<span class="{{:prefix}} dataimage"></span></a>
 						</span>
 					{{/for}}
 				{{else}}
@@ -116,9 +126,9 @@
 	{{/if}}
 {{/page}}
 			<div class="footers">
-				<div class="footer"><span>JsViews in the industry:
-					<img src="resources/images/Outlook_rgb_Wht.png" style="width: 72px;" />
-					<img src="resources/images/layout-brand-sm.png" /></span>
+				<div class="footer"><div>JsViews in the industry:
+					<span class="outlook dataimage" ></span>
+					<span class="azure dataimage"></span></div>
 				</div>
 				<div class="menus bottom">
 					<a class="unselected" href="#home">Home</a>
@@ -128,7 +138,7 @@
 					<a class="unselected" href="#jsvapi">JsViews API</a>
 					<a class="unselected" href="#jsoapi">JsObservable API</a>
 					<a class="unselected" href="#samples">Samples</a>
-					<a class="unselected" href="#download">Downloads</a>
+					<a class="unselected" href="#download">Download</a>
 					<a class="unselected" href="#community">Community</a>
 					<a class="unselected" href="#links">Links</a>
 				</div>
@@ -338,7 +348,7 @@
 					<label>Title: <input class="description" data-link="title trigger=true" /></label><br/>
 					<label>Example: <textarea data-link="example trigger=true"></textarea></label>
 					<label>Description: <input class="description" data-link="description trigger=true" /></label>
-					<img class="removesection signature" src="resources/images/close.png" />
+					<span class="removesection signature"></span>
 					<div class="params">
 						<div>Parameters</div>
 						{^{for params}}
@@ -347,7 +357,7 @@
 								<label>Type: <input data-link="type trigger=true" /></label>
 								<label>Optional: <input type="checkbox" data-link="optional" /></label>
 								<label>Description: <input class="description" data-link="description trigger=true" /></label>
-								<img class="removesection param" src="resources/images/close.png" />
+								<span class="removesection param"></span>
 							</div>
 						{{/for}}
 					</div>
@@ -377,7 +387,7 @@
 					<label>Variant: <input class="description" data-link="variant trigger=true" /></label><br/>
 					<label>Example: <textarea data-link="example trigger=true"></textarea></label>
 					<label>Description: <input class="description" data-link="description trigger=true" /></label>
-					<img class="removesection signature" src="resources/images/close.png" />
+					<span class="removesection signature"></span>
 					<div class="params">
 						<div>Arguments</div>
 						{^{for args}}
@@ -386,7 +396,7 @@
 								<label>Type: <input data-link="type trigger=true" /></label>
 								<label>Optional: <input type="checkbox" data-link="optional" /></label>
 								<label>Description: <input class="description" data-link="description trigger=true" /></label>
-								<img class="removesection param" src="resources/images/close.png" />
+								<span class="removesection param"></span>
 							</div>
 						{{/for}}
 					</div>
@@ -400,7 +410,7 @@
 								<label>Type: <input data-link="type trigger=true" /></label>
 								<label>Optional: <input type="checkbox" data-link="optional" /></label>
 								<label>Description: <input class="description" data-link="description trigger=true" /></label>
-								<img class="removesection param" src="resources/images/close.png" />
+								<span class="removesection param"></span>
 							</div>
 						{{/for}}
 					</div>
@@ -451,7 +461,7 @@
 				<div>
 					<label>label: <input data-link="label trigger=true" /></label>
 					<label>url: <input data-link="url trigger=true" /></label>
-					<img class="removesection codetab" src="resources/images/close.png" />
+					<span class="removesection codetab"></span>
 				</div>
 			{{/for}}
 		</div>
@@ -478,7 +488,7 @@
 			<div>
 				<label>Title: </label><input data-link="label trigger=true" />
 				<label>url: </label><input data-link="url trigger=true" />
-				<img class="removesection link" src="resources/images/close.png" />
+				<span class="removesection link"></span>
 			</div>
 		{{/for}}
 	</div>
@@ -489,7 +499,7 @@
 			<div>
 				<label>Title: </label><input data-link="label trigger=true" />
 				<label>hash: </label><input data-link="hash trigger=true" />
-				<img class="removesection topic" src="resources/images/close.png" />
+				<span class="removesection topic"></span>
 			</div>
 		{{/for}}
 	</div>
@@ -499,7 +509,7 @@
 
 <body>
 	<div id="wrapper">
-  		<div class="menus top">
+		<div class="menus top">
 			<a href="#home" id="home" class="unselected">Home</a>
 			<a href="#getstarted" id="getstarted" class="unselected">Get Started</a>
 			<a href="#explore" id="explore" class="unselected">Explore</a>
@@ -507,7 +517,7 @@
 			<a href="#jsvapi" id="jsvapi" class="unselected">JsViews API</a>
 			<a href="#jsoapi" id="jsoapi" class="unselected">JsObservable API</a>
 			<a href="#samples" id="samples" class="unselected">Samples</a>
-			<a href="#download" id="download" class="unselected">Downloads</a>
+			<a href="#download" id="download" class="unselected">Download</a>
 			<a href="#community" id="community" class="unselected">Community</a>
 			<a href="#links" id="links" class="unselected">Links</a>
 		<div class="gradient2"></div>
