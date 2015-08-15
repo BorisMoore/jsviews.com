@@ -1,0 +1,23 @@
+{
+  "name": "jsviews.com",
+  "main": "index.html",
+  "version": "1.0.0",
+  "homepage": "https://github.com/BorisMoore/jsviews.com",
+  "authors": [
+    "BorisMoore <borismoore@gmail.com>"
+  ],
+  "description": "Documentation for JsRender and JsViews",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "jsrender": "../jsrender"
+  },
+  "devDependencies": {
+    "jsrender": "../jsrender#master"
+  }
+}

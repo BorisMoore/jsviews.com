@@ -1,8 +1,6 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-*.config
-Scripts/_references.js
+﻿**/.*
 node_modules
-/resources/previousImages
+bower_components
+test/browserify/bundles/*.js
+*.config
+Scripts

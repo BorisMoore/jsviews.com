@@ -556,7 +556,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         },
         "onlyJsRender": false,
         "title": "",
-        "height": "100"
+        "height": "110"
       },
       {
         "_type": "para",

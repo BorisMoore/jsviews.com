@@ -492,7 +492,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "  <script src=\"//code.jquery.com/jquery-1.11.2.js\"></script>\n"
+					+ "  <script src=\"//code.jquery.com/jquery-1.11.3.js\"></script>\n"
 					+ (url
 						? ("  <base href=\"//www.jsviews.com/" + url.slice(0, url.lastIndexOf("/")) + "/\"/>\n"
 							+ tryItData.header
@@ -502,7 +502,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 								: ""))
 						: ("  <base href=\"//www.jsviews.com/samples/\"/>\n"
 							+ "  <link href=\"samples.css\" rel=\"stylesheet\"/>\n"
-							+ "  <script src=\"./../download/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"))
+							+ "  <script src=\"../download/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"))
 					+ "</head>\n"
 					+ "<body>\n\n"
 					+ (html

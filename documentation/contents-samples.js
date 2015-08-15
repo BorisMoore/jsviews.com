@@ -604,7 +604,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "sampleName": "jsrender/tags/extend-for",
         "url": "samples/jsrender/tags/extend-for/sample",
-        "height": "530",
+        "height": "450",
         "onlyJsRender": true
       }
     ]
@@ -905,7 +905,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "code",
             "title": "Declaring custom converters",
-            "code": "$.views.converters({\n  loc: function (value) {\n    var language = this.tagCtx.props.lang;\n    ... (return localized value based on language)\n  }\n});\n"
+            "code": "$.views.converters({\n  loc: function(value) {\n    var language = this.tagCtx.props.lang;\n    ... (return localized value based on language)\n  }\n});\n"
           }
         ],
         "codetabs": [],
@@ -2385,7 +2385,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "code",
             "title": "<span class=\"nonitalic\">Binding <em>number</em> data values to <em>string</em> values in UI:</span>",
-            "code": "intToStr: function (value) { return \"\" + value; },\nstrToInt: function (value) { return parseInt(value); }"
+            "code": "intToStr: function(value) { return \"\" + value; },\nstrToInt: function (value) { return parseInt(value); }"
           },
           {
             "_type": "template",
@@ -2395,7 +2395,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "code",
             "title": "<span class=\"nonitalic\">Binding <em>number</em> data values to UI elements using <em>bit-masks</em>:</span>",
-            "code": "setBit: function (value) {\n  ...\n  // Use the mask to set or unset that bit on the data, and return the modified value\n  return value ? (dataValue | mask) : (dataValue & ~mask);\n},\ngetBit: function (value) {\n  // \"Convert\": Get the bit from the data, and check or uncheck the checkbox\n  return (value >> this.linkCtx.elem.getAttribute(\"data-bit\") & 1) === 1;\n}"
+            "code": "setBit: function(value) {\n  ...\n  // Use the mask to set or unset that bit on the data, and return the modified value\n  return value ? (dataValue | mask) : (dataValue & ~mask);\n},\ngetBit: function (value) {\n  // \"Convert\": Get the bit from the data, and check or uncheck the checkbox\n  return (value >> this.linkCtx.elem.getAttribute(\"data-bit\") & 1) === 1;\n}"
           },
           {
             "_type": "template",

@@ -3333,7 +3333,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "template",
         "title": "",
-        "markup": "{myTag arg0 arg1 namedProp1=xxx namedProp2=yyy}} ... {{/myTag}}"
+        "markup": "{{myTag arg0 arg1 namedProp1=xxx namedProp2=yyy}} ... {{/myTag}}"
       },
       {
         "_type": "para",

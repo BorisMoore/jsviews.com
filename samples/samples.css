@@ -49,6 +49,11 @@ table input {
 	height: 15px;
 }
 
+td span {
+	display: inline-block;
+	margin: 5px;
+}
+
 td label {
 	color: black;
 	width: 48%;
@@ -80,16 +85,9 @@ td.center {
 	margin: 8px;
 }
 
-.remove, button {
-	cursor: pointer;
-}
-
 button {
+	cursor: pointer;
 	margin-bottom: 3px;
-}
-
-.remove {
-	color: red;
 }
 
 .left {
@@ -104,5 +102,30 @@ button {
 }
 
 input {
-	margin: 3px; 0
+	margin: 1px 0;
+}
+
+.remove {
+	cursor: pointer;
+	float: right;
+	display: inline-block;
+	margin-top: 3px;
+}
+
+.remove:after {
+	color: #be614c;
+	font-weight: bold;
+	padding: 0 1px 0px 6px;
+	content: 'x';
+	float: right;
+	cursor: pointer;
+}
+
+.remove:hover:after {
+	color: red;
+	background-color: #dbffe0;
+}
+
+.remove:hover {
+	cursor: pointer;
 }

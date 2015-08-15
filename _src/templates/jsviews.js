@@ -1,39 +1,54 @@
-/*! jsviews.js v1.0.0-alpha single-file version: http://www.jsviews.com/
-includes JsRender, JsObservable and JsViews - see: http://www.jsviews.com/#download
-@@include("templates/-commit-counter.txt") (Beta Candidate)*/
+/*! jsviews.js @@include("templates/-jsv-version.txt") single-file version: http://jsviews.com/ */
+/*! includes JsRender, JsObservable and JsViews - see: http://jsviews.com/#download */
 
+/* Interactive data-driven views using JsRender templates */
+
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsRender >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 /* JsRender:
- *   See http://www.jsviews.com/#jsrender and http://github.com/BorisMoore/jsrender
+ *   See http://jsviews.com/#jsrender and http://github.com/BorisMoore/jsrender
 @@include("templates/-copyright.txt")
  */
 
 @@include("templates/-jshint-directives.txt")
 
-(function (factory) {
-	if (typeof define === 'function' && define.amd) {
-		// Loading from AMD script loader. Register as an anonymous module.
+(function(factory) {
+	// global var is the this object, which is window when running in the usual browser environment
+	var global = (0, eval)('this'), // jshint ignore:line
+		$ = global.jQuery;
+
+	if (typeof define === "function" && define.amd) { // AMD script loader, e.g. RequireJS
 		define(["jquery"], factory);
-	} else {
-		// Browser using plain <script> tag
-		factory(this.jQuery);
+	} else if (typeof exports === "object") { // CommonJS e.g. Browserify
+		module.exports = $
+			? factory($)
+			: function($) { // If no global jQuery, take jQuery passed as parameter: require("jsviews")(jQuery)
+				return factory($);
+			};
+	} else { // Browser using plain <script> tag
+		factory(false);
 	}
-} (function($, fs) {
-	"use strict";
+} (
 
-	//========================== Top-level vars ==========================
+// factory (for jsviews.js)
+function($) {
+"use strict";
 
-	var versionNumber = "v1.0.0-alpha",
-		requiresStr = "JsViews requires ";
+//========================== Top-level vars ==========================
 
-	if (!$) {
-		// jQuery is not loaded.
-		throw requiresStr + "jQuery"; // We require jQuery
-	}
+// global var is the this object, which is window when running in the usual browser environment
+var global = (0, eval)('this'), // jshint ignore:line
+	setGlobals = $ === false; // Only set globals if script block in browser (not AMD and not CommonJS)
 
-	var jsvStoreName, rTag, rTmplString, topView,
+$ = $ || global.jQuery; // $ is jQuery passed in by CommonJS loader (Browserify), or global jQuery.
 
-		// global is the this object, which is window when running in the usual browser environment.
-		global = (0, eval)('this'), // jshint ignore:line
+if (!$ || !$.fn) {
+	// jQuery is not loaded.
+	throw "JsViews requires jQuery"; // We require jQuery
+}
+
+var versionNumber = "v1.0.0-beta",
+
+	jsvStoreName, rTag, rTmplString, topView, $views, $observe, $observable,
 
 @@include('jsrender.js')
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsObservable >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -42,10 +57,14 @@ includes JsRender, JsObservable and JsViews - see: http://www.jsviews.com/#downl
 @@include("templates/-copyright.txt")
  */
 
-	//========================== Top-level vars ==========================
+//========================== Top-level vars ==========================
 
-var $eventSpecial = $.event.special,
+$views = $.views;
+$sub = $views.sub;
+$isFunction = $.isFunction;
+$isArray = $.isArray;
 @@include("jquery.observable.js")
+
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsViews >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 /* JsViews:
  * Interactive data-driven views using templates and data-linking.
@@ -53,8 +72,13 @@ var $eventSpecial = $.event.special,
 @@include("templates/-copyright.txt")
  */
 
-	//========================== Top-level vars ==========================
+//========================== Top-level vars ==========================
+
+$viewsSettings = $views.settings;
+$converters = $views.converters;
+$tags = $views.tags;
+rFirstElem = /<(?!script)(\w+)(?:[^>]*(on\w+)\s*=)?[^>]*>/;
 
 @@include("jquery.views.js")
-	return $;
+return $;
 }));

@@ -57,6 +57,21 @@ content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsVie
         "text": "Uncompressed (for development): <a href=\"download/jquery.observable.js\">jquery.observable.js</a>.<br/>Compressed (for production): <a href=\"download/jquery.observable.min.js\">jquery.observable.min.js</a>. (Source map available <a href=\"download/jquery.observable.min.js.map\">here</a>)."
       },
       {
+        "_type": "para",
+        "title": "",
+        "text": "<div class=\"title\">JsRender for Node.js</div>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<em>This version of JsRender is specifically for use on the server (Node.js). It provides the complete set of JsRender APIs and features, together with integration with view-engines such as Express and Hapi, APIs for loading templates from the file system, etc.</em>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Uncompressed (for development): <a href=\"download/jsrender-node.js\">jsrender-node.js</a>.<br/>Compressed (for production): <a href=\"download/jsrender-node.min.js\">jsrender-node.min.js</a>. (Source map available <a href=\"download/jsrender-node.min.js.map\">here</a>)."
+      },
+      {
         "_type": "links",
         "title": "",
         "links": [],

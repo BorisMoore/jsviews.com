@@ -1,9 +1,12 @@
-/// <vs AfterBuild='browser-sync' />
 var noop = function () {},
+
 	gulp = require('gulp'),
 	browserSync = require('browser-sync'),
 	qunit = require('node-qunit-phantomjs'),
 	plugins = require('gulp-load-plugins')(),
+	browserify = require('browserify'),
+	fs = require('fs'),
+
 	DEST = 'download/',
 	DEST_JSR = 'D:/Google Drive/GitHub/jsrender/',
 	DEST_JSV = 'D:/Google Drive/GitHub/jsviews/',
@@ -29,7 +32,7 @@ function buildTemplate(template, minify) {
 		}))
 		//.pipe(plugins.jshint.reporter('fail'))
 		.pipe(gulp.dest(DEST))									// Output js file
-		.pipe(plugins.debug());
+		.pipe(plugins.debug({title: "built:"}));
 	if (minify) {
 		stream = stream.pipe(plugins.sourcemaps.init())			// Prepare sourcemap
 		.pipe(plugins.uglify({									// Minify
@@ -39,7 +42,7 @@ function buildTemplate(template, minify) {
 			path.basename += '.min';
 		}))
 		.pipe(plugins.sourcemaps.write('./'))					// Output sourcemap file
-		.pipe(plugins.debug())
+		.pipe(plugins.debug({title: "minified:"}))
 		.pipe(gulp.dest(DEST))									// Output min.js file
 	}
 	return stream;
@@ -55,14 +58,20 @@ gulp.task('copy', function() {
 	gulp.src([DEST + 'jsrender.*js*'])
 		.pipe(gulp.dest(DEST_JSR));
 
-	gulp.src([DEST + 'jsrender.*js*', DEST + 'jsviews.*js*', DEST + 'jquery.observable.*js*', DEST + 'jquery.views.*js*'])
+	gulp.src([DEST + 'jsrender-node.*js*'])
+		.pipe(gulp.dest(DEST_JSR));
+
+	gulp.src([DEST + 'jsrender.*js*', DEST + 'jsrender-node.*js*', DEST + 'jsviews.*js*', DEST + 'jquery.observable.*js*', DEST + 'jquery.views.*js*'])
 		.pipe(gulp.dest(DEST_JSV));
 
 	gulp.src(['test/unit-tests/tests-jsrender*.js'])
 		.pipe(gulp.dest(DEST_JSR + 'test/unit-tests/'));
 
-	gulp.src(['test/unit-tests/tests-js*.js'])
+	gulp.src(['test/unit-tests/*.js'])
 		.pipe(gulp.dest(DEST_JSV + 'test/unit-tests/'));
+
+	gulp.src(['test/browserify/*.js'])
+		.pipe(gulp.dest(DEST_JSV + 'test/browserify/'));
 });
 
 //================================= MINIFY - Build and minify =================================//
@@ -74,16 +83,16 @@ gulp.task('minify', function() {
 //================================= ALL - Build, minify, copy to projects and test =================================//
 
 gulp.task('all', ['minify', 'copy'], function() {
-//	qunit('./test/UNIT-TESTS-ALL-JSVIEWS.html');
+//	qunit('./test/unit-tests-all-jsviews.html');
 //	qunit('./test/unit-tests-all-observable-render-views.html');
 //	qunit('./test/unit-tests-all-render-observable-views.html');
-	qunit('./test/unit-tests-jsobservable-no-jsrender.html');
+//	qunit('./test/unit-tests-jsobservable-no-jsrender.html');
 });
 
 //================================= TEST - Build and test =================================//
 
 gulp.task('test', ['build'], function() {
-	qunit('./test/UNIT-TESTS-ALL-JSVIEWS.html');
+	qunit('./test/unit-tests-all-jsviews.html');
 });
 
 //================================= BUILD - Build =================================//
@@ -115,4 +124,27 @@ gulp.task('watch', function () {
 	// add browserSync.reload to the tasks array to make
 	// all browsers reload after tasks are complete.
 	gulp.watch([SRC + '*.js', 'INDEX.html'], ['build-browse']);
+});
+
+//================================= BUNDLE - Run Browserify - create client bundles for test cases =================================//
+// See https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-with-globs.md
+
+// Task to create Browserify client-side bundle scripts for Browserify test cases.
+gulp.task('bundle', function() {
+	var $jsr = require('jsrender');
+	var gs = require('glob-stream');
+
+	return gs.create('./test/browserify/*-unit-tests.js')
+		.on('data', function(file) {
+			// file has path, base, and cwd attrs
+			var fileName = file.path.slice(file.base.length, -14);
+			browserify(file.path, {debug:true})
+				.transform($jsr.tmplify)
+				.bundle()
+				.pipe(fs.createWriteStream('./test/browserify/bundles/' + fileName + "-bundle.js"))
+				.on('error', function(err) {
+					// Make sure failed tests cause gulp to exit non-zero 
+					throw err;
+				});
+		});
 });
