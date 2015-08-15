@@ -2,7 +2,7 @@
 <html>
 <head>
 	<link href="resources/css/site.css" rel="stylesheet"/>
-	<script src="//code.jquery.com/jquery-1.11.2.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.3.js"></script>
 	<script src="download/jsviews.js"></script>
 	<script src="datatypes.js"></script>
 	<script src="documentation/contents-categories.js"></script>
@@ -35,7 +35,7 @@
 
 		function save(categoryName) {
 			$.getScript("documentation/contents-" + categoryName + ".js")
-			.then(function () {
+			.then(function() {
 				localStorage.setItem("JsViewsDocTopics/" + categoryName, stringify(content[categoryName]));
 			});
 		}

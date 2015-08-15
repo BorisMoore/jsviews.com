@@ -1,51 +1,51 @@
-/*! JsRender v1.0.0-beta: http://www.jsviews.com/#jsrender
-@@include("templates/-commit-counter.txt")*/
+/*! JsRender @@include("templates/-jsr-version.txt"): http://jsviews.com/#jsrender */
+/*! **VERSION FOR WEB** (For NODE.JS see http://jsviews.com/download/jsrender-node.js) */
 /*
- * Optimized version of jQuery Templates, for rendering to string.
+ * Best-of-breed templating in browser or on Node.js.
  * Does not require jQuery, or HTML DOM
- * Integrates with JsViews (http://www.jsviews.com/#jsviews)
+ * Integrates with JsViews (http://jsviews.com/#jsviews)
  *
 @@include("templates/-copyright.txt")
  */
 
 @@include("templates/-jshint-directives.txt")
 
-(function (factory) {
-	if (typeof define === 'function' && define.amd) {
-		// Loading from AMD script loader. Register as an anonymous module.
-		define(factory);
-	} else if (typeof exports === 'object') {
-		// CommonJS
-		var jsrender = module.exports = factory(true, require("fs")); // jsrender = jsviews.views
+(function(factory) {
+	// global var is the this object, which is window when running in the usual browser environment
+	var global = (0, eval)('this'), // jshint ignore:line
+		$ = global.jQuery;
 
-		jsrender.renderFile = jsrender.__express = function(filepath, data, callback) { // Support for rendering templates from file
-				// system in Node.js Node, and for Express template engine integration, using app.engine('html', jsrender.__express);
-			var html = jsrender.templates("@" + filepath).render(data);
-			if (callback) {
-				callback(null, html);
-			}
-			return html;
-		};
-	} else {
-		// Browser using plain <script> tag
+	if (typeof define === "function" && define.amd) { // AMD script loader, e.g. RequireJS
+		define(factory);
+	} else if (typeof exports === "object") { // CommonJS e.g. Browserify
+		module.exports = $
+			? factory($)
+			: function($) { // If no global jQuery, take optional jQuery passed as parameter: require('jsrender')(jQuery)
+				if ($ && !$.fn) {
+					throw "Provide jQuery or null";
+				}
+				return factory($);
+			};
+	} else { // Browser using plain <script> tag
 		factory(false);
 	}
-} (function (isCommonJS, fs) {
-	"use strict";
+} (
 
-	isCommonJS = isCommonJS === true;
+// factory (for jquery.views.js)
+function($) {
+"use strict";
 
-	//========================== Top-level vars ==========================
+//========================== Top-level vars ==========================
 
-	var versionNumber = "v1.0.0-beta",
+// global var is the this object, which is window when running in the usual browser environment
+var global = (0, eval)('this'), // jshint ignore:line
+	setGlobals = $ === false; // Only set globals if script block in browser (not AMD and not CommonJS)
 
-		// global is the this object, which is window when running in the usual browser environment.
-		global = (0, eval)('this'), // jshint ignore:line
+$ = $ && $.fn ? $ : global.jQuery; // $ is jQuery passed in by CommonJS loader (Browserify), or global jQuery.
 
-		$ = global.jQuery,
+var versionNumber = "v1.0.0-beta",
+	jsvStoreName, rTag, rTmplString, topView, $views,
 
-		jsvStoreName, rTag, rTmplString, topView,
-
-@@include("jsrender.js")
-	return $views;
+@@include('jsrender.js', { "isNode": false })
+return $ || jsr;
 }));

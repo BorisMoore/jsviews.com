@@ -1,3 +1,6 @@
+if (!$.observe) {
+
+	var $eventSpecial = $.event.special,
 		slice = [].slice,
 		splice = [].splice,
 		concat = [].concat,
@@ -12,54 +15,32 @@
 		observeCbKey = 1,
 		observeInnerCbKey = 1,
 		$hasData = $.hasData,
-		remove = {}; // flag for removeProperty
+		$data = $.data,
+		remove = {}, // flag for removeProperty
 
 	//========================== Top-level functions ==========================
 
-	function getCbKey(cb) {
+	getCbKey = function(cb) {
 		return cb._cId = cb._cId || (".obs" + observeCbKey++);
-	}
+	},
 
-	$sub.getDeps = function() {
-		var args = arguments;
-		return function() {
-			var arg, dep,
-				deps = [],
-				l = args.length;
-			while (l--) {
-				arg = args[l--];
-				dep = args[l];
-				if (dep) {
-					deps = deps.concat($isFunction(dep) ? dep(arg, arg) : dep);
-				}
-			}
-			return deps;
-		};
-	};
-
-	function $observable(data) {
-		return $isArray(data)
-			? new ArrayObservable(data)
-			: new ObjectObservable(data);
-	}
-
-	function ObjectObservable(data) {
+	ObjectObservable = function(data) {
 		this._data = data;
 		return this;
-	}
+	},
 
-	function ArrayObservable(data) {
+	ArrayObservable = function(data) {
 		this._data = data;
 		return this;
-	}
+	},
 
-	function wrapArray(data) {
+	wrapArray = function(data) {
 		return $isArray(data)
 			? [data]
 			: data;
-	}
+	},
 
-	function resolvePathObjects(paths, root) {
+	resolvePathObjects = function(paths, root) {
 		paths = $isArray(paths) ? paths : [paths];
 
 		var i, path,
@@ -86,17 +67,17 @@
 			out.push(path);
 		}
 		return out;
-	}
+	},
 
-	function removeCbBindings(cbBindings, cbBindingsId) {
+	removeCbBindings = function(cbBindings, cbBindingsId) {
 		// If the cbBindings collection is empty we will remove it from the cbBindingsStore
 		for (var cb in cbBindings) {
 			return;
 		}
 		cbBindingsStore[cbBindingsId] = undefined; // This binding collection is empty, so remove from store
-	}
+	},
 
-	function onObservableChange(ev, eventArgs) {
+	onObservableChange = function(ev, eventArgs) {
 		function isOb(val) {
 			return typeof val === OBJECT && (paths[0] || allowArray && $isArray(val));
 		}
@@ -137,9 +118,144 @@
 				ctx.cb(ev, eventArgs);
 			}
 		}
-	}
+	},
 
-	function $observe() {
+	observe_apply = function() {
+		// $.observe(), but allowing you to include arrays within the arguments - which you want flattened.
+		var args = concat.apply([], arguments); // Flatten the arguments
+		return $observe.apply(args.shift(), args);
+	},
+
+	$observeAll = function(namespace, cb, filter, unobserve) {
+		if (namespace + "" !== namespace) {
+			filter = cb;
+			cb = namespace;
+			namespace = "";
+		}
+		observeAll(namespace, this._data, cb, filter, [], "root", unobserve);
+	},
+
+	$unobserveAll = function(namespace, cb, filter) {
+		$observeAll.call(this, namespace, cb, filter, true);
+	},
+
+	observeAll = function(namespace, object, cb, filter, parentObs, allPath, unobserve, objMap) {
+		function observeArrayItems(arr, unobs) {
+			l = arr.length;
+			newAllPath = allPath + "[]";
+			while (l--) {
+				filterAndObserveAll(arr, l, unobs, 1);
+			}
+		}
+
+		function filterAndObserveAll(obj, prop, unobs, nestedArray) {
+			var newObject, newParentObs;
+			if (prop !== $expando) {
+				if (newObject = $observable._fltr(newAllPath, obj[prop], nextParentObs, filter)) {
+					newParentObs = nextParentObs.slice();
+					if (nestedArray && updatedTgt) {
+						newParentObs.unshift(updatedTgt); // For array change events need to add updated array to parentObs
+					}
+					observeAll(namespace, newObject, cb, filter || (nestedArray ? undefined : 0), newParentObs, newAllPath, unobs, objMap);
+					// If nested array, need to observe the array too - so set filter to undefined
+				}
+			}
+		}
+
+		function wrappedCb(ev, eventArgs) {
+			// This object is changing.
+			allPath = ev.data.observeAll._path;
+			updatedTgt = ev.target;
+			switch (eventArgs.change) { // observeAll/unobserveAll on added or removed objects
+				case "insert":
+					observeArrayItems(eventArgs.items);
+					break;
+				case "remove":
+					observeArrayItems(eventArgs.items, true); // unobserveAll on removed items
+					break;
+				case "refresh":
+					observeArrayItems(eventArgs.oldItems, true); // unobserveAll on old items
+					observeArrayItems(ev.target); // observeAll on new items
+					break;
+				case "set":
+					newAllPath = allPath + "." + eventArgs.path;
+					filterAndObserveAll(eventArgs, "oldValue", true);
+					filterAndObserveAll(eventArgs, "value");
+			}
+			updatedTgt = undefined;
+			cb.apply(this, arguments); // Observe this object (invoke the callback)
+		}
+
+		var l, isObject, newAllPath, nextParentObs, updatedTgt, obId,
+			notRemoving = !objMap || objMap.un || !unobserve; // true unless it is an observeAll call (not unobserveAll) and we are removing a listener (not adding one)
+
+		if (object && typeof object === OBJECT) {
+			nextParentObs = [object].concat(parentObs); // The parentObs chain for the next depth of observeAll
+			isObject = $isArray(object) ? "" : "*";
+			if (objMap && notRemoving && $hasData(object) && objMap[obId = $data(object).obId]) {
+				objMap[obId]++;
+				return; // This object has already being observed/unobserved by this observeAll/unobserveAll call (must be a cyclic object graph) so skip, to avoid
+				// stack overflow/multiple instances of listener. See https://github.com/BorisMoore/jsviews/pull/305
+				// NOTE - WE DO NOT support ObserveAll on data with cyclic graphs which include DUPLICATE REFERENCES TO ARRAY PROPERTIES - such as data.children = data.descendants = []
+			}
+			if (!objMap) {
+				objMap = {un: unobserve}; // Map object to register observed objects for this observeAll
+			}
+
+			if (cb) {
+				// Observe this object or array - and also listen for changes to object graph, to add or remove observers from the modified object graph
+				if (isObject || filter !== 0) {
+					// If an object, observe the object. If an array, only add arrayChange binding if has filter or if filter is undefined (!== 0) - which
+					// is the case for top-level calls or for nested array (array item of an array - e.g. member of 2-dimensional array).
+					// For array properties lower in the tree, with no filter, filter is set to 0 in filterAndObserveAll, so no arrayChange binding here,
+					// since they get arrayChange binding added during regular $.observe(array ...) binding.
+					wrappedCb._cId = getCbKey(cb); // Identify wrapped callback with unwrapped callback, so unobserveAll will
+													// remove previous observeAll wrapped callback, if inner callback was the same;
+					if (notRemoving) {
+						$observe(namespace, object, isObject, wrappedCb, unobserve, filter, nextParentObs, allPath);
+						obId = $data(object).obId;
+						objMap[obId] = (objMap[obId] || 0) + 1; // Register on map of objects observed/unobserved by this observeAll/unobserveAll call
+							//- or remove from map if we are removing this object from observeAll call. (Avoid dups, for cyclic graphs)
+					} else {
+						if (--objMap[$data(object).obId]) {
+							// Register on map of objects observed/unobserved by this observeAll/unobserveAll call
+							//- or remove from map if we are removing this object from observeAll call. (Avoid dups, for cyclic graphs)
+							return;
+						}
+						$observe(namespace, object, isObject, wrappedCb, unobserve, filter, nextParentObs, allPath);
+					}
+				}
+			} else {
+				// No callback. Just unobserve if unobserve === true.
+				if (objMap) {
+					objMap[$data(object).obId] = 1; // Register on map of objects unobserved by this unobserveAll call. (Avoid dups, for cyclic graphs)
+				}
+				$observe(namespace, object, isObject, undefined, unobserve, filter, nextParentObs, allPath);
+			}
+
+			if (isObject) {
+				// Continue stepping through object graph, observing object and arrays
+				// To override filtering, pass in filter function, or replace $.observable._fltr
+				for (l in object) {
+					newAllPath = allPath + "." + l;
+					filterAndObserveAll(object, l, unobserve);
+				}
+			} else { // Observe items in Array
+				observeArrayItems(object, unobserve);
+			}
+		}
+	},
+
+	shallowFilter = function(allPath /*, object, parentObs*/) {
+		return allPath.indexOf(".") < 0 && allPath.indexOf("[") < 0;
+	},
+
+	$unobserve = function() {
+		[].push.call(arguments, true); // Add true as additional final argument
+		return $observe.apply(this, arguments);
+	};
+
+	$observe = function() {
 		// $.observe([namespace, ]root, [1 or more objects, path or path Array params...], callback[, contextCallback][, unobserve])
 
 		function innerObserve() {
@@ -164,9 +280,10 @@
 						el = events && events.length;
 
 						while (el--) {
-							if ((data = events[el].data) && data.cb._cId === callback._cId && data.ns === initialNs) {
+							if ((data = events[el].data) && data.cb && data.cb._cId === callback._cId && data.ns === initialNs) {
 								if (isArrayBinding) {
 									// Duplicate exists, so skip. (This can happen e.g. with {^{for people ~foo=people}})
+									// or for cases with cyclic objects - e.g. obj.children = obj.descendants = []
 									return;
 								} else if (pathStr === "*" && data.prop !== pathStr) {
 									$(object).off(namespace, onObservableChange);
@@ -208,7 +325,7 @@
 						// Add object to cbBindings, and add the counter to the jQuery data on the object
 						(cbBindingsStore[callback._cId] = cbBindings) // In some scenarios cbBindings was empty and removed
 							//from store - so defensively add back to store, to ensure correct disposal e.g. when views are removed
-							[$.data(object, "obId") || $.data(object, "obId", observeObjKey++)] = object;
+							[$data(object).obId || $data(object, "obId", observeObjKey++)] = object;
 					}
 				}
 			}
@@ -278,7 +395,7 @@
 				ns = observeStr,
 				paths = this != 1 // Using != for IE<10 bug- see https://github.com/BorisMoore/jsviews/issues/237
 					? concat.apply([], arguments) // Flatten the arguments - this is a 'recursive call' with params using the 'wrapped array'
-												   // style - such as innerObserve([object], path.path, [origRoot], path.prm, innerCb, ...);
+													// style - such as innerObserve([object], path.path, [origRoot], path.prm, innerCb, ...);
 					: slice.call(arguments),   // Don't flatten - this is the first 'top-level call, to innerObserve.apply(1, paths)
 				lastArg = paths.pop() || false,
 				root = paths.shift(),
@@ -423,7 +540,9 @@
 										observeOnOff(ns, ""); // observe the object for any property change
 										for (p in object) {
 											// observing "*": So (in addition to listening to prop change, above) listen to arraychange on props of type array
-											bindArray(object, unobserve, undefined, p);
+											if (p !== $expando) {
+												bindArray(object, unobserve, undefined, p);
+											}
 										}
 										break;
 									} else if (prop) {
@@ -470,113 +589,32 @@
 		}
 
 		return innerObserve.apply(1, paths);
-	}
+	};
 
-	function $unobserve() {
-		[].push.call(arguments, true); // Add true as additional final argument
-		return $observe.apply(this, arguments);
-	}
-
-	function observe_apply() {
-		// $.observe(), but allowing you to include arrays within the arguments - which you want flattened.
-		var args = concat.apply([], arguments); // Flatten the arguments
-		return $observe.apply(args.shift(), args);
-	}
+	$observable = function(data) {
+		return $isArray(data)
+			? new ArrayObservable(data)
+			: new ObjectObservable(data);
+	};
 
 	//========================== Initialize ==========================
 
-	function $observeAll(namespace, cb, filter, unobserve) {
-		if (namespace + "" !== namespace) {
-			filter = cb;
-			cb = namespace;
-			namespace = "";
-		}
-		observeAll(namespace, this._data, cb, filter, [], "root", unobserve);
-	}
-
-	function $unobserveAll(namespace, cb, filter) {
-		$observeAll.call(this, namespace, cb, filter, true);
-	}
-
-	function observeAll(namespace, object, cb, filter, parentObs, allPath, unobserve) {
-		function observeArray(arr, unobs) {
-			l = arr.length;
-			newAllPath = allPath + "[]";
+	$sub.getDeps = function() {
+		var args = arguments;
+		return function() {
+			var arg, dep,
+				deps = [],
+				l = args.length;
 			while (l--) {
-				filterAndObserveAll(arr, l, unobs, 1);
-			}
-		}
-
-		function filterAndObserveAll(obj, prop, unobs, nestedArray) {
-			var newObject, newParentObs;
-			if (prop !== $expando) {
-				if (newObject = $observable._fltr(newAllPath, obj[prop], nextParentObs, filter)) {
-					newParentObs = nextParentObs.slice();
-					if (nestedArray && updatedTgt) {
-						newParentObs.unshift(updatedTgt); // For array change events need to add updated array to parentObs
-					}
-					observeAll(namespace, newObject, cb, filter || (nestedArray ? undefined : 0), newParentObs, newAllPath, unobs); // If nested array, need to observe the array too - so set filter to undefined
+				arg = args[l--];
+				dep = args[l];
+				if (dep) {
+					deps = deps.concat($isFunction(dep) ? dep(arg, arg) : dep);
 				}
 			}
-		}
-
-		function wrappedCb(ev, eventArgs) {
-			// This object is changing.
-			allPath = ev.data.observeAll._path;
-			updatedTgt = ev.target;
-			switch (eventArgs.change) { // observeAll/unobserveAll on added or removed objects
-				case "insert":
-					observeArray(eventArgs.items);
-					break;
-				case "remove":
-					observeArray(eventArgs.items, true); // unobserveAll on removed items
-					break;
-				case "refresh":
-					observeArray(eventArgs.oldItems, true); // unobserveAll on old items
-					observeArray(ev.target); // observeAll on new items
-					break;
-				case "set":
-					newAllPath = allPath + "." + eventArgs.path;
-					filterAndObserveAll(eventArgs, "oldValue", true);
-					filterAndObserveAll(eventArgs, "value");
-			}
-			updatedTgt = undefined;
-			cb.apply(this, arguments); // Observe this object (invoke the callback)
-		}
-
-		var l, isObject, newAllPath, nextParentObs, updatedTgt;
-
-		if (typeof object === OBJECT) {
-			nextParentObs = [object].concat(parentObs); // The parentObs chain for the next depth of observeAll
-			isObject = $isArray(object) ? "" : "*";
-			if (cb) {
-				// Observe this object or array - and also listen for changes to object graph, to add or remove observers from the modified object graph
-				if (isObject || filter !== 0) {
-					// If an object, observe the object. If an array, only add arrayChange binding if has filter or if filter is undefined (!== 0) - which
-					// is the case for top-level calls or for nested array (array item of an array - e.g. member of 2-dimensional array).
-					// For array properties lower in the tree, with no filter, filter is set to 0 in filterAndObserveAll, so no arrayChange binding here,
-					// since they get arrayChange binding added during regular $.observe(array ...) binding.
-					wrappedCb._cId = getCbKey(cb); // Identify wrapped callback with unwrapped callback, so unobserveAll will
-														  // remove previous observeAll wrapped callback, if inner callback was the same;
-					$observe(namespace, object, isObject, wrappedCb, unobserve, filter, nextParentObs, allPath);
-				}
-			} else {
-				// No callback. Just unobserve if unobserve === true.
-				$observe(namespace, object, isObject, undefined, unobserve, filter, nextParentObs, allPath);
-			}
-
-			if (isObject) {
-				// Continue stepping through object graph, observing object and arrays
-				// To override filtering, pass in filter function, or replace $.observable._fltr
-				for (l in object) {
-					newAllPath = allPath + "." + l;
-					filterAndObserveAll(object, l, unobserve);
-				}
-			} else { // Array
-				observeArray(object, unobserve);
-			}
-		}
-	}
+			return deps;
+		};
+	};
 
 	$.observable = $observable;
 	$observable._fltr = function(allPath, object, parentObs, filter) {
@@ -625,7 +663,7 @@
 				} else if ("" + path !== path) {
 					// Object representation where property name is path and property value is value.
 					for (key in path) {
-						self.setProperty(key, path[key], value);
+						self.setProperty(key, path[key], nonStrict);
 					}
 				} else if (path !== $expando) {
 					// Simple single property case.
@@ -785,12 +823,12 @@
 		_trigger: function(eventArgs, oldLength) {
 			var _data = this._data,
 				length = _data.length,
-				$data = $([_data]);
+				$_data = $([_data]);
 
 			if (length !== oldLength) {
-				$data.triggerHandler(propertyChangeStr, {change: "set", path: "length", value: length, oldValue: oldLength});
+				$_data.triggerHandler(propertyChangeStr, {change: "set", path: "length", value: length, oldValue: oldLength});
 			}
-			$data.triggerHandler(arrayChangeStr, eventArgs);
+			$_data.triggerHandler(arrayChangeStr, eventArgs);
 		}
 	};
 
@@ -808,12 +846,12 @@
 					events = $._data(this).events[handleObj.type];
 					l = events.length;
 					while (l-- && !found) {
-						found = (data = events[l].data) && data.cb._cId === evData._cId;
+						found = (data = events[l].data) && data.cb && data.cb._cId === evData._cId;
 						// Found another one with same callback (though may be a different innerCallback)
 					}
 					if (!found) {
 						// This was the last handler for this callback and object, so remove the binding entry
-						delete cbBindings[$.data(this, "obId")];
+						delete cbBindings[$data(this).obId];
 						removeCbBindings(cbBindings, evData._cId);
 					}
 				}
@@ -821,12 +859,8 @@
 		}
 	};
 
-	function shallowFilter(allPath /*, object, parentObs*/) {
-		return allPath.indexOf(".") < 0 && allPath.indexOf("[") < 0;
-	}
-
 	$views.map = function(mapDef) {
-		function Map(source, options, target) {
+		function Map(source, options, target, unbound) {
 			var changing,
 				map = this;
 			if (this.src) {
@@ -837,24 +871,25 @@
 				map.tgt = target || map.tgt || [];
 				map.options = options || map.options;
 				map.update();
-
-				if (mapDef.obsSrc) {
-					$observable(map.src).observeAll(map.obs = function(ev, eventArgs) {
+				if (!unbound) {
+					if (mapDef.obsSrc) {
+						$observable(map.src).observeAll(map.obs = function(ev, eventArgs) {
+							if (!changing) {
+								changing = true;
+								mapDef.obsSrc(map, ev, eventArgs);
+								changing = undefined;
+							}
+						}, map.srcFlt);
+					}
+					if (mapDef.obsTgt ) {
+						$observable(map.tgt).observeAll(map.obt = function(ev, eventArgs) {
 						if (!changing) {
 							changing = true;
-							mapDef.obsSrc(map, ev, eventArgs);
+							mapDef.obsTgt(map, ev, eventArgs);
 							changing = undefined;
 						}
-					}, map.srcFlt);
-				}
-				if (mapDef.obsTgt ) {
-					$observable(map.tgt).observeAll(map.obt = function(ev, eventArgs) {
-					if (!changing) {
-						changing = true;
-						mapDef.obsTgt(map, ev, eventArgs);
-						changing = undefined;
+						}, map.tgtFlt);
 					}
-					}, map.tgtFlt);
 				}
 			}
 		}
@@ -870,8 +905,8 @@
 			mapDef = $.extend({}, mapDef.baseMap, mapDef);
 		}
 
-		mapDef.map = function(source, options, target) {
-			return new Map(source, options, target);
+		mapDef.map = function(source, options, target, unbound) {
+			return new Map(source, options, target, unbound);
 		};
 
 		(Map.prototype = {
@@ -899,3 +934,4 @@
 
 		return mapDef;
 	};
+}
