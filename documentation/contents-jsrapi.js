@@ -311,7 +311,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "code",
             "title": "",
-            "code": "{description: \"A <b>very nice</b> appartment\"}"
+            "code": "{description: \"A <b>very nice</b> apartment\"}"
           },
           {
             "_type": "template",
@@ -320,7 +320,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "data": {
-          "description": "A <b>very nice</b> appartment"
+          "description": "A <b>very nice</b> apartment"
         },
         "markup": "{{:description}}<br/>\n{{>description}}",
         "onlyJsRender": true,
@@ -2707,7 +2707,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "samples/jsr/composition/sub-templates",
+            "hash": "samples/jsr/composition/sub-tmpl",
             "label": "Sample: sub-templates"
           }
         ]

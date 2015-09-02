@@ -16,8 +16,8 @@ var noop = function () {},
 	jscsConfig = packageJSON.jscsConfig;
 	jshintConfig.lookup = false;
 
-function buildTemplate(template, minify) {
-	 var stream = gulp.src([SRC + 'templates/' + template + '*.js'])
+function buildTemplate(template, minify, folder) {
+	var stream = gulp.src([SRC + 'templates/' + (folder || '') + template + '*.js'])
 		.pipe(plugins.fileInclude({								// Compose js files from src templates
 			basepath: SRC
 		}))
@@ -31,7 +31,7 @@ function buildTemplate(template, minify) {
 			//statistics: true
 		}))
 		//.pipe(plugins.jshint.reporter('fail'))
-		.pipe(gulp.dest(DEST))									// Output js file
+		.pipe(gulp.dest(DEST + (folder || '')))									// Output js file
 		.pipe(plugins.debug({title: "built:"}));
 	if (minify) {
 		stream = stream.pipe(plugins.sourcemaps.init())			// Prepare sourcemap
@@ -43,7 +43,7 @@ function buildTemplate(template, minify) {
 		}))
 		.pipe(plugins.sourcemaps.write('./'))					// Output sourcemap file
 		.pipe(plugins.debug({title: "minified:"}))
-		.pipe(gulp.dest(DEST))									// Output min.js file
+		.pipe(gulp.dest(DEST + (folder || '')))									// Output min.js file
 	}
 	return stream;
 }
@@ -55,13 +55,13 @@ gulp.task('default', ['test']);
 //================================= COPY - Copy to jsrender and jsviews projects =================================//
 
 gulp.task('copy', function() {
-	gulp.src([DEST + 'jsrender.*js*'])
+	gulp.src([DEST + 'jsrender.*js*', DEST + 'jsrender-node.js'])
 		.pipe(gulp.dest(DEST_JSR));
 
-	gulp.src([DEST + 'jsrender-node.*js*'])
-		.pipe(gulp.dest(DEST_JSR));
+	gulp.src([DEST + 'tmplify/index.js'])
+		.pipe(gulp.dest(DEST_JSR + 'tmplify/'));
 
-	gulp.src([DEST + 'jsrender.*js*', DEST + 'jsrender-node.*js*', DEST + 'jsviews.*js*', DEST + 'jquery.observable.*js*', DEST + 'jquery.views.*js*'])
+	gulp.src([DEST + 'jsrender.*js*', DEST + 'jsviews.*js*', DEST + 'jquery.observable.*js*', DEST + 'jquery.views.*js*'])
 		.pipe(gulp.dest(DEST_JSV));
 
 	gulp.src(['test/unit-tests/tests-jsrender*.js'])
@@ -69,9 +69,6 @@ gulp.task('copy', function() {
 
 	gulp.src(['test/unit-tests/*.js'])
 		.pipe(gulp.dest(DEST_JSV + 'test/unit-tests/'));
-
-	gulp.src(['test/browserify/*.js'])
-		.pipe(gulp.dest(DEST_JSV + 'test/browserify/'));
 });
 
 //================================= MINIFY - Build and minify =================================//
@@ -80,9 +77,15 @@ gulp.task('minify', function() {
 	return buildTemplate('*', true);
 });
 
+//================================= TMPLIFY - Build tmplify/index.js =================================//
+
+gulp.task('tmplify', function() {
+	return buildTemplate('index', false, 'tmplify/');
+});
+
 //================================= ALL - Build, minify, copy to projects and test =================================//
 
-gulp.task('all', ['minify', 'copy'], function() {
+gulp.task('all', ['minify', 'tmplify', 'copy'], function() {
 //	qunit('./test/unit-tests-all-jsviews.html');
 //	qunit('./test/unit-tests-all-observable-render-views.html');
 //	qunit('./test/unit-tests-all-render-observable-views.html');
@@ -123,7 +126,7 @@ gulp.task('watch', function () {
 
 	// add browserSync.reload to the tasks array to make
 	// all browsers reload after tasks are complete.
-	gulp.watch([SRC + '*.js', 'INDEX.html'], ['build-browse']);
+	gulp.watch([SRC + '*.js', 'index.html'], ['build-browse']);
 });
 
 //================================= BUNDLE - Run Browserify - create client bundles for test cases =================================//
@@ -131,7 +134,7 @@ gulp.task('watch', function () {
 
 // Task to create Browserify client-side bundle scripts for Browserify test cases.
 gulp.task('bundle', function() {
-	var $jsr = require('jsrender');
+	var tmplify = require('jsrender/tmplify');
 	var gs = require('glob-stream');
 
 	return gs.create('./test/browserify/*-unit-tests.js')
@@ -139,7 +142,7 @@ gulp.task('bundle', function() {
 			// file has path, base, and cwd attrs
 			var fileName = file.path.slice(file.base.length, -14);
 			browserify(file.path, {debug:true})
-				.transform($jsr.tmplify)
+				.transform(tmplify)
 				.bundle()
 				.pipe(fs.createWriteStream('./test/browserify/bundles/' + fileName + "-bundle.js"))
 				.on('error', function(err) {

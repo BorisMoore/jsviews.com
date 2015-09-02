@@ -1,6 +1,6 @@
 {
   "name": "jsviews.com",
-  "version": "v1.0.0-beta.65",
+  "version": "v1.0.0-beta.68",
   "description": "Documentation for JsRender and JsViews",
   "repository": {
     "type": "git",
@@ -33,12 +33,12 @@
     "jquery": "^2.1.4",
     "jshint-stylish": "^2.0.1",
     "jshint-summary": "^0.4.0",
+    "jsrender": "^1.0.0-rc.68",
+    "jsviews": "git://github.com/BorisMoore/jsviews",
     "node-qunit-phantomjs": "^1.2.1",
     "qunit": "^0.7.6",
     "qunitjs": "^1.18.0",
-    "through2": "^2.0.0",
-    "jsrender": "git://github.com/BorisMoore/jsrender",
-    "jsviews": "git://github.com/BorisMoore/jsviews"
+    "through2": "^2.0.0"
   },
   "peerDependencies": {
     "jquery": "^2.1.4"

@@ -956,7 +956,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "label": "Remote templates"
               },
               {
-                "name": "samples/jsr/composition/sub-templates",
+                "name": "samples/jsr/composition/sub-tmpl",
                 "label": "Using sub-templates"
               },
               {

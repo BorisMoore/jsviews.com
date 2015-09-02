@@ -108,7 +108,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "Remote templates"
           },
           {
-            "hash": "samples/jsr/composition/sub-templates",
+            "hash": "samples/jsr/composition/sub-tmpl",
             "label": "Using sub-templates"
           },
           {
@@ -359,7 +359,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "samples/jsr/composition/sub-templates": {
+  "samples/jsr/composition/sub-tmpl": {
     "title": "Sample: Template composition, using sub-templates",
     "path": "",
     "sections": [

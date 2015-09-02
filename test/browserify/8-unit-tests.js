@@ -17,7 +17,7 @@ test("No jQuery global: require('jsviews')", function() {
 
 	var $jsr = require('jsviews')($jq); // Provide jQuery, so $jsr === $jq is local jQuery namespace
 
-	// Use require to get server template, thanks to Browserify bundle that used jsrender.tmplify transform
+	// Use require to get server template, thanks to Browserify bundle that used jsrender/tmplify transform
 	var tmpl = require('../templates/name-template.html')($jsr); // Provide $jsr
 
 	var result = tmpl(data);

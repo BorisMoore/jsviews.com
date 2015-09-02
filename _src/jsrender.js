@@ -37,6 +37,10 @@
 	jsvTmpl = "jsvTmpl",
 	indexStr = "For #index in nested block use #getIndex().",
 	$render = {},
+@@if (!context.isNode) {
+	jsr = global.jsrender,
+	jsrToJq = jsr && $ && !$.render, // JsRender already loaded, without jQuery. but we will re-load it now to attach to jQuery
+}
 	jsvStores = {
 		template: {
 			compile: compileTmpl
@@ -46,12 +50,9 @@
 		},
 		helper: {},
 		converter: {}
-	},
+	};
 
-	jsr = global.jsrender,
-	jsrToJq = jsr && $ && !$.render; // JsRender already loaded, without jQuery. but we will re-load it now to attach to jQuery
-
-	// views object ($.views if jQuery is loaded, jsrender.views if no jQuery, e.g. in Node.js)
+// views object ($.views if jQuery is loaded, jsrender.views if no jQuery, e.g. in Node.js)
 	$views = {
 		jsviews: versionNumber,
 		settings: function(settings) {
@@ -837,6 +838,8 @@ function compileTmpl(name, tmpl, parentTmpl, options) {
 	}
 }
 
+//==== /end of function compileTmpl ====
+
 function dataMap(mapDef) {
 	function Map(source, options) {
 		this.tgt = mapDef.getTgt(source, options);
@@ -858,8 +861,6 @@ function dataMap(mapDef) {
 	};
 	return mapDef;
 }
-
-//==== /end of function compile ====
 
 function tmplObject(markup, options) {
 	// Template object constructor
@@ -1769,7 +1770,7 @@ function htmlEncode(text) {
 
 //========================== Initialize ==========================
 
-if (!(jsr || $ && $.render)) {
+@@if (!context.isNode) {if (!(jsr || $ && $.render)) }{
 	// JsRender not already loaded, or loaded without jQuery, and we are now moving from jsrender namespace to jQuery namepace
 	for (jsvStoreName in jsvStores) {
 		registerStore(jsvStoreName, jsvStores[jsvStoreName]);
@@ -1827,15 +1828,15 @@ if (!(jsr || $ && $.render)) {
 		$.isArray = Array.isArray || function(obj) {
 			return ({}.toString).call(obj) === "[object Array]";
 		};
-
-		$.toJq = function(jq) {
-			if ($ !== jq) {
-				$extend(jq, this); // map over from jsrender namespace to jQuery namespace
+@@if (!context.isNode) {
+		$sub._jq = function(jq) { // private method to move from JsRender APIs from jsrender namespace to jQuery namespace
+			if (jq !== $) {
+				$extend(jq, $); // map over from jsrender namespace to jQuery namespace
 				$ = jq;
 				$.fn.render = $fnRender;
 			}
 		};
-
+}
 		$.jsrender = versionNumber;
 	}
 
@@ -1844,13 +1845,13 @@ if (!(jsr || $ && $.render)) {
 	$.render = $render;
 	$.views = $views;
 	$.templates = $templates = $views.templates;
-
-	@@if (context.isNode) {$.compile = }$views.compile = function(markup, options) {
+@@if (context.isNode) {
+	$.compile = function(markup, options) { // For integration with Hapi (and possibly other platforms) provide standard API/signature for template compilation
 		options = options || {};
 		options.markup = markup;
 		return $templates(options);
 	};
-
+}
 	$viewsSettings({
 		debugMode: dbgMode,
 		delimiters: $viewsDelimiters,
@@ -1948,7 +1949,7 @@ if (!(jsr || $ && $.render)) {
 	//========================== Define default delimiters ==========================
 	$viewsDelimiters();
 }
-
+@@if (!context.isNode) {
 if (jsrToJq) { // Moving from jsrender namespace to jQuery namepace - copy over the stored items (templates, converters, helpers...)
-	jsr.toJq($);
-}
+	jsr.views.sub._jq($);
+}}

@@ -52,7 +52,7 @@ if (!$ || !$.fn) {
 }
 
 if (jsr && !jsr.fn) {
-	jsr.toJq($); // map over from jsrender namespace to jQuery namespace
+	jsr.views.sub._jq($); // map over from jsrender namespace to jQuery namespace
 }
 
 var $observe, $observable,
