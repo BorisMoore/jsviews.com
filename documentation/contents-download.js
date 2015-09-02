@@ -64,23 +64,32 @@ content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsVie
       {
         "_type": "para",
         "title": "",
-        "text": "<em>This version of JsRender is specifically for use on the server (Node.js). It provides the complete set of JsRender APIs and features, together with integration with view-engines such as Express and Hapi, APIs for loading templates from the file system, etc.</em>"
+        "text": "A specific Node.js version of JsRender can be installed from <a href=\"https://www.npmjs.com/package/jsrender\">NPM</a>, using:"
+      },
+      {
+        "_type": "code",
+        "title": "",
+        "code": "$ npm install jsrender\n"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "Uncompressed (for development): <a href=\"download/jsrender-node.js\">jsrender-node.js</a>.<br/>Compressed (for production): <a href=\"download/jsrender-node.min.js\">jsrender-node.min.js</a>. (Source map available <a href=\"download/jsrender-node.min.js.map\">here</a>)."
+        "text": "and then loaded in script using:"
       },
       {
-        "_type": "links",
+        "_type": "code",
         "title": "",
-        "links": [],
-        "topics": [
-          {
-            "hash": "download/specific",
-            "label": "Specific versions"
-          }
-        ]
+        "code": "var tmpl = require('jsrender');"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This Node.js version of JsRender provides the complete set of JsRender APIs and features, together with integration with view-engines such as <em>Express</em> and <em>Hapi</em>, APIs for loading templates from the file system, and integration with <em>Browserify</em> for bundling server-side templates into client scripts for the browser."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See <a href=\"https://github.com/BorisMoore/jsrender-node-starter\">JsRender Node Starter</a> for details."
       }
     ]
   },
