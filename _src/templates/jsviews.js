@@ -5,7 +5,7 @@
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsRender >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 /* JsRender:
- *   See http://jsviews.com/#jsrender and http://github.com/BorisMoore/jsrender
+ * See http://jsviews.com/#jsrender and http://github.com/BorisMoore/jsrender
 @@include("templates/-copyright.txt")
  */
 
@@ -68,7 +68,7 @@ $isArray = $.isArray;
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsViews >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 /* JsViews:
  * Interactive data-driven views using templates and data-linking.
- * See  http://www.jsviews.com/#jsviews and http://github.com/BorisMoore/jsviews
+ * See http://www.jsviews.com/#jsviews and http://github.com/BorisMoore/jsviews
 @@include("templates/-copyright.txt")
  */
 
