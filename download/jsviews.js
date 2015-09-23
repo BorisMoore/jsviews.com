@@ -1,4 +1,4 @@
-/*! jsviews.js v1.0.0-beta.69 (Beta Candidate) single-file version: http://jsviews.com/ */
+/*! jsviews.js v1.0.0-beta.70 (Beta Candidate) single-file version: http://jsviews.com/ */
 /*! includes JsRender, JsObservable and JsViews - see: http://jsviews.com/#download */
 
 /* Interactive data-driven views using JsRender templates */
@@ -1563,10 +1563,10 @@ function parseParams(params, pathBindings, tmpl) {
 		// "a.b().c^d().e.f().g" - which has four chained paths, "a.b()", "^c.d()", ".e.f()" and ".g"
 		parenDepth = 0,
 		fnCall = {}, // We are in a function call
-		pathStart = {}; // tracks the start of the current path such as c^d() in the above example
+		pathStart = {}, // tracks the start of the current path such as c^d() in the above example
+		result = (params + (tmpl ? " " : "")).replace(rParams, parseTokens);
 
-	return (params + (tmpl ? " " : ""))
-		.replace(rParams, parseTokens);
+	return !parenDepth && result || syntaxError(params); // Syntax error if unbalanced parens in params expression
 }
 
 function buildCode(ast, tmpl, isLinkExpr) {
@@ -3258,7 +3258,7 @@ function updateContent(sourceValue, linkCtx, attr, tag) {
 	// When called (in propertyChangeHandler) for target HTML returns true
 	// When called (in propertyChangeHandler) for other targets returns boolean for "changed"
 	var setter, prevNode, nextNode, promise, nodesToRemove, useProp, tokens, id, openIndex, closeIndex, testElem, nodeName, cStyle,
-		renders = sourceValue !== undefined && !linkCtx._noUpd, // For data-link="^{...}", don't update the first time (no initial render) - e.g. to leave server rendered values.
+		renders = attr !== NONE && sourceValue !== undefined && !linkCtx._noUpd, // For data-link="^{...}", don't update the first time (no initial render) - e.g. to leave server rendered values.
 		source = linkCtx.data,
 		target = tag && tag.parentElem || linkCtx.elem,
 		$target = $(target),

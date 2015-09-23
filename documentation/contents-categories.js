@@ -265,8 +265,23 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "Playing with JsRender"
       },
       {
+        "name": "jsr-quickstart",
+        "label": "JsRender Quickstart",
+        "categories": [],
+        "expanded": true
+      },
+      {
+        "name": "jsr-node-quickstart",
+        "label": "JsRender Node.js Quickstart"
+      },
+      {
         "name": "jsvplaying",
         "label": "Playing with JsViews"
+      },
+      {
+        "name": "jsv-quickstart",
+        "label": "JsViews Quickstart",
+        "hidden": true
       }
     ],
     "expanded": true
@@ -306,7 +321,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "hidden": true
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "explore/templates",
@@ -501,6 +516,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         ],
         "expanded": true,
         "hidden": true
+      },
+      {
+        "name": "explore/node",
+        "label": "Node.js scenarios",
+        "hidden": true
       }
     ],
     "expanded": true
@@ -564,7 +584,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "categories": [
           {
             "name": "tmplrender",
-            "label": "template.render()"
+            "label": "template.render() method"
           },
           {
             "name": "d.render",
@@ -674,6 +694,35 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "name": "jsrsettings",
         "label": "Settings",
         "hidden": true
+      },
+      {
+        "name": "jsrnode",
+        "label": "JsRender for Node.js",
+        "categories": [
+          {
+            "name": "node/install",
+            "label": "Installation and Usage"
+          },
+          {
+            "name": "node/filetmpls",
+            "label": "File-based templates"
+          },
+          {
+            "name": "node/express-hapi",
+            "label": "Express and Hapi integration"
+          },
+          {
+            "name": "node/server-browser",
+            "label": "Server/browser shared templates"
+          },
+          {
+            "name": "node/browserify",
+            "label": "Browserify support",
+            "categories": [],
+            "expanded": true
+          }
+        ],
+        "expanded": true
       }
     ],
     "expanded": true
@@ -1281,12 +1330,14 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "name": "learning",
         "label": "Learning",
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "blogs",
         "label": "Blogs",
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       }
     ],
     "expanded": true

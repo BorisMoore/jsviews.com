@@ -1,14 +1,31 @@
 ﻿(function(window, $, undefined) {
 "use strict";
-var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigating, skipLoad,
+var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigating, skipLoad,
 	content = $.views.documentation.content,
 	allowEdit = false,
+	md = new Remarkable('full', {
+		html: true,
+		breaks: false,
+		linkify: true,
+		typographer: true,
+		highlight: function (str, lang) {
+			if (lang && hljs.getLanguage(lang)) {
+				try {
+					return hljs.highlight(lang, str).value;
+				} catch (err) {}
+			}
+			try {
+				return hljs.highlightAuto(str).value;
+			} catch (err) {}
+			return ''; // use external default escaping
+		}
+	}),
 //#region TAG CONTROLS
 
 // {{page}}
 
 	sampleFrames = {},
-
+	plusButton = document.getElementById("thearrow"),
 	pageTag = {
 		init: function() {
 			window.pagetag = page = this;
@@ -16,8 +33,34 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 			page.category = selectedCategory;
 		},
 		onAfterLink: function() {
-			var page = this;
+			var page = this, activeContainer;
 			page.contents()
+//				.on( "mouseenter", ".showanchor", function( event ) {
+//					if ( event.relatedTarget && (event.relatedTarget.className === "plusButton") ) return; 
+//					//if (activeContainer) {
+//					//	activeContainer.style.border = "solid transparent 1px";
+//					//}
+//					activeContainer = this;
+//					//plusButton.innerHTML = $( this ).hasClass( "activeViewer" ) ? "-" : "+";
+			
+//					var offset = $( this ).offset();
+//var anchorImage = $()			
+//					this.style.border = "solid green 1px";
+//					//plusButton.style.left = offset.left + "px";
+//					//plusButton.style.top = offset.top + "px";
+//					plusButton.innerHTML = "HEY";
+//					plusButton.style.left = "3px";
+//					//plusButton.style.top = "30px";
+//					plusButton.style.display = "block";
+//				})
+//				.on( "mouseleave", ".showanchor", function( event ) {
+////					if ( event.relatedTarget && (event.relatedTarget.className === "plusButton") ) return; 
+			
+//					//var toolbar = $.data(  this, "plusViewerToolbar" );
+//					activeContainer = null;
+////					plusButton.style.display = "none";
+//					this.style.border = "solid transparent 1px";
+//				})
 				.on("click", ".insertsection", function() {
 					page.addSection($.view(this), this.innerText, this.getAttribute("data-type"), this.className.indexOf("append") >= 0);
 				})
@@ -238,7 +281,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 			return hidden && hidden.hidden;
 		},
 		navTo: function(lochash) {
-			if (lochash.indexOf("#", 1) > -1 && (navigating = document.getElementById(lochash + "$"))) {
+			if (lochash.indexOf("@", 1) > -1 && (navigating = document.getElementById(lochash + "$"))) {
 				skipLoad = true;
 				location.hash = lochash;
 				setTimeout(function() {
@@ -269,8 +312,7 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 		},
 		render: function(type, mode) {
 			var editable = mode === "edit",
-				buttons = "",
-				anchor = this.data.anchor;
+				buttons = "";
 			if (editable) {
 				mode = this.selected ? mode : "editview";
 				if (!this.parent.parents.section || this.parent.parents.section.selected) {
@@ -531,18 +573,25 @@ var	page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 			function renderField(type, label) {
 				var value = tryItData[type],
 					isData = type === "data";
-				return value
-					? "<label>" + (label||type) + ":"
-						+ (editable ? "<textarea" : "<pre")
-						+ " data-link=\""
-						+ (isData
-							? "{stringify:tryItData." + type + ":parse}"
-							: "tryItData." + type
-						) + "\">"
-						+ (editable ? "</textarea>" : "</pre>")
-						+ "</label>"
-					: "";
+				if (value) {
+					value = "<label>" + (label||type);
+					if (editable) {
+						 value += ":<textarea data-link=\""
+							+ (isData
+								? "{stringify:tryItData." + type + ":parse}"
+								: "tryItData." + type
+							) + "\"></textarea></label>";
+					} else {
+						value += ":<pre>"
+							+ (isData
+								? hljs.highlight("json", stringify(tryItData[type])).value
+								: hljs.highlightAuto(tryItData[type]).value
+							) + "</pre></label>";
+					}
+				}
+				return value || "";
 			}
+
 			var ret = "",
 				tryItData = this.data,
 				onlyJsRender = this.tagCtx.view.data.origData.onlyJsRender,
@@ -747,7 +796,7 @@ function fetchCategory() {
 		if (!lochash || lochash === "#home") {
 			lochash = "#" + (homeCategory && homeCategory.key || "jsrender");
 		}
-		categoryName = lochash.split("#")[1];
+		categoryName = lochash.split(/[#@]/)[1];
 
 		return getCategory(categoryName, true)
 			.then(function() {
@@ -893,10 +942,20 @@ $.views.tags({
 	section: sectionTag
 });
 
+$.views.helpers({
+	stringify: stringify
+});
+
 $.views.converters({
-	getContent: getContent,
 	stringify: stringify,
-	parse: parse
+	getContent: getContent,
+	syntax: function(val) {
+		return "<pre>" + hljs.highlight(this.tagCtx.args[1], val).value + "</pre>";
+	},
+	parse: parse,
+	md: function(val) {
+return md.render(val);
+	}
 });
 
 fetchCategory()
@@ -941,5 +1000,4 @@ fetchCategory()
 		}
 	});
 //#endregion
-
 })(this, this.jQuery);

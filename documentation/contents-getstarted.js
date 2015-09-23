@@ -16,13 +16,28 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Playing with JsRender"
           },
           {
+            "hash": "jsr-quickstart",
+            "label": "JsRender Quickstart"
+          },
+          {
+            "hash": "jsr-node-quickstart",
+            "label": "JsRender Node.js Quickstart"
+          },
+          {
             "hash": "jsvplaying",
             "label": "Playing with JsViews"
           },
           {
-            "hash": "explore",
-            "label": "Explore"
-          },
+            "hash": "jsv-quickstart",
+            "label": "JsViews Quickstart"
+          }
+        ]
+      },
+      {
+        "_type": "links",
+        "title": "Other links:",
+        "links": [],
+        "topics": [
           {
             "_type": "topic",
             "hash": "jsrapi",
@@ -42,6 +57,11 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "_type": "topic",
             "hash": "samples",
             "label": "Samples"
+          },
+          {
+            "_type": "topic",
+            "hash": "explore",
+            "label": "Explore"
           }
         ]
       }
@@ -74,7 +94,8 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "And here it is as a working sample:",
-        "text": "Let's go straight to a sample showing how that template renders against the data. Like all the samples in this documentation, it is a working sample that you can experiment with. \n"
+        "text": "Let's go straight to a sample showing how that template renders against the data. Like all the samples in this documentation, it is a working sample that you can experiment with. \n",
+        "anchor": ""
       },
       {
         "_type": "sample",
@@ -126,7 +147,8 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           "name": "Adriana"
         },
         "height": "90",
-        "onlyJsRender": true
+        "onlyJsRender": true,
+        "anchor": ""
       },
       {
         "_type": "para",
@@ -273,6 +295,11 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "onlyJsRender": true,
         "title": "Some template tags...",
         "height": "110"
+      },
+      {
+        "_type": "para",
+        "title": "Next:",
+        "text": "[JsRender Quickstart](#jsr-quickstart)"
       },
       {
         "_type": "links",
@@ -757,6 +784,241 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "JsViews samples"
           }
         ]
+      }
+    ]
+  },
+  "jsr-quickstart": {
+    "title": "JsRender Quickstart",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "*Best-of-breed templating*<br/>\n*Simple and intuitive, powerful and extensible, lightning fast*\n\n*For templated content in the browser or on Node.js (with Express 4, Hapi and Browserify integration)*\n\n*JsRender* is a light-weight but powerful templating engine, highly extensible, and optimized for high-performance rendering, without DOM dependency. It is designed for use in the browser or on Node.js, with or without jQuery.\n\n*JsRender* and *JsViews* together provide the next-generation implementation of the official jQuery plugins *[JQuery Templates](https://github.com/BorisMoore/jquery-tmpl)*, and *[JQuery Data Link](https://github.com/BorisMoore/jquery-datalink)* -- and supersede those libraries.\n"
+      },
+      {
+        "_type": "para",
+        "title": "JsRender on Node.js",
+        "text": "JsRender can be used to render templates on the server (using Node.js) as well as in the browser. JsRender on Node.js has all the features and APIs of JsRender in the browser, plus some additional ones specific to Node.js.\n\nIt also provides built-in *Express*, *Hapi* and *Browserify* integration -- which makes it easy to register templates as simple `.html` files on the file system, and then load and render them either server-side, client-side or both.\n\n**Learn more:** [JsRender Node.js Quickstart](#jsr-node-quickstart) and [JsRender APIs for Node.js](#jsrnode).\n\n**Code samples:** See [JsRender Node Starter](https://github.com/BorisMoore/jsrender-node-starter) for running code examples of Node.js scenarios, including with *Express*, *Hapi* and *Browserify*.\n"
+      },
+      {
+        "_type": "para",
+        "title": "JsRender and JsViews",
+        "text": "JsRender is used for data-driven rendering of templates to strings, ready for insertion in the DOM.\n\nIt is also used by the [JsViews](#jsviews) platform, which adds data binding to JsRender templates, and provides a fully-fledged MVVM platform for easily creating interactive data-driven single page apps and websites."
+      },
+      {
+        "_type": "para",
+        "title": "Installation",
+        "text": "jsrender.js is available from [downloads](#download)  on this site. \n\nAlternatively:\n- It can be installed with ***[Bower](http://bower.io/search/?q=jsrender)***, using `$ bower install jsrender` \n- It can be loaded using an AMD script loader, such as RequireJS\n- For installation using Node.js (NPM) see [JsRender Node.js Quickstart](#jsr-node-quickstart). "
+      },
+      {
+        "_type": "para",
+        "title": "jQuery integration",
+        "text": "When jQuery is present, JsRender loads as a jQuery plugin and adds `$.views`, `$.templates` and `$.render` to the jQuery namespace object, `$` (or `window.jQuery`)."
+      },
+      {
+        "_type": "para",
+        "title": "JsRender without jQuery",
+        "text": "When jQuery is not present, JsRender provides its own `jsrender` namespace object, exposed as `window.jsrender`\n\nThe `jsrender` namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\n\n```js\nvar $ = window.jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n```"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<br/>\n## JsRender Usage",
+        "anchor": "usage"
+      },
+      {
+        "_type": "para",
+        "title": "Define a template",
+        "text": "From a string:\n\n```js\nvar tmpl = $.templates(\"Name: {{:name}}\");\n```\n\nFrom a template declared as markup in a script block:\n\n```jsr\n<script id=\"myTemplate\" type=\"text/x-jsrender\">Name: {{:name}}</script>\n```\n```js\nvar tmpl = $.templates(\"#myTemplate\");\n```\n\n<a href=\"#d.templates\">Learn more...</a>"
+      },
+      {
+        "_type": "para",
+        "title": "Render a template",
+        "text": "`tmpl.render(object)` (or shortcut form: `tmpl(object)`) renders the template with the object as data context.\n\n`tmpl.render(array)` (or `tmpl(array)`) renders the template once for each item in the array.\n\n```js\nvar tmpl = $.templates(\" Name: {{:name}}<br/> \");\n```\n\n```js\nvar person = {name: \"Jim\"};\n\n// Render template for person object\nvar html = tmpl.render(person); // ready for insertion, e.g $(\"#container\").html(html);\n\n// result: \"Name: Jim<br/> \"\n```\n\n```js\nvar people = [{name: \"Jim\"}, {name: \"Pedro\"}];\n\n// Render template for people array\nvar html = tmpl.render(people); // ready for insertion...\n\n// result: \"Name: Jim<br/> Name: Pedro<br/> \"\n```\n<a href=\"#rendertmpl\">Learn more...</a>"
+      },
+      {
+        "_type": "para",
+        "title": "Register a named template - and render it",
+        "text": "```js\n// Register named template - \"myTmpl1\n$.templates(\"myTmpl1\", \"Name: {{:name}}<br/> \");\n\nvar person = {name: \"Jim\"};\n\n// Render named template\nvar html = $.templates.myTmpl1(person);\n\n// Alternative syntax: var html = $.render.myTmpl1(person);\n\n// result: \"Name: Jim<br/> \"\n```\n<a href=\"#rendertmpl\">Learn more...</a>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<br/>\n## Template tags\n### Evaluation tags",
+        "anchor": ""
+      },
+      {
+        "_type": "para",
+        "title": "<b>{{: ...}}</b> (Evaluate)",
+        "text": "`{{: pathOrExpr}}` inserts the value of the path or expression.\n\n```js\nvar data = {address: {street: \"Main Street\"} };\nvar tmpl = $.templates(\"<b>Street:</b> {{:address.street}}\");\nvar html =  tmpl.render(data);\n\n// result: \"<b>Street:</b> Main Street\"\n```\n\n<a href=\"#assigntag\">Learn more...</a>",
+        "anchor": "assigntag"
+      },
+      {
+        "_type": "para",
+        "title": "<b>{{> ...}}</b> (HTML-encode)",
+        "text": "`{{> pathOrExpr}}` inserts the *HTML-encoded* value of the path or expression.\n\n```js\nvar data = {condition: \"a < b\"};\nvar tmpl = $.templates(\"<b>Formula:</b> {{>condition}}\");\nvar html =  tmpl.render(data);\n\n// result: \"<b>Formula:</b> a &lt; b\"\n```\n\n<a href=\"#htmltag\">Learn more...</a>",
+        "anchor": "htmltag"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<h3><b>Block tags</b></h3>\n<ul><li>Block tags can have content, unless they use the self-closing syntax:\n<ul><li>Block tag - with content: <code>{{someTag ...}} content {{/someTag}}</code></li><li>Self-closing tag - no content (empty): <code>{{someTag .../}}</code><br/><br/></li></ul></li><li>A particular case of self-closing syntax is when any block tag uses the named parameter <code>tmpl=...</code> to reference an external template, which then replaces what would have been the block content:\n<ul><li>Self-closing block  tag referencing an external template: <code>{{someTag ... tmpl=.../}}</code> (See <a href=\"#samples/jsr/composition/tmpl\">example</a>)<br/><br/></li></ul></li><li>All tags other than <code>{{: ...}}</code> <code>{{> ...}}</code> <code>{{* ...}}</code> <code>{{!-- --}}</code> behave as block tags<br/><br/></li><li>Tags can take both unnamed arguments and named parameters:\n <ul><li><code>{{someTag argument1 param1=...}} content {{/someTag}}</code></li><li>an example of a named parameter is the <code>tmpl=...</code>  parameter mentioned above</li><li>arguments and named parameters can be assigned values from simple data-paths such as <code>address.street</code> or from richer expressions such as <code>product.quantity * 3.1 / 4.5</code>, or <code>name.toUpperCase()</code></li></ul></li>\n</ul>\n\n### Built-in tags"
+      },
+      {
+        "_type": "para",
+        "title": "<b>{{include ...}}</b> (Template composition - partials)",
+        "text": "`{{include pathOrExpr}}...{{/include}}`evaluates the block content against a specified/modified data context.\n\n`{{include ... tmpl=.../}}` evaluates the specified template against an (optionally modified) context, and inserts the result. (Template composition).\n\n```js\nvar data = {name: \"Jim\", address: {street: \"Main Street\"} };\n\n// Register two named templates\n$.templates({\n    streetTmpl: \"<i>{{:street}}</i>\",\n    addressTmpl: \"{{:name}}'s address is {{include address tmpl='streetTmpl'/}}.\"\n});\n\n// Render outer template\nvar html =  $.templates.addressTmpl.render(data);\n\n// result: \"Jim's address is <i>Main Street</i>\"\n```\n<a href=\"#includetag\">Learn more...</a>",
+        "anchor": "includetag"
+      },
+      {
+        "_type": "para",
+        "title": "<b>{{for ...}}</b> (Template composition, with iteration over arrays)",
+        "text": "`{{for pathOrExpr}}...{{/for}}`evaluates the block content against a specified data context. If the new data context is an array, it iterates over the array, renders the block content with each data item as context, and concatenates the result.\n\n`{{for pathOrExpr tmpl=.../}}` evaluates the specified template against a data context. If the new data context is an array, it iterates over the array, renders the template with each data item as context, and concatenates the result.\n\n```jsr\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <ul>{{for people}}\n    <li>Name: {{:name}}</li>\n  {{/for}}</ul>\n</script>\n```\n\n```js\nvar data = {people: [{name: \"Jim\"}, {name: \"Pedro\"}] };\nvar tmpl = $.templates(\"#peopleTmpl\");\nvar html =  tmpl.render(data);\n\n// result: \"<ul> <li>Name: Jim</li> <li>Name: Pedro</li> </ul>\"\n```\n<a href=\"#fortag\">Learn more...</a>",
+        "anchor": "fortag"
+      },
+      {
+        "_type": "para",
+        "title": "<b>{{props ...}}</b> (Iteration over properties of an object)",
+        "text": "`{{props pathOrExpr}}...{{/prop}}` or `{{props pathOrExpr tmpl=.../}}` iterates over the properties of the object returned by the path or expression, and renders the content/template once for each property - using as data context: `{key: propertyName, prop: propertyValue}`.\n\n```jsr\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <ul>{{props person}}\n    <li>{{:key}}: {{:prop}}</li>\n  {{/props}}</ul>\n</script>\n```\n\n```js\nvar data = {person: {first: \"Jim\", last: \"Varsov\"} };\nvar tmpl = $.templates(\"#personTmpl\");\nvar html =  tmpl.render(data);\n\n// result: \"<ul> <li>first: Jim</li> <li>last: Varsov</li> </ul>\"\n```\n<a href=\"#propstag\">Learn more...</a>",
+        "anchor": "propstag"
+      },
+      {
+        "_type": "para",
+        "title": "<b>{{if ...}}</b> (Conditional inclusion)",
+        "text": "`{{if pathOrExpr}}...{{/if}}` or `{{if pathOrExpr tmpl=.../}}` renders the content/template only if the evaluated path or expression is 'truthy'.\n\n`{{if pathOrExpr}}...{{else pathOrExpr2}}...{{else}}...{{/if}}`  behaves as '*if' - 'else if' - 'else'* and renders each block based on the condidtions.\n\n```jsr\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  {{if nickname}}\n    Nickname: {{:nickname}}\n  {{else name}}\n    Name: {{:name}}\n  {{else}}\n    No name provided\n  {{/if}}\n</script>\n```\n\n```js\nvar data = {nickname: \"Jim\", name: \"James\"};\nvar tmpl = $.templates(\"#personTmpl\");\nvar html =  tmpl.render(data);\n\n// result: \"Nickname: Jim\"\n```\n<a href=\"#iftag\">Learn more...</a>",
+        "anchor": "iftag"
+      },
+      {
+        "_type": "para",
+        "title": "<b>Other built-in tags</b>",
+        "text": "For details on all the above built-in tags, as well as *<a href=\"#commenttag\">comment tags</a>* `{{!-- ... --}}` and *<a href=\"#allowcodetag\">allow code tags</a>*  `{{* ... }}` and `{{*: ... }}`, see the [tags documentation](#jsrtags)."
+      },
+      {
+        "_type": "para",
+        "title": "<b>Custom tags</b>",
+        "text": "Creating your own custom tags is easy. Register a custom tag using `$.views.tags(\"myTag\" , ...)`. The second parameter will generally be a `tagOptions` object on which you can specify a render method, template, event handlers, etc. (There are many examples in the JsRender and JsViews custom tag samples [here](#samples/jsr/tags) and [here](#samples/tag-controls)). But for simple tags, you may only need a simple render function, or a template string. \n\nFor example the two following definitions for a `{{fullName/}}` tag provide equivalent behavior:\n\nAs a render function:\n\n```js\n$.views.tags(\"fullName\", function(val) {\n    return val.first + \" \" + val.last;\n});\n```\nOr as a template string:\n\n```js\n$.views.tags(\"fullName\", \"{{:first}} {{:last}}\");\n```\n\nEither way, the result will be as follows:\n\n```js\nvar tmpl = $.templates(\"{{fullName person/}}\");\nvar data = {person: {first: \"Jim\", last: \"Varsov\"}};\nvar html =  tmpl.render(data);\n\n// result: \"Jim Varsov\"\n```",
+        "anchor": "customtags"
+      },
+      {
+        "_type": "para",
+        "title": "Helpers",
+        "text": "For details see [Helpers](#helpers).\n\nHere is a simple example.  Two helpers - a function, and a string:\n\n```js\nvar myHelpers = {\n    upper: function(val) { return val.toUpperCase(); },\n    title: \"Sir\"\n};\n```\n\nAccess the helpers using the `~myhelper` syntax:\n\n```js\nvar tmpl = $.templates(\"{{:~title}} {{:first}} {{:~upper(last)}}\");\n```\n\nWe can pass the helpers in with the `render()` method\n\n```js\nvar data = {first: \"Jim\", last: \"Varsov\"};\n\nvar html =  tmpl.render(data, myHelpers);\n\n// result: \"Sir Jim VARSOV\"\n```\n\nOr we can register helpers globally:\n\n```js\n$.views.helpers(myHelpers);\n\nvar data = {first: \"Jim\", last: \"Varsov\"};\nvar html =  tmpl.render(data);\n\n// result: \"Sir Jim VARSOV\"\n```\n<a href=\"#helpers\">Learn more...</a>",
+        "anchor": "helpers"
+      },
+      {
+        "_type": "para",
+        "title": "Converters",
+        "text": "Converters are used with the `{{:...}}` tag, using the syntax `{{mycvtr: ...}}}`.\n\nExample - an *upper* converter, to convert to upper case: \n\n```js\n$.views.converters(\"upper\", function(val) { return val.toUpperCase(); });\n\nvar tmpl = $.templates(\"{{:first}} {{upper:last}}\");\nvar data = {first: \"Jim\", last: \"Varsov\"};\nvar html =  tmpl.render(data);\n\n// result: \"Jim VARSOV\"\n```\n<a href=\"#converters\">Learn more...</a>",
+        "anchor": "converters"
+      },
+      {
+        "_type": "para",
+        "title": "Logic and expressions",
+        "text": "JsRender supports rich expressions and logic, but at the same time encapsulates templates to prevent random access to globals. If you want to provide access to global variables within a template, you have to pass them in as data or as helpers.\n\nYou can assign rich expressions to any template arguments or parameters, as in:\n\n`{{:person.nickname ? \"Nickname: \" + person.nickname : \"(has no nickname)\"}}`\n\nor\n\n```jsr\n{{if ~limits.maxVal > (product.price*100 - discount)/rate}}\n  ...\n{{else ~limits.minVal < product.price}}\n  ... \n{{else}}\n  ... \n{{/if}}\n```",
+        "anchor": "logic"
+      },
+      {
+        "_type": "links",
+        "title": "Links:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "jsrapi",
+            "label": "JsRender API"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsr-node-quickstart",
+            "label": "JsRender Node.js Quickstart"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/jsr",
+            "label": "JsRender samples"
+          }
+        ]
+      }
+    ]
+  },
+  "jsv-quickstart": {
+    "title": "JsViews Quickstart",
+    "path": "",
+    "sections": []
+  },
+  "jsr-node-quickstart": {
+    "title": "JsRender Node.js Quickstart",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender can be used to render templates on the server (using Node.js) as well as in the browser. \n\nJsRender on Node.js has the full set of features and APIs provided by JsRender in the browser (see [JsRender Quickstart](#jsr-quickstart)).\n\nIn addition, it provides built-in ***Express***, ***Hapi*** and ***Browserify*** integration, as well as APIs for accessing templates stored as simple `.html` files on the file system. This makes it easy to render the same templates server-side, client-side or both."
+      },
+      {
+        "_type": "para",
+        "title": "Installation",
+        "text": "Install jsrender:\n\n```bash\n$ npm install jsrender --save\n```\n\nLoad the jsrender module:\n\n```js\nvar jsrender = require('jsrender');\n```\n\nNow call JsRender APIs, or use Express or Hapi integration (see below), for server-rendering of JsRender templates.\n\n\n[Learn more about JsRender installation and usage on Node.js...](#node/install)",
+        "anchor": "install"
+      },
+      {
+        "_type": "para",
+        "title": "Rendering templates on the server",
+        "text": "On Node.js you can use all the normal JsRender APIs to render templates (such as a layout template) - and return the HTML string in the HTTP response:\n\n```js\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('Name: {{:name}}<br/>'); // Compile template from string\n\nvar html =  tmpl.render({name: \"Jim\"}); // Render\n// result: \"Jim Varsov\"\n\napp.get('/...', function(req, res) {\n  res.send(html);\n});\n```"
+      },
+      {
+        "_type": "para",
+        "title": "Defining templates as .html files",
+        "text": "JsRender templates can be stored directly in the file system (e.g. as `.html`, `.jsr.` or `.jsrender` files).\n\nLet's rewrite the example above, but store the template as an `.html` file rather than compile it from a string:\n\n**Template:** *./templates/myTemplate.html* -- with contents:\n\n```jsr\nName: {{:name}}<br/>\n```\n\n**Code:** JsRender recognizes file paths, so you can write:\n\n```js\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('./templates/myTemplate.html'); // Compile the template from file\n\nvar html = tmpl.render({name: \"Jim\"}); // Render\n// result: Name: Jim<br/>\n\n...\nres.send(html);\n```\n\n[Learn more about file-based templates...](#node/filetmpls)"
+      },
+      {
+        "_type": "para",
+        "title": "Using helpers, converters, custom tags...",
+        "text": "On Node.js you can use the full set of JsRender features, template tags and APIs, just as you would in the browser - by simply using the `jsrender` namespace object returned from `require('jsrender')`, instead of the jQuery object, `$`. In addition you can take advantage of file-based templates.\n\nFor example, here is the JsRender Quickstart [Custom Tags](#jsr-quickstart@customtags) sample, as you might write it on Node.js:\n\n**Template:** *./templates/personTemplate.html*:\n\n```jsr\nName: {{fullName person/}}\n```\n\n**Code:**\n\n```js\nvar jsrender = require('jsrender');\n\njsrender.views.tags(\"fullName\", \"{{:first}} {{:last}}\"); // Register custom tag\n\nvar tmpl = jsrender.templates('./templates/personTemplate.html'); // Compile template\n\nvar html =  tmpl.render({person: {first: \"Jim\", last: \"Varsov\"}}); // Render\n// result: \"Jim Varsov\"\n```\n\n[Learn more about APIs, features...](#node/install@apis)"
+      },
+      {
+        "_type": "para",
+        "title": "Using Express to render templates",
+        "text": "In Express you can use JsRender APIs to render the template, as in the examples above, then return the html in the HTTP response:\n\n```js\napp.get('/...', function(req, res) {\n  res.send(html);\n});\n```\n\nBut alternatively you can register JsRender as template engine for Express:\n\n```js\nvar jsrender = require('jsrender');\n\napp.engine('html', jsrender.__express); // Set JsRender as template engine for .html files\napp.set('view engine', 'html'); \napp.set('views', __dirname + '/templates'); // Folder location for JsRender templates for Express\n```\n\nRender template *./templates/myTemplate.html* -- content: `Name: {{:name}}<br/>`:\n\n```js\napp.get('/...', function(req, res) {\n  res.render('myTemplate', {name: \"Jim\"}); \n  // result: Name: Jim<br/>\n});\n```",
+        "anchor": ""
+      },
+      {
+        "_type": "para",
+        "title": "Using Hapi to render templates",
+        "text": "JsRender also has built-in support as template engine for [Hapi](http://hapijs.com/):\n\nSet JsRender as the template engine for Hapi:\n\n```js\nvar jsrender = require('jsrender');\n\nserver.register(vision, function (err) {\n  ...\n  server.views({\n    engines: { html: jsrender },\n    relativeTo: __dirname,\n    path: 'templates'\n  });\n```\n\nUse Hapi to render a template:\n\n```js\nserver.route({\n  method: 'GET',\n  path: '/',\n  handler: function (request, reply) {\n    return reply.view('myTemplate', myData);\n  }\n});\n```"
+      },
+      {
+        "_type": "para",
+        "title": "Details:",
+        "text": "[JsRender APIs for Node.js](#jsrnode)\n\n&mdash; [Installation and usage](#node/install)<br/>\n&mdash; [File-based templates](#node/filetmpls)<br/>\n&mdash; [Express and Hapi integration](#node/express-hapi)<br/>\n&mdash; [Server/browser shared templates](#node/server-browser)<br/>\n&mdash; [Browserify support](#node/browserify)<br/>"
+      },
+      {
+        "_type": "links",
+        "title": "Other links:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "jsr-quickstart",
+            "label": "JsRender Quickstart"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsrapi",
+            "label": "JsRender API"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/jsr",
+            "label": "JsRender samples"
+          }
+        ]
+      },
+      {
+        "_type": "para",
+        "title": "JsRender Node Starter",
+        "text": "For details and running code samples for Node.js scenarios, including with ***Express***, ***Hapi*** and ***Browserify***, see the [JsRender Node Starter](https://github.com/BorisMoore/jsrender-node-starter) project on GitHub."
       }
     ]
   }

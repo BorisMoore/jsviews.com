@@ -12,17 +12,23 @@
 	<link rel="shortcut icon" href="/icons/favicon.ico?v=1">
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="msapplication-config" content="/icons/browserconfig.xml?v=1">
-	<meta name="theme-color" content="#f2e5e5">	<link href="resources/css/tree.css" rel="stylesheet"/>
+	<meta name="theme-color" content="#f2e5e5">
+	<link href="resources/css/tree.css" rel="stylesheet"/>
 	<link href="resources/css/tabs.css" rel="stylesheet"/>
 	<link href="resources/css/site.css" rel="stylesheet"/>
 	<link href="resources/css/dataurls.css" rel="stylesheet"/>
 	<link href="resources/css/contents.css" rel="stylesheet"/>
+	<link href="resources/css/highlight.css" rel="stylesheet" /> <!--xcode vs  brown_paper googlecode magula mono-blue-->
 	<script src="//code.jquery.com/jquery-1.11.3.js"></script>
+	<script src="//cdn.jsdelivr.net/remarkable/1.6.0/remarkable.min.js"></script>
+	<script src="lib/highlight.js"></script>
 	<script src="download/jsviews.js"></script>
 	<script src="datatypes.js"></script>
 	<script src="documentation/contents-categories.js"></script>
 
 	<script src="resources/tags/built-in-tags.js"></script>
+
+
 <!--======================= Page Controls =======================-->
 
 <script id="pageTmpl" type="text/x-jsrender">
@@ -140,7 +146,7 @@
 					<a class="unselected" href="#samples">Samples</a>
 					<a class="unselected" href="#download">Download</a>
 					<a class="unselected" href="#community">Community</a>
-					<a class="unselected" href="#links">Links</a>
+					<!--<a class="unselected" href="#links">Links</a>-->
 				</div>
 			</div>
 		</div>
@@ -170,19 +176,36 @@
 	{{/if}}
 </script>
 
-<script id="sectionTitleTmpl" type="text/x-jsrender">
-	{{if anchor ~hash="#" + ~parentTags.page.category.name+'#'+anchor}}
-		<a id="{{:~hash}}$" href="/{{:~hash}}" data-link="{on ~parentTags.page.navTo ~hash}" class="anchor {{:title ? '' : 'notitle'}}"></a>
-	{{/if}}
+<!--<script id="sectionTitleTmpl" type="text/x-jsrender">
 	{{if title}}
-		<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+		{{if anchor ~hash="#" + ~parentTags.page.category.name+'@'+anchor}}
+			<div class="anchortitle">
+				<a id="{{:~hash}}$" href="/{{:~hash}}" data-link="{on ~parentTags.page.navTo ~hash}" class="anchor"></a>
+				<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+			</div>
+		{{else}}
+			<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+		{{/if}}
+	{{/if}}
+</script>-->
+
+<script id="sectionTitleTmpl" type="text/x-jsrender">
+	{{if title}}
+		{{if anchor ~hash="#" + ~parentTags.page.category.name+'@'+anchor}}
+			<a id="{{:~hash}}$" href="/{{:~hash}}" data-link="{on ~parentTags.page.navTo ~hash}" class="anchortitle ">
+  			<div class="anchor"></div>
+				<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+			</a>
+		{{else}}
+			<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
+		{{/if}}
 	{{/if}}
 </script>
 
 <script id="paraTmpl" type="text/x-jsrender">
 	{{sectionTitle/}}
 	{{if text}}
-		<div class="para">{{:text}}</div>
+		<div class="para">{{md:text}}</div>
 	{{/if}}
 </script>
 
@@ -265,23 +288,17 @@
 
 <script id="dataTmpl" type="text/x-jsrender">
 	{{sectionTitle/}}
-	<div>
-		<pre data-link="{stringify:data}"></pre>
-	</div>
+	<div>{{syntax:~stringify(data) "json"}}</div>
 </script>
 
 <script id="templateTmpl" type="text/x-jsrender">
 	{{sectionTitle/}}
-	<div>
-		<pre data-link="markup"></pre>
-	</div>
+	<div>{{syntax:markup "jsr"}}</div>
 </script>
 
 <script id="codeTmpl" type="text/x-jsrender">
 	{{sectionTitle/}}
-	<div>
-		<pre data-link="code"></pre>
-	</div>
+	<div>{{syntax:code "js"}}</div>
 </script>
 
 <script id="sampleTmpl" type="text/x-jsrender">
@@ -309,13 +326,11 @@
 <script id="linksTmpl" type="text/x-jsrender">
 	{{sectionTitle/}}
 	<div class="links">
-		<div>{{:linksHeader}}</div>
 		{^{for links}}
 			<div><a href="{{:url}}">{{:label}}</a></div>
 		{{/for}}
 	</div>
 	<div class="topiclinks">
-		<div>{{:topicsHeader}}</div>
 		{^{for topics}}
 			{{if ~mode === "edit" || !~parentTags.page.hideCategory(hash)}}<div><a href="{{:~url(hash)}}">{{:label}}</a></div>{{/if}}
 			{{!--<div><a href="{{:~url(hash)}}">{{:label}}</a></div>--}}
@@ -519,7 +534,7 @@
 			<a href="#samples" id="samples" class="unselected">Samples</a>
 			<a href="#download" id="download" class="unselected">Download</a>
 			<a href="#community" id="community" class="unselected">Community</a>
-			<a href="#links" id="links" class="unselected">Links</a>
+			<!--<a href="#links" id="links" class="unselected">Links</a>-->
 		<div class="gradient2"></div>
 		</div>
 		<div id="content" class="container"></div>

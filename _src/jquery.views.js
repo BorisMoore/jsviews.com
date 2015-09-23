@@ -305,7 +305,7 @@ function updateContent(sourceValue, linkCtx, attr, tag) {
 	// When called (in propertyChangeHandler) for target HTML returns true
 	// When called (in propertyChangeHandler) for other targets returns boolean for "changed"
 	var setter, prevNode, nextNode, promise, nodesToRemove, useProp, tokens, id, openIndex, closeIndex, testElem, nodeName, cStyle,
-		renders = sourceValue !== undefined && !linkCtx._noUpd, // For data-link="^{...}", don't update the first time (no initial render) - e.g. to leave server rendered values.
+		renders = attr !== NONE && sourceValue !== undefined && !linkCtx._noUpd, // For data-link="^{...}", don't update the first time (no initial render) - e.g. to leave server rendered values.
 		source = linkCtx.data,
 		target = tag && tag.parentElem || linkCtx.elem,
 		$target = $(target),

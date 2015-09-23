@@ -1,9 +1,24 @@
 pre {
 	font-size: 10pt;
 	border-left: 3px solid #aaa;
-	padding: 5px 0 0 8px;
+	padding-left: 8px;
 	margin: 20px 0 20px;
 	overflow: auto;
+}
+
+code {
+	background-color: #f2f2f2;
+	padding: 0 4px;
+	border: 1px solid #d5d5d5;
+	border-radius: 3px;
+	font-size: 10pt;
+}
+
+pre code {
+	background-color: inherit;
+	padding: 0;
+	border: none;
+	border-radius: 0;
 }
 
 .title ~ div > pre {
@@ -18,18 +33,18 @@ pre {
 	padding-right: 4px;
 }
 
-.removesection:after {
-	color: #be614c;
-	font-weight: bold;
-	padding: 0 6px 2px;
-	content: 'x';
-	cursor: pointer;
-}
+	.removesection:after {
+		color: #be614c;
+		font-weight: bold;
+		padding: 0 6px 2px;
+		content: 'x';
+		cursor: pointer;
+	}
 
-.removesection:hover:after {
-	color: red;
-	background-color: #dbffe0;
-}
+	.removesection:hover:after {
+		color: red;
+		background-color: #dbffe0;
+	}
 
 	.removesection.param, .removesection.signature, .removesection.topic, .removesection.link, .removesection.codetab {
 		float: none;
@@ -206,11 +221,11 @@ a.cmdbtn {
 }
 
 .sample .code, .sample .fullcode {
-	  margin: -1px -2px -4px -3px;
+	margin: -1px -2px -4px -3px;
 }
 
 .sample .codetab {
-	  margin: -5px -2px -4px 1px;
+	margin: -5px -2px -4px 1px;
 }
 
 .sample .code pre, .sample .fullcode pre {
@@ -248,6 +263,7 @@ a.cmdbtn {
 .mode-edit textarea {
 	width: 99.5%;
 	margin: 2px;
+	height: 300px;
 }
 
 .mode-edit .signatures > .signature {
@@ -357,8 +373,14 @@ a.cmdbtn {
 	}
 
 .editmode input.title, .mode-edit input.title {
-	width: 500px;
+	width: 62%;
 	margin-bottom: 5px;
+}
+
+input.title {
+	width: 800px;
+	margin-bottom: 5px;
+	margin-left: 0;
 }
 
 .signature > .title {
@@ -372,6 +394,8 @@ a.cmdbtn {
 	border: none;
 	border: 2px solid #670404;
 	margin: 2px 0 15px -2px;
+	border-radius: 6px;
+	background-color: #f8f8f5;
 }
 
 .sample {
@@ -412,20 +436,22 @@ a.cmdbtn {
 }
 
 .title {
-	font-size: larger;
-	margin: 10px 10px 6px 0;
+	font-size: 19px;
+	margin: 10px 10px 6px -28px;
+	padding-left: 28px;
 	display: inline-block;
 	font-weight: bold;
 	font-style: italic;
 }
 
-	.title span {
-		font-weight: normal;
-		font-style: italic;
-	}
+.title span {
+	font-weight: normal;
+	font-style: italic;
+}
 
 .para {
 	margin: 10px 10px 10px 0;
+	line-height: 19px;
 }
 
 	.para > ul {
@@ -456,7 +482,7 @@ a.cmdbtn {
 	padding: 20px 0 0 10px;
 }
 
-.para li {
+.para ul > li {
 	margin-left: -10px;
 	list-style-type: square;
 	padding: 2px;
@@ -475,20 +501,53 @@ hr {
 a {
 	display: inline-block;
 	position: relative;
-	text-decoration:none;
+	text-decoration: none;
 }
 
-a:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	display: inline-block;
-	height: 17px;
-	width: 100%;
-	border-bottom: 1px solid;
-	margin-top: 1px;
-}
+	a:after {
+		content: '';
+		position: absolute;
+		left: 0;
+		display: inline-block;
+		height: 17px;
+		width: 100%;
+		border-bottom: 1px solid;
+		margin-top: 1px;
+	}
 
 .topiclinks {
-	line-height:20px;
+	line-height: 20px;
+	margin: 10px 10px 10px 0;
+}
+
+.anchor {
+	display: none;
+}
+
+a.anchortitle:after {
+	display: none;
+}
+
+.anchortitle:hover > .anchor {
+	display: inline-block;
+}
+
+.anchortitle:hover > .title {
+	color: #41687C;
+}
+
+.anchortitle > .title {
+	color: black;
+}
+
+.summary > .title, .summary > .anchortitle > .title {
+	padding-left: 12px;
+}
+
+.summary > .anchortitle > .anchor {
+	left: -26px;
+}
+
+.summary h2, .summary h3 {
+	margin-left: -16px;
 }
