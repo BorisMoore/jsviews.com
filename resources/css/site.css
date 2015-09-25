@@ -339,7 +339,8 @@ body {
 }
 
 .home .title {
-	margin: 10px 10px 0;
+	margin: 10px 10px 0 0;
+	padding: 0;
 }
 
 .footers {

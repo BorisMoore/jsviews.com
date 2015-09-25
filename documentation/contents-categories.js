@@ -66,7 +66,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "_type": "para",
                 "title": "{{if showNickname && nickname}}...{{/if}}",
-                "text": "An <em>{{if}}</em> tag: Render the block content only if the expression (<em>showNickname && nickname</em>) is true..."
+                "text": "An `{{if}}` tag: Render the block content only if the expression (`showNickname && nickname`) is true..."
               }
             ],
             "data": [
@@ -132,27 +132,17 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "_type": "para",
                 "title": "{^{name}} ... {^{if showNickname && nickname}}...",
-                "text": "These are data-bound tags. When the underlying data changes the data-value within the rendered template automatically updates too."
-              },
-              {
-                "_type": "para",
-                "title": "",
-                "text": "Changing <em>{{if ...}}</em> to <em>{^{if ...}}</em> makes it data-bound. Now, when the underlying data value or expression changes the whole rendered block content is automatically removed or reinserted."
+                "text": "These are data-bound tags. When the underlying data changes the data-value within the rendered template automatically updates too.\n\nChanging `{{if ...}}` to `{^{if ...}}` makes it data-bound. Now, when the underlying data value or expression changes the whole rendered block content is automatically removed or reinserted."
               },
               {
                 "_type": "para",
                 "title": "&lt;em data-link=\"nickname\">",
-                "text": "You can use element-based data-linking too. Here, the inner-text of the <em>&ltem></em> element is data-bound to the <em>nickname</em> data value."
+                "text": "You can use element-based data-linking too. Here, the inner-text of the `<em>` element is data-bound to the `nickname` data value."
               },
               {
                 "_type": "para",
                 "title": "&lt;input data-link=\"name trigger=true\"/&gt;",
-                "text": "And here, the input is automatically two-way data-bound to the <em>name</em> property of the underlying data. Change the value in the text box, and the underlying data automatically updates. Any other parts of the template that are data-linked to the same data property will then immediately update too."
-              },
-              {
-                "_type": "para",
-                "title": "",
-                "text": "Include 'trigger=true', and updates will happen as you type, not just when you leave the textbox."
+                "text": "And here, the input is automatically two-way data-bound to the `name` property of the underlying data. Change the value in the text box, and the underlying data automatically updates. Any other parts of the template that are data-linked to the same data property will then immediately update too.\n\nInclude `trigger=true`, and updates will happen as you type, not just when you leave the textbox."
               }
             ],
             "data": [
@@ -229,17 +219,12 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "_type": "para",
                 "title": " $.observable(object).setProperty(...);",
-                "text": "<em>$.observable(dataItem)</em> makes dataItem <em>\"observable\"</em>, by providing a <em>setProperty(...)</em> method.Use <em>setProperty</em> to change a value, and the change will be \"observed\" by the declarative data-binding in the template."
+                "text": "`$.observable(dataItem)` makes `dataItem` *\"observable\"*, by providing a `setProperty(...)` method. Use `setProperty` to change a value, and the change will be *\"observed\"* by the declarative data-binding in the template."
               },
               {
                 "_type": "para",
                 "title": "$.observable(array).insert(...);",
-                "text": "<em>$.observable(people)</em> makes the people array <em>\"observable\"</em>, by providing methods like <em>insert(...)</em> and <em>remove(...)</em>. Use them to make changes to arrays, and the changes will be \"observed\" by data-bound elements and tags in the template - such as the <em>{^{for people}}</em> tag. Here the rendered block content of the tag will be incrementally added/removed for each added/removed array item - in response to your change."
-              },
-              {
-                "_type": "para",
-                "title": "",
-                "text": "<em>$.view(elem)</em> allows you to get from any DOM element to the 'view' object for that part of the rendered content, and hence to the underlying data, index, etc."
+                "text": "`$.observable(people)` makes the `people` array *\"observable\"*, by providing methods like `insert(...)` and `remove(...)`. Use them to make changes to arrays, and the changes will be *\"observed\"* by data-bound elements and tags in the template - such as the `{^{for people}}` tag. Here the rendered block content of the tag will be incrementally added/removed for each added/removed array item - in response to your change.\n\n`$.view(elem)` allows you to get from any DOM element to the *view* object for that part of the rendered content, and hence to the underlying data, index, etc."
               }
             ],
             "data": {},
@@ -982,7 +967,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     "categories": [
       {
         "name": "samples/jsr",
-        "label": "JsRender",
+        "label": "JsRender samples",
         "categories": [
           {
             "name": "samples/jsr/converters",
@@ -1044,11 +1029,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "hidden": true,
         "name": "samples/jso",
-        "label": "JsObservable"
+        "label": "JsObservable samples"
       },
       {
         "name": "samples/jsv",
-        "label": "JsViews",
+        "label": "JsViews samples",
         "categories": [
           {
             "name": "samples/data-link",

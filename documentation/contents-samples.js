@@ -18,15 +18,15 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "topics": [
           {
             "hash": "samples/jsr",
-            "label": "JsRender"
+            "label": "JsRender samples"
           },
           {
             "hash": "samples/jso",
-            "label": "JsObservable"
+            "label": "JsObservable samples"
           },
           {
             "hash": "samples/jsv",
-            "label": "JsViews"
+            "label": "JsViews samples"
           }
         ]
       },

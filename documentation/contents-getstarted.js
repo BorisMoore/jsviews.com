@@ -74,12 +74,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "JsRender templates",
-        "text": "JsRender templates are probably the most powerful and at the same time the most intuitive of template engines out there."
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": " To get started, let's just create a template, and run it against some data. The way you do that in code is like this:"
+        "text": "JsRender templates are probably the most powerful and at the same time the most intuitive of template engines out there.\n\nTo get started, let's just create a template, and run it against some data. The way you do that in code is like this:"
       },
       {
         "_type": "template",
@@ -111,34 +106,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "You can hit <em>Try it</em>, modify the template or the data, then hit <em>Run Code</em> to see the effect immediately in the running sample above."
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "For example, replace the data with the following:"
-          },
-          {
-            "_type": "data",
-            "title": "",
-            "data": [
-              {
-                "name": "Adriana"
-              },
-              {
-                "name": "Robert"
-              }
-            ]
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "Or try replacing the template with the following:"
-          },
-          {
-            "_type": "template",
-            "title": "",
-            "markup": "<table><tbody><tr>\n  <td>Name</td>\n  <td>{{:name}}</td>\n</tr></tbody></table>"
+            "text": "You can hit <em>Try it</em>, modify the template or the data, then hit <em>Run Code</em> to see the effect immediately in the running sample above.\n\nFor example, replace the data with the following:\n\n```json\n[\n  {\n    \"name\": \"Adriana\"\n  },\n  {\n    \"name\": \"Robert\"\n  }\n]\n```\n\nOr try replacing the template with the following:\n\n```jsr\n<table><tbody><tr>\n  <td>Name</td>\n  <td>{{:name}}</td>\n</tr></tbody></table>\n```"
           }
         ],
         "title": "A first template:",
@@ -153,7 +121,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "",
-        "text": "OK - a few interesting things there. For example, if you tried changing the data, and provided an array instead of an object, you will have seen that the template rendered once for each item in the array. <br/><br/>But before we look at more details on the template rendering, let's look at how you get a compiled template object for your markup (the <em>myTemplate</em> object in the code example above) so you can call the render method. <br/><br/>The next working example shows you that."
+        "text": "OK - a few interesting things there. For example, if you tried changing the data, and provided an array instead of an object, you will have seen that the template rendered once for each item in the array.\n\nBut before we look at more details on the template rendering, let's look at how you get a compiled template object for your markup (the `myTemplate` object in the code example above) so you can call the render method.\n\nThe next working example shows you that."
       },
       {
         "_type": "sample",
@@ -169,57 +137,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "Take a look at the <em>Code</em>, <em>Full Code</em> or <em>Try It</em> tabs."
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "In the html you see that we put our markup in a script block with <em>type=\"text/x-jsrender\"</em>..."
-          },
-          {
-            "_type": "template",
-            "title": "",
-            "markup": "<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "... and then in the code we call the <a href=\"#d.templates\"><em>$.templates</em></a> method with a jQuery selector for that script block, to get the compiled template."
-          },
-          {
-            "_type": "code",
-            "title": "",
-            "code": "var myTemplate = $.templates(\"#personTmpl\");\n"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "After that we run the code we have already seen to render the template against our data, and get the HTML output as a string. (We pass the data - this time we used an array - to the <a href=\"#rendertmpl\"><em>render()</em></a> method of our compiled template.)"
-          },
-          {
-            "_type": "code",
-            "title": "",
-            "code": "var html = myTemplate.render(people);"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "Finally we simply insert that output into the HTML DOM using the jQuery html() method."
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "Again, you can play with the sample in the <em>Try it</em> tab, by changing the data, or the markup, or the code."
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "For example if you change the template to produce a <em>&lt;tr></em>, you will want to insert the output into the tbody of a table, by adding a <em>&lt;table>&lt;tbody></em> target container - as in the following:"
-          },
-          {
-            "_type": "template",
-            "title": "",
-            "markup": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>Name</td>\n    <td>{{:name}}</td>\n  </tr>\n</script>"
+            "text": "Take a look at the <em>Code</em>, <em>Full Code</em> or <em>Try It</em> tabs.\n\nIn the html you see that we put our markup in a script block with `type=\"text/x-jsrender\"`...\n\n```jsr\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>\n```\n\n... and then in the code we call the <a href=\"#d.templates\">`$.templates`</a> method with a jQuery selector for that script block, to get the compiled template.\n\n```js\nvar myTemplate = $.templates(\"#personTmpl\");\n```\n\nAfter that we run the code we have already seen to render the template against our data, and get the HTML output as a string. (We pass the data - this time we used an array - to the <a href=\"#rendertmpl\">`render()`</a> method of our compiled template.)\n\n\n```js\nvar html = myTemplate.render(people);\n```\n\nFinally we simply insert that output into the HTML DOM using the jQuery `html()` method.\n\nAgain, you can play with the sample in the <em>Try it</em> tab, by changing the data, or the markup, or the code.\n\nFor example if you change the template to produce a `<tr>`, you will want to insert the output into the `tbody` of a `table`, by adding a `<table><tbody>` target container - as in the following:\n\n```jsr\n<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>Name</td>\n    <td>{{:name}}</td>\n  </tr>\n</script>\n```"
           }
         ],
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}<br/>\n</script>",
@@ -257,37 +175,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "The <em>{{for people}}...{{/for}}</em> block tag, in the template, looks at the current data item (the <em>app</em> that we passed in) and navigates a data-path that you provide as parameter - in this case <em>people</em>."
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "JsRender supports different kinds of paths, as well as expressions of various kinds. The data-path can be something like <em>address.street</em>, with 'dot' separators, but in this case it is simply the <em>people</em> property of the app object."
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "Now, because <em>people</em> is an array, JsRender will render the content of the <em>{{for}}...{{/for}}</em> block <b><em>once for each item in the array</em></b>.  "
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "Within the block the current item is now the person (item in the array), and there we have an <em>{{if nickname}}...{{/if}}</em> block tag, which takes an expression as parameter."
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": " In this case the expression is another data-path, <em>nickname</em>. So it renders the content of the <em>{{if}}...{{/if}}</em> block if the nickname is not undefined (or is not null, or the empty string)."
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "You can experiment by replacing the <em>{{if nickname}}</em> expression. For example, try giving <em>Adriana</em> the nickname <em>Adriana</em>! Then try replacing <em>{{if nickname}}</em> with:"
-          },
-          {
-            "_type": "template",
-            "title": "",
-            "markup": "{{if nickname && nickname !== name}} "
+            "text": "The `{{for people}}...{{/for}}` block tag, in the template, looks at the current data item (the `app` that we passed in) and navigates a data-path that you provide as parameter - in this case `people`.\n\nJsRender supports different kinds of paths, as well as expressions of various kinds. The data-path can be something like `address.street`, with 'dot' separators, but in this case it is simply the `people` property of the `app` object.\n\nNow, because `people` is an array, JsRender will render the content of the `{{for}}...{{/for}}` block <b><em>once for each item in the array</em></b>.  \n\nWithin the block the current item is now the person (item in the array), and there we have an `{{if nickname}}...{{/if}}` block tag, which takes an expression as parameter.\n\nIn this case the expression is another data-path, `nickname`. So it renders the content of the `{{if}}...{{/if}}` block if the `nickname` is not `undefined` (or is not `null`, or the empty string).\n\nYou can experiment by replacing the `{{if nickname}}` expression. For example, try giving <em>Adriana</em> the nickname <em>Adriana</em>! Then try replacing `{{if nickname}}` with:\n\n```jsr\n{{if nickname && nickname !== name}} \n```"
           }
         ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <ul>\n      {{for people}}\n        <li>\n          {{:name}}\n          {{if nickname}}\n            ( {{:nickname}} )\n          {{/if}}\n        </li>\n      {{/for}}\n    </ul>\n  </td></tr>\n</script>",
@@ -373,27 +261,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "If you look at the code you will see it is almost identical to the previous JsRender sample. One difference though: the two lines for rendering the template as a string and then inserting it into the DOM:"
-          },
-          {
-            "_type": "code",
-            "title": "",
-            "code": "var html = myTemplate.render(app);\n\n$(\"#peopleList\").html(html);\n"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "...have been replaced by a single line:"
-          },
-          {
-            "_type": "code",
-            "title": "",
-            "code": "myTemplate.link(\"#peopleList\", app);"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "That line of code actually does three things:\n<ul class=\"textbefore\"><li>First it renders the template against the data (second parameter)</li>\n<li>Next, it inserts the resulting HTML under the container element (first parameter)</li>\n<li>Finally, it <em>data-binds the HTML</em> against the data</li></ul> "
+            "text": "If you look at the code you will see it is almost identical to the previous JsRender sample. One difference though: the two lines for rendering the template as a string and then inserting it into the DOM:\n\n```js\nvar html = myTemplate.render(app);\n\n$(\"#peopleList\").html(html);\n```\n\n...have been replaced by a single line:\n\n```js\nmyTemplate.link(\"#peopleList\", app);\n```\n\nThat line of code actually does three things:\n<ul class=\"textbefore\"><li>First it renders the template against the data (second parameter)</li>\n<li>Next, it inserts the resulting HTML under the container element (first parameter)</li>\n<li>Finally, it <em>data-binds the HTML</em> against the data</li></ul> "
           }
         ],
         "sampleName": "",
@@ -406,27 +274,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "Data-linking",
-        "text": "In JsViews we refer to <em>data-linking</em>. It means data-binding, but refers to the particular approach used in JsViews, which is based on <em>observable arrays and objects</em>."
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "If you take an object and assign a new value to one of its properties (fields), there is no corresponding event that can allow other code to know you modified the object. Similarly, mutating an array will not provide any events or notifications to other code.\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "\nThat's where <em>JsObservable</em> comes in. It provides ways of changing objects and arrays, <em>observably</em>.\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "The next sample shows what happens when the template renders against an array, and then that array is modified 'observably' (<em>observable collection change</em>).\n"
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "$(\"#addBtn\").on(\"click\", function() {\n  $.observable(people).insert({name: \"name\"});\n});\n"
+        "text": "In JsViews we refer to <em>data-linking</em>. It means data-binding, but refers to the particular approach used in JsViews, which is based on <em>observable arrays and objects</em>.\n\nIf you take an object and assign a new value to one of its properties (fields), there is no corresponding event that can allow other code to know you modified the object. Similarly, mutating an array will not provide any events or notifications to other code.\n\nThat's where <em>JsObservable</em> comes in. It provides ways of changing objects and arrays, <em>observably</em>.\n\nThe next sample shows what happens when the template renders against an array, and then that array is modified 'observably' (<em>observable collection change</em>).\n\n```js\n$(\"#addBtn\").on(\"click\", function() {\n  $.observable(people).insert({name: \"name\"});\n});\n```"
       },
       {
         "_type": "sample",
@@ -442,32 +290,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "Click on the Add button, and a new row gets added to the array. The template rendering automatically updates to show the new row."
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "It uses the code:"
-          },
-          {
-            "_type": "code",
-            "title": "",
-            "code": "$.observable(people).insert({name: \"name\"});"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "But notice that the template is different from previously. It has that extra carat sign: <em style=\"white-space:nowrap\">{<b>^</b>{for ...}}</em>. Try removing the <b>^</b> and then clicking the <em>Add</em> button. - Nothing happens."
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "Any regular JsRender tag <em>{{someTag ...}}</em> - whether built-in or custom - can be data-linked by adding the <b>^</b>: <em style=\"white-space:nowrap\">{<b>^</b>{someTag ...}}</em>. That tag has become 'dynamic' and will re-render itself whenever it needs to, if the underlying data changes ('observably')."
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "Remove the <b>^</b>, and the tag is 'dead'..."
+            "text": "Click on the Add button, and a new row gets added to the array. The template rendering automatically updates to show the new row.\n\nIt uses the code:\n\n```js\n$.observable(people).insert({name: \"name\"});\n```\n\nBut notice that the template is different from previously. It has that extra carat sign: `{^{for ...}}`. Try removing the <b>^</b> and then clicking the <em>Add</em> button. - Nothing happens.\n\nAny regular JsRender tag `{{someTag ...}}` - whether built-in or custom - can be data-linked by adding the <b>^</b>: `{^{someTag ...}}`. That tag has become 'dynamic' and will re-render itself whenever it needs to, if the underlying data changes ('observably').\n\nRemove the <b>^</b>, and the tag is 'dead'..."
           }
         ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr><td>\n      {{:name}}\n    </td></tr>\n  {{/for}}\n</script>",
@@ -478,7 +301,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "",
-        "text": "What about changing an object? Let's modify the <em>name</em> on a <em>person</em> object (<em>observable property change</em>):"
+        "text": "What about changing an object? Let's modify the `name` on a `person` object (<em>observable property change</em>):"
       },
       {
         "_type": "sample",
@@ -494,57 +317,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "Here is the code when you click <em>Change</em>:"
-          },
-          {
-            "_type": "code",
-            "title": "",
-            "code": "function() {\n  var dataItem = $.view(this).data;\n\n  $.observable(dataItem).setProperty(\"name\", dataItem.name + counter++);\n}"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "The code for \"setProperty\" should make sense, given what we have already seen. You call <em style=\"white-space:nowrap\">$.observable(myObject)</em> to get an 'observable form of your object' which will provide you with appropriate methods you can call: <em style=\"white-space:nowrap\">setProperty(...)</em> if it was an object, and <em>insert, remove, refresh</em> and <em>move</em>, if it was an array. "
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "But in our case, the first problem is to know <em>which</em> person object should be modified by this particular button. The <em>this</em> pointer in the click-handler is the element, and our code:"
-          },
-          {
-            "_type": "code",
-            "title": "",
-            "code": "var dataItem = $.view(this).data;"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "- let's us get the <em>view</em> (an 'instance' of a rendered template, or template tag block) and hence to the data item (in this case the <em>person</em>) we want to modify."
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "As in the previous sample, we have 'brought a tag to life' by writing:"
-          },
-          {
-            "_type": "template",
-            "title": "",
-            "markup": "<td>{^{:name}}</td>\n"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "Change it back to:"
-          },
-          {
-            "_type": "template",
-            "title": "",
-            "markup": "<td>{{:name}}</td>"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "and you will see that the name no longer updates when you click on the <em>Change</em> button."
+            "text": "Here is the code when you click <em>Change</em>:\n\n```js\nfunction() {\n  var dataItem = $.view(this).data;\n\n  $.observable(dataItem).setProperty(\"name\", dataItem.name + counter++);\n}\n```\n\nThe code for `setProperty` should make sense, given what we have already seen. You call `$.observable(myObject)` to get an 'observable form of your object' which will provide you with appropriate methods you can call: `setProperty(...)` if it was an object, and `insert`, `remove`, `refresh` and `move`, if it was an array. \n\nBut in our case, the first problem is to know <em>which</em> `person` object should be modified by this particular button. The `this` pointer in the click-handler is the element, and our code:\n\n```js\nvar dataItem = $.view(this).data;\n```\n\n-- let's us get the `view` (an 'instance' of a rendered template, or template tag block) and hence to the data item (in this case the `person`) we want to modify.\n\nAs in the previous sample, we have 'brought a tag to life' by writing:\n\n```jsr\n<td>{^{:name}}</td>\n```\n\nChange it back to:\n\n```jsr\n<td>{{:name}}</td>\n```\n\nand you will see that the name no longer updates when you click on the <em>Change</em> button."
           }
         ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td colspan=\"2\">\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr>\n      <td>{^{:name}}</td>\n      <td>\n        <button class=\"changeBtn\">Change</button>\n      </td>\n    </tr>\n  {{/for}}\n</script>",
@@ -555,17 +328,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "Data-linked tags...",
-        "text": "So far we have used data-linked template tags for data-linking, as in:"
-      },
-      {
-        "_type": "template",
-        "title": "",
-        "markup": "<td>{^{:name}}</td>"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "But the fact that the data-linked tag is wrapped by an HTML element means that if we want we can replace it by an 'element-based' syntax:"
+        "text": "So far we have used data-linked template tags for data-linking, as in:\n\n```jsr\n<td>{^{:name}}</td>\n```\n\nBut the fact that the data-linked tag is wrapped by an HTML element means that if we want we can replace it by an 'element-based' syntax:"
       },
       {
         "_type": "template",
@@ -586,17 +349,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "So this version of the sample uses:"
-          },
-          {
-            "_type": "template",
-            "title": "",
-            "markup": "<td data-link=\"name\"></td>"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "Try changing it back to the data-linked tag syntax, with <em>{^{</em>. You will see that the sample works just the same..."
+            "text": "So this version of the sample uses:\n\n```jsr\n<td data-link=\"name\"></td>\n```\n\nTry changing it back to the data-linked tag syntax, with `{^{`. You will see that the sample works just the same..."
           }
         ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td colspan=\"2\">\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr>\n      <td data-link=\"name\"></td>\n      <td>\n        <button class=\"changeBtn\">Change</button>\n      </td>\n    </tr>\n  {{/for}}\n</script>",
@@ -623,17 +376,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "This is where the element-based data-linking comes into its own. The textbox uses declarative binding:"
-          },
-          {
-            "_type": "template",
-            "title": "",
-            "markup": "<td data-link=\"name\"></td>\n<td>\n  <input data-link=\"name trigger=true\"/>\n</td>\n"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "The <em>&lt;input></em> and the <em>&lt;td></em> are both data-linked. The underlying data gets modified when you change the name in the textbox - and updates the <em>&lt;td></em>, without you needing to write any <em>propertyChange</em> code at all."
+            "text": "This is where the element-based data-linking comes into its own. The textbox uses declarative binding:\n\n```jsr\n<td data-link=\"name\"></td>\n<td>\n  <input data-link=\"name trigger=true\"/>\n</td>\n```\n\nThe `<input>` and the `<td>` are both data-linked. The underlying data gets modified when you change the name in the textbox - and updates the `<td>`, without you needing to write any <em>propertyChange</em> code at all."
           }
         ],
         "title": "Two-way data-binding",
@@ -644,12 +387,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "A more complete sample:",
-        "text": "This was just a glimpse of some of the richness of JsViews data-linking. The next sample lets you see a more fully-fledged example, which you can experiment with."
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "More details on JsViews features and APIs will be available soon, and will be added to the <em>Links</em> section below."
+        "text": "This was just a glimpse of some of the richness of JsViews data-linking. The next sample lets you see a more fully-fledged example, which you can experiment with.\n\nMore details on JsViews features and APIs will be available soon, and will be added to the *Links* section below."
       },
       {
         "_type": "sample",
@@ -665,52 +403,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "This sample includes binding to <em>&ltselect></em>..."
-          },
-          {
-            "_type": "template",
-            "title": "",
-            "markup": "<select data-link=\"selectedID\" size=\"5\">"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "And also to the <em>&ltoption></em>s within the <em>&lt;select></em>...."
-          },
-          {
-            "_type": "template",
-            "title": "",
-            "markup": "{^{for people}}\n  <option data-link=\"{:name} value{:ID} selected{:ID === ~root.selectedID}\"></option>\n{{/for}}\n"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "It also shows observably removing items from an array..."
-          },
-          {
-            "_type": "code",
-            "title": "",
-            "code": "$.observable(people).remove($.inArray(app.selected(), people));"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "It shows data-linking to the <em>disabled</em> property of an element..."
-          },
-          {
-            "_type": "template",
-            "title": "",
-            "markup": "<button data-link=\"disabled{:selectedID === '0'}\">Remove</button>\n"
-          },
-          {
-            "_type": "para",
-            "title": "",
-            "text": "And it shows the use of a <em>computed observable</em> in JsViews"
-          },
-          {
-            "_type": "code",
-            "title": "",
-            "code": "var app = {\n    ...\n    selected: function() {\n      ...\n    }\n  };\n\napp.selected.depends = \"selectedID\";"
+            "text": "This sample includes binding to `<select>`...\n\n```jsr\n<select data-link=\"selectedID\" size=\"5\">\n```\n\nAnd also to the `<option>`s within the `<select>`...\n\n```jsr\n{^{for people}}\n  <option data-link=\"{:name} value{:ID} selected{:ID === ~root.selectedID}\"></option>\n{{/for}}\n```\n\nIt also shows observably removing items from an array...\n\n```js\n$.observable(people).remove($.inArray(app.selected(), people));\n```\n\nIt shows data-linking to the `disabled` property of an element...\n\n```jsr\n<button data-link=\"disabled{:selectedID === '0'}\">Remove</button>\n```\n\nAnd it shows the use of a *computed observable* in JsViews:\n\n```js\nvar app = {\n    ...\n    selected: function() {\n      ...\n    }\n  };\n\napp.selected.depends = \"selectedID\";\n```"
           }
         ],
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n  {\n    ID: \"Ad0\",\n    name: \"Adriana\"\n  },\n  {\n    ID: \"Ro0\",\n    name: \"Robert\",\n    nickname: \"Bob\"\n  }\n];\n\nvar counter = 1;\n\nvar app = {\n    people: people,\n    selectedID: -1, // No selection. (Or could set to initial selection - e.g. \"0\")\n    selected: function() {\n      for (var i=0; i<people.length; i++) {\n        if (people[i].ID === this.selectedID) {\n          return people[i];\n        }\n      }\n      return {};\n    }\n  };\n\napp.selected.depends = \"selectedID\";\n\n// Data-link details container to people, using the peopleTmpl template\nmyTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function() {\n  var newID = \"new\" + counter++;\n  $.observable(people).insert({ID: newID, name: \"name\"});\n  $.observable(app).setProperty(\"selectedID\", newID);\n});\n\n$(\"#removeBtn\").on(\"click\", function() {\n  $.observable(people).remove($.inArray(app.selected(), people));\n  $.observable(app).setProperty(\"selectedID\", \"0\");\n});\n",
@@ -719,18 +412,13 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "title": "data-linking to &lt;select>... and much more..."
       },
       {
-        "_type": "para",
-        "title": "Links:",
-        "text": "(Coming soon - additional links to topics about JsViews features and API)"
-      },
-      {
         "_type": "links",
-        "title": "",
+        "title": "Links:",
         "links": [],
         "topics": [
           {
             "_type": "topic",
-            "hash": "renderorlink",
+            "hash": "explore/renderorlink",
             "label": "Rendering versus linking"
           },
           {
@@ -945,7 +633,28 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
   "jsv-quickstart": {
     "title": "JsViews Quickstart",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "*JsViews: Next-generation MVVM and MVP framework -- bringing templates to life*<br/>\n*The power of MVVM, the flexibility of JavaScript, the speed and ease of JsRender templates and jQuery*<br/>\n"
+      },
+      {
+        "_type": "para",
+        "title": "JsRender and JsViews",
+        "text": "JsRender is used for data-driven rendering of templates to strings, ready for insertion in the DOM. (See [JsRender Quickstart](#jsr-quickstart) and [JsRender GitHub repository](https://github.com/BorisMoore/jsrender)).\n\n\n*JsViews* builds on top of *[JsRender](http://www.jsviews.com/#jsrender)* templates, and adds data-binding and *[observable data](http://www.jsviews.com/#jsobservable)*, to provide a fully-fledged MVVM platform for easily creating interactive data-driven single page apps and websites.\n\n*JsRender* and *JsViews* together provide the next-generation implementation of the official jQuery plugins *[JQuery Templates](https://github.com/BorisMoore/jquery-tmpl)*, and *[JQuery Data Link](https://github.com/BorisMoore/jquery-datalink)* -- and supersede those libraries.\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<br/>\n## JsViews Usage"
+      },
+      {
+        "_type": "para",
+        "title": "Documentation and Downloads",
+        "text": "**[Documentation](http://www.jsviews.com/#jsviews)**, **[downloads](http://www.jsviews.com/#download)**,\n **[samples](http://www.jsviews.com/#samples)** are available on the **[www.jsviews.com website](http://www.jsviews.com/#jsviews)**.\n<br/>(JsViews and JsObservable **API docs and tutorials** are coming soon, as we move JsViews to the official beta and on to V1.0)\n\n<h3>Demos</h3>\nIn addition to the demos at [www.jsviews.com/#samples](http://www.jsviews.com/#samples), see also the [demos](https://github.com/BorisMoore/jsviews/tree/master/demos) folder of this GitHub repository - available [here](http://borismoore.github.io/jsviews/demos/index.html) as live samples.\n\n<h3>Current Status</h3>\nJsViews is now a beta candidate release, which will be declared beta as soon as API documentation is complete on the [www.jsviews.com](http://www.jsviews.com) website, and then move to V1.0."
+      }
+    ]
   },
   "jsr-node-quickstart": {
     "title": "JsRender Node.js Quickstart",
