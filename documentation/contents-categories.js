@@ -61,7 +61,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "_type": "para",
                 "title": "{{:name}}: ",
-                "text": "Render the data"
+                "text": "Render the `name` property of the current data item "
               },
               {
                 "_type": "para",
@@ -306,7 +306,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "hidden": true
           }
         ],
-        "expanded": false
+        "expanded": true
       },
       {
         "name": "explore/templates",
@@ -872,6 +872,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "name": "jsvsettings",
         "label": "Settings",
+        "hidden": true
+      },
+      {
+        "name": "name0",
+        "label": "And computed observable, {{on}}, DataMap...",
         "hidden": true
       }
     ],

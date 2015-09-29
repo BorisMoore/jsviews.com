@@ -99,17 +99,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender, JsObservable and JsViews are designed to work well with either plain JavaScript objects and arrays, or with instances of JavaScript classes, such as View Model classes."
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "So, for example, if you are using data obtained from a JSON request, you can choose between:\n<ul class=\"textbefore\">\n<li>rendering your templates directly against the objects and arrays returned from the JSON request</li>\n<li>passing the data through a 'mapping' process to create a hierarchy of View Model instances, and rendering your templates against those objects</li>\n</ul>"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "Then if you are using JsViews, and binding to your data using data-linking, again you can do that for either scenario above."
+        "text": "JsRender, JsObservable and JsViews are designed to work well with either plain JavaScript objects and arrays, or with instances of JavaScript classes, such as View Model classes.\n\nSo, for example, if you are using data obtained from a JSON request, you can choose between:\n<ul class=\"textbefore\">\n<li>rendering your templates directly against the objects and arrays returned from the JSON request</li>\n<li>passing the data through a 'mapping' process to create a hierarchy of View Model instances, and rendering your templates against those objects</li>\n</ul>\n\nThen if you are using JsViews, and binding to your data using data-linking, again you can do that for either scenario above."
       },
       {
         "_type": "para",
@@ -163,62 +153,27 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "View Model classes:",
-        "text": "Here is the class definition for <em><b>Person</b></em>:"
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "// Constructor\nfunction Person(name, address, phones) {\n  this._name = name;\n  this._address = address;\n  this._phones = phones;\n}\n\n// Prototype\nvar personProto = {\n  name: function() {\n    return this._name;\n  },\n  address: function() {\n    return this._address;\n  },\n  phones: function() {\n    return this._phones;\n  }\n};\n\nPerson.prototype = personProto;\n\n// For read-write properties, associate setters with getters, \npersonProto.name.set = function(val) {\n  this._name = val;\n};\n\n...\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "The above is a recommended pattern for View Model classes used with JsRender which will work seamlessly also with JsViews data-binding. Variants of this pattern are possible, too."
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "We define exactly similar classes for our <em><b>Address</b></em> and <em><b>Phone</b></em> objects too."
+        "text": "Here is the class definition for <em><b>Person</b></em>:\n\n```js\n// Constructor\nfunction Person(name, address, phones) {\n  this._name = name;\n  this._address = address;\n  this._phones = phones;\n}\n\n// Prototype\nvar personProto = {\n  name: function() {\n    return this._name;\n  },\n  address: function() {\n    return this._address;\n  },\n  phones: function() {\n    return this._phones;\n  }\n};\n\nPerson.prototype = personProto;\n\n// For read-write properties, associate setters with getters, \npersonProto.name.set = function(val) {\n  this._name = val;\n};\n\n...\n```\n\nThe above is a recommended pattern for View Model classes used with JsRender which will work seamlessly also with JsViews data-binding. Variants of this pattern are possible, too.\n\nWe define exactly similar classes for our <em><b>Address</b></em> and <em><b>Phone</b></em> objects too."
       },
       {
         "_type": "para",
         "title": "Getters and setters",
-        "text": "Note that properties are now <em>getter</em> functions, which return the appropriate value, which may be of any type, including objects or arrays (such as <em>address</em> and <em>phones</em> above).\n\nIn fact they are particular case of <em>computed observables</em> - a concept that can be used quite generally within JsViews, not only for View Model properties."
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "For properties which are <em>read-write</em>, there is also a <em>setter</em> function, declared using the syntax: "
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "myGetterFunction.set = mySetterFunction"
+        "text": "Note that properties are now <em>getter</em> functions, which return the appropriate value, which may be of any type, including objects or arrays (such as `address` and `phones` above).\n\nIn fact they are particular case of <em>computed observables</em> - a concept that can be used quite generally within JsViews, not only for View Model properties.\n\nFor properties which are <em>read-write</em>, there is also a <em>setter</em> function, declared using the syntax: \n\n```js\nmyGetterFunction.set = mySetterFunction\n```"
       },
       {
         "_type": "para",
         "title": "Variant: using the same function as both getter and setter",
-        "text": "An interesting variant is to use a single function as both setter and getter. Here is an example of what that would look like:"
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "var nameGetSet = function name(val) {\n  if (val === undefined) {\n    return this._name; // getter\n  }\n  this._name = val; // setter\n}\n\nnameGetSet.set = nameGetSet; // The same function will also be used as setter\n\nPerson.prototype.name = nameGetSet;"
+        "text": "An interesting variant is to use a single function as both setter and getter. Here is an example of what that would look like:\n\n```js\nvar nameGetSet = function name(val) {\n  if (val === undefined) {\n    return this._name; // getter\n  }\n  this._name = val; // setter\n}\n\nnameGetSet.set = nameGetSet; // The same function will also be used as setter\n\nPerson.prototype.name = nameGetSet;\n```"
       },
       {
         "_type": "para",
         "title": "Template",
-        "text": "To convert our template from using plain objects to using View Model objects, the only change we need to make is to add parens for our properties, which are now <em>getter</em> functions:"
-      },
-      {
-        "_type": "template",
-        "title": "",
-        "markup": "... \n{{:name()}}\n...\n{{:address().street()}}\n...\n{{for phones()}}\n  ...      \n  {{:number()}}\n  ...\n{{/for}}\n...\n"
+        "text": "To convert our template from using plain objects to using View Model objects, the only change we need to make is to add parens for our properties, which are now <em>getter</em> functions:\n\n```jsr\n... \n{{:name()}}\n...\n{{:address().street()}}\n...\n{{for phones()}}\n  ...      \n  {{:number()}}\n  ...\n{{/for}}\n...\n```"
       },
       {
         "_type": "para",
         "title": "Instantiate and render:",
-        "text": "Now all we need to do is to construct our root <em>person</em> object (with its underlying hierarchy of View Model instance objects) and render the template against that object in the usual way."
+        "text": "Now all we need to do is to construct our root `person` object (with its underlying hierarchy of View Model instance objects) and render the template against that object in the usual way."
       },
       {
         "_type": "sample",
@@ -302,17 +257,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "observeAll for plain objects and arrays",
-        "text": "Our data-linked sample includes the <em>Change Log</em> idea, copied over from the samples on the <a href=\"#observeAll\">observeAll</a>/<a href=\"#unobserveAll\">unobserveAll</a> topics."
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "function logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "(You'll see below how <em>observeAll</em> works identically for observing hierarchies of View Model instances or for observing hierarchies of plain objects)."
+        "text": "Our data-linked sample includes the <em>Change Log</em> idea, copied over from the samples on the <a href=\"#observeAll\">`observeAll`</a>/<a href=\"#unobserveAll\">`unobserveAll`</a> topics.\n\n```js\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n```\n\n(You'll see below how `observeAll` works identically for observing hierarchies of View Model instances or for observing hierarchies of plain objects)."
       },
       {
         "_type": "para",
@@ -327,12 +272,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Template",
-        "text": "As with JsRender above, to convert our template from using plain objects to using View Model objects, the only change we need to make is to add parens for our properties, which are now <em>getter/setter</em> functions."
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "This applies equally to data-link expressions, such as <em>&lt;input data-link=\"address()^street() trigger=true\" /&gt;</em>:"
+        "text": "As with JsRender above, to convert our template from using plain objects to using View Model objects, the only change we need to make is to add parens for our properties, which are now <em>getter/setter</em> functions.\n\nThis applies equally to data-link expressions, such as `<input data-link=\"address()^street() trigger=true\" >`:"
       },
       {
         "_type": "template",
@@ -375,42 +315,12 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Using observe and observeAll APIs with View Model hierarchies",
-        "text": "The <em>Change Log</em> feature above is showing us ALL the changes to View Model instances, even as we structurally modify the tree by adding and removing objects from arrays, setting structured values to properties, etc."
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "This is achieved with exactly the same call to <em>observeAll/unobserveAll</em> that we used above for plain objects:"
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "function logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}"
+        "text": "The <em>Change Log</em> feature above is showing us ALL the changes to View Model instances, even as we structurally modify the tree by adding and removing objects from arrays, setting structured values to properties, etc.\n\nThis is achieved with exactly the same call to `observeAll`/`unobserveAll` that we used above for plain objects:\n\n```js\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n```"
       },
       {
         "_type": "para",
         "title": "Using $.observe() APIs with View Model objects",
-        "text": "Similarly you can use the <em>observe()</em> APIs to observe specific properties of View Model objects."
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "// Observe changes to name, address and phones properties of <em>person</em> object\n$.observe(person, \"name\", \"phones\", \"address\",changeHandler); \n\n// Observe array changes <em>person.phones()</em>\n$.observe(person.phones(), changeHandler);\n\n// Observe changes to street property of <em>person.address()</em> object.\n$.observe(person.address(), \"street\", changeHandler);"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "or equivalently:"
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "$.observe(person, \"name\", \"phones\", \"address\", person.phones(), person.address(), \"street\", changeHandler);\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "Here it is in a sample:"
+        "text": "Similarly you can use the `observe()` APIs to observe specific properties of View Model objects.\n\n```js\n// Observe changes to name, address and phones properties of <em>person</em> object\n$.observe(person, \"name\", \"phones\", \"address\",changeHandler); \n\n// Observe array changes <em>person.phones()</em>\n$.observe(person.phones(), changeHandler);\n\n// Observe changes to street property of <em>person.address()</em> object.\n$.observe(person.address(), \"street\", changeHandler);\n```\n\nor equivalently:\n\n```js\n$.observe(person, \"name\", \"phones\", \"address\", person.phones(), person.address(), \"street\", changeHandler);\n```\n\nHere it is in a sample:"
       },
       {
         "_type": "sample",
@@ -438,52 +348,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Chained paths with plain objects or with View Model objects",
-        "text": "With plain object hierarchies you can use chained paths in both templates, and <em>observe()</em> paths:"
-      },
-      {
-        "_type": "template",
-        "title": "",
-        "markup": "<input data-link=\"address^street trigger=true\" />"
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "$.observe(person, \"address^street\", changeHandler);"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "But for View Model hierarchies, you can only used chained paths in templates:"
-      },
-      {
-        "_type": "template",
-        "title": "",
-        "markup": "<input data-link=\"address()^street() trigger=true\" />"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "For the corresponding <em>$.observe()</em> calls you must pass in each View Model object and observe its properties, rather than using a chained path. Parens are not supported within $.observe() paths."
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "So you would write:"
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "$.observe(person, \"address\", changeHandler);\n$.observe(person.address(), \"street\", changeHandler);"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "or as a single call:"
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "$.observe(person, \"address\", person.address(), \"street\", changeHandler);"
+        "text": "With plain object hierarchies you can use chained paths in both templates, and `observe()` paths:\n\n```jsr\n<input data-link=\"address^street trigger=true\" />\n```\n\n```js\n$.observe(person, \"address^street\", changeHandler);\n```\n\nBut for View Model hierarchies, you can only used chained paths in templates:\n\n```jsr\n<input data-link=\"address()^street() trigger=true\" />\n```\n\nFor the corresponding `$.observe()` calls you must pass in each View Model object and observe its properties, rather than using a chained path. Parens are not supported within `$.observe()` paths.\n\nSo you would write:\n\n```js\n$.observe(person, \"address\", changeHandler);\n$.observe(person.address(), \"street\", changeHandler);\n```\n\nor as a single call:\n\n```js\n$.observe(person, \"address\", person.address(), \"street\", changeHandler);\n```"
       }
     ]
   },
@@ -873,42 +738,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "JsRender, JsViews and global variables",
-        "text": "JsRender and JsViews do not set the global var $."
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "\nIf you are using jQuery with JsRender, JsRender defines jQuery,views, jQuery.templates, etc. but does not create any global variables.\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "So you can write:"
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "$.noConflict();\n\nvar template = jQuery.templates(...);\n\njQuery.views.helpers(...);\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "If you are not using jQuery, JsRender creates a global var: jsrender - which you use to replace the jQuery global.\n"
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "var template = jsrender.templates(...);\n\njsrender.views.helpers(...);\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "You can test for JsRender as follows:\n"
-      },
-      {
-        "_type": "code",
-        "title": "",
-        "code": "if (window.jQuery && window.jQuery.views || window.jsrender) { \n  // JsRender is loaded\n}"
+        "text": "JsRender and JsViews do not set the global var $.\n\n\nIf you are using jQuery with JsRender, JsRender defines jQuery,views, jQuery.templates, etc. but does not create any global variables.\n\nSo you can write:\n\n```js\n$.noConflict();\n\nvar template = jQuery.templates(...);\n\njQuery.views.helpers(...);\n```\n\nIf you are not using jQuery, JsRender creates a global var: jsrender - which you use to replace the jQuery global.\n\n```js\nvar template = jsrender.templates(...);\n\njsrender.views.helpers(...);\n```\n\nYou can test for JsRender as follows:\n\n```js\nif (window.jQuery && window.jQuery.views || window.jsrender) { \n  // JsRender is loaded\n}\n```"
       }
     ]
   }

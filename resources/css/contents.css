@@ -7,16 +7,15 @@ pre {
 }
 
 code {
-	background-color: #f2f2f2;
+	/* background-color: #f2f2f2; */
 	padding: 0 4px;
-	border: 1px solid #d5d5d5;
+	border: 1px solid #dddddd;
 	border-radius: 3px;
 	font-size: 10pt;
 }
 
-.tabscontent code {
+.tabscontent code, .apisignatures code {
 	background-color: inherit;
-	border: none;
 }
 
 pre code {
@@ -130,7 +129,7 @@ a.cmdbtn {
 			}
 
 	.mode-edit input.description {
-		width: 55%;
+		width: 83%;
 	}
 
 .mode-editview {
@@ -304,7 +303,7 @@ a.cmdbtn {
 
 .apisignatures, .samplesection {
 	border: 1px solid #2881AF;
-	background-color: white;
+	background-color: #FFF;
 	margin: 35px -2px 35px -16px;
 	padding: 4px 11px 11px 11px;
 }
@@ -545,7 +544,7 @@ a.anchortitle:after {
 	color: black;
 }
 
-.summary > .title, .summary > .anchortitle > .title {
+.summary > .title, .summary > .anchortitle > .title, .summary > .para > .title {
 	padding-left: 12px;
 }
 

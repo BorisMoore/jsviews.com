@@ -12,10 +12,103 @@
 	<label>Allow Edit: <input type="checkbox" data-link="allowEdit" /></label>
 	<label>Use Storage: <input type="checkbox" data-link="useStorage" /></label>
 	<p><button id="save">Save to storage</button></p>
+	<p><button id="normalize">Normalize</button></p>
 	<a href="/">JsViews.com</a><br/>
 	<a href="/index.html">local JsViews.com</a>
 
 	<script>
+		function save(categoryName) {
+			$.getScript("documentation/contents-" + categoryName + ".js")
+			.then(function() {
+				localStorage.setItem("JsViewsDocTopics/" + categoryName, stringify(content[categoryName]));
+			});
+		}
+
+		function normalize(categoryName) {
+			$.getScript("documentation/contents-" + categoryName + ".js")
+			.then(function() {
+				var topics = content[categoryName];
+				for (var topic in topics) {
+					combineSections(topics[topic].sections);
+				}
+				localStorage.setItem("JsViewsDocTopics/" + categoryName, stringify(content[categoryName]))
+			});
+		}
+
+		function stringify(val) {
+			return JSON.stringify(val, null, '  ');
+		}
+
+		function combineSections(sections) {
+			var titleItem = sections[0];
+			var nextSection, nextType, titleItemType;
+			sections.forEach(function(item, i) {
+				if (item._type === "sample") {
+					combineSections(item.sections);
+				}
+				titleItem = item.title ? item : titleItem;
+				titleItemType = titleItem && titleItem._type;
+				nextSection = sections[i+1];
+				if (titleItem && titleItem === item) {
+					nextType = nextSection && nextSection._type;
+					if (nextSection && !nextSection.title && (nextType ==="para" ||nextType ==="code" ||nextType ==="data" ||nextType ==="template")) {
+						switch (titleItemType) {
+							case "code" :
+								titleItem._type = "para";
+								titleItem.text = "```js\n" + titleItem.code.replace(/\n*$/, "") + "\n```";
+								delete titleItem.code;
+								break;
+							case "template" :
+								titleItem._type = "para";
+								titleItem.text = "```jsr\n" + titleItem.markup.replace(/\n*$/, "") + "\n```";
+								delete titleItem.markup;
+								break;
+							case "data" :
+								titleItem._type = "para";
+								titleItem.text = "```json\n" + stringify(titleItem.data).replace(/\n*$/, "") + "\n```";
+								delete titleItem.data;
+								break;
+							case "para" :
+								titleItem.text = titleItem.text.replace(/\n*$/, "");
+								break;
+							default:
+								titleItem = nextSection;
+								break;
+						}
+					}
+				} else if (titleItem) {
+					var itemType = item._type;
+					switch (itemType) {
+						case "code" :
+							item._type = "delete";
+							titleItem.text += "\n\n```js\n" + item.code.replace(/\n*$/, "") + "\n```";
+							break;
+						case "template" :
+							item._type = "delete";
+							titleItem.text += "\n\n```jsr\n" + item.markup.replace(/\n*$/, "") + "\n```";
+							break;
+						case "data" :
+							item._type = "delete";
+							titleItem.text += "\n\n```json\n" + stringify(item.data).replace(/\n*$/, "") + "\n```";
+							break;
+						case "para" :
+							item._type = "delete";
+							titleItem.text += "\n\n" + item.text.replace(/\n*$/, "");
+							break;
+						default:
+							titleItem = nextSection;
+							break;
+					}
+				}
+			});
+			var len = sections.length;
+			while (len--) {
+					if (sections[len]._type === "delete") {
+						sections.splice(len, 1);
+					}
+			}
+		}
+
 		var content = $.views.documentation.content;
 		content.allowEdit = localStorage.getItem("JsViewsDocTopics/allowEdit") === "true";
 		content.useStorage = localStorage.getItem("JsViewsDocTopics/useStorage") === "true";
@@ -33,16 +126,13 @@
 			localStorage.setItem("JsViewsDocCategories", stringify(categories));
 		});
 
-		function save(categoryName) {
-			$.getScript("documentation/contents-" + categoryName + ".js")
-			.then(function() {
-				localStorage.setItem("JsViewsDocTopics/" + categoryName, stringify(content[categoryName]));
-			});
-		}
-
-		function stringify(val) {
-			return JSON.stringify(val, null, '  ');
-		}
+		$("#normalize").on("click", function() {
+			var categories = content.categories,
+				l = categories.length;
+			while (l-- > 1) {
+				normalize(categories[l].name);
+			}
+		});
 	</script>
 </body>
 </html>

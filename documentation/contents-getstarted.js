@@ -149,17 +149,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "What else is in templates?",
-        "text": "JsRender template have a very rich feature-set, yet a small number of predefined tags. The links at the bottom of this topic give details on some of the features."
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": " But let's try one more sample, where this time, instead of passing our people array to the template.render() method, we will pass an object (our <em>app</em> object) which will have a <em>people</em> property. Now in the template we will use a <em>{{for}}</em> tag to iterate over the <em>people</em>. "
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "Also we'll use an <em>{{if}}</em> tag to test whether the person has a <em>nickname</em> field, and if so we will render out the nickname too..."
+        "text": "JsRender template have a very rich feature-set, yet a small number of predefined tags. The links at the bottom of this topic give details on some of the features.\n\n But let's try one more sample, where this time, instead of passing our `people` array to the `template.render()` method, we will pass an object (our `app` object) which will have a `people` property. Now in the template we will use a `{{for}}` tag to iterate over the `people`. \n\nAlso we'll use an `{{if}}` tag to test whether the `person` has a `nickname` field, and if so we will render out the nickname too..."
       },
       {
         "_type": "sample",
@@ -175,7 +165,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "The `{{for people}}...{{/for}}` block tag, in the template, looks at the current data item (the `app` that we passed in) and navigates a data-path that you provide as parameter - in this case `people`.\n\nJsRender supports different kinds of paths, as well as expressions of various kinds. The data-path can be something like `address.street`, with 'dot' separators, but in this case it is simply the `people` property of the `app` object.\n\nNow, because `people` is an array, JsRender will render the content of the `{{for}}...{{/for}}` block <b><em>once for each item in the array</em></b>.  \n\nWithin the block the current item is now the person (item in the array), and there we have an `{{if nickname}}...{{/if}}` block tag, which takes an expression as parameter.\n\nIn this case the expression is another data-path, `nickname`. So it renders the content of the `{{if}}...{{/if}}` block if the `nickname` is not `undefined` (or is not `null`, or the empty string).\n\nYou can experiment by replacing the `{{if nickname}}` expression. For example, try giving <em>Adriana</em> the nickname <em>Adriana</em>! Then try replacing `{{if nickname}}` with:\n\n```jsr\n{{if nickname && nickname !== name}} \n```"
+            "text": "The `{{for people}}...{{/for}}` block tag, in the template, looks at the current data item (the `app` that we passed in) and navigates a data-path that you provide as parameter - in this case `people`.\n\nJsRender supports different kinds of paths, as well as expressions of various kinds. The data-path can be something like `address.street`, with 'dot' separators, but in this case it is simply the `people` property of the `app` object.\n\nNow, because `people` is an array, JsRender will render the content of the `{{for}}...{{/for}}` block <b><em>once for each item in the array</em></b>.  \n\nWithin the block the current item is now the `person` (item in the `people` array), and there we have an `{{if nickname}}...{{/if}}` block tag, which takes an expression as parameter.\n\nIn this case the expression is another data-path, `nickname`. So it renders the content of the `{{if}}...{{/if}}` block if the `nickname` is not `undefined` (or is not `null`, or the empty string).\n\nYou can experiment by replacing the `{{if nickname}}` expression. For example, try giving <em>Adriana</em> the nickname <em>Adriana</em>! Then try replacing `{{if nickname}}` with:\n\n```jsr\n{{if nickname && nickname !== name}} \n```"
           }
         ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <ul>\n      {{for people}}\n        <li>\n          {{:name}}\n          {{if nickname}}\n            ( {{:nickname}} )\n          {{/if}}\n        </li>\n      {{/for}}\n    </ul>\n  </td></tr>\n</script>",
@@ -290,7 +280,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "Click on the Add button, and a new row gets added to the array. The template rendering automatically updates to show the new row.\n\nIt uses the code:\n\n```js\n$.observable(people).insert({name: \"name\"});\n```\n\nBut notice that the template is different from previously. It has that extra carat sign: `{^{for ...}}`. Try removing the <b>^</b> and then clicking the <em>Add</em> button. - Nothing happens.\n\nAny regular JsRender tag `{{someTag ...}}` - whether built-in or custom - can be data-linked by adding the <b>^</b>: `{^{someTag ...}}`. That tag has become 'dynamic' and will re-render itself whenever it needs to, if the underlying data changes ('observably').\n\nRemove the <b>^</b>, and the tag is 'dead'..."
+            "text": "Click on the Add button, and a new row gets added to the array. The template rendering automatically updates to show the new row.\n\nIt uses the code:\n\n```js\n$.observable(people).insert({name: \"name\"});\n```\n\nBut notice that the template is different from previously. It has that extra carat sign: `{^{for ...}}`. Try removing the `^` and then clicking the <em>Add</em> button. - Nothing happens.\n\nAny regular JsRender tag `{{someTag ...}}` - whether built-in or custom - can be data-linked by adding the `^`: `{^{someTag ...}}`. That tag has become 'dynamic' and will re-render itself whenever it needs to, if the underlying data changes ('observably').\n\nRemove the `^`, and the tag is 'dead'..."
           }
         ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr><td>\n      {{:name}}\n    </td></tr>\n  {{/for}}\n</script>",
@@ -403,7 +393,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "This sample includes binding to `<select>`...\n\n```jsr\n<select data-link=\"selectedID\" size=\"5\">\n```\n\nAnd also to the `<option>`s within the `<select>`...\n\n```jsr\n{^{for people}}\n  <option data-link=\"{:name} value{:ID} selected{:ID === ~root.selectedID}\"></option>\n{{/for}}\n```\n\nIt also shows observably removing items from an array...\n\n```js\n$.observable(people).remove($.inArray(app.selected(), people));\n```\n\nIt shows data-linking to the `disabled` property of an element...\n\n```jsr\n<button data-link=\"disabled{:selectedID === '0'}\">Remove</button>\n```\n\nAnd it shows the use of a *computed observable* in JsViews:\n\n```js\nvar app = {\n    ...\n    selected: function() {\n      ...\n    }\n  };\n\napp.selected.depends = \"selectedID\";\n```"
+            "text": "This sample includes binding to `<select>`...\n\n```jsr\n<select data-link=\"selectedID\" size=\"5\">\n```\n\nAnd also to each `<option>` within the `<select>`...\n\n```jsr\n{^{for people}}\n  <option data-link=\"{:name} value{:ID} selected{:ID === ~root.selectedID}\"></option>\n{{/for}}\n```\n\nIt also shows observably removing items from an array...\n\n```js\n$.observable(people).remove($.inArray(app.selected(), people));\n```\n\nIt shows data-linking to the `disabled` property of an element...\n\n```jsr\n<button data-link=\"disabled{:selectedID === '0'}\">Remove</button>\n```\n\nAnd it shows the use of a *computed observable* in JsViews:\n\n```js\nvar app = {\n    ...\n    selected: function() {\n      ...\n    }\n  };\n\napp.selected.depends = \"selectedID\";\n```"
           }
         ],
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n  {\n    ID: \"Ad0\",\n    name: \"Adriana\"\n  },\n  {\n    ID: \"Ro0\",\n    name: \"Robert\",\n    nickname: \"Bob\"\n  }\n];\n\nvar counter = 1;\n\nvar app = {\n    people: people,\n    selectedID: -1, // No selection. (Or could set to initial selection - e.g. \"0\")\n    selected: function() {\n      for (var i=0; i<people.length; i++) {\n        if (people[i].ID === this.selectedID) {\n          return people[i];\n        }\n      }\n      return {};\n    }\n  };\n\napp.selected.depends = \"selectedID\";\n\n// Data-link details container to people, using the peopleTmpl template\nmyTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function() {\n  var newID = \"new\" + counter++;\n  $.observable(people).insert({ID: newID, name: \"name\"});\n  $.observable(app).setProperty(\"selectedID\", newID);\n});\n\n$(\"#removeBtn\").on(\"click\", function() {\n  $.observable(people).remove($.inArray(app.selected(), people));\n  $.observable(app).setProperty(\"selectedID\", \"0\");\n});\n",
@@ -507,13 +497,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "JsRender without jQuery",
-        "text": "When jQuery is not present, JsRender provides its own `jsrender` namespace object, exposed as `window.jsrender`\n\nThe `jsrender` namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\n\n```js\nvar $ = window.jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n```"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "<br/>\n## JsRender Usage",
-        "anchor": "usage"
+        "text": "When jQuery is not present, JsRender provides its own `jsrender` namespace object, exposed as `window.jsrender`\n\nThe `jsrender` namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\n\n```js\nvar $ = window.jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n```\n\n<br/>\n## JsRender Usage"
       },
       {
         "_type": "para",
@@ -528,13 +512,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "Register a named template - and render it",
-        "text": "```js\n// Register named template - \"myTmpl1\n$.templates(\"myTmpl1\", \"Name: {{:name}}<br/> \");\n\nvar person = {name: \"Jim\"};\n\n// Render named template\nvar html = $.templates.myTmpl1(person);\n\n// Alternative syntax: var html = $.render.myTmpl1(person);\n\n// result: \"Name: Jim<br/> \"\n```\n<a href=\"#rendertmpl\">Learn more...</a>"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "<br/>\n## Template tags\n### Evaluation tags",
-        "anchor": ""
+        "text": "```js\n// Register named template - \"myTmpl1\n$.templates(\"myTmpl1\", \"Name: {{:name}}<br/> \");\n\nvar person = {name: \"Jim\"};\n\n// Render named template\nvar html = $.templates.myTmpl1(person);\n\n// Alternative syntax: var html = $.render.myTmpl1(person);\n\n// result: \"Name: Jim<br/> \"\n```\n<a href=\"#rendertmpl\">Learn more...</a>\n\n<br/>\n## Template tags\n### Evaluation tags"
       },
       {
         "_type": "para",
@@ -545,13 +523,8 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "<b>{{> ...}}</b> (HTML-encode)",
-        "text": "`{{> pathOrExpr}}` inserts the *HTML-encoded* value of the path or expression.\n\n```js\nvar data = {condition: \"a < b\"};\nvar tmpl = $.templates(\"<b>Formula:</b> {{>condition}}\");\nvar html =  tmpl.render(data);\n\n// result: \"<b>Formula:</b> a &lt; b\"\n```\n\n<a href=\"#htmltag\">Learn more...</a>",
+        "text": "`{{> pathOrExpr}}` inserts the *HTML-encoded* value of the path or expression.\n\n```js\nvar data = {condition: \"a < b\"};\nvar tmpl = $.templates(\"<b>Formula:</b> {{>condition}}\");\nvar html =  tmpl.render(data);\n\n// result: \"<b>Formula:</b> a &lt; b\"\n```\n\n<a href=\"#htmltag\">Learn more...</a>\n\n<h3><b>Block tags</b></h3>\n<ul><li>Block tags can have content, unless they use the self-closing syntax:\n<ul><li>Block tag - with content: <code>{{someTag ...}} content {{/someTag}}</code></li><li>Self-closing tag - no content (empty): <code>{{someTag .../}}</code><br/><br/></li></ul></li><li>A particular case of self-closing syntax is when any block tag uses the named parameter <code>tmpl=...</code> to reference an external template, which then replaces what would have been the block content:\n<ul><li>Self-closing block  tag referencing an external template: <code>{{someTag ... tmpl=.../}}</code> (See <a href=\"#samples/jsr/composition/tmpl\">example</a>)<br/><br/></li></ul></li><li>All tags other than <code>{{: ...}}</code> <code>{{> ...}}</code> <code>{{* ...}}</code> <code>{{!-- --}}</code> behave as block tags<br/><br/></li><li>Tags can take both unnamed arguments and named parameters:\n <ul><li><code>{{someTag argument1 param1=...}} content {{/someTag}}</code></li><li>an example of a named parameter is the <code>tmpl=...</code>  parameter mentioned above</li><li>arguments and named parameters can be assigned values from simple data-paths such as <code>address.street</code> or from richer expressions such as <code>product.quantity * 3.1 / 4.5</code>, or <code>name.toUpperCase()</code></li></ul></li>\n</ul>\n\n### Built-in tags",
         "anchor": "htmltag"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "<h3><b>Block tags</b></h3>\n<ul><li>Block tags can have content, unless they use the self-closing syntax:\n<ul><li>Block tag - with content: <code>{{someTag ...}} content {{/someTag}}</code></li><li>Self-closing tag - no content (empty): <code>{{someTag .../}}</code><br/><br/></li></ul></li><li>A particular case of self-closing syntax is when any block tag uses the named parameter <code>tmpl=...</code> to reference an external template, which then replaces what would have been the block content:\n<ul><li>Self-closing block  tag referencing an external template: <code>{{someTag ... tmpl=.../}}</code> (See <a href=\"#samples/jsr/composition/tmpl\">example</a>)<br/><br/></li></ul></li><li>All tags other than <code>{{: ...}}</code> <code>{{> ...}}</code> <code>{{* ...}}</code> <code>{{!-- --}}</code> behave as block tags<br/><br/></li><li>Tags can take both unnamed arguments and named parameters:\n <ul><li><code>{{someTag argument1 param1=...}} content {{/someTag}}</code></li><li>an example of a named parameter is the <code>tmpl=...</code>  parameter mentioned above</li><li>arguments and named parameters can be assigned values from simple data-paths such as <code>address.street</code> or from richer expressions such as <code>product.quantity * 3.1 / 4.5</code>, or <code>name.toUpperCase()</code></li></ul></li>\n</ul>\n\n### Built-in tags"
       },
       {
         "_type": "para",
@@ -574,7 +547,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "<b>{{if ...}}</b> (Conditional inclusion)",
-        "text": "`{{if pathOrExpr}}...{{/if}}` or `{{if pathOrExpr tmpl=.../}}` renders the content/template only if the evaluated path or expression is 'truthy'.\n\n`{{if pathOrExpr}}...{{else pathOrExpr2}}...{{else}}...{{/if}}`  behaves as '*if' - 'else if' - 'else'* and renders each block based on the condidtions.\n\n```jsr\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  {{if nickname}}\n    Nickname: {{:nickname}}\n  {{else name}}\n    Name: {{:name}}\n  {{else}}\n    No name provided\n  {{/if}}\n</script>\n```\n\n```js\nvar data = {nickname: \"Jim\", name: \"James\"};\nvar tmpl = $.templates(\"#personTmpl\");\nvar html =  tmpl.render(data);\n\n// result: \"Nickname: Jim\"\n```\n<a href=\"#iftag\">Learn more...</a>",
+        "text": "`{{if pathOrExpr}}...{{/if}}` or `{{if pathOrExpr tmpl=.../}}` renders the content/template only if the evaluated path or expression is 'truthy'.\n\n`{{if pathOrExpr}}...{{else pathOrExpr2}}...{{else}}...{{/if}}`  behaves as '*if' - 'else if' - 'else'* and renders each block based on the conditions.\n\n```jsr\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  {{if nickname}}\n    Nickname: {{:nickname}}\n  {{else name}}\n    Name: {{:name}}\n  {{else}}\n    No name provided\n  {{/if}}\n</script>\n```\n\n```js\nvar data = {nickname: \"Jim\", name: \"James\"};\nvar tmpl = $.templates(\"#personTmpl\");\nvar html =  tmpl.render(data);\n\n// result: \"Nickname: Jim\"\n```\n<a href=\"#iftag\">Learn more...</a>",
         "anchor": "iftag"
       },
       {
@@ -642,12 +615,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "JsRender and JsViews",
-        "text": "JsRender is used for data-driven rendering of templates to strings, ready for insertion in the DOM. (See [JsRender Quickstart](#jsr-quickstart) and [JsRender GitHub repository](https://github.com/BorisMoore/jsrender)).\n\n\n*JsViews* builds on top of *[JsRender](http://www.jsviews.com/#jsrender)* templates, and adds data-binding and *[observable data](http://www.jsviews.com/#jsobservable)*, to provide a fully-fledged MVVM platform for easily creating interactive data-driven single page apps and websites.\n\n*JsRender* and *JsViews* together provide the next-generation implementation of the official jQuery plugins *[JQuery Templates](https://github.com/BorisMoore/jquery-tmpl)*, and *[JQuery Data Link](https://github.com/BorisMoore/jquery-datalink)* -- and supersede those libraries.\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "<br/>\n## JsViews Usage"
+        "text": "JsRender is used for data-driven rendering of templates to strings, ready for insertion in the DOM. (See [JsRender Quickstart](#jsr-quickstart) and [JsRender GitHub repository](https://github.com/BorisMoore/jsrender)).\n\n\n*JsViews* builds on top of *[JsRender](http://www.jsviews.com/#jsrender)* templates, and adds data-binding and *[observable data](http://www.jsviews.com/#jsobservable)*, to provide a fully-fledged MVVM platform for easily creating interactive data-driven single page apps and websites.\n\n*JsRender* and *JsViews* together provide the next-generation implementation of the official jQuery plugins *[JQuery Templates](https://github.com/BorisMoore/jquery-tmpl)*, and *[JQuery Data Link](https://github.com/BorisMoore/jquery-datalink)* -- and supersede those libraries.\n\n<br/>\n## JsViews Usage"
       },
       {
         "_type": "para",
