@@ -1,4 +1,4 @@
-/*! jsviews.js @@include("templates/-jsv-version.txt") single-file version: http://jsviews.com/ */
+/*! jsviews.js v@@include("templates/-version.txt")@@include("templates/-jsv-version.txt") single-file version: http://jsviews.com/ */
 /*! includes JsRender, JsObservable and JsViews - see: http://jsviews.com/#download */
 
 /* Interactive data-driven views using JsRender templates */

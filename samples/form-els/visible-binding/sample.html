@@ -58,12 +58,12 @@
     <div class="box" data-link="visible{:~app.chooseCurrency}">
       <div class="subhead">Choose Currency:</div>
       {{for ~currencies ~details=#data}}
-        <input
+        <label><input
           type="radio"
           name="currencyPicker"
           value="{{:#index}}"
           data-link="~details.selectedCurrency"
-        />{{:label}}<br/>
+        />{{:label}}</label><br/>
       {{/for}}
     </div>
 
@@ -80,8 +80,8 @@
         <span
           data-link="~convertedPrice(selectedMovie, selectedCurrency)"
         ></span>
-        <div>Choose currency for payment:
-          <input type="checkbox" data-link="~app.chooseCurrency" />
+        <div><label>Choose currency for payment:
+          <input type="checkbox" data-link="~app.chooseCurrency" /></label>
         </div>
       </div>
       <div>

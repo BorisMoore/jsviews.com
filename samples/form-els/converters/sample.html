@@ -39,18 +39,18 @@
       <option>3</option>
     </select><br/><br/>
 
-    <input type="radio" name="amt" value="0"
+    <label><input type="radio" name="amt" value="0"
       data-link="{intToStr:amount:strToInt}" />
-      0<br/>
-    <input type="radio" name="amt" value="1"
+      0</label><br/>
+    <label><input type="radio" name="amt" value="1"
       data-link="{intToStr:amount:strToInt}" />
-      1<br/>
-    <input type="radio" name="amt" value="2"
+      1</label><br/>
+    <label><input type="radio" name="amt" value="2"
       data-link="{intToStr:amount:strToInt}" />
-      2<br/>
-    <input type="radio" name="amt" value="3"
+      2</label><br/>
+    <label><input type="radio" name="amt" value="3"
       data-link="{intToStr:amount:strToInt}" />
-      3<br/><br/>
+      3</label><br/><br/>
 
     <textarea data-link="{intToStr:amount trigger=true:strToInt}"
       rows="2" cols="10"></textarea><br/><br/>
@@ -59,10 +59,10 @@
   <div class="box">
     <b>Using converters to bind <em>number</em> data values to UI elements,
       using bit-masks: <em>"{getBit:amount:setBit}"</em></b><br/><br/>
-    <input type="checkbox" data-bit="0"
-      data-link="{getBit:amount:setBit}" /> bit 0<br/>
-    <input type="checkbox" data-bit="1"
-      data-link="{getBit:amount:setBit}" /> bit 1<br/>
+    <label><input type="checkbox" data-bit="0"
+      data-link="{getBit:amount:setBit}" /> bit 0</label><br/>
+    <label><input type="checkbox" data-bit="1"
+      data-link="{getBit:amount:setBit}" /> bit 1</label><br/>
   </div>
 
 </script>

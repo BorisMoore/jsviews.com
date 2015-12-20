@@ -1,4 +1,4 @@
-/*! JsRender tmplify submodule @@include("templates/-jsr-version.txt"): http://jsviews.com/#jsrender */
+/*! JsRender tmplify submodule v@@include("templates/-version.txt")@@include("templates/-jsr-version.txt"): http://jsviews.com/#jsrender */
 /*! Browserify transform for JsRender templates */
 /*
 @@include('templates/-copyright.txt')

@@ -2,14 +2,14 @@
 
 //#region TEMPLATES
 
-var	treeNodeTmpl = $.templates(
-		"{^{if !hidden || ~tag.tree.editable}}<li data-link=\"class{:~tag.tree.selected === #data ? 'selected' : 'unselected'}\">" +
+var treeNodeTmpl = $.templates(
+		"{^{if !hidden || ~tree.editable}}<li data-link=\"class{:~tree.selected === #data ? 'selected' : 'unselected'}\">" +
 			"{^{if categories && categories.length }}" +
 				"<span class=\"toggle\">{^{:expanded ? '-' : '+' }}</span>" +
 			"{{else}}" +
 				"<span class=\"spacer\">&bull;</span>" +
 			"{{/if}}" +
-			"{^{if ~tag.tree.editedNode(#data)}}" +
+			"{^{if ~tree.editedNode(#data)}}" +
 				"<button class=\"up cmdbtn\">up</button>" +
 				"<button class=\"down cmdbtn\">down</button>" +
 				"<button class=\"add cmdbtn\">add</button>" +
@@ -37,7 +37,7 @@ var	treeNodeTmpl = $.templates(
 	treeTmpl  = $.templates(
 
 		"<ul class=\"tree\">" +
-			"{^{for ~tag.tagCtx.args[0] }}" +
+			"{^{for}}" +
 				"{^{treeNode/}}" +
 			"{{/for}}" +
 		"</ul>"),
@@ -98,6 +98,7 @@ var	treeNodeTmpl = $.templates(
 	treeTag = {
 		init: function(tagCtx) {
 			this.parent.setTree(this);
+			tagCtx.ctx.tree = this; // Set contextual property ~tree
 		},
 		onAfterLink: function() {
 			var self = this;
@@ -152,7 +153,7 @@ var	treeNodeTmpl = $.templates(
 	treeNodeTag = {
 		init: function(tagCtx) {
 			this.data = tagCtx.view.data;
-			this.tree = this.parents.tree;
+			this.tree = tagCtx.ctx.tree;
 		},
 		template: treeNodeTmpl,
 

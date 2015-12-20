@@ -1,6 +1,6 @@
-﻿.tree {
-	margin: 14px 0 0;
-	overflow: auto;
+.tree {
+	margin: 0;
+	overflow: hidden;
 	padding: 0;
 }
 

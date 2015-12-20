@@ -3,32 +3,45 @@
 <head>
 	<link href="resources/css/site.css" rel="stylesheet"/>
 	<script src="//code.jquery.com/jquery-1.11.3.js"></script>
+	<script src="//cdn.jsdelivr.net/remarkable/1.6.0/remarkable.min.js"></script>
 	<script src="download/jsviews.js"></script>
 	<script src="datatypes.js"></script>
 	<script src="documentation/contents-categories.js"></script>
 </head>
 <body class="dashboard">
+	<div id="testHtml" style="display:none;"></div>
 	<h2>JsViews dashboard</h2>
 	<label>Allow Edit: <input type="checkbox" data-link="allowEdit" /></label>
 	<label>Use Storage: <input type="checkbox" data-link="useStorage" /></label>
 	<p><button id="save">Save to storage</button></p>
 	<p><button id="normalize">Normalize</button></p>
+	<p><button id="compile">Compile</button></p>
 	<a href="/">JsViews.com</a><br/>
 	<a href="/index.html">local JsViews.com</a>
 
 	<script>
+
+	var md = new Remarkable('full', {
+		html: true,
+		breaks: false,
+		linkify: true,
+		typographer: true
+	}),
+	testDiv = $("#testHtml")[0];
+
 		function save(categoryName) {
 			$.getScript("documentation/contents-" + categoryName + ".js")
-			.then(function() {
+			.done(function() {
 				localStorage.setItem("JsViewsDocTopics/" + categoryName, stringify(content[categoryName]));
 			});
 		}
 
 		function normalize(categoryName) {
 			$.getScript("documentation/contents-" + categoryName + ".js")
-			.then(function() {
-				var topics = content[categoryName];
-				for (var topic in topics) {
+			.done(function() {
+				var topic,
+					topics = content[categoryName];
+				for (topic in topics) {
 					combineSections(topics[topic].sections);
 				}
 				localStorage.setItem("JsViewsDocTopics/" + categoryName, stringify(content[categoryName]))
@@ -40,35 +53,36 @@
 		}
 
 		function combineSections(sections) {
-			var titleItem = sections[0];
-			var nextSection, nextType, titleItemType;
-			sections.forEach(function(item, i) {
-				if (item._type === "sample") {
-					combineSections(item.sections);
+			var nextSection, nextType, titleItemType, itemType, len,
+				titleItem = sections[0];
+
+			sections.forEach(function(section, i) {
+				if (section._type === "sample") {
+					combineSections(section.sections);
 				}
-				titleItem = item.title ? item : titleItem;
+				titleItem = section.title ? section : titleItem;
 				titleItemType = titleItem && titleItem._type;
 				nextSection = sections[i+1];
-				if (titleItem && titleItem === item) {
+				if (titleItem && titleItem === section) {
 					nextType = nextSection && nextSection._type;
 					if (nextSection && !nextSection.title && (nextType ==="para" ||nextType ==="code" ||nextType ==="data" ||nextType ==="template")) {
 						switch (titleItemType) {
-							case "code" :
+							case "code":
 								titleItem._type = "para";
 								titleItem.text = "```js\n" + titleItem.code.replace(/\n*$/, "") + "\n```";
 								delete titleItem.code;
 								break;
-							case "template" :
+							case "template":
 								titleItem._type = "para";
 								titleItem.text = "```jsr\n" + titleItem.markup.replace(/\n*$/, "") + "\n```";
 								delete titleItem.markup;
 								break;
-							case "data" :
+							case "data":
 								titleItem._type = "para";
 								titleItem.text = "```json\n" + stringify(titleItem.data).replace(/\n*$/, "") + "\n```";
 								delete titleItem.data;
 								break;
-							case "para" :
+							case "para":
 								titleItem.text = titleItem.text.replace(/\n*$/, "");
 								break;
 							default:
@@ -77,23 +91,23 @@
 						}
 					}
 				} else if (titleItem) {
-					var itemType = item._type;
+					itemType = section._type;
 					switch (itemType) {
-						case "code" :
-							item._type = "delete";
-							titleItem.text += "\n\n```js\n" + item.code.replace(/\n*$/, "") + "\n```";
+						case "code":
+							section._type = "delete";
+							titleItem.text += "\n\n```js\n" + section.code.replace(/\n*$/, "") + "\n```";
 							break;
-						case "template" :
-							item._type = "delete";
-							titleItem.text += "\n\n```jsr\n" + item.markup.replace(/\n*$/, "") + "\n```";
+						case "template":
+							section._type = "delete";
+							titleItem.text += "\n\n```jsr\n" + section.markup.replace(/\n*$/, "") + "\n```";
 							break;
-						case "data" :
-							item._type = "delete";
-							titleItem.text += "\n\n```json\n" + stringify(item.data).replace(/\n*$/, "") + "\n```";
+						case "data":
+							section._type = "delete";
+							titleItem.text += "\n\n```json\n" + stringify(section.data).replace(/\n*$/, "") + "\n```";
 							break;
-						case "para" :
-							item._type = "delete";
-							titleItem.text += "\n\n" + item.text.replace(/\n*$/, "");
+						case "para":
+							section._type = "delete";
+							titleItem.text += "\n\n" + section.text.replace(/\n*$/, "");
 							break;
 						default:
 							titleItem = nextSection;
@@ -101,11 +115,142 @@
 					}
 				}
 			});
-			var len = sections.length;
+			len = sections.length;
 			while (len--) {
 					if (sections[len]._type === "delete") {
 						sections.splice(len, 1);
 					}
+			}
+		}
+
+		function compileSections(sections, sectionsSearch, scriptsToCompile) {
+			var searchSection, text;
+
+			sections.forEach(function(section, i) {
+				sectionsSearch.push(searchSection = {
+					_type: section._type,
+					title: section.title
+				}) ;
+				switch (section._type) {
+					case "sample":
+						text = section.title ? section.title + "\n" : "";
+							+ (section.markup ? section.markup + "\n" : "")
+							+ (section.html ? section.html + "\n" : "")
+							+ (section.data ? section.data + "\n" : "")
+							+ (section.code ? section.code + "\n" : "");
+						if (section.url) {
+							searchSection.url = section.url;
+							scriptsToCompile[section.url] = searchSection;
+						}
+						testDiv.innerHTML = text;
+						searchSection.text = testDiv.textContent || testDiv.innerText;
+						compileSubSections(section.sections, searchSection);
+					break;
+					case "code":
+						testDiv.innerHTML =
+							(section.title ? section.title + "\n" : "")
+							+ (section.code ? section.code + "\n" : "");
+						searchSection.text = testDiv.textContent || testDiv.innerText;
+						break;
+					case "template":
+						testDiv.innerHTML =
+							(section.title ? section.title + "\n" : "")
+							+ (section.markup ? section.markup + "\n" : "");
+						searchSection.text = testDiv.textContent || testDiv.innerText;
+						break;
+					case "para":
+						testDiv.innerHTML =
+							(section.title ? section.title + "\n" : "")
+							+ md.render(section.text);
+						searchSection.text = testDiv.textContent || testDiv.innerText;
+					break;
+					case "api":
+						testDiv.innerHTML = 
+							(section.title ? section.title + "\n" : "")
+							+ (section.description ? section.description + "\n" : "");
+						searchSection.text = testDiv.textContent || testDiv.innerText;
+						compileSubSections(section.signatures, searchSection);
+					break;
+				}
+			});
+		}
+
+		function compileSubSections(sections, searchSection) {
+			var searchSection;
+
+			sections.forEach(function(section, i) {
+				switch (section._type) {
+					case "code":
+						testDiv.innerHTML =
+							(section.title ? section.title + "\n" : "");
+						searchSection.text += (testDiv.textContent || testDiv.innerText) + "\n";
+						testDiv.innerHTML =
+							(section.code ? section.code + "\n" : "");
+						searchSection.text += (testDiv.textContent || testDiv.innerText) + "\n";
+						break;
+					case "template":
+						testDiv.innerHTML =
+							(section.title ? section.title + "\n" : "");
+						searchSection.text += (testDiv.textContent || testDiv.innerText) + "\n";
+						testDiv.innerHTML =
+							(section.markup ? section.markup + "\n" : "");
+						searchSection.text += (testDiv.textContent || testDiv.innerText) + "\n";
+						break;
+					case "para":
+						testDiv.innerHTML =
+							(section.title ? section.title + "\n" : "")
+							+ md.render(section.text);
+						searchSection.text += (testDiv.textContent || testDiv.innerText) + "\n";
+					break;
+					case "signature":
+						testDiv.innerHTML =
+							(section.description ? section.description + "\n" : "");
+						searchSection.text += (testDiv.textContent || testDiv.innerText) + "\n";
+						testDiv.innerHTML =
+							(section.example ? section.example + "\n" : "");
+						searchSection.text += (testDiv.textContent || testDiv.innerText) + "\n";
+					break;
+				}
+			});
+		}
+
+		function compile(categoryName) {
+			$.getScript("documentation/contents-" + categoryName + ".js")
+			.done(function() {
+				var topicName, sectionsSearch,
+					scriptsToCompile = {},
+					topics = content[categoryName],
+					topicsSearch = content.find[categoryName] = {};
+				for (topicName in topics) {
+						topic = topics[topicName]
+					topicsSearch[topicName] = {
+						jsr: topic.jsr,
+						jsv: topic.jsv,
+						sections: sectionsSearch = []
+					};
+					compileSections(topics[topicName].sections, sectionsSearch, scriptsToCompile);
+				}
+				compileScripts(scriptsToCompile);
+				var out = stringify(topicsSearch);
+			});
+		}
+
+		function compileScripts(scriptsToCompile) {
+			var url;
+			for (url in scriptsToCompile) {
+				(function() {
+					var scriptSection = scriptsToCompile[url];
+					$.getScript(url + ".js")
+						.done(function(text) {
+							scriptSection.text += text + "\n";
+							$.ajax({
+								url: scriptSection.url + ".html",
+								dataType: "html",
+							}).done(function(text) {
+									scriptSection.text += /<body>\s*([\S\s]*?)\s*<!--<scrip/.exec(text)[1] + "\n";
+								});
+						});
+				})();
 			}
 		}
 
@@ -131,6 +276,14 @@
 				l = categories.length;
 			while (l-- > 1) {
 				normalize(categories[l].name);
+			}
+		});
+
+		$("#compile").on("click", function() {
+			var categories = content.categories,
+				l = categories.length;
+			while (l-- > 1) {
+				compile(categories[l].name);
 			}
 		});
 	</script>

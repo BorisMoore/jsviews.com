@@ -21,9 +21,9 @@
     <input data-link="{intToStr:amount trigger=true:strToInt}"/><br/><br/>
 
     {^{for amounts}}
-      <input type="radio" name="amt" value="{{:#data}}"
+      <label><input type="radio" name="amt" value="{{:#data}}"
         data-link="{intToStr:~root.amount:strToInt}" />
-      {{:#data}}<br/>
+      {{:#data}}</label><br/>
     {{/for}}<br/>
 
     <input type="checkbox" data-link="listbox" />Show as listbox:<br/>
@@ -38,9 +38,9 @@
     <b>Choose amount (by setting bits!):</b><br/><br/>
 
     {^{for bits}}
-      <input type="checkbox" data-bit="{{:#data}}"
+      <label><input type="checkbox" data-bit="{{:#data}}"
         data-link="{getBit:~root.amount:setBit}" />
-      bit {{:#data}}<br/>
+      bit {{:#data}}</label><br/>
     {{/for}}
   </div>
 </script>

@@ -105,6 +105,10 @@ input {
 	margin: 1px 0;
 }
 
+li .remove {
+	float: none;
+}
+
 .remove {
 	cursor: pointer;
 	float: right;
@@ -115,7 +119,7 @@ input {
 .remove:after {
 	color: #be614c;
 	font-weight: bold;
-	padding: 0 1px 0px 6px;
+	padding: 0 6px 0 6px;
 	content: 'x';
 	float: right;
 	cursor: pointer;

@@ -1,4 +1,4 @@
-/*! JsObservable @@include("templates/-jsv-version.txt"): http://jsviews.com/#jsobservable */
+/*! JsObservable v@@include("templates/-version.txt")@@include("templates/-jsv-version.txt"): http://jsviews.com/#jsobservable */
 /*
  * Subcomponent of JsViews
  * Data change events for data-linking

@@ -78,6 +78,14 @@ for (key in sectionTypes) {
 
 $.views.documentation = {
   content: {
+    noSearch: " ",
+    find: {},
+    include: {
+        jsr: true,
+        jsv: true,
+        smp: true,
+        txt: true
+    },
     allowEdit: localStorage.getItem("JsViewsDocTopics/allowEdit") === "true",
     useStorage: localStorage.getItem("JsViewsDocTopics/useStorage") === "true",
     subTypes: {

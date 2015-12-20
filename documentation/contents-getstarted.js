@@ -12,22 +12,27 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "links": [],
         "topics": [
           {
+            "filter": "jsr",
             "hash": "jsrplaying",
             "label": "Playing with JsRender"
           },
           {
+            "filter": "jsr",
             "hash": "jsr-quickstart",
             "label": "JsRender Quickstart"
           },
           {
+            "filter": "jsr",
             "hash": "jsr-node-quickstart",
             "label": "JsRender Node.js Quickstart"
           },
           {
+            "filter": "jsv",
             "hash": "jsvplaying",
             "label": "Playing with JsViews"
           },
           {
+            "filter": "jsv",
             "hash": "jsv-quickstart",
             "label": "JsViews Quickstart"
           }
@@ -68,9 +73,15 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     ]
   },
   "jsrplaying": {
-    "title": "Playing with JsRender",
+    "filter": "jsr",
     "path": "",
+    "title": "Playing with JsRender",
     "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "(***See also:*** [JsRender Quickstart](#jsr-quickstart))"
+      },
       {
         "_type": "para",
         "title": "JsRender templates",
@@ -114,7 +125,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "data": {
           "name": "Adriana"
         },
-        "height": "90",
+        "height": "60",
         "onlyJsRender": true,
         "anchor": ""
       },
@@ -137,14 +148,14 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "para",
             "title": "",
-            "text": "Take a look at the <em>Code</em>, <em>Full Code</em> or <em>Try It</em> tabs.\n\nIn the html you see that we put our markup in a script block with `type=\"text/x-jsrender\"`...\n\n```jsr\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>\n```\n\n... and then in the code we call the <a href=\"#d.templates\">`$.templates`</a> method with a jQuery selector for that script block, to get the compiled template.\n\n```js\nvar myTemplate = $.templates(\"#personTmpl\");\n```\n\nAfter that we run the code we have already seen to render the template against our data, and get the HTML output as a string. (We pass the data - this time we used an array - to the <a href=\"#rendertmpl\">`render()`</a> method of our compiled template.)\n\n\n```js\nvar html = myTemplate.render(people);\n```\n\nFinally we simply insert that output into the HTML DOM using the jQuery `html()` method.\n\nAgain, you can play with the sample in the <em>Try it</em> tab, by changing the data, or the markup, or the code.\n\nFor example if you change the template to produce a `<tr>`, you will want to insert the output into the `tbody` of a `table`, by adding a `<table><tbody>` target container - as in the following:\n\n```jsr\n<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>Name</td>\n    <td>{{:name}}</td>\n  </tr>\n</script>\n```"
+            "text": "Take a look at the <em>Code</em>, <em>Full Code</em> or <em>Try It</em> tabs.\n\nIn the html you see that we put our markup in a script block with `type=\"text/x-jsrender\"`...\n\n```jsr\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>\n```\n\n... and then in the code we call the <a href=\"#d.templates\">`$.templates()`</a> method with a jQuery selector for that script block, to get the compiled template.\n\n```js\nvar myTemplate = $.templates(\"#personTmpl\");\n```\n\nAfter that we run the code we have already seen to render the template against our data, and get the HTML output as a string. (We pass the data - this time we used an array - to the <a href=\"#rendertmpl\">`render()`</a> method of our compiled template.)\n\n\n```js\nvar html = myTemplate.render(people);\n```\n\nFinally we simply insert that output into the HTML DOM using the jQuery `html()` method.\n\nAgain, you can play with the sample in the <em>Try it</em> tab, by changing the data, or the markup, or the code.\n\nFor example if you change the template to produce a `<tr>`, you will want to insert the output into the `tbody` of a `table`, by adding a `<table><tbody>` target container - as in the following:\n\n```jsr\n<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>Name</td>\n    <td>{{:name}}</td>\n  </tr>\n</script>\n```"
           }
         ],
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}<br/>\n</script>",
         "code": "var myTemplate = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nvar html = myTemplate.render(people);\n\n$(\"#peopleList\").html(html);",
         "title": "Complete code for template rendering:",
         "onlyJsRender": true,
-        "height": "110"
+        "height": "80"
       },
       {
         "_type": "para",
@@ -229,9 +240,15 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     ]
   },
   "jsvplaying": {
+    "filter": "jsv",
     "title": "Playing with JsViews",
     "path": "",
     "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "(***See also:*** [JsViews Quickstart](#jsv-quickstart))"
+      },
       {
         "_type": "para",
         "title": "JsViews: A platform for data-bound single-page apps",
@@ -313,7 +330,8 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td colspan=\"2\">\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr>\n      <td>{^{:name}}</td>\n      <td>\n        <button class=\"changeBtn\">Change</button>\n      </td>\n    </tr>\n  {{/for}}\n</script>",
         "height": "206",
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar counter = 1;\n\nmyTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function() {\n  $.observable(people).insert({name: \"name\"});\n});\n\n$(\"#peopleList\").on(\"click\", \".changeBtn\", function() {\n  var dataItem = $.view(this).data;\n  $.observable(dataItem).setProperty(\"name\", dataItem.name + counter++);\n});\n",
-        "title": "Observable change: propertyChange"
+        "title": "Observable change: setProperty",
+        "anchor": "setprop"
       },
       {
         "_type": "para",
@@ -372,7 +390,8 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "title": "Two-way data-binding",
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td colspan=\"2\">\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr>\n      <td data-link=\"name\"></td>\n      <td>\n        <input data-link=\"name trigger=true\"/>\n      </td>\n    </tr>\n  {{/for}}\n</script>",
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nvar counter = 1;\n\nmyTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function() {\n  $.observable(people).insert({name: \"name\"});\n});\n",
-        "height": "206"
+        "height": "206",
+        "anchor": "twoway"
       },
       {
         "_type": "para",
@@ -398,7 +417,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         ],
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n  {\n    ID: \"Ad0\",\n    name: \"Adriana\"\n  },\n  {\n    ID: \"Ro0\",\n    name: \"Robert\",\n    nickname: \"Bob\"\n  }\n];\n\nvar counter = 1;\n\nvar app = {\n    people: people,\n    selectedID: -1, // No selection. (Or could set to initial selection - e.g. \"0\")\n    selected: function() {\n      for (var i=0; i<people.length; i++) {\n        if (people[i].ID === this.selectedID) {\n          return people[i];\n        }\n      }\n      return {};\n    }\n  };\n\napp.selected.depends = \"selectedID\";\n\n// Data-link details container to people, using the peopleTmpl template\nmyTemplate.link(\"#peopleList\", app);\n\n$(\"#addBtn\").on(\"click\", function() {\n  var newID = \"new\" + counter++;\n  $.observable(people).insert({ID: newID, name: \"name\"});\n  $.observable(app).setProperty(\"selectedID\", newID);\n});\n\n$(\"#removeBtn\").on(\"click\", function() {\n  $.observable(people).remove($.inArray(app.selected(), people));\n  $.observable(app).setProperty(\"selectedID\", \"0\");\n});\n",
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n    <button id=\"removeBtn\" data-link=\"disabled{:selectedID === '0'}\">Remove</button>\n  </td></tr>\n  <tr><td>\n    <select data-link=\"selectedID\" size=\"5\">\n      <option value=\"0\">Choose a person to edit</option>\n      {^{for people}}\n        <option data-link=\"{:name} value{:ID} selected{:ID === ~root.selectedID}\"></option>\n      {{/for}}\n    </select>\n  </td></tr>\n  <tr><td>\n    <label>Name:<input data-link=\"{:selected()^name trigger=true:} disabled{:selectedID === '0'}\" /></label>\n    <label>Nickname:<input data-link=\"{:selected()^nickname trigger=true:} disabled{:selectedID === '0'}\" /></label>\n  </td></tr>\n  <tr><td class=\"center\">\n    {^{for selected()}}\n      {^{:name}}\t\n      {^{if nickname}}\n        ( {^{:nickname}} )\n      {{/if}}\n    {{/for}}\n  </td></tr>\n</script>",
-        "height": "204",
+        "height": "210",
         "title": "data-linking to &lt;select>... and much more..."
       },
       {
@@ -466,13 +485,14 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     ]
   },
   "jsr-quickstart": {
+    "filter": "jsr",
     "title": "JsRender Quickstart",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "*Best-of-breed templating*<br/>\n*Simple and intuitive, powerful and extensible, lightning fast*\n\n*For templated content in the browser or on Node.js (with Express 4, Hapi and Browserify integration)*\n\n*JsRender* is a light-weight but powerful templating engine, highly extensible, and optimized for high-performance rendering, without DOM dependency. It is designed for use in the browser or on Node.js, with or without jQuery.\n\n*JsRender* and *JsViews* together provide the next-generation implementation of the official jQuery plugins *[JQuery Templates](https://github.com/BorisMoore/jquery-tmpl)*, and *[JQuery Data Link](https://github.com/BorisMoore/jquery-datalink)* -- and supersede those libraries.\n"
+        "text": "*Best-of-breed templating*<br/>\n*Simple and intuitive, powerful and extensible, lightning fast*\n\n*For templated content in the browser or on Node.js (with Express 4, Hapi and Browserify integration)*\n\n*JsRender* is a light-weight but powerful templating engine, highly extensible, and optimized for high-performance rendering, without DOM dependency. It is designed for use in the browser or on Node.js, with or without jQuery.\n\n*JsRender* and *JsViews* together provide the next-generation implementation of the official jQuery plugins *[jQuery Templates](https://github.com/BorisMoore/jquery-tmpl)*, and *[jQuery Data Link](https://github.com/BorisMoore/jquery-datalink)* -- and supersede those libraries.\n"
       },
       {
         "_type": "para",
@@ -487,7 +507,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "Installation",
-        "text": "jsrender.js is available from [downloads](#download)  on this site. \n\nAlternatively:\n- It can be installed with ***[Bower](http://bower.io/search/?q=jsrender)***, using `$ bower install jsrender` \n- It can be loaded using an AMD script loader, such as RequireJS\n- For installation using Node.js (NPM) see [JsRender Node.js Quickstart](#jsr-node-quickstart). "
+        "text": "jsrender.js is available from [downloads](#download)  on this site. \n\nAlternatively:\n\n- It can be installed with ***[Bower](http://bower.io/search/?q=jsrender)***, using `$ bower install jsrender` \n- It can be loaded using an AMD script loader, such as RequireJS\n- For installation using Node.js (NPM) see [JsRender Node.js Quickstart](#jsr-node-quickstart)."
       },
       {
         "_type": "para",
@@ -502,7 +522,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "Define a template",
-        "text": "From a string:\n\n```js\nvar tmpl = $.templates(\"Name: {{:name}}\");\n```\n\nFrom a template declared as markup in a script block:\n\n```jsr\n<script id=\"myTemplate\" type=\"text/x-jsrender\">Name: {{:name}}</script>\n```\n```js\nvar tmpl = $.templates(\"#myTemplate\");\n```\n\n<a href=\"#d.templates\">Learn more...</a>"
+        "text": "From a string:\n\n```js\nvar tmpl = $.templates(\"Name: {{:name}}\");\n```\n\nFrom a template declared as markup in a script block:\n\n```jsr\n<script id=\"myTemplate\" type=\"text/x-jsrender\">Name: {{:name}}</script>\n```\n\n```js\nvar tmpl = $.templates(\"#myTemplate\");\n```\n\n<a href=\"#d.templates\">Learn more...</a>"
       },
       {
         "_type": "para",
@@ -512,7 +532,22 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "Register a named template - and render it",
-        "text": "```js\n// Register named template - \"myTmpl1\n$.templates(\"myTmpl1\", \"Name: {{:name}}<br/> \");\n\nvar person = {name: \"Jim\"};\n\n// Render named template\nvar html = $.templates.myTmpl1(person);\n\n// Alternative syntax: var html = $.render.myTmpl1(person);\n\n// result: \"Name: Jim<br/> \"\n```\n<a href=\"#rendertmpl\">Learn more...</a>\n\n<br/>\n## Template tags\n### Evaluation tags"
+        "text": "```js\n// Register named template \"myTmpl1\", from string \n$.templates(\"myTmpl1\", \"Name: {{:name}}<br/> \");\n// (or from script block: $.templates(\"myTmpl1\", \"#myTemplate\"); ...)\n\nvar person = {name: \"Jim\"};\n\n// Render named template\nvar html = $.render.myTmpl1(person);\n\n// result: \"Name: Jim<br/> \"\n```\n<a href=\"#rendertmpl\">Learn more...</a>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<br/>\n## Template tags\n"
+      },
+      {
+        "_type": "para",
+        "title": "Template tag syntax",
+        "text": "- All tags other than [`{{: ...}}`](#assigntag) [`{{> ...}}`](#htmltag) [`{{* ...}}`](#allowcodetag) [`{{!-- --}}`](#commenttag) behave as block tags<br/><br/>\n- Block tags can have content, unless they use the self-closing syntax:\n  - Block tag - with content: `{{someTag ...}} content {{/someTag}}`\n  - Self-closing tag - no content (empty): `{{someTag .../}}`<br/><br/>\n- A particular case where self-closing syntax is used is when a block tag uses the named parameter `tmpl=...` to reference an external template &ndash; which then replaces what would have been the block content:\n  - Self-closing block  tag referencing an external template: `{{someTag ... tmpl=.../}}` (See [example](#samples/jsr/composition/tmpl))<br/><br/>\n- Tags can take both unnamed arguments and named parameters:\n  - `{{someTag argument1 param1=...}} content {{/someTag}}`\n  - an example of a named parameter is the `tmpl=...` parameter mentioned above\n  - arguments and named parameters can be assigned values from simple data-paths such as `address.street` or from richer expressions such as `product.quantity * 3.1 / 4.5`, or `name.toUpperCase()`\n\n[Learn more...](#tagsyntax)\n\n<div class=\"title\">Built-in tags</div>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": ""
       },
       {
         "_type": "para",
@@ -523,7 +558,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "<b>{{> ...}}</b> (HTML-encode)",
-        "text": "`{{> pathOrExpr}}` inserts the *HTML-encoded* value of the path or expression.\n\n```js\nvar data = {condition: \"a < b\"};\nvar tmpl = $.templates(\"<b>Formula:</b> {{>condition}}\");\nvar html =  tmpl.render(data);\n\n// result: \"<b>Formula:</b> a &lt; b\"\n```\n\n<a href=\"#htmltag\">Learn more...</a>\n\n<h3><b>Block tags</b></h3>\n<ul><li>Block tags can have content, unless they use the self-closing syntax:\n<ul><li>Block tag - with content: <code>{{someTag ...}} content {{/someTag}}</code></li><li>Self-closing tag - no content (empty): <code>{{someTag .../}}</code><br/><br/></li></ul></li><li>A particular case of self-closing syntax is when any block tag uses the named parameter <code>tmpl=...</code> to reference an external template, which then replaces what would have been the block content:\n<ul><li>Self-closing block  tag referencing an external template: <code>{{someTag ... tmpl=.../}}</code> (See <a href=\"#samples/jsr/composition/tmpl\">example</a>)<br/><br/></li></ul></li><li>All tags other than <code>{{: ...}}</code> <code>{{> ...}}</code> <code>{{* ...}}</code> <code>{{!-- --}}</code> behave as block tags<br/><br/></li><li>Tags can take both unnamed arguments and named parameters:\n <ul><li><code>{{someTag argument1 param1=...}} content {{/someTag}}</code></li><li>an example of a named parameter is the <code>tmpl=...</code>  parameter mentioned above</li><li>arguments and named parameters can be assigned values from simple data-paths such as <code>address.street</code> or from richer expressions such as <code>product.quantity * 3.1 / 4.5</code>, or <code>name.toUpperCase()</code></li></ul></li>\n</ul>\n\n### Built-in tags",
+        "text": "`{{> pathOrExpr}}` inserts the *HTML-encoded* value of the path or expression.\n\n```js\nvar data = {condition: \"a < b\"};\nvar tmpl = $.templates(\"<b>Formula:</b> {{>condition}}\");\nvar html =  tmpl.render(data);\n\n// result: \"<b>Formula:</b> a &lt; b\"\n```\n\n<a href=\"#htmltag\">Learn more...</a>",
         "anchor": "htmltag"
       },
       {
@@ -570,7 +605,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "Converters",
-        "text": "Converters are used with the `{{:...}}` tag, using the syntax `{{mycvtr: ...}}}`.\n\nExample - an *upper* converter, to convert to upper case: \n\n```js\n$.views.converters(\"upper\", function(val) { return val.toUpperCase(); });\n\nvar tmpl = $.templates(\"{{:first}} {{upper:last}}\");\nvar data = {first: \"Jim\", last: \"Varsov\"};\nvar html =  tmpl.render(data);\n\n// result: \"Jim VARSOV\"\n```\n<a href=\"#converters\">Learn more...</a>",
+        "text": "Converters are used with the `{{: ...}}` tag, using the syntax `{{mycvtr: ...}}}`.\n\nExample - an *upper* converter, to convert to upper case: \n\n```js\n$.views.converters(\"upper\", function(val) { return val.toUpperCase(); });\n\nvar tmpl = $.templates(\"{{:first}} {{upper:last}}\");\nvar data = {first: \"Jim\", last: \"Varsov\"};\nvar html =  tmpl.render(data);\n\n// result: \"Jim VARSOV\"\n```\n<a href=\"#converters\">Learn more...</a>",
         "anchor": "converters"
       },
       {
@@ -604,6 +639,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     ]
   },
   "jsv-quickstart": {
+    "filter": "jsv",
     "title": "JsViews Quickstart",
     "path": "",
     "sections": [
@@ -614,17 +650,50 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       },
       {
         "_type": "para",
-        "title": "JsRender and JsViews",
-        "text": "JsRender is used for data-driven rendering of templates to strings, ready for insertion in the DOM. (See [JsRender Quickstart](#jsr-quickstart) and [JsRender GitHub repository](https://github.com/BorisMoore/jsrender)).\n\n\n*JsViews* builds on top of *[JsRender](http://www.jsviews.com/#jsrender)* templates, and adds data-binding and *[observable data](http://www.jsviews.com/#jsobservable)*, to provide a fully-fledged MVVM platform for easily creating interactive data-driven single page apps and websites.\n\n*JsRender* and *JsViews* together provide the next-generation implementation of the official jQuery plugins *[JQuery Templates](https://github.com/BorisMoore/jquery-tmpl)*, and *[JQuery Data Link](https://github.com/BorisMoore/jquery-datalink)* -- and supersede those libraries.\n\n<br/>\n## JsViews Usage"
+        "title": "",
+        "text": "*JsViews* builds on top of *[JsRender](#jsrender)* templates, and adds data-binding and *[observable data](#jsobservable)*, to provide a fully-fledged MVVM platform for easily creating interactive data-driven single-page apps and websites.\n"
       },
       {
         "_type": "para",
-        "title": "Documentation and Downloads",
-        "text": "**[Documentation](http://www.jsviews.com/#jsviews)**, **[downloads](http://www.jsviews.com/#download)**,\n **[samples](http://www.jsviews.com/#samples)** are available on the **[www.jsviews.com website](http://www.jsviews.com/#jsviews)**.\n<br/>(JsViews and JsObservable **API docs and tutorials** are coming soon, as we move JsViews to the official beta and on to V1.0)\n\n<h3>Demos</h3>\nIn addition to the demos at [www.jsviews.com/#samples](http://www.jsviews.com/#samples), see also the [demos](https://github.com/BorisMoore/jsviews/tree/master/demos) folder of this GitHub repository - available [here](http://borismoore.github.io/jsviews/demos/index.html) as live samples.\n\n<h3>Current Status</h3>\nJsViews is now a beta candidate release, which will be declared beta as soon as API documentation is complete on the [www.jsviews.com](http://www.jsviews.com) website, and then move to V1.0."
+        "title": "JsRender and JsViews",
+        "text": "JsRender is used for data-driven rendering of templates to strings, ready for insertion in the DOM. (See [JsRender Quickstart](#jsr-quickstart) and [JsRender GitHub repository](https://github.com/BorisMoore/jsrender)).\n\n*JsRender* and *JsViews* together provide the next-generation implementation of the official jQuery plugins *[jQuery Templates](https://github.com/BorisMoore/jquery-tmpl)*, and *[jQuery Data Link](https://github.com/BorisMoore/jquery-datalink)* -- and supersede those libraries.\n\n<br/>\n## JsViews Usage"
+      },
+      {
+        "_type": "para",
+        "title": "Data-linked templates",
+        "text": "JsViews provides *data-linking* - so that JsRender templates become data-bound:\n\n- *Data-linked* tags or elements in your templates will update automatically whenever the underlying data changes.\n- Some data-linked tags or elements provide *two-way* data-linking, so that user interactions will trigger *\"observable\"* changes to the underlying data (which may then trigger other updates elsewhere in your templated UI).\n\n**Data-linked template tags:**\n\nAny JsRender tag, `{{...}}` can be *data-linked* by writing `{^{...}}`, as in:\n\n```jsr\n<ul>\n  {^{for people}} <!-- The <li> list will update when the people array changes -->\n    <li>{^{:name}}</li> <!-- This will update when the name property changes -->\n  {{/for}}\n</ul>\n```\n\n[Learn more...](#linked-tag-syntax)\n\n***Data-linked HTML elements:***\n\nHTML elements within templates can be *data-linked* by adding a `data-link` attribute:\n\n```jsr\n<input data-link=\"name\"/> <!-- This has two-way data-binding to the name property -->\n<span data-link=\"name\"></span> <!-- This will update when the name property changes -->\n```\n\nHTML elements within 'top-level' page content can also be data-linked -- see [below](#jsv-quickstart@toplink).\n\n[Learn more...](#linked-elem-syntax)",
+        "anchor": ""
+      },
+      {
+        "_type": "para",
+        "title": "Render and link a template",
+        "text": "With *JsRender*, you call the `render()` method, then insert the resulting HTML in the DOM.\n\n```js\nvar html = tmpl.render(data, helpersOrContext);\n$(\"#container\").html(html);\n```\n\nWith *JsViews*, you can instead call the `link()` method:\n\n```js\ntmpl.link(\"#container\", data, helpersOrContext);\n```\n\nwhich in one line of code will:\n- render the template\n- insert the resulting HTML as content under the HTML `container` element\n- data-link that content to the underlying `data`\n\nNow *observable* changes in the data will automatically trigger updates in the rendered UI.\n\nThere are two ways of calling the `link()` method:\n- If you have a reference to the <em>template object</em>, call [`template.link(...)`](#jsvtmpllink)\n- If you have registered the template by name (`\"myTmpl\"`), call [`link.myTmpl(...)`](#jsv.d.link)\n\n**Example**: - Template from string\n\n```js\nvar tmpl = $.templates(\"{^{:name}} <input data-link='name' />\");\nvar person = {name: \"Jim\"};\ntmpl.link(\"#container\", person);\n```\n\n**Example**: - Template from script block\n\n```jsr\n<script id=\"myTemplate\" type=\"text/x-jsrender\">{^{:name}} <input data-link=\"name\" /></script>\n```\n\n```js\nvar tmpl = $.templates(\"#myTemplate\");\nvar person= {name: \"Jim\"};\ntmpl.link(\"#container\", person);\n```\n\n**Example**: - Named template from string\n\n```js\n$.templates(\"myTmpl1\", \"{^{:name}} <input data-link='name' />\");\nvar person= {name: \"Jim\"};\n$.link.myTmpl1(\"#container\", person);\n```\n\n**Example**: - Named template from script block\n\n```jsr\n<script id=\"myTemplate\" type=\"text/x-jsrender\">{^{:name}} <input data-link=\"name\" /></script>\n```\n\n```js\n$.templates(\"myTmpl2\", \"#myTemplate\");\nvar data = {name: \"Jim\"};\n$.link.myTmpl2(\"#container\", data);\n```\n\n**Result:** After each `link()` example above the `container` element will have the following content:\n \n```html\nJim <input value=\"Jim\" />\n```\n\nwith the `name` property of `person` object data-linked to the `\"Jim\"` text node and *two-way* data-linked to the `<input />`\n\nSee: [Playing with JsViews](#jsvplaying) for working samples, such as [this one](#jsvplaying@twoway)\n\n[Learn more...](#jsvlinktmpl)\n"
+      },
+      {
+        "_type": "para",
+        "title": "Top-level data-linking",
+        "text": "You can use data-linking not only for templated content, but also to data-bind to top-level HTML content in your page: \n\n```js\n$.link(true, \"#target\", data);\n```\n\nThis will activate any declarative data-binding (`data-link=\"...\"` expressions) on the target element - or on elements within its content.\n\n[Learn more...](#toplink)",
+        "anchor": "toplink"
+      },
+      {
+        "_type": "para",
+        "title": "Making \"observable\" changes to objects and arrays",
+        "text": "In current JavaScript implementations, modifying objects or arrays does not raise any event, so there is no way for the change to be detected elsewhere. JsViews dynamic data-bound UI solves this through <em>data-linking</em>, using the <em>JsObservable observer pattern</em>.\n\nThe JsViews `$.observable()` API provides a way for you to change objects or arrays <em>observably</em>. Each change will raise a <a href=\"#onpropchange\">property change</a> or <a href=\"#onarrchange\">array change</a> event. \n\n**Modify an object observably**\n\n```js\n$.observable(person).setProperty(\"name\", newName);\n```\n\n`$.observable(person)` makes the `person` object *\"observable\"*, by providing a `setProperty(...)` method. Use `setProperty` to change a value, and the change will be *\"observed\"* by the declarative data-binding in the template.\n\n\n**Modify an array observably**\n\n```js\n$.observable(people).insert(newPerson);\n```\n\n`$.observable(people)` makes the `people` array *\"observable\"*, by providing methods like `insert(...)` and `remove(...)`. Use them to make changes to arrays, and the changes will be *\"observed\"* by data-bound elements and tags in the template - such as the `{^{for dataArray}}` tag.\n\n[Learn more...](#$observable)"
+      },
+      {
+        "_type": "para",
+        "title": "Responding to data changes",
+        "text": "JsViews uses the *<a href=\"#onpropchange\">property change</a>* or *<a href=\"#onarrchange\">array change</a>* events to make any <a href=\"#linked-template-syntax\">data-linked tags or elements</a> in your templates update automatically in response to each *observable* change in your underlying data. In addition, with two-way data-linking, it ensures that those events are raised when the user interacts with a data-linked template, and causes changes to the underlying data.\n\n**observe() and observeAll()**\n\nThe [$.observe()](#observe) and [$.observable().observeAll()](#observeAll) APIs make it very easy for you to register event handlers or listeners, so your code can listen to specific observable changes made to your data objects or view models:\n\n```js\n$.observe(person, \"name\", function(...) {\n  // The \"name\" property of person has changed\n  ...\n});\n```\n\n```js\n$.observable(person).observeAll(function(...) {\n  // A property of person, or a nested object property, has changed\n  ...\n});\n```\n\n[Learn more...](#observeobjectsarrays)"
+      },
+      {
+        "_type": "para",
+        "title": "Accessing the view hierarchy",
+        "text": "Each instance of a rendered template or a template block tag is associated with a JsViews *\"view\"* object -- so nested tags lead to a hierarchy of view objects. The [view hierarchy](#views) shows how the underlying data objects map to the rendered UI.\n\n**From UI back to data:**\n\nUse [`$.view(elem)`](#jsv.d.view) to get from a DOM element to the corresponding `view` object for that part of the rendered content. From the `view` you can then get to the underlying `data`, the `index`, etc.\n\n*[Example](#jsv.d.view@$view):*\n\n```jsr\n{^{for people}}\n  ...\n  <button class=\"changeBtn\">Change</button>\n  ...\n{{/for}}\n```\n\nClick-handler code for <em>Change</em> button:\n\n```js\n$(\".changeBtn\").on(\"click\", function() {\n  var view = $.view(this); // From the clicked HTML element ('this'), get the view object\n  var person = view.data;  // The 'person' data object for clicked button\n  var index = view.index;  // The index of this 'item view'. (Equals index of person in people array)\n  $.observable(person).setProperty(\"name\", person.name + \" \" + index); // Change the person.name\n});\n```\n\n[Learn more...](#$view)"
       }
     ]
   },
   "jsr-node-quickstart": {
+    "filter": "jsr",
     "title": "JsRender Node.js Quickstart",
     "path": "",
     "sections": [
@@ -696,6 +765,59 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "_type": "para",
         "title": "JsRender Node Starter",
         "text": "For details and running code samples for Node.js scenarios, including with ***Express***, ***Hapi*** and ***Browserify***, see the [JsRender Node Starter](https://github.com/BorisMoore/jsrender-node-starter) project on GitHub."
+      }
+    ]
+  },
+  "home": {
+    "title": "JsRender",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": []
+      }
+    ]
+  },
+  "temp": {
+    "title": "JsViews QS end",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Computed observables",
+        "text": "paragraph"
+      },
+      {
+        "_type": "para",
+        "title": "Data-link target attributes",
+        "text": "Data-linking to value, innerHTML, innerText, class, disabled, CSS attributes, visibility, data-* attributes, selection, SVG"
+      },
+      {
+        "_type": "para",
+        "title": "Data-link expressions",
+        "text": "{for}, {if}, custom bindings"
+      },
+      {
+        "_type": "para",
+        "title": "Event bindings",
+        "text": "paragraph"
+      },
+      {
+        "_type": "para",
+        "title": "Datamaps",
+        "text": "paragraph"
+      },
+      {
+        "_type": "para",
+        "title": "Tag hierarchy",
+        "text": "paragraph"
+      },
+      {
+        "_type": "para",
+        "title": "Contextual parameters",
+        "text": "paragraph"
       }
     ]
   }

@@ -1,7 +1,17 @@
 ﻿(function(window, $, undefined) {
 "use strict";
-var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigating, skipLoad,
+var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTargetElem, skipLoad, searchbox, initPageParams, prevLochash,
+	isSearchTreeSelectionChange, isLeftNavSelectionChange, topSearchTree, loadedAll, searchtextElem, searchfloattextElem,
+
 	content = $.views.documentation.content,
+	searchInclude = content.include,
+	searchRegex = /#(?:search\?s=([^&]+)(&f=(jsr-)?(jsv-)?(smp-)?(txt-)?)?(?:&l=)?)?([^@]+)?(?:@(.+))?$/,
+	searchCategory = {
+		name: "home",
+		"class": "search",
+		loaded: true,
+		search: true
+	},
 	allowEdit = false,
 	md = new Remarkable('full', {
 		html: true,
@@ -20,12 +30,14 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 			return ''; // use external default escaping
 		}
 	}),
+	htmlConverter = $.views.converters.html,
 //#region TAG CONTROLS
 
 // {{page}}
 
+	historyIndex = -1,
+	historyStates = {},
 	sampleFrames = {},
-	plusButton = document.getElementById("thearrow"),
 	pageTag = {
 		init: function() {
 			window.pagetag = page = this;
@@ -35,32 +47,6 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 		onAfterLink: function() {
 			var page = this, activeContainer;
 			page.contents()
-//				.on( "mouseenter", ".showanchor", function( event ) {
-//					if ( event.relatedTarget && (event.relatedTarget.className === "plusButton") ) return; 
-//					//if (activeContainer) {
-//					//	activeContainer.style.border = "solid transparent 1px";
-//					//}
-//					activeContainer = this;
-//					//plusButton.innerHTML = $( this ).hasClass( "activeViewer" ) ? "-" : "+";
-			
-//					var offset = $( this ).offset();
-//var anchorImage = $()			
-//					this.style.border = "solid green 1px";
-//					//plusButton.style.left = offset.left + "px";
-//					//plusButton.style.top = offset.top + "px";
-//					plusButton.innerHTML = "HEY";
-//					plusButton.style.left = "3px";
-//					//plusButton.style.top = "30px";
-//					plusButton.style.display = "block";
-//				})
-//				.on( "mouseleave", ".showanchor", function( event ) {
-////					if ( event.relatedTarget && (event.relatedTarget.className === "plusButton") ) return; 
-			
-//					//var toolbar = $.data(  this, "plusViewerToolbar" );
-//					activeContainer = null;
-////					plusButton.style.display = "none";
-//					this.style.border = "solid transparent 1px";
-//				})
 				.on("click", ".insertsection", function() {
 					page.addSection($.view(this), this.innerText, this.getAttribute("data-type"), this.className.indexOf("append") >= 0);
 				})
@@ -108,7 +94,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 					$.observable($.view(this).ctx.parentTags.section.sampleFrame).setProperty("ranIt", true);
 				})
 				.on("contextmenu", function() {
-					if (allowEdit || content.allowEdit) {
+					if (!content.search && (allowEdit || content.allowEdit)) {
 						var editable = !page.editable;
 						$.observable(content).setProperty("editable", editable);
 						if (page.tree) {
@@ -139,13 +125,11 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 			this.tree = tree;
 			$.observable(tree).setProperty("selected", selectedCategory);
 			tree.onSelectionChange = function(selected) {
-				$.observable(page).setProperty({
-					hasDetail: selected.hasDetail
-				});
 				save(location.hash = selected.name);
 				if (tree.editable) {
 					tree.refresh();
 				}
+				isLeftNavSelectionChange = true;
 			};
 			tree.onExpansionChange = function(selected) {
 				save(selected.name);
@@ -182,7 +166,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 			$.observable(topics).insert(newTopic);
 		},
 		addCodeTab: function(view) {
-			var tabs = view.data.codetabs,
+			var tabs = view.data.codetabs = view.data.codetabs || [],
 				newTab = $.extend(true, {}, this.data.subTypes.codetab);
 			$.observable(tabs).insert(newTab);
 		},
@@ -248,12 +232,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 		},
 		tryIt: function(view) {
 			var sample = view.data;
-			sample.html2 = sample.html;
-			sample.css2 = sample.css;
-			sample.code2 = sample.code;
-			sample.markup2 = sample.markup;
-			sample.data2 = $.extend(true, {}, sample.data);
-			$.observable(sample).setProperty("tryIt", !sample.tryIt );
+			$.observable(sample).setProperty("tryIt", !sample.tryIt);
 		},
 		hideCategory: function(hash) {
 			function getCategoryNode(name, categories, parent) {
@@ -280,28 +259,133 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 			hidden = hash && getCategoryNode(hash, categories);
 			return hidden && hidden.hidden;
 		},
-		navTo: function(lochash) {
-			if (lochash.indexOf("@", 1) > -1 && (navigating = document.getElementById(lochash + "$"))) {
-				skipLoad = true;
-				location.hash = lochash;
-				setTimeout(function() {
-					skipLoad = undefined;
-				}, 0);
-				$("html, body").delay(150).animate({ scrollTop: $(navigating).offset().top - 40 }, 625, function navComplete() {
-					// Gets called twice - once for body and once for html
-					if (navigating) {
-						navigating = undefined;
+		scrollTo: function(lochash) {
+			location.hash = lochash;
+		},
+		navTo: function(lochash, newCat) {
+			var section, searchTreeNode, offset, categoryName, sectionIndex, filter, searchTerm, scrollTo, wasSearch, navTreeNode, nav;
+			if (prevLochash !== lochash) {
+				if (section = searchRegex.exec(lochash)) {
+					if (searchTerm = section[1]) {
+						$.observable(searchInclude).setProperty({
+							jsr: !section[3],
+							jsv: !section[4],
+							smp: !section[5],
+							txt: !section[6]
+						});
 					}
-					if (navigating === false) {
-						window.scrollTo(0, 0);
+					categoryName = section[7];
+					sectionIndex = section[8];
+					if (searchTreeNode = sectionIndex && searchTerm) {
+						searchTreeNode = categoryName + "@" + sectionIndex;
+						section = content.filter[sectionIndex].text;
+						$.observable(content).setProperty("searchtext", topSearchTree.searchtext = section);
+						searchtextElem.addClass("selected");
+					} else {
+						section = sectionIndex;
+						wasSearch = content.searchtext;
+						$.observable(content).setProperty("searchtext", topSearchTree.searchtext = undefined);
+						searchtextElem.removeClass("selected");
 					}
-				});
-			} else {
-				navigating = false;
-				window.scrollTo(0, 0);
+					initPage(categoryName, searchTerm, sectionIndex);
+					if (!searchTerm && page.tree) { // If tree not yet instantiated, will set selection in page.setTree()
+						$.observable(page.tree).setProperty("selected", selectedCategory);
+						navTreeNode = $(".sidenav li.selected")[0];
+					}
+				}
+				if (section && (scrollTargetElem = document.getElementById(lochash + "$"))) {
+					skipLoad = true;
+					newCat = newCat === true || !isSearchTreeSelectionChange;
+					setTimeout(function() { // Need short delay for Chrome to scroll to 0 - after it has moved to previous scroll position
+						if (lochash === location.hash) { // If a new request has started, skip this one. (Fast clicking on prev, next, or history back/forward)
+							if (newCat || !scrollTargetElem) {
+								window.scrollTo(0, 0);
+							}
+							if (scrollTargetElem) {
+								offset = $(scrollTargetElem).offset().top
+									- (!content.searched
+										? 40
+										: searchTreeNode
+											? 140
+											: 120);
+
+								$.observable(content).setProperty("loc", lochash);
+
+								$(navigator.userAgent.toLowerCase().indexOf('webkit') > 0 ? 'body' : 'html')
+									.delay(150).animate({scrollTop: offset}, searchTreeNode ? 100 : 625, function() {
+									if (!isSearchTreeSelectionChange && lochash === location.hash) { // If a new request has started, skip this one.
+										if (searchTreeNode = document.getElementById(searchTreeNode + "$")) {
+											nav = $(".searchnav");
+											nav.animate({scrollTop: nav.scrollTop() - nav.height()/2
+												+ $(searchTreeNode).offset().top - $("#id-searchbox").offset().top - 60}, 150);
+										}
+									}
+									scrollTargetElem = isSearchTreeSelectionChange = false;
+								});
+							}
+						}
+					}, 0);
+				} else {
+					navTreeNode = !isLeftNavSelectionChange && navTreeNode;
+					scrollTargetElem = isSearchTreeSelectionChange = isLeftNavSelectionChange = false;
+					if (!wasSearch) {
+						setTimeout(function() { // Need short delay for Chrome to scroll to 0 - after it has moved to previous scroll position
+							window.scrollTo(0, historyStates[historyIndex] && historyStates[historyIndex].scroll || 0);
+							if (navTreeNode) {
+								nav = $(".sidenav");
+								nav.animate({scrollTop: navTreeNode.offsetTop - nav.height()/2}, 150);
+							}
+						}, 0);
+					}
+				}
+				prevLochash = lochash;
 			}
 			return false;
 		}
+	},
+
+// {{searchTree}}
+ 
+	searchTreeTag = {
+		baseTag: "tree",
+		filter: true,
+		init: function(tagCtx) {
+			tagCtx.ctx.tree = topSearchTree; // Set contextual property ~tree
+		},
+		onAfterLink: function() {
+			var self = this;
+			self.contents("ul")
+				.on("click", ".toggle", function(ev) {
+					$.view(this).ctx.tag.toggle();
+					ev.stopImmediatePropagation();
+				})
+		},
+		template: "<ul class=\"tree\">" +
+			"{^{for}}" +
+				"{^{searchTreeNode/}}" +
+			"{{/for}}" +
+		"</ul>"
+	},
+
+	searchTreeNodeTag = {
+		baseTag: "treeNode",
+		template: "{^{if !hidden && filtered}}<li {{:filtered.length ? 'class=\"withgroup\"' : ''}} data-link=\"class{merge: ~tree.topicName === name toggle='topicsel'}\">" +
+			"{^{if categories && categories.length }}" +
+				"<span class=\"toggle\">{^{:expanded ? '-' : '+' }}</span>" +
+			"{{else}}" +
+				"<span class=\"spacer\">&bull;</span>" +
+			"{{/if}}" +
+			"<span class=\"searchitem\">{{>label}}</span> {{if filtered.length}}<span class='searchgroup'>{^{for filtered ~name=name}}<div class='searchcontext' id='{{:section}}$' data-link=\"{on ~tree.select section true} class{merge: ~tree.selected === section toggle='sectionsel'} {on 'mouseenter' ~tree.mouseenter ~name}\">{{:text}}</div><span class='searchplace'></span>{{/for}}</span>{{/if}}" +
+		"</li>{{if filtered.length}}<li class='aftergroup'></li>{{/if}}" +
+		"{^{if expanded }}" +
+			"<li>" +
+				"<ul>" +
+					"{^{for categories }}" +
+						"{^{searchTreeNode/}}" +
+					"{{/for}}" +
+				"</ul>" +
+			"</li>" +
+		"{{/if}}{{/if}}"
 	},
 
 // {{section}}
@@ -440,8 +524,10 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 						html = html.slice(0, toremove);
 					}
 					if (header) { // Fails in IE8 or earlier
-						header = header.innerHTML.replace(/^.*sample-viewer.*$/m, "");
-						header = header.slice(header.indexOf('.js"></script>\n') + 15);
+						header = header.innerHTML
+							.replace(/^.*sample-viewer.*$/m, "")
+							.replace(/<style type="text\/css"><\/style>/, "")
+							.replace(/^\n*.*\.js"><\/script>\n*/, "");
 					}
 					$.get(data.url + ".js", function(content) {
 						loadScript({code: content});
@@ -471,7 +557,8 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 						data: data.data,
 						markup: data.markup,
 						html: data.html,
-						code: data.code
+						code: data.code,
+						onlyJsRender: data.onlyJsRender
 					};
 					codetabs && self.loadTabs(codetabs);
 				}
@@ -485,12 +572,11 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 				}, "text");
 			});
 		},
-		template: "<iframe src=\"{{attr:url||'samples/iframeDefault'}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}px;\"></iframe>",
+		template: "<iframe src=\"{{attr:url||'samples/iframeDefault' + (onlyJsRender?'Jsr':'')}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}px;\"></iframe>",
 		onBeforeLink: function() {
 			var self = this,
 				iframeWnd = self.iframeWnd = $(self.parentElem).find(".sampleframe")[0].contentWindow;
 			if (iframeWnd) {
-//		iframeWnd._tgId = self._tgId;
 				sampleFrames[iframeWnd._tgId = self._tgId] = self;
 			}
 			self.parent.tabs.onSelectionChange = function() {
@@ -501,9 +587,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 			this.iframeWnd = this.parent.sampleFrame = this.parentElem = undefined;
 		},
 		onTabChange: function(index, tabs) {
-			$.observable(this).setProperty({
-				tryIt: index === tabs.tabCount - 1
-			});
+			$.observable(this).setProperty("tryIt", index === tabs.tabCount - 1);
 		},
 		runCode: function(revert) {
 			if (revert) {
@@ -572,7 +656,13 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 
 			function renderField(type, label) {
 				var value = tryItData[type],
-					isData = type === "data";
+					isData = type === "data",
+					highlightSyntax = {
+						code: "js",
+						markup: "jsr",
+						html: "jsr"
+					};
+
 				if (value) {
 					value = "<label>" + (label||type);
 					if (editable) {
@@ -585,7 +675,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 						value += ":<pre>"
 							+ (isData
 								? hljs.highlight("json", stringify(tryItData[type])).value
-								: hljs.highlightAuto(tryItData[type]).value
+								: hljs.highlight(highlightSyntax[type] || "javascript", tryItData[type]).value
 							) + "</pre></label>";
 					}
 				}
@@ -597,8 +687,9 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 				onlyJsRender = this.tagCtx.view.data.origData.onlyJsRender,
 				editable = mode==="edit",
 				url = this.parent.parents.section.data.url;
+
 			if (mode === "full") {
-				ret += "<textarea class=\"fullcode\">" + $.views.converters.html(fullCode()) + "</textarea>";
+				ret += "<textarea class=\"fullcode\">" + htmlConverter(fullCode()) + "</textarea>";
 			} else if (mode === "code") {
 				ret += renderField(arg1, arg2);
 			} else if (tryItData.html) {
@@ -621,6 +712,11 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 				sectionButtons: sectionButtonsTag,
 				sectionHeader: sectionHeaderTag,
 				sectionTitle: sectionTitleTag
+			},
+			converters: {
+				newsearch: function(val) {
+					return val.toLowerCase();
+				}
 			}
 		})
 	},
@@ -641,13 +737,11 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 			}),
 			data: $.templates("#dataTmpl"),
 			template: $.templates({
-				markup: "#templateTmpl",
-				converters: {syntaxColor: syntaxColor} // todo
+				markup: "#templateTmpl"
 			}),
 			code: $.templates("#codeTmpl"),
 			sample: $.templates({
 				markup: "#sampleTmpl",
-				converters: {syntaxColor: syntaxColor}, // todo
 				tags: {
 					sampleFrame: sampleFrameTag,
 					sampleFields: sampleFieldsTag
@@ -710,6 +804,239 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, navigati
 		}
 	};
 
+var testDiv = $("#testHtml")[0];
+
+function treeGroup () {}
+
+treeGroup.prototype = {
+	select: function(section) {
+		if (this.selected !== section) {
+			location.hash = "search?s=" + encodeURIComponent(content.search) + searchIncludeHash() + "&l=" + section;
+			searchtextElem.addClass("selected");
+		}
+	},
+	unselect: function() {
+		location.hash = "search?s=" + encodeURIComponent(content.search) + searchIncludeHash();
+		searchtextElem.removeClass("selected");
+	},
+	changing: function(ev, eventArgs) {
+		var searchTerm, newSearch,
+			noSearch = " ";
+		if (eventArgs.value || eventArgs.oldValue) {
+			searchTerm = eventArgs.value;
+			if (ev.keyCode === 13 && searchTerm) {
+				newSearch = content.search !== searchTerm;
+				searchTerm = "#search?s=" + encodeURIComponent(searchTerm) + searchIncludeHash();
+				if (location.hash !== searchTerm) {
+					location.hash = searchTerm;
+					$.observable(content).setProperty("noSearch", newSearch ? "Loading" : "");
+				}
+				return; // Set content.search to value in text box.
+			}
+			if (searchTerm !== content.search) {
+				if (searchTerm) {
+					noSearch = "Hit Enter to search...";
+				}
+			} else {
+				noSearch = "";
+			}
+		}
+		$.observable(content).setProperty("noSearch", noSearch);
+		return false;
+	},
+	prev: function() {
+		var newIndex = this.sectionIndex === undefined ? content.filterlen - 1 : this.sectionIndex - 1;
+		if (newIndex >= 0) {
+			this.select(content.filter[newIndex].section);
+		} else if (newIndex === -1) {
+			this.unselect();
+		}
+	},
+	next: function() {
+		var newIndex = this.sectionIndex === undefined ? 0 : this.sectionIndex + 1;
+		if (newIndex < content.filterlen) {
+			this.select(content.filter[newIndex].section);
+		} else if (newIndex === content.filterlen) {
+			this.unselect();
+		}
+	},
+	close: function() {
+		location.hash = searchRegex.exec(location.hash)[7] || topCategoryName;
+	},
+	mouseenter: function(topicName, ev, eventArgs) { // Hover over a search target section
+		var section = eventArgs.linkCtx.data,
+			nav = $(".searchnav");
+
+		$.observable(content).setProperty({
+			hoverText: section.text, // Set section text on hover div, which will also make it visible
+			hoverTopicSel: this.topicName === topicName // True for search section within the currently selected topic - sets class for colors.
+		});
+		$("#hovertext")
+			.show()
+			.offset({top: eventArgs.linkCtx.elem.offsetTop + nav.offset().top - nav.scrollTop()});
+	},
+	mouseleave: function(ev, eventArgs) {
+		$("#hovertext").hide();
+	},
+	click: function(ev, eventArgs) { // Click on overlay: "#hoverText"
+		$("#hovertext").hide();
+		isSearchTreeSelectionChange = true;
+		this.select($.view(document.elementFromPoint(ev.clientX, ev.clientY)).data.section);
+	}
+};
+
+function searchIncludeHash() {
+	var hash = "";
+	if (!(searchInclude.jsr && searchInclude.jsv && searchInclude.smp && searchInclude.txt)) {
+		hash += "&f="
+		+ (searchInclude.jsr ? "" : "jsr-")
+		+ (searchInclude.jsv ? "" : "jsv-")
+		+ (searchInclude.smp ? "" : "smp-")
+		+ (searchInclude.txt ? "" : "txt-");
+	}
+	return hash;
+}
+
+function searchContent(searchValue) {
+	var i, category, foundInCat, foundInCats,
+		categories = content.categories,
+		l = categories.length;
+	content.filter = [];
+	$.observable(content).setProperty("searchtext", "");
+	searchtextElem && searchtextElem.removeClass("selected");
+	for (i=1; categories && i<l; i++) {
+		category = categories[i];
+		foundInCat = undefined;
+		if ((category.filter !== "jsr" || searchInclude.jsr)
+			&& (category.filter !== "jsv" || searchInclude.jsv)
+			&& !category.hidden
+			&& searchCat(category, searchValue.toLowerCase(), content[category.name], content.find[category.name])) {
+			foundInCat = true;
+			foundInCats = true;
+		}
+		$.observable(category).setProperty("filtered", foundInCat);
+	}
+	$.observable(content).setProperty({
+		noSearch: foundInCats || !searchValue ? "" : "No results found for <span class='searchterm'>" + searchValue + "</span>...",
+		filterlen: content.filter.length
+	});
+}
+
+function searchCat(category, search, topCatContent, topCatFindContent) {
+	var i, l, found, foundInTopic, foundInSubCat, categories, subCategory;
+	if (search && (categories = category.categories)) {
+		l = categories.length;
+		for (i=0; categories && i<l; i++) {
+			subCategory = categories[i];
+			foundInSubCat = foundInTopic = undefined;
+			if ((subCategory.filter !== "jsr" || searchInclude.jsr)
+				&& (subCategory.filter !== "jsv" || searchInclude.jsv)
+				&& !subCategory.hidden) {
+				foundInTopic = searchTopic(subCategory.name, search, topCatContent, topCatFindContent);
+				foundInSubCat = searchCat(subCategory, search, topCatContent, topCatFindContent);
+				if (foundInTopic.length || foundInSubCat) {
+					found = foundInTopic;
+				} else {
+					foundInTopic = undefined;
+				}
+			}
+			$.observable(subCategory).setProperty("filtered", foundInTopic);
+		}
+	}
+	return found;
+}
+
+function searchTopic(topicName, text, topCatContent, topCatFindContent) {
+	var i, l, index, displayText, ind, section, preText, postText, filtered, sectionId, searchItem, findSection, searchAnchor,
+		topic = topCatContent[topicName],
+		findTopic = topCatFindContent[topicName];
+	if (findTopic) {
+		l = findTopic.sections.length;
+		filtered = [];
+		if ((topic.filter !== "jsr" || searchInclude.jsr)
+			&& (topic.filter !== "jsv" || searchInclude.jsv)) {
+			for (i=0; i<l; i++) {
+				section = topic.sections[i];
+				findSection = findTopic.sections[i];
+				searchAnchor = undefined;
+				if (section && findSection.text && (section._type === "sample" && searchInclude.smp || section._type !== "sample" && searchInclude.txt)) {
+					displayText = findSection.text;
+					index = displayText.toLowerCase().indexOf(text);
+					if (index + 1) {
+						preText = displayText.substring(index - 35, index);
+						if (ind = (preText.lastIndexOf("\n") + 1) || (preText.search(/\s/) + 1)) {
+							preText = preText.slice(ind);
+						}
+						postText = displayText.substr(index + text.length, 210 - text.length - preText.length);
+						if (ind = postText.indexOf("\n") + 1) {
+							postText = postText.slice(0, ind - 1);
+						}
+						sectionId = topicName + "@" + content.filter.length;
+						searchAnchor = "#search?s=" + encodeURIComponent(text) + searchIncludeHash() + "&l=" + sectionId;
+				
+						$.observable(section).setProperty("searchAnchor", "#search?s=" + encodeURIComponent(text) + searchIncludeHash() + "&l=" + sectionId);
+						searchItem = {
+							section: sectionId,
+							searchTerm: htmlConverter(displayText.substr(index, text.length)), 
+							text: htmlConverter(preText)
+								+ "<span class='searchterm'>"
+									+ htmlConverter(displayText.substr(index, text.length))
+								+ "</span>"
+								+ htmlConverter(postText)
+						};
+					
+						filtered.push(searchItem);
+						content.filter.push(searchItem);
+					}
+				}
+				$.observable(section).setProperty("searchAnchor", searchAnchor);
+			}
+		}
+		$.observable(topic).setProperty("filtered", filtered); 
+		return topic.filtered;
+	}
+}
+
+function clearSearch(searchValue) {
+	var category,
+		categories = content.categories,
+		l = categories.length;
+	content.filter = [];
+	while (categories && l-- > 1) {
+		category = categories[l];
+		category.filtered = undefined;
+		!category.hidden && clearSearchCat(category, content[category.name]);
+	}
+}
+
+function clearSearchCat(category, topCatContent) {
+	var l, categories, subCategory;
+	if (categories = category.categories) {
+		l = categories.length;
+		while (categories && l--) {
+			subCategory = categories[l];
+			if (!subCategory.hidden) {
+				subCategory.filtered = undefined;
+				clearSearchTopic(subCategory.name, topCatContent);
+				clearSearchCat(subCategory, topCatContent);
+			}
+		}
+	}
+}
+
+function clearSearchTopic(topicName, topCatContent) {
+	var l, section,
+		topic = topCatContent[topicName];
+	if (topic) {
+		l = topic.sections.length;
+		topic.filtered = undefined;
+		while (l--) {
+			section = topic.sections[l];
+			$.observable(section).setProperty("searchAnchor", undefined);
+		}
+	}
+}
+
 sectionTemplates.editview = sectionTemplates.detail = sectionTemplates.summary; // for now
 sectionTag.templates = sectionTemplates;
 
@@ -717,12 +1044,13 @@ sectionTag.templates = sectionTemplates;
 
 //#region HELPER FUNCTIONS
 
-function getCategory(hash, fetch) {
+function getCategory(catName, searchTerm, searchExclude) {
 	function getCategoryNode(name, subcategories, parent) {
 		if (selectedCategory = categories[0][name]) {
 			return topCategory = homeCategory = selectedCategory;
 		}
 		topCategory = undefined;
+
 		stack.push(parent);
 		var category,
 			l = subcategories.length;
@@ -746,26 +1074,50 @@ function getCategory(hash, fetch) {
 		oldTopCategory = topCategoryName,
 		loadedPromise = $.Deferred();
 
-	selectedCategory = hash && getCategoryNode(hash, categories) || categories[0].jsrender;
-
+	selectedCategory = catName && getCategoryNode(catName, categories) || categories[0].jsrender;
 	topCategory = topCategory || selectedCategory;
+	if (searchTerm && !catName) {
+		topCategory = searchCategory;
+		if (page) {
+			page.category = undefined;
+		}
+	}
+
 	topCategoryName = topCategory.name;
 
 	if (topCategoryName !== oldTopCategory) {
 		if (oldTopCategory) {
-			$("#" + oldTopCategory)
+			$("#id-" + oldTopCategory)
 				.removeClass("selected")
 				.addClass("unselected");
 		}
-		$("#" + topCategoryName)
+		$("#id-" + topCategoryName)
 			.removeClass("unselected")
 			.addClass("selected");
 	}
 
-	$.observable(content).setProperty("topCategory", topCategory || selectedCategory);
+	if (content.topCategory !== topCategory) {
+		content.catName = catName; // Don't change this observably, to avoid triggering an additional UI update before topCategory has been set.
+		$.observable(content).setProperty("topCategory", topCategory);
+	}
 
-	if (topCategory && fetch && !topCategory.loaded) {
-		if (!topCategory.loading) {
+	if (searchTerm) {
+		if (content.searched !== searchTerm || content.searchExclude !== searchExclude) {
+			loadAllContent()
+				.then(function() {
+					loadAllContent("find")
+						.then(function() {
+							searchContent(searchTerm);
+							$.observable(content).setProperty("searched", searchTerm);
+							content.searchExclude = searchExclude;
+							loadedPromise.resolve();
+						});
+				});
+		} else {
+			loadedPromise.resolve();
+		}
+	} else {
+		if (!topCategory.loaded && !topCategory.loading) {
 			topCategory.loading = " "; // true, but render blank until after timeout
 			topCat = topCategory; // Specific to this getCategory() call. (Global topCategory var may change before then() returns)
 
@@ -774,59 +1126,123 @@ function getCategory(hash, fetch) {
 					$.observable(topCat).setProperty("loaded", true);
 					loadedPromise.resolve();
 				});
+
+			setTimeout(function() {
+				if (!topCat.loaded) {
+					$.observable(topCat).setProperty("loading", "Loading...");
+				}
+			}, 300);
+		} else {
+			if (content.searched) {
 				setTimeout(function() {
-					if (!topCat.loaded) {
-						$.observable(topCat).setProperty("loading", "Loading...");
-					}
-				}, 300);
+					clearSearch(); // lazy clear search annotations from content
+					$.observable(content).setProperty({
+						search: undefined,
+						filterlen: 0
+					});
+					content.searched = undefined;
+				}, 0);
 			}
-	} else {
-		loadedPromise.resolve();
+			loadedPromise.resolve();
+		}
 	}
 	return loadedPromise.promise();
 }
 
 function fetchCategory() {
-	if (!skipLoad) {
-		save();
-		var categoryName,
-			oldTopCategory = topCategory,
-			lochash = location.hash;
+	save();
 
-		if (!lochash || lochash === "#home") {
-			lochash = "#" + (homeCategory && homeCategory.key || "jsrender");
+	var categoryName, searchTerm, sectionIndex, searchExclude,
+		oldTopCategory = topCategory,
+		oldCategory = selectedCategory,
+		lochash = location.hash;
+
+	if (history) {
+		if (history.state && history.state.url === document.URL) {
+			historyIndex = history.state.index;
+			if (historyStates[historyIndex]) {
+				history.replaceState(historyStates[historyIndex], "")
+			} else {
+				historyStates[historyIndex] = history.state;
+			}
+		} else {
+			historyIndex++;
+			var newState = historyStates[historyIndex] = {
+				url: document.URL,
+				index: historyIndex
+			};
+
+			history.replaceState(newState, "")
+
+			if (historyStates[historyIndex - 1]) {
+				historyStates[historyIndex - 1].scroll = $(window).scrollTop();
+			}
 		}
-		categoryName = lochash.split(/[#@]/)[1];
+	}
 
-		return getCategory(categoryName, true)
-			.then(function() {
-				if (page) {
-					var topCategoryName = topCategory.name;
-					if (topCategoryName !== "home" && !content[topCategoryName]) {
-						throw topCategoryName + " not loaded. Ensure category.loaded not saved as 'true'...";
-					}
-					$.observable(page).setProperty({
-						category: selectedCategory
-					});
-					if (page.tree) { // If tree not yet instantiated, will set selection in page.setTree()
-						$.observable(page.tree).setProperty("selected", selectedCategory);
-					}
-					if (oldTopCategory !== topCategory) {
-						oldTopCategory.loading = ""; // false
-						if (oldTopCategory && oldTopCategory.key) {
-							$("#logo-" + oldTopCategory.key)
-								.removeClass("selected")
-								.addClass("unselected");
-						}
-						if (topCategory.key) {
-							$("#logo-" + topCategory.key)
-								.removeClass("unselected")
-								.addClass("selected");
-						}
-					}
-					page.navTo(lochash);
+	if (!lochash || lochash === "#home") {
+		lochash = "#" + (homeCategory && homeCategory.key || "jsrender");
+	}
+	categoryName = searchRegex.exec(lochash);
+
+	if (categoryName[1]) {
+		$.observable(searchInclude).setProperty({
+			jsr: !categoryName[3],
+			jsv: !categoryName[4],
+			smp: !categoryName[5],
+			txt: !categoryName[6]
+		});
+		$.observable(content).setProperty("search", searchTerm = decodeURIComponent(categoryName[1]));
+	}
+
+	sectionIndex = categoryName[8];
+	searchExclude = categoryName[2];
+	categoryName = categoryName[7];
+
+	return getCategory(categoryName, searchTerm, searchExclude)
+		.then(function() {
+			if (page) {
+				var newTopCat = oldTopCategory !== topCategory;
+				topCategoryName = topCategory.name;
+				if (topCategoryName !== "home" && !content[topCategoryName]) {
+					throw topCategoryName + " not loaded. Ensure category.loaded not saved as 'true'...";
 				}
-			});
+				$.observable(page).setProperty({
+					category: selectedCategory
+				});
+
+				if (newTopCat) {
+					oldTopCategory.loading = ""; // false
+					if (oldTopCategory && oldTopCategory.key) {
+						$("#logo-" + oldTopCategory.key)
+							.removeClass("selected")
+							.addClass("unselected");
+					}
+					if (topCategory.key) {
+						$("#logo-" + topCategory.key)
+							.removeClass("unselected")
+							.addClass("selected");
+					}
+				}
+				page.navTo(lochash, newTopCat || oldCategory !== selectedCategory);
+			} else {
+				initPageParams = {catName: categoryName, searchTerm: searchTerm, section: sectionIndex};
+			}
+		});
+}
+
+function initPage(categoryName, searchTerm, sectionIndex) {
+
+	$.observable(content).setProperty({
+		searchTitle: searchTerm && categoryName && content[topCategoryName][categoryName].title,
+		catName: categoryName
+	});
+	if (searchTerm) {
+		$.observable(topSearchTree).setProperty({
+			sectionIndex: sectionIndex && parseInt(sectionIndex),
+			topicName: categoryName,
+			selected: sectionIndex && (categoryName + "@" + sectionIndex)
+		});
 	}
 }
 
@@ -898,10 +1314,6 @@ function parse(val) {
 	}
 }
 
-function syntaxColor(val) { // todo
-	return $.views.converters.html(val);
-}
-
 function save() {
 	if (content.editable) {
 		var topics, category,
@@ -939,7 +1351,9 @@ function save() {
 
 $.views.tags({
 	page: pageTag,
-	section: sectionTag
+	section: sectionTag,
+	searchTree: searchTreeTag,
+	searchTreeNode: searchTreeNodeTag
 });
 
 $.views.helpers({
@@ -954,22 +1368,40 @@ $.views.converters({
 	},
 	parse: parse,
 	md: function(val) {
-return md.render(val);
+		return md.render(val);
 	}
 });
 
+topSearchTree = content.searchTree = new treeGroup();
+
 fetchCategory()
 	.then(function() {
-		var selectedLogo,
-			categories = content.categories,
-			l = categories.length;
+		var selectedLogo, categoryName,
+		categories = content.categories,
+		l = categories.length;
+
+		while (l--) {
+			categories[l].loadedfind = categories[l].loadingfind = undefined;
+		}
 
 		content.topCategory = topCategory || selectedCategory;
 
-		templates.page.link("#content", content, {templates: templates});
+		//================ Load Page ================
+		templates.page.link("#id-content", content, {templates: templates});
 
-		$(window).on('hashchange', fetchCategory);
-		$(window).on('unload', save);
+		searchtextElem = $("#searchtext");
+		searchbox = $("#id-searchbox")[0];
+
+		if ('scrollRestoration' in history) {
+			history.scrollRestoration = 'manual';
+		}
+		$(window)
+			.on('hashchange', fetchCategory)
+			.on('unload', save);
+
+		$.observe(searchInclude, "jsr", "jsv", "smp", "txt", function(ev, eventArgs){
+			location.hash = "search?s=" + searchRegex.exec(location.hash)[1] + searchIncludeHash();
+		});
 
 		$("#logo-" + topCategory.key)
 			.removeClass("unselected")
@@ -984,20 +1416,43 @@ fetchCategory()
 			selectedLogo = $(this).addClass("selected").removeClass("unselected");
 			location.hash = this.id.slice(5);
 		});
-
-		while (l--) {
-			// lazy load other content in the background
-			(function() { // Equivalent to $.proxy. Ensure category is specific to this call
-				var category = categories[l];
-				if (l && !category.hidden && !category.loading) {
-					category.loading = " ";
-					$.getScript("documentation/contents-" + category.name + ".js")
-						.then(function() {
-							$.observable(category).setProperty("loaded", true);
-						});
-				}
-			})();
+		if (!loadedAll) {
+			setTimeout(function() {
+				loadAllContent(); // lazy load other content in the background
+			}, 0);
 		}
 	});
+
+function loadAllContent(prefix) {
+	var categories = content.categories,
+		l = categories.length,
+		notLoaded = 0,
+		allLoadedPromise = $.Deferred(),
+		loadingLabel = "loading" + (prefix||""),
+		loadedLabel = "loaded" + (prefix||"");
+	prefix = prefix || "contents";
+	loadedAll = true;
+	while (l-- > 1) {
+		(function() { // Equivalent to $.proxy. Ensure category is specific to this call
+			var category = categories[l];
+			if (!category.hidden && !category[loadingLabel]) {
+				notLoaded++;
+				category[loadingLabel] = " ";
+				$.getScript("documentation/" +  prefix + "-" + category.name + ".js")
+					.then(function() {
+						$.observable(category).setProperty(loadedLabel, true);
+						notLoaded--;
+						if (!notLoaded) {
+							allLoadedPromise.resolve();
+						}
+					});
+			}
+		})();
+	}
+	if (!notLoaded) {
+		allLoadedPromise.resolve();
+	}
+	return allLoadedPromise.promise();
+}
 //#endregion
 })(this, this.jQuery);

@@ -1,0 +1,47 @@
+{
+  "name": "jsrender-node-starter",
+  "version": "0.1.0",
+  "description": "Starter app for JsRender server-rendered templates on Node.js using Express 4 or Hapi, and optionally Browserify and JsRenderify",
+  "main": "index-express.js",
+  "scripts": {
+    "start": "node index-express.js",
+    "helloworld": "node index-helloworld.js",
+    "express": "node index-express.js",
+    "hapi": "node index-hapi.js",
+    "express-b": "node index-express-browserify.js",
+    "hapi-b": "node index-hapi-browserify.js",
+    "bundle": "node ./browserify/makebundle.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.13.2",
+    "browserify": "^11.0.0",
+    "express": "^4.13.3",
+    "hapi": "^9.0.3",
+    "inert": "^3.0.1",
+    "jquery": "^2.1.4",
+    "jsrender": "^@@include("templates/-version.txt")",
+    "serve-favicon": "^2.3.0",
+    "through2": "^2.0.0",
+    "vision": "^3.0.0"
+  },
+  "engines": {
+    "node": "0.12.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BorisMoore/jsrender-node-starter"
+  },
+  "keywords": [
+    "jsrender",
+    "jsviews",
+    "templates",
+    "node",
+    "express",
+    "hapi",
+    "browserify",
+    "jsrenderify",
+    "heroku"
+  ],
+  "license": "MIT",
+  "devDependencies": {}
+}

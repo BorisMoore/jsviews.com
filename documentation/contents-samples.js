@@ -138,7 +138,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "sampleName": "jsrender/composition/tmpl",
         "url": "samples/jsrender/composition/tmpl/sample",
         "onlyJsRender": true,
-        "height": "244",
+        "height": "255",
         "title": ""
       },
       {
@@ -195,7 +195,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "codetabs": [],
         "sampleName": "jsrender/composition/from-strings",
-        "height": "90",
+        "height": "94",
         "onlyJsRender": true,
         "url": "samples/jsrender/composition/from-strings/sample"
       },
@@ -263,7 +263,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "sampleName": "jsrender/composition/remote-tmpl",
         "url": "samples/jsrender/composition/remote-tmpl/sample",
-        "height": "90",
+        "height": "94",
         "onlyJsRender": true
       }
     ]
@@ -402,7 +402,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "codetabs": [],
         "sampleName": "jsrender/tags/wrap-content",
         "url": "samples/jsrender/tags/wrap-content/sample",
-        "height": "212",
+        "height": "224",
         "onlyJsRender": true
       }
     ]
@@ -458,7 +458,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "sampleName": "jsrender/tags/extend-for",
         "url": "samples/jsrender/tags/extend-for/sample",
-        "height": "450",
+        "height": "464",
         "onlyJsRender": true
       }
     ]
@@ -538,7 +538,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "codetabs": [],
         "sampleName": "jsrender/helpers",
         "url": "samples/jsrender/helpers/sample",
-        "height": "168",
+        "height": "175",
         "onlyJsRender": true
       }
     ]
@@ -581,7 +581,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "codetabs": [],
         "sampleName": "jsrender/paths",
-        "height": "340",
+        "height": "346",
         "onlyJsRender": true,
         "url": "samples/jsrender/paths/sample"
       }
@@ -618,6 +618,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "Tag controls"
           }
         ]
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also the additional samples in the <a href=\"https://github.com/BorisMoore/jsviews/tree/master/demos\">demos</a> folder of the JsViews GitHub repository (available <a href=\"http://borismoore.github.io/jsviews/demos/index.html\">here</a> as live samples)."
       }
     ]
   },
@@ -655,7 +660,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "codetabs": [],
         "sampleName": "jsrender/converters",
         "url": "samples/jsrender/converters/sample",
-        "height": "425",
+        "height": "448",
         "title": "Using {{: }} or {{> }} to render data values with optional conversion or encoding",
         "onlyJsRender": true
       }
@@ -803,7 +808,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "codetabs": [],
         "sampleName": "editable-data/linked-tags",
         "url": "samples/editable-data/linked-tags/sample",
-        "height": "400"
+        "height": "320"
       },
       {
         "_type": "para",
@@ -841,7 +846,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "codetabs": [],
         "sampleName": "editable-data/linked-elems",
         "url": "samples/editable-data/linked-elems/sample",
-        "height": "300"
+        "height": "320"
       },
       {
         "_type": "para",
@@ -884,7 +889,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "codetabs": [],
         "sampleName": "editable-data/toplevel-for",
         "url": "samples/editable-data/toplevel-for/sample",
-        "height": "300"
+        "height": "320"
       },
       {
         "_type": "para",
@@ -922,7 +927,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "codetabs": [],
         "sampleName": "editable-data/observe",
         "url": "samples/editable-data/observe/sample",
-        "height": "300"
+        "height": "320"
       }
     ]
   },
@@ -1161,7 +1166,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "sampleName": "tag-controls/datepicker/simple",
         "url": "samples/tag-controls/datepicker/simple/sample",
-        "height": "730"
+        "height": "750"
       }
     ]
   },
@@ -1186,16 +1191,9 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "Multiple examples of `{{datepicker}}` syntax..."
           }
         ],
-        "codetabs": [
-          {
-            "_type": "codetab",
-            "name": "",
-            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
-            "label": "jsviews-jqueryui-widgets"
-          }
-        ],
+        "codetabs": [],
         "sampleName": "tag-controls/datepicker/variants",
-        "height": "1370",
+        "height": "1600",
         "url": "samples/tag-controls/datepicker/variants/sample"
       }
     ]
@@ -1242,7 +1240,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "sampleName": "tag-controls/datepicker/with-validation",
-        "height": "780",
+        "height": "820",
         "url": "samples/tag-controls/datepicker/with-validation/sample"
       }
     ]
@@ -1269,7 +1267,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "title": "",
-        "height": "465",
+        "height": "485",
         "codetabs": [
           {
             "_type": "codetab",
@@ -1413,6 +1411,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "path": "",
     "sections": [
       {
+        "_type": "para",
+        "title": "",
+        "text": "Here is a sample using data-linking to instantiate and bind a slider control, as well as SVG content, within a template:"
+      },
+      {
         "_type": "sample",
         "typeLabel": "Sample:",
         "codetabs": [
@@ -1449,7 +1452,54 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "sampleName": "tag-controls/slider/simple",
         "url": "samples/tag-controls/slider/simple/sample",
-        "height": "400"
+        "height": "400",
+        "title": "Slider control"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is another version of the above sample, using top-level data-linking to instantiate and bind the slider control and the SVG content (within top-level page content rather than in a rendered template):"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "Slider with initialized properties (top-level data-linking)",
+            "text": "```jsr\n<div data-link=\"{slider size _range='min' _min=1 max=200 _orientation='vertical' width=400}\"></div>\n```"
+          },
+          {
+            "_type": "template",
+            "title": "Data-linking to SVG content",
+            "markup": "<svg data-link=\"css-width{: 2 + size*2}\" class=\"svg-circles\">\n  <circle data-link=\"r{:size} cx{:size + 1}\" ...></circle>\n  ...\n</svg>"
+          },
+          {
+            "_type": "code",
+            "title": "Activate data-linking ",
+            "code": "$.link(true, \"body\", model);"
+          }
+        ],
+        "sampleName": "tag-controls/slider/simple-toplevel",
+        "url": "samples/tag-controls/slider/simple-toplevel/sample",
+        "height": "400",
+        "title": "Top-level data-link=\"{slider ...}\"",
+        "anchor": "toplink"
       }
     ]
   },
@@ -1597,7 +1647,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "sampleName": "tag-controls/validate/simple",
         "url": "samples/tag-controls/validate/simple/sample",
-        "height": "800"
+        "height": "860"
       }
     ]
   },
@@ -1638,7 +1688,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "sampleName": "tag-controls/validate/validation-group",
         "url": "samples/tag-controls/validate/validation-group/sample",
-        "height": "850"
+        "height": "890"
       }
     ]
   },
@@ -1670,7 +1720,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/form-els/simple/top-level",
-        "height": "784"
+        "height": "806"
       },
       {
         "_type": "sample",
@@ -1691,7 +1741,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/form-els/simple/template",
-        "height": "757"
+        "height": "806"
       }
     ]
   },
@@ -1955,7 +2005,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "sampleName": "tag-controls/edit/generic",
         "url": "samples/tag-controls/edit/generic/sample",
-        "height": "1000"
+        "height": "1006"
       }
     ]
   },
@@ -2293,7 +2343,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "This is the page seven of a <a href=\"#samples/data-link\">tutorial sequence</a> on data-linking. We show how to link to all the possible targets on an HTML element, such as attributes, styles and class.\n\nIn the JsRender template on the first page of this tutorial, <a href=\"#samples/data-link/from-render-to-link\">From rendering to linking</a>, we used <em>DOM level 0</em> mouse event handlers to show and hide the <em>'role details'</em>:\n\n```jsr\n<span ...\n  onmouseover=\"$('#role_{{:#index}}').show();\"\n  onmouseout=\"$('#role_{{:#index}}').hide();\"\n>\n  ...\n</span>\n```\n\nOn this tutorial page we will convert that feature to use data-linking, and successively show three ways to improve the original approach:\n<ul>\n<li>Use a converter to provide the inline code, so as to provide separation of code and markup</li>\n<li>Use attached event handlers, rather than inline code - and use JsViews to find the associated \"role details' element without needing to insert IDs into the HTML</li>\n<li>Use data-binding to trigger the hiding/showing from the mouse events</li>\n</ul>"
+        "text": "This is the page seven of a <a href=\"#samples/data-link\">tutorial sequence</a> on data-linking. We show how to link to all the possible targets on an HTML element, such as attributes, styles and class.\n\nIn the JsRender template on the first page of this tutorial, <a href=\"#samples/data-link/from-render-to-link\">From rendering to linking</a>, we used <em>DOM level 0</em> mouse event handlers to show and hide the <em>'role details'</em>:\n\n```jsr\n<span ...\n  onmouseover=\"$('#role_{{:#index}}').show();\"\n  onmouseout=\"$('#role_{{:#index}}').hide();\"\n>\n  ...\n</span>\n```\n\nOn this tutorial page we will convert that feature to use data-linking, and successively show three ways to improve the original approach:\n<ul>\n<li>Use a converter to provide the inline code, so as to provide separation of code and markup</li>\n<li>Use attached event handlers, rather than inline code - and use JsViews to find the associated 'role details' element without needing to insert IDs into the HTML</li>\n<li>Use data-binding to trigger the hiding/showing from the mouse events</li>\n</ul>"
       },
       {
         "_type": "para",
@@ -2319,7 +2369,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/data-link/11_linked-hover",
-        "height": "160",
+        "height": "166",
         "title": ""
       },
       {
@@ -2353,7 +2403,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "html": "",
         "code": "",
         "url": "samples/data-link/11b_linked-hover",
-        "height": "160"
+        "height": "166"
       },
       {
         "_type": "para",
@@ -2379,7 +2429,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/data-link/11c_linked-hover",
-        "height": "160"
+        "height": "166"
       },
       {
         "_type": "para",
@@ -2654,12 +2704,13 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "markup": "<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n"
           }
         ],
-        "markup": "<p>\n<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n  I am {^{:disableButton?'disabled':'enabled'}}\n</button><br/><br/>\n</p>\n<p>\nDisable: <input data-link=\"disableButton\" type=\"checkbox\" /><br/>\nSet button (on hover) title: <input data-link=\"theTitle trigger=true\" />\n</p>",
+        "markup": "<p>\n<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n  I am {^{:disableButton?'disabled':'enabled'}}\n</button>\n</p>\n<p>\nDisable: <input data-link=\"disableButton\" type=\"checkbox\" /><br/>\nSet button (on hover) title: <input data-link=\"theTitle trigger=true\" />\n</p>",
         "data": {
           "theTitle": "the title",
           "disableButton": false
         },
-        "title": ""
+        "title": "",
+        "height": "120"
       },
       {
         "_type": "para",
@@ -2803,7 +2854,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "html": "<style>\n  .regular { padding 5px; margin: 5px; display: inline-block; }\n  .special { color: green; display: inline-block; border: 2px solid red; padding 15px; margin: 5px; }\n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"myTemplate\" type=\"text/x-jsrender\">\n  <input type=\"checkbox\" data-link=\"isSpecial\" />\n  <div data-link=\"\n      {:isSpecial?'special':'regular'}\n      class{:isSpecial?'special':'regular'}\n    \"></div>\n</script>",
         "code": "var data = {\n  isSpecial: false\n};\n\nvar myTmpl = $.templates(\"#myTemplate\");\n\nmyTmpl.link(\"#result\", data);",
-        "height": "56"
+        "height": "60"
       },
       {
         "_type": "para",

@@ -66,7 +66,7 @@
   }}
     <div class="radiogroup">
       {^{for ~people}}
-        <input type="radio" name="gp1" data-link="value{upper:name}"/><label>{^{:name}}</label><br/>
+        <label><input type="radio" name="gp1" data-link="value{upper:name}"/>{^{:name}}</label><br/>
       {{/for}}
     </div>
   {{/validate}}
@@ -96,7 +96,7 @@
     convertBack=~lower
   }" class="radiogroup">
       {^{for people}}
-        <input type="radio" name="gp2" value="{{upper:name}}" data-link="value^{upper:name}"/><label>{^{:name}}</label><br/>
+        <label><input type="radio" name="gp2" value="{{upper:name}}" data-link="value^{upper:name}"/>{^{:name}}</label><br/>
       {{/for}}
   </div>
 {{/validation}}

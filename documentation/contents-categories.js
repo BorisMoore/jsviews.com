@@ -10,6 +10,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       "heading": "Best-of-breed templating",
       "description": "Simple and intuitive, powerful and extensible, lightning fast",
       "key": "jsrender",
+      "class": "home",
       "home": {
         "prefix": "jsr",
         "next": "jsrplaying",
@@ -60,13 +61,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "sections": [
               {
                 "_type": "para",
-                "title": "{{:name}}: ",
-                "text": "Render the `name` property of the current data item "
-              },
-              {
-                "_type": "para",
-                "title": "{{if showNickname && nickname}}...{{/if}}",
-                "text": "An `{{if}}` tag: Render the block content only if the expression (`showNickname && nickname`) is true..."
+                "title": "",
+                "text": "```jsr\n{{:name}}\n```\n\nRender the `name` property of the current data item\n\n```jsr\n{{if showNickname && nickname}}...{{/if}}\n```\n\nAn `{{if}}` tag: Render the block content only if the expression (`showNickname && nickname`) is true..."
               }
             ],
             "data": [
@@ -97,6 +93,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       "heading": "The next-generation MVVM framework - bringing templates to life",
       "description": "The power of MVVM, the flexibility of JavaScript, the speed and ease of JsRender templates",
       "key": "jsviews",
+      "class": "home",
       "home": {
         "prefix": "jsv",
         "next": "jsvplaying",
@@ -131,18 +128,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "sections": [
               {
                 "_type": "para",
-                "title": "{^{name}} ... {^{if showNickname && nickname}}...",
-                "text": "These are data-bound tags. When the underlying data changes the data-value within the rendered template automatically updates too.\n\nChanging `{{if ...}}` to `{^{if ...}}` makes it data-bound. Now, when the underlying data value or expression changes the whole rendered block content is automatically removed or reinserted."
-              },
-              {
-                "_type": "para",
-                "title": "&lt;em data-link=\"nickname\">",
-                "text": "You can use element-based data-linking too. Here, the inner-text of the `<em>` element is data-bound to the `nickname` data value."
-              },
-              {
-                "_type": "para",
-                "title": "&lt;input data-link=\"name trigger=true\"/&gt;",
-                "text": "And here, the input is automatically two-way data-bound to the `name` property of the underlying data. Change the value in the text box, and the underlying data automatically updates. Any other parts of the template that are data-linked to the same data property will then immediately update too.\n\nInclude `trigger=true`, and updates will happen as you type, not just when you leave the textbox."
+                "title": "",
+                "text": "```jsr\n{^{name}} ... {^{if showNickname && nickname}}...\n```\n\nThese are data-bound tags. When the underlying data changes the data-value within the rendered template automatically updates too.\n\nChanging `{{if ...}}` to `{^{if ...}}` makes it data-bound. Now, when the underlying data value or expression changes the whole rendered block content is automatically removed or reinserted.\n\n```jsr\n<em data-link=\"nickname\">\n```\n\nYou can use element-based data-linking too. Here, the inner-text of the `<em>` element is data-bound to the `nickname` data value.\n\n```jsr\n<input data-link=\"name trigger=true\"/>\n```\n\nAnd here, the input is automatically two-way data-bound to the `name` property of the underlying data. Change the value in the text box, and the underlying data automatically updates. Any other parts of the template that are data-linked to the same data property will then immediately update too.\n\nInclude `trigger=true`, and updates will happen as you type, not just when you leave the textbox."
               }
             ],
             "data": [
@@ -160,7 +147,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "markup": "",
             "onlyJsRender": false,
             "height": "106",
-            "html": "<div id=\"result\"></div>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n<div>\n  Edit: <input type=\"checkbox\" data-link=\"editable\"/>\n  <em>Name:</em> {^{:name}}\n  {^{if showNickname && nickname}}\n    (Goes by <em data-link=\"nickname\"></em>)\n  {{/if}}\n  {^{if editable}}\n    <div>\n      <input data-link=\"name trigger=true\"/>\n      <input data-link=\"nickname trigger=true\"/>\n      <input type=\"checkbox\" data-link=\"showNickname\"/>\n    </div>\n  {{/if}}\n</div>\n\n</script>",
+            "html": "<div id=\"result\"></div>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n<div>\n  Edit: <input type=\"checkbox\" data-link=\"editable\"/>\n  <em>Name:</em> {^{:name}}\n  {^{if showNickname && nickname}}\n    (Goes by <em data-link=\"nickname\"></em>)\n  {{/if}}\n  {^{if editable}}\n    <div>\n      <input data-link=\"name trigger=true\"/>\n      <input data-link=\"nickname trigger=true\"/>\n      Show nickname: <input type=\"checkbox\" data-link=\"showNickname\"/>\n    </div>\n  {{/if}}\n</div>\n</script>",
             "code": "var data = [\n  {\n    \"name\": \"Robert\",\n    \"nickname\": \"Bob\",\n    \"showNickname\": true\n  },\n  {\n    \"name\": \"Susan\",\n    \"nickname\": \"Sue\",\n    \"showNickname\": false\n  }\n];\n\nvar template = $.templates(\"#theTmpl\");\n\ntemplate.link(\"#result\", data);"
           }
         ]
@@ -174,6 +161,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       "heading": "Live observable data in the browser",
       "description": "Code and declarative data-binding working hand-in-hand, adding interactivity and responsiveness to your single-page apps",
       "key": "jsobservable",
+      "class": "home",
       "home": {
         "prefix": "jso",
         "next": "getstarted",
@@ -218,20 +206,15 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "sections": [
               {
                 "_type": "para",
-                "title": " $.observable(object).setProperty(...);",
-                "text": "`$.observable(dataItem)` makes `dataItem` *\"observable\"*, by providing a `setProperty(...)` method. Use `setProperty` to change a value, and the change will be *\"observed\"* by the declarative data-binding in the template."
-              },
-              {
-                "_type": "para",
-                "title": "$.observable(array).insert(...);",
-                "text": "`$.observable(people)` makes the `people` array *\"observable\"*, by providing methods like `insert(...)` and `remove(...)`. Use them to make changes to arrays, and the changes will be *\"observed\"* by data-bound elements and tags in the template - such as the `{^{for people}}` tag. Here the rendered block content of the tag will be incrementally added/removed for each added/removed array item - in response to your change.\n\n`$.view(elem)` allows you to get from any DOM element to the *view* object for that part of the rendered content, and hence to the underlying data, index, etc."
+                "title": "",
+                "text": "```js\n$.observable(object).setProperty(...);\n```\n\n`$.observable(dataItem)` makes `dataItem` *\"observable\"*, by providing a `setProperty(...)` method. Use `setProperty` to change a value, and the change will be *\"observed\"* by the declarative data-binding in the template.\n\n`$.observable(people)` makes the `people` array *\"observable\"*, by providing methods like `insert(...)` and `remove(...)`. Use them to make changes to arrays, and the changes will be *\"observed\"* by data-bound elements and tags in the template - such as the `{^{for people}}` tag. Here the rendered block content of the tag will be incrementally added/removed for each added/removed array item - in response to your change.\n\n```js\n$.observable(array).insert(...);\n```\n\n`$.view(elem)` allows you to get from any DOM element to the *view* object for that part of the rendered content, and hence to the underlying data, index, etc."
               }
             ],
             "data": {},
             "markup": "",
             "onlyJsRender": false,
             "height": "175",
-            "html": "<table><tbody id=\"result\"></tbody></table>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr><td>\n      <button class=\"change\">Change</button>\n      <button class=\"remove\">X</button>\n      {^{:name}} \n    </td></tr>\n  {{/for}}\n</script>",
+            "html": "<table><tbody id=\"result\"></tbody></table>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr><td>\n      <button class=\"change\">Change</button>\n      <button class=\"remove\"></button>\n      {^{:name}} \n    </td></tr>\n  {{/for}}\n</script>",
             "code": "var template = $.templates(\"#theTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar counter = 1;\n\ntemplate.link(\"#result\", {people: people});\n\n$(\"#addBtn\").on(\"click\", function() {\n  $.observable(people).insert({name: \"name\" + counter++});\n})\n\n$(\"#result\")\n  .on(\"click\", \".change\", function() {\n    var dataItem = $.view(this).data;\n    $.observable(dataItem).setProperty(\"name\", dataItem.name + \"*\");\n  })\n  .on(\"click\", \".remove\", function() {\n    var index = $.view(this).index;\n    $.observable(people).remove(index);\n  });"
           }
         ]
@@ -266,6 +249,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "name": "jsv-quickstart",
         "label": "JsViews Quickstart",
+        "hidden": false
+      },
+      {
+        "name": "temp",
+        "label": "JsViews QS end",
         "hidden": true
       }
     ],
@@ -511,11 +499,31 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     "expanded": true
   },
   {
+    "filter": "jsr",
     "name": "jsrapi",
     "label": "JsRender API - Templated UI",
     "heading": "JsRender API documentation",
     "description": "Detailed API docs on using JsRender templates",
     "categories": [
+      {
+        "name": "tmplsyntax",
+        "label": "Template syntax and structure",
+        "categories": [
+          {
+            "name": "tagsyntax",
+            "label": "Tag syntax"
+          },
+          {
+            "name": "paths",
+            "label": "Paths and expressions"
+          },
+          {
+            "name": "views",
+            "label": "View hierarchy"
+          }
+        ],
+        "expanded": true
+      },
       {
         "name": "jsrtags",
         "label": "Template tags",
@@ -545,16 +553,16 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "{{if ...}}"
           },
           {
-            "name": "elsetag",
-            "label": "{{else ...}}"
-          },
-          {
             "name": "commenttag",
             "label": "{{!-- ... --}}"
           },
           {
             "name": "allowcodetag",
             "label": "{{* ... }} and {{*: ...}}"
+          },
+          {
+            "name": "elsetag",
+            "label": "{{else ...}}"
           },
           {
             "name": "customtagsapi",
@@ -569,7 +577,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "categories": [
           {
             "name": "tmplrender",
-            "label": "template.render() method"
+            "label": "myTmpl.render()"
           },
           {
             "name": "d.render",
@@ -603,15 +611,18 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "categories": [
               {
                 "name": "html",
-                "label": "$.views.converters.html()"
+                "label": "$.views.converters.html()",
+                "hidden": false
               },
               {
                 "name": "attr",
-                "label": "$.views.converters.attr()"
+                "label": "$.views.converters.attr()",
+                "hidden": false
               },
               {
                 "name": "url",
-                "label": "$.views.converters.url()"
+                "label": "$.views.converters.url()",
+                "hidden": false
               }
             ],
             "expanded": true
@@ -628,7 +639,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       },
       {
-        "hidden": true,
+        "hidden": false,
         "name": "jsrobjects",
         "label": "JsRender objects",
         "categories": [
@@ -645,27 +656,37 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "label": "$.views.sub object"
               }
             ],
-            "expanded": true
+            "expanded": true,
+            "hidden": true
           },
           {
             "name": "templateobject",
-            "label": "template object"
+            "label": "template object",
+            "hidden": true
           },
           {
             "name": "viewobject",
             "label": "view object"
           },
           {
+            "name": "viewobject2",
+            "label": "view object - to do",
+            "hidden": true
+          },
+          {
             "name": "tagobject",
-            "label": "tag object"
+            "label": "tag object",
+            "hidden": true
           },
           {
             "name": "viewcontextobject",
-            "label": "view context object"
+            "label": "view context object",
+            "hidden": true
           },
           {
             "name": "tagcontextobject",
-            "label": "tag context object"
+            "label": "tag context object",
+            "hidden": true
           }
         ],
         "expanded": true
@@ -676,9 +697,24 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       },
       {
-        "name": "jsrsettings",
+        "name": "settings",
         "label": "Settings",
-        "hidden": true
+        "hidden": true,
+        "categories": [
+          {
+            "name": "settings/delimiters",
+            "label": "delimiters"
+          },
+          {
+            "name": "settings/onerror",
+            "label": "onError"
+          },
+          {
+            "name": "settings/dbgmode",
+            "label": "dbgMode"
+          }
+        ],
+        "expanded": true
       },
       {
         "name": "jsrnode",
@@ -713,6 +749,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     "expanded": true
   },
   {
+    "filter": "jsv",
     "name": "jsvapi",
     "label": "JsViews API - Data-driven UI",
     "heading": "JsViews API documentation",
@@ -735,14 +772,13 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "linked-elem-syntax",
             "label": "Data-linked elements"
+          },
+          {
+            "name": "twoway",
+            "label": "Two-way binding",
+            "hidden": true
           }
         ]
-      },
-      {
-        "name": "jsvrendertmpl",
-        "label": "Render a template",
-        "expanded": true,
-        "hidden": true
       },
       {
         "name": "jsvlinktmpl",
@@ -750,19 +786,31 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "categories": [
           {
             "name": "jsvtmpllink",
-            "label": "template.link()"
+            "label": "myTmpl.link()"
           },
           {
             "name": "jsv.d.link",
-            "label": "$.link()"
-          },
-          {
-            "name": "jsv.db.link",
-            "label": "$(...).link()"
+            "label": "$.link.myTmpl()"
           }
         ],
         "expanded": true,
-        "hidden": true
+        "hidden": false
+      },
+      {
+        "name": "toplink",
+        "label": "Top-level data-linking",
+        "hidden": false,
+        "categories": [
+          {
+            "name": "jsv.toplink-true",
+            "label": "Declarative: $.link(true, ...)"
+          },
+          {
+            "name": "jsv.toplink-expr",
+            "label": "Programmatic: $.link(...)"
+          }
+        ],
+        "expanded": true
       },
       {
         "name": "jsvunlink",
@@ -786,19 +834,15 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       },
       {
         "name": "$view",
-        "label": "Access views",
+        "label": "Views: from UI to data",
         "categories": [
           {
             "name": "jsv.d.view",
             "label": "$.view()"
-          },
-          {
-            "name": "jsv.db.view",
-            "label": "$(...).view()"
           }
         ],
         "expanded": true,
-        "hidden": true
+        "hidden": false
       },
       {
         "name": "jsvcompiletmpl",
@@ -839,11 +883,13 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "jsvviewsobject",
             "label": "$.views object",
-            "expanded": true
+            "expanded": true,
+            "hidden": true
           },
           {
             "name": "jsvtemplateobject",
-            "label": "template object"
+            "label": "template object",
+            "hidden": true
           },
           {
             "name": "jsvviewobject",
@@ -851,15 +897,18 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "name": "jsvtagobject",
-            "label": "tag object"
+            "label": "tag object",
+            "hidden": true
           },
           {
             "name": "jsvviewcontextobject",
-            "label": "View context object"
+            "label": "View context object",
+            "hidden": true
           },
           {
             "name": "jsvtagcontextobject",
-            "label": "Tag context object"
+            "label": "Tag context object",
+            "hidden": true
           },
           {
             "name": "jsvlinkcontextobject",
@@ -875,7 +924,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       },
       {
-        "name": "name0",
+        "name": "other",
         "label": "And computed observable, {{on}}, DataMap...",
         "hidden": true
       }
@@ -883,6 +932,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     "expanded": true
   },
   {
+    "filter": "jsv",
     "name": "jsoapi",
     "label": "JsObservable API - Observing data",
     "heading": "JsObservable API documentation",
@@ -971,6 +1021,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     "description": "Examples of some of the ways you can use JsRender templates, JsViews tag controls, and more",
     "categories": [
       {
+        "filter": "jsr",
         "name": "samples/jsr",
         "label": "JsRender samples",
         "categories": [
@@ -1033,10 +1084,12 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       },
       {
         "hidden": true,
+        "filter": "jsv",
         "name": "samples/jso",
         "label": "JsObservable samples"
       },
       {
+        "filter": "jsv",
         "name": "samples/jsv",
         "label": "JsViews samples",
         "categories": [
@@ -1330,6 +1383,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "hidden": true
   }
 ];

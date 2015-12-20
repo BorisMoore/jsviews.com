@@ -38,7 +38,7 @@ $.views.tags({
       '<td colspan="{{:~tag.tagCtxs.length}}">' +
         '<div style="width:{{attr:~tag.tagCtxs[0].props.width}};' +
                     'height:{{attr:~tag.tagCtxs[0].props.height}}">' +
-          '{^{for ^tmpl=~tag.tagCtxs[~tag.selectedIndex].content /}}' +
+          '{^{for ^tmpl=~tag.tagCtxs[~tag.selectedIndex].tmpl /}}' +
         '</div>' +
         '</td>' +
       '</tr>' +

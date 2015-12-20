@@ -93,6 +93,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     ]
   },
   "explore/objectsorvm": {
+    "filter": "jsv",
     "title": "Plain objects or View Model",
     "path": "",
     "sections": [

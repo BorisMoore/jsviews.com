@@ -1,4 +1,4 @@
-/*! jquery.views.js @@include("templates/-jsv-version.txt"): http://jsviews.com/ */
+/*! jquery.views.js v@@include("templates/-version.txt")@@include("templates/-jsv-version.txt"): http://jsviews.com/ */
 /*
  * Interactive data-driven views using JsRender templates.
  * Subcomponent of JsViews

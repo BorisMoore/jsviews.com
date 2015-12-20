@@ -1,4 +1,4 @@
-/*! JsRender @@include("templates/-jsr-version.txt"): http://jsviews.com/#jsrender */
+/*! JsRender v@@include("templates/-version.txt")@@include("templates/-jsr-version.txt"): http://jsviews.com/#jsrender */
 /*! **VERSION FOR NODE.JS** (For WEB see http://jsviews.com/download/jsrender.js) */
 /*
  * Best-of-breed templating in browser or on Node.js.

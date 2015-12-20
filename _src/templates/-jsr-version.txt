@@ -1,1 +1,1 @@
-v1.0.0-rc.70 (Beta - Release Candidate)
+ (Beta)

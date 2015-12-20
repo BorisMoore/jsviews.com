@@ -1,4 +1,4 @@
-﻿body {
+body {
 	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
 	font-size: 15px;
 	padding: 0 0 0 5px;
@@ -24,7 +24,7 @@
 }
 
 .ui-slider.val-msg {
-	margin: 20px 5px 5px 1px;
+	margin: 20px 5px 7px 1px;
 }
 
 .ui-slider.val-msg.invalid.val-msg {
