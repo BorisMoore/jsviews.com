@@ -200,7 +200,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "Register a named template - and render it",
-        "text": "Register a named template - and render it\n// Register named template \"myTmpl1\", from string \n$.templates(\"myTmpl1\", \"Name: {{:name}}<br/> \"); // (or from script block: $.templates(\"myTmpl1\", \"#myTemplate\"); ...)\n\nvar person = {name: \"Jim\"};\n\n// Render named template\nvar html = $.render.myTmpl1(person);\n\n// result: \"Name: Jim<br/> \"\n\nLearn more…\n"
+        "text": "Register a named template - and render it\n// Register named template \"myTmpl1\", from string \n$.templates(\"myTmpl1\", \"Name: {{:name}}<br/> \");\n// (or from script block: $.templates(\"myTmpl1\", \"#myTemplate\"); ...)\n\nvar person = {name: \"Jim\"};\n\n// Render named template\nvar html = $.render.myTmpl1(person);\n\n// result: \"Name: Jim<br/> \"\n\nLearn more…\n"
       },
       {
         "_type": "para",
@@ -220,32 +220,32 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "<b>{{: ...}}</b> (Evaluate)",
-        "text": "{{: ...}} (Evaluate)\n{{: pathOrExpr}} inserts the value of the path or expression.\nvar data = {address: {street: \"Main Street\"} };\nvar tmpl = $.templates(\"<b>Street:</b> {{:address.street}}\");\nvar html =  tmpl.render(data);\n\n// result: \"<b>Street:</b> Main Street\"\n\nLearn more…\n"
+        "text": "{{: ...}} (Evaluate)\n{{: pathOrExpr}} inserts the value of the path or expression.\nvar data = {address: {street: \"Main Street\"} };\nvar tmpl = $.templates(\"<b>Street:</b> {{:address.street}}\");\nvar html = tmpl.render(data);\n\n// result: \"<b>Street:</b> Main Street\"\n\nLearn more…\n"
       },
       {
         "_type": "para",
         "title": "<b>{{> ...}}</b> (HTML-encode)",
-        "text": "{{> ...}} (HTML-encode)\n{{> pathOrExpr}} inserts the HTML-encoded value of the path or expression.\nvar data = {condition: \"a < b\"};\nvar tmpl = $.templates(\"<b>Formula:</b> {{>condition}}\");\nvar html =  tmpl.render(data);\n\n// result: \"<b>Formula:</b> a &lt; b\"\n\nLearn more…\n"
+        "text": "{{> ...}} (HTML-encode)\n{{> pathOrExpr}} inserts the HTML-encoded value of the path or expression.\nvar data = {condition: \"a < b\"};\nvar tmpl = $.templates(\"<b>Formula:</b> {{>condition}}\");\nvar html = tmpl.render(data);\n\n// result: \"<b>Formula:</b> a &lt; b\"\n\nLearn more…\n"
       },
       {
         "_type": "para",
         "title": "<b>{{include ...}}</b> (Template composition - partials)",
-        "text": "{{include ...}} (Template composition - partials)\n{{include pathOrExpr}}...{{/include}}evaluates the block content against a specified/modified data context.\n{{include ... tmpl=.../}} evaluates the specified template against an (optionally modified) context, and inserts the result. (Template composition).\nvar data = {name: \"Jim\", address: {street: \"Main Street\"} };\n\n// Register two named templates\n$.templates({\n    streetTmpl: \"<i>{{:street}}</i>\",\n    addressTmpl: \"{{:name}}'s address is {{include address tmpl='streetTmpl'/}}.\"\n});\n\n// Render outer template\nvar html =  $.templates.addressTmpl.render(data);\n\n// result: \"Jim's address is <i>Main Street</i>\"\n\nLearn more…\n"
+        "text": "{{include ...}} (Template composition - partials)\n{{include pathOrExpr}}...{{/include}}evaluates the block content against a specified/modified data context.\n{{include ... tmpl=.../}} evaluates the specified template against an (optionally modified) context, and inserts the result. (Template composition).\nvar data = {name: \"Jim\", address: {street: \"Main Street\"} };\n\n// Register two named templates\n$.templates({\n    streetTmpl: \"<i>{{:street}}</i>\",\n    addressTmpl: \"{{:name}}'s address is {{include address tmpl='streetTmpl'/}}.\"\n});\n\n// Render outer template\nvar html = $.templates.addressTmpl.render(data);\n\n// result: \"Jim's address is <i>Main Street</i>\"\n\nLearn more…\n"
       },
       {
         "_type": "para",
         "title": "<b>{{for ...}}</b> (Template composition, with iteration over arrays)",
-        "text": "{{for ...}} (Template composition, with iteration over arrays)\n{{for pathOrExpr}}...{{/for}}evaluates the block content against a specified data context. If the new data context is an array, it iterates over the array, renders the block content with each data item as context, and concatenates the result.\n{{for pathOrExpr tmpl=.../}} evaluates the specified template against a data context. If the new data context is an array, it iterates over the array, renders the template with each data item as context, and concatenates the result.\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <ul>{{for people}}\n    <li>Name: {{:name}}</li>\n  {{/for}}</ul>\n</script>\n\nvar data = {people: [{name: \"Jim\"}, {name: \"Pedro\"}] };\nvar tmpl = $.templates(\"#peopleTmpl\");\nvar html =  tmpl.render(data);\n\n// result: \"<ul> <li>Name: Jim</li> <li>Name: Pedro</li> </ul>\"\n\nLearn more…\n"
+        "text": "{{for ...}} (Template composition, with iteration over arrays)\n{{for pathOrExpr}}...{{/for}}evaluates the block content against a specified data context. If the new data context is an array, it iterates over the array, renders the block content with each data item as context, and concatenates the result.\n{{for pathOrExpr tmpl=.../}} evaluates the specified template against a data context. If the new data context is an array, it iterates over the array, renders the template with each data item as context, and concatenates the result.\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <ul>{{for people}}\n    <li>Name: {{:name}}</li>\n  {{/for}}</ul>\n</script>\n\nvar data = {people: [{name: \"Jim\"}, {name: \"Pedro\"}] };\nvar tmpl = $.templates(\"#peopleTmpl\");\nvar html = tmpl.render(data);\n\n// result: \"<ul> <li>Name: Jim</li> <li>Name: Pedro</li> </ul>\"\n\nLearn more…\n"
       },
       {
         "_type": "para",
         "title": "<b>{{props ...}}</b> (Iteration over properties of an object)",
-        "text": "{{props ...}} (Iteration over properties of an object)\n{{props pathOrExpr}}...{{/prop}} or {{props pathOrExpr tmpl=.../}} iterates over the properties of the object returned by the path or expression, and renders the content/template once for each property - using as data context: {key: propertyName, prop: propertyValue}.\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <ul>{{props person}}\n    <li>{{:key}}: {{:prop}}</li>\n  {{/props}}</ul>\n</script>\n\nvar data = {person: {first: \"Jim\", last: \"Varsov\"} };\nvar tmpl = $.templates(\"#personTmpl\");\nvar html =  tmpl.render(data);\n\n// result: \"<ul> <li>first: Jim</li> <li>last: Varsov</li> </ul>\"\n\nLearn more…\n"
+        "text": "{{props ...}} (Iteration over properties of an object)\n{{props pathOrExpr}}...{{/prop}} or {{props pathOrExpr tmpl=.../}} iterates over the properties of the object returned by the path or expression, and renders the content/template once for each property - using as data context: {key: propertyName, prop: propertyValue}.\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <ul>{{props person}}\n    <li>{{:key}}: {{:prop}}</li>\n  {{/props}}</ul>\n</script>\n\nvar data = {person: {first: \"Jim\", last: \"Varsov\"} };\nvar tmpl = $.templates(\"#personTmpl\");\nvar html = tmpl.render(data);\n\n// result: \"<ul> <li>first: Jim</li> <li>last: Varsov</li> </ul>\"\n\nLearn more…\n"
       },
       {
         "_type": "para",
         "title": "<b>{{if ...}}</b> (Conditional inclusion)",
-        "text": "{{if ...}} (Conditional inclusion)\n{{if pathOrExpr}}...{{/if}} or {{if pathOrExpr tmpl=.../}} renders the content/template only if the evaluated path or expression is 'truthy’.\n{{if pathOrExpr}}...{{else pathOrExpr2}}...{{else}}...{{/if}}  behaves as 'if’ - ‘else if’ - ‘else’ and renders each block based on the conditions.\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  {{if nickname}}\n    Nickname: {{:nickname}}\n  {{else name}}\n    Name: {{:name}}\n  {{else}}\n    No name provided\n  {{/if}}\n</script>\n\nvar data = {nickname: \"Jim\", name: \"James\"};\nvar tmpl = $.templates(\"#personTmpl\");\nvar html =  tmpl.render(data);\n\n// result: \"Nickname: Jim\"\n\nLearn more…\n"
+        "text": "{{if ...}} (Conditional inclusion)\n{{if pathOrExpr}}...{{/if}} or {{if pathOrExpr tmpl=.../}} renders the content/template only if the evaluated path or expression is 'truthy’.\n{{if pathOrExpr}}...{{else pathOrExpr2}}...{{else}}...{{/if}}  behaves as 'if’ - ‘else if’ - ‘else’ and renders each block based on the conditions.\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  {{if nickname}}\n    Nickname: {{:nickname}}\n  {{else name}}\n    Name: {{:name}}\n  {{else}}\n    No name provided\n  {{/if}}\n</script>\n\nvar data = {nickname: \"Jim\", name: \"James\"};\nvar tmpl = $.templates(\"#personTmpl\");\nvar html = tmpl.render(data);\n\n// result: \"Nickname: Jim\"\n\nLearn more…\n"
       },
       {
         "_type": "para",
@@ -255,17 +255,17 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "<b>Custom tags</b>",
-        "text": "Custom tags\nCreating your own custom tags is easy. Register a custom tag using $.views.tags(\"myTag\" , ...). The second parameter will generally be a tagOptions object on which you can specify a render method, template, event handlers, etc. (There are many examples in the JsRender and JsViews custom tag samples here and here). But for simple tags, you may only need a simple render function, or a template string.\nFor example the two following definitions for a {{fullName/}} tag provide equivalent behavior:\nAs a render function:\n$.views.tags(\"fullName\", function(val) {\n    return val.first + \" \" + val.last;\n});\n\nOr as a template string:\n$.views.tags(\"fullName\", \"{{:first}} {{:last}}\");\n\nEither way, the result will be as follows:\nvar tmpl = $.templates(\"{{fullName person/}}\");\nvar data = {person: {first: \"Jim\", last: \"Varsov\"}};\nvar html =  tmpl.render(data);\n\n// result: \"Jim Varsov\"\n\n"
+        "text": "Custom tags\nCreating your own custom tags is easy. Register a custom tag using $.views.tags(\"myTag\" , ...). The second parameter will generally be a tagOptions object on which you can specify a render method, template, event handlers, etc. (There are many examples in the JsRender and JsViews custom tag samples here and here). But for simple tags, you may only need a simple render function, or a template string.\nFor example the two following definitions for a {{fullName/}} tag provide equivalent behavior:\nAs a render function:\n$.views.tags(\"fullName\", function(val) {\n    return val.first + \" \" + val.last;\n});\n\nOr as a template string:\n$.views.tags(\"fullName\", \"{{:first}} {{:last}}\");\n\nEither way, the result will be as follows:\nvar tmpl = $.templates(\"{{fullName person/}}\");\nvar data = {person: {first: \"Jim\", last: \"Varsov\"}};\nvar html = tmpl.render(data);\n\n// result: \"Jim Varsov\"\n\n"
       },
       {
         "_type": "para",
         "title": "Helpers",
-        "text": "Helpers\nFor details see Helpers.\nHere is a simple example.  Two helpers - a function, and a string:\nvar myHelpers = {\n    upper: function(val) { return val.toUpperCase(); },\n    title: \"Sir\"\n};\n\nAccess the helpers using the ~myhelper syntax:\nvar tmpl = $.templates(\"{{:~title}} {{:first}} {{:~upper(last)}}\");\n\nWe can pass the helpers in with the render() method\nvar data = {first: \"Jim\", last: \"Varsov\"};\n\nvar html =  tmpl.render(data, myHelpers);\n\n// result: \"Sir Jim VARSOV\"\n\nOr we can register helpers globally:\n$.views.helpers(myHelpers);\n\nvar data = {first: \"Jim\", last: \"Varsov\"};\nvar html =  tmpl.render(data);\n\n// result: \"Sir Jim VARSOV\"\n\nLearn more…\n"
+        "text": "Helpers\nFor details see Helpers.\nHere is a simple example.  Two helpers - a function, and a string:\nvar myHelpers = {\n    upper: function(val) { return val.toUpperCase(); },\n    title: \"Sir\"\n};\n\nAccess the helpers using the ~myhelper syntax:\nvar tmpl = $.templates(\"{{:~title}} {{:first}} {{:~upper(last)}}\");\n\nWe can pass the helpers in with the render() method\nvar data = {first: \"Jim\", last: \"Varsov\"};\n\nvar html = tmpl.render(data, myHelpers);\n\n// result: \"Sir Jim VARSOV\"\n\nOr we can register helpers globally:\n$.views.helpers(myHelpers);\n\nvar data = {first: \"Jim\", last: \"Varsov\"};\nvar html = tmpl.render(data);\n\n// result: \"Sir Jim VARSOV\"\n\nLearn more…\n"
       },
       {
         "_type": "para",
         "title": "Converters",
-        "text": "Converters\nConverters are used with the {{: ...}} tag, using the syntax {{mycvtr: ...}}}.\nExample - an upper converter, to convert to upper case:\n$.views.converters(\"upper\", function(val) { return val.toUpperCase(); });\n\nvar tmpl = $.templates(\"{{:first}} {{upper:last}}\");\nvar data = {first: \"Jim\", last: \"Varsov\"};\nvar html =  tmpl.render(data);\n\n// result: \"Jim VARSOV\"\n\nLearn more…\n"
+        "text": "Converters\nConverters are used with the {{: ...}} tag, using the syntax {{mycvtr: ...}}}.\nExample - an upper converter, to convert to upper case:\n$.views.converters(\"upper\", function(val) { return val.toUpperCase(); });\n\nvar tmpl = $.templates(\"{{:first}} {{upper:last}}\");\nvar data = {first: \"Jim\", last: \"Varsov\"};\nvar html = tmpl.render(data);\n\n// result: \"Jim VARSOV\"\n\nLearn more…\n"
       },
       {
         "_type": "para",
@@ -342,7 +342,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "Rendering templates on the server",
-        "text": "Rendering templates on the server\nOn Node.js you can use all the normal JsRender APIs to render templates (such as a layout template) - and return the HTML string in the HTTP response:\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('Name: {{:name}}<br/>'); // Compile template from string\n\nvar html =  tmpl.render({name: \"Jim\"}); // Render\n// result: \"Jim Varsov\"\n\napp.get('/...', function(req, res) {\n  res.send(html);\n});\n\n"
+        "text": "Rendering templates on the server\nOn Node.js you can use all the normal JsRender APIs to render templates (such as a layout template) - and return the HTML string in the HTTP response:\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('Name: {{:name}}<br/>'); // Compile template from string\n\nvar html = tmpl.render({name: \"Jim\"}); // Render\n// result: \"Jim Varsov\"\n\napp.get('/...', function(req, res) {\n  res.send(html);\n});\n\n"
       },
       {
         "_type": "para",
@@ -352,7 +352,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "Using helpers, converters, custom tags...",
-        "text": "Using helpers, converters, custom tags...\nOn Node.js you can use the full set of JsRender features, template tags and APIs, just as you would in the browser - by simply using the jsrender namespace object returned from require('jsrender'), instead of the jQuery object, $. In addition you can take advantage of file-based templates.\nFor example, here is the JsRender Quickstart Custom Tags sample, as you might write it on Node.js:\nTemplate: ./templates/personTemplate.html:\nName: {{fullName person/}}\n\nCode:\nvar jsrender = require('jsrender');\n\njsrender.views.tags(\"fullName\", \"{{:first}} {{:last}}\"); // Register custom tag\n\nvar tmpl = jsrender.templates('./templates/personTemplate.html'); // Compile template\n\nvar html =  tmpl.render({person: {first: \"Jim\", last: \"Varsov\"}}); // Render\n// result: \"Jim Varsov\"\n\nLearn more about APIs, features…\n"
+        "text": "Using helpers, converters, custom tags...\nOn Node.js you can use the full set of JsRender features, template tags and APIs, just as you would in the browser - by simply using the jsrender namespace object returned from require('jsrender'), instead of the jQuery object, $. In addition you can take advantage of file-based templates.\nFor example, here is the JsRender Quickstart Custom Tags sample, as you might write it on Node.js:\nTemplate: ./templates/personTemplate.html:\nName: {{fullName person/}}\n\nCode:\nvar jsrender = require('jsrender');\n\njsrender.views.tags(\"fullName\", \"{{:first}} {{:last}}\"); // Register custom tag\n\nvar tmpl = jsrender.templates('./templates/personTemplate.html'); // Compile template\n\nvar html = tmpl.render({person: {first: \"Jim\", last: \"Varsov\"}}); // Render\n// result: \"Jim Varsov\"\n\nLearn more about APIs, features…\n"
       },
       {
         "_type": "para",

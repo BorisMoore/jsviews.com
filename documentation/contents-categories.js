@@ -718,7 +718,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       },
       {
         "name": "jsrnode",
-        "label": "JsRender for Node.js",
+        "label": "JsRender on Node.js",
         "categories": [
           {
             "name": "node/install",
