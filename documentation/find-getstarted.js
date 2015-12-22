@@ -64,7 +64,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "sample",
         "title": "Some template tags...",
-        "text": "Some template tags...\nThe {{for people}}...{{/for}} block tag, in the template, looks at the current data item (the app that we passed in) and navigates a data-path that you provide as parameter - in this case people.\nJsRender supports different kinds of paths, as well as expressions of various kinds. The data-path can be something like address.street, with ‘dot’ separators, but in this case it is simply the people property of the app object.\nNow, because people is an array, JsRender will render the content of the {{for}}...{{/for}} block once for each item in the array.\nWithin the block the current item is now the person (item in the people array), and there we have an {{if nickname}}...{{/if}} block tag, which takes an expression as parameter.\nIn this case the expression is another data-path, nickname. So it renders the content of the {{if}}...{{/if}} block if the nickname is not undefined (or is not null, or the empty string).\nYou can experiment by replacing the {{if nickname}} expression. For example, try giving Adriana the nickname Adriana! Then try replacing {{if nickname}} with:\n{{if nickname && nickname !== name}} \n\n\n"
+        "text": "Some template tags...\nThe {{for people}}...{{/for}} block tag, in the template, looks at the current data item (the app that we passed in) and navigates a data-path that you provide as parameter - in this case people.\nJsRender supports different kinds of paths, as well as expressions of various kinds. The data-path can be something like address.street, with ‘dot’ separators, but in this case it is simply the people property of the app object.\nNow, because people is an array, JsRender will render the content of the {{for}}...{{/for}} block once for each item in the array.\nWithin the block the current item is now the person(item in the people array), and there we have an {{if nickname}}...{{/if}} block tag, which takes an expression as parameter.\nIn this case the expression is another data-path, nickname. So it renders the content of the {{if}}...{{/if}} block if the nickname is not undefined (or is not null, or the empty string).\nYou can experiment by replacing the {{if nickname}} expression. For example, try giving Adriana the nickname Adriana! Then try replacing {{if nickname}} with:\n{{if nickname && nickname !== name}} \n\n\n"
       },
       {
         "_type": "para",
@@ -175,7 +175,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "Installation",
-        "text": "Installation\njsrender.js is available from downloads  on this site.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsrender\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (NPM) see JsRender Node.js Quickstart.\n\n"
+        "text": "Installation\njsrender.js is available from downloads on this site.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsrender\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (NPM) see JsRender Node.js Quickstart.\nJsRender is available on the CDN: cdnjs\n\n"
       },
       {
         "_type": "para",
