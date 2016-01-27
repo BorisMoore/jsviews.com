@@ -15,6 +15,10 @@
   <li>{{:name}}</li>
 </script>
 
+<script id="noneTmpl" type="text/x-jsrender">
+  <li>(no selection)</li>
+</script>
+
 <script id="myTmpl" type="text/x-jsrender">
   {{!-- tag syntax--}}
   {^{multisel items=items selected=selectedItems size=6 /}}
@@ -25,12 +29,12 @@
   <h4>Selected Items</h4>
   {^{multisel items=selectedItems selected=selectedSelectedItems ^size=selectedItems.length /}}
 
-  <ul>{^{for selectedItems tmpl="#liTmpl" /}}</ul>
+  <ul>{^{for selectedItems tmpl="#liTmpl" }}{{else tmpl="#noneTmpl" }}{{/for}}</ul>
 
   <h4>Selected selected items</h4>
 
   {{!-- You can use element-based syntax for {{for}} too if you want...) --}}
-  <ul data-link="{for selectedSelectedItems tmpl='#liTmpl'}"></ul>
+  <ul data-link="{for selectedSelectedItems tmpl='#liTmpl'}{else tmpl='#noneTmpl'}"></ul>
 </script>
 
 <p>
@@ -40,6 +44,6 @@
 
 <div id="page"></div>
 
-<!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
+<!--<script src="sample.js"></script> <!--uncomment for testing as standalone page--> 
 </body>
 </html>

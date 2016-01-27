@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.11.3.js"></script>
+  <script src="../../../download/jsviews.js"></script>
+  <script src="../../sample-viewer.js"></script>
+  <link href="../../samples.css" rel="stylesheet" />
+</head>
+<body>
+<title>Computed observable - Shopping cart</title>
+
+<table id="shoppingcart" class="nowidth" style="display:none" data-link="visible{:show}">
+<thead>
+  <tr><td>Product</td><td>Price</td><td>Quantity</td><td>Amount</td></tr>
+</thead>
+<tbody data-link="{for items tmpl='#itemTmpl'}"></tbody>
+<tfoot>
+  <tr><td colspan="3">No. of items:
+    <span data-link="items.length"></span>
+  </td>
+  <td class="add" data-link="{on add}">Add</td></tr>
+  <tr><td colspan="4">Total amount:
+    <span colspan="2" data-link="total()"></span>
+  </td></tr>
+</tfoot>
+</table>
+
+<script id="itemTmpl" type="text/x-jsrender">
+  <tr>
+    <td><input data-link="product trigger=true" /></td>
+    <td><input data-link="price trigger=true" /></td>
+    <td><input data-link="quantity trigger=true" /></td>
+    <td >
+      <span data-link="price*quantity"></span>
+      <span class="remove" data-link="{on ~root.remove}"></span>
+    </td>
+  </tr>
+</script>
+
+<!--<script src="top-level.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

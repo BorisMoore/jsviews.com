@@ -12,6 +12,17 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "links": [],
         "topics": [
           {
+            "hash": "explore/objectsorvm",
+            "label": "Plain objects or View Model"
+          }
+        ]
+      },
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
             "hash": "explore/data",
             "label": "Data"
           },
@@ -110,7 +121,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "code",
         "title": "Suppose this is our data from a JSON request:",
-        "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n"
+        "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n"
       },
       {
         "_type": "template",
@@ -136,7 +147,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name}}</td></tr>\n    <tr><td>Street:</td><td>{{:address.street}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones}}\n          <tr><td>\n            {{:number}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
-        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Data: hierarchy of plain objects and arrays\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n// Render template against plain object hierarchy\n$(\"#result\").html(tmpl.render(person));\n\n",
+        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Data: hierarchy of plain objects and arrays\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n// Render template against plain object hierarchy\n$(\"#result\").html(tmpl.render(person));\n\n",
         "height": "150",
         "onlyJsRender": true,
         "title": "Render template directly against plain objects..."
@@ -159,17 +170,22 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Getters and setters",
-        "text": "Note that properties are now <em>getter</em> functions, which return the appropriate value, which may be of any type, including objects or arrays (such as `address` and `phones` above).\n\nIn fact they are particular case of <em>computed observables</em> - a concept that can be used quite generally within JsViews, not only for View Model properties.\n\nFor properties which are <em>read-write</em>, there is also a <em>setter</em> function, declared using the syntax: \n\n```js\nmyGetterFunction.set = mySetterFunction\n```"
+        "text": "Note that properties are now <em>getter</em> functions, which return the appropriate value, which may be of any type, including objects or arrays (such as `address` and `phones` above).\n\nIn fact they are particular case of *[computed observables](#computed)* -- a concept that can be used quite generally within JsViews, not only for View Model properties.\n\nFor properties which are <em>read-write</em>, there is also a <em>setter</em> function, declared using the syntax: \n\n```js\nmyGetterFunction.set = mySetterFunction\n```"
       },
       {
         "_type": "para",
         "title": "Variant: using the same function as both getter and setter",
-        "text": "An interesting variant is to use a single function as both setter and getter. Here is an example of what that would look like:\n\n```js\nvar nameGetSet = function name(val) {\n  if (val === undefined) {\n    return this._name; // getter\n  }\n  this._name = val; // setter\n}\n\nnameGetSet.set = nameGetSet; // The same function will also be used as setter\n\nPerson.prototype.name = nameGetSet;\n```"
+        "text": "An interesting variant is to use a single function as both setter and getter. Here is an example of what that would look like:\n\n```js\nvar nameGetSet = function name(val) {\n  if (val === undefined) {\n    return this._name; // getter\n  }\n  this._name = val; // setter\n}\n\nnameGetSet.set = nameGetSet; // The same function will also be used as setter\n// Or use the equivalent alternative syntax: nameGetSet.set = true;\n\nPerson.prototype.name = nameGetSet;\n```"
       },
       {
         "_type": "para",
         "title": "Template",
         "text": "To convert our template from using plain objects to using View Model objects, the only change we need to make is to add parens for our properties, which are now <em>getter</em> functions:\n\n```jsr\n... \n{{:name()}}\n...\n{{:address().street()}}\n...\n{{for phones()}}\n  ...      \n  {{:number()}}\n  ...\n{{/for}}\n...\n```"
+      },
+      {
+        "_type": "para",
+        "title": "Using the setter function",
+        "text": "When JsRender renders a template using a get/set property `{{:name()}}` it will call the getter function, but not the setter. However you may wish to modify the value of `name()` from code, using\n\n```js\nsomePerson.name.set(\"newName\");\n```\n\n(If you have set `nameGetSet.set = true;`, you can equivalently write `somePerson.name(\"newName\");`.)\n\nWhen using the same [View Model class with JsViews](#explore/objectsorvm@jsviews-mvvm), then JsViews will call the setter function when the user modifies a data-bound value such as  `<input data-link=\"name()\" />`."
       },
       {
         "_type": "para",
@@ -206,10 +222,10 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "code": "$(\"#result\").html(tmpl.render(person));"
           }
         ],
-        "html": "<script src=\"mvvm/person-view-models.js\" rel=\"stylesheet\"/>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address()^street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>\n            {{:number()}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "html": "<script src=\"mvvm/person-view-models.js\" ></script>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address()^street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>\n            {{:number()}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Instantiate View Model hierarchy\nvar person = new Person(\n  \"Pete\",\n  new Address(\"1st Ave\"),\n    [\n      new Phone(\"111 111 1111\"),\n      new Phone(\"222 222 2222\")\n    ]\n  );\n\n// Render template against person object (instance of Person)\n$(\"#result\").html(tmpl.render(person));",
         "height": "150",
-        "onlyJsRender": false,
+        "onlyJsRender": true,
         "title": "Render template against a View Model object hierarchy"
       },
       {
@@ -251,7 +267,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "html": "<link href=\"mvvm/change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">New address and phones</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <input type=\"checkbox\" checked id=\"attach\"/>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name trigger=true\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street trigger=true\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <input data-link=\"number trigger=true\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
-        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Data: hierarchy of plain objects and arrays\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n// Render and link template against plain object hierarchy\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    address: {street: \"New Street\"},\n    phones: [{number:\"123 123 1234\"}]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones).insert({\n    number:\"456 456 4567\"\n  });\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Data: hierarchy of plain objects and arrays\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n// Render and link template against plain object hierarchy\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    address: {street: \"New Street\"},\n    phones: [{number:\"123 123 1234\"}]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones).insert({\n    number:\"456 456 4567\"\n  });\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "title": "Render and link template directly against plain objects..."
       },
@@ -263,7 +279,8 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Example: JsViews with View Model objects",
-        "text": "So now let's switch to the View Model approach again, but this time with JsViews data-linking."
+        "text": "So now let's switch to the View Model approach again, but this time with JsViews data-linking.",
+        "anchor": "jsviews-mvvm"
       },
       {
         "_type": "code",
@@ -283,7 +300,14 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "sample",
         "typeLabel": "Sample:",
-        "codetabs": [],
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "samples/mvvm/person-view-models.js",
+            "label": "person-view-models.js"
+          }
+        ],
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -300,7 +324,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "code",
             "title": "Render and link template against person object",
-            "code": "$(\"#result\").html(tmpl.render(person));"
+            "code": "var tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n"
           },
           {
             "_type": "code",
@@ -308,8 +332,8 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "code": "$.observable(person).setProperty({\n  address: new Address(\"New Street\"),\n  phones: [new Phone(\"123 123 1234\")]\n});"
           }
         ],
-        "html": "<link href=\"mvvm/change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">New address and phones</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <input type=\"checkbox\" checked id=\"attach\"/>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name() trigger=true\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street() trigger=true\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input data-link=\"number() trigger=true\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
-        "code": "// View Model class definitions:\n\nfunction Person(name, address, phones) {\n  this._name = name;\n  this._address = address;\n  this._phones = phones;\n}\n\nvar personProto = {\n  name: function() {\n    return this._name;\n  },\n  address: function() {\n    return this._address;\n  },\n  phones: function() {\n    return this._phones;\n  }\n};\n\npersonProto.name.set = function(val) {\n  this._name = val;\n};\n\npersonProto.address.set = function(val) {\n  this._address = val;\n};\n\npersonProto.phones.set = function(val) {\n  this._phones = val;\n};\n\nPerson.prototype = personProto;\n\nfunction Address(street) {\n  this._street = street;\n}\n\nvar addressProto = {\n  street: function() {\n    return this._street;\n  }\n};\n\naddressProto.street.set = function(val) {\n  this._street = val;\n};\n\nAddress.prototype = addressProto;\n\nfunction Phone(number) {\n  this._number = number;\n}\n\nvar phoneProto = {\n  number: function() {\n    return this._number;\n  }\n};\n\nphoneProto.number.set = function(val) {\n  this._number = val;\n};\n\nPhone.prototype = phoneProto;\n\n// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Instantiate View Model hierarchy\nvar person = new Person(\n  \"Pete\",\n  new Address(\"1st Ave\"),\n    [\n      new Phone(\"111 111 1111\"),\n      new Phone(\"222 222 2222\")\n    ]\n  );\n\n// Render and link the template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    address: new Address(\"New Street\"),\n    phones: [new Phone(\"123 123 1234\")]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones()).insert(new Phone(\"456 456 4567\"));\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "html": "<link href=\"mvvm/change-log.css\" rel=\"stylesheet\"/>\n<script src=\"mvvm/person-view-models.js\" ></script>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">New address and phones</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <input type=\"checkbox\" checked id=\"attach\"/>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name() trigger=true\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street() trigger=true\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input data-link=\"number() trigger=true\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "code": "// Instantiate View Model hierarchy\nvar person = new Person(\n  \"Pete\",\n  new Address(\"1st Ave\"),\n    [\n      new Phone(\"111 111 1111\"),\n      new Phone(\"222 222 2222\")\n    ]\n  );\n\n// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Render and link the template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    address: new Address(\"New Street\"),\n    phones: [new Phone(\"123 123 1234\")]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones()).insert(new Phone(\"456 456 4567\"));\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "title": "Render and link template against a View Model object hierarchy"
       },
@@ -326,7 +350,14 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "sample",
         "typeLabel": "Sample:",
-        "codetabs": [],
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "samples/mvvm/person-view-models.js",
+            "label": "person-view-models.js"
+          }
+        ],
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -341,15 +372,27 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "code": "$.observe(person, \"name\", \"phones\", \"address\", person.phones(), person.address(), \"street\", changeHandler);"
           }
         ],
-        "html": "<link href=\"mvvm/change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"modify\">Change leaf values</button><br/>\n  <button id=\"swapObjects\">Swap address and phones</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name() trigger=true\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street() trigger=true\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <span>{^{:number()}}</span>\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
-        "code": "// View Model class definitions:\n\nfunction Person(name, address, phones) {\n  this._name = name;\n  this._address = address;\n  this._phones = phones;\n}\n\nvar personProto = {\n  name: function() {\n    return this._name;\n  },\n  address: function() {\n    return this._address;\n  },\n  phones: function() {\n    return this._phones;\n  }\n};\n\npersonProto.name.set = function(val) {\n  this._name = val;\n};\n\npersonProto.address.set = function(val) {\n  this._address = val;\n};\n\npersonProto.phones.set = function(val) {\n  this._phones = val;\n};\n\nPerson.prototype = personProto;\n\nfunction Address(street) {\n  this._street = street;\n}\n\nvar addressProto = {\n  street: function() {\n    return this._street;\n  }\n};\n\naddressProto.street.set = function(val) {\n  this._street = val;\n};\n\nAddress.prototype = addressProto;\n\nfunction Phone(number) {\n  this._number = number;\n}\n\nvar phoneProto = {\n  number: function() {\n    return this._number;\n  }\n};\n\nphoneProto.number.set = function(val) {\n  this._number = val;\n};\n\nPhone.prototype = phoneProto;\n\n// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Instantiate View Model hierarchy\nvar alt = false,\n  address1 = new Address(\"1st Ave\"),\n  phones1 = [new Phone(\"111 111 1111\"),new Phone(\"222 222 2222\")],\n  address2 = new Address(\"New Street\"),\n  phones2 = [new Phone(\"123 123 1234\")],\n  person = new Person(\"Pete\", address1, phones1);\n\n// Render and link the template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Observe specific properties on specific objects\n$.observe(person, \"name\", \"phones\", \"address\", person.phones(), person.address(), \"street\", changeHandler);\n\n// Button event handlers for changes\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    name: person.name() + \"+\"\n  });\n  $.observable(person.address()).setProperty({\n    \"street\": person.address().street() + \"+\"\n  });\n});\n\n$(\"#swapObjects\").on(\"click\", function() {\n  // Swap the objects (optionally, remove our specific observers)\n  $.unobserve(person.address(), \"street\", changeHandler);\n  $.unobserve(person.phones(), changeHandler);\n\n  $.observable(person).setProperty({\n    address: (alt ? address1 : address2),\n    phones: (alt ? phones1 : phones2)\n  });\n\n  // observe new objects object on specific paths (if not already observing)\n  $.observe(person.address(), \"street\", changeHandler);\n  $.observe(person.phones(), changeHandler);\n\n  alt = !alt;\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones()).insert(new Phone(\"456 456 4567\"));\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "html": "<link href=\"mvvm/change-log.css\" rel=\"stylesheet\"/>\n<script src=\"mvvm/person-view-models.js\" ></script>\n\n<div class=\"left\">\n  <button id=\"modify\">Change leaf values</button><br/>\n  <button id=\"swapObjects\">Swap address and phones</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name() trigger=true\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street() trigger=true\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <span>{^{:number()}}</span>\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Instantiate View Model hierarchy\nvar alt = false,\n  address1 = new Address(\"1st Ave\"),\n  phones1 = [new Phone(\"111 111 1111\"),new Phone(\"222 222 2222\")],\n  address2 = new Address(\"New Street\"),\n  phones2 = [new Phone(\"123 123 1234\")],\n  person = new Person(\"Pete\", address1, phones1);\n\n// Render and link the template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Observe specific properties on specific objects\n$.observe(person, \"name\", \"phones\", \"address\", person.phones(), person.address(), \"street\", changeHandler);\n\n// Button event handlers for changes\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    name: person.name() + \"+\"\n  });\n  $.observable(person.address()).setProperty({\n    \"street\": person.address().street() + \"+\"\n  });\n});\n\n$(\"#swapObjects\").on(\"click\", function() {\n  // Swap the objects (optionally, remove our specific observers)\n  $.unobserve(person.address(), \"street\", changeHandler);\n  $.unobserve(person.phones(), changeHandler);\n\n  $.observable(person).setProperty({\n    address: (alt ? address1 : address2),\n    phones: (alt ? phones1 : phones2)\n  });\n\n  // observe new objects object on specific paths (if not already observing)\n  $.observe(person.address(), \"street\", changeHandler);\n  $.observe(person.phones(), changeHandler);\n\n  alt = !alt;\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones()).insert(new Phone(\"456 456 4567\"));\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "title": "Using $.observe() to observe View Model objects"
       },
       {
         "_type": "para",
         "title": "Chained paths with plain objects or with View Model objects",
-        "text": "With plain object hierarchies you can use chained paths in both templates, and `observe()` paths:\n\n```jsr\n<input data-link=\"address^street trigger=true\" />\n```\n\n```js\n$.observe(person, \"address^street\", changeHandler);\n```\n\nBut for View Model hierarchies, you can only used chained paths in templates:\n\n```jsr\n<input data-link=\"address()^street() trigger=true\" />\n```\n\nFor the corresponding `$.observe()` calls you must pass in each View Model object and observe its properties, rather than using a chained path. Parens are not supported within `$.observe()` paths.\n\nSo you would write:\n\n```js\n$.observe(person, \"address\", changeHandler);\n$.observe(person.address(), \"street\", changeHandler);\n```\n\nor as a single call:\n\n```js\n$.observe(person, \"address\", person.address(), \"street\", changeHandler);\n```"
+        "text": "With plain object hierarchies you can use [chained paths](#linked-paths) in both templates, and `observe()` paths:\n\n```jsr\n<input data-link=\"address^street trigger=true\" />\n```\n\n```js\n$.observe(person, \"address^street\", changeHandler);\n```\n\nBut for View Model hierarchies, you can only used chained paths in templates:\n\n```jsr\n<input data-link=\"address()^street() trigger=true\" />\n```\n\nFor the corresponding `$.observe()` calls you must pass in each View Model object and observe its properties, rather than using a chained path. Parens are not supported within `$.observe()` paths.\n\nSo you would write:\n\n```js\n$.observe(person, \"address\", changeHandler);\n$.observe(person.address(), \"street\", changeHandler);\n```\n\nor as a single call:\n\n```js\n$.observe(person, \"address\", person.address(), \"street\", changeHandler);\n```\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "computed",
+            "label": "Computed Observables"
+          }
+        ]
       }
     ]
   },
@@ -739,7 +782,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "JsRender, JsViews and global variables",
-        "text": "JsRender and JsViews do not set the global var $.\n\n\nIf you are using jQuery with JsRender, JsRender defines jQuery,views, jQuery.templates, etc. but does not create any global variables.\n\nSo you can write:\n\n```js\n$.noConflict();\n\nvar template = jQuery.templates(...);\n\njQuery.views.helpers(...);\n```\n\nIf you are not using jQuery, JsRender creates a global var: jsrender - which you use to replace the jQuery global.\n\n```js\nvar template = jsrender.templates(...);\n\njsrender.views.helpers(...);\n```\n\nYou can test for JsRender as follows:\n\n```js\nif (window.jQuery && window.jQuery.views || window.jsrender) { \n  // JsRender is loaded\n}\n```"
+        "text": "JsRender and JsViews do not set the global var $.\n\n\nIf you are using jQuery with JsRender, JsRender defines jQuery,views, jQuery.templates, etc. but does not create any global variables.\n\nSo you can write:\n\n```js\n$.noConflict();\n\nvar template = jQuery.templates(...);\n\njQuery.views.helpers(...);\n```\n\nIf you are not using jQuery, JsRender creates a global var: jsrender -- which you use to replace the jQuery global.\n\n```js\nvar template = jsrender.templates(...);\n\njsrender.views.helpers(...);\n```\n\nYou can test for JsRender as follows:\n\n```js\nif (window.jQuery && window.jQuery.views || window.jsrender) { \n  // JsRender is loaded\n}\n```"
       }
     ]
   }

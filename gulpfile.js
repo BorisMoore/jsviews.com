@@ -101,6 +101,20 @@ gulp.task('minify', function() {
 	return buildTemplate('*.js', true);
 });
 
+gulp.task('minify2', function() {
+	var stream = gulp.src([DOWNLOAD + 'sample-tag-controls/jsviews-jqueryui-widgets.js']);
+		stream = stream.pipe(plugins.sourcemaps.init())				// Prepare sourcemap
+		.pipe(plugins.uglify({										// Minify
+			preserveComments: 'some'
+		}))
+		.pipe(plugins.rename(function (path) {						// Rename minified file to min.js
+			path.basename += '.min';
+		}))
+		.pipe(plugins.sourcemaps.write('./'))						// Output sourcemap file
+		.pipe(plugins.debug({title: "minified:"}))
+		.pipe(gulp.dest(DOWNLOAD + 'sample-tag-controls/'))					// Output min.js file
+});
+
 //================================= TMPLIFY - Build tmplify/index.js =================================//
 
 gulp.task('tmplify', function() {
@@ -109,7 +123,7 @@ gulp.task('tmplify', function() {
 
 //================================= ALL - Build, minify, copy to projects and test =================================//
 
-gulp.task('all', ['minify', 'tmplify', 'copy'], function() {
+gulp.task('all', ['minify', 'tmplify', 'copy', 'minify2'], function() {
 //	qunit('./test/unit-tests-all-jsviews.html');
 //	qunit('./test/unit-tests-all-observable-render-views.html');
 //	qunit('./test/unit-tests-all-render-observable-views.html');

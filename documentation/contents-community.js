@@ -28,5 +28,16 @@ content.community = content.useStorage && $.parseJSON(localStorage.getItem("JsVi
         "text": "\n\nIf you have questions or issues, you can look for them on the issue trackers on GitHub, and if you don't find them, file a new issue. (And similarly for feature requests):\n\nJsRender issue tracker: <a href=\"https://github.com/BorisMoore/jsrender/issues?state=open\">open issues</a> / \n<a href=\"https://github.com/BorisMoore/jsrender/issues?state=closed\">closed issues</a><br/>\nJsViews issue tracker: <a href=\"https://github.com/BorisMoore/jsviews/issues?state=open\">open issues</a> / <a href=\"https://github.com/BorisMoore/jsviews/issues?state=open\">closed issues</a>"
       }
     ]
+  },
+  "gallery": {
+    "title": "Gallery",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "[https://www.solaborate.com/](https://www.solaborate.com/)\n\nhttp://stackoverflow.com/users/628653/boban-stojanovski"
+      }
+    ]
   }
 };

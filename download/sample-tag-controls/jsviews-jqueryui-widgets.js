@@ -168,7 +168,6 @@ button: {
     if (tag._.inline) {
       content = content && content.markup || "&nbsp;"; // (&nbsp; fixes a jQueryUI button rendering issue)
       if (tag._.radio || tag._.chkBx) {
-        this.noVal = false;
         id = id || "jsv" + Math.random();
         template = '<input id="' + id + '" data-link="' + params.args[0] 
           + (paramprops.convert ? " convert=" + paramprops.convert : "")
@@ -489,7 +488,7 @@ if ($.ui.draggable) {
         this.options.helper = unlinkedClone;
       }
       return this._super();
-    },
+    }
   });
 }
 

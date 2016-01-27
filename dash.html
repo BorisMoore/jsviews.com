@@ -140,7 +140,12 @@
 							+ (section.code ? section.code + "\n" : "");
 						if (section.url) {
 							searchSection.url = section.url;
-							scriptsToCompile[section.url] = searchSection;
+							scriptsToCompile[section.url] = scriptsToCompile[section.url] || [];
+							scriptsToCompile[section.url].push(searchSection);
+						}
+						for (var ct in section.codetabs) {
+							scriptsToCompile[section.codetabs[ct].url] = scriptsToCompile[section.codetabs[ct].url] || [];
+							scriptsToCompile[section.codetabs[ct].url].push(searchSection);
 						}
 						testDiv.innerHTML = text;
 						searchSection.text = testDiv.textContent || testDiv.innerText;
@@ -165,12 +170,23 @@
 						searchSection.text = testDiv.textContent || testDiv.innerText;
 					break;
 					case "api":
+					case "tag":
 						testDiv.innerHTML = 
 							(section.title ? section.title + "\n" : "")
 							+ (section.description ? section.description + "\n" : "");
 						searchSection.text = testDiv.textContent || testDiv.innerText;
 						compileSubSections(section.signatures, searchSection);
 					break;
+					case "data":
+						testDiv.innerHTML =
+							(section.title ? section.title + "\n" : "");
+						searchSection.text = testDiv.textContent || testDiv.innerText;
+						break;
+					case "links":
+						testDiv.innerHTML =
+							(section.title ? section.title + "\n" : ""); // To do - iterate over labels
+						searchSection.text = testDiv.textContent || testDiv.innerText;
+						break;
 				}
 			});
 		}
@@ -215,6 +231,8 @@
 		}
 
 		function compile(categoryName) {
+			var loadedPromise = new $.Deferred();
+			loadedPromise.nm = categoryName;
 			$.getScript("documentation/contents-" + categoryName + ".js")
 			.done(function() {
 				var topicName, sectionsSearch,
@@ -230,28 +248,74 @@
 					};
 					compileSections(topics[topicName].sections, sectionsSearch, scriptsToCompile);
 				}
-				compileScripts(scriptsToCompile);
-				var out = stringify(topicsSearch);
+				compileScripts(scriptsToCompile, loadedPromise);
 			});
+			return loadedPromise.promise();
 		}
 
-		function compileScripts(scriptsToCompile) {
-			var url;
+		function compileScripts(scriptsToCompile, loadedPromise) {
+			function testDone(thisUrl) {
+				if (thisUrl) {
+					scriptCount--;
+					console.log("Cnt: " + scriptCount + " url: " + thisUrl);
+				}
+				if (!scriptCount) {
+					console.log("ResDeep " + loadedPromise.nm);
+					loadedPromise.resolve();
+				}
+			}
+
+			var url,
+				scriptCount = 0;
 			for (url in scriptsToCompile) {
+				scriptCount++;
 				(function() {
-					var scriptSection = scriptsToCompile[url];
-					$.getScript(url + ".js")
+					function addScriptContent(text) {
+						var l = scriptSections.length;
+						while (l--) {
+							scriptSections[l].text += text;
+						}
+					}
+					var thisUrl = url,
+						scriptSections = scriptsToCompile[thisUrl];
+					if (thisUrl.slice(-3) === ".js") {
+						$.ajax({
+							url: thisUrl,
+							dataType: "text"
+						})
 						.done(function(text) {
-							scriptSection.text += text + "\n";
-							$.ajax({
-								url: scriptSection.url + ".html",
-								dataType: "html",
-							}).done(function(text) {
-									scriptSection.text += /<body>\s*([\S\s]*?)\s*<!--<scrip/.exec(text)[1] + "\n";
-								});
+							addScriptContent(text + "\n");
+							testDone(thisUrl);
+						})
+						.fail(function() {
+							testDone(thisUrl);
 						});
+					} else {
+						$.ajax({
+							url: thisUrl + ".js",
+							dataType: "text"
+						})
+						.done(function(text) {
+							addScriptContent(text + "\n");
+							$.ajax({
+								url: thisUrl + ".html",
+								dataType: "html"
+							})
+							.done(function(text2) {
+								addScriptContent(/<body>\s*([\S\s]*?)\s*<!--<scrip/.exec(text2)[1] + "\n");
+								testDone(thisUrl);
+							})
+							.fail(function() {
+								testDone(thisUrl);
+							});
+						})
+						.fail(function() {
+							testDone(thisUrl);
+						});
+					}
 				})();
 			}
+			testDone();
 		}
 
 		var content = $.views.documentation.content;
@@ -267,6 +331,7 @@
 				l = categories.length;
 			while (l-- > 1) {
 				save(categories[l].name);
+				categories[l].loadedfind = categories[l].loadingfind = undefined;
 			}
 			localStorage.setItem("JsViewsDocCategories", stringify(categories));
 		});
@@ -281,9 +346,17 @@
 
 		$("#compile").on("click", function() {
 			var categories = content.categories,
-				l = categories.length;
+				l = categories.length,
+				m = l-1;
 			while (l-- > 1) {
-				compile(categories[l].name);
+				console.log("GO " + l + " Cat: " + categories[l].name)
+				compile(categories[l].name).then(function() {
+					m--;
+					console.log("M " + m + " Cat: " + categories[m].name)
+					if (!m) {
+						debugger; // done
+					}
+				});
 			}
 		});
 	</script>

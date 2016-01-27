@@ -13,10 +13,10 @@ $.views.tags({
   multisel: {
     init: function(tagCtx, linkCtx) {
       var tag = this;
-      tag._optionsTmpl = "{^{for ~tag.items}}<option>{{:name}}</option>{{/for}}";
+      tag.noVal = true; // This tag control does not bind to arg[0] - no default binding to current #data context
+      tag._optionsTmpl = "{^{for ~tag.items}}<option data-link='value{:name}'>{{:name}}</option>{{/for}}";
       tag.items = tagCtx.props.items;
       tag.selectedItems = tagCtx.props.selected || [];
-
       if (tag._.inline) {
         if (!tagCtx.content) {
           tag.template = "<select multiple='multiple'>" + tag._optionsTmpl + "</select>";
@@ -28,13 +28,12 @@ $.views.tags({
         tag.template = tag._optionsTmpl;
       }
     },
-    onAfterLink: function(tagCtx, linkCtx) {
+	onAfterLink: function(tagCtx, linkCtx) {
       var tag = this;
       if (!tag.linkedElem || tag.linkedElem[0] && !tag.linkedElem[0].parentNode) {
         tag.linkedElem = tag._.inline ? tag.contents("select") : $(linkCtx.elem);
         tag.linkedElem.on("change", function(ev, evargs) {
-          var item = tag.items[ev.target.selectedIndex],
-            newSelection = tag.linkedElem.find("option").map(function(i) {
+            var newSelection = tag.linkedElem.find("option").map(function(i) {
               return this.selected && tag.items[i] || null;
             }).get();
 
@@ -64,9 +63,11 @@ $.views.tags({
     updateSelection: function() {
       var tag = this;
       if (!tag._selSet) {
-        tag.linkedElem.find("option").each(function(i) {
-          this.selected = $.inArray(tag.items[i], tag.selectedItems) > -1;
+        // Map selectedItems to the corresponding array of strings (the names)
+        var selection = tag.selectedItems.map(function(val) {
+          return val.name;
         });
+        tag.linkedElem.val(selection); // Set selection on the <select> element
       }
     },
     updateItems: function() {

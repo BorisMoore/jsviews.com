@@ -17,7 +17,7 @@
 		$ = global.jQuery;
 
 	if (typeof define === "function" && define.amd) { // AMD script loader, e.g. RequireJS
-		define(["jquery"], factory);
+		define(["jquery"], factory); // Require jQuery
 	} else if (typeof exports === "object") { // CommonJS e.g. Browserify
 		module.exports = $
 			? factory($)
@@ -46,7 +46,7 @@ if (!$ || !$.fn) {
 	throw "JsViews requires jQuery"; // We require jQuery
 }
 
-var versionNumber = "v1.0.0-beta",
+var versionNumber = "v@@include("templates/-version.txt")",
 
 	jsvStoreName, rTag, rTmplString, topView, $views, $observe, $observable,
 

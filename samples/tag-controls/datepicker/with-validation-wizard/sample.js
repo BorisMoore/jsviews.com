@@ -63,15 +63,8 @@ function formattedDate(date) {
   return month + '/'+ day + '/' + year;
 }
 
-function invalid(validationCtl) {
-  return !validationCtl.validate();
-}
-
-invalid.depends = ["startDate", "endDate"];
-
 myTmpl.link("#page", model, {
-  page: pageOptions,
-  invalid: invalid
+  page: pageOptions
 })
 .on("click", "#next", function() {
   if ($.view(this).ctx.tag.validate()) {

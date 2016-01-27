@@ -33,7 +33,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "See also:\n\n<ul>\n<li>the <a href=\"https://github.com/BorisMoore/jsrender/tree/master/demos\">demos</a> folder of the JsRender GitHub repository - available <a href=\"http://borismoore.github.io/jsrender/demos/index.html\">here</a> as live samples.</li>\n<li>the <a href=\"https://github.com/BorisMoore/jsviews/tree/master/demos\">demos</a> folder of the JsViews GitHub repository - or <a href=\"http://borismoore.github.io/jsviews/demos/index.html\">here</a> as live samples.</li>\n</ul>"
+        "text": "See also:\n\n<ul>\n<li>the <a href=\"https://github.com/BorisMoore/jsrender/tree/master/demos\">demos</a> folder of the JsRender GitHub repository -- available <a href=\"http://borismoore.github.io/jsrender/demos/index.html\">here</a> as live samples.</li>\n<li>the <a href=\"https://github.com/BorisMoore/jsviews/tree/master/demos\">demos</a> folder of the JsViews GitHub repository -- or <a href=\"http://borismoore.github.io/jsviews/demos/index.html\">here</a> as live samples.</li>\n</ul>"
       }
     ]
   },
@@ -213,7 +213,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "This sample takes the preceding <a href=\"#samples/jsr/composition/from-strings\">template composition/from strings</a> sample, and modifies it to use templates loaded from the server.\n\n(See also the simple examples of loading templates from the server, in the <a href=\"#compiletmpl\">compile templates</a> API topic.)"
+        "text": "This sample takes the preceding *[Template composition/from strings](#samples/jsr/composition/from-strings)* sample, and modifies it to use templates loaded from the server.\n\n(See also the simple examples of loading templates from the server, in the *[Compile templates](#compiletmpl)* API topic.)"
       },
       {
         "_type": "sample",
@@ -291,7 +291,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "Using sub-templates",
-            "text": "```js\n$.templates(\"movieTemplate\", {\n  markup: \"#movieTemplate\",\n  templates: {\n    columnTemplate: \"#columnTemplate\",\n    ...\n  }\n});\n```\n\nNow <em>\"columnTemplate\"</em> is a named template available only to the <em>\"movieTemplate\"</em>. (See <a href=\"#d.templates\">`$.templates()`</a>).\n\n```jsr\n<script id=\"movieTemplate\" type=\"text/x-jsrender\">\n  ...\n  {{for languages tmpl=\"columnTemplate\"/}}\n  ...\n</script>\n```"
+            "text": "```js\n$.templates(\"movieTemplate\", {\n  markup: \"#movieTemplate\",\n  templates: {\n    columnTemplate: \"#columnTemplate\",\n    ...\n  }\n});\n```\n\nNow <em>\"columnTemplate\"</em> is a named template available only to the <em>\"movieTemplate\"</em>. (See <a href=\"#d.templates\">`$.templates()`</a>.)\n\n```jsr\n<script id=\"movieTemplate\" type=\"text/x-jsrender\">\n  ...\n  {{for languages tmpl=\"columnTemplate\"/}}\n  ...\n</script>\n```"
           }
         ],
         "codetabs": [],
@@ -363,7 +363,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Custom tags for JsViews",
-        "text": "See also the examples of JsViews custom tags (tag controls) which include data-linking and interactivity - and are in fact fully-fledged \"widgets\" or controls, such as the date-picker control, or the tabs control:"
+        "text": "See also the examples of JsViews custom tags (tag controls) which include data-linking and interactivity -- and are in fact fully-fledged \"widgets\" or controls, such as the date-picker control, or the tabs control:"
       },
       {
         "_type": "links",
@@ -414,7 +414,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "This sample shows a custom tag: <em>{{range}}</em> - extending the <em>{{for}}</em> tag, used with JsRender (code: <a href=\"download/sample-tag-controls/range/range.js\">range.js</a>).\n\n(See also the <a href=\"#samples/tag-controls/range\">tag-controls/range</a> sample - which uses the same tag with JsViews, as a data-linked custom tag control)."
+        "text": "This sample shows a custom tag: <em>{{range}}</em> -- extending the <em>{{for}}</em> tag, used with JsRender (code: <a href=\"download/sample-tag-controls/range/range.js\">range.js</a>).\n\n(See also the <a href=\"#samples/tag-controls/range\">tag-controls/range</a> sample -- which uses the same tag with JsViews, as a data-linked custom tag control.)"
       },
       {
         "_type": "sample",
@@ -532,7 +532,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "For more information about helpers, see the <a href=\"#helpers\">`$.views.helpers()`</a> API topic.\n\nThis sample shows passing in helpers to the `render()` method:\n\n```js\nvar html = $(\"#movieTemplate\").render(\n  // Pass in data\n  [movies],\n  // Pass in helpers\n  {\n    reverseSort: reverse,\n    ...\n  }\n);\n```\n\nIn this case our template renders an array (with sort-order based on the `~reverseSort` boolean value we pass in as a helper).\n\nTo make our template render just once, rather than iterating over the `movies` array, we wrap the array - as `render([myArray])` - and then <em>within the template</em> we do the iteration, using `{{for #data}}`.\n\n```jsr\n{{for #data}}\n  <tr>\n    <td>{{>~format(title)}}</td>\n    <td>\n      {{sort languages reverse=~reverseSort}}\n        <div><b>{{>name}}</b></div>\n      {{/sort}}\n    </td>\n  </tr>\n{{/for}}\n```\n\n"
+            "text": "For more information about helpers, see the <a href=\"#helpers\">`$.views.helpers()`</a> API topic.\n\nThis sample shows passing in helpers to the `render()` method:\n\n```js\nvar html = $(\"#movieTemplate\").render(\n  // Pass in data\n  [movies],\n  // Pass in helpers\n  {\n    reverseSort: reverse,\n    ...\n  }\n);\n```\n\nIn this case our template renders an array (with sort-order based on the `~reverseSort` boolean value we pass in as a helper).\n\nTo make our template render just once, rather than iterating over the `movies` array, we wrap the array -- as `render([myArray])` -- and then <em>within the template</em> we do the iteration, using `{{for #data}}`.\n\n```jsr\n{{for #data}}\n  <tr>\n    <td>{{>~format(title)}}</td>\n    <td>\n      {{sort languages reverse=~reverseSort}}\n        <div><b>{{>name}}</b></div>\n      {{/sort}}\n    </td>\n  </tr>\n{{/for}}\n```\n\n"
           }
         ],
         "codetabs": [],
@@ -612,6 +612,10 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "hash": "samples/form-elems",
             "label": "Form elements"
+          },
+          {
+            "hash": "samples/computed",
+            "label": "Computed observables"
           },
           {
             "hash": "samples/tag-controls",
@@ -729,7 +733,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "Nested tags:",
-            "text": "The sample shows two instances of a custom `{{tabs}}` tag control - an outer one, and a second inner one in one of the tabs of the outer one..."
+            "text": "The sample shows two instances of a custom `{{tabs}}` tag control -- an outer one, and a second inner one in one of the tabs of the outer one..."
           },
           {
             "_type": "template",
@@ -1008,7 +1012,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "These samples show you how to create custom tag controls that provide for two-data binding - i.e. controls that which allow not only for viewing data, but for modifying (or editing) data.\n\nThe first, the <a href=\"#samples/tag-controls/edit/simple-textbox\">simple textbox control</a> is a very simple and minimalistic example, showing the basic concept of a <em>linkedElem</em> HTML element which the control uses for actual data entry.\n\nThe second and third, - the <a href=\"#samples/tag-controls/edit/generic\">generic edit control</a> and the <a href=\"#samples/tag-controls/edit/array-binding\">array binding</a> samples - both use the powerful `{{edit}}` tag which can be associated with different types of user entry control (from <em>textbox</em> to <em>radio button group</em>) and also provides the basis for other controls such as the <a href=\"#samples/tag-controls/datepicker\">`{{datepicker}}`</a> and <a href=\"#samples/tag-controls/validate\">`{{validate}}`</a> controls."
+        "text": "These samples show you how to create custom tag controls that provide for two-data binding -- i.e. controls that which allow not only for viewing data, but for modifying (or editing) data.\n\nThe first, the <a href=\"#samples/tag-controls/edit/simple-textbox\">simple textbox control</a> is a very simple and minimalistic example, showing the basic concept of a <em>linkedElem</em> HTML element which the control uses for actual data entry.\n\nThe second and third, -- the *[Generic edit control](#samples/tag-controls/edit/generic)* and the *[Array binding](#samples/tag-controls/edit/array-binding)* samples -- both use the powerful `{{edit}}` tag which can be associated with different types of user entry control (from <em>textbox</em> to <em>radio button group</em>) and also provides the basis for other controls such as the <a href=\"#samples/tag-controls/datepicker\">`{{datepicker}}`</a> and <a href=\"#samples/tag-controls/validate\">`{{validate}}`</a> controls."
       },
       {
         "_type": "links",
@@ -1294,7 +1298,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     ]
   },
   "samples/tag-controls/tree/visible-binding": {
-    "title": "Sample: Tree control",
+    "title": "Sample: Tree control with 'visible' binding",
     "path": "",
     "sections": [
       {
@@ -1837,7 +1841,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This sample is similar to the previous <a href=\"#samples/form-els/converters\">converters</a> sample - but here the `amount` can be selected from a range of integers that is chosen by the user (by choosing the number of bits!).\n\nThe array of possible integers is then generated from code:\n\n```js\nfunction setData() {\n  ...\n  newAmounts = [];\n  ...\n  var maxAmount = Math.pow(2, bitCount);\n  for(var i = 0; i < maxAmount ; i++) {\n    newAmounts.push(i);\n  }\n  ...\n  $.observable(amounts).refresh(newAmounts);\n}\n```\n\nThe collection of `<input type=\"radio\">` elements, and the collection of `<option>` elements under the `<select>` are dynamically driven by data-linking to the `amounts` array:\n\n```jsr\n{^{for amounts}}\n  <input type=\"radio\" name=\"amt\" value=\"{{:#data}}\" data-link=\"{intToStr:~root.amount:strToInt}\" />\n  {{:#data}}...\n{{/for}}\n```\n\n```jsr\n<select data-link=\"{intToStr:amount:strToInt} size{:listbox ? amounts.length : null}\">\n  {^{for amounts}}\n    <option data-link=\"selected{:~root.amount===#data}\">{{:#data}}</option>\n  {{/for}}\n</select>\n```"
+            "text": "This sample is similar to the previous <a href=\"#samples/form-els/converters\">converters</a> sample -- but here the `amount` can be selected from a range of integers that is chosen by the user (by choosing the number of bits!).\n\nThe array of possible integers is then generated from code:\n\n```js\nfunction setData() {\n  ...\n  newAmounts = [];\n  ...\n  var maxAmount = Math.pow(2, bitCount);\n  for(var i = 0; i < maxAmount ; i++) {\n    newAmounts.push(i);\n  }\n  ...\n  $.observable(amounts).refresh(newAmounts);\n}\n```\n\nThe collection of `<input type=\"radio\">` elements, and the collection of `<option>` elements under the `<select>` are dynamically driven by data-linking to the `amounts` array:\n\n```jsr\n{^{for amounts}}\n  <input type=\"radio\" name=\"amt\" value=\"{{:#data}}\" data-link=\"{intToStr:~root.amount:strToInt}\" />\n  {{:#data}}...\n{{/for}}\n```\n\n```jsr\n<select data-link=\"{intToStr:amount:strToInt} size{:listbox ? amounts.length : null}\">\n  {^{for amounts}}\n    <option data-link=\"value{:#data}\">{{:#data}}</option>\n  {{/for}}\n</select>\n```"
           }
         ],
         "url": "samples/form-els/array-binding/sample",
@@ -1873,7 +1877,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "```jsr\n<div data-link=\"visible{:name}\">\n...\n<div data-link=\"visible{:name && selectedMovie!=='none'}\">\n...\n<div data-link=\"visible{:request}\">\n```\n\n```jsr\n<select data-link=\"selectedMovie\">\n  <option value=\"none\">Choose...</option>\n  {{for ~movies}}\n    <option value=\"{{:#index}}\">{{>title}}</option>\n  {{/for}}\n</select>\n```\n\n```jsr\n<textarea data-link=\"request\" ...></textarea>\n```\n\n```jsr\n<input type=\"checkbox\" data-link=\"~app.chooseCurrency\" />\n```\n\n```jsr\n{{for ~currencies ~details=#data}}\n  <input \n    type=\"radio\"\n    name=\"currencyPicker\"\n    value=\"{{:#index}}\"\n    data-link=\"~details.selectedCurrency\"\n  />{{:label}}<br/>\n{{/for}}\n```"
           }
         ],
-        "sampleName": "form-els/visible-binding",
+        "sampleName": "",
         "url": "samples/form-els/visible-binding/sample",
         "height": "450"
       }
@@ -1934,7 +1938,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This sample is similar to the previous <a href=\"#samples/tag-controls/edit/generic\">edit control</a> sample - but here the `people` array can be modified - by adding or removing people, or changing their `name` property.\n\n```js\n.on(\"click\", \"#add\", function() {\n  $.observable(model.people).insert({name: \"new\"...});\n})\n.on(\"click\", \".remove\", function() {\n  var view = $.view(this);\n  $.observable(model.people).remove(view.index);\n});\n```\n\nThe collection of `<option>` elements or `<input type=\"radio\">` elements is dynamically driven by data-linking to the `people` array:\n\n```jsr\n{^{edit person ...}}\n  <select>\n    {^{for ~people}}\n      <option data-link=\"value{upper:name} {:name}\"></option>\n    {{/for}}\n  </select>\n{{/edit}}\n```\n\n```jsr\n{^{edit person ...}}\n  <div class=\"radiogroup\">\n    {^{for ~people}}\n      <input type=\"radio\" name=\"gp1\" data-link=\"value{upper:name}\"/>...\n    {{/for}}\n  </div>\n{{/edit}}\n```"
+            "text": "This sample is similar to the previous <a href=\"#samples/tag-controls/edit/generic\">edit control</a> sample -- but here the `people` array can be modified -- by adding or removing people, or changing their `name` property.\n\n```js\n.on(\"click\", \"#add\", function() {\n  $.observable(model.people).insert({name: \"new\"...});\n})\n.on(\"click\", \".remove\", function() {\n  var view = $.view(this);\n  $.observable(model.people).remove(view.index);\n});\n```\n\nThe collection of `<option>` elements or `<input type=\"radio\">` elements is dynamically driven by data-linking to the `people` array:\n\n```jsr\n{^{edit person ...}}\n  <select>\n    {^{for ~people}}\n      <option data-link=\"value{upper:name} {:name}\"></option>\n    {{/for}}\n  </select>\n{{/edit}}\n```\n\n```jsr\n{^{edit person ...}}\n  <div class=\"radiogroup\">\n    {^{for ~people}}\n      <input type=\"radio\" name=\"gp1\" data-link=\"value{upper:name}\"/>...\n    {{/for}}\n  </div>\n{{/edit}}\n```"
           }
         ],
         "title": "The  {{edit}} tag with &lt;option> collections or &ltinput type=\\\"radio\\\"> collections data-linked to arrays",
@@ -1951,7 +1955,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "This sample takes the previous <a href=\"#samples/tag-controls/edit/simple-textbox\">simple textbox</a> sample a lot further, and shows a powerful generic custom `{{edit}}` tag control which allows you to provide <em>editable data</em> support through two-way data-binding associated with any of the standard <em>HTML Form</em> controls.\n\nIt can be associated with a <em>text box</em>, a <em>dropdown</em>, a <em>checkbox</em>, a <em>radio button group</em>, or a <em>textarea</em>.\n\nNote that you can also data-link directly to <em>HTML Form elements</em>, as shown in the <a href=\"#samples/form-elems\">Form elements</a> samples. \n\nHowever, the `{{edit}}` custom tag allows you to provide additional functionality, along with the syntactic advantages and power of custom tags: `{{mytag mydata myproperty=xxx...}}`:\n<ul class=\"textbefore\"><li>You can use it as the starting point for your own tags, (and if you wish you can remove functionality, to create something simpler, as was done in the <a href=\"#samples/tag-controls/simple-textbox\">simple text box</a> example).</li>\n<li>Alternatively you can use it as the <em>base class</em> for your own custom tag.</li>\n<li>See the later <a href=\"#samples/tag-controls/datepicker\">datepicker</a> and <a href=\"#samples/tag-controls/slider\">slider</a> samples for examples of using the <code>{{edit}}</code> as base class for your own control. You could use the same approach to create a tag that encapsulates other <em>jQuery UI</em> widgets, or that wraps controls from other client-side UI libraries.</li></ul>\n\nOut of the box, `{{edit}}` already provides some useful functionality beyond the simple data-linked <a href=\"#samples/form-elems\">form elements</a>:\n<ul class=\"textbefore\"><li>It allows optional <em>convert</em> and <em>convertBack</em> converters to be associated with the control - no matter what type of control it is (<em>radio buttons</em>, <em>select</em>, <em>textarea</em>...).</li>\n<li>It also provides <em>linkTo</em> support to allow two-way binding where the <em>'bind from'</em> source data node and the <em>'bind to'</em> target data node are different nodes (as distinct from normal two-way binding on a single data node).</li>\n<li>The <code>{{edit}}</code> control can be used with either data-linked tag syntax (<code>{^{edit ...}}</code>) or element-based data-linking syntax (<code>data-link=\"{edit ...}\"</code>).\n</li></ul>\n\nIt will be used as a <em>base control</em> for the <a href=\"#samples/tag-controls/validate\">`{{validate}}`</a>, <a href=\"#samples/tag-controls/datepicker\">`{{datepicker}}`</a> and <a href=\"#samples/tag-controls/slider\">`{{slider}}`</a> controls that are shown in later samples, below. "
+        "text": "This sample takes the previous *[Simple textbox](#samples/tag-controls/edit/simple-textbox)* sample a lot further, and shows a powerful generic custom `{{edit}}` tag control which allows you to provide <em>editable data</em> support through two-way data-binding associated with any of the standard <em>HTML Form</em> controls.\n\nIt can be associated with a <em>text box</em>, a <em>dropdown</em>, a <em>checkbox</em>, a <em>radio button group</em>, or a <em>textarea</em>.\n\nNote that you can also data-link directly to <em>HTML Form elements</em>, as shown in the *[Form elements](#samples/form-elems)* samples. \n\nHowever, the `{{edit}}` custom tag allows you to provide additional functionality, along with the syntactic advantages and power of custom tags: `{{mytag mydata myproperty=xxx...}}`:\n<ul class=\"textbefore\"><li>You can use it as the starting point for your own tags, (and if you wish you can remove functionality, to create something simpler, as was done in the <a href=\"#samples/tag-controls/simple-textbox\">simple text box</a> example).</li>\n<li>Alternatively you can use it as the <em>base class</em> for your own custom tag.</li>\n<li>See the later <a href=\"#samples/tag-controls/datepicker\">datepicker</a> and <a href=\"#samples/tag-controls/slider\">slider</a> samples for examples of using the <code>{{edit}}</code> as base class for your own control. You could use the same approach to create a tag that encapsulates other <em>jQuery UI</em> widgets, or that wraps controls from other client-side UI libraries.</li></ul>\n\nOut of the box, `{{edit}}` already provides some useful functionality beyond the simple data-linked <a href=\"#samples/form-elems\">form elements</a>:\n<ul class=\"textbefore\"><li>It allows optional <em>convert</em> and <em>convertBack</em> converters to be associated with the control -- no matter what type of control it is (<em>radio buttons</em>, <em>select</em>, <em>textarea</em>...).</li>\n<li>It also provides <em>linkTo</em> support to allow two-way binding where the <em>'bind from'</em> source data node and the <em>'bind to'</em> target data node are different nodes (as distinct from normal two-way binding on a single data node).</li>\n<li>The <code>{{edit}}</code> control can be used with either data-linked tag syntax (<code>{^{edit ...}}</code>) or element-based data-linking syntax (<code>data-link=\"{edit ...}\"</code>).\n</li></ul>\n\nIt will be used as a <em>base control</em> for the <a href=\"#samples/tag-controls/validate\">`{{validate}}`</a>, <a href=\"#samples/tag-controls/datepicker\">`{{datepicker}}`</a> and <a href=\"#samples/tag-controls/slider\">`{{slider}}`</a> controls that are shown in later samples, below. "
       },
       {
         "_type": "sample",
@@ -2041,7 +2045,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This sample is similar to the previous <a href=\"#samples/tag-controls/validate/group\">validation group</a> sample - but here the `people` array can be modified - by adding or removing people, or changing their `name` property.\n\n```js\n.on(\"click\", \"#add\", function() {\n  $.observable(model.people).insert({name: \"new\"...});\n})\n.on(\"click\", \".remove\", function() {\n  var view = $.view(this);\n  $.observable(model.people).remove(view.index);\n  validation.validate();\n});\n```\n\nThe collection of `<option>` elements or `<input type=\"radio\">` elements is dynamically driven by data-linking to the `people` array:\n\n```jsr\n{^{validate person ...}}\n  <select>\n    {^{for people}}\n      <option data-link=\"value{upper:name} {:name:}\"></option>\n    {{/for}}\n  </select>\n{{/validate}}\n```\n\n```jsr\n{^{validate person ...}}\n  <div class=\"radiogroup\">\n    {^{for people}}\n      <input type=\"radio\" name=\"gp1\" data-link=\"value{upper:name}\"/>...\n    {{/for}}\n  </div>\n{{/validate}}\n```"
+            "text": "This sample is similar to the previous <a href=\"#samples/tag-controls/validate/group\">validation group</a> sample -- but here the `people` array can be modified -- by adding or removing people, or changing their `name` property.\n\n```js\n.on(\"click\", \"#add\", function() {\n  $.observable(model.people).insert({name: \"new\"...});\n})\n.on(\"click\", \".remove\", function() {\n  var view = $.view(this);\n  $.observable(model.people).remove(view.index);\n  validation.validate();\n});\n```\n\nThe collection of `<option>` elements or `<input type=\"radio\">` elements is dynamically driven by data-linking to the `people` array:\n\n```jsr\n{^{validate person ...}}\n  <select>\n    {^{for people}}\n      <option data-link=\"value{upper:name} {:name:}\"></option>\n    {{/for}}\n  </select>\n{{/validate}}\n```\n\n```jsr\n{^{validate person ...}}\n  <div class=\"radiogroup\">\n    {^{for people}}\n      <input type=\"radio\" name=\"gp1\" data-link=\"value{upper:name}\"/>...\n    {{/for}}\n  </div>\n{{/validate}}\n```"
           }
         ],
         "sampleName": "tag-controls/validate/array-binding",
@@ -2085,7 +2089,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "This sample illustrates the simplest possible custom tag control supporting <em>two-way data-binding</em>.\n\nBy using a template which includes an <em>input</em> element:\n\n```jsr\n<input/>\n```\n\nand then, in the `onAfterLink` handler, setting the `linkedElem` property to be a jQuery object containing that <em>input</em> element:\n\n```js\n$.views.tags({\n  textbox: {\n    onAfterLink: function() {\n      this.linkedElem = this.contents(\"input\");\n    },\n    template: \"<input/>\"\n  }\n});\n```\n\nJsViews automatically sets up two-way data-linking on the <em>input</em> element.\n\nNow you can get two-binding to your data, simply by setting the path to the data as parameter on your `{{textbox}}` tag:\n\n```jsr\n{{textbox my.data.path /}}\n```\n\nAs an optional optimization, we can set the `onUpdate` handler of our tag control to return `false`. This has the effect that when the data changes, the control will not re-render itself completely. (The updating of the textbox content is already assured by the data-linked <em>input</em>, so re-rendering is unnecessary.)  \n\n```js\n$.views.tags({\n  textbox: {\n    onAfterLink: function() {\n      this.linkedElem = this.contents(\"input\");\n    },\n    onUpdate: function() {\n      return false;\n    },\n    template: \"<input/>\"\n  }\n});\n```"
           }
         ],
-        "sampleName": "tag-controls/edit/simple-textbox",
+        "sampleName": "",
         "url": "samples/tag-controls/edit/simple-textbox/sample",
         "height": "340"
       }
@@ -2146,7 +2150,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "First let's go further with JsRender",
-        "text": "Well before we get to that, let's first make the problem even harder, by pushing our JsRender template's HTML ignorance to a blissful extreme. Let's use a completely non-data-bound approach to user interactivity, by adding mouse events to hide and show the <em>role details</em> information when the user hovers over the person's name. And let's use DOM level 0 inline event code, so we are mixing code and markup! \n\nThen - from there - we'll show how to move to a data-driven model, with good separation of code and markup, and well-formed templates that allow the full power of JsViews to be leveraged.\n\nHere is the sample with the added <em>hover</em> behavior:"
+        "text": "Well before we get to that, let's first make the problem even harder, by pushing our JsRender template's HTML ignorance to a blissful extreme. Let's use a completely non-data-bound approach to user interactivity, by adding mouse events to hide and show the <em>role details</em> information when the user hovers over the person's name. And let's use DOM level 0 inline event code, so we are mixing code and markup! \n\nThen -- from there -- we'll show how to move to a data-driven model, with good separation of code and markup, and well-formed templates that allow the full power of JsViews to be leveraged.\n\nHere is the sample with the added <em>hover</em> behavior:"
       },
       {
         "_type": "sample",
@@ -2174,7 +2178,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "So how did that work? ",
-        "text": "Well first we used the JsRender `#index` to insert unique IDs on the <em>role details</em> span.\n\nThat may seem surprising, given that JsRender does not 'track' HTML entities. So it does not have an `index` corresponding to counting HTML elements. But it <em>does</em> track instances of rendered templates, or tag blocks. (They are the <em>'views'</em> of JsViews.) - Within a `{{for}}...{{/for}}` section, or block, JsRender counts the 'views' corresponding to the rendered instances of that block. (One for each data item in the `people` array).\n\nSo here we use that `#index` variable to add unique IDs to HTML element markup.\n\n```jsr\n<span class=\"details\" id=\"role_{{:#index}}\">\n```\n\nAnd of course we use the same IDs in our <em>mouseover</em> code to hide and show the <em>role details</em> span element.\n\n```jsr\nonmouseover=\"$('#role_{{:#index}}').show();\"\nonmouseout=\"$('#role_{{:#index}}').hide();\">\n```"
+        "text": "Well first we used the JsRender `#index` to insert unique IDs on the <em>role details</em> span.\n\nThat may seem surprising, given that JsRender does not 'track' HTML entities. So it does not have an `index` corresponding to counting HTML elements. But it <em>does</em> track instances of rendered templates, or tag blocks. (They are the <em>'views'</em> of JsViews.) -- Within a `{{for}}...{{/for}}` section, or block, JsRender counts the 'views' corresponding to the rendered instances of that block. (One for each data item in the `people` array).\n\nSo here we use that `#index` variable to add unique IDs to HTML element markup.\n\n```jsr\n<span class=\"details\" id=\"role_{{:#index}}\">\n```\n\nAnd of course we use the same IDs in our <em>mouseover</em> code to hide and show the <em>role details</em> span element.\n\n```jsr\nonmouseover=\"$('#role_{{:#index}}').show();\"\nonmouseout=\"$('#role_{{:#index}}').hide();\">\n```"
       },
       {
         "_type": "para",
@@ -2211,7 +2215,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Next step - convert to JsViews data-linking",
-        "text": "So we have reached a relatively complex JsRender template, and we are ready to convert it to use data-linking - (move 'from render to link')...  \n\nThe details of adding data-linking to the above sample - and taking it forward to additional functionality - will be shown in the rest of this <a href=\"#samples/data-link\">tutorial sequence</a>. "
+        "text": "So we have reached a relatively complex JsRender template, and we are ready to convert it to use data-linking -- (move 'from render to link')...  \n\nThe details of adding data-linking to the above sample -- and taking it forward to additional functionality -- will be shown in the rest of this <a href=\"#samples/data-link\">tutorial sequence</a>. "
       },
       {
         "_type": "para",
@@ -2233,7 +2237,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "```js\n$(\"#add\").on(\"click\", function() {\n  $.observable(data.people).insert({\n    first:\"Amos\",\n    ...\n  });\n})\n```\n\n```jsr\n{^{for people}}\n  <div \n    class=\"person\"\n    {{include tmpl=\"#attributesTmpl\" ~id='role_'+#index link=false /}}\n  >\n    <span class=\"{{if role.indexOf('Lead')>=0 link=false}}special{{/if}}\" >\n      {{:first}} <b>{{:last}}</b>\n    </span>\n    <img src=\".../question.jpg\"/>\n\n    <span class=\"details\" id=\"role_{{:#index}}\">\n      {{:role}}\n    </span>\n  </div>\n{{/for}}\n```"
+            "text": "```js\n$(\"#add\").on(\"click\", function() {\n  $.observable(data.people).insert({\n    first:\"Amos\",\n    ...\n  });\n})\n```\n\n```jsr\n{^{for people}}\n  <div \n    class=\"person\"\n    {{include tmpl=\"#attributesTmpl\" ~id='role_'+#index /}}\n  >\n    <span class=\"{{if role.indexOf('Lead')>=0}}special{{/if}}\" >\n      {{:first}} <b>{{:last}}</b>\n    </span>\n    <img src=\".../question.jpg\"/>\n\n    <span class=\"details\" id=\"role_{{:#index}}\">\n      {{:role}}\n    </span>\n  </div>\n{{/for}}\n```"
           }
         ],
         "html": "",
@@ -2244,8 +2248,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       },
       {
         "_type": "para",
-        "title": "But there was a catch:",
-        "text": "Look closely and you will see we added `link=false` here:\n\n```jsr\n<div\n  class=\"person\"\n  {{include ... link=false /}}\n>\n  <span class=\"{{if ... link=false}}special{{/if}}\" >\n```\n\nThat was a way to tell JsViews to treat that `{{include}}` tag as a JsRender tag, and not to add JsViews data-linking behavior to that tag.\n\nRemove the `link=false` annotations and you will get an error.\n\nBut this is not a real solution for us. What we really want to do is to provide for data-binding of our conditional toggling of the <em>'special'</em> class, and to have a data-driven approach to our <em>hover</em> behavior. To do that we will need to replace the JsRender `{{include}}` tag by corresponding JsViews data-linking directly on the HTML elements.\n\nSubsequent pages of in this tutorial sequence will show you how.\n\n<em>The next page gives more detail on <a href=\"#samples/data-link/for-and-if\">data-linking `{^{for}}` and `{^{if}}`</a>.</em>"
+        "title": "Linked and unlinked tags, and element markup",
+        "text": "By changing the `{{for}}` tag to a data-linked `{^{for}}` tag, we have obtained dynamic data-linking (binding) of our sample to changes in the `person` array.\n\nBut we still have an `{{include}}` tag and an `{{if}}` tag - nested within the `{^{for}}` block. If we could change them also to be to data-linked (using `{^{include}}` and `{^{if}}`) then we could dynamically bind to changes in the `role` -- and make our conditional toggling of the <em>'special'</em> class and our <em>hover</em> behavior be data-driven.\n\nHowever, those tags are ***within*** the markup of HTML element tags (between the `<` and `>`): \n\n```jsr\n<div class=\"person\" {{include ... /}} >\n  <span class=\"{{if ... }}special{{/if}}\" >\n```\n\nJsViews does not support using a data-linked tag (`{^{...}}`) within HTML element tag markup. (Try it and you will get a *syntax error* message). Instead, it provides for [data-linking HTML elements](#linked-template-syntax) directly.\n\nLater pages of this tutorial sequence will show you how to use data-linked elements to add data-driven *class* and *hover behavior* to our sample.\n\n<em>The next page gives more detail on <a href=\"#samples/data-link/for-and-if\">data-linking `{^{for}}` and `{^{if}}`</a>.</em>"
       },
       {
         "_type": "para",
@@ -2322,12 +2326,12 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Learning points here:",
-        "text": "First, notice that the name reversing feature is entirely declarative. We didn't write a single line of code. We didn't even need to modify our data (or define a modified view model) since here we are using plain JavaScript objects, and we are taking the initial value of `reverse` as falsey - so `undefined` is fine. If we want to have an initial setting of <em>last-first</em>, we can add it to the data, like this:\n\n```js\nvar data = {\n  reverse: true,\n  people: [\n    {\n      first:\"Jeff\",\n      ...\n```\n\nClick on <em>Try it</em> and test it out...\n\nNext, notice that we are binding our if to the `reverse` at the <em>root</em> level of the data. But the context of the `{{if}}` is the view for a `person` - corresponding to the content of the `{{for}}` tag. So the current data item is a `person`. To bind to the `reverse` property on the top-level data object rather than on the `person` object, we use the syntax `{^{if ~root.reverse}}`."
+        "text": "First, notice that the name reversing feature is entirely declarative. We didn't write a single line of code. We didn't even need to modify our data (or define a modified view model) since here we are using plain JavaScript objects, and we are taking the initial value of `reverse` as falsey -- so `undefined` is fine. If we want to have an initial setting of <em>last-first</em>, we can add it to the data, like this:\n\n```js\nvar data = {\n  reverse: true,\n  people: [\n    {\n      first:\"Jeff\",\n      ...\n```\n\nClick on <em>Try it</em> and test it out...\n\nNext, notice that we are binding our if to the `reverse` at the <em>root</em> level of the data. But the context of the `{{if}}` is the view for a `person` -- corresponding to the content of the `{{for}}` tag. So the current data item is a `person`. To bind to the `reverse` property on the top-level data object rather than on the `person` object, we use the syntax `{^{if ~root.reverse}}`."
       },
       {
         "_type": "para",
         "title": "Data-linking class",
-        "text": "In the previous page - <a href=\"#samples/data-link/from-render-to-link\">from rendering to linking</a> - we also used `{{if}}` to conditionally set a <em>'special'</em> class on a <em>span</em>, as follows:\n\n```jsr\n<span class=\"{{if role.indexOf('Lead')>=0}}special{{/if}}\">\n```\n\n<em>The next page shows how we can convert that using data-linked element syntax, so as to dynamically <a href=\"#samples/data-link/class\">data-link class</a>.</em>"
+        "text": "In the previous page -- *[From rendering to linking](#samples/data-link/from-render-to-link)* -- we also used `{{if}}` to conditionally set a <em>'special'</em> class on a <em>span</em>, as follows:\n\n```jsr\n<span class=\"{{if role.indexOf('Lead')>=0}}special{{/if}}\">\n```\n\n<em>The next page shows how we can convert that using data-linked element syntax, so as to dynamically <a href=\"#samples/data-link/class\">data-link class</a>.</em>"
       },
       {
         "_type": "para",
@@ -2343,12 +2347,12 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "This is the page seven of a <a href=\"#samples/data-link\">tutorial sequence</a> on data-linking. We show how to link to all the possible targets on an HTML element, such as attributes, styles and class.\n\nIn the JsRender template on the first page of this tutorial, <a href=\"#samples/data-link/from-render-to-link\">From rendering to linking</a>, we used <em>DOM level 0</em> mouse event handlers to show and hide the <em>'role details'</em>:\n\n```jsr\n<span ...\n  onmouseover=\"$('#role_{{:#index}}').show();\"\n  onmouseout=\"$('#role_{{:#index}}').hide();\"\n>\n  ...\n</span>\n```\n\nOn this tutorial page we will convert that feature to use data-linking, and successively show three ways to improve the original approach:\n<ul>\n<li>Use a converter to provide the inline code, so as to provide separation of code and markup</li>\n<li>Use attached event handlers, rather than inline code - and use JsViews to find the associated 'role details' element without needing to insert IDs into the HTML</li>\n<li>Use data-binding to trigger the hiding/showing from the mouse events</li>\n</ul>"
+        "text": "This is the page seven of a <a href=\"#samples/data-link\">tutorial sequence</a> on data-linking. We show how to link to all the possible targets on an HTML element, such as attributes, styles and class.\n\nIn the JsRender template on the first page of this tutorial, *[From rendering to linking](#samples/data-link/from-render-to-link)*, we used <em>DOM level 0</em> mouse event handlers to show and hide the <em>'role details'</em>:\n\n```jsr\n<span ...\n  onmouseover=\"$('#role_{{:#index}}').show();\"\n  onmouseout=\"$('#role_{{:#index}}').hide();\"\n>\n  ...\n</span>\n```\n\nOn this tutorial page we will convert that feature to use data-linking, and successively show three ways to improve the original approach:\n<ul>\n<li>Use a converter to provide the inline code, so as to provide separation of code and markup</li>\n<li>Use attached event handlers, rather than inline code -- and use JsViews to find the associated 'role details' element without needing to insert IDs into the HTML</li>\n<li>Use data-binding to trigger the hiding/showing from the mouse events</li>\n</ul>"
       },
       {
         "_type": "para",
         "title": "Using a converter to return inline event code",
-        "text": "We replace the previous inline code by a converter - which actually returns the same code string as in the original version:"
+        "text": "We replace the previous inline code by a converter -- which actually returns the same code string as in the original version:"
       },
       {
         "_type": "sample",
@@ -2375,7 +2379,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "Notice that we declared our converters just for this `peopleTmpl`, by passing in the template as the last parameter.<br/> See <a href=\"#converters\">Registering converters</a>."
+        "text": "Notice that we declared our converters just for this `peopleTmpl`, by passing in the template as the last parameter.<br/> See *[Registering converters](#converters)*."
       },
       {
         "_type": "para",
@@ -2443,96 +2447,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "samples/data-link/computed": {
-    "title": "Using data-link to bind to computed data values",
-    "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "This is the page seven of a <a href=\"#samples/data-link\">tutorial sequence</a> on how to convert a complex JsRender template to work in JsViews, using data-linking throughout.\n"
-      },
-      {
-        "_type": "para",
-        "title": "Data-linked element syntax",
-        "text": "The first thing that this shows us is that you can use quite rich or complex expressions in your template tags."
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [],
-        "url": "samples/data-link/link4",
-        "height": "260",
-        "title": "4"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [],
-        "url": "samples/data-link/link5",
-        "height": "190",
-        "title": "5"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [],
-        "url": "samples/data-link/link6",
-        "title": "6",
-        "height": "190"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [],
-        "url": "samples/data-link/link7",
-        "title": "7",
-        "height": "190"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "<ul><li>JsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a ^ character (so that for example a <em>{{for}}</em> tag becomes a data-linked <em>{^{for}}</em> tag) - and in that case the rendered content will change dynamically whenever the bound data changes <em>'observably'</em>.</li>\n<li>But tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.</li>\n<li>Similarly, tags which wrap opening or closing tag in such a way as to produce 'mal-formed HTML' will not be valid.</li>\n<li>In fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.</li>\n<li>In each of the invalid scenarios mentioned above, the JsRender tags needs to be replaced by corresponding data-linked element syntax</li></ul>\n\n<em>The next page gives more detail on <a href=\"#samples/data-link/for-and-if\">data-linking {^{for}} and {^{if}}</a>.</em>"
-      },
-      {
-        "_type": "para",
-        "title": "See also the JsViews API topics:",
-        "text": "<ul><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
-      }
-    ]
-  },
   "samples/data-link/toggle": {
     "title": "Using data-linking to toggle a value in a list",
     "path": "",
@@ -2566,7 +2480,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "html": "<style>\n  .person { padding: 3px; margin: 5px; }\n  .special { color: blue; font-style: italic; }\n  .red-border { border: 1px solid red; padding: 3px; }\n</style>\n\n<div id=\"people\"></div>\n\n<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <button id=\"add\">Add person</button><br />\n  Reverse name: <input type=\"checkbox\" data-link=\"reverse\"/>\n  {^{for people}}\n    <div class=\"person\">\n      Lead: <input type=\"checkbox\" data-link=\"isLead\"/>\n      <span class=\"red-border\"\n        data-link=\"class{:isLead?'special':''}\">\n        {^{if ~root.reverse}}\n          <b>{{:last}}</b>, {{:first}}\n        {{else}}\n          {{:first}} <b>{{:last}}</b>\n        {{/if}}\n      </span>\n    </div>\n  {{/for}}\n</script>",
-        "code": "var data = {\n  people: [\n    {\n      first:\"Jeff\",\n      last: \"Adams\",\n      isLead: true\n    },\n    {\n      first:\"Eugenia\",\n      last: \"Tyzak\",\n    }\n  ]\n};\n\n$.templates({ \n  peopleTmpl: \"#peopleTemplate\"\n});\n\n$.templates.peopleTmpl.link(\"#people\", data);\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(data.people).insert({\n    first:\"Amos\",\n    last: \"Sanchez\"\n  });\n})",
+        "code": "var data = {\n  people: [\n    {\n      first:\"Jeff\",\n      last: \"Adams\",\n      isLead: true\n    },\n    {\n      first:\"Eugenia\",\n      last: \"Tyzak\"\n    }\n  ]\n};\n\n$.templates({ \n  peopleTmpl: \"#peopleTemplate\"\n});\n\n$.templates.peopleTmpl.link(\"#people\", data);\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(data.people).insert({\n    first:\"Amos\",\n    last: \"Sanchez\"\n  });\n})",
         "markup": "",
         "height": "160"
       },
@@ -2599,7 +2513,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "html": "<style>\n  .person { padding: 3px; margin: 5px; }\n  .special { color: blue; font-style: italic; }\n  .red-border { border: 1px solid red; padding: 3px; }\n</style>\n\n<div id=\"people\"></div>\n\n<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <button id=\"add\">Add person</button><br />\n  Reverse name: <input type=\"checkbox\" data-link=\"reverse\"/>\n  {^{for people}}\n    <div class=\"person\">\n      Lead: <input type=\"checkbox\" data-link=\"isLead\"/>\n      <span class=\"red-border\"\n        data-link=\"class{merge:isLead toggle='special'}\">\n        {^{if ~root.reverse}}\n          <b>{{:last}}</b>, {{:first}}\n        {{else}}\n          {{:first}} <b>{{:last}}</b>\n        {{/if}}\n      </span>\n    </div>\n  {{/for}}\n</script>",
-        "code": "var data = {\n  people: [\n    {\n      first:\"Jeff\",\n      last: \"Adams\",\n      isLead: true\n    },\n    {\n      first:\"Eugenia\",\n      last: \"Tyzak\",\n    }\n  ]\n};\n\n$.templates({ \n  peopleTmpl: \"#peopleTemplate\"\n});\n\n$.templates.peopleTmpl.link(\"#people\", data);\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(data.people).insert({\n    first:\"Amos\",\n    last: \"Sanchez\"\n  });\n})",
+        "code": "var data = {\n  people: [\n    {\n      first:\"Jeff\",\n      last: \"Adams\",\n      isLead: true\n    },\n    {\n      first:\"Eugenia\",\n      last: \"Tyzak\"\n    }\n  ]\n};\n\n$.templates({ \n  peopleTmpl: \"#peopleTemplate\"\n});\n\n$.templates.peopleTmpl.link(\"#people\", data);\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(data.people).insert({\n    first:\"Amos\",\n    last: \"Sanchez\"\n  });\n})",
         "height": "160"
       },
       {
@@ -2663,7 +2577,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "\n\nHere we have covered data-linking the <em>class</em> attribute. You can similarly data-link other attributes. <em>The next page: <a href=\"#samples/data-link/attributes\">data-linking HTML attributes</a> illustrates that with the `title` and `disabled` attributes.</em>"
+        "text": "\n\nHere we have covered data-linking the <em>class</em> attribute. You can similarly data-link other attributes.\n\n*The next page -- [Data-linking HTML attributes](#samples/data-link/attributes) -- illustrates that with the `title` and `disabled` attributes.*"
       },
       {
         "_type": "para",
@@ -2822,17 +2736,17 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Data-linking to HTML attributes",
-        "text": "In the JsRender template on the first page of this tutorial, <a href=\"#samples/data-link/from-render-to-link\">From rendering to linking</a>, we had an `{{if}}` tag <em><b>inside an HTML attribute</b></em>:\n\n```jsr\n<span class=\"{{if role.indexOf('Lead')>=0}}special{{/if}}\">\n```"
+        "text": "In the JsRender template on the first page of this tutorial, *[From rendering to linking](#samples/data-link/from-render-to-link)*, we had an `{{if}}` tag <em><b>inside an HTML attribute</b></em>:\n\n```jsr\n<span class=\"{{if role.indexOf('Lead')>=0}}special{{/if}}\">\n```"
       },
       {
         "_type": "para",
         "title": "Rules for a well-formed JsViews template",
-        "text": "You might think you can convert that to JsViews data-linking by simply adding a `^`, like we did elsewhere in the previous page:\n\n```jsr\n<span class=\"{^{if role.indexOf('Lead')>=0}}special{{/if}}\">\n```\n\nIf you try that (using the <em>Try it</em> button, for example) you will see that it renders incorrectly. Putting JsRender tags like `{{if}}` <em><b>within an HTML element tag</b></em>, including <em><b>within an attribute value</b></em> is an example of invalid JsViews template markup. For details on the rules for what is valid, or invalid, within a JsViews template see the JsViews API topic: <a href=\"#jsvtemplatetags\">JsViews template tags</a>."
+        "text": "You might think you can convert that to JsViews data-linking by simply adding a `^`, like we did elsewhere in the previous page:\n\n```jsr\n<span class=\"{^{if role.indexOf('Lead')>=0}}special{{/if}}\">\n```\n\nIf you try that (using the <em>Try it</em> button, for example) you will see that it renders incorrectly. Putting JsRender tags like `{{if}}` <em><b>within an HTML element tag</b></em>, including <em><b>within an attribute value</b></em> is an example of invalid JsViews template markup. For details on the rules for what is valid, or invalid, within a JsViews template see the JsViews API topic: *[JsViews template tags](#jsvtemplatetags)*."
       },
       {
         "_type": "para",
         "title": "Data-linking to \"class\"",
-        "text": "The right way to data-link to <em>class</em> is using <a href=\"#linked-elem-syntax\">data-linked element</a> syntax to link directly to the <em>class</em> attribute as target. (And similarly for linking to the attributes - see <a href=\"#samples/data-link/attributes\">data-linking to HTML attributes</a>).\n\nHere's a simple example:"
+        "text": "The right way to data-link to <em>class</em> is using <a href=\"#linked-elem-syntax\">data-linked element</a> syntax to link directly to the <em>class</em> attribute as target. (And similarly for linking to the attributes -- see *[Data-linking HTML attributes](#samples/data-link/attributes)*.)\n\nHere's a simple example:"
       },
       {
         "_type": "sample",
@@ -2891,7 +2805,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "In data-linking to <em>class</em> as target, we are actually linking to the HTML `className` property of the element, which is of course generally a white-space-separated list of class names.\n\nSo in our current sample we are toggling the value of `className` between `\"\"` and `\"special\"`, depending on the value of our `isLead` data property.\n\nWhat if there are other classes set on the element? Clearly we would like to have our data-linking toggle just one class (the `special` class) within that list.\n\n<em>The next page takes up shows how to use <a href=\"#samples/data-link/toggle\">data-linking to toggle a term in a list</a>, and applies that the the <em>class</em> to achieve that scenario.</em>"
+        "text": "In data-linking to <em>class</em> as target, we are actually linking to the HTML `className` property of the element, which is of course generally a white-space-separated list of class names.\n\nSo in our current sample we are toggling the value of `className` between `\"\"` and `\"special\"`, depending on the value of our `isLead` data property.\n\nWhat if there are other classes set on the element? Clearly we would like to have our data-linking toggle just one class (the `special` class) within that list.\n\n<em>The next page takes up shows how to use <a href=\"#samples/data-link/toggle\">data-linking to toggle a term in a list</a>, and applies that to the <b>class</b>, to achieve that scenario.</em>"
       },
       {
         "_type": "para",
@@ -2933,7 +2847,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "Now, here are two more samples using data-linked visibility:\n<ul class=\"textbefore\">\n<li>The <a href=\"#samples/form-els/visible-binding\">form elements and data-linked visibility</a> sample</li>\n<li>The <a href=\"#samples/tag-controls/tree/visible-binding\">tree with 'visible' binding</a> sample</li>\n</ul>\n\nBut let's also use <em>visible</em> data-linking to hide and show the details blocks when the user hovers over the name - following the feature used in the original <a href=\"\">JsRender template version</a>. <em>The <a href=\"#samples/data-link/hover\">next page</a> explores three different approaches to doing just that.</em>"
+        "text": "Now, here are two more samples using data-linked visibility:\n\n- The *[Form elements and data-linked visibility](#samples/form-els/visible-binding)* sample\n- The *[Tree with 'visible' binding](#samples/tag-controls/tree/visible-binding)* sample\n\n\nBut let's also use <em>visible</em> data-linking to hide and show the details blocks when the user hovers over the name -- following the feature used in the original <a href=\"\">JsRender template version</a>. <em>The <a href=\"#samples/data-link/hover\">next page</a> explores three different approaches to doing just that.</em>"
       },
       {
         "_type": "para",
@@ -3028,10 +2942,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "hash": "samples/data-link/svg",
             "label": "Linking SVG elements"
-          },
-          {
-            "hash": "samples/data-link/computed",
-            "label": "Computed ....!!"
           }
         ]
       },
@@ -3049,7 +2959,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "This sample takes the `{{range}}` tag from the JsRender <a href=\"#samples/jsr/tags/extend-for\">extending the `{{for}}` tag</a> sample, and adds data-linking to it."
+        "text": "This sample takes the `{{range}}` tag from the JsRender *[Extending the `{{for}}` tag](#samples/jsr/tags/extend-for)* sample, and adds data-linking to it."
       },
       {
         "_type": "sample",
@@ -3079,6 +2989,174 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "sampleName": "tag-controls/range",
         "url": "samples/tag-controls/range/sample",
         "height": "400"
+      }
+    ]
+  },
+  "samples/computed": {
+    "title": "Computed observables",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "samples/computed/fullname",
+            "label": "fullName variants"
+          },
+          {
+            "hash": "samples/computed/shopping-cart",
+            "label": "shopping cart"
+          }
+        ]
+      }
+    ]
+  },
+  "samples/computed/fullname": {
+    "title": "Computed observable: fullName() &ndash;  variants",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This sample consists of three variants of the same sample - with a `fullName()` computed observable.\n\n- Using plain JavaScript objects as instance data - with the computed `fullName()` [as a computed property](#samples/computed/fullname@data)\n- Using a View Model approach, with the computed `fullName()` [as a computed property on the prototype](#samples/computed/fullname@vm)\n- Using plain JavaScript objects as instance data -- with the computed `fullName()` [as a helper function](#samples/computed/fullname@helper)"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\nvar person = {\n  ...\n  fullName: fullName\n};\n\n// Parameterized computed observable\nfunction fullName(reversed) { ... }\n\nfullName.depends = \"*\"; // Listen to changes to ANY property of the object (person)\n\n// Two-way binding: provide a setter\nfullName.set = function(val) {\n  val = val.split(\" \");\n  // Make observable change to dependent properties\n  $.observable(this).setProperty({\n    lastName: val.pop(),\n    firstName: val.join(\" \")\n  });\n};\n```"
+          }
+        ],
+        "url": "samples/computed/fullname/data",
+        "height": "340",
+        "sampleName": "",
+        "title": "Computed data properties (declared on plain object instance)",
+        "anchor": "plain"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\n// Constructor\nfunction Person(first, last) {\n  this.firstName = first;\n  this.lastName = last;\n}\n\n// Prototype\nPerson.prototype = {\n  fullName: fullName // Computed fullName\n};\n\nvar person = new Person(\"Jeff\", \"Friedman\");\n\n// Parameterized computed observable\nfunction fullName(reversed) { ... }\n\nfullName.depends = \"*\"; // Listen to changes to ANY property of the object (person)\n\n// Two-way binding: provide a setter\nfullName.set = function(val) { ... };\n```"
+          }
+        ],
+        "url": "samples/computed/fullname/prototype",
+        "height": "340",
+        "sampleName": "",
+        "title": "Computed data properties (declared on prototype) &ndash; View Model approach",
+        "anchor": "vm"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\nvar people = [\n  {firstName: \"Jeff\", lastName: \"Friedman\"},\n  ...\n];\n\n// Parameterized computed observable - passed in as a helper\nfunction fullName(reverse) {\n  // 'this' for a helper is the view object - and view.data gives\n  // us the appropriate instance of 'person' in the people array\n  var view = this, person = view.data;\n  return reverse ? ... : ...;\n}\nfullName.depends = \"*\"; // Listen to changes to ANY property of the object (person)\n\n// Setter for fullName - for two-way binding\nfullName.set = function(val) {\n  // 'this' for the setter on a helper is the view object - and view.data\n  // gives us the appropriate instance of 'person' in the people array\n  var view = this, person = view.data;\n  val = val.split(\" \");\n  // Make observable change to dependent properties\n  $.observable(person).setProperty({ ... });\n};\n\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Pass in computed observable fullName as a helper\ntmpl.link(\"#details\", people, {fullName: fullName});\n```"
+          }
+        ],
+        "url": "samples/computed/fullname/helper",
+        "height": "600",
+        "sampleName": "",
+        "title": "Computed data properties (using computed helper)",
+        "anchor": "helper"
+      }
+    ]
+  },
+  "samples/computed/shopping-cart": {
+    "title": "Computed observables: Shopping cart &ndash; totalAmount()",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This sample illustrates:\n\n- [Computed observables](#computed) (`totalAmount()` with dependency `\"items.**\"` -- see [additional discussion](#computed@depends-**))\n- Declarative events\n\nIt has two versions:\n\n- The [first](#samples/computed/shopping-cart@top-level) uses [Top-level data-linking](#jsv.toplink-true)\n- The [second](#samples/computed/shopping-cart@tmpl) uses the usual linked templates approach\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "The `totalAmount()` computed observable has the `**` [***all*** *wild card*](#computed@depends-**) in its `depends` path -- to indicate dependency on *any* changes under the `items` array:\n\n```js\ntotalAmount.depends = \"items.**\";\n```\n\nTop-level data-linking is used for:\n\n- linked template binding using `data-link=\"{for items tmpl='#itemTmpl'}\"`\n- computed observable binding: `data-link=\"total()\"`\n- declarative event binding: `data-link=\"{on add}\"`, `data-link=\"{on ~root.remove}\"` \n\n*HTML:*\n\n```jsr\n<table>\n  ...\n  <tbody data-link=\"{for items tmpl='#itemTmpl'}\"></tbody>\n  ...\n  <span data-link=\"items.length\"></span>\n  ...\n  <td class=\"add\" data-link=\"{on add}\">Add</td>\n  ...\n  <span colspan=\"2\" data-link=\"total()\"></span>\n  ...\n</table>\n\n<script id=\"itemTmpl\" type=\"text/x-jsrender\">\n  ...\n  <span data-link=\"price*quantity\"></span>\n  <span class=\"remove\" data-link=\"{on ~root.remove}\"></span>\n  ...\n</script>\n```\n\n*Code:*\n\n```js\nvar shoppingCart = {\n  add: addItem,\n  remove: removeItem,\n  total: totalAmount,\n  items: [...]\n};\n\nfunction addItem() { ... }\nfunction removeItem() { ... }\nfunction totalAmount() { ... }\n\ntotalAmount.depends = \"items.**\"; // totalAmount depends on any changes under the items array \n\n$.link(true, \"#shoppingcart\", shoppingCart); // Top-level data-linking\n```"
+          }
+        ],
+        "url": "samples/computed/shopping-cart/top-level",
+        "sampleName": "",
+        "height": "250",
+        "title": "Shopping cart (top-level data-linking)",
+        "anchor": "top-level"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The second version is identical in behavior, but it uses a linked template, rather than top-level data linking:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "The `totalAmount()` computed observable has the `**` [***all*** *wild card*](#computed@depends-**) in its `depends` path -- to indicate dependency on *any* changes under the `items` array:\n\n```js\ntotalAmount.depends = \"items.**\";\n```\n\nThe sample uses a linked template, which includes:\n\n- computed observable binding: `data-link=\"total()\"`\n- declarative event binding: `data-link=\"{on add}\"`, `data-link=\"{on ~root.remove}\"` \n\n*Template:*\n\n```jsr\n<table>\n  ...\n  {^{for items}}\n    ...\n    <span data-link=\"price*quantity\"></span>\n    <span class=\"remove\" data-link=\"{on ~root.remove}\"></span>\n    ...\n  {{/for}}\n  ...\n  <span data-link=\"items.length\"></span>\n  ...\n  <td class=\"add\" data-link=\"{on add}\">Add</td>\n  ...\n  <span colspan=\"2\" data-link=\"total()\"></span>\n  ...\n</table>\n```\n\n*Code:*\n\n```js\nvar shoppingCart = {\n  add: addItem,\n  remove: removeItem,\n  total: totalAmount,\n  items: [...]\n};\n\nfunction addItem() { ... }\nfunction removeItem() { ... }\nfunction totalAmount() { ... }\n\ntotalAmount.depends = \"items.**\"; // totalAmount depends on any changes under the items array \n\nvar tmpl = $.templates(\"#cartTmpl\");\ntmpl.link(\"#shoppingcart\", shoppingCart);\n```"
+          }
+        ],
+        "url": "samples/computed/shopping-cart/tmpl",
+        "sampleName": "",
+        "height": "250",
+        "title": "Shopping cart (linked template)",
+        "anchor": "tmpl"
       }
     ]
   }

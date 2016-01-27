@@ -24,5 +24,14 @@ content.find.community = content.useStorage && $.parseJSON(localStorage.getItem(
         "text": "Issue trackers on GitHub\nIf you have questions or issues, you can look for them on the issue trackers on GitHub, and if you don’t find them, file a new issue. (And similarly for feature requests):\nJsRender issue tracker: open issues /\nclosed issues\nJsViews issue tracker: open issues / closed issues\n"
       }
     ]
+  },
+  "gallery": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "https://www.solaborate.com/\nhttp://stackoverflow.com/users/628653/boban-stojanovski\n"
+      }
+    ]
   }
 }

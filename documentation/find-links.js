@@ -11,7 +11,8 @@ content.find.links = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       },
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       }
     ]
   },

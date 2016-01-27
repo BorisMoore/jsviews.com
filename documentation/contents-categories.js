@@ -257,7 +257,9 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loadingfind": " ",
+    "loadedfind": true
   },
   {
     "name": "explore",
@@ -266,12 +268,17 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     "description": "Getting a fuller understanding of JsRender, JsViews and JsObservable",
     "categories": [
       {
+        "name": "explore/objectsorvm",
+        "label": "Plain objects or View Model"
+      },
+      {
         "name": "explore/data",
         "label": "Data",
         "categories": [
           {
-            "name": "explore/objectsorvm",
-            "label": "Plain objects or View Model"
+            "name": "",
+            "label": "Plain objects or View Model",
+            "hidden": true
           },
           {
             "name": "explore/ajax",
@@ -294,7 +301,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "hidden": true
           }
         ],
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "explore/templates",
@@ -496,7 +504,9 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loadingfind": " ",
+    "loadedfind": true
   },
   {
     "filter": "jsr",
@@ -746,7 +756,9 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loadingfind": " ",
+    "loadedfind": true
   },
   {
     "filter": "jsv",
@@ -776,6 +788,25 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "twoway",
             "label": "Two-way binding",
+            "hidden": true
+          },
+          {
+            "name": "linked-paths",
+            "label": "Data-linked paths"
+          },
+          {
+            "name": "contextual-params",
+            "label": "Contextual parameters",
+            "hidden": true
+          },
+          {
+            "name": "link-events",
+            "label": "Event bindings",
+            "hidden": true
+          },
+          {
+            "name": "tag-bindings",
+            "label": "Data-link tag bindings",
             "hidden": true
           }
         ]
@@ -813,6 +844,76 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       },
       {
+        "name": "link-targets",
+        "label": "Data-link targets",
+        "categories": [
+          {
+            "name": "link-input",
+            "label": "input (textbox - checkbox - radio)",
+            "categories": [],
+            "expanded": true
+          },
+          {
+            "name": "link-select",
+            "label": "select"
+          },
+          {
+            "name": "link-textarea",
+            "label": "textarea"
+          },
+          {
+            "name": "link-contenteditable",
+            "label": "content-editable"
+          },
+          {
+            "name": "link-svg",
+            "label": "SVG elements"
+          },
+          {
+            "name": "link-widgets",
+            "label": "jQuery UI widgets"
+          },
+          {
+            "name": "link-custom",
+            "label": "custom tags"
+          },
+          {
+            "name": "link-computed",
+            "label": "Computed observables"
+          }
+        ],
+        "expanded": true,
+        "hidden": true
+      },
+      {
+        "name": "link-attributes-props",
+        "label": "Target attributes / properties",
+        "categories": [
+          {
+            "name": "link-text-html",
+            "label": "innerText / innerHTML"
+          },
+          {
+            "name": "link-css",
+            "label": "CSS attributes"
+          },
+          {
+            "name": "link-class",
+            "label": "class"
+          },
+          {
+            "name": "link-visibility",
+            "label": "visibility"
+          },
+          {
+            "name": "link-properties",
+            "label": "element properties"
+          }
+        ],
+        "expanded": true,
+        "hidden": true
+      },
+      {
         "name": "jsvunlink",
         "label": "Unlink a template",
         "categories": [
@@ -843,6 +944,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         ],
         "expanded": true,
         "hidden": false
+      },
+      {
+        "name": "jsvsettings",
+        "label": "Settings",
+        "hidden": true
       },
       {
         "name": "jsvcompiletmpl",
@@ -919,17 +1025,14 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       },
       {
-        "name": "jsvsettings",
-        "label": "Settings",
-        "hidden": true
-      },
-      {
         "name": "other",
         "label": "And computed observable, {{on}}, DataMap...",
         "hidden": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loadingfind": " ",
+    "loadedfind": true
   },
   {
     "filter": "jsv",
@@ -1010,9 +1113,15 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           }
         ],
         "expanded": true
+      },
+      {
+        "name": "computed",
+        "label": "Computed observables"
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loadingfind": " ",
+    "loadedfind": true
   },
   {
     "name": "samples",
@@ -1203,6 +1312,22 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "expanded": true
           },
           {
+            "name": "samples/computed",
+            "label": "Computed observables",
+            "categories": [
+              {
+                "name": "samples/computed/fullname",
+                "label": "fullName variants",
+                "hidden": false
+              },
+              {
+                "name": "samples/computed/shopping-cart",
+                "label": "Shopping cart"
+              }
+            ],
+            "expanded": true
+          },
+          {
             "name": "samples/tag-controls",
             "label": "Tag controls",
             "categories": [
@@ -1324,7 +1449,9 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loadingfind": " ",
+    "loadedfind": true
   },
   {
     "name": "download",
@@ -1339,7 +1466,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "name": "download/specific",
         "label": "Specific versions",
-        "expanded": true
+        "expanded": true,
+        "hidden": true
       },
       {
         "name": "download/tag-controls",
@@ -1348,7 +1476,9 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loadingfind": " ",
+    "loadedfind": true
   },
   {
     "name": "community",
@@ -1362,7 +1492,9 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true
+    "expanded": true,
+    "loadingfind": " ",
+    "loadedfind": true
   },
   {
     "name": "links",

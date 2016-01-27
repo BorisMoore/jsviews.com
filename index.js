@@ -328,15 +328,15 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 				} else {
 					navTreeNode = !isLeftNavSelectionChange && navTreeNode;
 					scrollTargetElem = isSearchTreeSelectionChange = isLeftNavSelectionChange = false;
-					if (!wasSearch) {
-						setTimeout(function() { // Need short delay for Chrome to scroll to 0 - after it has moved to previous scroll position
+					setTimeout(function() { // Need short delay for Chrome to scroll to 0 - after it has moved to previous scroll position
+						if (!wasSearch) {
 							window.scrollTo(0, historyStates[historyIndex] && historyStates[historyIndex].scroll || 0);
-							if (navTreeNode) {
-								nav = $(".sidenav");
-								nav.animate({scrollTop: navTreeNode.offsetTop - nav.height()/2}, 150);
-							}
-						}, 0);
-					}
+						}
+						if (navTreeNode) {
+							nav = $(".sidenav");
+							nav.animate({scrollTop: navTreeNode.offsetTop - nav.height()/2}, 150);
+						}
+					}, 0);
 				}
 				prevLochash = lochash;
 			}
@@ -934,7 +934,7 @@ function searchCat(category, search, topCatContent, topCatFindContent) {
 				&& !subCategory.hidden) {
 				foundInTopic = searchTopic(subCategory.name, search, topCatContent, topCatFindContent);
 				foundInSubCat = searchCat(subCategory, search, topCatContent, topCatFindContent);
-				if (foundInTopic.length || foundInSubCat) {
+				if (foundInTopic && foundInTopic.length || foundInSubCat) {
 					found = foundInTopic;
 				} else {
 					foundInTopic = undefined;
@@ -1310,7 +1310,6 @@ function parse(val) {
 		eval("data=" + val + ";");
 		return data;
 	} catch (e) {
-		alert("Invalid content");
 	}
 }
 

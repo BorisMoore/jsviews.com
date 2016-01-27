@@ -133,3 +133,10 @@ li .remove {
 .remove:hover {
 	cursor: pointer;
 }
+
+.add {
+	text-decoration: underline;
+	font-style: italic;
+	cursor: pointer;
+	padding: 0 5px 0 15px;
+}

@@ -18,7 +18,7 @@ if (typeof exports !== 'object' ) {
 
 //========================== Top-level vars ==========================
 
-var versionNumber = "v1.0.0-beta",
+var versionNumber = "v@@include("templates/-version.txt")",
 
 	// global var is the this object, which is window when running in the usual browser environment
 	global = (0, eval)('this'), // jshint ignore:line

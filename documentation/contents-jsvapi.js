@@ -29,12 +29,24 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "Render and link a template"
           },
           {
+            "hash": "toplink",
+            "label": "Top-level data-linking"
+          },
+          {
+            "hash": "link-targets",
+            "label": "Data-link targets"
+          },
+          {
+            "hash": "link-attributes-props",
+            "label": "Target attributes / properties"
+          },
+          {
             "hash": "jsvunlink",
             "label": "Unlink a template"
           },
           {
             "hash": "$view",
-            "label": "Access views"
+            "label": "Views: from UI to data"
           },
           {
             "hash": "jsvcompiletmpl",
@@ -234,7 +246,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
                 "name": "helpersOrContext",
                 "type": "object",
                 "optional": true,
-                "description": "Contextual helper methods or properties - available to template as <code>~keyName</code>"
+                "description": "Contextual helper methods or properties -- available to template as <code>~keyName</code>"
               }
             ],
             "sections": [],
@@ -256,7 +268,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "You can pass in any JavaScript type (<em>object, string, number, function...</em>) as helpers on the `helpersOrContext` object, and use them as metadata, or as helper functions for formatting etc.\n\n<em>Note:</em> By passing in helpers in this way, you are making them specific to this render call. Alternatively, you can declare helpers globally, -- and you can also declare helpers that are private to a specific template. See [Registering helpers: `$.views.helpers()`](#helpers) for details...\n\nWithin the template, helpers (whether global, or passed in to the `render()` method) are accessed by *helper paths*: `~keyName...`. \n\nFor example you might pass in an object with some utility functions:\n\n```js\nvar myHelpers = {\n  util: {\n    split: function(val, part) {...},\n    ...\n  },\n  ...\n};\n\nvar html = myTmpl.render(myData, myHelpers);\n```\n\n-- and access them in the template using a *helper path* such as:\n\n```jsr\n{{:~util.split(fullName, 0)}}\n```\n\nSee <a href=\"#helpers\">Registering helpers</a>"
+        "text": "You can pass in any JavaScript type (<em>object, string, number, function...</em>) as helpers on the `helpersOrContext` object, and use them as metadata, or as helper functions for formatting etc.\n\n<em>Note:</em> By passing in helpers in this way, you are making them specific to this render call. Alternatively, you can declare helpers globally, -- and you can also declare helpers that are private to a specific template. See *[Registering helpers: `$.views.helpers()`](#helpers)* for details...\n\nWithin the template, helpers (whether global, or passed in to the `render()` method) are accessed by *helper paths*: `~keyName...`. \n\nFor example you might pass in an object with some utility functions:\n\n```js\nvar myHelpers = {\n  util: {\n    split: function(val, part) {...},\n    ...\n  },\n  ...\n};\n\nvar html = myTmpl.render(myData, myHelpers);\n```\n\n-- and access them in the template using a *helper path* such as:\n\n```jsr\n{{:~util.split(fullName, 0)}}\n```\n\nSee *[Registering helpers](#helpers)*"
       },
       {
         "_type": "sample",
@@ -336,7 +348,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
                 "name": "helpersOrContext",
                 "type": "object",
                 "optional": true,
-                "description": "Contextual helper methods or properties - available to template as <code>~keyName</code>"
+                "description": "Contextual helper methods or properties -- available to template as <code>~keyName</code>"
               }
             ],
             "sections": [],
@@ -625,7 +637,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "***Any JsRender template*** can be used with JsViews.\n\nCalling the <a href=\"#rendertmpl\">`render()`</a> method works just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the <a href=\"#jsvlinktmpl\">`link()`</a> method - which will first render and then add data binding (<em>data-link the template</em>).\n\nIf you have data-linked your template by calling the `link()` method, then you can continue to use the same <a href=\"#jsrtags\">JsRender template tags</a> as before. But now you optionally make any tag in the template [data-linked](#linked-tag-syntax), by replacing the `{{...` of the opening tag by `{^{...`, as in:\n\n```jsr\n{^{for people}}\n  {^{:name}}\n{{/for}}\n```\n\nIn addition, you can [*data-link* the HTML elements](#linked-elem-syntax) in your template, as in:\n\n```jsr\n<input data-link=\"name\" />\n<div data-link=\"css-color{:color} {:name}\"></div>\n```\n \nSee <a href=\"#linked-template-syntax\">data-link template syntax</a> for details..."
+        "text": "***Any JsRender template*** can be used with JsViews.\n\nCalling the <a href=\"#rendertmpl\">`render()`</a> method works just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the <a href=\"#jsvlinktmpl\">`link()`</a> method -- which will first render and then add data binding (<em>data-link the template</em>).\n\nIf you have data-linked your template by calling the `link()` method, then you can continue to use the same <a href=\"#jsrtags\">JsRender template tags</a> as before. But now you optionally make any tag in the template [data-linked](#linked-tag-syntax), by replacing the `{{...` of the opening tag by `{^{...`, as in:\n\n```jsr\n{^{for people}}\n  {^{:name}}\n{{/for}}\n```\n\nIn addition, you can [*data-link* the HTML elements](#linked-elem-syntax) in your template, as in:\n\n```jsr\n<input data-link=\"name\" />\n<div data-link=\"css-color{:color} {:name}\"></div>\n```\n \nSee *[Data-link template syntax](#linked-template-syntax)* for details..."
       },
       {
         "_type": "para",
@@ -664,7 +676,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Rules for a well-formed template in JsViews:",
-        "text": "With JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\n<ul class=\"textbefore\"><li>JsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a <code>^</code> character (so that for example a <code>{{for}}</code> tag becomes a data-linked <code>{^{for}}</code> tag) - and in that case the rendered content will change dynamically whenever the bound data changes <em>'observably'</em>.</li>\n<li>But tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.</li>\n<li>Similarly, tags which wrap opening or closing tag in such a way as to produce 'mal-formed HTML' will not be valid.</li>\n<li>In fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.</li>\n<li>In each of the invalid scenarios mentioned above, <b><em>the JsRender tags needs to be replaced by corresponding data-linked element syntax</em></b>. See <a href=\"#linked-template-syntax\">the next section</a>, for details.</li></ul>\n"
+        "text": "With JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\n<ul class=\"textbefore\"><li>JsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a <code>^</code> character (so that for example a <code>{{for}}</code> tag becomes a data-linked <code>{^{for}}</code> tag) -- and in that case the rendered content will change dynamically whenever the bound data changes <em>'observably'</em>.</li>\n<li>But tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.</li>\n<li>Similarly, tags which wrap opening or closing tag in such a way as to produce 'mal-formed HTML' will not be valid.</li>\n<li>In fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.</li>\n<li>In each of the invalid scenarios mentioned above, <b><em>the JsRender tags needs to be replaced by corresponding data-linked element syntax</em></b>. See <a href=\"#linked-template-syntax\">the next section</a>, for details.</li></ul>\n"
       }
     ]
   },
@@ -761,7 +773,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "JsViews data-link syntax takes two forms:\n\n<ul class=\"textbefore\"><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
+        "text": "JsViews data-link syntax takes two forms:\n\n- [Data-linked tags](#linked-tag-syntax)\n- [Data-linked elements](#linked-elem-syntax)\n\nBoth forms use:\n\n- [Data-linked paths](#linked-paths)"
       },
       {
         "_type": "para",
@@ -777,7 +789,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "JsViews data-linked tags",
-        "text": "A data-linked tag is like a regular JsRender tag (whether a built-in tag, or a custom tag) but has an additional `^` character to show that is data-linked. Let's illustrate that by an example based on the <a href=\"#samples/jsr/tags/extend-for\">extending the `{{for}}` tag</a> sample:\n\n```jsr\n<ul>\n  {{for members}}\n    <li>\n      {{:name}}\n    </li>\n  {{/for}}\n</ul>\n\n<ul>\n  {{range members start=1 end=3}}\n    <li>\n      {{:name}}\n    </li>\n  {{/range}}\n</ul>\n```\n\nWe can data-link to the `members` - whether on the built-in `{{for}}`, or the custom `{{range}}` tag - like this:\n\n```jsr\n<ul>\n  {^{for members}}\n    <li>\n      {^{:name}}\n    </li>\n  {{/for}}\n</ul>\n```\n\n```jsr\n<ul>\n  {^{range members start=1 end=3}}\n    <li>\n      {^{:name}}\n    </li>\n  {{/range}}\n</ul>\n```\n\nNow if the `members` array changes, our rendered template content will automatically update to show the additional inserted (or removed) members in the list.\n\nHere is a live sample of the data-linked `{^{for}}` tag:"
+        "text": "A data-linked tag is like a regular JsRender tag (whether a built-in tag, or a custom tag) but has an additional `^` character to show that is data-linked. Let's illustrate that by an example based on the *[Extending the `{{for}}` tag](#samples/jsr/tags/extend-for)* sample:\n\n```jsr\n<ul>\n  {{for members}}\n    <li>\n      {{:name}}\n    </li>\n  {{/for}}\n</ul>\n\n<ul>\n  {{range members start=1 end=3}}\n    <li>\n      {{:name}}\n    </li>\n  {{/range}}\n</ul>\n```\n\nWe can data-link to the `members` -- whether on the built-in `{{for}}`, or the custom `{{range}}` tag -- like this:\n\n```jsr\n<ul>\n  {^{for members}}\n    <li>\n      {^{:name}}\n    </li>\n  {{/for}}\n</ul>\n```\n\n```jsr\n<ul>\n  {^{range members start=1 end=3}}\n    <li>\n      {^{:name}}\n    </li>\n  {{/range}}\n</ul>\n```\n\nNow if the `members` array changes, our rendered template content will automatically update to show the additional inserted (or removed) members in the list.\n\nHere is a live sample of the data-linked `{^{for}}` tag:"
       },
       {
         "_type": "sample",
@@ -792,9 +804,9 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         },
         "sections": [
           {
-            "_type": "template",
+            "_type": "para",
             "title": "",
-            "markup": "{^{for members}}\n  <li>\n    {^{:name}} <img class=\"remove\" .../>\n  </li>\n{{/for}}"
+            "text": "*Template:*\n\n```jsr\n...\n{^{for members}}\n  <li>\n    {^{:name}} <img class=\"remove\" .../>\n  </li>\n{{/for}}\n...\n```\n\n*Code:*\n\n```js\n...\n$.templates(\"#teamTemplate\").link(\"#team\", team) ...\n```"
           }
         ],
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n\n<div class=\"buttons\">\n  <button id=\"add\">Add</button>\n</div>\n<ol>\n  {^{for members}}\n    <li>\n      {^{:name}} \n      <span class=\"remove\"></span>\n    </li>\n  {{/for}}\n</ol>\n\n</script>\n",
@@ -804,7 +816,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Notice that we also added a `^` to the `{^{:name}}` tag. That means that if the value of the name field is changed ('observably') then the value will update automatically within the rendered template.\n\nAnd here is <a href=\"#samples/tag-controls/range\">a link to a complete sample</a> showing a data-linked `{^{range}}` tag. It lets you modify both the `members` list and the `name` properties, and see how they automatically trigger updates in other parts of the page which bind to the same data.\n\nJsViews is smart about how it updates the HTML. Generally it does so incrementally - only modifying the affected part of the HTML by inserting or removing elements, or replacing values."
+        "text": "Notice that we also added a `^` to the `{^{:name}}` tag. That means that if the value of the name field is changed ('observably') then the value will update automatically within the rendered template.\n\nAnd here is <a href=\"#samples/tag-controls/range\">a link to a complete sample</a> showing a data-linked `{^{range}}` tag. It lets you modify both the `members` list and the `name` properties, and see how they automatically trigger updates in other parts of the page which bind to the same data.\n\nJsViews is smart about how it updates the HTML. Generally it does so incrementally -- only modifying the affected part of the HTML by inserting or removing elements, or replacing values."
       },
       {
         "_type": "para",
@@ -825,7 +837,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "JsViews data-link expressions, and syntax",
-        "text": "Data-linked elements are regular HTML elements which have been data-bound in the template by adding a <em>data-link</em> attribute.\n\nThey can be used within templated content, as in the following sample -- and they can also be used on top-level non-templated content in your page - see [Top-level data-linking](#toplink)."
+        "text": "Data-linked elements are regular HTML elements which have been data-bound in the template by adding a <em>data-link</em> attribute.\n\nThey can be used within templated content, as in the following sample -- and they can also be used on top-level non-templated content in your page -- see *[Top-level data-linking](#toplink)*."
       },
       {
         "_type": "sample",
@@ -851,13 +863,18 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "template",
-            "title": "A data-linked span element",
+            "title": "A data-linked span element (data binding to innerText &ndash; default target)",
             "markup": "<span data-link=\"name\"></span>"
           },
           {
             "_type": "template",
             "title": "A data-linked tag (renders as a text node, not an element...)",
             "markup": "{^{:name}}"
+          },
+          {
+            "_type": "code",
+            "title": "Code:",
+            "code": "...\nvar template = $.templates(\"#theTmpl\");\ntemplate.link(\"#result\", data);\n"
           }
         ],
         "markup": "<input data-link=\"name\"/> <i>(Update on blur)</i><br/>\n<input data-link=\"name trigger=true\"/> <i>(Update on keydown)</i><br/>\n<span data-link=\"name\" class=\"spanbox\"></span>\n{^{:name}}\n",
@@ -866,7 +883,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         },
         "onlyJsRender": false,
         "title": "Data-linked elements in templates",
-        "height": "110"
+        "height": "120"
       },
       {
         "_type": "para",
@@ -891,12 +908,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Optional two-way data-binding",
-        "text": "Notice the full syntax for the `<input>` has an additional `:` before the `}` at the end. It corresponds to the two-way data binding. (The same applies to other *'user input elements'* such as `select`, `textarea` etc. (and also *[content editable elements](#)*). \n\nYou can provide both convert and convertBack converters if you want. (See the <a href=\"#samples/form-els/converters\">two-way binding and converters</a> sample):\n\n```jsr\n<input data-link=\"{myConverter:some.data.path:myConvertBack}\"/>\n\n<select data-link=\"{myConverter:some.data.path:myConvertBack}\">...</select>\n```\n\nAnd in addition, whenever you have two-way binding, you can optionally include  `trigger=true` to specify updating for every character entry (after keydown):\n\n```jsr\n<textarea data-link=\"{myConverter:some.data.path trigger=true:myConvertBack}\">...</select>\n```\n\nIf you want only one-way binding (from the data to the `<input>`) you simply eliminate the `:` at the end:\n\n```jsr\n<input data-link=\"{:some.data.path}\"/>\n```"
+        "text": "Notice the full syntax for the `<input>` has an additional `:` before the `}` at the end. It corresponds to the two-way data binding. (The same applies to other *'user input elements'* such as `select`, `textarea` etc. (and also *[content editable elements](#)*). \n\nYou can provide both convert and convertBack converters if you want. (See the *[Two-way binding and converters](#samples/form-els/converters)* sample):\n\n```jsr\n<input data-link=\"{myConverter:some.data.path:myConvertBack}\"/>\n\n<select data-link=\"{myConverter:some.data.path:myConvertBack}\">...</select>\n```\n\nAnd in addition, whenever you have two-way binding, you can optionally include  `trigger=true` to specify updating for every character entry (after keydown):\n\n```jsr\n<textarea data-link=\"{myConverter:some.data.path trigger=true:myConvertBack}\">...</select>\n```\n\nIf you want only one-way binding (from the data to the `<input>`) you simply eliminate the `:` at the end:\n\n```jsr\n<input data-link=\"{:some.data.path}\"/>\n```"
       },
       {
         "_type": "para",
         "title": "Full syntax - multiple targets, multiple tags, multiple bindings...",
-        "text": "The full syntax allows you to bind multiple expressions each to a different target 'attrib', and is written like this: `data-link=\"attrib1{linkExpression1} attrib2{linkExpression2} ...\"`.\n\n`attrib` corresponds to the target - such as the following:\n- HTML attribute (such as <code>title{...}</code>, <code>class{...}</code>, <code>id{...}</code>, <code>disabled{...}</code> or <code>data-foo{...}</code>)\n- CSS property (such as <code>css-background-color{...}</code>)\n- innerHTML (as in <code>html{...}</code>)\n- innerText (as in <code>text{...}</code>)\n- special targets like <code>visible{...}</code>\n- or can be missing altogether (as in <code>{...}</code>) in which case it stands for the default target for the element.\n\nThe default target for most elements is `innerText`, but for `input` and `select` elements it is `value`.\n\nThe linkExpression `{...}` is actually a *template tag*, such as `{{:a.b.c}}` or `{{myCustomTag .../}}`. *The difference from regular JsRender tag syntax is that with data-link expressions, **you only put a single curly brace to delimit, and you don't put the self-closing `/`**, which is assumed*.\n\nIn fact as long as the tag is self-closing, you can use any JsRender tag you want - including custom tags.\n\nFor example, if you have a JsRender tag as content of an element: \n\n```jsr\n<div>{{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- then you can make it into a data-linked tag, using:\n\n```jsr\n<div>{^{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- or into a data-linked element, using:\n\n```jsr\n<div data-link=\"{for some.path tmpl='myForTmpl'}\" ></div>\n```\n\nSo examples would be: \n\n- `<div data-link=\"{:name}\"></div>` (one-way binding to `innerText` - default target attrib - so automatically HTML encodes).\n- `<div data-link=\"html{:name}\"></div>` (one-way binding to `innerHTML`)\n- `<div data-link=\"text{:name}\"></div>` (one-way binding to `innerText` - equivalent to default above)\n- `<div data-link=\"html{>name}\"></div>` (one-way binding to `innerHTML` but with HTML encoding)\n- `<input data-link=\"{:name}\" /&gt;` (one-way binding to `value` - default target attrib)\n- `<input data-link=\"value{:name}\" /&gt;` (one-way binding to `value`)\n- `<input data-link=\"title{:name}\" /&gt;` (one-way binding to the `title` attribute)\n- `<input data-link=\"{:name trigger=true:}\" /&gt;` (two-way binding to `value`, trigger on keydown) <br/>- equivalent to abbreviated syntax: `<input data-link=\"name trigger=true\" /&gt;`\n- `<input data-link=\"{cvt:name:cvtBack}\" /&gt;` (two-way binding to `value`, with converters)\n- `<input data-link=\"{cvt:name trigger=true:cvtBack}\" /&gt;` (two-way binding to `value`, with converters, and trigger on keydown)\n- `<input data-link=\"{cvt:name:cvtBack} title{:info.description}\" /&gt;` (two-way binding to `value`, with converters and one-way binding to `title`)\n- `<div data-link=\"{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control - rendering as `innerHTML` - default target attrib for tags other than {: ...} - so can insert HTML markup)\n- `<div data-link=\"text{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control - rendering as `innerText` - so automatically HTML encodes)"
+        "text": "The full syntax allows you to bind multiple expressions each to a different target 'attrib', and is written like this: `data-link=\"attrib1{linkExpression1} attrib2{linkExpression2} ...\"`.\n\n`attrib` corresponds to the target -- such as the following:\n- HTML attribute (such as <code>title{...}</code>, <code>class{...}</code>, <code>id{...}</code>, <code>disabled{...}</code> or <code>data-foo{...}</code>)\n- CSS property (such as <code>css-background-color{...}</code>)\n- innerHTML (as in <code>html{...}</code>)\n- innerText (as in <code>text{...}</code>)\n- special targets like <code>visible{...}</code>\n- or can be missing altogether (as in <code>{...}</code>) in which case it stands for the default target for the element.\n\nThe default target for most elements is `innerText`, but for `input` and `select` elements it is `value`.\n\nThe linkExpression `{...}` is actually a *template tag*, such as `{{:a.b.c}}` or `{{myCustomTag .../}}`. *The difference from regular JsRender tag syntax is that with data-link expressions, **you only put a single curly brace to delimit, and you don't put the self-closing `/`**, which is assumed*.\n\nIn fact as long as the tag is self-closing, you can use any JsRender tag you want -- including custom tags.\n\nFor example, if you have a JsRender tag as content of an element: \n\n```jsr\n<div>{{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- then you can make it into a data-linked tag, using:\n\n```jsr\n<div>{^{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- or into a data-linked element, using:\n\n```jsr\n<div data-link=\"{for some.path tmpl='myForTmpl'}\" ></div>\n```\n\nSo examples would be: \n\n- `<div data-link=\"{:name}\"></div>` (one-way binding to `innerText` -- default target attrib -- so automatically HTML encodes).\n- `<div data-link=\"html{:name}\"></div>` (one-way binding to `innerHTML`)\n- `<div data-link=\"text{:name}\"></div>` (one-way binding to `innerText` -- equivalent to default above)\n- `<div data-link=\"html{>name}\"></div>` (one-way binding to `innerHTML` but with HTML encoding)\n- `<input data-link=\"{:name}\" >` (one-way binding to `value` -- default target attrib)\n- `<input data-link=\"value{:name}\" /&gt;` (one-way binding to `value`)\n- `<input data-link=\"title{:name}\" /&gt;` (one-way binding to the `title` attribute)\n- `<input data-link=\"{:name trigger=true:}\" /&gt;` (two-way binding to `value`, trigger on keydown) <br/>-- equivalent to abbreviated syntax: `<input data-link=\"name trigger=true\" /&gt;`\n- `<input data-link=\"{cvt:name:cvtBack}\" /&gt;` (two-way binding to `value`, with converters)\n- `<input data-link=\"{cvt:name trigger=true:cvtBack}\" /&gt;` (two-way binding to `value`, with converters, and trigger on keydown)\n- `<input data-link=\"{cvt:name:cvtBack} title{:info.description}\" /&gt;` (two-way binding to `value`, with converters and one-way binding to `title`)\n- `<img data-link=\"src{:'/myImagesFolder/' + fileName + '.png'}\" />` (one-way binding to `src` -- using an expression to build full path)\n- `<div data-link=\"{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control -- rendering as `innerHTML` -- default target attrib for tags other than {: ...} -- so can insert HTML markup)\n- `<div data-link=\"text{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control -- rendering as `innerText` -- so automatically HTML encodes)"
       },
       {
         "_type": "para",
@@ -964,7 +981,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "markup": "",
         "html": "<link href=\"../download/sample-tag-controls/tabs/tabs.css\" rel=\"stylesheet\">\n<script src=\"../download/sample-tag-controls/tabs/tabs.js\"></script>\n\n<div id=\"tabsView\" data-link=\"\n{tabs tabCaption='days' tmpl='tab1' selectedIndex=2}\n{else tabCaption='months' tmpl='tab2'}\n{else tabCaption='name' tmpl='tab3'}\n\"></div>",
         "code": "$.templates({\n  tab1: \"365 days per year\",\n  tab2: \"12 months per year\",\n  tab3: \"Name: {{:name}}\"\n});\n\n$(\"#tabsView\").link(true, {name: \"Jeff\"});\n",
-        "height": "86",
+        "height": "90",
         "title": "A top-level data-linked tabs control"
       },
       {
@@ -992,12 +1009,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Top-level declarative data-linking",
-        "text": "Use:\n\n```js\n$.link(true, target, data);\n//or alternative syntax:\n$(target).link(true, data);\n```\n\n... to activate any declarative data-link bindings (`data-link=\"...\"` expressions) on the target element, or on elements within its content.\n\nSee: [Top-level declarative data-linking](#jsv.toplink-true)"
+        "text": "Use:\n\n```js\n$.link(true, target, data);\n//or alternative syntax:\n$(target).link(true, data);\n```\n\n... to activate any declarative data-link bindings (`data-link=\"...\"` expressions) on the target element, or on elements within its content.\n\nSee: *[Top-level declarative data-linking](#jsv.toplink-true)*."
       },
       {
         "_type": "para",
         "title": "Top-level programmatic data-linking",
-        "text": "Use:\n\n```js\n$.link(expression, target, data);\n//or alternative syntax:\n$(target).link(expression, data);\n```\n\n... to bind a data-link expression on a target element.\n\nSee [Top-level programmatic data-linking](#jsv.toplink-expr)"
+        "text": "Use:\n\n```js\n$.link(expression, target, data);\n//or alternative syntax:\n$(target).link(expression, data);\n```\n\n... to bind a data-link expression on a target element.\n\nSee *[Top-level programmatic data-linking](#jsv.toplink-expr)*."
       }
     ]
   },
@@ -1203,7 +1220,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Another interesting top-level data-linking sample is [this version](#samples/editable/toplevel-for) of the [editable data samples](#samples/editable).\n"
+        "text": "Other interesting top-level data-linking samples are\n\n- [this version](#samples/editable/toplevel-for) of the [editable data samples](#samples/editable)\n- the [shopping cart](#samples/computed/shopping-cart@top-level) sample (top-level data-linking version)\n"
       },
       {
         "_type": "links",
@@ -1446,6 +1463,300 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "Custom tags with two-way binding",
         "text": "paragraph"
+      }
+    ]
+  },
+  "linked-paths": {
+    "title": "Data-linked paths",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "A data-linked template may include [chained paths](#paths@paths) such as `manager.address.ZIP` which step through chained object properties:\n\n```jsr\n<input data-link=\"manager.address.ZIP\" />\n\n{^{if manager.address.ZIP}}\n  ZIP: {^{:manager.address.ZIP}}\n{{/if}}  \n```"
+      },
+      {
+        "_type": "para",
+        "title": "Data-linking to deep changes in the path",
+        "text": "\nThe chained paths can be in the `data-link=\"...\"` expression of [data-linked elements](#linked-elem-syntax) or in [data-linked tags](#linked-tag-syntax): `{^{...}}`. Either way, the template data-binding will automatically 'listen' to observable changes in the leaf property (`ZIP` in this case). \n\nBut sometimes you may want your template to respond dynamically to changes on objects higher up in the path (*deep changes* on the path). You can specify this by a simple syntax change: replace a `.` with a `^` at the level up to which you want to listen to changes.\n\nFor example, write `manager.address^ZIP` in order to respond not only to leaf changes (to `ZIP`) but also to observable changes in the `address` property of the `manager`. And write `manager^address.ZIP` in order to data-bind also to changes where the `manager` property of the top-level `team` object is swapped observably to another `manager` object.\n\n(If you know that in your app the objects higher up the path will never change dynamically, then stick with the default <em>leaf</em> binding, since that will provide better perf optimization...)\n\nSee also the related discussion and examples on [using `$.observe()` with deep changes](#observe@deep).\n\nHere it is in a sample, with leaf binding only. Editing the ZIP or clicking *\"Change leaf values\"* triggers template updates. But clicking *\"Change manager\"* does not work.\n\nClick on ***Try it*** and change paths to `manager^address.ZIP` -- and see how *\"Change manager\"* now works.",
+        "anchor": "deep"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<input data-link=\"manager.address.ZIP trigger=true\" />\n\n{^{if manager.address.ZIP}}\n  ZIP: {^{:manager.address.ZIP}}\n{{/if}}\n```\n\nModify leaf: template values update in response:\n```js\n$.observable(team.manager.address).setProperty({\n  \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n});\n```\n\nChange manager: template values do *not* update:\n```js\n$.observable(team).setProperty({\n  manager: team.manager === person1 ? person2 : person1\n});\n```\n\n\n"
+          }
+        ],
+        "html": "<div class=\"left\">\n  <button id=\"modifyLeaf\">Change leaf values</button>\n  <button id=\"changeManager\">Change manager</button>\n  <div id=\"result\"></div>\n</div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n\n<input data-link=\"manager.address.ZIP trigger=true\" />\n\n{^{if manager.address.ZIP}}\n  ZIP: {^{:manager.address.ZIP}}\n{{/if}}\n\n<hr/>\n\nManager: {^{if manager === person1}}person1{{else}}person2{{/if}}\n\n</script>",
+        "code": "var team = {\n  person1: {\n    address: {\n      City: \"New York\",\n      ZIP: \"10035\"\n    }\n  },\n  person2: {\n    address: {\n      City: \"London\"\n    }\n  }\n};\n\nteam.manager = team.person1;\n\n\n$(\"#modifyLeaf\").on(\"click\", function() {\n  $.observable(team.manager.address).setProperty({\n    \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n  });\n});\n\n$(\"#changeManager\").on(\"click\", function() {\n  $.observable(team).setProperty({\n    manager: team.manager === team.person1 ? team.person2 : team.person1\n  });\n});\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", team);",
+        "title": "Leaf binding only",
+        "height": "130"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<input data-link=\"manager^address.ZIP trigger=true\" />\n\n{^{if manager^address.ZIP}}\n  ZIP: {^{:manager^address.ZIP}}\n{{/if}}\n```\n\nModify leaf or manager: template values all update correctly in response\n"
+          }
+        ],
+        "html": "<div class=\"left\">\n  <button id=\"modifyLeaf\">Change leaf values</button>\n  <button id=\"changeManager\">Change manager</button>\n  <div id=\"result\"></div>\n</div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n\n<input data-link=\"manager^address.ZIP trigger=true\" />\n\n{^{if manager^address.ZIP}}\n  ZIP: {^{:manager^address.ZIP}}\n{{/if}}\n\n<hr/>\n\nManager: {^{if manager === person1}}person1{{else}}person2{{/if}}\n\n</script>",
+        "code": "var team = {\n  person1: {\n    address: {\n      City: \"New York\",\n      ZIP: \"10035\"\n    }\n  },\n  person2: {\n    address: {\n      City: \"London\"\n    }\n  }\n};\n\nteam.manager = team.person1;\n\n\n$(\"#modifyLeaf\").on(\"click\", function() {\n  $.observable(team.manager.address).setProperty({\n    \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n  });\n});\n\n$(\"#changeManager\").on(\"click\", function() {\n  $.observable(team).setProperty({\n    manager: team.manager === team.person1 ? team.person2 : team.person1\n  });\n});\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", team);",
+        "title": "Data-linking to deep changes",
+        "height": "130"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "And here is a variant of the same demo, showing changes to all three levels of `manager^address.ZIP`: `ZIP`, `address` and `manager`."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{if manager^address.ZIP}}\n  <td>...<input data-link=\"manager^address.ZIP\" /></td>\n{{else}}\n  <td>...UK address - No ZIP</td>\n{{/if}}\n```"
+          }
+        ],
+        "html": "<div class=\"left\">\n  <button id=\"modifyLeaf\">Change leaf values</button>\n  <button id=\"changeAddress\">New address</button>\n  <button id=\"UKAddress\">UK address</button>\n  <button id=\"changeManager\">Change manager</button>\n  <div id=\"result\"></div>\n</div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"manager^name trigger=true\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"manager^address.street trigger=true\" /></td></tr>\n    <tr>\n      {^{if manager^address.ZIP}}\n        <td>ZIP:</td><td><input data-link=\"manager^address.ZIP trigger=true\" /></td>\n       {{else}}\n      <td colspan=\"2\">UK address - No ZIP</td>\n      {{/if}}\n    </tr>\n  </tbody></table>\n</script>",
+        "code": "var person1 = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n    ZIP: \"34009\"\n  }\n};\n\nvar person2 = {\n  name: \"Henry\",\n  address: {\n    street: \"Trinity St\"\n  }\n};\n\nvar data = {\n  manager: person1\n};\n\n$(\"#modifyLeaf\").on(\"click\", function() {\n  $.observable(data.manager).setProperty({\n    name: \"Hermione\",\n    \"address.street\": \"Main St\",\n    \"address.ZIP\": \"45008\"\n  });\n});\n\n$(\"#changeAddress\").on(\"click\", function() {\n  $.observable(data.manager).setProperty(\n    \"address\", \n    {\n      street: \"New Street\",\n      ZIP: \"99999\"\n    }\n  );\n});\n\n$(\"#UKAddress\").on(\"click\", function() {\n  $.observable(data.manager).setProperty(\n    \"address\", \n    {\n      street: \"St James St\"\n    }\n  );\n});\n\n$(\"#changeManager\").on(\"click\", function() {\n  $.observable(data).setProperty({\n    manager: data.manager === person1 ? person2 : person1\n  });\n});\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", data);",
+        "height": "180",
+        "title": "Data-linking to deep changes (three levels)"
+      }
+    ]
+  },
+  "link-computed": {
+    "title": "Data-linking to computed observables",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-targets": {
+    "title": "Data-link targets",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-input": {
+    "title": "input (textbox - checkbox - radio)",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-select": {
+    "title": "select",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-textarea": {
+    "title": "textarea",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-contenteditable": {
+    "title": "content-editable",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-widgets": {
+    "title": "jQuery UI widgets",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-custom": {
+    "title": "custom tags",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-svg": {
+    "title": "SVG elements",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-css": {
+    "title": "CSS attributes",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-text-html": {
+    "title": "innerText / innerHTML",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-class": {
+    "title": "class",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-visibility": {
+    "title": "visibility",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-properties": {
+    "title": "properties (title - disabled - value - class - data-* ...)",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-attributes-props": {
+    "title": "Target attributes / properties",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "contextual-params": {
+    "title": "Contextual template parameters",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-events": {
+    "title": "Event bindings",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "tag-bindings": {
+    "title": "Data-link tag bindings",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "{for}, {if}, custom bindings"
       }
     ]
   }

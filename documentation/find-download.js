@@ -7,12 +7,12 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       {
         "_type": "para",
         "title": "",
-        "text": "Latest versions:\nThese links will always point to the latest version. (They move to the new current version with each new release).\nTo download these files, right-click and select “Save as…” from the menu.\nJsRender\nUncompressed (for development): jsrender.js.Compressed (for production): jsrender.min.js. (Source map available here).\nJsViews - single file (includes JsRender, JsObservable and JsViews)\nUncompressed (for development): jsviews.js.Compressed (for production): jsviews.min.js. (Source map available here).\nJsViews and JsObservable - separate files (to be used with jsrender.js)\nUncompressed (for development): jquery.views.js.Compressed (for production): jquery.views.min.js. (Source map available here).\nUncompressed (for development): jquery.observable.js.Compressed (for production): jquery.observable.min.js. (Source map available here).\nJsRender for Node.js\nA specific Node.js version of JsRender can be installed from NPM, using:\n$ npm install jsrender\n\nand then loaded in script using:\nvar jsrender = require('jsrender');\n\nNow call regular JsRender APIs, such as:\nvar tmpl = jsrender.templates('Name: {{:name}}<br/>'); // Compile template from string\n\nvar html = tmpl.render({name: \"Jim\"}); // Render\n\nThis Node.js version of JsRender provides the complete set of JsRender APIs and features, together with integration with view-engines such as Express and Hapi, APIs for loading templates from the file system, and integration with Browserify for bundling server-side templates into client scripts for the browser.\nSee JsRender Node.js Quickstart for details.\n"
+        "text": "Latest versions:\nThese links will always point to the latest version. (They move to the new current version with each new release).\nTo download these files, right-click and select “Save as…” from the menu.\nJsRender\nUncompressed (for development): jsrender.js.Compressed (for production): jsrender.min.js. (Source map available here).\nJsViews - single file (includes JsRender, JsObservable and JsViews)\nUncompressed (for development): jsviews.js.Compressed (for production): jsviews.min.js. (Source map available here).\nJsViews and JsObservable - separate files (to be used with jsrender.js)\nUncompressed (for development): jquery.views.js.Compressed (for production): jquery.views.min.js. (Source map available here).\nUncompressed (for development): jquery.observable.js.Compressed (for production): jquery.observable.min.js. (Source map available here).\nJsRender for Node.js\nA specific Node.js version of JsRender can be installed from npm, using:\n$ npm install jsrender\n\nand then loaded in script using:\nvar jsrender = require('jsrender');\n\nNow call regular JsRender APIs, such as:\nvar tmpl = jsrender.templates('Name: {{:name}}<br/>'); // Compile template from string\n\nvar html = tmpl.render({name: \"Jim\"}); // Render\n\nThis Node.js version of JsRender provides the complete set of JsRender APIs and features, together with integration with view-engines such as Express and Hapi, APIs for loading templates from the file system, and integration with Browserify for bundling server-side templates into client scripts for the browser.\nSee JsRender Node.js Quickstart for details.\n"
       },
       {
         "_type": "para",
         "title": "CDN delivery",
-        "text": "CDN delivery\nJsRender is available on the CDN: cdnjs\n"
+        "text": "CDN delivery\nJsRender and JsViews are available on the cdnjs CDN at cdnjs.com/libraries/jsrender and cdnjs.com/libraries/jsviews.\n"
       }
     ]
   },
@@ -20,7 +20,8 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
     "sections": [
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       },
       {
         "_type": "para",

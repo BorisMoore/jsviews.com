@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.11.3.js"></script>
+  <script src="../../../download/jsviews.js"></script>
+  <script src="../../sample-viewer.js"></script>
+  <link href="sample.css" rel="stylesheet" />
+</head>
+<body>
+
+<p><button id="changeName">Change name</button></p>
+
+<!--====== Container ======-->
+<div id="details"></div>
+
+<!--====== Template ======-->
+<script id="personTmpl" type="text/x-jsrender">
+<div class="box">
+  <div class="subhead">Data-linking to a computed observable:</div>
+
+  <table class="three"><tbody>
+    <tr>
+      <td>first:</td>
+      <td data-link="firstName"></td>
+      <td><input data-link="firstName trigger=true" /></td>
+    </tr>
+    <tr>
+      <td>last:</td>
+      <td data-link="lastName"></td>
+      <td><input data-link="lastName trigger=true" /></td>
+    </tr>
+    <tr>
+      <td>full name:</td>
+      <td data-link="fullName()"></td>
+      <td><input data-link="fullName() trigger=true" /></td>
+    </tr>
+    <tr>
+      <td>reversed full name:</td>
+      <td colspan="2" data-link="fullName(true)"></td>
+    {{!-- Parameterized setter not supported
+      <td><input data-link="fullName(true)" /></td>
+    --}}
+    </tr>
+  </tbody></table>
+</div>
+
+<div class="box">
+  <div class="subhead">Data-bound tag &mdash; bound to a computed observable:</div>
+  {{!-- data-bound tag--}}
+  {^{>fullName(true)}}
+</div>
+</script>
+
+<!--<script src="prototype.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

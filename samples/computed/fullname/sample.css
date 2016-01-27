@@ -1,0 +1,50 @@
+﻿body {
+	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	padding: 0 0 0 5px;
+}
+
+.box {
+	border: 1px solid #777;
+	padding: 10px;
+	margin: 5px 5px 20px 0;
+}
+
+.subhead {
+	margin-bottom: 10px;
+	font-weight: bolder;
+	color: #116;
+	font-family: Arial;
+	font-size: 10pt;
+	font-style: italic;
+}
+
+table {
+	border-collapse: collapse;
+	border: 2px solid blue;
+	width: 800px;
+	margin: 6px 0 3px;
+	padding: 2px;
+	background-color: #f8f8f8;
+}
+
+table td {
+	width: 50%;
+	padding: 3px;
+	margin: 3px;
+	border: solid #77c 1px;
+	border: solid #77C 1px;
+}
+
+table.four td {
+	width: 25%;
+	padding: 3px;
+	margin: 3px;
+	border: solid #77c 1px;
+}
+
+table.four input {
+	width: 200px;
+	border: 1px solid #000;
+	padding: 4px;
+}

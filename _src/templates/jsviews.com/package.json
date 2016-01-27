@@ -34,7 +34,7 @@
     "jshint-stylish": "^2.0.1",
     "jshint-summary": "^0.4.0",
     "jsrender": "^@@include("templates/-version.txt")",
-    "jsviews": "git://github.com/BorisMoore/jsviews",
+    "jsviews": "^@@include("templates/-version.txt")",
     "node-qunit-phantomjs": "^1.2.1",
     "qunit": "^0.7.6",
     "qunitjs": "^1.18.0",

@@ -11,11 +11,18 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "links",
-        "title": "Modifying data:"
+        "title": "Modifying data:",
+        "text": "Modifying data:\n"
       },
       {
         "_type": "links",
-        "title": "Responding to changes in data:"
+        "title": "Responding to changes in data:",
+        "text": "Responding to changes in data:\n"
+      },
+      {
+        "_type": "links",
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -106,7 +113,8 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       },
       {
         "_type": "para",
@@ -255,7 +263,8 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
     "sections": [
       {
         "_type": "links",
-        "title": "Handling change events for objects and arrays:"
+        "title": "Handling change events for objects and arrays:",
+        "text": "Handling change events for objects and arrays:\n"
       }
     ]
   },
@@ -274,7 +283,7 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Using <a href=\"#observe\">$.observe()</a>",
-        "text": "Using $.observe()\n$.observe(myObject, \"*\" , changeHandler); // Choose path \"*\" to listen to changes on all properties of myObject \n\nThis approach also brings some advantages if you want to listen to changes on more than one object or array, or if you want to listen to “deep changes” on a path - i.e. changes not only on the leaf, but on objects higher up the path…\n"
+        "text": "Using $.observe()\n$.observe(myObject, \"*\" , changeHandler); // Choose path \"*\" to listen to changes on all properties of myObject \n\nThis approach also brings some advantages if you want to listen to changes on more than one object or array, or if you want to listen to “deep changes” on a path – i.e. changes not only on the leaf, but on objects higher up the path…\n"
       },
       {
         "_type": "api",
@@ -303,7 +312,7 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Using <a href=\"#observe\">$.observe()</a>",
-        "text": "Using $.observe()\n$.observe(myArray, changeHandler); \n\nThis approach also brings some advantages if you want to listen to changes on more than one object or array, or if you want to listen to “deep changes” on a path - i.e. changes not only on the leaf, but on objects higher up the path…\n"
+        "text": "Using $.observe()\n$.observe(myArray, changeHandler); \n\nThis approach also brings some advantages if you want to listen to changes on more than one object or array, or if you want to listen to “deep changes” on a path – i.e. changes not only on the leaf, but on objects higher up the path…\n"
       },
       {
         "_type": "api",
@@ -332,12 +341,22 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Examples:",
-        "text": "Examples:\n1. Observe changes to a specific property:\n$.observe(person, \"firstName\", changeHandler);\n\n2. Observe changes to a specific property of type array:\n$.observe(person, \"phones\", changeHandler);\n\nHere changeHandler will handle both:\n\narray changes, and \nsetting a new value to the property (switching to a new array, or setting to null or undefined)\n\n3. Observe changes to any property on an object:\n$.observe(person, \"*\", changeHandler);\n\nHere changeHandler will handle both:\n\narray changes, and \nsetting a new value to the property (switching to a new array, or setting to null or undefined)\n\n4. Observe changes on an array:\n$.observe(person.phones, changeHandler); \n\n5. Observe multiple objects/properties/arrays:\n$.observe(person, \"lastName\", \"phones\", \"address.street\", changeHandler);\n\nHere changeHandler will handle both:\n\nchanges to lastName \narray changes to the current phones (array), or changes if a new array is assigned to the phones property\nchanges to the street property of the address property of person\n\n6. Observe paths under more than object:\n$.observe(person1, \"lastName\", \"address.*\", person2, \"firstName\", person3, \"*\", \"address.*\", changeHandler);\n\nHere changeHandler handles:\n\nfor person1: changes to lastName and any address property \nfor person2: changes to firstName\nfor person3: changes to any property of the person3 object itself, and to any property of the person3.address object\n\n"
+        "text": "Examples:\n1. Observe changes to a specific property:\n$.observe(person, \"firstName\", changeHandler);\n\n2. Observe changes to a specific property of type array:\n$.observe(person, \"phones\", changeHandler);\n\nHere changeHandler will handle both:\n\narray changes, and \nsetting a new value to the property (switching to a new array, or setting to null or undefined)\n\n3. Observe changes to any property on an object:\n$.observe(person, \"*\", changeHandler);\n\n4. Observe changes on an array:\n$.observe(person.phones, changeHandler); \n\n5. Observe multiple objects/properties/arrays:\n$.observe(person, \"lastName\", \"phones\", \"address.street\", changeHandler);\n\nHere changeHandler will handle both:\n\nchanges to lastName \narray changes to the current phones (array), or changes if a new array is assigned to the phones property\nchanges to the street property of the address property of person\n\n6. Observe paths under more than object:\n$.observe(person1, \"lastName\", \"address.*\", person2, \"firstName\", person3, \"*\", \"address.*\", changeHandler);\n\nHere changeHandler handles:\n\nfor person1: changes to lastName and any address property \nfor person2: changes to firstName\nfor person3: changes to any property of the person3 object itself, and to any property of the person3.address object\n\n"
       },
       {
         "_type": "para",
-        "title": "Paths: leaf changes or deep changes",
-        "text": "Paths: leaf changes or deep changes\nBy default you listen to the leaf of a path, but you can specify if you want to listen to listen also to changes on objects higher up the path…\nFor example, here:\n$.observe(team, \"manager.address.street\", changeHandler);\n\nchangeHandler will be called if the value of the street property of the team.manager.address object changes. So it is listening to leaf changes on the path “manager.address.street”.\nIt will not be called if the team.manager property is swapped to a different manager object, or if the team.manager.address property is swapped to a different address object.\nBut by a simple syntax change, the path can be made to listen to changes not only on the leaf property, but also changes on objects higher up the path. These are deep changes on the path:\nFor example, this path:\n$.observe(team, \"manager.address^street\", changeHandler);\n\nwill listen to changes to the street property of address, or the address property of manager.\nAnd the following:\n$.observe(team, \"manager^address.street\", changeHandler);\n\nwill listen to changes to the street property of address, the address property of manager, and the manager property of team.\nSimply replace a . with a ^ at the level up to which you want to listen to changes.\n(If you know that in your app the objects higher up the path will never change dynamically, then stick with the default leaf binding, since that will provide better perf optimization…)\n"
+        "title": "Chained paths: leaf changes or deep changes",
+        "text": "Chained paths: leaf changes or deep changes\nBy default you listen to the leaf of a path, but you can specify if you want to listen also to changes on objects higher up the path…\nFor example, here:\n$.observe(team, \"manager.address.street\", changeHandler);\n\nchangeHandler will be called if the value of the street property of the team.manager.address object changes. So it is listening to leaf changes on the path “manager.address.street”.\nIt will not be called if the team.manager property is swapped to a different manager object, or if the team.manager.address property is swapped to a different address object.\nBut by a simple syntax change, the path can be made to listen to changes not only on the leaf property, but also changes on objects higher up the path. These are deep changes on the path:\nFor example, this path:\n$.observe(team, \"manager.address^street\", changeHandler);\n\nwill listen to changes to the street property of address, or the address property of manager.\nAnd the following:\n$.observe(team, \"manager^address.street\", changeHandler);\n\nwill listen to changes to the street property of address, the address property of manager, and the manager property of team.\nSimply replace a . with a ^ at the level up to which you want to listen to changes.\n(If you know that in your app the objects higher up the path will never change dynamically, then stick with the default leaf binding, since that will provide better perf optimization…)\nSee samples below.\nSee also the related discussion and examples on data-linking to deep changes, within data-linked templates.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Observing <b>all</b> changes under an object",
+        "text": "Observing all changes under an object\nThe * (any wild card symbol) let’s you observe changes to any property (e.g. \"manager.*\" for changes to any property of manager).\nSimilarly the ** (all wild card symbol) let’s you observe all observable changes under a chosen object or array – at any depth.\nYou can write paths such as \"**\", \"some.objectOrArray.**\", \"some^objectOrArray.**\", or even \"some.objectOrArray^**\".\nFor example, this:\n$.observe(team, \"**\", changeHandler);\n\nwill listen to all changes (to any depth) under the team object (for example, changes to the team.manager, team.manager.address or team.manager.address.street properties), and also changes to the team.members property (swapping to another array) – and even to array changes to team.members (adding or removing a member…).\nAnd this:\n$.observe(team, \"manager.address.**\", \"manager.members.**\", changeHandler);\n\nwill listen to all changes (to any depth) under manager.address, and also to all array changes to the manager.members array, and to any changes to objects or arrays under the manager.members array.\nIncluding the ‘^’ alongside the ‘**’ allows you to specify deep paths along with observeAll behavior, such as:\n\"manager.address^**\"\n\nwhich will listen to changing the manager.address to another address object, as well as to all changes (at any depth) under manager.address.\nSee third sample below.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Two ways to 'observeAll': the ** wild card and the $.observeAll() API",
+        "text": "Two ways to 'observeAll': the ** wild card and the $.observeAll() API\nInternally, using ** actually calls the observeAll() API.\nIn fact:\n$.observe(team, \"**\", callback);\n\nis actually equivalent to:\n$.observable(team).observeAll(callback);\n\nThe first approach can be convenient for combining multiple paths (with or without **) using the same callback.\n"
       },
       {
         "_type": "api",
@@ -372,11 +391,32 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "But notice that if you change the value of a phone number, our handler does not ‘listen’ to that change.\nThe observeAll() API provides a very simple way include those changes too.\n"
+        "text": "But notice that if you change the value of a phone number, our handler does not ‘listen’ to that change.\nIn the next sample we solve that by listening to all changes under phones, thanks to the ** wild card.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Observing <b>all</b> changes under a path: $.observe() with **",
+        "text": "Observing all changes under a path: $.observe() with **\nWe modify the previous sample by replacing the \"phones\" path with \"phones^**\":\n$.observe(person, \"name\", \"address^street\", \"phones^**\", changeHandler);\n\nSo now we observe not only replacing the phones array and making array changes to the phones array – but also any change under phones, such as changing a phones[n].name property.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Note that instead of using the ** wild card, we could have used the observeAll() API directly – as shown in the last sample of the observeAll() API topic.\n"
+      },
+      {
+        "_type": "para",
+        "title": "$.observe() with computed observables",
+        "text": "$.observe() with computed observables\nNext, we’ll modify the last sample to show only a computed observable fullName(reverse) depending on firstName and lastName.\nWe’ll observe changes to fullName():\n$.observe(person, \"fullName\", changeHandler);\n\n(Note: The path for observing a computed observable has no parens – so \"fullName\" rather than \"fullName()\".)\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Observing a computed observable",
+        "text": "Observing a computed observable\nObserve changes to fullName() computed observable:\n$.observe(person, \"fullName\", changeHandler);\n\n– which will trigger whenever firstName or lastName change, since fullName() has them as dependencies:\nfullName.depends = [\"firstName\", \"lastName\"]; \n\n\n"
       },
       {
         "_type": "links",
-        "title": "See also:"
+        "title": "See also:",
+        "text": "See also:\n"
       }
     ]
   },
@@ -385,7 +425,7 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "A single call to $.observe(... myHandler) will attach the handler to one or more objects and arrays - to listen to corresponding propertyChange or arrayChange events.\nThe same call (same parameters) but with $.unobserve(...) instead of $.observe(...) will remove the handler from each of those objects.\n"
+        "text": "A single call to $.observe(... myHandler) will attach the handler to one or more objects and arrays – to listen to corresponding propertyChange or arrayChange events.\nThe same call (same parameters) but with $.unobserve(...) instead of $.observe(...) will remove the handler from each of those objects.\n"
       },
       {
         "_type": "api",
@@ -414,7 +454,8 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "links",
-        "title": "See also:"
+        "title": "See also:",
+        "text": "See also:\n"
       }
     ]
   },
@@ -457,7 +498,7 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Sample:",
-        "text": "Sample:\nWe’ll use the observeAll() API to update our last sample in the $.observe() topic, so that now we will be able to include listening to newly added items in the phone array, which we were not able to achieve in our previous version…:\n"
+        "text": "Sample:\nWe’ll use the observeAll() API to provide an alternative version of our last sample in the $.observe() topic.\nThis allows us to include listening to newly added items in the phone array.\n(But in this version we use $observeAll() directly, rather than using the ** wild card as we did in that sample.)\n"
       },
       {
         "_type": "sample",
@@ -467,11 +508,17 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "observeAll() with View Model object hierarchies",
-        "text": "observeAll() with View Model object hierarchies\nThe observeAll() API works equally well with View Model objects or plain objects. See plain objects or View Model. At the end of that topic we show our observeAll() sample above, using View Model objects.\n"
+        "text": "observeAll() with View Model object hierarchies\nThe observeAll() API works equally well with View Model objects or plain objects. See Plain objects or View Model. At the end of that topic we show our observeAll() sample above, using View Model objects.\n"
+      },
+      {
+        "_type": "para",
+        "title": "observeAll() and \"**\" paths",
+        "text": "observeAll() and \"**\" paths\nAs an alternative to using the observeAll() API, it is sometimes simpler to use the ** all wild card path in association with $.observe(), or with computed observables, as shown here and here.\n"
       },
       {
         "_type": "links",
-        "title": "See also:"
+        "title": "See also:",
+        "text": "See also:\n"
       }
     ]
   },
@@ -504,11 +551,107 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "unobserveAll() with View Model object hierarchies",
-        "text": "unobserveAll() with View Model object hierarchies\nThe unobserveAll() API works equally well with View Model objects or plain objects. See plain objects or View Model. At the end of that topic we show our unobserveAll() sample above, using View Model objects.\n"
+        "text": "unobserveAll() with View Model object hierarchies\nThe unobserveAll() API works equally well with View Model objects or plain objects. See Plain objects or View Model. At the end of that topic we show our unobserveAll() sample above, using View Model objects.\n"
       },
       {
         "_type": "links",
-        "title": "See also:"
+        "title": "See also:",
+        "text": "See also:\n"
+      }
+    ]
+  },
+  "computed": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender templates can include computed properties, such as:\n\nperson.firstName(): a computed ‘getter’ property which returns a private _firstName\nperson.fullName(): a computed property which concatenates (and perhaps formats) first and last name.\nexpenses.total(): a computed property which gives the total for a property/column of an array of items.\n\nSee the samples Getter properties with plain objects and Getter properties on View Model.\nJsObservable and JsViews provide support for making computed properties observable, so that in a data-linked template you can bind directly to computed properties, provide two-way data-binding, etc.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Computed observable: get / set",
+        "text": "Computed observable: get / set\nTo make person.firstName() into a computed observable, with two-way data-binding, specify an associated ‘setter’ function:\nfunction firstName() {\n  return this._firstName; // Get the firstName\n}\n\nfirstName.set = function(val) {\n  this._firstName = val; // Set the firstName\n}\n\nThe firstName() computed observable can be modified observably, either by calling setProperty:\n$.observable(person).setProperty(\"firstName\", \"updatedFirstName\");\n\nor by two-way binding in a template:\n<input data-link=\"firstName()\" />\n\nand if used in a tag expression in a data-linked templates it will update automatically in response to observable changes:\nFirst name: {^{:firstName()}}\n\n<span data-link=\"firstName()\"></span>\n\n$.observe() can be used to listen to observable changes in a computed observable:\nThe following sample shows all of these scenarios:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "get/set",
+        "text": "get/set\nCode:\nfunction firstName() { return this._firstName; } // Getter (with _firstName as private property)\n\nfirstName.set = function(val) { this._firstName = val; }; // Provide a setter\n\n$.observable(person).setProperty(\"firstName\", person.firstName() + \"+\"); // Modify firstName() observably\n\n$.observe(data.person, \"firstName\", function(ev, evArgs) {\n  ... // Listen to observable changes in firstName()\n});\n\nTemplate:\n<input data-link=\"person.firstName()\" />\n{^{:person.firstName()}}\n<em data-link=\"person.firstName()\"></em>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Get/set properties on a View Model",
+        "text": "Get/set properties on a View Model\nRather than using plain JavaScript objects with getter functions, as above, a more common pattern (providing better encapsulation) would be to define a ‘View Model’ class, and to instantiate that class to provide data instances.\nSee Plain objects or View Model for a full discussion of using View Models with JsRender and JsViews.\nHere is a modified version of the above sample, using a View Model Person class, rather than plain objects:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "get/set &ndash; View Model",
+        "text": "get/set – View Model\nCode:\nfunction firstName() { return this._firstName; } // Getter (with _firstName as private property)\n\nfirstName.set = function(val) { this._firstName = val; }; // Provide a setter\n\n// Person class\nfunction Person(firstName) {\n  this._firstName = firstName;\n}\n\nPerson.prototype = {\n  firstName: firstName\n};\n\nvar data = {\n  person: new Person(\"Jo\")\n};\n\nTemplate:\n<input data-link=\"person.firstName()\" />\n{^{:person.firstName()}}\n<em data-link=\"person.firstName()\"></em>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Computed observable: get &ndash; depends",
+        "text": "Computed observable: get – depends\nThe firstName() example above is probably the most common type of computed observable: a get/set property depending on a corresponding ‘private’ property.\nAnother very common use of computed observables is for read-only computed properties that may depend on more than one other property.\nThe  following sample illustrates that, with a person.fullName() computed property which concatenates the computed firstName() and a regular (non-computed) lastName property.\nThis type of computed observable consists simply of a getter function, and a specification of the dependencies – i.e. the other observable properties which the getter function depends on:\nfunction fullName() { return this.firstName() + \" \" + this.lastName; }\n\nfullName.depends = [\"firstName\", \"lastName\"];\n\nThe depends specification above means that whenever firstName() or lastName change, an observable change event for fullName() will also be triggered, and fullName() will be recalculated.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "get &ndash; depends",
+        "text": "get – depends\nCode:\nfunction fullName() { return this.firstName() + \" \" + this.lastName; } // getter\n\nfullName.depends = [\"firstName\", \"lastName\"]; // Dependencies\n\n$.observe(data.person, \"fullName\", function(ev, evArgs) {\n  ... // listen to changes in fullName()\n});\n\nTemplate:\n{^{:person.fullName()}}\n<em data-link=\"person.fullName()\"></em>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Computed observable: get / set &ndash; depends",
+        "text": "Computed observable: get / set – depends\nSometimes a computed observable may depend on other observables, and also have a setter defined.\nFor example we may want to allow two-way binding to fullName() – with a setter which looks for white-space in the provided string and reassigns the preceding and following text to firstName and lastName – so an observable change to fullName automatically triggers appropriate observable changes to firstName and lastName:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "get/set &ndash; depends",
+        "text": "get/set – depends\nCode:\nfunction fullName() { return this.firstName() + \" \" + this.lastName; }\n\nfullName.set = function(val) { \n  val = val.split(\" \");\n  // Make observable change to dependent properties\n  $.observable(this).setProperty({\n    lastName: val.pop(),\n    firstName: val.join(\" \")\n  });\n};\n\nfullName.depends = [\"firstName\", \"lastName\"];\n\nTemplate:\n<input data-link=\"person.fullName()\" />\n{^{:person.fullName()}}\n<em data-link=\"person.fullName()\" ></em>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Computed observable with parameters",
+        "text": "Computed observable with parameters\nA computed observable function myComputed(a, b, c) may take parameters. For example:\nfunction fullName(reverse) {\n return reverse\n   ? this.lastName() + \" \" + this.firstName\n   : this.firstName + \" \" + this.lastName();\n}\n\nfullName.depends = [\"firstName\", \"lastName\"];\n\nThe computed value might be used in a data-linked expression in a template, with a specific value passed in as parameter:\n{^{:person.fullName(true)}}\n\n(You can see an example of this in the samples/computed/fullName samples.)\nPassed-in parameters may be observable values – in which case whenever they change observably, the computed observable will update automatically. For example:\n{^{:person.fullName(~settings.reverseName)}}\n\nThe value of a computed observable (person.fullName(...) above) will update whenever either an observable parameter (in this case: ~setting.reverseName) or a dependency (firstName or lastName) change.\nHere is a working example:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "get/set &ndash; depends, with parameters",
+        "text": "get/set – depends, with parameters\nCode:\nfunction fullName(reverse) {\n  return reverse\n    ? this.lastName + \" \" + this.firstName()\n    : this.firstName() + \" \" + this.lastName;\n}\n\nTemplate:\n{^{:person.fullName(~settings.reverseName)}}\n\n<em data-link=\"person.fullName(~settings.reverseName)\" ></em>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The computed fullName(reverse) above takes a parameter, reverse, but note that for read-write computed properties (get/set), you cannot pass additional parameters to the setter. (So in the example above is the setter is still fullName.set = function(val) {...}.) Indeed, clicking on the Reverse name checkbox does not reverse the name in the Full name text box.\nTo achieve that functionality, we need to include \"~settings.reverseName\" as a path in the fullName.depends declaration, rather than passing it in as a parameter:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "get/set &ndash; depends (with ~settings.reverseName in depends)",
+        "text": "get/set – depends (with ~settings.reverseName in depends)\nfunction fullName() {\n  return settings.reverseName ? ... : ...;\n}\n\nfullName.set = function(val) {\n  ...\n  $.observable(this).setProperty({\n    lastName: settings.reverseName ? ... : ...,\n    firstName: settings.reverseName ? ... : ...\n  });\n};\n\nfullName.depends = [\"firstName\", \"lastName\", \"~settings.reverseName\" ];\n\nvar settings = {reverseName: false};\n\ntmpl.link(\"#result\", data, {settings: settings});\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Declaring dependencies for a computed observable",
+        "text": "Declaring dependencies for a computed observable\nWhen setting\nmyObservableFunction.depends = dependencyExpression;\n\nfor a computed observable, the dependencyExpression can be a string, such as:\n\n\"firstName\", or\n\"manager^address*\"\n\nor an array of strings (or objects and strings), such as:\n\n[\"firstName\", \"lastName\", \"~settings.reverseName\"] or\n[\"firstName\", \"lastName\", settings, \"reverseName\"]\n\n(The last two are equivalent, assuming the settings object is the helper object referenced declaratively using \"~settings\".)\nIn fact setting depends to an array is equivalent to providing the corresponding arguments to $.observe(). So all the examples of $.observe() (including with deep paths) can also be used in equivalent depends expressions. For example you might have:\nmyObservableFn.depends = [person1, \"lastName\", \"address^*\", person2, \"firstName\", person3, \"*\", \"address.*\"];\n\n– which is similar to the example #6 in the $.observe() examples – and includes a deep path \"address^*\" (listening to changes in the address property of the person1 object and changes to any properties of the person1.address object).\nIn addition, depends expressions can be functions.\nA depends function can return strings or arrays:\nmyObservableFn.depends = function(data) {\n  return [data.person1, \"lastName\", \"address.*\", data.person2, \"firstName\"];\n}\n\n– and/or can use a callback:\nmyObservableFn.depends = function(data, callback) {\n  $.observable(data.person).observeAll(callback);\n  // (In addition to calling the callback, can optionally also return a string or array)\n}\n\nNote that this last example, (using observeAll to call the callback) is a programmatic approach which is actually equivalent to the following declarative version:\nmyObservableFn.depends = \"person.**\";\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Sample: Using the <b>**</b> wild card in <b>depends</b>",
+        "text": "Sample: Using the ** wild card in depends\nIn the next sample we’ll use the ** wild card in a depends declaration for a computed observable that tracks the running total of some items in a shopping cart.\nThis sample also illustrates top-level data-linking, and declarative events.\n(For more information see the same sample here: samples/computed/shopping-cart)\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Shopping cart",
+        "url": "samples/computed/shopping-cart/top-level",
+        "text": "Shopping cart\nHere we define a totalAmount() computed observable for calculating the total amount for an array of items in a shopping cart.\nfunction totalAmount() {\n  ...\n  while (...) {\n    amount += this.items[l].price * this.items[l].quantity;\n  }\n  return amount;\n}\n\nvar cart = {\n  total: totalAmount,\n  ...\n  items: [...]\n}\n\nThe total is rendered using:\n<span colspan=\"2\" data-link=\"total()\"></span>\n\n(In this example we are using top-level data-linking.)\n\ndepends with **\ntotalAmount() needs to update when the items array changes, and also when the quantity or price property of an item in the array changes.\nWe can achieve that very easily by declaring the items.** path as a dependency:\ntotalAmount.depends = \"items.**\";\n\n\nvar shoppingCart = {\r\n  add: addItem,\r\n  remove: removeItem,\r\n  total: totalAmount,\r\n  items: [\r\n    {product: \"Pot\", price:  10, quantity: 3},\r\n    {product: \"Kettle\", price:  15.5, quantity: 23}\r\n  ],\r\n  show: true\r\n};\r\n\r\nfunction addItem() {\r\n  $.observable(this.items).insert({\r\n    product: \"new\",\r\n    price:  1,\r\n    quantity: 1\r\n    });\r\n}\r\n\t\r\nfunction removeItem(ev, eventArgs) {\r\n  $.observable(this.items).remove(eventArgs.view.index);\r\n}\r\n\r\nfunction totalAmount() {\r\n  var amount = 0,\r\n    l = this.items.length;\r\n  while (l--) {\r\n    amount += this.items[l].price * this.items[l].quantity;\r\n  }\r\n  return amount;\r\n}\r\n\r\ntotalAmount.depends = \"items.**\";\r\n// totalAmount depends on any changes under the items array\r\n\r\n$.link(true, \"#shoppingcart\", shoppingCart);\r\n\n<title>Computed observable - Shopping cart</title>\r\n\r\n<table id=\"shoppingcart\" class=\"nowidth\" style=\"display:none\" data-link=\"visible{:show}\">\r\n<thead>\r\n  <tr><td>Product</td><td>Price</td><td>Quantity</td><td>Amount</td></tr>\r\n</thead>\r\n<tbody data-link=\"{for items tmpl='#itemTmpl'}\"></tbody>\r\n<tfoot>\r\n  <tr><td colspan=\"3\">No. of items:\r\n    <span data-link=\"items.length\"></span>\r\n  </td>\r\n  <td class=\"add\" data-link=\"{on add}\">Add</td></tr>\r\n  <tr><td colspan=\"4\">Total amount:\r\n    <span colspan=\"2\" data-link=\"total()\"></span>\r\n  </td></tr>\r\n</tfoot>\r\n</table>\r\n\r\n<script id=\"itemTmpl\" type=\"text/x-jsrender\">\r\n  <tr>\r\n    <td><input data-link=\"product trigger=true\" /></td>\r\n    <td><input data-link=\"price trigger=true\" /></td>\r\n    <td><input data-link=\"quantity trigger=true\" /></td>\r\n    <td >\r\n      <span data-link=\"price*quantity\"></span>\r\n      <span class=\"remove\" data-link=\"{on ~root.remove}\"></span>\r\n    </td>\r\n  </tr>\r\n</script>\n"
+      },
+      {
+        "_type": "para",
+        "title": "Observing computed observables",
+        "text": "Observing computed observables\ndepends declarations and $.observe() calls both use paths such as \"manager.name\" for listening to changes in the manager.name, as in:\ngetNamesList.depends = [\"manager.name\", ...]; // Dependency declaration for team.getNamesList()\n\n$.observe(team, \"manager.name\", changeHandler); // Observe changes in manager.name\n\nIf manager.fullName() is a computed observable then the corresponding path (for listening to changes in the manager.fullName()) is \"manager.fullName\" (without parens) – as in:\ngetNamesList.depends = [\"manager.fullName\", ...]; // Dependency declaration for team.getNamesList()\n\n$.observe(team, \"manager.fullName\", changeHandler); // Observe changes in manager.fullName()\n\nSee $.observe() with computed observables.\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "text": "See also:\n"
       }
     ]
   }

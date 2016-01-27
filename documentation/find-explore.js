@@ -6,7 +6,13 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
     "sections": [
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
+      },
+      {
+        "_type": "links",
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -14,7 +20,8 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
     "sections": [
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -33,7 +40,7 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "code",
         "title": "Suppose this is our data from a JSON request:",
-        "text": "Suppose this is our data from a JSON request:\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n"
+        "text": "Suppose this is our data from a JSON request:\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n"
       },
       {
         "_type": "template",
@@ -63,17 +70,22 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "Getters and setters",
-        "text": "Getters and setters\nNote that properties are now getter functions, which return the appropriate value, which may be of any type, including objects or arrays (such as address and phones above).\nIn fact they are particular case of computed observables - a concept that can be used quite generally within JsViews, not only for View Model properties.\nFor properties which are read-write, there is also a setter function, declared using the syntax:\nmyGetterFunction.set = mySetterFunction\n\n"
+        "text": "Getters and setters\nNote that properties are now getter functions, which return the appropriate value, which may be of any type, including objects or arrays (such as address and phones above).\nIn fact they are particular case of computed observables – a concept that can be used quite generally within JsViews, not only for View Model properties.\nFor properties which are read-write, there is also a setter function, declared using the syntax:\nmyGetterFunction.set = mySetterFunction\n\n"
       },
       {
         "_type": "para",
         "title": "Variant: using the same function as both getter and setter",
-        "text": "Variant: using the same function as both getter and setter\nAn interesting variant is to use a single function as both setter and getter. Here is an example of what that would look like:\nvar nameGetSet = function name(val) {\n  if (val === undefined) {\n    return this._name; // getter\n  }\n  this._name = val; // setter\n}\n\nnameGetSet.set = nameGetSet; // The same function will also be used as setter\n\nPerson.prototype.name = nameGetSet;\n\n"
+        "text": "Variant: using the same function as both getter and setter\nAn interesting variant is to use a single function as both setter and getter. Here is an example of what that would look like:\nvar nameGetSet = function name(val) {\n  if (val === undefined) {\n    return this._name; // getter\n  }\n  this._name = val; // setter\n}\n\nnameGetSet.set = nameGetSet; // The same function will also be used as setter\n// Or use the equivalent alternative syntax: nameGetSet.set = true;\n\nPerson.prototype.name = nameGetSet;\n\n"
       },
       {
         "_type": "para",
         "title": "Template",
         "text": "Template\nTo convert our template from using plain objects to using View Model objects, the only change we need to make is to add parens for our properties, which are now getter functions:\n... \n{{:name()}}\n...\n{{:address().street()}}\n...\n{{for phones()}}\n  ...      \n  {{:number()}}\n  ...\n{{/for}}\n...\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using the setter function",
+        "text": "Using the setter function\nWhen JsRender renders a template using a get/set property {{:name()}} it will call the getter function, but not the setter. However you may wish to modify the value of name() from code, using\nsomePerson.name.set(\"newName\");\n\n(If you have set nameGetSet.set = true;, you can equivalently write somePerson.name(\"newName\");.)\nWhen using the same View Model class with JsViews, then JsViews will call the setter function when the user modifies a data-bound value such as  <input data-link=\"name()\" />.\n"
       },
       {
         "_type": "para",
@@ -83,7 +95,7 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "title": "Render template against a View Model object hierarchy",
-        "text": "Render template against a View Model object hierarchy\nInstantiate View Model hierarchy\n\nvar person = new Person(\n  \"Pete\",\n  new Address(\n    \"1st Ave\"),\n    [\n      new Phone(\"111 111 1111\"),\n      new Phone(\"222 222 2222\")\n    ]\n  );\n\n\nRender template against person object (instance of Person)\n\n$(\"#result\").html(tmpl.render(person));\n\n"
+        "text": "Render template against a View Model object hierarchy\nInstantiate View Model hierarchy\n\nvar person = new Person(\n  \"Pete\",\n  new Address(\n    \"1st Ave\"),\n    [\n      new Phone(\"111 111 1111\"),\n      new Phone(\"222 222 2222\")\n    ]\n  );\n\n\nRender template against person object (instance of Person)\n\n$(\"#result\").html(tmpl.render(person));\n\n// View Model class definitions:\n\n// Person\nfunction Person(name, address, phones) {\n  this._name = name;\n  this._address = address;\n  this._phones = phones;\n}\n\nvar personProto = {\n  name: function() {\n    return this._name;\n  },\n  phones: function() {\n    return this._phones;\n  },\n  address: function() {\n    return this._address;\n  }\n};\n\npersonProto.name.set = function(val) {\n  this._name = val;\n};\n\npersonProto.address.set = function(val) {\n  this._address = val;\n};\n\npersonProto.phones.set = function(val) {\n  this._phones = val;\n};\n\nPerson.prototype = personProto;\n\n// Address\nfunction Address(street) {\n  this._street = street;\n}\n\nvar addressProto = {\n  street: function() {\n    return this._street;\n  }\n};\n\naddressProto.street.set = function(val) {\n  this._street = val;\n};\n\nAddress.prototype = addressProto;\n\n// Phone\nfunction Phone(number) {\n  this._number = number;\n}\n\nvar phoneProto = {\n  number: function() {\n    return this._number;\n  }\n};\n\nphoneProto.number.set = function(val) {\n  this._number = val;\n};\n\nPhone.prototype = phoneProto;\n\n"
       },
       {
         "_type": "para",
@@ -138,7 +150,7 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "title": "Render and link template against a View Model object hierarchy",
-        "text": "Render and link template against a View Model object hierarchy\nInstantiate View Model hierarchy\n\nvar person = new Person(...);\n\nRender and link template against person object\n\n$(\"#result\").html(tmpl.render(person));\n\nMake observable changes:\n\n$.observable(person).setProperty({\n  address: new Address(\"New Street\"),\n  phones: [new Phone(\"123 123 1234\")]\n});\n\n"
+        "text": "Render and link template against a View Model object hierarchy\nInstantiate View Model hierarchy\n\nvar person = new Person(...);\n\nRender and link template against person object\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\n\nMake observable changes:\n\n$.observable(person).setProperty({\n  address: new Address(\"New Street\"),\n  phones: [new Phone(\"123 123 1234\")]\n});\n\n// View Model class definitions:\n\n// Person\nfunction Person(name, address, phones) {\n  this._name = name;\n  this._address = address;\n  this._phones = phones;\n}\n\nvar personProto = {\n  name: function() {\n    return this._name;\n  },\n  phones: function() {\n    return this._phones;\n  },\n  address: function() {\n    return this._address;\n  }\n};\n\npersonProto.name.set = function(val) {\n  this._name = val;\n};\n\npersonProto.address.set = function(val) {\n  this._address = val;\n};\n\npersonProto.phones.set = function(val) {\n  this._phones = val;\n};\n\nPerson.prototype = personProto;\n\n// Address\nfunction Address(street) {\n  this._street = street;\n}\n\nvar addressProto = {\n  street: function() {\n    return this._street;\n  }\n};\n\naddressProto.street.set = function(val) {\n  this._street = val;\n};\n\nAddress.prototype = addressProto;\n\n// Phone\nfunction Phone(number) {\n  this._number = number;\n}\n\nvar phoneProto = {\n  number: function() {\n    return this._number;\n  }\n};\n\nphoneProto.number.set = function(val) {\n  this._number = val;\n};\n\nPhone.prototype = phoneProto;\n\n"
       },
       {
         "_type": "para",
@@ -153,12 +165,17 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "title": "Using $.observe() to observe View Model objects",
-        "text": "Using $.observe() to observe View Model objects\nObserve specific properties on specific objects\n\n$.observe(person, \"name\", \"phones\", \"address\", person.phones(), person.address(), \"street\", changeHandler);\n\n"
+        "text": "Using $.observe() to observe View Model objects\nObserve specific properties on specific objects\n\n$.observe(person, \"name\", \"phones\", \"address\", person.phones(), person.address(), \"street\", changeHandler);\n\n// View Model class definitions:\n\n// Person\nfunction Person(name, address, phones) {\n  this._name = name;\n  this._address = address;\n  this._phones = phones;\n}\n\nvar personProto = {\n  name: function() {\n    return this._name;\n  },\n  phones: function() {\n    return this._phones;\n  },\n  address: function() {\n    return this._address;\n  }\n};\n\npersonProto.name.set = function(val) {\n  this._name = val;\n};\n\npersonProto.address.set = function(val) {\n  this._address = val;\n};\n\npersonProto.phones.set = function(val) {\n  this._phones = val;\n};\n\nPerson.prototype = personProto;\n\n// Address\nfunction Address(street) {\n  this._street = street;\n}\n\nvar addressProto = {\n  street: function() {\n    return this._street;\n  }\n};\n\naddressProto.street.set = function(val) {\n  this._street = val;\n};\n\nAddress.prototype = addressProto;\n\n// Phone\nfunction Phone(number) {\n  this._number = number;\n}\n\nvar phoneProto = {\n  number: function() {\n    return this._number;\n  }\n};\n\nphoneProto.number.set = function(val) {\n  this._number = val;\n};\n\nPhone.prototype = phoneProto;\n\n"
       },
       {
         "_type": "para",
         "title": "Chained paths with plain objects or with View Model objects",
         "text": "Chained paths with plain objects or with View Model objects\nWith plain object hierarchies you can use chained paths in both templates, and observe() paths:\n<input data-link=\"address^street trigger=true\" />\n\n$.observe(person, \"address^street\", changeHandler);\n\nBut for View Model hierarchies, you can only used chained paths in templates:\n<input data-link=\"address()^street() trigger=true\" />\n\nFor the corresponding $.observe() calls you must pass in each View Model object and observe its properties, rather than using a chained path. Parens are not supported within $.observe() paths.\nSo you would write:\n$.observe(person, \"address\", changeHandler);\n$.observe(person.address(), \"street\", changeHandler);\n\nor as a single call:\n$.observe(person, \"address\", person.address(), \"street\", changeHandler);\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "text": "See also:\n"
       }
     ]
   },
@@ -184,7 +201,8 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
     "sections": [
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -195,7 +213,8 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
     "sections": [
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -206,7 +225,8 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
     "sections": [
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -226,7 +246,8 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
     "sections": [
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -243,7 +264,8 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
     "sections": [
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -254,7 +276,8 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
     "sections": [
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -280,7 +303,8 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
     "sections": [
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -294,7 +318,8 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
     "sections": [
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -317,7 +342,8 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
     "sections": [
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -325,7 +351,8 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
     "sections": [
       {
         "_type": "links",
-        "title": ""
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -349,7 +376,7 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "JsRender, JsViews and global variables",
-        "text": "JsRender, JsViews and global variables\nJsRender and JsViews do not set the global var $.\nIf you are using jQuery with JsRender, JsRender defines jQuery,views, jQuery.templates, etc. but does not create any global variables.\nSo you can write:\n$.noConflict();\n\nvar template = jQuery.templates(...);\n\njQuery.views.helpers(...);\n\nIf you are not using jQuery, JsRender creates a global var: jsrender - which you use to replace the jQuery global.\nvar template = jsrender.templates(...);\n\njsrender.views.helpers(...);\n\nYou can test for JsRender as follows:\nif (window.jQuery && window.jQuery.views || window.jsrender) { \n  // JsRender is loaded\n}\n\n"
+        "text": "JsRender, JsViews and global variables\nJsRender and JsViews do not set the global var $.\nIf you are using jQuery with JsRender, JsRender defines jQuery,views, jQuery.templates, etc. but does not create any global variables.\nSo you can write:\n$.noConflict();\n\nvar template = jQuery.templates(...);\n\njQuery.views.helpers(...);\n\nIf you are not using jQuery, JsRender creates a global var: jsrender – which you use to replace the jQuery global.\nvar template = jsrender.templates(...);\n\njsrender.views.helpers(...);\n\nYou can test for JsRender as follows:\nif (window.jQuery && window.jQuery.views || window.jsrender) { \n  // JsRender is loaded\n}\n\n"
       }
     ]
   }

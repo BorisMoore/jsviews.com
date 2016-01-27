@@ -30,22 +30,23 @@ module.exports = function(file, options) {
 		var createTmplCode, ref, pathFromFileDir,
 			markup = buf.toString().replace(/^\uFEFF/, ''), // Remove BOM if necessary
 			tmpl = jsrender.templates(markup),
-			bundledFile = '',
+			bundledFile = 'var tmplRefs = [],\n'
+			+ "  mkup = '" + markup.replace(/['"\\]/g, "\\$&").replace(/[ \t]*(\r\n|\n|\r)/g, '\\n') + "',\n" // Normalize newlines, and escape quotes and \ character
+			+ '  $ = global.jsrender || global.jQuery;\n\n',
 			templateName = './' + file.slice(rootDirNameLen).split(pathSep).join('/');
 
 		for (ref in tmpl.refs) {
 			// Recursively bundle any nested template references, e.g. {{include tmpl="./some/template.html/}}"
 			pathFromFileDir = './' + path.relative(nodeFileDirName, ref).split(pathSep).join('/');
-			bundledFile += 'require("' + pathFromFileDir + '");\n';
+			bundledFile += 'tmplRefs.push(require("' + pathFromFileDir + '"));\n';
 		}
 
 		createTmplCode = '$.templates("' + templateName + '", mkup)';
 		bundledFile +=
-			"var mkup = '" + markup.replace(/['"\\]/g, "\\$&").replace(/[ \t]*(\r\n|\n|\r)/g, '\\n') + "',\n" // Normalize newlines, and escape quotes and \ character
-			+ '  $ = global.jsrender || global.jQuery;\n\n'
-			+ 'module.exports = $ ? ' + createTmplCode
+			'module.exports = $ ? ' + createTmplCode
 			+ ' :\n  function($) {\n'
 			+ '    if (!$ || !$.views) {throw "Requires jsrender/jQuery";}\n'
+			+ '    while (tmplRefs.length) {\n      tmplRefs.pop()($); // compile nested template\n    }\n\n'
 			+ '    return ' + createTmplCode
 			+ '\n  };';
 		this.push(bundledFile);

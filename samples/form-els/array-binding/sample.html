@@ -29,7 +29,7 @@
     <input type="checkbox" data-link="listbox" />Show as listbox:<br/>
     <select data-link="{intToStr:amount:strToInt} size{:listbox ? amounts.length : null}">
       {^{for amounts}}
-        <option data-link="selected{:~root.amount===#data}">{{:#data}}</option>
+        <option data-link="value{:#data}">{{:#data}}</option>
       {{/for}}
     </select>
   </div>

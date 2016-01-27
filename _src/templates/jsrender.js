@@ -43,7 +43,7 @@ var global = (0, eval)('this'), // jshint ignore:line
 
 $ = $ && $.fn ? $ : global.jQuery; // $ is jQuery passed in by CommonJS loader (Browserify), or global jQuery.
 
-var versionNumber = "v1.0.0-beta",
+var versionNumber = "v@@include("templates/-version.txt")",
 	jsvStoreName, rTag, rTmplString, topView, $views,
 
 @@include('jsrender.js', { "isNode": false })

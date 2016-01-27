@@ -22,9 +22,9 @@
   {^{for people}}
     <div
       class="person"
-      {{include tmpl="#attributesTmpl" ~id='role_'+#index link=false /}}
+      {{include tmpl="#attributesTmpl" ~id='role_'+#index /}}
     >
-      <span class="{{if role.indexOf('Lead')>=0 link=false}}special{{/if}}" >
+      <span class="{{if role.indexOf('Lead')>=0}}special{{/if}}" >
         {{:first}} <b>{{:last}}</b>
       </span>
       <img class="question" src="question.jpg"/>

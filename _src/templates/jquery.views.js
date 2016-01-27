@@ -43,7 +43,7 @@ var global = (0, eval)('this'), // jshint ignore:line
 jsr = jsr || setGlobals && global.jsrender;
 $ = $ || global.jQuery;
 
-var versionNumber = "v1.0.0-alpha",
+var versionNumber = "v@@include("templates/-version.txt")",
 	requiresStr = "JsViews requires ";
 
 if (!$ || !$.fn) {
@@ -56,6 +56,7 @@ if (jsr && !jsr.fn) {
 }
 
 var $observe, $observable,
+	$isArray = $.isArray,
 	$views = $.views;
 
 if (!$views || !$views.settings) {
