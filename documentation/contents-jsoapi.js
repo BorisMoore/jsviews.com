@@ -1057,7 +1057,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "Observing <b>all</b> changes under an object",
         "text": "The `*` (*any* wild card symbol) let's you observe changes to ***any*** property (e.g. `\"manager.*\"` for changes to any property of `manager`).\n\nSimilarly the `**` (*all* wild card symbol) let's you observe ***all*** observable changes under a chosen object or array -- *at any depth*.\n\nYou can write paths such as `\"**\"`, `\"some.objectOrArray.**\"`, `\"some^objectOrArray.**\"`, or even `\"some.objectOrArray^**\"`.\n\nFor example, this:\n\n```js\n$.observe(team, \"**\", changeHandler);\n```\n\nwill listen to ***all*** changes (to any depth) under the `team` object (for example, changes to the `team.manager`, `team.manager.address` or `team.manager.address.street` properties), and also changes to the `team.members` property (swapping to another array) -- and even to array changes to `team.members` (adding or removing a member...).\n\nAnd this:\n\n```js\n$.observe(team, \"manager.address.**\", \"manager.members.**\", changeHandler);\n```\n\nwill listen to ***all*** changes (to any depth) under `manager.address`, and also to all array changes to the `manager.members` array, and to any changes to objects or arrays *under* the `manager.members` array.\n\nIncluding the '^' alongside the '**' allows you to specify *deep paths* along with *observeAll* behavior, such as:\n\n```js\n\"manager.address^**\"\n```\n\nwhich will listen to changing the `manager.address` to another `address` object, as well as to ***all*** changes (at any depth) *under* `manager.address`.\n\nSee [third sample](#observe@all-phones) below.",
-        "anchor": "**"
+        "anchor": "all"
       },
       {
         "_type": "para",
@@ -1301,7 +1301,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "But notice that if you change the value of a phone number, our handler does not 'listen' to that change.\n\nIn the next sample we solve that by listening to *all* changes under `phones`, thanks to the [`**`](#observe@**) wild card.\n\n"
+        "text": "But notice that if you change the value of a phone number, our handler does not 'listen' to that change.\n\nIn the next sample we solve that by listening to *all* changes under `phones`, thanks to the [`**`](#observe@all) wild card.\n\n"
       },
       {
         "_type": "sample",
@@ -1739,7 +1739,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "observeAll() and \"**\" paths",
-        "text": "As an alternative to using the `observeAll()` API, it is sometimes simpler to use the `**` ***all*** *wild card* path in association with `$.observe()`, or with computed observables, as shown [here](#observe@**) and [here](#computed@depends-**). "
+        "text": "As an alternative to using the `observeAll()` API, it is sometimes simpler to use the `**` ***all*** *wild card* path in association with `$.observe()`, or with computed observables, as shown [here](#observe@all) and [here](#computed@depends-all). "
       },
       {
         "_type": "links",
@@ -2073,7 +2073,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "Sample: Using the <b>**</b> wild card in <b>depends</b>",
         "text": "In the next sample we'll use the `**` wild card in a `depends` declaration for a computed observable that tracks the running total of some items in a shopping cart.\n\nThis sample also illustrates [top-level data-linking](#jsv.toplink-true), and declarative events.\n\n(For more information see the same sample here: [samples/computed/shopping-cart](#samples/computed/shopping-cart))",
-        "anchor": "depends-**"
+        "anchor": "depends-all"
       },
       {
         "_type": "sample",
