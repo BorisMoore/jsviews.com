@@ -19,7 +19,7 @@
 	<link href="resources/css/dataurls.css" rel="stylesheet"/>
 	<link href="resources/css/contents.css" rel="stylesheet"/>
 	<link href="resources/css/highlight.css" rel="stylesheet" /> <!--xcode vs brown_paper googlecode magula mono-blue-->
-	<script src="//code.jquery.com/jquery-1.11.3.js"></script>
+	<script src="//code.jquery.com/jquery-1.12.0.js"></script>
 <!--<script src="-jquery1.11.3.js"></script>-->
 	<script src="//cdn.jsdelivr.net/remarkable/1.6.0/remarkable.min.js"></script>
 	<!--<script src="-remarkable.min.js"></script>-->
@@ -83,7 +83,8 @@
 		</div>
 		<div class="filler">
 				<div id="searchtext" data-link="html{:searchtext}"></div>
-				<div id="hovertext" data-link="html{:hoverText} class{merge: hoverTopicSel toggle='topicsel'} {on searchTree.click} {on 'mouseleave' searchTree.mouseleave}"></div>
+				<div id="hovertext" data-link="html{:hoverText} class{merge: hoverTopicSel toggle='topicsel'} {on searchTree.click}
+						{on 'mouseleave' searchTree.mouseleave} {on 'wheel' searchTree.mousewheel}"></div>
 				<span></span><span></span><span></span><span></span><span></span>
 		</div>
 
@@ -247,8 +248,8 @@
 						<div>Parameters</div>
 						{{for params}}
 							<div>
-								<label>{{:name}} <span class="type">({{:type}}{{if optional}} &ndash; optional{{/if}})</span></label>
-								<div class="paramdesc">{{:description}}</div>
+								<label>{{:name}} <span class="type">({{:type}}{{if optional}} &ndash; optional{{/if}}):</span></label>
+								<div class="paramdesc">- {{:description}}</div>
 							</div>
 						{{/for}}
 					</div>
@@ -291,7 +292,7 @@
 						<div>Named Parameters</div>
 						{{for params}}
 							<div>
-								<label>{{:propName}}={{:name}} <span class="type">({{:type}}{{if optional}} &ndash; optional{{/if}})</span></label>
+								<label>{{:propName}}={{:name}} <span class="type">({{:type}}{{if optional}} &ndash; optional{{/if}}):</span></label>
 								<div class="paramdesc">{{:description}}</div>
 							</div>
 						{{/for}}

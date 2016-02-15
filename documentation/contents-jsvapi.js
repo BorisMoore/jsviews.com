@@ -460,7 +460,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Each instance of a rendered template or a template block tag is associated with a JsViews *\"view\"* object.\n\nUse `$.view()` to get from the rendered HTML back to the data. \n\n"
+        "text": "Each instance of a rendered template or a template block tag is associated with a JsViews *\"view\"* object.\n\nUse `$.view()` to get from the rendered HTML back to the data."
       },
       {
         "_type": "links",
@@ -508,7 +508,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  {^{for people}}\n    <tr>\n      <td>{^{:name}}</td>\n      <td>\n        <button class=\"changeBtn\">Change</button>\n      </td>\n    </tr>\n  {{/for}}\n</script>",
         "height": "100",
-        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nmyTemplate.link(\"#peopleList\", app);\n\n$(\".changeBtn\").on(\"click\", function() {\n  var view = $.view(this); // From the clicked HTML element ('this'), get the view object\n  var person = view.data;  // The 'person' data object for clicked button\n  var index = view.index;  // The index of this 'item view'. (Equals index of person in people array)\n  $.observable(person).setProperty(\"name\", person.name + \" \" + index); // Change the person.name\n});",
+        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar app = {\n    people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n  };\n\nmyTemplate.link(\"#peopleList\", app);\n\n$(\".changeBtn\").on(\"click\", function() {\n  // From the clicked HTML element ('this'), get the view object\n  var view = $.view(this);\n\n  // The 'person' data object for clicked button\n  var person = view.data;\n\n  // The index of this 'item view'. (Equals index of person in people array)\n  var index = view.index;\n\n  // Change the person.name\n  $.observable(person).setProperty(\"name\", person.name + \" \" + index);\n});",
         "title": "Getting to the data: $.view(elem)",
         "anchor": "$view"
       },
@@ -688,7 +688,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
   "jsvtagcontrols": {
     "title": "Custom Tags - Tag Controls",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "tag hierarchy"
+      }
+    ]
   },
   "jsvobjects": {
     "title": "JsViews objects",
@@ -742,14 +748,318 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "sections": []
   },
   "jsvviewobject": {
-    "title": "view object",
+    "title": "The <em>view</em> object",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "When using JsViews (i.e. with the [`.link()`](#jsvlinktmpl) method rather than JsRender's [`.render()`](#rendertmpl) method) the [view hierarchy](#views) is the same.\n"
+      },
+      {
+        "_type": "para",
+        "title": "A <b>view object</b> has the following properties and methods:",
+        "text": "**JsViews -- programmatic access only**\n\nThe following methods are available only for programmatic access when using JsViews:\n\n- [refresh() method](#jsvviewobject@refresh)\n- [contents() method](#jsvviewobject@contents)\n- [childTags() method](#jsvviewobject@childtags)\n- [nodes() method](#jsvviewobject@nodes)\n\n**Both JsRender and JsViews** (see [JsRender `view` object](#viewobject))\n\n*The following properties and methods are available when using either JsRender or JsViews:*\n\n- [type property](#viewobject@type)\n- [data property](#viewobject@data)\n- [parent property](#viewobject@parent)\n- [index property](#viewobject@index)\n- [getIndex() method](#viewobject@getIndex)\n- [get(type) method](#viewobject@get)\n- [content property](#viewobject@content)\n- [other properties (tmpl, views, ctx tags )](#viewobject@other)\n"
+      },
+      {
+        "_type": "para",
+        "title": "Accessing view objects",
+        "text": "The `view` object can be accessed *programmatically* in many contexts, such as:\n\n- in a click handler (with JsViews) -- using [`$.view(this)`](#jsv.d.view) to return the `view` for a given HTML element (`this`)\n- in a helper function, `~myHelper()` -- where the `this` pointer is the current view\n- in any method of a custom tag -- using `this.tagCtx.view`\n\nIn addition, properties and methods that are available to both JsRender and JsViews (second list above) can also be accessed *declaratively* in a template using *[view paths](#paths)* -- such as `#parent` for the `view.parent` property.\n<br/><br/>\n\n### Properties and methods:\n"
+      },
+      {
+        "_type": "para",
+        "title": "The refresh() method",
+        "text": "***view.refresh()***: refreshes the view, by re-rendering its content.\n\nThis can be used to update content using modified data or updated helpers.\n\nIt can be useful for refreshing a view (template block) which renders data without data-linking: `{{:model.year}}` (or even with data-linking, `{^{:model.year}}` -- if the data has been modified *'non-observably'*, as in: `model.year++;`).\n\n```js\nview.refresh(); // Refresh the view, using current data values and helpers\n```",
+        "anchor": "refresh"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Template:* (No data-linking except `<input data-link=\"name\" />`)\n\n```jsr\n{{for people}}\n  ...\n  <input data-link=\"name\" />\n  ...\n  {{:name}} ... {{:~root.year}} ... {{:age + ~root.year - 2016}}\n  ...\n  <button class=\"refreshBtn\">Refresh</button>\n{{/for}}\n```\n\n*Code:*\n\n```js\n.on(\"click\", \"#incrBtn\", function() {\n  model.year++; // non-observable change\n})\n.on(\"click\", \".refreshBtn\", function() {\n  $.view(this).refresh(); // Refresh view, with updated values...\n});\n```"
+          }
+        ],
+        "html": "<style>table td {padding: 5px;} table {margin-top: 6px;} #incrBtn {margin-bottom: 10px;}</style>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"incrBtn\">Increment year</button>\n  <button id=\"incrObsBtn\">Increment observably</button>\n  <button id=\"incrRefreshBtn\">Increment and refresh</button>\n  <button class=\"refreshBtn\">Refresh All</button><br/>\n  Year: {^{:year}}<br/>\n\n  <table><tbody>\n    {{for people}}\n      <tr>\n        <td><input data-link=\"name\" /></td>\n        <td>Name: {{:name}}</td>  {{!-- no data-linking --}}\n        <td>Age in {{:~root.year}}: {{:age + ~root.year - 2016}} </td>\n        <td><button class=\"refreshBtn\">Refresh</button></td>\n      </tr>\n    {{/for}}\n  </tbody></table>\n</script>",
+        "code": "var tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  year: 2016,\n  people: [{name: \"Adriana\", age: 4}, {name: \"Robert\", age: 34}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#incrBtn\", function() {\n    model.year++; // non-observable change\n  })\n  .on(\"click\", \"#incrObsBtn\", function() {\n    $.observable(model).setProperty(\"year\", model.year + 1);\n  })\n  .on(\"click\", \"#incrRefreshBtn\", function() {\n    model.year++; // non-observable change\n    $.view(this).refresh();\n  })\n  .on(\"click\", \".refreshBtn\", function() {\n    $.view(this).refresh();\n  });",
+        "height": "160",
+        "title": "view.refresh()"
+      },
+      {
+        "_type": "para",
+        "title": "The contents() method",
+        "text": "***view.contents(...)***: returns a jQuery object of view content nodes -- optionally filtered by a jQuery selector.\n\n```js\nvar jqMyClassElem = view.contents(true, \".myClass\"); // jQuery object for element with 'myClass'at any depth within view\n```",
+        "anchor": "contents"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "view.contents(...)",
+        "name": "contents",
+        "object": "view",
+        "method": true,
+        "returns": "jQuery object",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [],
+            "args": [],
+            "sections": [],
+            "example": "var jqContents = view.contents();\njqContents.css(\"color\", \"red\");",
+            "description": "Get a jQuery object for the contents of the view (top-level child nodes &ndash; including text nodes)"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "selector",
+                "type": "string",
+                "optional": true,
+                "description": "jQuery selector, to filter content elements"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "var jqContents = view.contents(\".toRed\");\njqContents.css(\"color\", \"red\");",
+            "description": "Get a jQuery object for the top-level contents of the view, filtered by the jQuery selector"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "deep",
+                "type": "boolean",
+                "optional": true,
+                "description": "If true, search both children and descendants"
+              },
+              {
+                "_type": "param",
+                "name": "selector",
+                "type": "string",
+                "optional": true,
+                "description": "jQuery selector, to filter content elements"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "var jqContents = view.contents(true, \".toRed\");\njqContents.css(\"color\", \"red\");",
+            "description": "Get a jQuery object for the contents of the view: child and descendant nodes, filtered by the selector"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following example uses `view.contents()` to find the `\".nameId\"` within the view, and set its background color:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\n// Get jQuery object for \".nameTd\" in this view:\nvar jqNameTd = view.contents(true, \".nameTd\");\n\n// Set background color\njqNameTd.css(\"backgroundColor\", this.className);\n```"
+          }
+        ],
+        "html": "<style>.nameTd {width: 60px; padding: 0 6px;} table {width: 230px;} button {margin: 4px;}</style>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"addBtn\">Add</button>\n  <table><tbody>\n    {^{for people}}\n      <tr>\n        <td class=\"nameTd\">{^{:name}}</td>\n        <td>\n          <button class=\"orange\">orange</button>\n          <button class=\"yellow\">yellow</button>\n        </td>\n      </tr>\n    {{/for}}\n  </tbody></table>\n</script>",
+        "code": "var tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#addBtn\", function() {\n    var view = $.view(this);           // \"data\" view\n    var data = view.data;              // model\n    $.observable(data.people).insert({name: \"name\"});\n  })\n  .on(\"click\", \".orange, .yellow\", function() {\n    var view = $.view(this);           // \"item\" view\n\n    // Get jQuery object for \".nameTd\" in this view:\n    var jqNameTd = view.contents(true, \".nameTd\");\n\n    // Set background color\n    jqNameTd.css(\"backgroundColor\", this.className);\n  });",
+        "title": "view.contents()"
+      },
+      {
+        "_type": "para",
+        "title": "The childTags() method",
+        "text": "***view.childTags(...)***: returns an array of custom tag instances within the view -- optionally filtered by tag name.\n\n```js\nvar myTagsArray = view.childTags(true, \"myTag\"); // {{myTag}} instances within view (at any depth)\n```\n",
+        "anchor": "childtags"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "view.childTags(...)",
+        "name": "childTags",
+        "object": "view",
+        "method": true,
+        "returns": "jQuery object",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [],
+            "args": [],
+            "sections": [],
+            "example": "var tagsArray = view.childTags();\nvar firstTagName = tagsArray[0].tagName;",
+            "description": "Get top-level custom tag instances within the view"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "tagName",
+                "type": "string",
+                "optional": true,
+                "description": "Filter returned tag instances by tag name"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "var sliders = view.childTags(\"slider\");\nsliders[0].setValue(25);",
+            "description": "Get instances of {{tagName}} in view (not nested in other custom tags)"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "deep",
+                "type": "boolean",
+                "optional": true,
+                "description": "If true, search at any depth of nested tags"
+              },
+              {
+                "_type": "param",
+                "name": "tagName",
+                "type": "string",
+                "optional": true,
+                "description": "Filter returned tag instances by tag name"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "var jqContents = view.childTags(true, \".toRed\");\njqContents.css(\"color\", \"red\");",
+            "description": "Get instances of {{tagName}} in view (including those nested in other custom tags)"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Note that `view.childTags()` looks only for custom tags. (In fact it searches for tags which do not have the `flow` property set to `true`. All built in tags such as `{{for}}` and `{{if}}` have the setting `flow: true`, so are ignored by `childTags()`.)\n\nThe following sample looks for `{{textbox}}` tags (in the case `data-link=\"{textbox ...}\"`) and calls a method on each."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{for people}}\n  {{!--data-link to {{textbox}} tag --}}\n  <div class=\"person\" data-link=\"{textbox path=name/}\"></div> \n{{/for}}\n```\n\n```js\n.on(\"click\", \"#toggleBtn\", function() {\n  var textBoxes = $.view(this).childTags(\"textbox\"); // Find all the {{textbox}} tags in the view\n  for (var i=0; i<textBoxes.length; i++) {\n    textBoxes[i].toggleEdit();                       // Toggle the edit mode for each of them\n  }\n});\n```"
+          }
+        ],
+        "html": "<style>#toggleBtn {margin-bottom: 14px;} .person {line-height: 26px;}</style>\n<div id=\"peopleList\"></div>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"toggleBtn\">Toggle Edit</button>\n\n  {^{for people}}\n    {{!--data-link to {{textbox}} tag --}}\n    <div class=\"person\" data-link=\"{textbox path=name/}\"></div> \n  {{/for}}\n</script>",
+        "code": "// Define a {{textbox}} tag - which allows editing, and has a toggleEdit() method\n$.views.tags({\n  textbox: {\n    init: function() {\n      var path = this.tagCtx.params.props.path + \" trigger=true\";\n\n      this.template = \"<input data-link='~tag.edit' type='checkbox'/> \"   // Checkbox to toggle edit\n      + \"<input data-link='visible{:~tag.edit} {:\" + path + \":}'/>\"       // <input> for editing\n      + \"<span data-link='visible{:!~tag.edit} {:\" + path + \"}'></span>\"; // <span> for rendering\n    },\n    toggleEdit: function() {\n      $.observable(this).setProperty(\"edit\", !this.edit);\n    }\n  }\n});\n\nvar tmpl = $.templates(\"#peopleTmpl\");\nvar model = {\n    people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n  };\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#toggleBtn\", function() {\n    var textBoxes = $.view(this).childTags(\"textbox\"); // Find all the {{textbox}} tags in the view\n    for (var i=0; i<textBoxes.length; i++) {\n      textBoxes[i].toggleEdit();                       // Toggle the edit mode for each of them\n    }\n  });",
+        "height": "120",
+        "title": "view.childTags()"
+      },
+      {
+        "_type": "para",
+        "title": "The nodes() method",
+        "text": "***view.nodes()***: returns an array of top-level nodes within the view (including text nodes).\n\n```js\nvar nodesArray = view.nodes();\n```",
+        "anchor": "nodes"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\n.on(\"click\", \".orange, .yellow\", function() {\n  var view = $.view(this);           // \"item\" view\n\n  // Get top-level nodes in this view - two <tr> nodes:\n  var nodes = view.nodes();\n\n  // Set colors\n  nodes[0].style.color = this.className;\n  nodes[0].style.backgroundColor = \"darkblue\";\n  nodes[1].style.backgroundColor = this.className;\n});\n```"
+          }
+        ],
+        "html": "<style>.nameTd {width: 60px; padding: 0 6px;} table {width: 156px;} button {margin: 4px;}</style>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"addBtn\">Add</button>\n  <table><tbody>\n    {^{for people}}\n      <tr>\n        <td class=\"nameTd\">{^{:name}}</td>\n      </tr>\n      <tr>\n        <td>\n          <button class=\"orange\">orange</button>\n          <button class=\"yellow\">yellow</button>\n        </td>\n      </tr>\n    {{/for}}\n  </tbody></table>\n</script>",
+        "code": "var tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#addBtn\", function() {\n    var view = $.view(this);           // \"data\" view\n    var data = view.data;              // model\n    $.observable(data.people).insert({name: \"name\"});\n  })\n  .on(\"click\", \".orange, .yellow\", function() {\n    var view = $.view(this);           // \"item\" view\n\n    // Get top-level nodes in this view - two <tr> nodes:\n    var nodes = view.nodes();\n\n    // Set colors\n    nodes[0].style.color = this.className;\n    nodes[0].style.backgroundColor = \"darkblue\";\n    nodes[1].style.backgroundColor = this.className;\n  });",
+        "height": "230",
+        "title": "view.nodes()"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "viewobject",
+            "label": "JsRender view object"
+          },
+          {
+            "_type": "topic",
+            "hash": "views",
+            "label": "View hierarchy"
+          }
+        ]
+      }
+    ]
   },
   "jsvtagobject": {
     "title": "tag object",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "tag hierarchy"
+      }
+    ]
   },
   "jsvviewcontextobject": {
     "title": "View context object",
@@ -913,7 +1223,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Full syntax - multiple targets, multiple tags, multiple bindings...",
-        "text": "The full syntax allows you to bind multiple expressions each to a different target 'attrib', and is written like this: `data-link=\"attrib1{linkExpression1} attrib2{linkExpression2} ...\"`.\n\n`attrib` corresponds to the target -- such as the following:\n- HTML attribute (such as <code>title{...}</code>, <code>class{...}</code>, <code>id{...}</code>, <code>disabled{...}</code> or <code>data-foo{...}</code>)\n- CSS property (such as <code>css-background-color{...}</code>)\n- innerHTML (as in <code>html{...}</code>)\n- innerText (as in <code>text{...}</code>)\n- special targets like <code>visible{...}</code>\n- or can be missing altogether (as in <code>{...}</code>) in which case it stands for the default target for the element.\n\nThe default target for most elements is `innerText`, but for `input` and `select` elements it is `value`.\n\nThe linkExpression `{...}` is actually a *template tag*, such as `{{:a.b.c}}` or `{{myCustomTag .../}}`. *The difference from regular JsRender tag syntax is that with data-link expressions, **you only put a single curly brace to delimit, and you don't put the self-closing `/`**, which is assumed*.\n\nIn fact as long as the tag is self-closing, you can use any JsRender tag you want -- including custom tags.\n\nFor example, if you have a JsRender tag as content of an element: \n\n```jsr\n<div>{{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- then you can make it into a data-linked tag, using:\n\n```jsr\n<div>{^{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- or into a data-linked element, using:\n\n```jsr\n<div data-link=\"{for some.path tmpl='myForTmpl'}\" ></div>\n```\n\nSo examples would be: \n\n- `<div data-link=\"{:name}\"></div>` (one-way binding to `innerText` -- default target attrib -- so automatically HTML encodes).\n- `<div data-link=\"html{:name}\"></div>` (one-way binding to `innerHTML`)\n- `<div data-link=\"text{:name}\"></div>` (one-way binding to `innerText` -- equivalent to default above)\n- `<div data-link=\"html{>name}\"></div>` (one-way binding to `innerHTML` but with HTML encoding)\n- `<input data-link=\"{:name}\" >` (one-way binding to `value` -- default target attrib)\n- `<input data-link=\"value{:name}\" /&gt;` (one-way binding to `value`)\n- `<input data-link=\"title{:name}\" /&gt;` (one-way binding to the `title` attribute)\n- `<input data-link=\"{:name trigger=true:}\" /&gt;` (two-way binding to `value`, trigger on keydown) <br/>-- equivalent to abbreviated syntax: `<input data-link=\"name trigger=true\" /&gt;`\n- `<input data-link=\"{cvt:name:cvtBack}\" /&gt;` (two-way binding to `value`, with converters)\n- `<input data-link=\"{cvt:name trigger=true:cvtBack}\" /&gt;` (two-way binding to `value`, with converters, and trigger on keydown)\n- `<input data-link=\"{cvt:name:cvtBack} title{:info.description}\" /&gt;` (two-way binding to `value`, with converters and one-way binding to `title`)\n- `<img data-link=\"src{:'/myImagesFolder/' + fileName + '.png'}\" />` (one-way binding to `src` -- using an expression to build full path)\n- `<div data-link=\"{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control -- rendering as `innerHTML` -- default target attrib for tags other than {: ...} -- so can insert HTML markup)\n- `<div data-link=\"text{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control -- rendering as `innerText` -- so automatically HTML encodes)"
+        "text": "The full syntax allows you to bind multiple expressions each to a different target 'attrib', and is written like this: `data-link=\"attrib1{linkExpression1} attrib2{linkExpression2} ...\"`.\n\n`attrib` corresponds to the target -- such as the following:\n- HTML attribute (such as <code>title{...}</code>, <code>class{...}</code>, <code>id{...}</code>, <code>disabled{...}</code> or <code>data-foo{...}</code>)\n- CSS property (such as <code>css-background-color{...}</code>)\n- innerHTML (as in <code>html{...}</code>)\n- innerText (as in <code>text{...}</code>)\n- special targets like <code>visible{...}</code>\n- or can be missing altogether (as in <code>{...}</code>) in which case it stands for the default target for the element.\n\nThe default target for most elements is `innerText`, but for `input` and `select` elements it is `value`.\n\nThe linkExpression `{...}` is actually a *template tag*, such as `{{:a.b.c}}` or `{{myCustomTag .../}}`. *The difference from regular JsRender tag syntax is that with data-link expressions, **you only put a single curly brace to delimit, and you don't put the self-closing `/`**, which is assumed*.\n\nIn fact as long as the tag is self-closing, you can use any JsRender tag you want -- including custom tags.\n\nFor example, if you have a JsRender tag as content of an element: \n\n```jsr\n<div>{{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- then you can make it into a data-linked tag, using:\n\n```jsr\n<div>{^{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- or into a data-linked element, using:\n\n```jsr\n<div data-link=\"{for some.path tmpl='myForTmpl'}\" ></div>\n```\n\nSo examples would be: \n\n- `<div data-link=\"{:name}\"></div>` (one-way binding to `innerText` -- default target attrib -- so automatically HTML encodes).\n- `<div data-link=\"html{:name}\"></div>` (one-way binding to `innerHTML`)\n- `<div data-link=\"text{:name}\"></div>` (one-way binding to `innerText` -- equivalent to default above)\n- `<div data-link=\"html{>name}\"></div>` (one-way binding to `innerHTML` but with HTML encoding)\n- `<input data-link=\"{:name}\" >` (one-way binding to `value` -- default target attrib)\n- `<input data-link=\"value{:name}\" /&gt;` (one-way binding to `value`)\n- `<input data-link=\"title{:name}\" /&gt;` (one-way binding to the `title` attribute)\n- `<input data-link=\"{:name trigger=true:}\" /&gt;` (two-way binding to `value`, trigger on keydown) <br/>-- equivalent to abbreviated syntax: `<input data-link=\"name trigger=true\" /&gt;`\n- `<input data-link=\"{cvt:name:cvtBack}\" /&gt;` (two-way binding to `value`, with converters)\n- `<input data-link=\"{cvt:name trigger=true:cvtBack}\" /&gt;` (two-way binding to `value`, with converters, and trigger on keydown)\n- `<input data-link=\"{cvt:name:cvtBack} title{:info.description}\" /&gt;` (two-way binding to `value`, with converters and one-way binding to `title`)\n- `<img data-link=\"src{:'/myImagesFolder/' + fileName + '.png'}\" />` (one-way binding to `src` -- using an expression to build full path)\n- `<div data-link=\"{myCustomTag name}\"></div>` (data-linking -- and instantiating -- a JsViews custom tag control. Renders as `innerHTML` -- default target attrib for tags other than {: ...} -- so the control can insert HTML markup)\n- `<div data-link=\"text{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control -- rendering as `innerText` -- so automatically HTML encodes)\n- `<svg><ellipse data-link=\"cx{:x} fill{:color}\"></ellipse>` (data-linking to attributes of an SVG element)",
+        "anchor": "fullsyntax"
       },
       {
         "_type": "para",
@@ -987,7 +1298,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Samples of data-linking:",
-        "text": "<ul>\n<li>There are many samples showing data-linking under <a href=\"#samples/jsv\">JsViews Samples</a></li>\n<li>See in particular this <a href=\"#samples/data-link\">tutorial sequence on data-linking</a></li>\n</ul>"
+        "text": "- There are many samples showing data-linking under [JsViews Samples](#samples/jsv).\n- See in particular this [tutorial sequence on data-linking](#samples/data-link)\n"
       },
       {
         "_type": "para",

@@ -2,7 +2,7 @@
  * Sample JsViews tag control: {{slider}} control, derived from {{edit}} control
  * http://www.jsviews.com/download/sample-tag-controls/slider/slider-derived.js
  * Used in samples: http://www.jsviews.com/#samples/tag-controls/slider/with-validation
- * Copyright 2015, Boris Moore
+ * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
 

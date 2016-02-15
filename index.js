@@ -1,7 +1,7 @@
 ﻿(function(window, $, undefined) {
 "use strict";
 var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTargetElem, skipLoad, searchbox, initPageParams, prevLochash,
-	isSearchTreeSelectionChange, isLeftNavSelectionChange, topSearchTree, loadedAll, searchtextElem, searchfloattextElem,
+	isSearchTreeSelectionChange, isLeftNavSelectionChange, topSearchTree, loadedAll, searchtextElem, searchNavElem, sideNavElem, hoverTextElem,
 
 	content = $.views.documentation.content,
 	searchInclude = content.include,
@@ -94,8 +94,8 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					$.observable($.view(this).ctx.parentTags.section.sampleFrame).setProperty("ranIt", true);
 				})
 				.on("contextmenu", function() {
-					if (!content.search && (allowEdit || content.allowEdit)) {
-						var editable = !page.editable;
+					var editable = !page.editable;
+					if (!editable || !content.search && (allowEdit || content.allowEdit)) {
 						$.observable(content).setProperty("editable", editable);
 						if (page.tree) {
 							$.observable(page.tree).setProperty("editable", editable);
@@ -263,7 +263,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 			location.hash = lochash;
 		},
 		navTo: function(lochash, newCat) {
-			var section, searchTreeNode, offset, categoryName, sectionIndex, filter, searchTerm, scrollTo, wasSearch, navTreeNode, nav;
+			var section, searchTreeNode, offset, categoryName, sectionIndex, filter, searchTerm, scrollTo, wasSearch, navTreeNode;
 			if (prevLochash !== lochash) {
 				if (section = searchRegex.exec(lochash)) {
 					if (searchTerm = section[1]) {
@@ -315,9 +315,8 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 									.delay(150).animate({scrollTop: offset}, searchTreeNode ? 100 : 625, function() {
 									if (!isSearchTreeSelectionChange && lochash === location.hash) { // If a new request has started, skip this one.
 										if (searchTreeNode = document.getElementById(searchTreeNode + "$")) {
-											nav = $(".searchnav");
-											nav.animate({scrollTop: nav.scrollTop() - nav.height()/2
-												+ $(searchTreeNode).offset().top - $("#id-searchbox").offset().top - 60}, 150);
+											searchNavElem.animate({scrollTop: searchNavElem.scrollTop() - searchNavElem.height()/2
+												+ $(searchTreeNode).offset().top - searchbox.offset().top - 60}, 150);
 										}
 									}
 									scrollTargetElem = isSearchTreeSelectionChange = false;
@@ -333,8 +332,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 							window.scrollTo(0, historyStates[historyIndex] && historyStates[historyIndex].scroll || 0);
 						}
 						if (navTreeNode) {
-							nav = $(".sidenav");
-							nav.animate({scrollTop: navTreeNode.offsetTop - nav.height()/2}, 150);
+							sideNavElem.animate({scrollTop: navTreeNode.offsetTop - sideNavElem.height()/2}, 150);
 						}
 					}, 0);
 				}
@@ -594,12 +592,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 				$.observable(this.tryItData).setProperty(this.origData);
 				$.observable(this).setProperty("ranIt", !revert);
 			}
-			try {
 				this.loadScript(this.tryItData);
-			}
-			catch (e) {
-				alert("Error: " + e);
-			}
 		}
 	},
 
@@ -618,7 +611,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "  <script src=\"//code.jquery.com/jquery-1.11.3.js\"></script>\n"
+					+ "  <script src=\"//code.jquery.com/jquery-1.12.0.js\"></script>\n"
 					+ (url
 						? ("  <base href=\"//www.jsviews.com/" + url.slice(0, url.lastIndexOf("/")) + "/\"/>\n"
 							+ tryItData.header
@@ -824,7 +817,7 @@ treeGroup.prototype = {
 			noSearch = " ";
 		if (eventArgs.value || eventArgs.oldValue) {
 			searchTerm = eventArgs.value;
-			if (ev.keyCode === 13 && searchTerm) {
+			if (ev.keyCode === 13 && searchTerm && !content.editable) {
 				newSearch = content.search !== searchTerm;
 				searchTerm = "#search?s=" + encodeURIComponent(searchTerm) + searchIncludeHash();
 				if (location.hash !== searchTerm) {
@@ -864,22 +857,26 @@ treeGroup.prototype = {
 		location.hash = searchRegex.exec(location.hash)[7] || topCategoryName;
 	},
 	mouseenter: function(topicName, ev, eventArgs) { // Hover over a search target section
-		var section = eventArgs.linkCtx.data,
-			nav = $(".searchnav");
+		var section = eventArgs.linkCtx.data;
 
 		$.observable(content).setProperty({
 			hoverText: section.text, // Set section text on hover div, which will also make it visible
 			hoverTopicSel: this.topicName === topicName // True for search section within the currently selected topic - sets class for colors.
 		});
-		$("#hovertext")
+		hoverTextElem
 			.show()
-			.offset({top: eventArgs.linkCtx.elem.offsetTop + nav.offset().top - nav.scrollTop()});
+			.offset({top: eventArgs.linkCtx.elem.offsetTop + searchNavElem.offset().top - searchNavElem.scrollTop()});
 	},
 	mouseleave: function(ev, eventArgs) {
-		$("#hovertext").hide();
+		hoverTextElem.hide();
+	},
+	mousewheel: function(ev, eventArgs) {
+		hoverTextElem.hide();
+		ev.preventDefault();
+		searchNavElem.scrollTop(searchNavElem.scrollTop() + ev.originalEvent.deltaY);
 	},
 	click: function(ev, eventArgs) { // Click on overlay: "#hoverText"
-		$("#hovertext").hide();
+		hoverTextElem.hide();
 		isSearchTreeSelectionChange = true;
 		this.select($.view(document.elementFromPoint(ev.clientX, ev.clientY)).data.section);
 	}
@@ -1320,20 +1317,26 @@ function save() {
 			l = categories.length,
 			textareas = page.contents(true, ".savetext"),
 			loaded = {},
-			loading = {};
+			loading = {},
+			loadedfind = {},
+			loadingfind = {};
 
 		while (l-- > 1) {
 			category = categories[l];
 			loaded[l] = category.loaded;
 			loading[l] = category.loading;
-			categories[l].loaded = false;
-			categories[l].loading = "";
+			loadedfind[l] = category.loadedfind;
+			loadingfind[l] = category.loadingfind;
+			categories[l].loaded = categories[l].loadedfind = false;
+			categories[l].loading = categories[l].loadingfind = "";
 		}
 		localStorage.setItem("JsViewsDocCategories", stringify(categories));
 		l = categories.length;
 		while (l-- > 1) {
 			categories[l].loaded = loaded[l];
 			categories[l].loading = loading[l];
+			categories[l].loadedfind = loadedfind[l];
+			categories[l].loadingfind = loadingfind[l];
 		}
 		topics = content[topCategoryName];
 		if (topics) {
@@ -1390,6 +1393,9 @@ fetchCategory()
 
 		searchtextElem = $("#searchtext");
 		searchbox = $("#id-searchbox")[0];
+		searchNavElem = $(".searchnav");
+		sideNavElem = $(".sidenav");
+		hoverTextElem = $("#hovertext");
 
 		if ('scrollRestoration' in history) {
 			history.scrollRestoration = 'manual';

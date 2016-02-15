@@ -2,7 +2,7 @@
  * Sample JsViews tag control: {{jsonview}} control
  * http://www.jsviews.com/download/sample-tag-controls/jsonview/jsonview.js
 
- * Copyright 2015, Boris Moore
+ * Copyright 2016, Boris Moore
  * Released under the MIT License.
 */
 

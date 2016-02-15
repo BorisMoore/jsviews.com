@@ -396,17 +396,17 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "ajax": {
+  "explore/ajax": {
     "title": "Ajax requests",
     "path": "",
     "sections": []
   },
-  "observabledata": {
+  "explore/observabledata": {
     "title": "Observable data",
     "path": "",
     "sections": []
   },
-  "computed": {
+  "explore/computed": {
     "title": "Computed observables",
     "path": "",
     "sections": [
@@ -417,12 +417,12 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "dependencies": {
+  "explore/dependencies": {
     "title": "Declaring dependencies",
     "path": "",
     "sections": []
   },
-  "templates": {
+  "explore/templates": {
     "title": "Templates",
     "path": "",
     "sections": [
@@ -439,12 +439,12 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "composition": {
+  "explore/composition": {
     "title": "Composition",
     "path": "",
     "sections": []
   },
-  "views": {
+  "explore/views": {
     "title": "Views",
     "path": "",
     "sections": [
@@ -461,12 +461,12 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "viewhierarchy": {
+  "explore/viewhierarchy": {
     "title": "View hierarchy",
     "path": "",
     "sections": []
   },
-  "renderorlink": {
+  "explore/renderorlink": {
     "title": "Rendering versus linking",
     "path": "",
     "sections": [
@@ -495,27 +495,27 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "renderasstring": {
+  "explore/renderasstring": {
     "title": "String-based rendering",
     "path": "",
     "sections": []
   },
-  "linkingtohtml": {
+  "explore/linkingtohtml": {
     "title": "Data-binding to HTML",
     "path": "",
     "sections": []
   },
-  "data-link": {
+  "explore/data-link": {
     "title": "Element-based: data-link",
     "path": "",
     "sections": []
   },
-  "inlinebinding": {
+  "explore/inlinebinding": {
     "title": "Inline tag binding",
     "path": "",
     "sections": []
   },
-  "helpers": {
+  "explore/helpers": {
     "title": "Providing helpers",
     "path": "",
     "sections": [
@@ -540,22 +540,22 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "registerhelper": {
+  "explore/registerhelper": {
     "title": "Registering helpers",
     "path": "",
     "sections": []
   },
-  "passhelper": {
+  "explore/passhelper": {
     "title": "Passing in helpers",
     "path": "",
     "sections": []
   },
-  "helperpaths": {
+  "explore/helperpaths": {
     "title": "Helper paths",
     "path": "",
     "sections": []
   },
-  "converters": {
+  "explore/converters": {
     "title": "Converters",
     "path": "",
     "sections": [
@@ -576,12 +576,12 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "jsr-converter": {
+  "explore/jsr-converter": {
     "title": "converters in JsRender",
     "path": "",
     "sections": []
   },
-  "jsv-converter": {
+  "explore/jsv-converter": {
     "title": "converters in JsViews",
     "path": "",
     "sections": [
@@ -602,7 +602,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "jsv-converter1way": {
+  "explore/jsv-converter1way": {
     "title": "one-way binding converter",
     "path": "",
     "sections": [
@@ -613,7 +613,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "jsv-converterback": {
+  "explore/jsv-converterback": {
     "title": "2-way binding - convert back",
     "path": "",
     "sections": [
@@ -624,7 +624,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "customtags": {
+  "explore/customtags": {
     "title": "Custom Tags",
     "path": "",
     "sections": [
@@ -645,17 +645,17 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "jsrcustomtags": {
+  "explore/jsrcustomtags": {
     "title": "JsRender custom tags",
     "path": "",
     "sections": []
   },
-  "tagsascontrols": {
+  "explore/tagsascontrols": {
     "title": "Custom tags as controls",
     "path": "",
     "sections": []
   },
-  "tagexpressions": {
+  "explore/tagexpressions": {
     "title": "Tag expressions",
     "path": "",
     "sections": [
@@ -688,32 +688,32 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "allowcode": {
+  "explore/allowcode": {
     "title": "Allow code?",
     "path": "",
     "sections": []
   },
-  "expressions": {
+  "explore/expressions": {
     "title": "Tag expressions",
     "path": "",
     "sections": []
   },
-  "expressions/datapath": {
+  "explore/expressions/datapath": {
     "title": "Data paths",
     "path": "",
     "sections": []
   },
-  "expressions/helperpath": {
+  "explore/expressions/helperpath": {
     "title": "Helper paths",
     "path": "",
     "sections": []
   },
-  "expressions/viewpath": {
+  "explore/expressions/viewpath": {
     "title": "View paths",
     "path": "",
     "sections": []
   },
-  "linkobservedispose": {
+  "explore/linkobservedispose": {
     "title": "Linking, observing, disposing",
     "path": "",
     "sections": [
@@ -725,7 +725,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "tag-controls": {
+  "explore/tag-controls": {
     "title": "Tag Controls",
     "path": "",
     "sections": [
@@ -750,22 +750,22 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "taghierarchy": {
+  "explore/taghierarchy": {
     "title": "Tag hierarchy",
     "path": "",
     "sections": []
   },
-  "taglifecycle": {
+  "explore/taglifecycle": {
     "title": "Tag lifecycle",
     "path": "",
     "sections": []
   },
-  "tagmethods": {
+  "explore/tagmethods": {
     "title": "Tag methods and properties",
     "path": "",
     "sections": []
   },
-  "mvvm-mvp": {
+  "explore/mvvm-mvp": {
     "title": "MVVM and MVP",
     "path": "",
     "sections": []
@@ -775,7 +775,7 @@ content.explore = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "path": "",
     "sections": []
   },
-  "globalvars": {
+  "explore/globalvars": {
     "title": "Global variables",
     "path": "",
     "sections": [

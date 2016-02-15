@@ -179,13 +179,13 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "ajax": {
+  "explore/ajax": {
     "sections": []
   },
-  "observabledata": {
+  "explore/observabledata": {
     "sections": []
   },
-  "computed": {
+  "explore/computed": {
     "sections": [
       {
         "_type": "para",
@@ -194,10 +194,10 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "dependencies": {
+  "explore/dependencies": {
     "sections": []
   },
-  "templates": {
+  "explore/templates": {
     "sections": [
       {
         "_type": "links",
@@ -206,10 +206,10 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "composition": {
+  "explore/composition": {
     "sections": []
   },
-  "views": {
+  "explore/views": {
     "sections": [
       {
         "_type": "links",
@@ -218,10 +218,10 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "viewhierarchy": {
+  "explore/viewhierarchy": {
     "sections": []
   },
-  "renderorlink": {
+  "explore/renderorlink": {
     "sections": [
       {
         "_type": "links",
@@ -230,19 +230,19 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "renderasstring": {
+  "explore/renderasstring": {
     "sections": []
   },
-  "linkingtohtml": {
+  "explore/linkingtohtml": {
     "sections": []
   },
-  "data-link": {
+  "explore/data-link": {
     "sections": []
   },
-  "inlinebinding": {
+  "explore/inlinebinding": {
     "sections": []
   },
-  "helpers": {
+  "explore/helpers": {
     "sections": [
       {
         "_type": "links",
@@ -251,16 +251,16 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "registerhelper": {
+  "explore/registerhelper": {
     "sections": []
   },
-  "passhelper": {
+  "explore/passhelper": {
     "sections": []
   },
-  "helperpaths": {
+  "explore/helperpaths": {
     "sections": []
   },
-  "converters": {
+  "explore/converters": {
     "sections": [
       {
         "_type": "links",
@@ -269,10 +269,10 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "jsr-converter": {
+  "explore/jsr-converter": {
     "sections": []
   },
-  "jsv-converter": {
+  "explore/jsv-converter": {
     "sections": [
       {
         "_type": "links",
@@ -281,16 +281,7 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "jsv-converter1way": {
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "paragraph\n"
-      }
-    ]
-  },
-  "jsv-converterback": {
+  "explore/jsv-converter1way": {
     "sections": [
       {
         "_type": "para",
@@ -299,7 +290,16 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "customtags": {
+  "explore/jsv-converterback": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph\n"
+      }
+    ]
+  },
+  "explore/customtags": {
     "sections": [
       {
         "_type": "links",
@@ -308,13 +308,13 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "jsrcustomtags": {
+  "explore/jsrcustomtags": {
     "sections": []
   },
-  "tagsascontrols": {
+  "explore/tagsascontrols": {
     "sections": []
   },
-  "tagexpressions": {
+  "explore/tagexpressions": {
     "sections": [
       {
         "_type": "links",
@@ -323,22 +323,22 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "allowcode": {
+  "explore/allowcode": {
     "sections": []
   },
-  "expressions": {
+  "explore/expressions": {
     "sections": []
   },
-  "expressions/datapath": {
+  "explore/expressions/datapath": {
     "sections": []
   },
-  "expressions/helperpath": {
+  "explore/expressions/helperpath": {
     "sections": []
   },
-  "expressions/viewpath": {
+  "explore/expressions/viewpath": {
     "sections": []
   },
-  "linkobservedispose": {
+  "explore/linkobservedispose": {
     "sections": [
       {
         "_type": "links",
@@ -347,7 +347,7 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "tag-controls": {
+  "explore/tag-controls": {
     "sections": [
       {
         "_type": "links",
@@ -356,22 +356,22 @@ content.find.explore = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "taghierarchy": {
+  "explore/taghierarchy": {
     "sections": []
   },
-  "taglifecycle": {
+  "explore/taglifecycle": {
     "sections": []
   },
-  "tagmethods": {
+  "explore/tagmethods": {
     "sections": []
   },
-  "mvvm-mvp": {
+  "explore/mvvm-mvp": {
     "sections": []
   },
   "interop": {
     "sections": []
   },
-  "globalvars": {
+  "explore/globalvars": {
     "sections": [
       {
         "_type": "para",

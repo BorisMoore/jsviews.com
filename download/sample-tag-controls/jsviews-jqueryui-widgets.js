@@ -1,7 +1,7 @@
 ﻿/*! JsViews jQueryUI widget integration v1.0.0-alpha:
 see: http://www.jsviews.com/#download */
 /*
- * Copyright 2015, Boris Moore
+ * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
 

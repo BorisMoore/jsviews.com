@@ -2429,7 +2429,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "What are converters?",
-        "text": "In JsRender, a converter is a convenient way of processing or formatting data-value, or the result of expression evaluation -- as in:\n\n```jsr\n{{html:movie.description}} -- this data is HTML encoded\n{{url:getTheFilePath()}} -- this expression will be URL-encode\n{{daymonth:invoice.date}} -- this date uses my formatter \n```\n\nYou use built-in converters to HTML-encode, attribute-encode, or URL-encode. And you can register custom converters.\n\nWith JsViews, you can use converters with two-way data-binding, and you will have a <em>convert</em> and a <em>convertBack</em> converter -- one for each direction."
+        "text": "In JsRender, a converter is a convenient way of processing or formatting data-value, or the result of expression evaluation -- as in:\n\n```jsr\n{{html:movie.description}} - this data is HTML encoded\n{{url:getTheFilePath()}} - this expression will be URL-encoded\n{{daymonth:invoice.date}} - this date uses my formatter \n```\n\nYou use built-in converters to HTML-encode, attribute-encode, or URL-encode. And you can register custom converters.\n\nWith JsViews, you can use converters with two-way data-binding, and you will have a <em>convert</em> and a <em>convertBack</em> converter -- one for each direction."
       },
       {
         "_type": "api",
@@ -3631,53 +3631,162 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender templates render as a [*view hierarchy*](#views).\n\nThe properties of the current view are accessed declaratively in a template using *[view paths](#paths)* -- such as `#parent` for the `view.parent` property.\n\nAccessing `view` objects programmatically is less common in JsRender, but can be useful for example:\n\n- in a helper function, `~myHelper()`, where the `this` pointer is the current view\n- in the render() method of a custom tag -- using `this.tagCtx.view`\n\n**Note:** In JsViews, accessing `view` objects programmatically is very common, thanks to the `$.view()` method. For example in a click handler, `$.view(this);` returns the corresponding `view` object.<br/><br/>\n\n\n### A ***view object*** has the following properties and methods:\n"
+        "text": "JsRender templates render as a [*view hierarchy*](#views)."
       },
       {
         "_type": "para",
-        "title": "type property",
+        "title": "A <b>view object</b> has the following properties and methods:",
+        "text": "- [type property](#viewobject@type)\n- [data property](#viewobject@data)\n- [parent property](#viewobject@parent)\n- [index property](#viewobject@index)\n- [getIndex() method](#viewobject@getIndex)\n- [get(type) method](#viewobject@get)\n- [content property](#viewobject@content)\n- [other properties (tmpl, views, ctx tags )](#viewobject@other)\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "***Note:** When using JsViews [`.link()`](#jsvlinktmpl) method rather than JsRender's [`.render()`](#rendertmpl) method, the `view` objects have additional methods:*\n- *[refresh()](#jsvviewobject@refresh)*\n- *[contents()](#jsvviewobject@contents)*\n- *[childTags()](#jsvviewobject@childtags)*\n- *[nodes()](#jsvviewobject@nodes)*\n\n*See [JsViews `view` object](#jsvviewobject).*\n\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Accessing view objects",
+        "text": "The properties of the current view are accessed *declaratively* in a template using *[view paths](#paths)* -- such as `#parent` for the `view.parent` property.\n\nAccessing `view` objects *programmatically* is less common in JsRender, but can be useful for example:\n\n- in a helper function, `~myHelper()`, where the `this` pointer is the current view\n- in the render() method of a custom tag -- using `this.tagCtx.view`\n\n*Note:* In JsViews, accessing `view` objects programmatically is very common, thanks to the [`$.view()`](#jsv.d.view) method. For example in a click handler, `$.view(this);` returns the corresponding `view` object.<br/><br/>\n\n\n### Properties and methods:\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": ""
+      },
+      {
+        "_type": "para",
+        "title": "The type property:",
         "text": "***view.type**: string corresponding to the type of view:*\n\n- `\"data\"` -- for the top-level view from a `render()` call\n- `\"array\"` or `\"item\"` -- from `{{for array}}` or `{{props object}}` (see *[array and item views](#views@itemview)*)\n-  `\"someTag\"` -- for the view from `{{someTag}}...{{someTag}}` -- for example: `\"include\"`, `\"if\"`, `\"for\"`, `\"props\"`, `\"mytag\"`...\n",
         "anchor": "type"
       },
       {
         "_type": "para",
-        "title": "data property",
+        "title": "The data property:",
         "text": "***view.data**: the current data context for the view* -- as in:\n\n```js\nvar team = view.data.team; // The team property of the current data object\n```\n\n`view.data` can be accessed declaratively in templates as `#data`-- as in:\n\n```jsr\n{{:#data}}\n{{>#data.description()}}\n{{for #data.team.members}}...\n```\n\nBut note that since `#data`, the current data context, is the starting point for *[data paths](#paths)* within templates, the above expressions with `#data' can be abbreviated to:\n\n```jsr\n{{:}}\n{{>description()}}\n{{for team.members}} etc.\n```\n\n ",
         "anchor": "data"
       },
       {
         "_type": "para",
-        "title": "parent property",
-        "text": "***view.parent**: the parent view* (used to step up through views in the hierarchy)\n\n```js\nvar index = view.parent.index; // The index of the parent view\n```\n\nAccessed declaratively as `#parent`:\n\n```jsr\n{{>#parent.data.title()}}...  {{!-- accessing data of parent view - view.parent --}}\n{{if #parent.parent.parent.data.teams.length > 1}}... {{!-- accessing data of view.parent.parent... --}}\n```",
+        "title": "The parent property:",
+        "text": "***view.parent**: the parent view* (used to step up through views in the hierarchy).\n\n```js\nvar index = view.parent.index; // The index of the parent view\n```\n\nAccessed declaratively as `#parent`:\n\n```jsr\n{{>#parent.data.title()}}...  {{!-- accessing data of parent view - view.parent --}}\n{{if #parent.parent.parent.data.teams.length > 1}}... {{!-- accessing data of view.parent.parent... --}}\n```\n\n(See also *[accessing parent data](#views@parent-data)*)",
         "anchor": "parent"
       },
       {
         "_type": "para",
-        "title": "index property",
-        "text": "***view.index**: the view index* (only available on [item views](#views@itemview))\n\n```js\nvar index = view.index; // The index of the view (for \"item\" views - otherwise an 'error string')\n```\n\nAccessed declaratively as `#index`:\n\n```jsr\n{{if #index > 2}} {{!-- we are in an \"item\" view --}}\n  {{:#parent.index}}... {{!-- \"item\" view index (- the parent - since we are inside the 'ifView') --}}\n{{/if}}\n```\n\n**Note:** On non-\"item\" views, the index property is the error message prompt: *\"For #index in nested block use #getIndex().\"*",
+        "title": "The index property:",
+        "text": "***view.index**: the view index* (only available on [item views](#views@itemview)).\n\n```js\nvar index = view.index; // The index of the view (for \"item\" views - otherwise an 'error string')\n```\n\nAccessed declaratively as `#index`:\n\n```jsr\n{{if #index > 2}} {{!-- we are in an \"item\" view --}}\n  {{:#parent.index}}... {{!-- \"item\" view index (- the parent - since we are inside the 'ifView') --}}\n{{/if}}\n```\n\n**Note:** On non-\"item\" views, accessing the index property returns the error message prompt: *\"For #index in nested block use #getIndex().\"*",
         "anchor": "index"
       },
       {
         "_type": "para",
-        "title": "getIndex() method",
-        "text": "***view.getIndex()**: get the index of current \"item\" view* (steps up to nearest [item view](#views@itemview), and returns the index)\n\n```js\nvar index = view.getIndex(); // The index of the view\n```\n\nAccessed declaratively as `#getIndex()`:\n\n```jsr\n{{for teams}}\n  {{for members}}\n    {{if #getIndex() > 0}} {{!-- index of member (- this view is an \"item\" view for member) --}}\n      {{:#getIndex()}} {{!-- index of member --}}\n    {{/if}}\n\n    {{:#parent.getIndex()}}... {{!-- index of team (-nearest \"item\" view of parent is team \"item\" view) --}}\n  {{/for}}\n{{/for}}\n```\n",
+        "title": "The getIndex() method:",
+        "text": "***view.getIndex()**: get the index of current \"item\" view* (steps up to nearest [item view](#views@itemview), and returns the index).\n\n```js\nvar index = view.getIndex(); // The index of the view\n```\n\nAccessed declaratively as `#getIndex()`:\n\n```jsr\n{{for teams}}\n  {{for members}}\n    {{if #getIndex() > 0}} {{!-- index of member (- this view is an \"item\" view for member) --}}\n      {{:#getIndex()}} {{!-- index of member --}}\n    {{/if}}\n\n    {{:#parent.getIndex()}}... {{!-- index of team (-nearest \"item\" view of parent is team \"item\" view) --}}\n  {{/for}}\n{{/for}}\n```\n",
         "anchor": "getIndex"
       },
       {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "If index is a multiple of 3, render new tr, and format index in bold.\n\nUse `getIndex()` to get *item* index from within *if* block.\n\n```jsr\n<table><tbody><tr>\n\n{{for members}}\n  {{if #index===0}}\n    <td><b>1:</b>\n  {{else #index%3===0}}\n    </tr><tr><td><b>{{:#getIndex()+1}}:</b>\n  {{else}}\n    <td>{{:#getIndex()+1}}:\n  {{/if}}\n  {{:name}}\n  </td>\n{{/for}}\n\n</tr></tbody></table>\n```"
+          }
+        ],
+        "markup": "<table><tbody><tr>\n\n{{for members}}\n  {{if #index===0}}\n    <td><b>1:</b>\n  {{else #index%3===0}}\n    </tr><tr><td><b>{{:#getIndex()+1}}:</b>\n  {{else}}\n    <td>{{:#getIndex()+1}}:\n  {{/if}}\n  {{:name}}\n  </td>\n{{/for}}\n\n</tr></tbody></table>",
+        "data": {
+          "title": "The A Team",
+          "members": [
+            {
+              "name": "Jeff"
+            },
+            {
+              "name": "Jack"
+            },
+            {
+              "name": "Jim"
+            },
+            {
+              "name": "Jo"
+            },
+            {
+              "name": "Joanna"
+            },
+            {
+              "name": "James"
+            }
+          ]
+        },
+        "title": "getIndex() &ndash; iterating + grouping by 3",
+        "onlyJsRender": true,
+        "height": "110"
+      },
+      {
         "_type": "para",
-        "title": "get(type) method",
+        "title": "The get(type) method:",
         "text": "***view.get(type)**: returns the nearest parent view of type `type`.*\n\n```js\nvar arrayView = view.get(\"array\"); // Step through parents to nearest \"array\" view\nvar arrayLength = arrayView.data.length; // Get length of data array\n```\n\nAccessed declaratively as `#get(...)`:\n\n```jsr\n{{for members}}\n  {{if #index+1 === #get(\"array\").data.length}}\n    The last member in the list\n  {{/if}}\n{{/for}}\n```\n\n**Note:** An additional signature is available: ***view.get(true, type)*** (for advanced scenarios) -- which steps *down* through descendant views (depth first traversal) and returns *the first descendant view of type `type`*.\n\n```jsr\n{{for members}}\n  {{:name}}\n{{/for}}\n{{:#get(true, \"item\").data.name}} {{!-- get the name of the first member --}}\n```\n\nIn using this API it is sometimes necessary to be aware of the processing order. For example in the sample code above, placing `{{:#get(true, \"item\")...}}` before `{{for members}}` will not return any \"item\" view, since the `{{:get(...)...}}` is being evaluated during the rendering, and the \"item\" views for `{{for ...}}` will not yet have been rendered. (View instantiation is part of rendering, which is a single-pass process.) \n\n",
         "anchor": "get"
       },
       {
         "_type": "para",
-        "title": "Other view object properties",
-        "text": "The following additional properties of the `view` object are used by JsRender for processing templates:\n\n- *tmpl*: the template used to render the view\n- *views*: the child views in the view hierarchy\n- *ctx*: object (hash) with the named contextual helpers/template parameters for this view\n- *tag*: the `\"mytag\"` view rendered by a custom tag `{{mytag ...}}`, has a `view.tag` property (the instance of the `mytag` tag object)."
+        "title": "The content property (for views which wrap inline block content):",
+        "text": "***view.content**: template corresponding to the inline block content.*\n\nAccessed declaratively as `#content`:\n\nIn the [wrapping content](#tagsyntax@wrap) scenarios, the tag:\n\n```jsr\n{{sometag ... tmpl=\"externalTmpl\"}}...{{/sometag}}\n```\n\nor\n\n```jsr\n{{mytag}}...{{/mytag}}\n```\n\nwill render with a view which has both a `view.tmpl` template property and a `view.content` template property.\n\nThe `view.content` template corresponds to the inline block content, and is used for wrapping that content as in:\n\n```jsr\nbefore {{include tmpl=#content /}} after\n```\n",
+        "anchor": "content"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*mytag:* \n\n```js\n$.views.tags(\n  \"mytag\",\n  \"startTag {{include tmpl=#content /}} endTag\"\n);\n```\n\n*externalTmpl:* \n\n```js\n$.templates(\n  \"externalTmpl\",\n  \"startTmpl {{include tmpl=#content /}} endTmpl\"\n);\n```\n\n*Template:* \n\n```jsr\n{{mytag}}\n  <div>inside mytag</div>\n{{/mytag}}\n\n<hr/>\n\n{{mytag tmpl=\"externalTmpl\"}}\n  <div>inside mytag with external tmpl</div>\n{{/mytag}}\n```\n"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{{mytag}}\n  <div>inside mytag</div>\n{{/mytag}}\n\n<hr/>\n\n{{mytag tmpl=\"externalTmpl\"}}\n  <div>inside mytag with external tmpl</div>\n{{/mytag}}\n</script>\n",
+        "code": "$.views.tags(\n  \"mytag\",\n  \"startTag {{include tmpl=#content /}} endTag\"\n);\n\n$.templates(\n  \"externalTmpl\",\n  \"<div><em>startTmpl {{include tmpl=#content /}} endTmpl</em></div>\"\n);\n\n$(\"#result\").html(\n  $.templates(\"#myTmpl\").render()\n);\n",
+        "onlyJsRender": true,
+        "title": "view.content &ndash; wrapping content",
+        "height": "214"
       },
       {
         "_type": "para",
-        "title": "(More documentation to follow, on view properties and methods)",
-        "text": ""
+        "title": "Other view object properties:",
+        "text": "The following additional properties of the `view` object are used by JsRender for processing templates:\n\n- *tmpl*: the template used to render the view\n- *views*: the child views in the view hierarchy\n- *ctx*: object (hash) with the named contextual helpers/template parameters for this view\n- *tag*: the `\"mytag\"` view rendered by a custom tag `{{mytag ...}}`, has a `view.tag` property -- the instance of the `mytag` tag object.",
+        "anchor": "other"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "jsvviewobject",
+            "label": "JsViews view object"
+          },
+          {
+            "_type": "topic",
+            "hash": "views",
+            "label": "View hierarchy"
+          }
+        ]
       }
     ]
   },
@@ -3909,7 +4018,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "JsRender APIs on the server &ndash; same as in the browser!",
-        "text": "In the browser, when jQuery is present, JsRender loads as a jQuery plugin and adds APIs to the jQuery namespace object, as:\n\n`$.views`, `$.templates` and `$.render` \n\nOn the server exactly the same APIs are provided, associated instead with the `jsrender` namespace:\n\n`jsrender.views`, `jsrender.templates` and `jsrender.render`.\n\nFor convenience you can call the namespace `$` and then use the regular APIs: `$.views...` `$.templates...` `$.render...`, or copy from the regular browser examples/samples -- as if in the browser with jQuery.\n\nFor example:\n\n```js\nvar $ = require('jsrender'); // Returns the jsrender namespace object -- referenced for convenience as var $\n\nvar tmpl = $.templates('Name: {{:first}} {{upper:last'); // Compile template from string\n\n$.views.converters('upper', function(val) {return val.toUpperCase()}); // Register converter\n \nvar data = {first: 'Jo', last: 'Ryan'};\n\nvar html = tmpl(data); // Or alternative syntax: var html = tmpl.render(data);\n// result: \"Name: Jo RYAN\" \n```",
+        "text": "In the browser, when jQuery is present, JsRender loads as a jQuery plugin and adds APIs to the jQuery namespace object, as:\n\n`$.views`, `$.templates` and `$.render` \n\nOn the server exactly the same APIs are provided, associated instead with the `jsrender` namespace:\n\n`jsrender.views`, `jsrender.templates` and `jsrender.render`.\n\nFor convenience you can call the namespace `$` and then use the regular APIs: `$.views...` `$.templates...` `$.render...`, or copy from the regular browser examples/samples -- as if in the browser with jQuery.\n\nFor example:\n\n```js\nvar $ = require('jsrender'); // Returns the jsrender namespace object - referenced for convenience as var $\n\nvar tmpl = $.templates('Name: {{:first}} {{upper:last'); // Compile template from string\n\n$.views.converters('upper', function(val) {return val.toUpperCase()}); // Register converter\n \nvar data = {first: 'Jo', last: 'Ryan'};\n\nvar html = tmpl(data); // Or alternative syntax: var html = tmpl.render(data);\n// result: \"Name: Jo RYAN\" \n```",
         "anchor": "apis"
       },
       {
@@ -4241,123 +4350,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "View hierarchy"
           }
         ]
-      }
-    ]
-  },
-  "viewobject2": {
-    "title": "view object - to do",
-    "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "JsRender templates render as a [*view hierarchy*](#views).\n\nThe properties of the current view are accessed declaratively in a template using [view paths](#paths) - such as `#parent` for the `view.parent` property.\n\nAccessing `view` objects programmatically is less common in JsRender, but can be useful for example:\n\n- in a helper function, `~myHelper()`, where the `this` pointer is the current view\n- in the render() method of a custom tag - using `this.tagCtx.view`\n\n**Note:** In JsViews, accessing `view` objects programmatically is very common, thanks to the `$.view()` method. For example in a click handler, `$.view(this);` returns the corresponding `view` object.<br/><br/>\n\n\n### A ***view object*** has the following properties and methods:\n"
-      },
-      {
-        "_type": "para",
-        "title": "type property",
-        "text": "***view.type**: string corresponding to the type of view:*\n\n- `\"data\"` -- for the top-level view from a `render()` call\n- `\"array\"` or `\"item\"` -- from `{{for array}}` or `{{props object}}` (see [array and item views](#views@itemview))\n-  `\"someTag\"` -- for the view from `{{someTag}}...{{someTag}}` -- for example: `\"include\"`, `\"if\"`, `\"for\"`, `\"props\"`, `\"mytag\"`...\n"
-      },
-      {
-        "_type": "para",
-        "title": "data property",
-        "text": "***view.data**: the current data context for the view* -- as in:\n\n```js\nvar team = view.data.team; // The team property of the current data object\n```\n\n`view.data` can be accessed declaratively in templates as `#data`-- as in:\n\n```jsr\n{{:#data}}\n{{>#data.description()}}\n{{for #data.team.members}}...\n```\n\nBut note that since `#data`, the current data context, is the starting point for *[data paths](#paths)* within templates, the above expressions with `#data' can be abbreviated to:\n\n```jsr\n{{:}}\n{{>description()}}\n{{for team.members}} etc.\n```\n\n "
-      },
-      {
-        "_type": "para",
-        "title": "parent property",
-        "text": "***view.parent**: the parent view* (used to step up through views in the hierarchy)\n\n```js\nvar index = view.parent.index; // The index of the parent view\n```\n\nAccessed declaratively as `#parent`:\n\n```jsr\n{{>#parent.data.title()}}...  {{!-- accessing data of parent view - view.parent --}}\n{{if #parent.parent.parent.data.teams.length > 1}}... {{!-- accessing data of view.parent.parent... --}}\n```"
-      },
-      {
-        "_type": "para",
-        "title": "index property",
-        "text": "***view.index**: the view index* (only available on [item views](#views@itemview))\n\n```js\nvar index = view.index; // The index of the view (for \"item\" views - otherwise an 'error string')\n```\n\nAccessed declaratively as `#index`:\n\n```jsr\n{{if #index > 2}} {{!-- we are in an \"item\" view --}}\n  {{:#parent.index}}... {{!-- \"item\" view index (- the parent - since we are inside the 'ifView') --}}\n{{/if}}\n```\n\n**Note:** On non-\"item\" views, the index property is the error message prompt: *\"For #index in nested block use #getIndex().\"*"
-      },
-      {
-        "_type": "para",
-        "title": "getIndex() method",
-        "text": "***view.getIndex()**: get the index of current \"item\" view* (steps up to nearest [item view](#views@itemview), and returns the index)\n\n```js\nvar index = view.getIndex(); // The index of the view\n```\n\nAccessed declaratively as `#getIndex()`:\n\n```jsr\n{{for teams}}\n  {{for members}}\n    {{if #getIndex() > 0}} {{!-- index of member (- this view is an \"item\" view for member) --}}\n      {{:#getIndex()}} {{!-- index of member --}}\n    {{/if}}\n\n    {{:#parent.getIndex()}}... {{!-- index of team (-nearest \"item\" view of parent is team \"item\" view) --}}\n  {{/for}}\n{{/for}}\n```\n"
-      },
-      {
-        "_type": "para",
-        "title": "get(type) method",
-        "text": "***view.get(type)**: returns the nearest parent view of type `type`.*\n\n```js\nvar arrayView = view.get(\"array\"); // Step through parents to nearest \"array\" view\nvar arrayLength = arrayView.data.length; // Get length of data array\n```\n\nAccessed declaratively as `#get(...)`:\n\n```jsr\n{{for members}}\n  {{if #index+1 === #get(\"array\").data.length}}\n    The last member in the list\n  {{/if}}\n{{/for}}\n```\n\n**Note:** An additional signature is available: ***view.get(true, type)*** (for advanced scenarios) -- which steps *down* through descendant views (depth first traversal) and returns *the first descendant view of type `type`*.\n\n```jsr\n{{for members}}\n  {{:name}}\n{{/for}}\n{{:#get(true, \"item\").data.name}} {{!-- get the name of the first member --}}\n```\n\nIn using this API it is sometimes necessary to be aware of the processing order. For example in the sample code above, placing `{{:#get(true, \"item\")...}}` before `{{for members}}` will not return any \"item\" view, since the `{{:get(...)...}}` is being evaluated during the rendering, and the \"item\" views for `{{for ...}}` will not yet have been rendered. (View instantiation is part of rendering, which is a single-pass process.) \n\n"
-      },
-      {
-        "_type": "para",
-        "title": "Other view object properties",
-        "text": "The following additional properties of the `view` object are used by JsRender for processing templates:\n\n- *tmpl*: the template used to render the view\n- *views*: the child views in the view hierarchy\n- *ctx*: object (hash) with the named contextual helpers/template parameters for this view\n- *tag*: the `\"mytag\"` view rendered by a custom tag `{{mytag ...}}`, has a `view.tag` property (the instance of the `mytag` tag object)."
-      },
-      {
-        "_type": "para",
-        "title": "content property (for views which wrap inline block content)",
-        "text": "***view.content**: template corresponding to the inline block content.*\n\nAccessed declaratively as `#content`:\n\nIn the [wrapping content](#tagsyntax@wrap) scenarios, the tag:\n\n```jsr\n{{sometag ... tmpl=\"externalTmpl\"}}...{{/sometag}}\n```\n\nor\n\n```jsr\n{{mytag}}...{{/mytag}}\n```\n\nwill render with a view which has both a `view.tmpl` template property and a `view.content` template property.\n\nThe `view.content` template corresponds to the inline block content, and is used for wrapping that content as in:\n\n```jsr\nbefore {{include tmpl=#content /}} after\n```\n",
-        "anchor": "content"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [],
-        "html": "<div id=\"result\"></div>\n\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{{mytag}}\n  inline block content\n{{/mytag}}\n\n{{mytag tmpl=\"externalTmpl\"}}\n  inline2 block2 conten2t\n{{/mytag}}\n</script>\n\n",
-        "onlyJsRender": true,
-        "code": "$.views.tags(\"mytag\", \"beforeA {{include tmpl=#content /}} after\");\n\n$.templates(\"externalTmpl\", \"beforeB {{include tmpl=#content /}} after\");\n\n$(\"#result\").html($.templates(\"#myTmpl\").render());\n\n"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "template",
-            "title": "",
-            "markup": "<table><tbody><tr>\n\n{{for members}}\n  {{if #index%3===0}}</tr><tr>{{/if}}\n\n  <td>{{:#index+1}}: {{:name}}</td>\n{{/for}}\n\n</tr></tbody></table>"
-          }
-        ],
-        "markup": "<table><tbody><tr>\n\n{{for members}}\n  {{if #index%3===0}}</tr><tr>{{/if}}\n\n  <td>{{:#index+1}}: {{:name}}</td>\n{{/for}}\n\n</tr></tbody></table>",
-        "data": {
-          "title": "The A Team",
-          "members": [
-            {
-              "name": "Jeff"
-            },
-            {
-              "name": "Jack"
-            },
-            {
-              "name": "Jim"
-            },
-            {
-              "name": "Jo"
-            },
-            {
-              "name": "Joanna"
-            },
-            {
-              "name": "James"
-            }
-          ]
-        },
-        "onlyJsRender": true
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "JsViews only\n\n- contents\tfunction(deep, select) {\n- childTags\tfunction(deep, tagName) {\n- nodes\tfunction(withMarkers, prevNode, nextNode) {\n- refresh\tfunction(context) {\n"
       }
     ]
   }

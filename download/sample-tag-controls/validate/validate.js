@@ -9,7 +9,7 @@
  * http://www.jsviews.com/#samples/tag-controls/validate/simple
  * http://www.jsviews.com/#samples/tag-controls/validate/group
  * http://www.jsviews.com/#samples/tag-controls/validate/array-binding
- * Copyright 2015, Boris Moore
+ * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
 

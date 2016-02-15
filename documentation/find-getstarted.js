@@ -100,7 +100,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "Data-linking",
-        "text": "Data-linking\nIn JsViews we refer to data-linking. It means data-binding, but refers to the particular approach used in JsViews, which is based on observable arrays and objects.\nIf you take an object and assign a new value to one of its properties (fields), there is no corresponding event that can allow other code to know you modified the object. Similarly, mutating an array will not provide any events or notifications to other code.\nThat’s where JsObservable comes in. It provides ways of changing objects and arrays, observably.\nThe next sample shows what happens when the template renders against an array, and then that array is modified ‘observably’ (observable collection change).\n$(\"#addBtn\").on(\"click\", function() {\n  $.observable(people).insert({name: \"name\"});\n});\n\n"
+        "text": "Data-linking\nIn JsViews we refer to data-linking. It means data-binding, but refers to the particular approach used in JsViews, which is based on observable objects and arrays.\nIf you take an object and assign a new value to one of its properties (fields), there is no corresponding event that can allow other code to know you modified the object. Similarly, mutating an array will not provide any events or notifications to other code.\nThat’s where JsObservable comes in. It provides ways of changing objects and arrays, observably.\nThe next sample shows what happens when the template renders against an array, and then that array is modified ‘observably’ (observable collection change).\n$(\"#addBtn\").on(\"click\", function() {\n  $.observable(people).insert({name: \"name\"});\n});\n\n"
       },
       {
         "_type": "sample",
@@ -178,18 +178,18 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       },
       {
         "_type": "para",
-        "title": "Installation",
-        "text": "Installation\njsrender.js is available from downloads on this site.\nCDN delivery is available from the cdnjs CDN at cdnjs.com/libraries/jsrender.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsrender\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (npm) see JsRender Node.js Quickstart\n\n"
+        "title": "JsRender installation",
+        "text": "JsRender installation\njsrender.js is available from downloads on this site.\nCDN delivery is available from the cdnjs CDN at cdnjs.com/libraries/jsrender.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsrender\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (npm) see JsRender Node.js Quickstart\n\n"
       },
       {
         "_type": "para",
-        "title": "jQuery integration",
-        "text": "jQuery integration\nWhen jQuery is present, JsRender loads as a jQuery plugin and adds $.views, $.templates and $.render to the jQuery namespace object, $ (or window.jQuery).\n"
+        "title": "Using JsRender with jQuery",
+        "text": "Using JsRender with jQuery\nWhen jQuery is present, JsRender loads as a jQuery plugin and adds $.views, $.templates and $.render to the jQuery namespace object, $ (or window.jQuery).\nExample HTML page: JsRender with jQuery\n"
       },
       {
         "_type": "para",
         "title": "JsRender without jQuery",
-        "text": "JsRender without jQuery\nWhen jQuery is not present, JsRender provides its own jsrender namespace object, exposed as window.jsrender\nThe jsrender namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\nvar $ = window.jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n\n\nJsRender Usage\n"
+        "text": "JsRender without jQuery\nWhen jQuery is not present, JsRender provides its own jsrender namespace object, exposed as window.jsrender\nThe jsrender namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\nvar $ = window.jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n\nExample HTML page: JsRender without jQuery\n\nJsRender Usage\n"
       },
       {
         "_type": "para",
@@ -302,8 +302,8 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       },
       {
         "_type": "para",
-        "title": "Installation",
-        "text": "Installation\njsviews.js is available from downloads on this site.\nCDN delivery is available from the cdnjs CDN at cdnjs.com/libraries/jsviews.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsviews\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (npm), and loading using Browserify, see JsViews as a Browserify module\n\n\nJsViews Usage\n"
+        "title": "JsViews installation",
+        "text": "JsViews installation\njsviews.js is available from downloads on this site.\nCDN delivery is available from the cdnjs CDN at cdnjs.com/libraries/jsviews.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsviews\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (npm), and loading using Browserify, see JsViews as a Browserify module\n\nExample HTML page: Loading JsViews\n\nJsViews Usage\n"
       },
       {
         "_type": "para",

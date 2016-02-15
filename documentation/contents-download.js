@@ -3,18 +3,38 @@
 content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/download")) ||
 {
   "download": {
-    "title": "JsRender, JsViews and JsObservable Downloads",
+    "title": "JsRender and JsViews Downloads",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "<h3>Latest versions:</h3>\n\nThese links will always point to the latest version. (They move to the new current version with each new release).\n\n<em>To download these files, right-click and select \"Save as...\" from the menu.</em>\n\n<div class=\"title\">JsRender</div>\n\nUncompressed (for development): <a href=\"https://www.jsviews.com/download/jsrender.js\">jsrender.js</a>.<br/>Compressed (for production): <a href=\"https://www.jsviews.com/download/jsrender.min.js\">jsrender.min.js</a>. (Source map available <a href=\"https://www.jsviews.com/download/jsrender.min.js.map\">here</a>).\n\n<div class=\"title\">JsViews - single file <span>(includes JsRender, JsObservable and JsViews)</span></div>\n\nUncompressed (for development): <a href=\"https://www.jsviews.com/download/jsviews.js\">jsviews.js</a>.<br/>Compressed (for production): <a href=\"https://www.jsviews.com/download/jsviews.min.js\">jsviews.min.js</a>. (Source map available <a href=\"https://www.jsviews.com/download/jsviews.min.js.map\">here</a>).\n\n<div class=\"title\">JsViews and JsObservable - separate files <span>(to be used with jsrender.js)</span></div>\n\nUncompressed (for development): <a href=\"https://www.jsviews.com/download/jquery.views.js\">jquery.views.js</a>.<br/>Compressed (for production): <a href=\"https://www.jsviews.com/download/jquery.views.min.js\">jquery.views.min.js</a>. (Source map available <a href=\"https://www.jsviews.com/download/jquery.views.min.js.map\">here</a>).\n\nUncompressed (for development): <a href=\"https://www.jsviews.com/download/jquery.observable.js\">jquery.observable.js</a>.<br/>Compressed (for production): <a href=\"https://www.jsviews.com/download/jquery.observable.min.js\">jquery.observable.min.js</a>. (Source map available <a href=\"https://www.jsviews.com/download/jquery.observable.min.js.map\">here</a>).\n\n<div class=\"title\">JsRender for Node.js</div>\n\nA specific Node.js version of JsRender can be installed from <a href=\"https://www.npmjs.com/package/jsrender\">npm</a>, using:\n\n```js\n$ npm install jsrender\n```\n\nand then loaded in script using:\n\n```js\nvar jsrender = require('jsrender');\n```\n\nNow call regular JsRender APIs, such as:\n\n```js\nvar tmpl = jsrender.templates('Name: {{:name}}<br/>'); // Compile template from string\n\nvar html = tmpl.render({name: \"Jim\"}); // Render\n```\n\nThis Node.js version of JsRender provides the complete set of JsRender APIs and features, together with integration with view-engines such as <em>Express</em> and <em>Hapi</em>, APIs for loading templates from the file system, and integration with <em>Browserify</em> for bundling server-side templates into client scripts for the browser.\n\nSee [JsRender Node.js Quickstart](#jsr-node-quickstart) for details."
+        "text": "<div class=\"title\">JsRender <span>(jsrender.js) &ndash; rendering templates in the browser</span></div>\n\n***Latest version*** *(To download, right-click and select \"Save as...\" from the menu):*\n- *Uncompressed (for development):* <a href=\"https://www.jsviews.com/download/jsrender.js\">jsrender.js</a>\n- *Compressed (for production):* <a href=\"https://www.jsviews.com/download/jsrender.min.js\">jsrender.min.js</a>. (Source map available <a href=\"https://www.jsviews.com/download/jsrender.min.js.map\">here</a>).\n\n\n*JsRender is also available:*\n- on CDN at [cdnjs.com/libraries/jsrender](https://cdnjs.com/libraries/jsrender)\n- using [Bower](http://bower.io/search/?q=jsrender) to install on the file system: `$ bower install jsrender`\n\n*Example HTML pages:*\n- [Page loading JsRender with jQuery](#download/pages-jsr-jq)\n- [Page loading JsRender without jQuery](#download/pages-jsr)\n\n*See:*\n[JsRender Quickstart](#jsr-quickstart)\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<div class=\"title\">JsViews <span>(jsviews.js) &ndash; templates with data-binding</span></div>\n\n***Latest version*** *(To download, right-click and select \"Save as...\" from the menu):*\n- *Uncompressed (for development):* <a href=\"https://www.jsviews.com/download/jsviews.js\">jsviews.js</a>\n- *Compressed (for production):* <a href=\"https://www.jsviews.com/download/jsviews.min.js\">jsviews.min.js</a>. (Source map available <a href=\"https://www.jsviews.com/download/jsviews.min.js.map\">here</a>).\n\n*JsViews is also available:*\n- on CDN at [cdnjs.com/libraries/jsviews](https://cdnjs.com/libraries/jsviews)\n- using [Bower](http://bower.io/search/?q=jsviews) to install on the file system: `$ bower install jsviews`\n\n*Example HTML page:*\n- [Page loading JsViews](#download/pages-jsv)\n\n*See:* [JsViews Quickstart](#jsv-quickstart)\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<div class=\"title\">Additional scenarios:</div>\n"
+      },
+      {
+        "_type": "para",
+        "title": "JsRender for Node.js &ndash; rendering templates on the server",
+        "text": "A specific Node.js version of JsRender can be installed from <a href=\"https://www.npmjs.com/package/jsrender\">npm</a>, using:\n\n```js\n$ npm install jsrender\n```\n\nand then loaded in script using:\n\n```js\nvar jsrender = require('jsrender');\n```\n\nNow call regular JsRender APIs, such as:\n\n```js\nvar tmpl = jsrender.templates('Name: {{:name}}<br/>'); // Compile template from string\n\nvar html = tmpl.render({name: \"Jim\"}); // Render\n```\n\nThis Node.js version of JsRender provides the complete set of JsRender APIs and features, together with integration with view-engines such as <em>Express</em> and <em>Hapi</em>, APIs for loading templates from the file system, and integration with <em>Browserify</em> for bundling server-side templates into client scripts for the browser.\n\n*See:* [JsRender Node.js Quickstart](#jsr-node-quickstart)."
+      },
+      {
+        "_type": "para",
+        "title": "Loading JsViews as separate files",
+        "text": "Instead of loading JsViews as a single file (*jsviews.js*), it can be loaded as three separate files: *jsrender.js* (providing templated rendering), *jquery.observable.js* (for observable data) and *jquery.views.js* (data-binding).\n\nThis can be useful in some scenarios. For example, if JsRender has already been loaded (by other components, for example) then full JsViews functionality may be added by loading only the additional *jquery.observable.js* and *jquery.views.js* files (rather than the complete composite file, *jsviews.js*).\n\n***Latest version*** *(To download, right-click and select \"Save as...\" from the menu):*\n- *Uncompressed (for development):* <a href=\"https://www.jsviews.com/download/jquery.observable.js\">jquery.observable.js</a> and <a href=\"https://www.jsviews.com/download/jquery.views.js\">jquery.views.js</a>\n- *Compressed (for production):* <a href=\"https://www.jsviews.com/download/jquery.observable.min.js\">jquery.observable.min.js</a> and <a href=\"https://www.jsviews.com/download/jquery.views.min.js\">jquery.views.min.js</a>. (Source maps available <a href=\"https://www.jsviews.com/download/jquery.views.min.js.map\">here</a> and <a href=\"https://www.jsviews.com/download/jquery.observable.min.js.map\">here</a>).\n\n*jquery.observable.js and jquery.views.js are also available:*\n- on CDN at [cdnjs.com/libraries/jsviews](https://cdnjs.com/libraries/jsviews)\n- using [Bower](http://bower.io/search/?q=jsviews) to install on the file system: `$ bower install jsviews`\n\n*Example HTML page:*\n- [Page loading JsViews as separate files](#download/pages-jsv@separate)\n\n*See:* [JsViews Quickstart](#jsv-quickstart)"
       },
       {
         "_type": "para",
         "title": "CDN delivery",
-        "text": "JsRender and JsViews are available on the ***[cdnjs](https://cdnjs.com)*** CDN at [cdnjs.com/libraries/jsrender](https://cdnjs.com/libraries/jsrender) and [cdnjs.com/libraries/jsviews](https://cdnjs.com/libraries/jsviews)."
+        "text": "JsRender and JsViews are available on the ***[cdnjs](https://cdnjs.com)*** CDN at:\n\n- [cdnjs.com/libraries/jsrender](https://cdnjs.com/libraries/jsrender)\n- [cdnjs.com/libraries/jsviews](https://cdnjs.com/libraries/jsviews)"
       }
     ]
   },
@@ -88,6 +108,114 @@ content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsVie
         "_type": "para",
         "title": "<b>{{range/}}</b>:",
         "text": "<ul>\n  <li><a href=\"https://www.jsviews.com/download/sample-tag-controls/range/range.js\">range.js</a> used in the\n    <a href=\"#samples/jsr/tags/extend-for\">extending for</a> JsRender sample and the <a href=\"#samples/tag-controls/range\">range</a> JsViews sample\n  </li>\n</ul>"
+      }
+    ]
+  },
+  "download/pages": {
+    "title": "Example HTML pages &ndash; loading JsRender or JsViews ",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "download/pages-jsr-jq",
+            "label": "JsRender with jQuery"
+          },
+          {
+            "hash": "download/pages-jsr",
+            "label": "JsRender without jQuery"
+          },
+          {
+            "hash": "download/pages-jsv",
+            "label": "JsViews"
+          }
+        ]
+      }
+    ]
+  },
+  "download/pages-jsr-jq": {
+    "title": "Loading JsRender with jQuery",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Example HTML page, using latest version of JsRender from www.jsviews.com",
+        "text": "```jsr\n<!DOCTYPE html>\n<html>\n<head>\n  <!-- Load jQuery -->\n  <script src=\"//code.jquery.com/jquery-1.12.0.js\"></script>\n\n  <!-- Load JsRender latest version, from www.jsviews.com: -->\n  <script src=\"//www.jsviews.com/download/jsrender.js\"></script>\n</head>\n<body>\n  <!-- Provide container for rendered template output: -->\n  <div id=\"result\"></div>\n\n  <!-- Declare a JsRender template, in a script block: -->\n  <script id=\"myTmpl\" type=\"text/x-jsrender\">{{:name}}</script>\n\n  <script>\n    var tmpl = $.templates(\"#myTmpl\"); // Get compiled template\n    var data = {name: \"Jo\"};           // Define data\n    var html = tmpl.render(data);      // Render template using data - as HTML string\n    $(\"#result\").html(html);           // Insert HTML string into DOM\n  </script>\n</body>\n</html>\n```",
+        "anchor": ""
+      },
+      {
+        "_type": "para",
+        "title": "Alternatives: replace the JsRender &lt;script&gt; tag above by one of the following:",
+        "text": "*Using latest version, minified, from www.jsviews.com:*\n\n```jsr\n<script src=\"//www.jsviews.com/download/jsrender.min.js\"></script>\n```\n\n*Using specific version from CDN:*\n\n```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.72/jsrender.js\"></script>\n```\n\n*Using specific version, minified, from CDN:*\n\n```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.72/jsrender.min.js\"></script>\n```\n\n*Loading from the file system after* [Bower](http://bower.io/search/?q=jsrender) *install:*\n\n-- Install JsRender on local file system, using `$ bower install jsrender`<br/>-- then load `jsrender.js` or `jsrender.min.js` from the `bower_components/jsrender/` folder, as in:\n\n```jsr\n<script src=\"bower_components/jsrender/jsrender.js\"></script>\n```"
+      }
+    ]
+  },
+  "download/pages-jsr": {
+    "title": "Loading JsRender without jQuery",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Example HTML page, using latest version of JsRender from www.jsviews.com",
+        "text": "```jsr\n<!DOCTYPE html>\n<html>\n<head>\n  <!-- Load JsRender latest version, from www.jsviews.com: -->\n  <script src=\"//www.jsviews.com/download/jsrender.js\"></script>\n</head>\n<body>\n  <!-- Provide container for rendered template output: -->\n  <div id=\"result\"></div>\n\n  <!-- Declare a JsRender template, in a script block: -->\n  <script id=\"myTmpl\" type=\"text/x-jsrender\">{{:name}}</script>\n\n  <script>\n    var $ = window.jsrender;                                  // JsRender namespace, used instead of jQuery object \n    var markup = document.getElementById(\"myTmpl\").innerHTML; // Get template markup from script block contents\n    var tmpl = $.templates(markup);                           // Compile template from markup string\n    var data = {name: \"Jo\"};                                  // Define data\n    var html = tmpl.render(data);                             // Render template using data - as HTML string\n    document.getElementById(\"result\").innerHTML = html;       // Insert HTML string into DOM\n  </script>\n</body>\n</html>\n```",
+        "anchor": ""
+      },
+      {
+        "_type": "para",
+        "title": "Alternatives: replace the JsRender &lt;script&gt; tag above by one of the following:",
+        "text": "*Using latest version, minified, from www.jsviews.com:*\n\n```jsr\n<script src=\"//www.jsviews.com/download/jsrender.min.js\"></script>\n```\n\n*Using specific version from CDN:*\n\n```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.72/jsrender.js\"></script>\n```\n\n*Using specific version, minified, from CDN:*\n\n```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.72/jsrender.min.js\"></script>\n```\n\n*Loading from the file system after* [Bower](http://bower.io/search/?q=jsrender) *install:*\n\n-- Install JsRender on local file system, using `$ bower install jsrender`<br/>-- then load `jsrender.js` or `jsrender.min.js` from the `bower_components/jsrender/` folder, as in:\n\n```jsr\n<script src=\"bower_components/jsrender/jsrender.js\"></script>\n```"
+      }
+    ]
+  },
+  "download/pages-jsv": {
+    "title": "Loading JsViews",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Example HTML page, loading latest version of JsViews from www.jsviews.com",
+        "text": "```jsr\n<!DOCTYPE html>\n<html>\n<head>\n  <!-- Load jQuery -->\n  <script src=\"//code.jquery.com/jquery-1.12.0.js\"></script>\n\n  <!-- Load JsViews latest version, from www.jsviews.com: -->\n  <script src=\"//www.jsviews.com/download/jsviews.js\"></script>\n</head>\n<body>\n  <!-- Provide container for rendered template output: -->\n  <div id=\"result\"></div>\n\n  <!-- Declare a JsRender template, in a script block: -->\n  <script id=\"myTmpl\" type=\"text/x-jsrender\">\n    <input data-link=\"name trigger=true\" />\n    {^{:name}}\n  </script>\n\n  <script>\n    var tmpl = $.templates(\"#myTmpl\"); // Get compiled template\n    var data = {name: \"Jo\"};           // Define data\n    tmpl.link(\"#result\", data);        // Render and data-link template as content of chosen container element\n  </script>\n</body>\n</html>\n```",
+        "anchor": ""
+      },
+      {
+        "_type": "para",
+        "title": "Alternatives: replace the JsViews &lt;script&gt; tag above by one of the following:",
+        "text": "*Using latest version, minified, from www.jsviews.com:*\n\n```jsr\n<script src=\"//www.jsviews.com/download/jsviews.min.js\"></script>\n```\n\n*Using specific version from CDN:*\n\n```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.72/jsviews.js\"></script>\n```\n\n*Using specific version, minified, from CDN:*\n\n```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.72/jsviews.min.js\"></script>\n```\n\n*Loading from the file system after* [Bower](http://bower.io/search/?q=jsviews) *install:*\n\n-- Install JsViews on local file system, using `$ bower install jsviews`<br/>-- then load `jsviews.js` or `jsviews.min.js` from the `bower_components/jsviews/` folder, as in:\n\n```jsr\n<script src=\"bower_components/jsviews/jsviews.js\"></script>\n```"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<div class=\"title\">JsViews &ndash; separate files</div>\n\nUsually JsViews as a single file (*jsviews.js*), as in the example HTML page above.\n\nHowever it can be loaded as three separate files: *jsrender.js* (templated rendering), *jquery.observable.js* (observable data) and *jquery.views.js* (data-binding) -- as follows:\n"
+      },
+      {
+        "_type": "para",
+        "title": "Example HTML page, loading JsViews as separate files",
+        "text": "```jsr\n<!DOCTYPE html>\n<html>\n<head>\n  <!-- Load jQuery -->\n  <script src=\"//code.jquery.com/jquery-1.12.0.js\"></script>\n\n  <!-- Load JsViews latest version, from www.jsviews.com, as separate component files: -->\n  <script src=\"//www.jsviews.com/download/jsrender.js\"></script>\n  <script src=\"//www.jsviews.com/download/jquery.observable.js\"></script>\n  <script src=\"//www.jsviews.com/download/jquery.views.js\"></script>\n</head>\n<body>\n  <!-- Provide container for rendered template output: -->\n  <div id=\"result\"></div>\n\n  <!-- Declare a JsRender template, in a script block: -->\n  <script id=\"myTmpl\" type=\"text/x-jsrender\">\n    <input data-link=\"name trigger=true\" />\n    {^{:name}}\n  </script>\n\n  <script>\n    var tmpl = $.templates(\"#myTmpl\"); // Get compiled template\n    var data = {name: \"Jo\"};           // Define data\n    tmpl.link(\"#result\", data);        // Render and data-link template as content of chosen container element\n  </script>\n</body>\n</html>\n```",
+        "anchor": "separate"
+      },
+      {
+        "_type": "para",
+        "title": "Alternatives: replace the three JsViews &lt;script&gt; tags above by one of the following:",
+        "text": "*Using latest version, minified, from *www.jsviews.com*:**\n\n```jsr\n<script src=\"//www.jsviews.com/download/jsrender.min.js\"></script>\n<script src=\"//www.jsviews.com/download/jquery.observable.min.js\"></script>\n<script src=\"//www.jsviews.com/download/jquery.views.min.js\"></script>\n```\n\n*Using specific version from CDN:*\n\n```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.72/jsrender.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.72/jquery.observable.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.72/jquery.views.js\"></script>\n```\n\n*Using specific version, minified, from CDN:**\n\n```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.72/jsrender.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.72/jquery.observable.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.72/jquery.views.min.js\"></script>\n```\n\n*Loading from the file system after* [Bower](http://bower.io/search/?q=jsviews) *install:*\n\n-- Install JsViews on local file system, using `$ bower install jsviews`<br/>-- then load the correspondins `.js` or `.min.js` files from the `bower_components/jsviews/` folder, as in:\n\n```jsr\n<script src=\"bower_components/jsviews/jsrender.js\"></script>\n<script src=\"bower_components/jsviews/jquery.observable.js\"></script>\n<script src=\"bower_components/jsviews/jquery.views.js\"></script>\n```"
+      }
+    ]
+  },
+  "download/pages-jsv-separate": {
+    "title": "Loading JsViews (separate files)",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Example HTML page, loading latest version of JsViews from www.jsviews.com",
+        "text": "```jsr\n<!DOCTYPE html>\n<html>\n<head>\n  <!-- Load jQuery -->\n  <script src=\"//code.jquery.com/jquery-1.12.0.js\"></script>\n\n  <!-- Load JsViews latest version, from www.jsviews.com: -->\n  <script src=\"//www.jsviews.com/download/jsrender.js\"></script>\n  <script src=\"//www.jsviews.com/download/jquery.observable.js\"></script>\n  <script src=\"//www.jsviews.com/download/jquery.views.js\"></script>\n</head>\n<body>\n  <!-- Provide container for rendered template output: -->\n  <div id=\"result\"></div>\n\n  <!-- Declare a JsRender template, in a script block: -->\n  <script id=\"myTmpl\" type=\"text/x-jsrender\">\n    <input data-link=\"name trigger=true\" />\n    {^{:name}}\n  </script>\n\n  <script>\n    var tmpl = $.templates(\"#myTmpl\"); // Get compiled template\n    var data = {name: \"Jo\"};           // Define data\n    tmpl.link(\"#result\", data);        // Render and data-link template as content of chosen container element\n  </script>\n</body>\n</html>\n```"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "*Using latest version, minified, from *www.jsviews.com*:**\n\n```jsr\n<script src=\"//www.jsviews.com/download/jsviews.min.js\"></script>\n```\n\n*Using specific version from CDN:*\n\n```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.72/jsviews.js\"></script>\n```\n\n*Using specific version, minified, from CDN:**\n\n```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.72/jsviews.min.js\"></script>\n```\n\n*Loading from the file system after* [Bower](http://bower.io/search/?q=jsviews) *install:*\n\n-- Install JsViews on local file system, using `$ bower install jsviews`<br/>-- then load `jsviews.js` or `jsviews.min.js` from the `bower_components/jsviews/` folder, as in:\n\n```jsr\n<script src=\"bower_components/jsviews/jsviews.js\"></script>\n```"
       }
     ]
   }

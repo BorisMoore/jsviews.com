@@ -3,26 +3,27 @@
 		if (sampleData.html) {
 			$(document.body).html(sampleData.html);
 		}
-		if (sampleData.code) {
-			for (var tmpl in $.templates) {
-				delete $.templates[tmpl];
-			}
-			try {
+		try {
+			if (sampleData.code) {
+				for (var tmpl in $.templates) {
+					delete $.templates[tmpl];
+				}
 				(new Function(sampleData.code))();
 			}
-			catch(e) {
-				$('#result').html(
-					"Error in template. <button onclick='$(\"#details\").toggle()'>details</button> <div style='display:none;' id=details><em>"
-					+ e.message + "</em><div>"
-				);
+			if (sampleData.markup) {
+	//      $.views.settings.debugMode();
+				if (sampleData.onlyJsRender) {
+					$('#result').html($.templates(sampleData.markup).render(sampleData.data));
+				} else {
+					$.templates(sampleData.markup).link('#result', sampleData.data);
+				}
+	//      $.views.settings.debugMode(false);
 			}
-		}
-		if (sampleData.markup) {
-			if (sampleData.onlyJsRender) {
-				$('#result').html($.templates(sampleData.markup).render(sampleData.data));
-			} else {
-				$.templates(sampleData.markup).link('#result', sampleData.data);
-			}
+		} catch(e) {
+			(sampleData.markup ? $('#result') : $('body')).html(
+				"Error in sample. <button onclick='$(\"#details\").toggle()'>details</button> <div style='display:none;' id=details><em>"
+				+ e.message + "</em><div>"
+			);
 		}
 	});
 });

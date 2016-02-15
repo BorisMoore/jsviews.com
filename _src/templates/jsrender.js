@@ -31,7 +31,7 @@
 	}
 } (
 
-// factory (for jquery.views.js)
+// factory (for jsrender.js)
 function($) {
 "use strict";
 

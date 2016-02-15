@@ -2,7 +2,7 @@
  * Sample JsViews tag control: {{tabs}} control
  * http://www.jsviews.com/download/sample-tag-controls/tabs/tabs.js
  * Used in samples: http://www.jsviews.com/#samples/tag-controls/tabs
- * Copyright 2015, Boris Moore
+ * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
 

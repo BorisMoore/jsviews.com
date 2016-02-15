@@ -2,7 +2,7 @@
  * Sample JsViews tag control: {{multiselect}} control
  * http://www.jsviews.com/download/sample-tag-controls/multiselect/multiselect.js
  * Used in samples: http://www.jsviews.com/#samples/tag-controls/multiselect
- * Copyright 2015, Boris Moore
+ * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
 

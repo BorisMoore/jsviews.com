@@ -2,7 +2,7 @@
  * Sample JsViews tag control: {{tree}} control using visible{...} binding
  * http://www.jsviews.com/download/sample-tag-controls/treeview/tree-visible.js
  * Used in samples: http://www.jsviews.com/#samples/tag-controls/tree/visible-binding
- * Copyright 2015, Boris Moore
+ * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
 

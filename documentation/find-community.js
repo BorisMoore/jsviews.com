@@ -7,7 +7,7 @@ content.find.community = content.useStorage && $.parseJSON(localStorage.getItem(
       {
         "_type": "para",
         "title": "",
-        "text": "(Work in progress. Other topics to follow…)\nStackOverflow\nThere are active tags for both JsRender and JsViews, on StackOverflow.com:\nJsRender on StackOverflow\nJsViews on StackOverflow\nForum\nNo forum as yet, but a forum will be created for both JsViews and JsRender, when JsViews reaches official beta…\nIssue trackers on GitHub\nIf you have questions or issues, you can look for them on the issue trackers on GitHub, and if you don’t find them, file a new issue. (And similarly for feature requests):\nJsRender issue tracker on GitHub\nJsViews issue tracker on GitHub\nMore details on the GitHub repositories here.\n"
+        "text": "(Work in progress. Other topics to follow…)\nStackOverflow\nThere are active tags for both JsRender and JsViews, on StackOverflow.com:\nJsRender on StackOverflow\nJsViews on StackOverflow\nForum\nNo forum as yet, but a forum will be created for both JsViews and JsRender, when JsViews reaches V1.0…\nIssue trackers on GitHub\nIf you have questions or issues, you can look for them on the issue trackers on GitHub, and if you don’t find them, file a new issue. (And similarly for feature requests):\nJsRender issue tracker on GitHub\nJsViews issue tracker on GitHub\nMore details on the GitHub repositories here.\n"
       }
     ]
   },

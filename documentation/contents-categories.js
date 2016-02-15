@@ -679,11 +679,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "view object"
           },
           {
-            "name": "viewobject2",
-            "label": "view object - to do",
-            "hidden": true
-          },
-          {
             "name": "tagobject",
             "label": "tag object",
             "hidden": true
@@ -720,8 +715,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "onError"
           },
           {
-            "name": "settings/dbgmode",
-            "label": "dbgMode"
+            "name": "settings/debugmode",
+            "label": "debugMode"
           }
         ],
         "expanded": true
@@ -1018,11 +1013,12 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "name": "jsvlinkcontextobject",
-            "label": "Link context object"
+            "label": "Link context object",
+            "hidden": true
           }
         ],
         "expanded": true,
-        "hidden": true
+        "hidden": false
       },
       {
         "name": "other",
@@ -1468,6 +1464,25 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "Specific versions",
         "expanded": true,
         "hidden": true
+      },
+      {
+        "name": "download/pages",
+        "label": "Example pages",
+        "categories": [
+          {
+            "name": "download/pages-jsr-jq",
+            "label": "JsRender with jQuery"
+          },
+          {
+            "name": "download/pages-jsr",
+            "label": "JsRender without jQuery"
+          },
+          {
+            "name": "download/pages-jsv",
+            "label": "JsViews"
+          }
+        ],
+        "expanded": true
       },
       {
         "name": "download/tag-controls",

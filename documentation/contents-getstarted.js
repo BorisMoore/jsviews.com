@@ -281,7 +281,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "Data-linking",
-        "text": "In JsViews we refer to <em>data-linking</em>. It means data-binding, but refers to the particular approach used in JsViews, which is based on <em>observable arrays and objects</em>.\n\nIf you take an object and assign a new value to one of its properties (fields), there is no corresponding event that can allow other code to know you modified the object. Similarly, mutating an array will not provide any events or notifications to other code.\n\nThat's where <em>JsObservable</em> comes in. It provides ways of changing objects and arrays, <em>observably</em>.\n\nThe next sample shows what happens when the template renders against an array, and then that array is modified 'observably' (<em>observable collection change</em>).\n\n```js\n$(\"#addBtn\").on(\"click\", function() {\n  $.observable(people).insert({name: \"name\"});\n});\n```"
+        "text": "In JsViews we refer to *data-linking*. It means data-binding, but refers to the particular approach used in JsViews, which is based on *observable objects and arrays*.\n\nIf you take an object and assign a new value to one of its properties (fields), there is no corresponding event that can allow other code to know you modified the object. Similarly, mutating an array will not provide any events or notifications to other code.\n\nThat's where *JsObservable* comes in. It provides ways of changing objects and arrays, *observably*.\n\nThe next sample shows what happens when the template renders against an array, and then that array is modified 'observably' (*observable collection change*).\n\n```js\n$(\"#addBtn\").on(\"click\", function() {\n  $.observable(people).insert({name: \"name\"});\n});\n```"
       },
       {
         "_type": "sample",
@@ -308,7 +308,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "",
-        "text": "What about changing an object? Let's modify the `name` on a `person` object (<em>observable property change</em>):"
+        "text": "What about changing an object? Let's modify the `name` on a `person` object (*observable property change*):"
       },
       {
         "_type": "sample",
@@ -368,7 +368,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "",
-        "text": "But what about <em>two-way</em> data-binding?"
+        "text": "But what about *two-way* data-binding?"
       },
       {
         "_type": "sample",
@@ -506,18 +506,18 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       },
       {
         "_type": "para",
-        "title": "Installation",
+        "title": "JsRender installation",
         "text": "*jsrender.js* is available from [downloads](http://www.jsviews.com/#download) on this site. \n\n*CDN delivery* is available from the ***[cdnjs](https://cdnjs.com)*** CDN at [cdnjs.com/libraries/jsrender](https://cdnjs.com/libraries/jsrender).\n\nAlternatively:\n- It can be installed with ***[Bower](http://bower.io/search/?q=jsrender)***, using `$ bower install jsrender` \n- It can be loaded using an *AMD script loader*, such as RequireJS\n- For installation using *Node.js* (*npm*) see *[JsRender Node.js Quickstart](#jsr-node-quickstart)*\n"
       },
       {
         "_type": "para",
-        "title": "jQuery integration",
-        "text": "When jQuery is present, JsRender loads as a jQuery plugin and adds `$.views`, `$.templates` and `$.render` to the jQuery namespace object, `$` (or `window.jQuery`)."
+        "title": "Using JsRender with jQuery",
+        "text": "When jQuery is present, JsRender loads as a jQuery plugin and adds `$.views`, `$.templates` and `$.render` to the jQuery namespace object, `$` (or `window.jQuery`).\n\n*Example HTML page:* [JsRender with jQuery](#download/pages-jsr-jq)\n"
       },
       {
         "_type": "para",
         "title": "JsRender without jQuery",
-        "text": "When jQuery is not present, JsRender provides its own `jsrender` namespace object, exposed as `window.jsrender`\n\nThe `jsrender` namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\n\n```js\nvar $ = window.jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n```\n\n<br/>\n## JsRender Usage"
+        "text": "When jQuery is not present, JsRender provides its own `jsrender` namespace object, exposed as `window.jsrender`\n\nThe `jsrender` namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\n\n```js\nvar $ = window.jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n```\n\n*Example HTML page:* [JsRender without jQuery](#download/pages-jsr)\n\n<br/>\n## JsRender Usage"
       },
       {
         "_type": "para",
@@ -651,7 +651,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "",
-        "text": "*JsViews* builds on top of *[JsRender](#jsrender)* templates, and adds data-binding and *[observable data](#jsobservable)*, to provide a fully-fledged MVVM platform for easily creating interactive data-driven single-page apps and websites.\n"
+        "text": "*JsViews* builds on top of *[JsRender](#jsrender)* templates, and adds data-binding and *[observable data](#jsoapi)*, to provide a fully-fledged MVVM platform for easily creating interactive data-driven single-page apps and websites.\n"
       },
       {
         "_type": "para",
@@ -660,8 +660,8 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       },
       {
         "_type": "para",
-        "title": "Installation",
-        "text": "*jsviews.js* is available from [downloads](#download) on this site.\n\n*CDN delivery* is available from the ***[cdnjs](https://cdnjs.com)*** CDN at [cdnjs.com/libraries/jsviews](https://cdnjs.com/libraries/jsviews).\n\nAlternatively:\n\n- It can be installed with ***[Bower](http://bower.io/search/?q=jsviews)***, using `$ bower install jsviews` \n- It can be loaded using an *AMD script loader*, such as RequireJS\n- For installation using *Node.js* (*npm*), and loading using Browserify, see *[JsViews as a Browserify module](#node/browserify@jsviews)*\n\n<br/>\n## JsViews Usage"
+        "title": "JsViews installation",
+        "text": "*jsviews.js* is available from [downloads](#download) on this site.\n\n*CDN delivery* is available from the ***[cdnjs](https://cdnjs.com)*** CDN at [cdnjs.com/libraries/jsviews](https://cdnjs.com/libraries/jsviews).\n\nAlternatively:\n\n- It can be installed with ***[Bower](http://bower.io/search/?q=jsviews)***, using `$ bower install jsviews` \n- It can be loaded using an *AMD script loader*, such as RequireJS\n- For installation using *Node.js* (*npm*), and loading using Browserify, see *[JsViews as a Browserify module](#node/browserify@jsviews)*\n\n*Example HTML page:* [Loading JsViews](#download/pages-jsv)\n\n\n<br/>\n## JsViews Usage"
       },
       {
         "_type": "para",
