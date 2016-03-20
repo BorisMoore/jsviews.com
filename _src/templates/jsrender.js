@@ -10,36 +10,36 @@
 
 @@include("templates/-jshint-directives.txt")
 
-(function(factory) {
+(function(factory, global) {
 	// global var is the this object, which is window when running in the usual browser environment
-	var global = (0, eval)('this'), // jshint ignore:line
-		$ = global.jQuery;
+	var $ = global.jQuery;
 
 	if (typeof define === "function" && define.amd) { // AMD script loader, e.g. RequireJS
-		define(factory);
+		define(function() {
+			return factory(global);
+		});
 	} else if (typeof exports === "object") { // CommonJS e.g. Browserify
 		module.exports = $
-			? factory($)
+			? factory(global, $)
 			: function($) { // If no global jQuery, take optional jQuery passed as parameter: require('jsrender')(jQuery)
 				if ($ && !$.fn) {
 					throw "Provide jQuery or null";
 				}
-				return factory($);
+				return factory(global, $);
 			};
 	} else { // Browser using plain <script> tag
-		factory(false);
+		factory(global, false);
 	}
 } (
 
 // factory (for jsrender.js)
-function($) {
+function(global, $) {
 "use strict";
 
 //========================== Top-level vars ==========================
 
 // global var is the this object, which is window when running in the usual browser environment
-var global = (0, eval)('this'), // jshint ignore:line
-	setGlobals = $ === false; // Only set globals if script block in browser (not AMD and not CommonJS)
+var setGlobals = $ === false; // Only set globals if script block in browser (not AMD and not CommonJS)
 
 $ = $ && $.fn ? $ : global.jQuery; // $ is jQuery passed in by CommonJS loader (Browserify), or global jQuery.
 
@@ -48,4 +48,4 @@ var versionNumber = "v@@include("templates/-version.txt")",
 
 @@include('jsrender.js', { "isNode": false })
 return $ || jsr;
-}));
+}, this));

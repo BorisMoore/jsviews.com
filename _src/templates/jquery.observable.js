@@ -8,33 +8,33 @@
 
 @@include("templates/-jshint-directives.txt")
 
-(function(factory) {
+(function(factory, global) {
 	// global var is the this object, which is window when running in the usual browser environment
-	var global = (0, eval)('this'), // jshint ignore:line
-		$ = global.jQuery;
+	var $ = global.jQuery;
 
 	if (typeof define === "function" && define.amd) { // AMD script loader, e.g. RequireJS
-		define(["jquery"], factory); // Require jQuery
+		define(["jquery"], function($) {
+			return factory(global, $); // Require jQuery
+		});
 	} else if (typeof exports === "object") { // CommonJS e.g. Browserify
 		module.exports = $
-			? factory($)
+			? factory(global, $)
 			: function($) { // If no global jQuery, take jQuery passed as parameter: require("jsobservable")(jQuery)
-				return factory($);
+				return factory(global, $);
 			};
 	} else { // Browser using plain <script> tag
-		factory(false);
+		factory(global, false);
 	}
 } (
 
 // factory (for jsviews.js)
-function($) {
+function(global, $) {
 "use strict";
 
 //========================== Top-level vars ==========================
 
 // global var is the this object, which is window when running in the usual browser environment
-var global = (0, eval)('this'), // jshint ignore:line
-	setGlobals = $ === false; // Only set globals if script block in browser (not AMD and not CommonJS)
+var setGlobals = $ === false; // Only set globals if script block in browser (not AMD and not CommonJS)
 
 $ = $ || global.jQuery;
 
@@ -43,7 +43,7 @@ if (!$ || !$.fn) {
 	throw "JsObservable requires jQuery"; // We require jQuery
 }
 
-var versionNumber = "v@@include("templates/-version.txt")",
+var versionNumber = "v0.9.74",
 	$observe, $observable,
 
 	$views = $.views =
@@ -51,12 +51,30 @@ var versionNumber = "v@@include("templates/-version.txt")",
 		setGlobals && global.jsrender && jsrender.views || //jsrender was loaded before jquery.observable
 		{ // jsrender not loaded so set up $.views and $.views.sub here, and merge back in jsrender if loaded afterwards
 			jsviews: versionNumber,
-			sub: {}
+			sub: {
+				// subscription, e.g. JsViews integration
+				settings: {}
+			},
+			settings: {
+				advanced: function(value) {
+					$subSettingsAdvanced = $subSettings.advanced = $subSettings.advanced || {_jsv: true};
+					return value
+						? (
+							"_jsv" in value && ($subSettingsAdvanced._jsv = value._jsv),
+							$sub.advSet(),
+							$views.settings
+						)
+						: $subSettingsAdvanced;
+					}
+			}
 		},
 	$sub = $views.sub,
+	$subSettings = $sub.settings,
+	$subSettingsAdvanced = $subSettings.advanced,
 	$isFunction = $.isFunction,
 	$isArray = $.isArray,
 	OBJECT = "object";
-@@include("jquery.observable.js")
+
+@@include("jquery.observable.js", { "isJqObservable": true })
 return $;
-}));
+}, this));

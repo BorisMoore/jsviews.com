@@ -1,7 +1,6 @@
 if ($.link) { return $; } // JsViews is already loaded
 
-var activeBody, rTagDatalink, $view, $viewsLinkAttr, linkViewsSel, wrapMap, viewStore, noDomLevel0,
-
+var activeBody, rTagDatalink, $view, $viewsLinkAttr, linkViewsSel, wrapMap, viewStore, oldAdvSet,
 	jsvAttrStr = "data-jsv",
 	elementChangeStr = "change.jsv",
 	onBeforeChangeStr = "onBeforeChange",
@@ -34,9 +33,6 @@ var activeBody, rTagDatalink, $view, $viewsLinkAttr, linkViewsSel, wrapMap, view
 	// elContent maps tagNames which have only element content, so may not support script nodes.
 	elContent = {ol: 1, ul: 1, table: 1, tbody: 1, thead: 1, tfoot: 1, tr: 1, colgroup: 1, dl: 1, select: 1, optgroup: 1, svg: 1, svg_ns: 1},
 	badParent = {tr: "table"},
-	// wrapMap provide appropriate wrappers for inserting innerHTML, used in insertBefore
-	// We have to close these tags to support XHTML (#13200)
-	// TODO investigate whether more recent jQuery implementation using wrapMap in domManip/$().html() etc. is better optimized now...
 	voidElems = {br: 1, img: 1, input: 1, hr: 1, area: 1, base: 1, col: 1, link: 1, meta: 1,
 		command: 1, embed: 1, keygen: 1, param: 1, source: 1, track: 1, wbr: 1},
 	displayStyles = {},
@@ -187,11 +183,11 @@ function propertyChangeHandler(ev, eventArgs, linkFn) {
 					sourceValue = linkFn(source, view);
 				} catch (e) {
 					hasError = linkFn._er;
-					onError = error(e,view,(new Function("data,view", "return " + hasError + ";"))(source, view));
+					onError = onRenderError(e,view,(new Function("data,view", "return " + hasError + ";"))(source, view));
 					sourceValue = [{props: {}, args: [onError]}];
 				}
 			} else {
-				sourceValue = linkFn(source, view, $views);
+				sourceValue = linkFn(source, view, $sub);
 			}
 			// Compiled link expression for linkTag: return value for data-link="{:xxx}" with no cvt or cvtBk, otherwise tagCtx or tagCtxs
 
@@ -225,16 +221,16 @@ function propertyChangeHandler(ev, eventArgs, linkFn) {
 				}
 
 				sourceValue = tag.tagName === ":" // Call convertVal if it is a {{cvt:...}} - otherwise call renderTag
-					? $views._cnvt(tag.cvt, view, sourceValue[0])
-					: $views._tag(tag, view, view.tmpl, sourceValue, true, onError);
+					? $sub._cnvt(tag.cvt, view, sourceValue[0])
+					: $sub._tag(tag, view, view.tmpl, sourceValue, true, onError);
 			} else if (linkFn._tag) {
 				// For {{: ...}} without a convert or convertBack, we already have the sourceValue, and we are done
 				// For {{: ...}} with either cvt or cvtBack we call convertVal to get the sourceValue and instantiate the tag
 				// If cvt is undefined then this is a tag, and we call renderTag to get the rendered content and instantiate the tag
 				cvt = cvt === "" ? TRUE : cvt; // If there is a cvtBack but no cvt, set cvt to "true"
 				sourceValue = cvt // Call convertVal if it is a {{cvt:...}} - otherwise call renderTag
-					? $views._cnvt(cvt, view, sourceValue[0] || sourceValue) // convertVal
-					: $views._tag(linkFn._tag, view, view.tmpl, sourceValue, true, onError); // renderTag
+					? $sub._cnvt(cvt, view, sourceValue[0] || sourceValue) // convertVal
+					: $sub._tag(linkFn._tag, view, view.tmpl, sourceValue, true, onError); // renderTag
 
 				addLinkMethods(tag = linkCtx.tag, true); // In both convertVal and renderTag we have instantiated a tag
 				attr = linkCtx.attr || attr; // linkCtx.attr may have been set to tag.attr during tag instantiation in renderTag
@@ -573,7 +569,7 @@ function defaultAttr(elem, to, linkGetVal) {
 	// Merge in the default attribute bindings for this target element
 	var nodeName = elem.nodeName.toLowerCase(),
 		attr =
-			$viewsSettings.merge[nodeName] // get attr settings for input textarea select or optgroup
+			$subSettingsAdvanced._fe[nodeName] // get form element binding settings for input textarea select or optgroup
 			|| elem.contentEditable === TRUE && {to: HTML, from: HTML}; // Or if contentEditable set to "true" set attr to "html"
 	return attr
 		? (to
@@ -1405,7 +1401,7 @@ function viewLink(outerData, parentNode, prevNode, nextNode, html, refresh, cont
 		: (self.parentElem      // view.link()
 			|| document.body);  // link(null, data) to link the whole document
 
-	validate = !$viewsSettings.noValidate && parentNode.contentEditable !== TRUE;
+	validate = !$subSettingsAdvanced.noValidate && parentNode.contentEditable !== TRUE;
 	parentTag = parentNode.tagName.toLowerCase();
 	elCnt = !!elContent[parentTag];
 
@@ -1422,9 +1418,6 @@ function viewLink(outerData, parentNode, prevNode, nextNode, html, refresh, cont
 		wrapper = div;
 		prevIds = ids = "";
 		htmlTag = parentNode.namespaceURI === "http://www.w3.org/2000/svg" ? "svg_ns" : (firstTag = rFirstElem.exec(html)) && firstTag[1] || "";
-		if (noDomLevel0 && firstTag && firstTag[2]) {
-			error("Unsupported: " + firstTag[2]); // For security reasons, don't allow insertion of elements with onFoo attributes.
-		}
 		if (elCnt) {
 			// Now look for following view, and find its tokens, or if not found, get the parentNode._df tokens
 			node = nextNode;
@@ -1614,6 +1607,7 @@ function bindDataLinkTarget(linkCtx, linkFn) {
 	}
 	linkCtx._ctxCb = getContextCb(linkCtx.view); // _ctxCb is for filtering/appending to dependency paths: function(path, object) { return [(object|path)*]}
 	linkCtx._hdl = handler;
+	// handler._ctx = linkCtx; Could pass linkCtx for use in a depends = function() {} call, so depends is different for different linkCtx's
 	handler(true);
 }
 
@@ -1784,7 +1778,7 @@ function callAfterLink(tag, eventArgs) {
 	}
 	if (linkedElem = linkedElem || tag.tagName === ":" && linkCtx.elem) {
 		oldTrig = linkedElem._jsvTr;
-		newTrig = props.trigger;
+		newTrig = props.trigger || $subSettings.trigger;
 		if (oldTrig !== newTrig) {
 			linkedElem._jsvTr = newTrig;
 			$linkedElem = $linkedElem || $(linkedElem);
@@ -1855,7 +1849,7 @@ function mergeCtxs(tag, newCtxs, replace) { // Merge updated tagCtxs into tag.ta
 		l = tagCtxs.length,
 		refresh = !newCtxs;
 
-	newCtxs = newCtxs || tag._.bnd.call(view.tmpl, (tag.linkCtx || view).data, view, $views);
+	newCtxs = newCtxs || tag._.bnd.call(view.tmpl, (tag.linkCtx || view).data, view, $sub);
 
 	if (replace) {
 		// Replace previous tagCtxs by new ones, rather than merging
@@ -1975,7 +1969,7 @@ function removeViewBinding(bindId, linkedElemTag, elem) {
 				delete view._.bnds[bindId];
 			}
 		}
-		$sub._cbBnds[binding.cbId] = undefined;
+		delete @@if (context.isJqViews) {binding.s}@@if (!context.isJqViews) {cbBindingsStore}[binding.cbId];
 	}
 }
 
@@ -2018,7 +2012,7 @@ function getContextCb(view) {
 			items = [object];
 		if (view && path) {
 			if (path._jsv) {
-				return path._jsv.call(view.tmpl, object, view, $views);
+				return path._jsv.call(view.tmpl, object, view, $sub);
 			}
 			if (path.charAt(0) === "~") {
 				// We return new items to insert into the sequence, replacing the "~a.b.c" string:
@@ -2073,20 +2067,25 @@ $sub.onStore.template = function(name, item) {
 
 $sub.viewInfos = viewInfos; // Expose viewInfos() as public helper method
 
-// Initialize default delimiters
+ // Define JsViews version of delimiters(), and initialize
 ($viewsSettings.delimiters = function() {
-	var delimChars = oldJsvDelimiters.apply(0, arguments);
-	delimOpenChar0 = delimChars[0];
-	delimOpenChar1 = delimChars[1];
-	delimCloseChar0 = delimChars[2];
-	delimCloseChar1 = delimChars[3];
-	linkChar = delimChars[4];
-	rTagDatalink = new RegExp("(?:^|\\s*)([\\w-]*)(\\" + linkChar + ")?(\\" + delimOpenChar1 + $sub.rTag + "(:\\w*)?\\" + delimCloseChar0 + ")", "g");
+	var ret = oldJsvDelimiters.apply(0, arguments)@@if (context.isJqViews) {, // Sets the subSettings.delimiters - plus
+	// delimOpenChar0 etc. in context of jsrender.js.
+	// This version is for the separate file: jquery.views.js, not the single file: jsviews.js
+	// Now set also delimOpenChar0 etc. in context of jquery.views.js...
+		delimChars = $subSettings.delimiters;
 
-	// Default rTag:      attr  bind tagExpr   tag         converter colon html     comment            code      params
-	//          (?:^|\s*)([\w-]*)(\^)?({(?:(?:(\w+(?=[\/\s}]))|(?:(\w+)?(:)|(>)|!--((?:[^-]|-(?!-))*)--|(\*)))\s*((?:[^}]|}(?!}))*?))})
-	return this;
+	delimOpenChar0 = delimChars[0].charAt(0);
+	delimOpenChar1 = delimChars[0].charAt(1);
+	delimCloseChar0 = delimChars[1].charAt(0);
+	delimCloseChar1 = delimChars[1].charAt(1);
+	linkChar = delimChars[2]};
+
+	rTagDatalink = new RegExp("(?:^|\\s*)([\\w-]*)(\\" + linkChar + ")?(\\" + delimOpenChar1 + $sub.rTag + "(:\\w*)?\\" + delimCloseChar0 + ")", "g");
+	return ret;
 })(); // jshint ignore:line
+
+$sub.addSetting("trigger");
 
 //====================================
 // Additional members for linked views
@@ -2268,7 +2267,7 @@ function addLinkMethods(tagOrView, isTag) {
 
 		if (tag.disposed) { error("Removed tag"); }
 		if (sourceValue === undefined) {
-			sourceValue = $views._tag(tag, view, view.tmpl, mergeCtxs(tag), true); // Get rendered HTML for tag, based on refreshed tagCtxs
+			sourceValue = $sub._tag(tag, view, view.tmpl, mergeCtxs(tag), true); // Get rendered HTML for tag, based on refreshed tagCtxs
 		}
 		if (sourceValue + "" === sourceValue) {
 			// If no rendered content, sourceValue will not be a string (can be 0 or undefined)
@@ -2721,7 +2720,7 @@ $extend($, {
 	// jQuery $.view() plugin
 	//=======================
 
-	view: $views.view = $view = function(node, inner, type) {
+	view: $view = function(node, inner, type) {
 		// $.view() returns top view
 		// $.view(node) returns view that contains node
 		// $.view(selector) returns view that contains first selected element
@@ -2798,8 +2797,8 @@ $extend($, {
 		return topView;
 	},
 
-	link: $views.link = $link,
-	unlink: $views.unlink = $unlink,
+	link: $link,
+	unlink: $unlink,
 
 	//=====================
 	// override $.cleanData
@@ -2872,8 +2871,32 @@ viewStore = { 0: topView }; // Top-level view
 // Extend $.views.settings
 //=========================
 
-$viewsSettings({
-	wrapMap: wrapMap = {
+oldAdvSet = $sub.advSet;
+
+$sub.advSet = function() { // refresh advanced settings
+	oldAdvSet();
+	global._jsv = $subSettingsAdvanced._jsv
+		? $extend(global._jsv || {}, { // create global _jsv, for accessing views, etc
+				views: viewStore,
+				bindings: bindingStore
+			})
+		: undefined; // In IE8 cannot do delete global._jsv
+	$viewsLinkAttr = $subSettingsAdvanced.linkAttr;
+	linkViewsSel = bindElsSel + ",[" + $viewsLinkAttr + "]";
+	wrapMap = $subSettingsAdvanced._wm;
+	wrapMap.optgroup = wrapMap.option;
+	wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
+	wrapMap.th = wrapMap.td;
+};
+
+$viewsSettings.advanced({
+	linkAttr: "data-link",
+	useViews: false,
+	noValidate: false,
+	// wrapMap provide appropriate wrappers for inserting innerHTML, used in insertBefore
+	// We have to close these tags to support XHTML (#13200)
+	// TODO investigate whether more recent jQuery implementation using wrapMap in domManip/$().html() etc. is better optimized now...
+	_wm: {
 		option: [1, "<select multiple='multiple'>", "</select>"],
 		legend: [1, "<fieldset>", "</fieldset>"],
 		area: [1, "<map>", "</map>"],
@@ -2883,13 +2906,11 @@ $viewsSettings({
 		td: [3, "<table><tbody><tr>", "</tr></tbody></table>"],
 		col: [2, "<table><tbody></tbody><colgroup>", "</colgroup></table>"],
 		svg_ns: [1, "<svg>", "</svg>"],
-
 		// IE6-8 can't serialize link, script, style, or any html5 (NoScope) tags,
 		// unless wrapped in a div with non-breaking characters in front of it.
 		div: $.support.htmlSerialize ? [0, "", ""] : [1, "X<div>", "</div>"]
 	},
-	linkAttr: $viewsLinkAttr = "data-link",
-	merge: {
+	_fe: {
 		input: {
 			from: inputAttrib, to: "value"
 		},
@@ -2898,27 +2919,5 @@ $viewsSettings({
 		optgroup: {
 			to: "label"
 		}
-	},
-	jsrDbgMode: $viewsSettings.debugMode, // debugMode for JsRender
-	debugMode: function(debugMode) { // debugMode for JsViews
-		$viewsSettings._dbgMode = debugMode !== false;
-		if ($viewsSettings._dbgMode) {
-			global._jsv = { // In debug mode create global _jsv, for accessing views, etc
-				views: viewStore,
-				bindings: bindingStore
-			};
-		} else if (global._jsv) {
-			global._jsv = undefined; // In IE8 cannot do delete global._jsv
-		}
-	},
-	jsv: function() {
-		$viewsSettings.debugMode($viewsSettings._dbgMode);
-		$viewsLinkAttr = $viewsSettings.linkAttr;
-		error = $views._err;
-		linkViewsSel = bindElsSel + ",[" + $viewsLinkAttr + "]";
-		noDomLevel0 = $viewsSettings.noDomLevel0;
-		wrapMap.optgroup = wrapMap.option;
-		wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
-		wrapMap.th = wrapMap.td;
 	}
 });

@@ -588,7 +588,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "<b>Other built-in tags</b>",
-        "text": "For details on all the above built-in tags, as well as *<a href=\"#commenttag\">comment tags</a>* `{{!-- ... --}}` and *<a href=\"#allowcodetag\">allow code tags</a>*  `{{* ... }}` and `{{*: ... }}`, see the [tags documentation](#jsrtags)."
+        "text": "For details on all the above built-in tags, as well as *<a href=\"#commenttag\">comment tags</a>* `{{!-- ... --}}` and *<a href=\"#allowcodetag\">allow code tags</a>*  `{{* ...}}` and `{{*: ...}}`, see the [tags documentation](#jsrtags)."
       },
       {
         "_type": "para",

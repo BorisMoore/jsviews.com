@@ -11,33 +11,33 @@
 
 @@include("templates/-jshint-directives.txt")
 
-(function(factory) {
+(function(factory, global) {
 	// global var is the this object, which is window when running in the usual browser environment
-	var global = (0, eval)('this'), // jshint ignore:line
-		$ = global.jQuery;
+	var $ = global.jQuery;
 
 	if (typeof define === "function" && define.amd) { // AMD script loader, e.g. RequireJS
-		define(["jquery"], factory); // Require jQuery
+		define(["jquery"], function($) {
+			return factory(global, $);
+		}); // Require jQuery
 	} else if (typeof exports === "object") { // CommonJS e.g. Browserify
 		module.exports = $
-			? factory($)
+			? factory(global, $)
 			: function($) { // If no global jQuery, take jQuery passed as parameter: require("jsviews")(jQuery)
-				return factory($);
+				return factory(global, $);
 			};
 	} else { // Browser using plain <script> tag
-		factory(false);
+		factory(global, false);
 	}
 } (
 
 // factory (for jsviews.js)
-function($) {
+function(global, $) {
 "use strict";
 
 //========================== Top-level vars ==========================
 
 // global var is the this object, which is window when running in the usual browser environment
-var global = (0, eval)('this'), // jshint ignore:line
-	setGlobals = $ === false; // Only set globals if script block in browser (not AMD and not CommonJS)
+var setGlobals = $ === false; // Only set globals if script block in browser (not AMD and not CommonJS)
 
 $ = $ || global.jQuery; // $ is jQuery passed in by CommonJS loader (Browserify), or global jQuery.
 
@@ -77,8 +77,8 @@ $isArray = $.isArray;
 $viewsSettings = $views.settings;
 $converters = $views.converters;
 $tags = $views.tags;
-rFirstElem = /<(?!script)(\w+)(?:[^>]*(on\w+)\s*=)?[^>]*>/;
+rFirstElem = /<(?!script)(\w+)[>\s]/;
 
 @@include("jquery.views.js")
 return $;
-}));
+}, this));

@@ -257,9 +257,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       }
     ],
-    "expanded": true,
-    "loadingfind": " ",
-    "loadedfind": true
+    "expanded": true
   },
   {
     "name": "explore",
@@ -504,9 +502,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       }
     ],
-    "expanded": true,
-    "loadingfind": " ",
-    "loadedfind": true
+    "expanded": true
   },
   {
     "filter": "jsr",
@@ -530,6 +526,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "views",
             "label": "View hierarchy"
+          },
+          {
+            "name": "onerror",
+            "label": "Error handling"
           }
         ],
         "expanded": true
@@ -704,19 +704,23 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "name": "settings",
         "label": "Settings",
-        "hidden": true,
+        "hidden": false,
         "categories": [
           {
             "name": "settings/delimiters",
-            "label": "delimiters"
-          },
-          {
-            "name": "settings/onerror",
-            "label": "onError"
+            "label": "Delimiters"
           },
           {
             "name": "settings/debugmode",
-            "label": "debugMode"
+            "label": "Debug mode"
+          },
+          {
+            "name": "settings/allowcode",
+            "label": "Allow code"
+          },
+          {
+            "name": "settings/advanced",
+            "label": "Advanced"
           }
         ],
         "expanded": true
@@ -751,9 +755,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true,
-    "loadingfind": " ",
-    "loadedfind": true
+    "expanded": true
   },
   {
     "filter": "jsv",
@@ -943,7 +945,31 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "name": "jsvsettings",
         "label": "Settings",
-        "hidden": true
+        "hidden": false,
+        "categories": [
+          {
+            "name": "jsvsettings/delimiters",
+            "label": "Delimiters"
+          },
+          {
+            "name": "jsvsettings/debugmode",
+            "label": "Debug mode"
+          },
+          {
+            "name": "jsvsettings/trigger",
+            "label": "Trigger",
+            "hidden": true
+          },
+          {
+            "name": "jsvsettings/allowcode",
+            "label": "Allow code"
+          },
+          {
+            "name": "jsvsettings/advanced",
+            "label": "Advanced"
+          }
+        ],
+        "expanded": true
       },
       {
         "name": "jsvcompiletmpl",
@@ -1026,9 +1052,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "hidden": true
       }
     ],
-    "expanded": true,
-    "loadingfind": " ",
-    "loadedfind": true
+    "expanded": true
   },
   {
     "filter": "jsv",
@@ -1113,11 +1137,13 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "name": "computed",
         "label": "Computed observables"
+      },
+      {
+        "name": "namespaces",
+        "label": "Namespaces"
       }
     ],
-    "expanded": true,
-    "loadingfind": " ",
-    "loadedfind": true
+    "expanded": true
   },
   {
     "name": "samples",
@@ -1445,9 +1471,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true,
-    "loadingfind": " ",
-    "loadedfind": true
+    "expanded": true
   },
   {
     "name": "download",
@@ -1491,9 +1515,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true,
-    "loadingfind": " ",
-    "loadedfind": true
+    "expanded": true
   },
   {
     "name": "community",
@@ -1507,9 +1529,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       }
     ],
-    "expanded": true,
-    "loadingfind": " ",
-    "loadedfind": true
+    "expanded": true
   },
   {
     "name": "links",

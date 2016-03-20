@@ -7,7 +7,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "(Work in progress. Other topics to follow…)\n"
+        "text": "Note: New topics are being added regularly to this documentation.\n"
       },
       {
         "_type": "links",
@@ -53,7 +53,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "template.link(object):",
-        "text": "template.link(object):\n<td>{^{:name}}</td>\n<td><input data-link=\"name trigger=true\" /></td>\n\nvar myTmpl = $.templates(\"#personTmpl\");\n\nmyTmpl.link(\"#person\", person);\n\n\n"
+        "text": "template.link(object):\n\n\n\n  <tr>\n    <td>{^{:name}}</td>\n    <td><input data-link=\"name trigger=true\" /></td>\n  </tr>\n\nvar myTmpl = $.templates(\"#personTmpl\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar html = myTmpl.link(\"#person\", person);\n\n<td>{^{:name}}</td>\n<td><input data-link=\"name trigger=true\" /></td>\n\nvar myTmpl = $.templates(\"#personTmpl\");\n\nmyTmpl.link(\"#person\", person);\n\n\n"
       },
       {
         "_type": "para",
@@ -63,7 +63,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "template.link(array):",
-        "text": "template.link(array):\nmyTmpl.link(\"#peopleList\", people);\n\n\n"
+        "text": "template.link(array):\nAdd person\n\n\n\n\n  <tr>\n    <td>{^{:name}}</td>\n    <td><input data-link=\"name trigger=true\" /></td>\n  </tr>\n\nvar myTmpl = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nmyTmpl.link(\"#peopleList\", people);\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(people).insert({\n    name: \"name\"\n  });\n});\n\nmyTmpl.link(\"#peopleList\", people);\n\n\n"
       },
       {
         "_type": "para",
@@ -83,7 +83,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "template.link(object, myHelpers):",
-        "text": "template.link(object, myHelpers):\nfunction toUpper(val) {...}\n\nvar myHelpers = {color: \"red\", format: toUpper};\n\nmyTmpl.link(\"#person\", person, myHelpers);\n\n<td data-link=\"css-color{:~color} {:~format(name)}\"></td>\n\nClick Try it and change the color to \"green\"…\n\n"
+        "text": "template.link(object, myHelpers):\n\n\n\n  <tr>\n    <td data-link=\"css-color{:~color} {:~format(name)}\"></td>\n    <td><input data-link=\"name trigger=true\" /></td>\n  </tr>\n\nfunction toUpper(val) { return val.toUpperCase(); }\n\nvar myTmpl = $.templates(\"#personTmpl\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar myHelpers = {color: \"red\", format: toUpper};\n\nmyTmpl.link(\"#person\", person, myHelpers);\nfunction toUpper(val) {...}\n\nvar myHelpers = {color: \"red\", format: toUpper};\n\nmyTmpl.link(\"#person\", person, myHelpers);\n\n<td data-link=\"css-color{:~color} {:~format(name)}\"></td>\n\nClick Try it and change the color to \"green\"…\n\n"
       },
       {
         "_type": "links",
@@ -112,7 +112,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "$.link.personTmpl(...):",
-        "text": "$.link.personTmpl(...):\n$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar myHelpers = {color: \"red\", format: toUpper};\n\n$.link.personTmpl(\"#person\", person, myHelpers);\n\n\n"
+        "text": "$.link.personTmpl(...):\n\n\n\n  <tr>\n    <td data-link=\"css-color{:~color} {:~format(name)}\"></td>\n    <td><input data-link=\"name trigger=true\" /></td>\n  </tr>\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nfunction toUpper(val) { return val.toUpperCase(); }\n\n$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar myHelpers = {color: \"red\", format: toUpper};\n\n$.link.personTmpl(\"#person\", person, myHelpers);\n$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar myHelpers = {color: \"red\", format: toUpper};\n\n$.link.personTmpl(\"#person\", person, myHelpers);\n\n\n"
       },
       {
         "_type": "links",
@@ -163,7 +163,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Getting to the data: $.view(elem)",
-        "text": "Getting to the data: $.view(elem)\n{^{for people}}\n  ...\n  <button class=\"changeBtn\">Change</button>\n  ...\n{{/for}}\n\nClick-handler code for Change button:\n$(\".changeBtn\").on(\"click\", function() {\n  var view = $.view(this); // From the clicked HTML element ('this'), get the view object\n  var person = view.data;  // The 'person' data object for clicked button\n  var index = view.index;  // The index of this 'item view'. (Equals index of person in people array)\n  $.observable(person).setProperty(\"name\", person.name + \" \" + index); // Change the person.name\n});\n\n\n"
+        "text": "Getting to the data: $.view(elem)\n\n\n\n  {^{for people}}\n    <tr>\n      <td>{^{:name}}</td>\n      <td>\n        <button class=\"changeBtn\">Change</button>\n      </td>\n    </tr>\n  {{/for}}\n\nvar myTemplate = $.templates(\"#peopleTmpl\");\n\nvar app = {\n    people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n  };\n\nmyTemplate.link(\"#peopleList\", app);\n\n$(\".changeBtn\").on(\"click\", function() {\n  // From the clicked HTML element ('this'), get the view object\n  var view = $.view(this);\n\n  // The 'person' data object for clicked button\n  var person = view.data;\n\n  // The index of this 'item view'. (Equals index of person in people array)\n  var index = view.index;\n\n  // Change the person.name\n  $.observable(person).setProperty(\"name\", person.name + \" \" + index);\n});\n{^{for people}}\n  ...\n  <button class=\"changeBtn\">Change</button>\n  ...\n{{/for}}\n\nClick-handler code for Change button:\n$(\".changeBtn\").on(\"click\", function() {\n  var view = $.view(this); // From the clicked HTML element ('this'), get the view object\n  var person = view.data;  // The 'person' data object for clicked button\n  var index = view.index;  // The index of this 'item view'. (Equals index of person in people array)\n  $.observable(person).setProperty(\"name\", person.name + \" \" + index); // Change the person.name\n});\n\n\n"
       },
       {
         "_type": "para",
@@ -210,7 +210,12 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "Any JsRender template can be used with JsViews.\nCalling the render() method works just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the link() method – which will first render and then add data binding (data-link the template).\nIf you have data-linked your template by calling the link() method, then you can continue to use the same JsRender template tags as before. But now you optionally make any tag in the template data-linked, by replacing the {{... of the opening tag by {^{..., as in:\n{^{for people}}\n  {^{:name}}\n{{/for}}\n\nIn addition, you can data-link the HTML elements in your template, as in:\n<input data-link=\"name\" />\n<div data-link=\"css-color{:color} {:name}\"></div>\n\nSee Data-link template syntax for details…\n"
+        "text": "Any JsRender template can be used with JsViews.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Data-linked templates",
+        "text": "Data-linked templates\nCalling the render() method works just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the link() method – which will first render and then add data binding (data-link the template).\nIf you have data-linked your template by calling the link() method, then you can continue to use the same JsRender template tags as before. But now you optionally make any tag in the template data-linked, by replacing the {{... of the opening tag by {^{..., as in:\n{^{for people}}\n  {^{:name}}\n{{/for}}\n\nIn addition, you can data-link the HTML elements in your template, as in:\n<input data-link=\"name\" />\n<div data-link=\"css-color{:color} {:name}\"></div>\n\nSee Data-link template syntax for details…\n"
       },
       {
         "_type": "para",
@@ -220,7 +225,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Badly-formed template - but OK in JsRender!",
-        "text": "Badly-formed template - but OK in JsRender!\n{{if}} tag blocks wrap part of an HTML <td> tag\n\n{{:firstName}}{{:lastName}}\n  {{else}}\n    colspan=\"2\">{{:firstName}}\n  {{/if}}\n\n\n\n"
+        "text": "Badly-formed template - but OK in JsRender!\n\n\n\n  <tr>\n    <td \n      {{if lastName}}\n        >{{:firstName}}</td><td>{{:lastName}}\n      {{else}}\n        colspan=\"2\">{{:firstName}}\n      {{/if}}\n    </td>\n  </tr>\n\nvar myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n  {\n    firstName: \"Jeff\"\n  },\n  {\n    firstName: \"Xavier\",\n    lastName: \"Prieto\"\n  }\n];\n\nvar html = myTemplate.render(people);\n\n$(\"#peopleList\").html(html);\n\n{{if}} tag blocks wrap part of an HTML <td> tag\n\n{{:firstName}}{{:lastName}}\n  {{else}}\n    colspan=\"2\">{{:firstName}}\n  {{/if}}\n\n\n\n"
       },
       {
         "_type": "para",
@@ -230,7 +235,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Rules for a well-formed template in JsViews:",
-        "text": "Rules for a well-formed template in JsViews:\nWith JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\nJsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a ^ character (so that for example a {{for}} tag becomes a data-linked {^{for}} tag) -- and in that case the rendered content will change dynamically whenever the bound data changes 'observably'.\nBut tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.\nSimilarly, tags which wrap opening or closing tag in such a way as to produce 'mal-formed HTML' will not be valid.\nIn fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.\nIn each of the invalid scenarios mentioned above, the JsRender tags needs to be replaced by corresponding data-linked element syntax. See the next section, for details.\n"
+        "text": "Rules for a well-formed template in JsViews:\nWith JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\n\nJsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a ^ character (so that for example a {{for}} tag becomes a data-linked {^{for}} tag) – and in that case the rendered content will change dynamically whenever the bound data changes ‘observably’.\nBut tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.\nSimilarly, tags which wrap opening or closing tag in such a way as to produce ‘mal-formed HTML’ will not be valid.\nIn fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.\nIn each of the invalid scenarios mentioned above, the JsRender tags needs to be replaced by corresponding data-linked element syntax. See Data-link template syntax for details.\n\n"
       }
     ]
   },
@@ -286,7 +291,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "view.refresh()",
-        "text": "view.refresh()\nTemplate: (No data-linking except <input data-link=\"name\" />)\n{{for people}}\n  ...\n  <input data-link=\"name\" />\n  ...\n  {{:name}} ... {{:~root.year}} ... {{:age + ~root.year - 2016}}\n  ...\n  <button class=\"refreshBtn\">Refresh</button>\n{{/for}}\n\nCode:\n.on(\"click\", \"#incrBtn\", function() {\n  model.year++; // non-observable change\n})\n.on(\"click\", \".refreshBtn\", function() {\n  $.view(this).refresh(); // Refresh view, with updated values...\n});\n\n\n"
+        "text": "view.refresh()\ntable td {padding: 5px;} table {margin-top: 6px;} #incrBtn {margin-bottom: 10px;}\n\n\n\n\n  <button id=\"incrBtn\">Increment year</button>\n  <button id=\"incrObsBtn\">Increment observably</button>\n  <button id=\"incrRefreshBtn\">Increment and refresh</button>\n  <button class=\"refreshBtn\">Refresh All</button><br/>\n  Year: {^{:year}}<br/>\n\n  <table><tbody>\n    {{for people}}\n      <tr>\n        <td><input data-link=\"name\" /></td>\n        <td>Name: {{:name}}</td>  {{!-- no data-linking --}}\n        <td>Age in {{:~root.year}}: {{:age + ~root.year - 2016}} </td>\n        <td><button class=\"refreshBtn\">Refresh</button></td>\n      </tr>\n    {{/for}}\n  </tbody></table>\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  year: 2016,\n  people: [{name: \"Adriana\", age: 4}, {name: \"Robert\", age: 34}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#incrBtn\", function() {\n    model.year++; // non-observable change\n  })\n  .on(\"click\", \"#incrObsBtn\", function() {\n    $.observable(model).setProperty(\"year\", model.year + 1);\n  })\n  .on(\"click\", \"#incrRefreshBtn\", function() {\n    model.year++; // non-observable change\n    $.view(this).refresh();\n  })\n  .on(\"click\", \".refreshBtn\", function() {\n    $.view(this).refresh();\n  });\nTemplate: (No data-linking except <input data-link=\"name\" />)\n{{for people}}\n  ...\n  <input data-link=\"name\" />\n  ...\n  {{:name}} ... {{:~root.year}} ... {{:age + ~root.year - 2016}}\n  ...\n  <button class=\"refreshBtn\">Refresh</button>\n{{/for}}\n\nCode:\n.on(\"click\", \"#incrBtn\", function() {\n  model.year++; // non-observable change\n})\n.on(\"click\", \".refreshBtn\", function() {\n  $.view(this).refresh(); // Refresh view, with updated values...\n});\n\n\n"
       },
       {
         "_type": "para",
@@ -306,7 +311,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "view.contents()",
-        "text": "view.contents()\n// Get jQuery object for \".nameTd\" in this view:\nvar jqNameTd = view.contents(true, \".nameTd\");\n\n// Set background color\njqNameTd.css(\"backgroundColor\", this.className);\n\n\n"
+        "text": "view.contents()\n.nameTd {width: 60px; padding: 0 6px;} table {width: 230px;} button {margin: 4px;}\n\n\n\n\n  <button id=\"addBtn\">Add</button>\n  <table><tbody>\n    {^{for people}}\n      <tr>\n        <td class=\"nameTd\">{^{:name}}</td>\n        <td>\n          <button class=\"orange\">orange</button>\n          <button class=\"yellow\">yellow</button>\n        </td>\n      </tr>\n    {{/for}}\n  </tbody></table>\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#addBtn\", function() {\n    var view = $.view(this);           // \"data\" view\n    var data = view.data;              // model\n    $.observable(data.people).insert({name: \"name\"});\n  })\n  .on(\"click\", \".orange, .yellow\", function() {\n    var view = $.view(this);           // \"item\" view\n\n    // Get jQuery object for \".nameTd\" in this view:\n    var jqNameTd = view.contents(true, \".nameTd\");\n\n    // Set background color\n    jqNameTd.css(\"backgroundColor\", this.className);\n  });\n// Get jQuery object for \".nameTd\" in this view:\nvar jqNameTd = view.contents(true, \".nameTd\");\n\n// Set background color\njqNameTd.css(\"backgroundColor\", this.className);\n\n\n"
       },
       {
         "_type": "para",
@@ -326,7 +331,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "view.childTags()",
-        "text": "view.childTags()\n{^{for people}}\n  {{!--data-link to {{textbox}} tag --}}\n  <div class=\"person\" data-link=\"{textbox path=name/}\"></div> \n{{/for}}\n\n.on(\"click\", \"#toggleBtn\", function() {\n  var textBoxes = $.view(this).childTags(\"textbox\"); // Find all the {{textbox}} tags in the view\n  for (var i=0; i<textBoxes.length; i++) {\n    textBoxes[i].toggleEdit();                       // Toggle the edit mode for each of them\n  }\n});\n\n\n"
+        "text": "view.childTags()\n#toggleBtn {margin-bottom: 14px;} .person {line-height: 26px;}\n\n\n\n  <button id=\"toggleBtn\">Toggle Edit</button>\n\n  {^{for people}}\n    {{!--data-link to {{textbox}} tag --}}\n    <div class=\"person\" data-link=\"{textbox path=name/}\"></div> \n  {{/for}}\n\n// Define a {{textbox}} tag - which allows editing, and has a toggleEdit() method\n$.views.tags({\n  textbox: {\n    init: function() {\n      var path = this.tagCtx.params.props.path + \" trigger=true\";\n\n      this.template = \" \"   // Checkbox to toggle edit\n      + \"\"       //  for editing\n      + \"\"; //  for rendering\n    },\n    toggleEdit: function() {\n      $.observable(this).setProperty(\"edit\", !this.edit);\n    }\n  }\n});\n\nvar tmpl = $.templates(\"#peopleTmpl\");\nvar model = {\n    people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n  };\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#toggleBtn\", function() {\n    var textBoxes = $.view(this).childTags(\"textbox\"); // Find all the {{textbox}} tags in the view\n    for (var i=0; i{^{for people}}\n  {{!--data-link to {{textbox}} tag --}}\n  <div class=\"person\" data-link=\"{textbox path=name/}\"></div> \n{{/for}}\n\n.on(\"click\", \"#toggleBtn\", function() {\n  var textBoxes = $.view(this).childTags(\"textbox\"); // Find all the {{textbox}} tags in the view\n  for (var i=0; i<textBoxes.length; i++) {\n    textBoxes[i].toggleEdit();                       // Toggle the edit mode for each of them\n  }\n});\n\n\n"
       },
       {
         "_type": "para",
@@ -336,7 +341,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "view.nodes()",
-        "text": "view.nodes()\n.on(\"click\", \".orange, .yellow\", function() {\n  var view = $.view(this);           // \"item\" view\n\n  // Get top-level nodes in this view - two <tr> nodes:\n  var nodes = view.nodes();\n\n  // Set colors\n  nodes[0].style.color = this.className;\n  nodes[0].style.backgroundColor = \"darkblue\";\n  nodes[1].style.backgroundColor = this.className;\n});\n\n\n"
+        "text": "view.nodes()\n.nameTd {width: 60px; padding: 0 6px;} table {width: 156px;} button {margin: 4px;}\n\n\n\n\n  <button id=\"addBtn\">Add</button>\n  <table><tbody>\n    {^{for people}}\n      <tr>\n        <td class=\"nameTd\">{^{:name}}</td>\n      </tr>\n      <tr>\n        <td>\n          <button class=\"orange\">orange</button>\n          <button class=\"yellow\">yellow</button>\n        </td>\n      </tr>\n    {{/for}}\n  </tbody></table>\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#addBtn\", function() {\n    var view = $.view(this);           // \"data\" view\n    var data = view.data;              // model\n    $.observable(data.people).insert({name: \"name\"});\n  })\n  .on(\"click\", \".orange, .yellow\", function() {\n    var view = $.view(this);           // \"item\" view\n\n    // Get top-level nodes in this view - two  nodes:\n    var nodes = view.nodes();\n\n    // Set colors\n    nodes[0].style.color = this.className;\n    nodes[0].style.backgroundColor = \"darkblue\";\n    nodes[1].style.backgroundColor = this.className;\n  });\n.on(\"click\", \".orange, .yellow\", function() {\n  var view = $.view(this);           // \"item\" view\n\n  // Get top-level nodes in this view - two <tr> nodes:\n  var nodes = view.nodes();\n\n  // Set colors\n  nodes[0].style.color = this.className;\n  nodes[0].style.backgroundColor = \"darkblue\";\n  nodes[1].style.backgroundColor = this.className;\n});\n\n\n"
       },
       {
         "_type": "links",
@@ -386,7 +391,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "sample",
-        "text": "Template:\n...\n{^{for members}}\n  <li>\n    {^{:name}} <img class=\"remove\" .../>\n  </li>\n{{/for}}\n...\n\nCode:\n...\n$.templates(\"#teamTemplate\").link(\"#team\", team) ...\n\n\n"
+        "text": "\n\n\n\n<div class=\"buttons\">\n  <button id=\"add\">Add</button>\n</div>\n<ol>\n  {^{for members}}\n    <li>\n      {^{:name}} \n      <span class=\"remove\"></span>\n    </li>\n  {{/for}}\n</ol>\n\n\n\nvar team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ]\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team)\n  .on(\"click\", \".remove\", function() {\n    var view = $.view(this);\n    $.observable(team.members).remove(view.index);\n  })\n  .on(\"click\", \"#add\", function() {\n    $.observable(team.members).insert(0, {name: \"new\" + cnt++})\n  });\nTemplate:\n...\n{^{for members}}\n  <li>\n    {^{:name}} <img class=\"remove\" .../>\n  </li>\n{{/for}}\n...\n\nCode:\n...\n$.templates(\"#teamTemplate\").link(\"#team\", team) ...\n\n\n"
       },
       {
         "_type": "para",
@@ -460,7 +465,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "",
-        "text": "Top-level data-linking to {if ...}{else ...}\nShow: <input data-link=\"show\" type=\"checkbox\"/>\n<b data-link=\"{if show tmpl='show this'}{else tmpl='no show'}\"></b>\n\n$.link(true, \"body\", {show: true});\n\n\n"
+        "text": "Show: \n\n\n$.link(true, \"body\", {show: true});\n\n\nTop-level data-linking to {if ...}{else ...}\nShow: <input data-link=\"show\" type=\"checkbox\"/>\n<b data-link=\"{if show tmpl='show this'}{else tmpl='no show'}\"></b>\n\n$.link(true, \"body\", {show: true});\n\n\n"
       },
       {
         "_type": "para",
@@ -470,7 +475,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "A top-level data-linked tabs control",
-        "text": "A top-level data-linked tabs control\nUsing data-linking to instantiate a tabs control on a top-level page element:\n<div id=\"tabsView\" data-link=\"\n  {tabs tabCaption='days' tmpl='tab1' selectedIndex=2}\n  {else tabCaption='months' tmpl='tab2'}\n  {else tabCaption='name' tmpl='tab3'}\n\"></div>\n\n$.templates({\n  tab1: \"365 days per year\",\n  ...\n  tab3: \"Name: {{:name}}\"\n});\n\n$(\"#tabsView\").link(true, {name: \"Jeff\"});\n\n\n/*\n * Sample JsViews tag control: {{tabs}} control\n * http://www.jsviews.com/download/sample-tag-controls/tabs/tabs.js\n * Used in samples: http://www.jsviews.com/#samples/tag-controls/tabs\n * Copyright 2016, Boris Moore\n * Released under the MIT License.\n */\n\n(function($) {\n\"use strict\";\n\n$.views.tags({\n  tabs: {\n    init: function(tagCtx) {\n      this.selectedIndex = tagCtx.props.selectedIndex || 0;\n      this.tabCount = this.tagCtxs.length;\n    },\n    render: function() {\n      var tagCtx = this.tagCtx;\n      return this.selectedIndex === tagCtx.index ? tagCtx.render() : \"\";\n    },\n    onAfterLink: function() {\n      var self = this;\n      self.contents(true, \".tabstrip\").first()\n        .on(\"click\", \".header_false\", function() {\n          self.setTab($.view(this).index);\n        });\n    },\n    template: '<table class=\"tabsview\"><tbody>' +\n      '<tr class=\"tabstrip\">' +\n      '{{for ~tag.tagCtxs}}' +\n        '<th data-link=\"class{:\\'header_\\' + (#index === ~tag.selectedIndex)}\">' +\n          '{{>props.tabCaption}}' +\n        '</th>' +\n      '{{/for}}' +\n    '</tr>' +\n    '<tr class=\"tabscontent\">' +\n      '<td colspan=\"{{:~tag.tagCtxs.length}}\">' +\n        '<div style=\"width:{{attr:~tag.tagCtxs[0].props.width}};' +\n                    'height:{{attr:~tag.tagCtxs[0].props.height}}\">' +\n          '{^{for ^tmpl=~tag.tagCtxs[~tag.selectedIndex].tmpl /}}' +\n        '</div>' +\n        '</td>' +\n      '</tr>' +\n    '</tbody></table>',\n\n    //METHODS\n    setTab: function(index) {\n      $.observable(this).setProperty(\"selectedIndex\", index);\n      if (this.onSelectionChange) {\n        this.onSelectionChange(index, this);\n      }\n    },\n    dataBoundOnly: true\n  }\n});\n\n})(this.jQuery);\n\n\n"
+        "text": "A top-level data-linked tabs control\n\n\n\n\n$.templates({\n  tab1: \"365 days per year\",\n  tab2: \"12 months per year\",\n  tab3: \"Name: {{:name}}\"\n});\n\n$(\"#tabsView\").link(true, {name: \"Jeff\"});\n\nUsing data-linking to instantiate a tabs control on a top-level page element:\n<div id=\"tabsView\" data-link=\"\n  {tabs tabCaption='days' tmpl='tab1' selectedIndex=2}\n  {else tabCaption='months' tmpl='tab2'}\n  {else tabCaption='name' tmpl='tab3'}\n\"></div>\n\n$.templates({\n  tab1: \"365 days per year\",\n  ...\n  tab3: \"Name: {{:name}}\"\n});\n\n$(\"#tabsView\").link(true, {name: \"Jeff\"});\n\n\n/*\n * Sample JsViews tag control: {{tabs}} control\n * http://www.jsviews.com/download/sample-tag-controls/tabs/tabs.js\n * Used in samples: http://www.jsviews.com/#samples/tag-controls/tabs\n * Copyright 2016, Boris Moore\n * Released under the MIT License.\n */\n\n(function($) {\n\"use strict\";\n\n$.views.tags({\n  tabs: {\n    init: function(tagCtx) {\n      this.selectedIndex = tagCtx.props.selectedIndex || 0;\n      this.tabCount = this.tagCtxs.length;\n    },\n    render: function() {\n      var tagCtx = this.tagCtx;\n      return this.selectedIndex === tagCtx.index ? tagCtx.render() : \"\";\n    },\n    onAfterLink: function() {\n      var self = this;\n      self.contents(true, \".tabstrip\").first()\n        .on(\"click\", \".header_false\", function() {\n          self.setTab($.view(this).index);\n        });\n    },\n    template: '<table class=\"tabsview\"><tbody>' +\n      '<tr class=\"tabstrip\">' +\n      '{{for ~tag.tagCtxs}}' +\n        '<th data-link=\"class{:\\'header_\\' + (#index === ~tag.selectedIndex)}\">' +\n          '{{>props.tabCaption}}' +\n        '</th>' +\n      '{{/for}}' +\n    '</tr>' +\n    '<tr class=\"tabscontent\">' +\n      '<td colspan=\"{{:~tag.tagCtxs.length}}\">' +\n        '<div style=\"width:{{attr:~tag.tagCtxs[0].props.width}};' +\n                    'height:{{attr:~tag.tagCtxs[0].props.height}}\">' +\n          '{^{for ^tmpl=~tag.tagCtxs[~tag.selectedIndex].tmpl /}}' +\n        '</div>' +\n        '</td>' +\n      '</tr>' +\n    '</tbody></table>',\n\n    //METHODS\n    setTab: function(index) {\n      $.observable(this).setProperty(\"selectedIndex\", index);\n      if (this.onSelectionChange) {\n        this.onSelectionChange(index, this);\n      }\n    },\n    dataBoundOnly: true\n  }\n});\n\n})(this.jQuery);\n\n\n"
       },
       {
         "_type": "para",
@@ -533,7 +538,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Top-level declarative data-linking",
-        "text": "Top-level declarative data-linking\nTop-level content:\n<div id=\"group\">\n  <input type=\"checkbox\" />\n  ...\n\nAdd two-way data-linking to <input>s\n<input data-link=\"isCEO\" type=\"checkbox\" />...\n<input data-link=\"first trigger=true\" />...\n\nAdd data-linking to <div>s and <span>s etc.\n<div id=\"group\" data-link=\"css-color{:isCEO ? 'red' : 'blue'}\">...\n<div data-link=\"{for employees tmpl='nameTmpl'}\">...\n\nActivate, using $.link(true, ...)\n$.link(true, \"#group\", person, helpers);\n\n(Could have used alternative syntax: $(\"#group\").link(true, person, helpers);)\n\n"
+        "text": "Top-level declarative data-linking\ninput {margin-bottom:10px;}\n\n\n  \n  \n  CEO \n\n  \n  and I am CEO!\n\n  \n    Employees:\n     \n  \n\n\n$.templates(\"nameTmpl\", \"Name: {{:first}} {{:last}}\");\n\nvar person = {\n  first: \"Jim\",\n  last: \"Rudd\",\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\nvar helpers = {nameLabel: \"My name is \"};\n\n$.link(true, \"#group\", person, helpers);\nTop-level content:\n<div id=\"group\">\n  <input type=\"checkbox\" />\n  ...\n\nAdd two-way data-linking to <input>s\n<input data-link=\"isCEO\" type=\"checkbox\" />...\n<input data-link=\"first trigger=true\" />...\n\nAdd data-linking to <div>s and <span>s etc.\n<div id=\"group\" data-link=\"css-color{:isCEO ? 'red' : 'blue'}\">...\n<div data-link=\"{for employees tmpl='nameTmpl'}\">...\n\nActivate, using $.link(true, ...)\n$.link(true, \"#group\", person, helpers);\n\n(Could have used alternative syntax: $(\"#group\").link(true, person, helpers);)\n\n"
       },
       {
         "_type": "para",
@@ -583,7 +588,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Top-level programmatic data-linking",
-        "text": "Top-level programmatic data-linking\nApply data-link expression to <input>, for two-way binding to isCEO data property:\n$.link(\n  \"isCEO\", // expression\n  \"input.ceo\", // target\n  person // data\n);\n\nApply {for...} and visible:{:...} data-link binding expressions to #employees <div>:\n$.link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  \"#employees\", // target\n  person // data\n);\n\n\n"
+        "text": "Top-level programmatic data-linking\n \n  CEO: \n   \n\n  Employees: \n\n   \n\n\n$.templates(\"nameTmpl\", \"Name: {{:first}} {{:last}}\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$.link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  \"#group\", // target\n  person // data\n);\n\n$.link(\n  \"isCEO\", // expression\n  \"input.ceo\", // target\n  person // data\n);\n\n$.link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  \"#employees\", // target\n  person // data\n);\n\n$.link(\n  \"visible{:!isCEO} {:~message}\", // expression\n \"#notCeo\", // target\n  person, // data \n  {message: \"Not CEO!\"} // helpers\n);\n\nApply data-link expression to <input>, for two-way binding to isCEO data property:\n$.link(\n  \"isCEO\", // expression\n  \"input.ceo\", // target\n  person // data\n);\n\nApply {for...} and visible:{:...} data-link binding expressions to #employees <div>:\n$.link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  \"#employees\", // target\n  person // data\n);\n\n\n"
       },
       {
         "_type": "para",
@@ -593,7 +598,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Top-level programmatic data-linking <span style=\"font-style:normal;\">(alternative syntax)</span>",
-        "text": "Top-level programmatic data-linking (alternative syntax)\nApply data-link expression to <input>, for two-way binding to isCEO data property:\n$(\"input.ceo\").link(\n  \"isCEO\", // expression\n  person // data\n);\n\nApply {for...} and visible:{:...} data-link binding expressions to #employees <div>:\n$(\"#employees\").link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  person // data\n);\n\n\n"
+        "text": "Top-level programmatic data-linking (alternative syntax)\n \n  CEO: \n   \n\n  Employees: \n\n   \n\n\n$.templates(\"nameTmpl\", \"Name: {{:first}} {{:last}}\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$(\"#group\").link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  person // data\n);\n\n$(\"input.ceo\").link(\n  \"isCEO\", // expression\n  person // data\n);\n\n$(\"#employees\").link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  person // data\n);\n\n$(\"#notCeo\").link(\n  \"visible{:!isCEO} {:~message}\", // expression\n  person, // data \n  {message: \"Not CEO!\"} // helpers\n);\n\nApply data-link expression to <input>, for two-way binding to isCEO data property:\n$(\"input.ceo\").link(\n  \"isCEO\", // expression\n  person // data\n);\n\nApply {for...} and visible:{:...} data-link binding expressions to #employees <div>:\n$(\"#employees\").link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  person // data\n);\n\n\n"
       },
       {
         "_type": "links",
@@ -628,6 +633,11 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "_type": "para",
         "title": "Custom tags with two-way binding",
         "text": "Custom tags with two-way binding\nparagraph\n"
+      },
+      {
+        "_type": "para",
+        "title": "convert and convertBack",
+        "text": "convert and convertBack\nparagraph\n"
       }
     ]
   },
@@ -646,12 +656,12 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Leaf binding only",
-        "text": "Leaf binding only\n<input data-link=\"manager.address.ZIP trigger=true\" />\n\n{^{if manager.address.ZIP}}\n  ZIP: {^{:manager.address.ZIP}}\n{{/if}}\n\nModify leaf: template values update in response:\n$.observable(team.manager.address).setProperty({\n  \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n});\n\nChange manager: template values do not update:\n$.observable(team).setProperty({\n  manager: team.manager === person1 ? person2 : person1\n});\n\n\n"
+        "text": "Leaf binding only\n\n  Change leaf values\n  Change manager\n  \n\n\n\n\n<input data-link=\"manager.address.ZIP trigger=true\" />\n\n{^{if manager.address.ZIP}}\n  ZIP: {^{:manager.address.ZIP}}\n{{/if}}\n\n<hr/>\n\nManager: {^{if manager === person1}}person1{{else}}person2{{/if}}\n\n\nvar team = {\n  person1: {\n    address: {\n      City: \"New York\",\n      ZIP: \"10035\"\n    }\n  },\n  person2: {\n    address: {\n      City: \"London\"\n    }\n  }\n};\n\nteam.manager = team.person1;\n\n\n$(\"#modifyLeaf\").on(\"click\", function() {\n  $.observable(team.manager.address).setProperty({\n    \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n  });\n});\n\n$(\"#changeManager\").on(\"click\", function() {\n  $.observable(team).setProperty({\n    manager: team.manager === team.person1 ? team.person2 : team.person1\n  });\n});\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", team);\n<input data-link=\"manager.address.ZIP trigger=true\" />\n\n{^{if manager.address.ZIP}}\n  ZIP: {^{:manager.address.ZIP}}\n{{/if}}\n\nModify leaf: template values update in response:\n$.observable(team.manager.address).setProperty({\n  \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n});\n\nChange manager: template values do not update:\n$.observable(team).setProperty({\n  manager: team.manager === person1 ? person2 : person1\n});\n\n\n"
       },
       {
         "_type": "sample",
         "title": "Data-linking to deep changes",
-        "text": "Data-linking to deep changes\n<input data-link=\"manager^address.ZIP trigger=true\" />\n\n{^{if manager^address.ZIP}}\n  ZIP: {^{:manager^address.ZIP}}\n{{/if}}\n\nModify leaf or manager: template values all update correctly in response\n\n"
+        "text": "Data-linking to deep changes\n\n  Change leaf values\n  Change manager\n  \n\n\n\n\n<input data-link=\"manager^address.ZIP trigger=true\" />\n\n{^{if manager^address.ZIP}}\n  ZIP: {^{:manager^address.ZIP}}\n{{/if}}\n\n<hr/>\n\nManager: {^{if manager === person1}}person1{{else}}person2{{/if}}\n\n\nvar team = {\n  person1: {\n    address: {\n      City: \"New York\",\n      ZIP: \"10035\"\n    }\n  },\n  person2: {\n    address: {\n      City: \"London\"\n    }\n  }\n};\n\nteam.manager = team.person1;\n\n\n$(\"#modifyLeaf\").on(\"click\", function() {\n  $.observable(team.manager.address).setProperty({\n    \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n  });\n});\n\n$(\"#changeManager\").on(\"click\", function() {\n  $.observable(team).setProperty({\n    manager: team.manager === team.person1 ? team.person2 : team.person1\n  });\n});\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", team);\n<input data-link=\"manager^address.ZIP trigger=true\" />\n\n{^{if manager^address.ZIP}}\n  ZIP: {^{:manager^address.ZIP}}\n{{/if}}\n\nModify leaf or manager: template values all update correctly in response\n\n"
       },
       {
         "_type": "para",
@@ -661,7 +671,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Data-linking to deep changes (three levels)",
-        "text": "Data-linking to deep changes (three levels)\n{^{if manager^address.ZIP}}\n  <td>...<input data-link=\"manager^address.ZIP\" /></td>\n{{else}}\n  <td>...UK address - No ZIP</td>\n{{/if}}\n\n\n"
+        "text": "Data-linking to deep changes (three levels)\n\n  Change leaf values\n  New address\n  UK address\n  Change manager\n  \n\n\n\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"manager^name trigger=true\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"manager^address.street trigger=true\" /></td></tr>\n    <tr>\n      {^{if manager^address.ZIP}}\n        <td>ZIP:</td><td><input data-link=\"manager^address.ZIP trigger=true\" /></td>\n       {{else}}\n      <td colspan=\"2\">UK address - No ZIP</td>\n      {{/if}}\n    </tr>\n  </tbody></table>\n\nvar person1 = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n    ZIP: \"34009\"\n  }\n};\n\nvar person2 = {\n  name: \"Henry\",\n  address: {\n    street: \"Trinity St\"\n  }\n};\n\nvar data = {\n  manager: person1\n};\n\n$(\"#modifyLeaf\").on(\"click\", function() {\n  $.observable(data.manager).setProperty({\n    name: \"Hermione\",\n    \"address.street\": \"Main St\",\n    \"address.ZIP\": \"45008\"\n  });\n});\n\n$(\"#changeAddress\").on(\"click\", function() {\n  $.observable(data.manager).setProperty(\n    \"address\", \n    {\n      street: \"New Street\",\n      ZIP: \"99999\"\n    }\n  );\n});\n\n$(\"#UKAddress\").on(\"click\", function() {\n  $.observable(data.manager).setProperty(\n    \"address\", \n    {\n      street: \"St James St\"\n    }\n  );\n});\n\n$(\"#changeManager\").on(\"click\", function() {\n  $.observable(data).setProperty({\n    manager: data.manager === person1 ? person2 : person1\n  });\n});\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", data);\n{^{if manager^address.ZIP}}\n  <td>...<input data-link=\"manager^address.ZIP\" /></td>\n{{else}}\n  <td>...UK address - No ZIP</td>\n{{/if}}\n\n\n"
       }
     ]
   },
@@ -829,6 +839,82 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "_type": "para",
         "title": "",
         "text": "{for}, {if}, custom bindings\n"
+      }
+    ]
+  },
+  "jsvsettings/delimiters": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also Setting tag delimiters for JsRender\n"
+      },
+      {
+        "_type": "para",
+        "title": "JsRender default tag delimiters",
+        "text": "JsRender default tag delimiters\nTemplate tags in JsRender use the Mustache style: {{...}}.\nWhen using JsViews you can also use data-binding - with data-linked tags, written: {^{...}}\n"
+      },
+      {
+        "_type": "para",
+        "title": "Changing delimiters:",
+        "text": "Changing delimiters:\nSometimes there can be a need to use different delimiters. For example there may be a conflict if the template is being rendered on the server using a declarative syntax such as Django with the same default delimiters {{ and }}.\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following call:\n$.views.settings.delimiters(\"<%\", \"%>\");\n\nwill change the tag syntax to <%...%> for JsRender, and <^%...%>) for a data-linked tag in JsViews.\nAnd the following:\n$.views.settings.delimiters(\"<<\", \">>. \"*\");\n\nwill change to  <<...>> for a JsRender tag, and <*<...>>) for a data-linked tag in JsViews.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Verifying current setting for tag delimiters:",
+        "text": "Verifying current setting for tag delimiters:\nvar delimiters = $.views.settings.delimiters();\n// Returns an array [\"{{\", \"}}\", \"^\"] - JsRender tag delimiters and JsViews link character\n\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Choosing alternative tag delimiters, with JsViews",
+        "text": "Choosing alternative tag delimiters, with JsViews\n\n\n\n  <b>[[:title]]</b>\n  <ul>\n    [[for members]]\n      <li>Name: [*[:name]] <input data-link=\"name trigger=true\"/></li>\n    [[/for]]\n  </ul>\n\n\n$.views.settings.delimiters(\"[[\", \"]]\", \"*\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n\nvar team = {\n    title: \"A team\",\n    members: [{name: \"Jo\"}]\n  };\n\ntmpl.link(\"#result\", team);\nMarkup:\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <b>[[:title]]</b>\n  <ul>\n    [[for members]]\n      <li>Name: [*[:name>]] <input data-link=\"name trigger=true\"/></li>\n    [[/for]]\n  </ul>\n</script>\n\nCode\n$.views.settings.delimiters(\"[[\", \"]]\", \"*\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n...\n\n\n"
+      }
+    ]
+  },
+  "jsvsettings/debugmode": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender/JsViews has a ‘debug mode’ setting which determines whether error messages encountered during rendering are displayed.\nTo get current debug mode:\nvar isDebugMode = $.views.settings.debugMode(); // false by default\n\nTo set debug mode:\n$.views.settings.debugMode(...);\n\nDebug mode can be set to any of the following:\n\nfalse – errors during rendering will not be rendered (but an exception will be thrown)\ntrue – no exception will be thrown, but the error message will be rendered, in place of the template tag or block\n\"some string\" – no exception. The string \"some string\" will be rendered in place of the tag or block\n\"\" (empty string) – no exception. The tag or block will simply be replaced by the empty string\nan function (to be used as an error handler) – no exception. The handler will run, and the error string will be rendered, or else, if the function returns a string, that string will be rendered\n\nSee Error handling and debugging for a full discussion of alternative approaches, together with details and working examples of $.views.settings.debugMode(...).\nIn particular, see this sample of using $.views.settings.debugMode(true) with JsViews, and data-linking.\n"
+      }
+    ]
+  },
+  "jsvsettings/onerror": {
+    "sections": []
+  },
+  "jsvsettings/trigger": {
+    "sections": []
+  },
+  "jsvsettings/advanced": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsViews has the following advanced settings:\n\nuseViews – default: false\nlinkAttr – default: \"data-link\"\nnoValidate – default: false\n\nand also the following ‘private’ advanced settings:\n\n_jsv – default: false\n_wm – default: current ‘wrapMap’ settings\n_fe – default: current ‘form element binding’ settings\n\nuseViews controls a JsRender performance optimization, while building the view hierarchy. In very simple templates there will usually not be any need to access the view. JsRender detects these cases, does not create a view, and hence obtains a slight performance gain. By setting useViews to true, you guarantee that JsRender will always create views for template blocks.\nlinkAttr determines the JsViews data-link attribute. By default it is data-link. If there is a conflict where another module also uses the ‘data-link’ attribute, then you can choose a different attribute for JsViews data-linking.\nFor example, if you set $.views.settings.advanced({linkAttr: \"link\"}), then you would write <input link=\"name\"/> instead of <input data-link=\"name\" /> for data-linking an <input/> to name.\nnoValidate controls whether JsViews runs validation code during data-linking, to raise an error in the case of invalid HTML structure (such as <div/> or <div><span></div>) or HTML/JsViews tag structure (such as {^{if...}} <span{{/if}} ... >). By setting noValidate to true, JsViews will skip the validation step, with a minor improvement to performance as a result.\n_jsv is a ‘private’ setting (could change in the future). If set to true JsRender provides a global _jsv variable, which gives access to the internal store of views.\n_wm is a ‘private’ setting (could change in the future). It determines the ‘wrapMap’ configuration which controls how document fragments are inserted into the DOM during data-linking. (Also used by jQuery DOM manipulation).\n_fe is a ‘private’ setting (could change in the future). If contains the ‘form element binding’ configuration, which determines the elements (such as <input/> or <textarea>) which provide two-way data-binding with JsViews – and specifies the default data-linked attribute, such as value.\nTo get current advanced settings:\nvar advancedSettings = $.views.settings.advanced();\n\nBy default the returned advancedSettings object is:\n{useViews: false, linkAttr: \"data-link\", noValidate: false, _jsv: false, _wm: ..., _fe: ...}\n\nTo set advanced settings:\n$.views.settings.advanced({useViews: true});\n// Set one or more advanced settings\n\n"
+      }
+    ]
+  },
+  "jsvsettings/allowcode": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The allow code feature is intended for use with rendered templates (using the render() method), and not for data-linked templates.\nThis is because data-linked templates are optimized to re-render incrementally when linked observable data is updated. The {{*...}} tags may therefore run additional times during updating of template content.\n"
+      }
+    ]
+  },
+  "jsvsettings": {
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "text": ""
       }
     ]
   }

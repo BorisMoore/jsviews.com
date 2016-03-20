@@ -1392,7 +1392,7 @@ fetchCategory()
 		templates.page.link("#id-content", content, {templates: templates});
 
 		searchtextElem = $("#searchtext");
-		searchbox = $("#id-searchbox")[0];
+		searchbox = $("#id-searchbox");
 		searchNavElem = $(".searchnav");
 		sideNavElem = $(".sidenav");
 		hoverTextElem = $("#hovertext");
@@ -1440,12 +1440,13 @@ function loadAllContent(prefix) {
 	while (l-- > 1) {
 		(function() { // Equivalent to $.proxy. Ensure category is specific to this call
 			var category = categories[l];
-			if (!category.hidden && !category[loadingLabel]) {
+			if (!category.hidden && !(prefix==="contents" ? content : content[prefix])[category.name]) {
 				notLoaded++;
 				category[loadingLabel] = " ";
 				$.getScript("documentation/" +  prefix + "-" + category.name + ".js")
 					.then(function() {
 						$.observable(category).setProperty(loadedLabel, true);
+						category.loading = "";
 						notLoaded--;
 						if (!notLoaded) {
 							allLoadedPromise.resolve();

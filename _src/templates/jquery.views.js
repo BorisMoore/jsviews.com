@@ -12,33 +12,33 @@
 
 @@include("templates/-jshint-directives.txt")
 
-(function(factory) {
+(function(factory, global) {
 	// global var is the this object, which is window when running in the usual browser environment
-	var global = (0, eval)('this'), // jshint ignore:line
-		$ = global.jQuery;
+	var $ = global.jQuery;
 
 	if (typeof define === "function" && define.amd) { // AMD script loader, e.g. RequireJS
-		define(["jquery", "./jsrender", "./jquery.observable"], factory); // Require jQuery, JsRender, JsObservable
+		define(["jquery", "./jsrender", "./jquery.observable"], function($, jsr, jso) {
+			return factory(global, $, jsr, jso);
+		}); // Require jQuery, JsRender, JsObservable
 	} else if (typeof exports === "object") { // CommonJS e.g. Browserify
 		module.exports = $
-			? factory($)
+			? factory(global, $)
 			: function($) { // If no global jQuery, take jQuery passed as parameter (with JsRender and JsObservable): require("jquery.views")(jQuery)
-				return factory($);
+				return factory(global, $);
 			};
 	} else { // Browser using plain <script> tag
-		factory(false);
+		factory(global, false);
 	}
 } (
 
 // factory (for jquery.views.js)
-function($, jsr, jso) {
-	"use strict";
+function(global, $, jsr, jso) {
+"use strict";
 
 //========================== Top-level vars ==========================
 
 // global var is the this object, which is window when running in the usual browser environment
-var global = (0, eval)('this'), // jshint ignore:line
-	setGlobals = $ === false; // Only set globals if script block in browser (not AMD and not CommonJS)
+var setGlobals = $ === false; // Only set globals if script block in browser (not AMD and not CommonJS)
 
 jsr = jsr || setGlobals && global.jsrender;
 $ = $ || global.jQuery;
@@ -59,7 +59,7 @@ var $observe, $observable,
 	$isArray = $.isArray,
 	$views = $.views;
 
-if (!$views || !$views.settings) {
+if (!$views || !$views.map) {
 		// JsRender is not loaded.
 	throw requiresStr + "JsRender"; // jsrender.js must be loaded before JsViews and after jQuery
 }
@@ -67,10 +67,12 @@ if (!$views || !$views.settings) {
 var document = global.document,
 	$viewsSettings = $views.settings,
 	$sub = $views.sub,
+	$subSettings = $sub.settings,
 	$extend = $sub.extend,
 	$isFunction = $.isFunction,
 	$converters = $views.converters,
 	$tags = $views.tags,
+	$subSettingsAdvanced = $subSettings.advanced,
 
 	// These two settings can be overridden on settings after loading jsRender, and prior to loading jquery.observable.js and/or JsViews
 	propertyChangeStr = $sub.propChng = $sub.propChng || "propertyChange",
@@ -78,9 +80,11 @@ var document = global.document,
 
 	HTML = "html",
 	syntaxError = $sub.syntaxErr,
-	rFirstElem = /<(?!script)(\w+)(?:[^>]*(on\w+)\s*=)?[^>]*>/,
-	delimOpenChar0, delimOpenChar1, delimCloseChar0, delimCloseChar1, linkChar, error, topView,
+	rFirstElem = /<(?!script)(\w+)[>\s]/,
+	error = $sub._er,
+	onRenderError = $sub._err,
+	delimOpenChar0, delimOpenChar1, delimCloseChar0, delimCloseChar1, linkChar, topView,
 	rEscapeQuotes = /['"\\]/g; // Escape quotes and \ character
-@@include("jquery.views.js")
+@@include("jquery.views.js", { "isJqViews": true })
 	return $;
-}));
+}, this));

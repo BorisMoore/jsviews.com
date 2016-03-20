@@ -147,6 +147,8 @@
 							scriptsToCompile[section.codetabs[ct].url] = scriptsToCompile[section.codetabs[ct].url] || [];
 							scriptsToCompile[section.codetabs[ct].url].push(searchSection);
 						}
+						text += section.html ? section.html + "\n": "";
+						text += section.code ? section.code + "\n": "";
 						testDiv.innerHTML = text;
 						searchSection.text = testDiv.textContent || testDiv.innerText;
 						compileSubSections(section.sections, searchSection);

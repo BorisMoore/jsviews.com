@@ -11,13 +11,11 @@
 				(new Function(sampleData.code))();
 			}
 			if (sampleData.markup) {
-	//      $.views.settings.debugMode();
 				if (sampleData.onlyJsRender) {
 					$('#result').html($.templates(sampleData.markup).render(sampleData.data));
 				} else {
 					$.templates(sampleData.markup).link('#result', sampleData.data);
 				}
-	//      $.views.settings.debugMode(false);
 			}
 		} catch(e) {
 			(sampleData.markup ? $('#result') : $('body')).html(

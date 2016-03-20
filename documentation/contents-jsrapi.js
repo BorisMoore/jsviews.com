@@ -17,6 +17,10 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "links": [],
         "topics": [
           {
+            "hash": "tmplsyntax",
+            "label": "Template syntax and structure"
+          },
+          {
             "hash": "jsrtags",
             "label": "Template tags"
           },
@@ -35,6 +39,10 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "hash": "jsrobjects",
             "label": "JsRender objects"
+          },
+          {
+            "hash": "settings",
+            "label": "Settings"
           },
           {
             "hash": "jsrnode",
@@ -62,7 +70,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Tags without content",
-        "text": "- [`{{: ...}}`](#assigntag) (Evaluate)\n- [`{{> ...}}`](#htmltag) (HTML encode)\n- [`{{!-- ... --}}`](#commenttag) (Comment)\n- [`{{* ... }} and {{*: ...}}`](#allowcodetag) (Allow code)"
+        "text": "- [`{{: ...}}`](#assigntag) (Evaluate)\n- [`{{> ...}}`](#htmltag) (HTML encode)\n- [`{{!-- ... --}}`](#commenttag) (Comment)\n- [`{{* ...}} and {{*: ...}}`](#allowcodetag) (Allow code)"
       },
       {
         "_type": "para",
@@ -216,6 +224,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "samples/jsr/converters",
             "label": "Sample: Converters and encoding"
+          },
+          {
+            "_type": "topic",
+            "hash": "paths",
+            "label": "Paths and expressions"
           }
         ]
       }
@@ -292,6 +305,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "samples/jsr/converters",
             "label": "Sample: Converters and encoding"
+          },
+          {
+            "_type": "topic",
+            "hash": "paths",
+            "label": "Paths and expressions"
           }
         ]
       }
@@ -467,6 +485,28 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         },
         "onlyJsRender": true,
         "height": "55"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "tagsyntax",
+            "label": "Tag syntax"
+          },
+          {
+            "_type": "topic",
+            "hash": "views",
+            "label": "View hierarchy"
+          },
+          {
+            "_type": "topic",
+            "hash": "paths",
+            "label": "Paths and expressions"
+          }
+        ]
       }
     ]
   },
@@ -728,6 +768,21 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "topics": [
           {
             "_type": "topic",
+            "hash": "tagsyntax",
+            "label": "Tag syntax"
+          },
+          {
+            "_type": "topic",
+            "hash": "views",
+            "label": "View hierarchy"
+          },
+          {
+            "_type": "topic",
+            "hash": "paths",
+            "label": "Paths and expressions"
+          },
+          {
+            "_type": "topic",
             "hash": "samples/jsr/paths",
             "label": "Sample: Paths"
           }
@@ -954,6 +1009,21 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "title": "See also:",
         "links": [],
         "topics": [
+          {
+            "_type": "topic",
+            "hash": "tagsyntax",
+            "label": "Tag syntax"
+          },
+          {
+            "_type": "topic",
+            "hash": "views",
+            "label": "View hierarchy"
+          },
+          {
+            "_type": "topic",
+            "hash": "paths",
+            "label": "Paths and expressions"
+          },
           {
             "_type": "topic",
             "hash": "samples/jsr/paths",
@@ -1194,6 +1264,28 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "onlyJsRender": true,
         "height": "316",
         "title": "{{if}}...{{else}}...{{/if}}"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "tagsyntax",
+            "label": "Tag syntax"
+          },
+          {
+            "_type": "topic",
+            "hash": "views",
+            "label": "View hierarchy"
+          },
+          {
+            "_type": "topic",
+            "hash": "paths",
+            "label": "Paths and expressions"
+          }
+        ]
       }
     ]
   },
@@ -1235,6 +1327,16 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "tagsyntax",
             "label": "Tag syntax"
+          },
+          {
+            "_type": "topic",
+            "hash": "views",
+            "label": "View hierarchy"
+          },
+          {
+            "_type": "topic",
+            "hash": "paths",
+            "label": "Paths and expressions"
           }
         ]
       }
@@ -1288,12 +1390,12 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender templates allow you to write rich expressions within the template tags, such as `{{: someExpression}}`. Nevertheless, in order to improve encapsulation and maintainability, they don't allow <em>arbitrary</em> code. For example, they don't allow you to access global variables, like `window`. \n\nIf you want complete freedom to insert any code into a compiled template, you can set `allowCode` to `true`, either globally, or specifically for that template. You can then insert any code by using the `{{* ... }}` tag, or you can return (render into the template output) the result of evaluating any expression, using the `{{*: ... }}` tag."
+        "text": "JsRender templates allow you to write [rich expressions](#paths) within the template tags, such as:\n\n```jsr\n{{:person.firstName + ' ' + person.lastName.toUpperCase()}}\n```\n\nNevertheless, in order to improve encapsulation and maintainability, they don't allow <em>arbitrary</em> code. For example, they don't allow you to access global variables, like `window`. \n\nIf you want complete freedom to insert any code into a compiled template, you can set **allowCode** to *true*, either globally, or specifically for that template. You can then run any code as part of the template rendering, using the `{{* ...}}` tag, or you can return (render into the template output) the result of evaluating any expression, using the `{{*: ...}}` tag.\n\n(*Note:* these ***allow code*** tags are not recommended for use within [data-linked](#jsvlinktmpl) templates -- with JsViews)"
       },
       {
         "_type": "tag",
         "typeLabel": "Tag:",
-        "title": "{{*... /}}",
+        "title": "{{* ...}}",
         "name": "for NAME",
         "signatures": [
           {
@@ -1321,7 +1423,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "tag",
         "typeLabel": "Tag:",
-        "title": "{{*: ... /}}",
+        "title": "{{*: ...}}",
         "name": "for NAME",
         "signatures": [
           {
@@ -1349,7 +1451,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Here is an example, with `allowCode` set to `true` globally:\n\n```js\n$.views.settings.allowCode=true;\n```"
+        "text": "Here is an example, with `allowCode` set to `true` globally:\n\n```js\n$.views.settings.allowCode(true);\n```"
       },
       {
         "_type": "sample",
@@ -1365,15 +1467,16 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "Enable `allowCode` in all templates:\n\n```js\n$.views.settings.allowCode=true;\n```\n\nDefine a global variable, then increment it:\n\n```jsr\n{{* window.myvar=2; myvar+=4; }}\n```\n\nInsert the value into the rendered output:\n\n```jsr\n<div> Initial value: {{*:myvar}}</div>\n```\n\nIncrement the value again, and output the new value:\n\n```js\n{{* window.myvar+=11; }}\n\n<div> New value: {{*:myvar}}</div>\n```"
+            "text": "Enable `allowCode` in all templates:\n\n```js\n$.views.settings.allowCode(true);\n```\n\nDefine a global variable, then increment it:\n\n```jsr\n{{* window.myvar=2; myvar+=4; }}\n```\n\nInsert the value into the rendered output:\n\n```jsr\n<div> Initial value: {{*:myvar}}</div>\n```\n\nIncrement the value again, and output the new value:\n\n```js\n{{* window.myvar+=11; }}\n\n<div> New value: {{*:myvar}}</div>\n```"
           }
         ],
         "onlyJsRender": true,
         "height": "70",
-        "code": "$.views.settings.allowCode=true; \n\nvar html = $(\"#myTemplate\").render();\n\n$(\"#result\").html(html);",
+        "code": "$.views.settings.allowCode(true); \n\nvar html = $(\"#myTemplate\").render();\n\n$(\"#result\").html(html);",
         "html": "<script id=\"myTemplate\" type=\"text/x-jsrender\">\n\n  {{* window.myvar=2; myvar+=4; }}\n\n  <div> Initial value: {{*:myvar}}</div>\n\n  {{* window.myvar+=11; }}\n\n  <div> New value: {{*:myvar}}</div>\n\n</script>\n\n<div id=\"result\"></div>",
-        "title": "",
-        "markup": ""
+        "title": "allowCode",
+        "markup": "",
+        "anchor": "sample"
       },
       {
         "_type": "para",
@@ -1394,19 +1497,20 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```js\n$.views.settings.allowCode=true; \n```\n\nDefine a global variable:\n\n```jsr\n{{* window.total = 0}}\n```\n\nIterate through a list, and use `{{* ...}}` to increment the `total`, and `{{*:}}` to return each value:\n\n```js\n{{for list}}\n  {{* total += data}}\n    <li>\n      Amount {{:}} (Running total: {{*: total}})\n   </li>\n{{/for}}\n```"
+            "text": "```js\n$.views.settings.allowCode(true);\n```\n\nDefine a global variable:\n\n```jsr\n{{* window.total = 0}}\n```\n\nIterate through a list, and use `{{* ...}}` to increment the `total`, and `{{*:}}` to return each value:\n\n```js\n{{for list}}\n  {{* total += data}}\n    <li>\n      Amount {{:}} (Running total: {{*: total}})\n   </li>\n{{/for}}\n```"
           }
         ],
         "onlyJsRender": true,
         "height": "160",
-        "code": "var data = {\n    title: \"My list\",\n    list: [2, 10.3, 77, -44, -5.5]\n  };\n\n$.views.settings.allowCode=true; \n\nvar html = $(\"#myTemplate\").render(data);\n\n$(\"#result\").html(html);",
+        "code": "var data = {\n    title: \"My list\",\n    list: [2, 10.3, 77, -44, -5.5]\n  };\n\n$.views.settings.allowCode(true);\n\nvar html = $(\"#myTemplate\").render(data);\n\n$(\"#result\").html(html);",
         "html": "<script id=\"myTemplate\" type=\"text/x-jsrender\">\n  {{* window.total = 0}}\n  <ol>\n    {{for list}}\n      {{* total += data}}\n        <li>\n          Amount {{:}} (Running total: {{*: total}})\n       </li>\n    {{/for}}\n  </ol>\n  <u>Total: {{*: total}}</u>\n</script>\n\n<div id=\"result\"></div>",
-        "title": ""
+        "title": "allowCode and regular tags",
+        "anchor": "plusreg"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "Here is another example, in which we will replace the `{{for list}}` iteration by pure code-based iteration using `{{* ...}}`. This makes it easy to iterate only over the odd members of the array.\n\n<br/>This time we will enable code insertion just for this template:\n\n```js\n$.templates(..., {\n  markup: ...,\n  allowCode: true,\n  ...\n})\n```"
+        "text": "Here is another example, in which we will replace the `{{for list}}` iteration by pure code-based iteration using `{{* ...}}`. This makes it easy to iterate only over the odd members of the array.\n\n<br/>This time we will allow code ***just for this template***:\n\n```js\n$.templates(..., {\n  markup: ...,\n  allowCode: true,\n  ...\n})\n```"
       },
       {
         "_type": "sample",
@@ -1429,7 +1533,8 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "height": "110",
         "code": "var data = {\n    title: \"My list\",\n    list: [2, 10.3, 77, -44, -5.5]\n  };\n\nvar tmpl = $.templates({\n    markup: \"#myTemplate\",\n    allowCode: true\n  });\n \nvar html = tmpl.render(data);\n\n$(\"#result\").html(html);",
         "html": "<script id=\"myTemplate\" type=\"text/x-jsrender\">\n  Here are the odd numbered items:\n  <ul>\n    {{* for (i=0; i<data.list.length; i+=2) { }}\n      <li>\n        {{*: i+1}}: Amount {{*:data.list[i]}}\n      </li>\n    {{* } }}\n  </ul>\n</script>\n\n<div id=\"result\"></div>",
-        "title": ""
+        "title": "allowCode for template",
+        "anchor": "tmpl"
       }
     ]
   },
@@ -4348,8 +4453,418 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "hash": "views",
             "label": "View hierarchy"
+          },
+          {
+            "hash": "onerror",
+            "label": "Error handling and debugging"
           }
         ]
+      }
+    ]
+  },
+  "settings": {
+    "title": "Settings",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "settings/delimiters",
+            "label": "Delimiters"
+          },
+          {
+            "hash": "settings/debugmode",
+            "label": "Debug mode"
+          },
+          {
+            "hash": "settings/allowcode",
+            "label": "Allow code"
+          },
+          {
+            "hash": "settings/advanced",
+            "label": "Advanced"
+          }
+        ]
+      }
+    ]
+  },
+  "settings/delimiters": {
+    "title": "Setting tag delimiters for JsRender",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also [Setting tag delimiters for JsViews](#jsvsettings/delimiters)"
+      },
+      {
+        "_type": "para",
+        "title": "JsRender default tag delimiters",
+        "text": "Template tags in JsRender use the Mustache style: `{{...}}`\n\n(JsRender also accepts the data-linked tag syntax used in in JsViews: `{^{...}}`). "
+      },
+      {
+        "_type": "para",
+        "title": "Changing delimiters:",
+        "text": "Sometimes there can be a need to use different delimiters. For example there may be a conflict if the template is being rendered on the server using a declarative syntax such as *Django* with the same default delimiters `{{` and `}}`.\n\nThe following call:\n\n```js\n$.views.settings.delimiters(\"<%\", \"%>\");\n```\n\nwill change the tag syntax to `<%...%>`."
+      },
+      {
+        "_type": "para",
+        "title": "Verifying current setting for tag delimiters:",
+        "text": "```js\nvar delimiters = $.views.settings.delimiters();\n// Returns an array [\"{{\", \"}}\", \"^\"] - JsRender tag delimiters (and JsViews link character)\n```"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Markup:* \n\n```jsr\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <b>[%:title%]</b>\n  <ul>\n    [%for members%]\n      <li>Name: [%:name%]</li>\n    [%/for%]\n  </ul>\n</script>\n```\n\n*Code*\n\n```js\n$.views.settings.delimiters(\"[%\", \"%]\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n...\n```"
+          }
+        ],
+        "html": "<div id=\"result\">\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <b>[%:title%]</b>\n  <ul>\n    [%for members%]\n      <li>Name: [%:name%]</li>\n    [%/for%]\n  </ul>\n</script>\n",
+        "code": "$.views.settings.delimiters(\"[%\", \"%]\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n\nvar team = {\n    title: \"A team\",\n    members: [{name: \"Jo\"}]\n  };\n\nvar html = tmpl.render(team);\n\n$(\"#result\").html(html);",
+        "onlyJsRender": true,
+        "height": "80",
+        "title": "Choosing alternative tag delimiters, with JsRender"
+      }
+    ]
+  },
+  "settings/onerror": {
+    "title": "onError",
+    "path": "",
+    "sections": []
+  },
+  "settings/dbgmode": {
+    "title": "dbgMode",
+    "path": "",
+    "sections": []
+  },
+  "settings/debugmode": {
+    "title": "Debug mode",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender has a *'debug mode'* setting which determines whether error messages encountered during rendering are displayed.\n\n***To get current debug mode:***\n\n```js\nvar isDebugMode = $.views.settings.debugMode(); // false by default\n```\n\n***To set debug mode:***\n\n```js\n$.views.settings.debugMode(...);\n```\n\nDebug mode can be set to any of the following:\n\n- `false` -- *errors during rendering will not be rendered* (but an exception will be thrown)\n- `true` -- no exception will be thrown, but *the error message will be rendered*, in place of the template tag or block\n- `\"some string\"` -- no exception. *The string `\"some string\"` will be rendered* in place of the tag or block\n- `\"\"` (empty string) -- no exception. The tag or block will simply be *replaced by the empty string*\n- an function (to be used as an error handler) -- no exception. The handler will run, and *the error string will be rendered, or else, if the function returns a string, that string will be rendered*\n\nSee *[Error handling and debugging](#onerror)* for a full discussion of alternative approaches, together with [details and working examples](#onerror@debugmode) of `$.views.settings.debugMode(...)`.\n\n "
+      }
+    ]
+  },
+  "settings/allowcode": {
+    "title": "Allow code",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender templates allow you to write [rich expressions](#paths) within the template tags, such as:\n\n```jsr\n{{:person.firstName + ' ' + person.lastName.toUpperCase()}}\n```\n\nNevertheless, in order to improve encapsulation and maintainability, they don't allow <em>arbitrary</em> code. For example, they don't allow you to access global variables, like `window`. \n\nIf you want complete freedom to insert any code into a compiled template, you can set **allowCode** to *true*, either globally, or specifically for that template. You can then run any code as part of the template rendering, using the [`{{* ...}}`](#allowcodetag) tag, or you can return (render into the template output) the result of evaluating any expression, using the [`{{*: ...}}`](#allowcodetag) tag.\n"
+      },
+      {
+        "_type": "para",
+        "title": "To set allowCode to true, globally",
+        "text": "```js\n$.views.settings.allowCode(true);\n```\n(See samples for [`{{* ...}}` and `{{*: ...}}`](#allowcodetag@sample))\n  \n"
+      },
+      {
+        "_type": "para",
+        "title": "To set allowCode back to false, globally",
+        "text": "```js\n$.views.settings.allowCode(false);\n```\n",
+        "anchor": ""
+      },
+      {
+        "_type": "para",
+        "title": "To get current global allowCode setting",
+        "text": "```js\nvar allowCodeIsTrue = $.views.settings.allowCode(); // false by default\n```"
+      },
+      {
+        "_type": "para",
+        "title": "To set allowCode to true for a specific template",
+        "text": "```js\n$.templates(..., {\n  markup: ...,\n  allowCode: true,\n  ...\n})\n```\n\n(See `{{* ...}}` and `{{*: ...}}` sample: *[allowCode for template](#allowcodetag@tmpl)*)."
+      }
+    ]
+  },
+  "settings/advanced": {
+    "title": "Advanced settings",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender has the following advanced setting:\n\n- **useViews** -- *default:* `false`\n\nand also the following 'private' advanced setting:\n\n- **_jsv** -- *default:* `false`\n\n***useViews*** controls a JsRender performance optimization, while building the *[view hierarchy](#views)*. In very simple templates there will usually not be any need to access the [`view`](#viewobject). JsRender detects these cases, does not create a view, and hence obtains a slight performance gain. By setting `useViews` to `true`, you guarantee that JsRender will *always* create views for template blocks.\n\n***_jsv*** is a 'private' setting (could change in the future). If set to `true` JsRender provides a global `_jsv` variable, which gives access to the internal store of views.\n\n***To get current advanced settings:***\n\n```js\nvar advancedSettings = $.views.settings.advanced();\n```\n\nBy default the returned `advancedSettings` object is:\n\n```js\n{useViews: false, _jsv: false}\n```\n\n***To set advanced settings:***\n\n```js\n$.views.settings.advanced({useViews: true});\n// Set one or more advanced settings\n```"
+      }
+    ]
+  },
+  "onerror": {
+    "title": "Error handling and debugging",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Sometimes when rendering a JsRender template, a JavaScript error is encountered. For example `{{:address.street}}` in a template will render without error provided there is an `address` property on the current data object. But if there is no `address` property, then *there will be an error*: ***\"Cannot read property 'street' of undefined\"***.\n\nJsRender provides two features which provide powerful control over rendering behavior when errors are encountered.\n\n- The optional [`onError=...` property](#onerror@onerror) that can be set on any tag -- for controlling error handling behavior on that specific tag\n- The [`$.views.settings.dbgMode(...)` setting](#onerror@debugmode) -- which provides global control over error handling during rendering\n\nIn addition, for advanced debugging of compiled templates, see:\n\n- *[Using debugging helpers](#onerror@dbg)*\n\n<br/>\n## Specifying onError fallback behavior on a tag"
+      },
+      {
+        "_type": "para",
+        "title": "Setting onError to a string",
+        "text": "All JsRender tags (including custom tags) such as `{{address.street}}` or `{{for getItems()}}` allow you to provide a `onError` tag property, with a fallback string to render in the case of errors:\n\n```jsr\n{{:address.street onError=\"Address unavailable\"}}\n```\n\n```jsr\n{{for phones() onError=\"No phones\"}}\n```\n\n```jsr\n{{myCustomTag ... onError=\"\"}}\n```\n\nThe `onError` fallback string will be rendered whenever there an error (or exception) is encountered during the tag rendering.\n\nSetting to the empty string ensures that errors are simply ignored, and the tag renders as the empty string.",
+        "anchor": "onerror"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "In this sample, if a `member` object has no `address` property, the `address.street` expression will lead to a JavaScript error, and the `{{:address.street onError=\"Address unavailable\"}}` will render the fallback string:  `\"Address unavailable\"`.\n\nSimilarly, `{{for phones() onError=\"...\"}}`, if `phones()` produces an error... \n\n*Template:*\n\n```jsr\n{{for phones() onError=\"<em>No phones</em>\"}} ...\n{{:address.street onError=\"Address unavailable\"}}\n```\n\n*Code:*\n\n```js\nfunction phones() { if (!this._phones) { throw new Error(\"phones() error\"); } ... }\n```\n\n*Data:*\n\n```js\nmembers: [\n  {address: {street: \"1st Ave\"}, _phones: [\"888\", \"456\"], ...\n  {address: undefined, _phones: [\"987\", \"111\"], ...             // No address\n  {address: {street: \"Main St\"}, _phones: undefined, ...        // _No phones\n]\n```\n"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  Phones:\n  {{for phones() onError=\"<em>No phones</em>\"}}\n    {{:}}\n  {{/for}}\n  <br/>\n  <b>{{:address.street onError=\"Address unavailable\"}}</b>\n  <hr/>\n{{/for}}\n</script>\n",
+        "markup": "",
+        "onlyJsRender": true,
+        "data": [],
+        "code": "function phones() {\n  if (!this._phones) {\n    throw new Error(\"phones() error\");\n  }\n  return this._phones;\n}\n\nvar team = {\n  members: [\n    {address: {street: \"1st Ave\"}, _phones: [\"888\", \"456\"],\n      phones: phones},\n    {address: undefined, _phones: [\"987\", \"111\"],       // No address\n      phones: phones},\n    {address: {street: \"Main St\"}, _phones: undefined,  // _No phones\n      phones: phones}\n  ]\n};\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);",
+        "title": "onError=\"fallback string...\" ",
+        "height": "180"
+      },
+      {
+        "_type": "para",
+        "title": "Setting onError to an expression",
+        "text": "More specific or powerful behavior can be obtained by setting onError to an expression, such as:\n\n```jsr\n{{:address.street onError=name + \" has no address\"}}\n```\n\n```jsr\n{{:address.street onError=~errorMessages(1, name, 'address')}}\n```"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{{for phones() onError=name + \" has no phones\"}} ...\n```\n\n```jsr\n{{:address.street onError=~errorMessages(1, name, \"address\")}}\n```\n\n```js\n$.views.helpers(\"errorMessages\", function(id, param1, param2) {\n  if (id === 1) { return param1 + \" has no \" + param2; } ...\n});\n```\n"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>Name: {{:name}}<br/>\n    Phones:\n    {{for phones() onError=name + \" has no phones\"}}\n      {{:}}\n    {{/for}}\n    <br/>\n    <b>{{:address.street onError=~errorMessages(1, name, \"address\")}}</b>\n    <hr/>\n  </div>\n{{/for}}\n</script>",
+        "code": "function phones() {\n  if (!this._phones) {\n    throw new Error(\"phones() error\");\n  }\n  return this._phones;\n}\n\nvar team = {\n  members: [\n    {name: \"Bill\", address: {street: \"1st Ave\"}, _phones: [\"888\", \"456\"],\n      phones: phones},\n    {name: \"Jane\", address: undefined, _phones: [\"987\", \"111\"],       // No address\n      phones: phones},\n    {name: \"Ava\", address: {street: \"Main St\"}, _phones: undefined,  // _No phones\n      phones: phones}\n  ]\n};\n\n$.views.helpers(\"errorMessages\", function(id, param1, param2) {\n  if (id === 1) {\n    return param1 + \" has no \" + param2;\n  } \n});\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);\n",
+        "height": "270",
+        "onlyJsRender": true,
+        "title": "onError=someExpression..."
+      },
+      {
+        "_type": "para",
+        "title": "Setting onError to a function",
+        "text": "If `onError=myOnErrorHandler` is set to a function, then the function will be called when there is an error.\n\n- If the function returns a string, then that string will be rendered, replacing the template block\n- If the function has no return value, then the error message will be rendered\n\nFor example, you can provide a `person.error()` error handler method on a person object, and set `onError=error`. Or you can use global helper (or a helper passed to the render function), and set `onError=~myErrorHandler`, such as the following to log the error and display just the empty string:\n\n```js\nfunction myErrorHandler(e, view) {\n  console.log(...); // Log the error \n  return \"\";        // Display the empty string \n}\n```\n\nThe parameters of the onError handler function -- `myHandler(e, view)` -- will be:\n\n- `e` -- the `error` object\n- `view` -- the current `view` object\n- The `this` pointer will be the current data item, `view.data`"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{{:address.street onError=~myOnError}}\n```\n```js\nfunction onErrorHandler(e, view) {\n  console.log(e.message);\n  if (!this.address) {\n    return this.name + \" has no address (\" + e.message + \")\";\n  }\n}\n\nvar html = $(\"#teamTmpl\").render(team, {myOnError: onErrorHandler});\n```"
+          }
+        ],
+        "code": "var team = {\n  members: [\n    {name: \"Bill\", address: {street: \"1st Ave\"}},\n    {name: \"Jane\", address: undefined}           // No address\n  ]\n};\n\nfunction onErrorHandler(e, view) {\n  console.log(e.message);\n  if (!this.address) {\n    return this.name + \" has no address (\" + e.message + \")\";\n  }\n}\n\nvar html = $(\"#teamTmpl\").render(team, {myOnError: onErrorHandler});\n\n$(\"#result\").html(html);\n",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>Name: {{:name}}<br/>\n    <b>{{:address.street onError=~myOnError}}</b>\n    <hr/>\n  </div>\n{{/for}}\n</script>\n",
+        "height": "150",
+        "onlyJsRender": true,
+        "title": "onError=~myOnError"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "<br/>\n## Setting debug mode",
+        "anchor": ""
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The `$.views.settings.dbgMode(...)` setting provides control of error handling during rendering, similar to the `onError` feature [above](#onerror@onerror), but operating at a global level rather than on individual tags.\n\nThese two approaches are complementary and can be used together.  "
+      },
+      {
+        "_type": "para",
+        "title": "Setting debug mode to true",
+        "text": "- By default *debug mode* is **false** -- and *an exception will be thrown if a JavaScript error is encountered while rendering a template block*\n- If *debug mode* is set to **true** -- error messages encountered while rendering a template block *will replace the rendered content of that block*\n\n***To set debug mode to true:***\n\n```js\n$.views.settings.debugMode(true);\n```\n\n***To set debug mode back to false:***\n\n```js\n$.views.settings.debugMode(false);\n```\n\n***To get current debug mode:***\n\n```js\nvar isDebugMode = $.views.settings.debugMode(); // false by default\n```\n\nIn the following example *debug mode* is set to `true`. The error message is rendered, replacing the template block.\n\n(Choose *Try it* and change *debug mode* to `false`, to see the difference.)\n",
+        "anchor": "debugmode"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Code:*\n\n```js\n$.views.settings.debugMode(true);\n```\n\nThe template block for Bill (who has no address) is replaced by the error message.\n\n```js\nvar team = {members: [\n {name:\"Jo\", address: {street: \"1st Ave\"}},\n {name:\"Bill\"}, // Bill does not have an address!!\n {name:\"Ava\", address: {street: \"Main St\"}}\n]};\n...\n```\n\n*Template:*\n\n```jsr\n{{for members}}\n  <div>{{:name}} - <b>{{:address.street}}</b></div>\n{{/for}}\n```"
+          }
+        ],
+        "code": "$.views.settings.debugMode(true); \n// Change to $.views.settings.debugMode(false); - The error\n// will not be displayed, but an exception will be thrown.\n\nvar team = {members: [\n {name:\"Jo\", address: {street: \"1st Ave\"}},\n {name:\"Bill\"},  // Bill does not have an address!!\n {name:\"Ava\", address: {street: \"Main St\"}}\n]};\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);\n",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>{{:name}} - <b>{{:address.street}}</b></div>\n{{/for}}\n</script>\n",
+        "onlyJsRender": true,
+        "height": "100",
+        "title": "Debug mode set to true"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following example also illustrates setting *debug mode* to `true`, but this time it is used with JsViews, and the `link(...)` method, rather than JsRender and `render(...)`.\n\nThe error conditions can arise both in expressions within tags, such as `{^{:manager.name}}` and data-link expressions such as `<input data-link='manager.name'`."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Template:*\n\n```jsr\nTeam:<div>\n  {{if owner}}\n    Owner: {^{:manager.name}}\n  {{/if}}\n</div>\nEdit: <input data-link='manager.name' />\n```\n\n*Code:*\n\n```js\n$.views.settings.debugMode(true);\n// Debug mode is set to true, so error messages are rendered as content of corresponding template block.\n\nvar team = {owner:\n {name:\"Jo\"}\n}; // team.manager is undefined...\n...\ntmpl.link(\"#result\", team); // Error...\n```\n\nIf you choose *Try it* and change to `$.views.settings.debugMode(false);`, the error will instead be thrown as an exception.\n"
+          }
+        ],
+        "html": "<style>input {width: 350px;}</style>\n<div id=\"result\"></div>\n\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  Team:<div> \n    {{for team}}\n      Owner: {^{:manager.name}}\n    {{/for}}\n  </div>\n  Edit: <input data-link='manager.name' />\n</script>\n",
+        "code": "$.views.settings.debugMode(true);\n\nvar team = {owner:\n {name:\"Jo\"}\n}; // team.manager is undefined...\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", {team: team}); // Error...",
+        "height": "90",
+        "title": "Debug mode set to true &ndash; JsViews",
+        "anchor": "datalink"
+      },
+      {
+        "_type": "para",
+        "title": "Setting debug mode to a string",
+        "text": "By setting debug mode to a string rather than to `true`, no exception will be thrown, and the chosen string will be rendered, replacing the template block. \n\n```js\n$.views.settings.debugMode(\"Error!\");\n``` "
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\n$.views.settings.debugMode(\"Error!\"); \n```\n\nThe template block for *Bill* (who has no address) is replaced by `\"Error!\"`."
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>{{:name}} - <b>{{:address.street}}</b></div>\n{{/for}}\n</script>\n",
+        "code": "$.views.settings.debugMode(\"Error!\");  // Do not throw exception - render \"Error!\"\n\nvar team = {members: [\n {name:\"Jo\", address: {street: \"1st Ave\"}},\n {name:\"Bill\"},  // Bill does not have an address!!\n {name:\"Ava\", address: {street: \"Main St\"}}\n]};\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);\n",
+        "title": "Debug mode set to a default string",
+        "onlyJsRender": true,
+        "height": "100"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In some scenarios the desired behavior may be to ignore errors during rendering, by skipping any template block with an error, rendering it as an empty string. This is achieved very easily, by simply writing:\n\n```js\n$.views.settings.debugMode(\"\");\n``` "
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n$.views.settings.debugMode(\"\");\n```\n\nThe template block for *Bill* (who has no address) is skipped."
+          }
+        ],
+        "title": "Debug mode set to empty string",
+        "code": "$.views.settings.debugMode(\"\");   // Do not throw exception - render \"\"\n\nvar team = {members: [\n {name:\"Jo\", address: {street: \"1st Ave\"}},\n {name:\"Bill\"},  // Bill does not have an address!!\n {name:\"Ava\", address: {street: \"Main St\"}}\n]};\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);\n",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>{{:name}} - <b>{{:address.street}}</b></div>\n{{/for}}\n</script>\n",
+        "onlyJsRender": true,
+        "height": "90"
+      },
+      {
+        "_type": "para",
+        "title": "Providing a debug mode handler (function)",
+        "text": "If debug mode is set to a function, the function will be called each time an error is encountered during rendering. \n\n- If the function returns a string, then that string will be rendered, replacing the template block\n- If the function has no return value, then the error message will be rendered\n\n```js\n$.views.settings.debugMode(myOnErrorHandler);\n\nfunction myOnErrorHandler(e, fallback, view) {\n  // This handler will log the error, and then display the empty string\n  console.log(...);\n  return \"\"; \n}\n```\n\nThe parameters of the debug mode error handler function -- `myHandler(e, fallback, view)` -- will be:\n\n- `e` -- the error object\n- `fallback` -- the fallback error string, provided by the *[onError fallback](#onerror@onerror)* specified on the tag, if there is one\n- `view` -- the current view object\n- The `this` pointer will be the current data item, `view.data`\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{{:address.street onError='address'}}\n```\n\n```js\nfunction onErrorHandler(e, fallback, view) {\n  console.log(e.message);\n  if (fallback === \"address\") {\n    return '<b>Address error</b> for ' + this.name + '. <em>(\"' + e.message + '\")</em>';\n  }\n}\n```\n\n```js\n$.views.settings.debugMode(onErrorHandler);\n```\n"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>Name: {{:name}}<br/>\n    {{:address.street onError='address'}}\n    <hr/>\n  </div>\n{{/for}}\n</script>\n",
+        "code": "var team = {\n  members: [\n    {name: \"Bill\", address: {street: \"1st Ave\"}},\n    {name: \"Jane\", address: undefined}           // No address\n  ]\n};\n\nfunction onErrorHandler(e, fallback, view) {\n  console.log(e.message);\n  if (fallback === \"address\") {\n    return '<b>Address error</b> for ' + this.name + '. <em>(\"' + e.message + '\")</em>';\n  }\n}\n\n$.views.settings.debugMode(onErrorHandler);\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);\n",
+        "title": "Debug mode &ndash; onError handler",
+        "onlyJsRender": true
+      },
+      {
+        "_type": "para",
+        "title": "Advanced debugging, using debugging helpers",
+        "text": "***Inserting breakpoints during rendering:***\n\nJsRender (and JsViews) provide some helpers for debugging code within compiled templates:\n\n- The `{{dbg expression/}}` tag\n- The `{{dbg: expression}}` converter\n- The `~dbg(expression)` helper function\n\nEach of the above will\n- evaluate the expression\n- insert a `debugger;` statement\n- output a `console.log(...)` call\n- throw and catch an exception - which you can use as a break point by *stopping on caught exceptions*\n- render the evaluated expression\n\nThis is done by inserting code into the compiled template which calls into the built-in *dbgBreak* code:\n\n```js\nfunction dbgBreak(val) {\n  try {\n    debugger;\n    console.log(\"JsRender dbg breakpoint: \" + val);\n    throw \"dbg breakpoint\"; // To break here, stop on caught exceptions.\n  }\n  catch (e) {}\n```\n\n`val` will be the result of evaluating `expression`.\n\nWhen rendering execution breaks at the above code, you can then step up through the call stack to the compiled template code, for further debugging.\n\nUsage examples: `{{dbg:...}}`, `{{:~dbg(...)}}`, `{{dbg .../}}` etc.\n\n***Breakpoints during data linking:***\n\nIn JsViews, a breakpoint can also be inserted during template data-linking, as in `{^{for ... onAfterLink=~dbg}}`.\n\n___Using {{*debugger}}:___\n\nAn alternative (but similar) debugging technique is to use `allowCode` to insert a `debugger;` statement directly into the compiled template code, as follows:\n\n*Code:*\n\n```js\nvar tmpl = $.templates({\n  markup: \"#myTmpl\",\n  allowCode: true // Alternatively use global setting: $.views.settings.allowCode(true)\n});\n```\n\n*Template:*\n\n```jsr\n...\n{{*debugger}}\n...\n```",
+        "anchor": "dbg"
       }
     ]
   }

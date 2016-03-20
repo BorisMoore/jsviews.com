@@ -10,7 +10,7 @@
 
 @@include('templates/-jshint-directives.txt')
 
-(function() {
+(function(global) {
 "use strict";
 if (typeof exports !== 'object' ) {
 	throw "Outside Node.js use //jsviews.com/download/jsrender.js";
@@ -21,7 +21,6 @@ if (typeof exports !== 'object' ) {
 var versionNumber = "v@@include("templates/-version.txt")",
 
 	// global var is the this object, which is window when running in the usual browser environment
-	global = (0, eval)('this'), // jshint ignore:line
 
 	$, jsvStoreName, rTag, rTmplString, topView, $views,
 
@@ -49,4 +48,4 @@ $views.tags("clientTemplate", function(path) { // Custom tag to render a templat
 
 module.exports = $;
 // END NODE.JS-SPECIFIC CODE
-}());
+}(this));

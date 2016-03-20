@@ -9,7 +9,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "<em><small>(Work in progress. Other topics to follow...)</small></em>"
+        "text": "<em>Note:</em> New topics are being added regularly to this documentation."
       },
       {
         "_type": "links",
@@ -47,6 +47,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "hash": "$view",
             "label": "Views: from UI to data"
+          },
+          {
+            "hash": "jsvsettings",
+            "label": "Settings"
           },
           {
             "hash": "jsvcompiletmpl",
@@ -637,7 +641,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "***Any JsRender template*** can be used with JsViews.\n\nCalling the <a href=\"#rendertmpl\">`render()`</a> method works just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the <a href=\"#jsvlinktmpl\">`link()`</a> method -- which will first render and then add data binding (<em>data-link the template</em>).\n\nIf you have data-linked your template by calling the `link()` method, then you can continue to use the same <a href=\"#jsrtags\">JsRender template tags</a> as before. But now you optionally make any tag in the template [data-linked](#linked-tag-syntax), by replacing the `{{...` of the opening tag by `{^{...`, as in:\n\n```jsr\n{^{for people}}\n  {^{:name}}\n{{/for}}\n```\n\nIn addition, you can [*data-link* the HTML elements](#linked-elem-syntax) in your template, as in:\n\n```jsr\n<input data-link=\"name\" />\n<div data-link=\"css-color{:color} {:name}\"></div>\n```\n \nSee *[Data-link template syntax](#linked-template-syntax)* for details..."
+        "text": "***Any JsRender template*** can be used with JsViews."
+      },
+      {
+        "_type": "para",
+        "title": "Data-linked templates",
+        "text": "Calling the <a href=\"#rendertmpl\">`render()`</a> method works just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the <a href=\"#jsvlinktmpl\">`link()`</a> method -- which will first render and then add data binding (<em>data-link the template</em>).\n\nIf you have data-linked your template by calling the `link()` method, then you can continue to use the same <a href=\"#jsrtags\">JsRender template tags</a> as before. But now you optionally make any tag in the template [data-linked](#linked-tag-syntax), by replacing the `{{...` of the opening tag by `{^{...`, as in:\n\n```jsr\n{^{for people}}\n  {^{:name}}\n{{/for}}\n```\n\nIn addition, you can [*data-link* the HTML elements](#linked-elem-syntax) in your template, as in:\n\n```jsr\n<input data-link=\"name\" />\n<div data-link=\"css-color{:color} {:name}\"></div>\n```\n \nSee *[Data-link template syntax](#linked-template-syntax)* for details..."
       },
       {
         "_type": "para",
@@ -676,7 +685,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Rules for a well-formed template in JsViews:",
-        "text": "With JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\n<ul class=\"textbefore\"><li>JsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a <code>^</code> character (so that for example a <code>{{for}}</code> tag becomes a data-linked <code>{^{for}}</code> tag) -- and in that case the rendered content will change dynamically whenever the bound data changes <em>'observably'</em>.</li>\n<li>But tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.</li>\n<li>Similarly, tags which wrap opening or closing tag in such a way as to produce 'mal-formed HTML' will not be valid.</li>\n<li>In fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.</li>\n<li>In each of the invalid scenarios mentioned above, <b><em>the JsRender tags needs to be replaced by corresponding data-linked element syntax</em></b>. See <a href=\"#linked-template-syntax\">the next section</a>, for details.</li></ul>\n"
+        "text": "With JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\n\n- JsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a `^` character (so that for example a `{{for}}` tag becomes a data-linked `{^{for}}` tag) -- and in that case the rendered content will change dynamically whenever the bound data changes *['observably'](#$observable)*.\n- But tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.\n- Similarly, tags which wrap opening or closing tag in such a way as to produce 'mal-formed HTML' will not be valid.\n- In fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.\n- In each of the invalid scenarios mentioned above, ***the JsRender tags needs to be replaced by corresponding data-linked element syntax***. See *[Data-link template syntax](#linked-template-syntax)* for details.\n"
       }
     ]
   },
@@ -1774,6 +1783,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "Custom tags with two-way binding",
         "text": "paragraph"
+      },
+      {
+        "_type": "para",
+        "title": "convert and convertBack",
+        "text": "paragraph"
       }
     ]
   },
@@ -2068,6 +2082,137 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "",
         "text": "{for}, {if}, custom bindings"
+      }
+    ]
+  },
+  "jsvsettings/delimiters": {
+    "title": "Setting tag delimiters for JsViews",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also [Setting tag delimiters for JsRender](#settings/delimiters)"
+      },
+      {
+        "_type": "para",
+        "title": "JsRender default tag delimiters",
+        "text": "Template tags in JsRender use the Mustache style: `{{...}}`.\n\nWhen using JsViews you can also use data-binding - with data-linked tags, written: `{^{...}}` "
+      },
+      {
+        "_type": "para",
+        "title": "Changing delimiters:",
+        "text": "Sometimes there can be a need to use different delimiters. For example there may be a conflict if the template is being rendered on the server using a declarative syntax such as *Django* with the same default delimiters `{{` and `}}`.\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following call:\n\n```js\n$.views.settings.delimiters(\"<%\", \"%>\");\n```\n\nwill change the tag syntax to `<%...%>` for JsRender, and `<^%...%>`) for a data-linked tag in JsViews.\n\nAnd the following:\n```js\n$.views.settings.delimiters(\"<<\", \">>. \"*\");\n```\n\nwill change to  `<<...>>` for a JsRender tag, and `<*<...>>`) for a data-linked tag in JsViews."
+      },
+      {
+        "_type": "para",
+        "title": "Verifying current setting for tag delimiters:",
+        "text": "```js\nvar delimiters = $.views.settings.delimiters();\n// Returns an array [\"{{\", \"}}\", \"^\"] - JsRender tag delimiters and JsViews link character\n```"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Markup:* \n\n```jsr\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <b>[[:title]]</b>\n  <ul>\n    [[for members]]\n      <li>Name: [*[:name>]] <input data-link=\"name trigger=true\"/></li>\n    [[/for]]\n  </ul>\n</script>\n```\n\n*Code*\n\n```js\n$.views.settings.delimiters(\"[[\", \"]]\", \"*\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n...\n```"
+          }
+        ],
+        "html": "<div id=\"result\">\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <b>[[:title]]</b>\n  <ul>\n    [[for members]]\n      <li>Name: [*[:name]] <input data-link=\"name trigger=true\"/></li>\n    [[/for]]\n  </ul>\n</script>\n",
+        "code": "$.views.settings.delimiters(\"[[\", \"]]\", \"*\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n\nvar team = {\n    title: \"A team\",\n    members: [{name: \"Jo\"}]\n  };\n\ntmpl.link(\"#result\", team);",
+        "onlyJsRender": false,
+        "height": "90",
+        "title": "Choosing alternative tag delimiters, with JsViews"
+      }
+    ]
+  },
+  "jsvsettings/debugmode": {
+    "title": "Debug mode",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender/JsViews has a *'debug mode'* setting which determines whether error messages encountered during rendering are displayed.\n\n***To get current debug mode:***\n\n```js\nvar isDebugMode = $.views.settings.debugMode(); // false by default\n```\n\n***To set debug mode:***\n\n```js\n$.views.settings.debugMode(...);\n```\n\nDebug mode can be set to any of the following:\n\n- `false` -- *errors during rendering will not be rendered* (but an exception will be thrown)\n- `true` -- no exception will be thrown, but *the error message will be rendered*, in place of the template tag or block\n- `\"some string\"` -- no exception. *The string `\"some string\"` will be rendered* in place of the tag or block\n- `\"\"` (empty string) -- no exception. The tag or block will simply be *replaced by the empty string*\n- an function (to be used as an error handler) -- no exception. The handler will run, and *the error string will be rendered, or else, if the function returns a string, that string will be rendered*\n\nSee *[Error handling and debugging](#onerror)* for a full discussion of alternative approaches, together with [details and working examples](#onerror@debugmode) of `$.views.settings.debugMode(...)`.\n\nIn particular, see [this sample](#onerror@datalink) of using `$.views.settings.debugMode(true)` with JsViews, and data-linking."
+      }
+    ]
+  },
+  "jsvsettings/onerror": {
+    "title": "onError",
+    "path": "",
+    "sections": []
+  },
+  "jsvsettings/trigger": {
+    "title": "Trigger",
+    "path": "",
+    "sections": []
+  },
+  "jsvsettings/advanced": {
+    "title": "Advanced settings",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsViews has the following advanced settings:\n\n- **useViews** -- *default:* `false`\n- **linkAttr** -- *default:* `\"data-link\"`\n- **noValidate** -- *default:* `false` \n\nand also the following 'private' advanced settings:\n\n- **_jsv** -- *default:* `false`\n- **_wm** -- *default:* current 'wrapMap' settings\n- **_fe** -- *default:* current 'form element binding' settings\n\n***useViews*** controls a JsRender performance optimization, while building the *[view hierarchy](#views)*. In very simple templates there will usually not be any need to access the [`view`](#viewobject). JsRender detects these cases, does not create a view, and hence obtains a slight performance gain. By setting `useViews` to `true`, you guarantee that JsRender will *always* create views for template blocks.\n\n***linkAttr*** determines the JsViews data-link attribute. By default it is `data-link`. If there is a conflict where another module also uses the 'data-link' attribute, then you can choose a different attribute for JsViews data-linking. \n\nFor example, if you set `$.views.settings.advanced({linkAttr: \"link\"})`, then you would write `<input link=\"name\"/>` instead of `<input data-link=\"name\" />` for data-linking an `<input/>` to `name`.\n\n***noValidate*** controls whether JsViews runs validation code during data-linking, to raise an error in the case of invalid HTML structure (such as `<div/>` or <`div><span></div>`) or HTML/JsViews tag structure (such as `{^{if...}} <span{{/if}} ... >`). By setting *noValidate* to `true`, JsViews will skip the validation step, with a minor improvement to performance as a result.\n\n***_jsv*** is a 'private' setting (could change in the future). If set to `true` JsRender provides a global `_jsv` variable, which gives access to the internal store of views.\n\n***_wm*** is a 'private' setting (could change in the future). It determines the 'wrapMap' configuration which controls how document fragments are inserted into the DOM during data-linking. (Also used by jQuery DOM manipulation).\n\n***_fe*** is a 'private' setting (could change in the future). If contains the 'form element binding' configuration, which determines the elements (such as `<input/>` or `<textarea>`) which provide two-way data-binding with JsViews -- and specifies the default data-linked attribute, such as `value`.\n\n***To get current advanced settings:***\n\n```js\nvar advancedSettings = $.views.settings.advanced();\n```\n\nBy default the returned `advancedSettings` object is:\n\n```js\n{useViews: false, linkAttr: \"data-link\", noValidate: false, _jsv: false, _wm: ..., _fe: ...}\n```\n\n***To set advanced settings:***\n\n```js\n$.views.settings.advanced({useViews: true});\n// Set one or more advanced settings\n```"
+      }
+    ]
+  },
+  "jsvsettings/allowcode": {
+    "title": "Allow code (JsViews)",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The [allow code feature](#settings/allowcode) is intended for use with rendered templates (using the [`render()`](#rendertmpl) method), and not for [data-linked templates](#jsvlinktmpl).\n\nThis is because data-linked templates are optimized to re-render incrementally when linked observable data is updated. The [`{{*...}}`](#allowcodetags) tags may therefore run additional times during updating of template content."
+      }
+    ]
+  },
+  "jsvsettings": {
+    "title": "Settings",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "jsvsettings/delimiters",
+            "label": "Delimiters"
+          },
+          {
+            "hash": "jsvsettings/debugmode",
+            "label": "Debug mode"
+          },
+          {
+            "hash": "jsvsettings/trigger",
+            "label": "Trigger"
+          },
+          {
+            "hash": "jsvsettings/allowcode",
+            "label": "Allow code"
+          },
+          {
+            "hash": "jsvsettings/advanced",
+            "label": "Advanced"
+          }
+        ]
       }
     ]
   }
