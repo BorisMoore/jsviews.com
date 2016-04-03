@@ -9,6 +9,7 @@
     "express": "node index-express.js",
     "hapi": "node index-hapi.js",
     "express-b": "node index-express-browserify.js",
+    "express-b2": "node index-express-browserify2.js",
     "hapi-b": "node index-hapi-browserify.js",
     "bundle": "node ./browserify/makebundle.js"
   },

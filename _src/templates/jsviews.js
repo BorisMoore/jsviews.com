@@ -15,16 +15,16 @@
 	// global var is the this object, which is window when running in the usual browser environment
 	var $ = global.jQuery;
 
-	if (typeof define === "function" && define.amd) { // AMD script loader, e.g. RequireJS
-		define(["jquery"], function($) {
-			return factory(global, $);
-		}); // Require jQuery
-	} else if (typeof exports === "object") { // CommonJS e.g. Browserify
+	if (typeof exports === "object") { // CommonJS e.g. Browserify
 		module.exports = $
 			? factory(global, $)
 			: function($) { // If no global jQuery, take jQuery passed as parameter: require("jsviews")(jQuery)
 				return factory(global, $);
 			};
+	} else if (typeof define === "function" && define.amd) { // AMD script loader, e.g. RequireJS
+		define(["jquery"], function($) {
+			return factory(global, $);
+		}); // Require jQuery
 	} else { // Browser using plain <script> tag
 		factory(global, false);
 	}
@@ -81,4 +81,4 @@ rFirstElem = /<(?!script)(\w+)[>\s]/;
 
 @@include("jquery.views.js")
 return $;
-}, this));
+}, window));

@@ -699,5 +699,8 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "text": "Using namespaces for selective removal of bindings\nNamespaces can be very useful for removing a specific collection of bindings in a single call, filtering by namespace tokens.\n$.unobserve(namespace, ...);\n\nThis will only remove handler bindings that are associated with the same namespace.\nFor example any of the following calls:\n$.unobserve(\"case1.scenario2\", person, \"name\", myHandler);\n$.unobserve(\"case1.scenario2\", person, \"name\");\n$.unobserve(\"case1.scenario2\", person);\n$.unobserve(\"case1.scenario2\");\n$.observable(\"case1.scenario2\", person).unobserveAll(myHandler);\n$.observable(\"case1.scenario2\", person).unobserveAll();\n\nwill remove all of the following bindings:\n$.observe(\"case1.scenario2\", person, \"name\", myHandler);       // Removed\n$.observe(\"scenario2.foo.case1\", person, \"name\", myHandler);   // Removed\n$.observable(\"scenario2.case1\", person).observeAll(myHandler); // Removed \n\nbut will not remove the following bindings:\n$.observe(person, \"name\", myHandler);                          // Not removed \n$.observe(\"scenario2\", person, \"name\", myHandler);             // Not removed\n$.observable(person).observeAll(myHandler);                    // Not removed\n\nWhite-space separated namespaces:\nAn unobserve() or unobserveAll() call associated with multiple namespaces such as:\n$.unobserve(\"case1.scenario2 scenario1\", ...);\n\nwill remove both \"case1.scenario2\" handler bindings and \"scenario1\" handler bindings.\n"
       }
     ]
+  },
+  "jsoadvanced": {
+    "sections": []
   }
 }

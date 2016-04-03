@@ -14,11 +14,7 @@
 	// global var is the this object, which is window when running in the usual browser environment
 	var $ = global.jQuery;
 
-	if (typeof define === "function" && define.amd) { // AMD script loader, e.g. RequireJS
-		define(function() {
-			return factory(global);
-		});
-	} else if (typeof exports === "object") { // CommonJS e.g. Browserify
+	if (typeof exports === "object") { // CommonJS e.g. Browserify
 		module.exports = $
 			? factory(global, $)
 			: function($) { // If no global jQuery, take optional jQuery passed as parameter: require('jsrender')(jQuery)
@@ -27,6 +23,10 @@
 				}
 				return factory(global, $);
 			};
+	} else if (typeof define === "function" && define.amd) { // AMD script loader, e.g. RequireJS
+		define(function() {
+			return factory(global);
+		});
 	} else { // Browser using plain <script> tag
 		factory(global, false);
 	}
@@ -48,4 +48,4 @@ var versionNumber = "v@@include("templates/-version.txt")",
 
 @@include('jsrender.js', { "isNode": false })
 return $ || jsr;
-}, this));
+}, window));

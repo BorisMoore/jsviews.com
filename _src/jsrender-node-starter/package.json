@@ -9,6 +9,7 @@
     "express": "node index-express.js",
     "hapi": "node index-hapi.js",
     "express-b": "node index-express-browserify.js",
+    "express-b2": "node index-express-browserify2.js",
     "hapi-b": "node index-hapi-browserify.js",
     "bundle": "node ./browserify/makebundle.js"
   },
@@ -19,8 +20,8 @@
     "hapi": "^9.0.3",
     "inert": "^3.0.1",
     "jquery": "^2.1.4",
-    "jsrender": "^0.9.74",
-    "jsviews": "^0.9.74",
+    "jsrender": "^0.9.75",
+    "jsviews": "^0.9.75",
     "serve-favicon": "^2.3.0",
     "through2": "^2.0.0",
     "vision": "^3.0.0"

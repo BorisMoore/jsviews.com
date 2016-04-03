@@ -16,16 +16,16 @@
 	// global var is the this object, which is window when running in the usual browser environment
 	var $ = global.jQuery;
 
-	if (typeof define === "function" && define.amd) { // AMD script loader, e.g. RequireJS
-		define(["jquery", "./jsrender", "./jquery.observable"], function($, jsr, jso) {
-			return factory(global, $, jsr, jso);
-		}); // Require jQuery, JsRender, JsObservable
-	} else if (typeof exports === "object") { // CommonJS e.g. Browserify
+	if (typeof exports === "object") { // CommonJS e.g. Browserify
 		module.exports = $
 			? factory(global, $)
 			: function($) { // If no global jQuery, take jQuery passed as parameter (with JsRender and JsObservable): require("jquery.views")(jQuery)
 				return factory(global, $);
 			};
+	} else if (typeof define === "function" && define.amd) { // AMD script loader, e.g. RequireJS
+		define(["jquery", "./jsrender", "./jquery.observable"], function($, jsr, jso) {
+			return factory(global, $, jsr, jso);
+		}); // Require jQuery, JsRender, JsObservable
 	} else { // Browser using plain <script> tag
 		factory(global, false);
 	}
@@ -87,4 +87,4 @@ var document = global.document,
 	rEscapeQuotes = /['"\\]/g; // Escape quotes and \ character
 @@include("jquery.views.js", { "isJqViews": true })
 	return $;
-}, this));
+}, window));

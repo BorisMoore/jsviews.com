@@ -75,7 +75,57 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
   "jsvtags": {
     "title": "$.views.tags()",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "***Any JsRender template*** can be used with JsViews."
+      },
+      {
+        "_type": "para",
+        "title": "Data-linked templates",
+        "text": "Calling the <a href=\"#rendertmpl\">`render()`</a> method works just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the <a href=\"#jsvlinktmpl\">`link()`</a> method -- which will first render and then add data binding (<em>data-link the template</em>).\n\nIf you have data-linked your template by calling the `link()` method, then you can continue to use the same <a href=\"#jsrtags\">JsRender template tags</a> as before. But now you optionally make any tag in the template [data-linked](#linked-tag-syntax), by replacing the `{{...` of the opening tag by `{^{...`, as in:\n\n```jsr\n{^{for people}}\n  {^{:name}}\n{{/for}}\n```\n\nIn addition, you can [*data-link* the HTML elements](#linked-elem-syntax) in your template, as in:\n\n```jsr\n<input data-link=\"name\" />\n<div data-link=\"css-color{:color} {:name}\"></div>\n```\n \nSee *[Data-link template syntax](#linked-template-syntax)* for details..."
+      },
+      {
+        "_type": "para",
+        "title": "But in JsViews templates, your template must be well-formed:",
+        "text": "JsRender is different. If you are only using JsRender (so no 'HTML-aware data-binding'), you have a lot of freedom. You can even do this:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "{{if}} tag blocks wrap <b>part</b> of an HTML &lt;td> tag",
+            "markup": "<td \n  {{if lastName}}\n    >{{:firstName}}</td><td>{{:lastName}}\n  {{else}}\n    colspan=\"2\">{{:firstName}}\n  {{/if}}\n</td>\n"
+          }
+        ],
+        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n  {\n    firstName: \"Jeff\"\n  },\n  {\n    firstName: \"Xavier\",\n    lastName: \"Prieto\"\n  }\n];\n\nvar html = myTemplate.render(people);\n\n$(\"#peopleList\").html(html);\n",
+        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td \n      {{if lastName}}\n        >{{:firstName}}</td><td>{{:lastName}}\n      {{else}}\n        colspan=\"2\">{{:firstName}}\n      {{/if}}\n    </td>\n  </tr>\n</script>",
+        "onlyJsRender": true,
+        "height": "80",
+        "title": "Badly-formed template - but OK in JsRender!"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "That works because JsRender is pure string-based rendering, it doesn't mind how you mix you JsRender tag hierarchy with the HTML tag markup."
+      },
+      {
+        "_type": "para",
+        "title": "Rules for a well-formed template in JsViews:",
+        "text": "With JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\n\n- JsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a `^` character (so that for example a `{{for}}` tag becomes a data-linked `{^{for}}` tag) -- and in that case the rendered content will change dynamically whenever the bound data changes *['observably'](#$observable)*.\n- But tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.\n- Similarly, tags which wrap opening or closing tag in such a way as to produce 'mal-formed HTML' will not be valid.\n- In fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.\n- In each of the invalid scenarios mentioned above, ***the JsRender tags needs to be replaced by corresponding data-linked element syntax***. See *[Data-link template syntax](#linked-template-syntax)* for details.\n"
+      }
+    ]
   },
   "jsvlinktmpl": {
     "title": "Render and data-link a template",
@@ -491,7 +541,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "var view = $.view(elem);",
-        "text": "Each instance of a rendered template or a template block tag is associated with a JsViews *\"view\"* object.\n\nViews provide information on how the underlying data objects map to the rendered UI.\n\n**From UI back to data:**\n\nUse `$.view(elemOrSelector)` to get from a DOM element to the corresponding `view` object for that part of the rendered content.\n\nFrom the `view` you can get to the underlying `data`, the `index`, etc."
+        "text": "Each instance of a rendered template or a template block tag is associated with a JsViews *\"[view](#jsvviewobject)\"* object.\n\nViews provide information on how the underlying data objects map to the rendered UI.\n\n**From UI back to data:**\n\nUse `$.view(elemOrSelector)` to get from a DOM element to the corresponding `view` object for that part of the rendered content.\n\nFrom the `view` you can get to the underlying `data`, the `index`, etc."
       },
       {
         "_type": "sample",
@@ -591,6 +641,18 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "sample": "sample",
           "links": "links"
         }
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "jsvviewobject",
+            "label": "view object"
+          }
+        ]
       }
     ]
   },
@@ -637,57 +699,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
   "jsvtemplatetags": {
     "title": "JsViews template tags",
     "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "***Any JsRender template*** can be used with JsViews."
-      },
-      {
-        "_type": "para",
-        "title": "Data-linked templates",
-        "text": "Calling the <a href=\"#rendertmpl\">`render()`</a> method works just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the <a href=\"#jsvlinktmpl\">`link()`</a> method -- which will first render and then add data binding (<em>data-link the template</em>).\n\nIf you have data-linked your template by calling the `link()` method, then you can continue to use the same <a href=\"#jsrtags\">JsRender template tags</a> as before. But now you optionally make any tag in the template [data-linked](#linked-tag-syntax), by replacing the `{{...` of the opening tag by `{^{...`, as in:\n\n```jsr\n{^{for people}}\n  {^{:name}}\n{{/for}}\n```\n\nIn addition, you can [*data-link* the HTML elements](#linked-elem-syntax) in your template, as in:\n\n```jsr\n<input data-link=\"name\" />\n<div data-link=\"css-color{:color} {:name}\"></div>\n```\n \nSee *[Data-link template syntax](#linked-template-syntax)* for details..."
-      },
-      {
-        "_type": "para",
-        "title": "But in JsViews templates, your template must be well-formed:",
-        "text": "JsRender is different. If you are only using JsRender (so no 'HTML-aware data-binding'), you have a lot of freedom. You can even do this:"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "template",
-            "title": "{{if}} tag blocks wrap <b>part</b> of an HTML &lt;td> tag",
-            "markup": "<td \n  {{if lastName}}\n    >{{:firstName}}</td><td>{{:lastName}}\n  {{else}}\n    colspan=\"2\">{{:firstName}}\n  {{/if}}\n</td>\n"
-          }
-        ],
-        "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n  {\n    firstName: \"Jeff\"\n  },\n  {\n    firstName: \"Xavier\",\n    lastName: \"Prieto\"\n  }\n];\n\nvar html = myTemplate.render(people);\n\n$(\"#peopleList\").html(html);\n",
-        "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td \n      {{if lastName}}\n        >{{:firstName}}</td><td>{{:lastName}}\n      {{else}}\n        colspan=\"2\">{{:firstName}}\n      {{/if}}\n    </td>\n  </tr>\n</script>",
-        "onlyJsRender": true,
-        "height": "80",
-        "title": "Badly-formed template - but OK in JsRender!"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "That works because JsRender is pure string-based rendering, it doesn't mind how you mix you JsRender tag hierarchy with the HTML tag markup."
-      },
-      {
-        "_type": "para",
-        "title": "Rules for a well-formed template in JsViews:",
-        "text": "With JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\n\n- JsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a `^` character (so that for example a `{{for}}` tag becomes a data-linked `{^{for}}` tag) -- and in that case the rendered content will change dynamically whenever the bound data changes *['observably'](#$observable)*.\n- But tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.\n- Similarly, tags which wrap opening or closing tag in such a way as to produce 'mal-formed HTML' will not be valid.\n- In fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.\n- In each of the invalid scenarios mentioned above, ***the JsRender tags needs to be replaced by corresponding data-linked element syntax***. See *[Data-link template syntax](#linked-template-syntax)* for details.\n"
-      }
-    ]
+    "sections": []
   },
   "jsvhelpers": {
     "title": "$.views.helpers()",
@@ -768,7 +780,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "A <b>view object</b> has the following properties and methods:",
-        "text": "**JsViews -- programmatic access only**\n\nThe following methods are available only for programmatic access when using JsViews:\n\n- [refresh() method](#jsvviewobject@refresh)\n- [contents() method](#jsvviewobject@contents)\n- [childTags() method](#jsvviewobject@childtags)\n- [nodes() method](#jsvviewobject@nodes)\n\n**Both JsRender and JsViews** (see [JsRender `view` object](#viewobject))\n\n*The following properties and methods are available when using either JsRender or JsViews:*\n\n- [type property](#viewobject@type)\n- [data property](#viewobject@data)\n- [parent property](#viewobject@parent)\n- [index property](#viewobject@index)\n- [getIndex() method](#viewobject@getIndex)\n- [get(type) method](#viewobject@get)\n- [content property](#viewobject@content)\n- [other properties (tmpl, views, ctx tags )](#viewobject@other)\n"
+        "text": "**JsViews -- programmatic access only**\n\nThe following methods are available only for programmatic access when using JsViews:\n\n- [refresh() method](#jsvviewobject@refresh)\n- [contents() method](#jsvviewobject@contents)\n- [childTags() method](#jsvviewobject@childtags)\n- [nodes() method](#jsvviewobject@nodes)\n\n**Both JsRender and JsViews** (see [JsRender `view` object](#viewobject))\n\n*The following properties and methods are available when using either JsRender or JsViews:*\n\n- [type property](#viewobject@type)\n- [data property](#viewobject@data)\n- [parent property](#viewobject@parent)\n- [index property](#viewobject@index)\n- [getIndex() method](#viewobject@getIndex)\n- [get(type) method](#viewobject@get)\n- [content property](#viewobject@content)\n- [other properties (tmpl, views, ctx, tag)](#viewobject@other)\n"
       },
       {
         "_type": "para",
@@ -1755,7 +1767,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       }
     ]
   },
-  "twoway": {
+  "link-twoway": {
     "title": "Two-way binding",
     "path": "",
     "sections": [
@@ -1964,14 +1976,14 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       }
     ]
   },
-  "link-custom": {
-    "title": "custom tags",
+  "link-tags": {
+    "title": "Tag bindings",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "paragraph"
+        "text": "`{for}` `{if}` `{on}` `{slider}` `{mytag}` etc."
       }
     ]
   },
@@ -2030,30 +2042,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       }
     ]
   },
-  "link-properties": {
+  "link-props": {
     "title": "properties (title - disabled - value - class - data-* ...)",
-    "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "paragraph"
-      }
-    ]
-  },
-  "link-attributes-props": {
-    "title": "Target attributes / properties",
-    "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "paragraph"
-      }
-    ]
-  },
-  "contextual-params": {
-    "title": "Contextual template parameters",
     "path": "",
     "sections": [
       {
@@ -2071,17 +2061,6 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "",
         "text": "paragraph"
-      }
-    ]
-  },
-  "tag-bindings": {
-    "title": "Data-link tag bindings",
-    "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "{for}, {if}, custom bindings"
       }
     ]
   },
@@ -2215,5 +2194,113 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ]
       }
     ]
+  },
+  "tmplsyntax": {
+    "title": "Data-linked template template syntax and structure",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsViews data-link syntax takes two forms:\n\n- [Data-linked tags](#linked-tag-syntax)\n- [Data-linked elements](#linked-elem-syntax)\n\nBoth forms use:\n\n- [Data-linked paths](#linked-paths)"
+      },
+      {
+        "_type": "para",
+        "title": "See also:",
+        "text": "Tutorial sequence of samples: <a href=\"#samples/data-link\">Data-linking tags and elements</a>"
+      }
+    ]
+  },
+  "jsvapps": {
+    "title": "Building apps",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "jsv-model": {
+    "title": "Data / View Model / MVVM",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "jsvhelpers-converters": {
+    "title": "Helpers and converters",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "There are three ways to provide helpers:\n\n- Global helpers -- registered using `$.views.helpers(myHelpers);`\n- Helpers registered for a specific template -- [`$.templates(\"mytmpl\", {markup: ..., helpers: myHelpers};`](#d.templates@resources)\n- Helpers passed in on a specific render call -- [`tmpl.render(data, myHelpers);`](#tmplrender)<br/>\n-- (or with JsViews: [`tmpl.link(\"#container\", data, myHelpers);`](#jsvtmpllink@apihelpers) and [`$.link(true, \"#target\", data, myHelpers);`](#jsv.toplink-true))\n"
+      }
+    ]
+  },
+  "link-formelems": {
+    "title": "Form elements",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-button": {
+    "title": "button",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "link-properties": {
+    "title": "element properties",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "jsvadvanced": {
+    "title": "JsViews &ndash; advanced topics",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "jsvsettings/advanced",
+            "label": "Advanced settings"
+          },
+          {
+            "hash": "jsvobjects",
+            "label": "JsViews objects"
+          }
+        ]
+      }
+    ]
+  },
+  "jsvviews": {
+    "title": "View hierarchy",
+    "path": "",
+    "sections": []
   }
 };

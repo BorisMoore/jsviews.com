@@ -68,6 +68,11 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "text": "{{:#index ...}}\n[\n  {name: \"Pete\", ...},\n  {name: \"Heidi\", ...}\n]\n\n#xxx is the xxx property of the current view – so #index is the view.index\n{{:#index+1}}\n\n\n"
       },
       {
+        "_type": "para",
+        "title": "",
+        "text": "Note: When rendering data which is not fully trusted, such as {{:untrustedValue}} it would be preferable from a security point of view to use the {{>untrustedValue}} – since the {{> ...}} tag will HTML encode the data, and thus prevent HTML injection attacks.\n"
+      },
+      {
         "_type": "links",
         "title": "See also:",
         "text": "See also:\n"
@@ -89,7 +94,12 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "",
-        "text": "{description: \"A <b>very nice</b> apartment\"}\n\n{{:description}}\n...\n{{>description}}\n\n\n"
+        "text": "Data:\n\n{description: \"A very nice apartment\"}\n\nTemplate:\n\n{{:description}}\n...\n{{>description}}\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using {{> ...}} for preventing HTML injection attacks",
+        "text": "Using {{> ...}} for preventing HTML injection attacks\nThe {{> ...}} tag should be used instead of the {{: ...}} whenever data being rendered is not fully trusted – in order to protect against HTML injection attacks.\nUsing {{>untrustedValue}} ensures appropriate HTML encoding.\n"
       },
       {
         "_type": "links",
@@ -372,8 +382,8 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "links",
-        "title": "Links",
-        "text": "Links\n"
+        "title": "See:",
+        "text": "See:\n"
       }
     ]
   },
@@ -498,8 +508,8 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
     "sections": [
       {
         "_type": "para",
-        "title": "",
-        "text": "To create a template you need to provide the markup for the template. JsRender will convert (compile) the markup into a javascript function – the ‘render’ function for your template. In fact for convenience, JsRender creates a template object which has a template.render() method which is the compiled function.\nThere are two ways to create a template:\nPass the markup string to the $.templates() method, which will compile it as a template object, and optionally register it by name\nDeclare the template in a script block with type=\"text/x-jsrender\" (or at least a type other than the default text/javascript). In that case JsRender will automatically call $.templates(). You will only need to call it yourself if you want to access the template object\nThe first approach has the advantage of keeping your template declaration independent of the HTML markup that you are loading into the browser. Indeed you may want to provide the template markup strings for your templates in different application-specific ways, such as loading the string from the server (using a script file or text or html file), creating ‘computed’ template markup strings on the fly, etc.\nHere is an example:\n"
+        "title": "Defining templates",
+        "text": "Defining templates\nTo define a template you need to provide the markup for the template. JsRender will convert (compile) the markup into a javascript function – the ‘render’ function for your template. In fact for convenience, JsRender creates a template object which has a template.render() method which is the compiled function.\nThere are two ways to create a template:\n\nPass the markup string to the $.templates() method, which will compile it as a template object, and optionally register it by name\nDeclare the template in a script block with type=\"text/x-jsrender\" (or at least a type other than the default text/javascript). In that case JsRender will automatically call $.templates(). You will only need to call it yourself if you want to access the template object\n\nThe first approach has the advantage of keeping your template declaration independent of the HTML markup that you are loading into the browser. Indeed you may want to provide the template markup strings for your templates in different application-specific ways, such as loading the string from the server (using a script file or text or html file), creating ‘computed’ template markup strings on the fly, etc.\nHere is an example:\n"
       },
       {
         "_type": "sample",
@@ -530,6 +540,11 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "_type": "links",
         "title": "For additional details and scenarios see:",
         "text": "For additional details and scenarios see:\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "text": "See also:\n"
       }
     ]
   },
@@ -537,13 +552,18 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
     "sections": [
       {
         "_type": "para",
+        "title": "",
+        "text": "$.templates() is used to register or compile templates. See Using templates for an overview, and simple examples.\nThis topic provides more details.\n"
+      },
+      {
+        "_type": "para",
         "title": "Simple scenarios",
-        "text": "Simple scenarios\n$.templates() is powerful and flexible. You can use it for many scenarios, including the following:\n\nCompile a template from a string\nGet a template object for a template declared in a script block\nRegister a template (from either a string or a script block declaration) as a named template\nGet a template object for a previously registered named template\nOn Node.js: Get a template object for a template declared as a file on the file-system (see File-based templates on Node.js).\n\n"
+        "text": "Simple scenarios\n$.templates(...) is powerful and flexible. You can use it for many scenarios, including the following:\n\nCompile a template from a string\nGet a template object for a template declared in a script block\nRegister a template (from either a string or a script block declaration) as a named template\nGet a template object for a previously registered named template\nOn Node.js: Get a template object for a template declared as a file on the file-system (see File-based templates on Node.js).\n\n"
       },
       {
         "_type": "api",
         "title": "$.templates(...)",
-        "text": "$.templates(...)\nCreate one or more compiled templates - optionally registered as named templates\nCompile a template and return the template object\n\nvar myTemplate = $.templates(myMarkupString);\n\nRegister a named template\n\n$.templates(\"myTemplateName\", myMarkupString);\n\n"
+        "text": "$.templates(...)\nCreate one or more compiled templates - optionally registered as named templates\nCompile a template from a string or selector, and return the template object\n\nvar myTemplate = $.templates(myMarkupString);\n\nRegister a named template from a string or selector\n\n$.templates(\"myTemplateName\", myMarkupString);\n\n"
       },
       {
         "_type": "sample",
@@ -628,131 +648,6 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "_type": "links",
         "title": "",
         "text": ""
-      }
-    ]
-  },
-  "converters": {
-    "sections": [
-      {
-        "_type": "para",
-        "title": "What are converters?",
-        "text": "What are converters?\nIn JsRender, a converter is a convenient way of processing or formatting data-value, or the result of expression evaluation – as in:\n{{html:movie.description}} - this data is HTML encoded\n{{url:getTheFilePath()}} - this expression will be URL-encoded\n{{daymonth:invoice.date}} - this date uses my formatter \n\nYou use built-in converters to HTML-encode, attribute-encode, or URL-encode. And you can register custom converters.\nWith JsViews, you can use converters with two-way data-binding, and you will have a convert and a convertBack converter – one for each direction.\n"
-      },
-      {
-        "_type": "api",
-        "title": "$.views.converters(name, converterFn)",
-        "text": "$.views.converters(name, converterFn)\nRegister a converter, to be used in templates with the syntax:{{converterName: someExpression}}\n\n$.views.converters(\"upper\", function(val) {\n  return val.toUpperCase();\n});\n\n{{upper: \"upper case: \" + nickname}}\n\n"
-      },
-      {
-        "_type": "sample",
-        "title": "Using a custom converter",
-        "text": "Using a custom converter\n\n\n\n  {{:name}}<br/>\n  Upper case nickname: {{upper:nickname}}<br/>\n  {{upper: \"this will be upper case too\"}} \n\n$.views.converters(\"upper\", function(val) {\n  return val.toUpperCase();\n});\n\nvar person = {name: \"Robert\", nickname: \"Bob\"};\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);\n$.views.converters(\"upper\", function(val) {\n  return val.toUpperCase();\n});\n\n{{upper:nickname}}\n{{upper: \"this will be upper case too\"}}\n\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "Note: the this pointer within the converter function is the instance of the tag, and can be used in more advanced usage of converters as in the following example:\n"
-      },
-      {
-        "_type": "sample",
-        "title": "Accessing more context from the converter",
-        "text": "Accessing more context from the converter\n\n\n\n  <p><label>Normal:</label> {{full:first last}}</p>\n  <p><label>Reverse:</label> {{full:first last format=\"reverse\"}}</p> \n\n$.views.converters(\"full\", function(first, last) {\n  var format = this.tagCtx.props.format;  \n  return format === \"reverse\" ? last.toUpperCase() + \" \" + first : first + \" \" + last;\n});\n\nvar person = {first: \"Xavier\", last: \"Prieto\"};\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);\nYou can access multiple parameters and properties from the converter function.\n$.views.converters(\"full\", function(first, last) {\n  var format = this.tagCtx.props.format;  \n  return ...;\n});\n\n(You can also access the full data object: this.tagCtx.view.data)\n\n"
-      },
-      {
-        "_type": "api",
-        "title": "$.views.converters(namedConverters)",
-        "text": "$.views.converters(namedConverters)\nRegister multiple converters\n\n$.views.converters({\n  upper: function(val) {...},\n  lower: function(val) {...}\n});\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "Adding converters as private resources for a parent template",
-        "text": "Adding converters as private resources for a parent template\nYou can pass in an existing template as an additional parentTemplate parameter, on  any call to  $.views.converters(...).\nIn that way the converter you are registering becomes a ‘private converter resource’ for the parentTemplate, rather than being registered globally:\n"
-      },
-      {
-        "_type": "api",
-        "title": "",
-        "text": "Add multiple converters as resources, to a parent template\n\n$.views.converters({\n  upper: function(val) {...},\n  lower: function(val) {...}\n}, parentTemplate);\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "See also the following samples:",
-        "text": "See also the following samples:\nConverters and encoding\nTwo-way binding and converters\n"
-      },
-      {
-        "_type": "links",
-        "title": "Built-in converters:",
-        "text": "Built-in converters:\n"
-      }
-    ]
-  },
-  "html": {
-    "sections": [
-      {
-        "_type": "para",
-        "title": "Built-in HTML encoder",
-        "text": "Built-in HTML encoder\nJsRender includes an HTML encoder, which you can use programmatically as follows:\nvar myHtmlEncodedString = $.views.converters.html(myString);\n\nThe same encoder is accessed declaratively as a converter, as in the following two examples:\n{{html:myExpression}}\n\n{{>myExpression}}\n\nIn fact {{>...}} is exactly equivalent to {{html:...}} and is provided as a simpler syntax for HTML encoding values taken from data or from expressions and rendered within HTML content.\n"
-      },
-      {
-        "_type": "sample",
-        "title": "Calling HTML encoder",
-        "text": "Calling HTML encoder\nShow result\n\n\nvar value = \"< > ' \\\" &\";\nvar result = $.views.converters.html(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});\n\nvar value = \"< > ' \\\" &\";\n\nvar result = $.views.converters.html(value);\n\nalert(result);\n\n"
-      },
-      {
-        "_type": "api",
-        "title": "HTML encoder",
-        "text": "HTML encoder\nReturns the HTML-encoded string\n\nvar encoder = $.views.converters.html;\nvar encodedString = encoder(myString);\n\n"
-      },
-      {
-        "_type": "links",
-        "title": "See the following topic and sample:",
-        "text": "See the following topic and sample:\n"
-      }
-    ]
-  },
-  "attr": {
-    "sections": [
-      {
-        "_type": "para",
-        "title": "Built-in attribute encoder",
-        "text": "Built-in attribute encoder\nJsRender includes an encoder intended for use when attribute encoding is needed. You can use it programmatically as follows:\nvar myAttributeEncodedString = $.views.converters.attr(myString);\n\nThe same encoder is accessed by declaratively as a converter:\n{{attr:myExpression}}\n\n"
-      },
-      {
-        "_type": "sample",
-        "title": "Calling the 'attribute' encoder",
-        "text": "Calling the 'attribute' encoder\nShow result\n\n\nvar value = \"< > ' \\\" &\";\nvar result = $.views.converters.attr(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});\n\nvar value = \"< > ' \\\" &\";\n\nvar result = $.views.converters.attr(value);\n\nalert(result);\n\n"
-      },
-      {
-        "_type": "api",
-        "title": "Attribute encoder",
-        "text": "Attribute encoder\nReturns the attribute-encoded string\n\nvar encoder = $.views.converters.attr;\nvar encodedString = encoder(myString);\n\n"
-      },
-      {
-        "_type": "links",
-        "title": "See also the following sample:",
-        "text": "See also the following sample:\n"
-      }
-    ]
-  },
-  "url": {
-    "sections": [
-      {
-        "_type": "para",
-        "title": "Built-in URL encoder",
-        "text": "Built-in URL encoder\nJsRender includes a URL encoder, which you can use programmatically as follows:\nvar myUrlEncodedString = $.views.converters.url(myString);\n\nThe same encoder is accessed by declaratively as a converter:\n{{url:myExpression}}\n\n"
-      },
-      {
-        "_type": "sample",
-        "text": "Show result\n\nvar value = \"<_>_\\\"_ \";\nvar result = $.views.converters.url(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});\n\nvar value = \"<_>_\\\"_ \";\n\nvar result = $.views.converters.url(value);\n\nalert(result);\n\n"
-      },
-      {
-        "_type": "api",
-        "title": "URL encoder",
-        "text": "URL encoder\nReturns the URL-encoded string\n\nvar encoder = $.views.converters.url;\nvar encodedString = encoder(myString);\n\n"
-      },
-      {
-        "_type": "links",
-        "title": "See the following sample:",
-        "text": "See the following sample:\n"
       }
     ]
   },
@@ -855,65 +750,6 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       }
     ]
   },
-  "helpers": {
-    "sections": [
-      {
-        "_type": "para",
-        "title": "What are helpers?",
-        "text": "What are helpers?\nJsRender templates are made up of HTML markup, text, and template tags. Template tags are used to evaluate data-paths or computed expressions, and insert those values into the rendered output.\nBut often the values you will want to insert are not actually taken from the data, but rather from other parameters or metadata which you want to use. And often you will want to process the values, using helper functions or other code, e.g. for converting values to other formats, or for computed values.\nHelpers, in JsRender, refers to any functions, objects, parameters or metadata which you want to provide, in addition to the actual data you passed to the render() method (or link() method if you are using JsViews).\nHelpers can also be objects, arrays, etc.\nYou access helpers by prepending the ~ character. Here are some examples:\n{{:~myHelperValue}}\n{{:~myHelperFunction(name, title)}}\n{{for ~myHelperObject.mySortFunction(people, \"increasing\")}} ... {{/for}}\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "Passing in helpers",
-        "text": "Passing in helpers\nThere are three ways to provide helpers:\n\nGlobal helpers – registered using $.views.helpers(myHelpers);\nHelpers registered for a specific template – $.templates(\"mytmpl\", {markup: ..., helpers: myHelpers};\nHelpers passed in on a specific render or link call – tmpl.render(data, myHelpers);\n– (or with JsViews: tmpl.link(\"#container\", data, myHelpers); and $.link(true, \"#target\", data, myHelpers);)\n\n"
-      },
-      {
-        "_type": "sample",
-        "title": "Global helper: $.views.helpers(...)",
-        "text": "Global helper: $.views.helpers(...)\n\n\n\n  {{:~format(name, true)}}\n\nfunction myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\nvar myHelpers = {format: myFormatFunction};\n\n$.views.helpers(myHelpers);\n\nvar html = $(\"#personTemplate\").render({name: \"Robert\"});\n\n$(\"#person\").html(html);\nvar myHelpers = {format: myFormatFunction};\n\n$.views.helpers(myHelpers);\n\n{{:~format(name, true)}}\n\n\n"
-      },
-      {
-        "_type": "sample",
-        "title": "Helper resource for a specific template",
-        "text": "Helper resource for a specific template\n\n\n\n  {{:~format(name)}}\n  {{:~format(name, true)}}\n\nfunction myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\nvar myHelpers = {format: myFormatFunction};\n\n$.templates({\n  mytmpl: {\n    markup: \"#personTemplate\",\n    helpers: myHelpers\n  }\n});\n\nvar html = $.render.mytmpl({name: \"Robert\"});\n\n$(\"#person\").html(html);\nvar myHelpers = {format: myFormatFunction};\n\n$.templates({\n  mytmpl: {\n    markup: \"#personTemplate\",\n    helpers: myHelpers\n  }\n});\n\n{{:~format(name)}}\n{{:~format(name, true)}}\n\n\n"
-      },
-      {
-        "_type": "sample",
-        "title": "Passing helpers with  a render() call",
-        "text": "Passing helpers with  a render() call\n\n\n\n  {{:~format(name, true)}}\n  {{:~format(name)}}\n\nfunction myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\nvar data = {name: \"Robert\"};\n\nvar myHelpers = {format: myFormatFunction};\n\nvar html = $(\"#personTemplate\").render(data, myHelpers); \n\n$(\"#person\").html(html);\nvar myHelpers = {format: myFormatFunction};\n\nvar html = $(\"#personTemplate\").render(data, myHelpers); \n\n{{:~format(name, true)}}\n{{:~format(name)}}\n\nSee template.render(...)\n\n"
-      },
-      {
-        "_type": "api",
-        "title": "$.views.helpers(name, helper)",
-        "text": "$.views.helpers(name, helper)\nRegister a helper, to be used in templates with the syntax:~name\n\n$.views.helpers(\"format\", myFormatFunction);\n\nRegister multiple helpers\n\n$.views.helpers({\n  format: myFormatFunction,\n  utilities: {},\n  mode: \"filtered\"\n});\n\nAdd multiple helpers as resources, to a parent template\n\n$.views.helpers({\n  format: myFormatFunction,\n  ...\n}, parentTemplate);\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "Here is an example using a ‘hierarchy’ of helpers…\n"
-      },
-      {
-        "_type": "sample",
-        "title": "Register multiple helpers, including objects, etc.",
-        "text": "Register multiple helpers, including objects, etc.\n\n\n\n  {{:~format(title, true)}}\n\n  - availability:\n  {{if ~mode===\"filtered\"}}\n    <em>\n      {{:~utilities.subtractMax(sold) > 0\n          ? ~utilities.errorMessages.msg1\n          : \"immediate\"\n      }}\n    </em>\n  {{/if}}\n\nfunction myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\n$.views.helpers({\n  format: myFormatFunction,\n  utilities: {\n    maxCount: 23,\n    subtractMax: function(val) {\n      return val - this.maxCount;\n    },\n    errorMessages: {\n      msg1: \"not available\"\n    }\n  },\n  mode: \"filtered\"\n});\n\nvar html = $(\"#myTemplate\").render({title: \"gizmo\", sold: 27});\n\n$(\"#result\").html(html);\nHere is an example using a ‘hierarchy’ of helpers…\n$.views.helpers({\n  ...\n  utilities: {\n    maxCount: 23,\n    subtractMax: function(val) {\n      return val - this.maxCount;\n    },\n    errorMessages: {\n      msg1: \"not available\"\n    }\n  },\n  ...\n});\n\n{{:~utilities.subtractMax(sold) > 0\n    ? ~utilities.errorMessages.msg1\n    : \"immediate\"\n}}\n\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "Adding helpers as private resources for a parent template",
-        "text": "Adding helpers as private resources for a parent template\nYou can pass in an existing template as an additional parentTemplate parameter, on  any call to  $.views.helpers(...).\nIn that way the helper you are registering becomes a ‘private helper resource’ for the parentTemplate, rather than being registered globally:\n"
-      },
-      {
-        "_type": "api",
-        "title": "",
-        "text": "Add multiple helpers as resources, to a parent template\n\n$.views.helpers({\n  format: myFormatFunction,\n  ...\n}, parentTemplate);\n\n"
-      },
-      {
-        "_type": "links",
-        "title": "See also:",
-        "text": "See also:\n"
-      }
-    ]
-  },
   "jsrobjects": {
     "sections": [
       {
@@ -957,7 +793,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "A <b>view object</b> has the following properties and methods:",
-        "text": "A view object has the following properties and methods:\n\ntype property\ndata property\nparent property\nindex property\ngetIndex() method\nget(type) method\ncontent property\nother properties (tmpl, views, ctx tags )\n\n"
+        "text": "A view object has the following properties and methods:\n\ntype property\ndata property\nparent property\nindex property\ngetIndex() method\nget(type) method\ncontent property\nother properties (tmpl, views, ctx, tag)\n\n"
       },
       {
         "_type": "para",
@@ -1120,7 +956,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Defining templates as .html files",
-        "text": "Defining templates as .html files\nOn Node.js, JsRender templates can be stored directly in the file system  (e.g. as .html, .jsr. or .jsrender files) – for example:\nTemplate: ./templates/myTemplate.html – with contents:\nName: {{:name}}<br/>\n\nCode: JsRender recognizes file paths (for valid relative file paths starting with './'), so you can write:\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('./templates/myTemplate.html'); // Compile the template\n\nvar html = tmpl({name: \"Jim\"}); // Render\n// result: Name: Jim<br/>\n\n"
+        "text": "Defining templates as .html files\nOn Node.js, JsRender templates can be stored directly in the file system  (e.g. as .html, .jsr. or .jsrender files) – for example:\nTemplate: ./templates/myTemplate.html – with contents:\nName: {{:name}}<br/>\n\nCode: JsRender recognizes file paths (for valid relative file paths starting with './'), so you can write:\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('./templates/myTemplate.html'); // Compile the template\n\nvar html = tmpl({name: \"Jim\"}); // Render\n// result: Name: Jim<br/>\n\nNote: The ./... paths are always interpreted as relative paths relative to the location of your calling script. Declaring a templates folder for Express or Hapi does not change the origin of these relative paths.\n"
       },
       {
         "_type": "para",
@@ -1134,8 +970,8 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "para",
-        "title": "Nested calls to file-based templates",
-        "text": "Nested calls to file-based templates\nJsRender’s awareness of Node.js file paths (relative paths starting with './') means your templates can include recursive calls to other templates (partials). You don’t need to register or compile those templates separately.\nTemplate: ./templates/personTemplate.html:\nName: {{:name}}<br/>Address: {{include tmpl='./templates/other/addressTemplate.jsr'}}\n\nTemplate: ./templates/other/addressTemplate.jsr:\nStreet: <em>{{:street}}</em>\n\nCode: Compile and render, recursively:\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('./templates/personTemplate.html');\n// Compile template - and also any recursively called templates\n\nvar html = tmpl({name: \"Jim\", street: \"Main St\"});\n// result: Name: Jim<br/>Address: <em>Main St</em>\n\n"
+        "title": "Nested calls to file-based templates (composition)",
+        "text": "Nested calls to file-based templates (composition)\nJsRender’s awareness of Node.js file paths (relative paths starting with './') means your templates can include recursive calls to other templates (partials). You don’t need to register or compile those templates separately. (See also: template composition).\nTemplate: ./templates/personTemplate.html:\nName: {{:name}}<br/>Address: {{include tmpl='./templates/other/addressTemplate.jsr'}}\n\nTemplate: ./templates/other/addressTemplate.jsr:\nStreet: <em>{{:street}}</em>\n\nCode: Compile and render, recursively:\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('./templates/personTemplate.html');\n// Compile template - and also any recursively called templates\n\nvar html = tmpl({name: \"Jim\", street: \"Main St\"});\n// result: Name: Jim<br/>Address: <em>Main St</em>\n\n"
       },
       {
         "_type": "para",
@@ -1259,6 +1095,11 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "para",
+        "title": "Template composition (partials)",
+        "text": "Template composition (partials)\nThe most common way of composing templates is to have a layout template, and to use {{include tmpl=... /}}:\ntop level content\n{{include tmpl='myInnerTemplate' /}}\n\nBut in fact template composition can be done by adding references to external templates using tmpl=... on any tag, as shown in the previous section.\nDynamic composition\nNote that the tmpl=... can use any expression, so you can assign different nested templates dynamically based on data or context. For example you might write {{include tmpl=~getTemplate(type) /}} – where ~getTemplate(...) is a helper which returns a different template based in this case on the type property of the current data item.\nIn fact when setting tmpl=... dynamically, the returned template can be in any if the following forms:\n\na compiled template\na markup string\nthe name of a registered template\na selector\n(on Node.js) a file path to a template\n\n"
+      },
+      {
+        "_type": "para",
         "title": "Tag arguments and named parameters",
         "text": "Tag arguments and named parameters\nTags can take both unnamed arguments and named parameters:\n{{someTag argument1 param1=...}}\n  content\n{{/someTag}}\n\nAn example of a named parameter is the tmpl=... parameter mentioned above:\n{{for languages tmpl=\"#columnTemplate\"/}}\n\nArguments and named parameters can be assigned values from simple data-paths such as:\n{{formattedAddress address.street format=~util.formats.upper /}}\n\nor from richer expressions such as product.quantity * 3.1 / 4.5, or name.toUpperCase()\n{{productValue product.quantity*3.1/4.5 description=name.toUpperCase() /}}\n\n"
       },
@@ -1293,8 +1134,8 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "para",
-        "title": "Inline block content / external tmpl=...  reference: same view hierarchy...",
-        "text": "Inline block content / external tmpl=...  reference: same view hierarchy...\nA view corresponds an instance of a block tag or a rendered template – so if we replace the inline content of a tag by an external reference: tmpl=..., the rendered result will be unchanged, and the view structure will also be identical:\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  My team\n  {{if members.length tmpl=\"#membersTemplate\" /}}\n</script>\n\n<script id=\"membersTemplate\" type=\"text/x-jsrender\">\n  The team has members!\n</script>\n\nSame view structure as before:\n— teamView                data: team\n   — ifView               data: team\n"
+        "title": "Inline block content / external 'tmpl=...'  reference: same view hierarchy...",
+        "text": "Inline block content / external 'tmpl=...'  reference: same view hierarchy...\nA view corresponds an instance of a block tag or a rendered template – so if we replace the inline content of a tag by an external reference: tmpl=..., the rendered result will be unchanged, and the view structure will also be identical:\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  My team\n  {{if members.length tmpl=\"#membersTemplate\" /}}\n</script>\n\n<script id=\"membersTemplate\" type=\"text/x-jsrender\">\n  The team has members!\n</script>\n\nSame view structure as before:\n— teamView                data: team\n   — ifView               data: team\n"
       },
       {
         "_type": "para",
@@ -1327,18 +1168,13 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "para",
-        "title": "Accessing \"parent\" data, from nested views. Passing in template variables",
-        "text": "Accessing \"parent\" data, from nested views. Passing in template variables\nViews provide information on how the underlying data objects map to the rendered UI.\nOften it is helpful to be able to access the data for a parent view from a nested template or block (nested view).\nThere are several ways to get to parent data:\n\nCreate a contextual template variable to pass a value to nested views.\nHere are three examples:\n...\n{{if ... ~teamTitle=title ~teamData=#data ~teamIndex=#index}}\n    ...\n    {{for ...}}\n      ...\n      {{:~teamTitle}} {{:~teamData.title}} {{:~teamIndex}}\n\nUse itemVar to provide a template variable for the current data ‘item’ of a block, to be passed in to deeper nested contexts\n...\n{{for members itemVar=\"~member\"}}\n  ...\n  {{props}}\n    ...\n    {{:~member.name}}\n\nUse the view.parent property to step up through successive parent views (#parent, #parent.parent etc.):\n...\n{{if ...}}\n  ...\n  {{for ...}}\n    ...\n    {{:#parent.parent.data.title}}\n\nUse the view.get(type) method to get to a parent view of a given type:\n...\n{{if ...}}\n  ...\n  {{for ...}}\n    ...\n    {{:#get(\"if\").data.title}}\n\n\nUse the view.getIndex() method to get to the index of a parent “item” view:\n{{if ...}}\n  ...\n  {{for ...}}\n    ...\n    {{:#parent.getIndex()}}\n    {{:#getIndex()}}\n\n\nHere is a sample showing all of these methods:\n"
-      },
-      {
-        "_type": "sample",
-        "title": "Accessing parent data",
-        "text": "Accessing parent data\n\n  <div>\n    Team: {{:title}} -\n    {{mytag members/}}\n\n    {{if members.length\n      ~teamTitle=title\n      ~teamData=#data\n      ~teamIndex=#index\n    }}\n      Members: <ul>\n        {{for members\n          itemVar=\"~member\"\n        }}\n          <li>\n            {{:name}}\n            (\n              {{:~teamTitle}}\n              {{:~teamData.title}}\n              {{:#parent.parent.data.title}}\n              {{:#get(\"if\").data.title}}\n            )\n            <br/>\n            [\n              {{:~teamIndex}}\n              = {{:#parent.getIndex()}}\n              : {{:#getIndex()}}\n            ]\n            <br/>\n            {{props}}\n              {{:key}}: {{:prop}}\n              (\n                {{:~member.name}}\n              )\n            {{/props}}\n          </li>  \n        {{/for}}\n        </ul>\n    {{/if}}\n  </div>\n\n\n\n// mytag: custom tag to output \"1 member\" or \"n members\"\n$.views.tags(\"mytag\", \"{{:length == 1 ? '1 member' : length + ' members'}}\");\n// Alternative version of mytag:\n// $.views.tags(\"mytag\", \"{{if length == 1}}1 member{{else}}{{:length}} members{{/if}}\");\n\nvar teams = [\n  {title: \"The A Team\", members: [{name: \"Jeff\"}, {name: \"Maria\"}]},\n  {title: \"The B Team\", members: [{name: \"Francis\"}]}\n];\n\nvar html = $(\"#teamTemplate\").render(teams);\n\n$(\"#result\").html(html);\nThis sample shows all the ways to get to parent data described in the section above:\n\nCreate a contextual template variable to pass a value to nested views.\nUse itemVar to provide a template variable for the current data ‘item’ of a block, to be passed in to deeper nested contexts\nUse the view.parent property to step up through successive parent views (#parent, #parent.parent etc.):\nUse the view.get(type) method to get to a parent view of a given type:\nUse the view.getIndex() method to get to the index of a parent “item” view:\n\n\n"
-      },
-      {
-        "_type": "para",
         "title": "In JsViews: From UI back to data:",
         "text": "In JsViews: From UI back to data:\nNote: One of the features provided by JsViews data-linking (when you use the JsViews .link() method rather than JsRender’s .render() method) is the $.view(elem) method. This method provides a reverse mapping and lets you get from a rendered DOM element back to the corresponding view object in the view hierarchy. From the view you can get to the underlying data, the index, etc.\nSo in effect in JsViews, the mapping from the view hierarchy to the UI becomes a two-way mapping…\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "text": "See also:\n"
       }
     ]
   },
@@ -1347,7 +1183,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender tags can take unamed arguments, or named parameters:\n{{:arg0}}\n\n{{someTag arg1 arg2 param_a=param1 param_b=param2}}\n  content\n{{/someTag}}\n\nThe values of the arguments or parameters (such as arg0… param1 … above) must be valid JsRender paths or expressions.\nJsRender expressions are regular Javascript expressions, but with no access to global variables.\nInstead of global Javascript variables, JsRender expressions use data paths, helper paths and view paths, to access data values, values provided by helpers, and values obtained from the view hierarchy, such as the #getIndex().\nData paths are of the form dataProperty.bb.cc, and they step through the data hierarchy, starting from the current data item (the data context for the current view). They can include array access, such as team.members[id]\nView paths are of the form #viewProperty.bb.cc, and they start from the current view. So for example, #data is short for #view.data - where #view is the current view.\nHelper paths are of the form ~myHelper.bb.cc, and they start from the named helper \"myHelper\"\nHere are some examples of JsRender paths and values:\nData paths:\n{{:name}}\n{{for address.street}}...{{/for}}\n{{>team.members[0].lastName}}\n{{:name.toUpperCase()}}\n\nHelper paths:\n{{>~utilities.errorMessages.msg1}}\n{{if ~settings.show}}...{{/if}}\n{{:~root.selectedName}}\n\nView paths:\n{{:#getIndex()}}\n{{include #content /}}\n{{if #parent.parent.data.isLead}}...{{/if}}\n{{>~getDescription(#data)}}\n\nA primitive value of type string, number, boolean, null …:\n{{if isOpen tmpl='It is open' /}}\n{{for address tmpl=\"#addressTemplate\"}}...{{/for}}\n{{range members start=1 end=5 /}}\n{{range members reverseSort=true /}}\n\nJsRender expressions can combine values in more complex expressions, using functions, parens, operators such as + - * / ! === == > !== || &&, as well as ternary expressions: ...?...:..., array and object accessors: [...] etc.\nHere are some examples of expressions:\n{{if book.author === \"Jim Boyd\"}}...{{/if}}\n{{:~utilities.format(book.title, 'upper', true)}}\n{{for ~sort(~root.getMembers()}}}...{{/for}}\n{{:person.firstName + ' ' + person.lastName.toUpperCase()}}\n{{range #parent.data.members()/}}\n{{:(~addRebate(book.price) + 23.2)*3.5/2.1}}\n{{:~mode === \"useTitle\" ? book.title : book.name}}\n{{if error}}...{{else !utilities.valid(book.description)}}...{{else}}...{{/if}}\n{{:~books[id].title}}\n{{:people[~currentIndex].name}}\n\nExpressions can include white space. The following two examples are equivalent:\n{{averageValue product.quantity*3.1/4.5 description=~getDescription(#data) /}}\n{{averageValue product.quantity * 3.1 / 4.5 description = ~getDescription( #data ) /}}\n\nThe {{averageValue}} tag is being assigned one argument, and one named “description” parameter. The two expressions differ only in white space, and both are syntactically valid. However, removing optional white space -– as in the first example -– makes it easier to see the distinct arguments and parameters of the tag.\n"
+        "text": "JsRender tags can take unamed arguments, or named parameters:\n{{:arg0}}\n\n{{someTag arg1 arg2 param_a=param1 param_b=param2}}\n  content\n{{/someTag}}\n\nThe values of the arguments or parameters (such as arg0… param1 … above) must be valid JsRender paths or expressions.\nJsRender expressions are regular Javascript expressions, but with no access to global variables.\nInstead of global Javascript variables, JsRender expressions use data paths, helper paths and view paths, to access data values, values provided by helpers, and values obtained from the view hierarchy, such as the #getIndex().\nData paths are of the form dataProperty.bb.cc, and they step through the data hierarchy, starting from the current data item (the data context for the current view). They can include array access, such as team.members[id]\nView paths are of the form #viewProperty.bb.cc, and they start from the current view. So for example, #data is short for #view.data - where #view is the current view.\nHelper paths are of the form ~myHelper.bb.cc, and they start from the named helper \"myHelper\". In addition they can be used to access contextual parameters, or the built-in ~root\nHere are some examples of JsRender paths and values:\nData paths:\n{{:name}}\n{{for address.street}}...{{/for}}\n{{>team.members[0].lastName}}\n{{:name.toUpperCase()}}\n\nHelper paths:\n{{>~utilities.errorMessages.msg1}}\n{{if ~settings.show}}...{{/if}}\n{{:~root.selectedName}}         {{!--Accessing root data--}}\n\nView paths:\n{{:#getIndex()}}\n{{include #content /}}\n{{if #parent.parent.data.isLead}}...{{/if}}\n{{>~getDescription(#data)}}\n\nA primitive value of type string, number, boolean, null …:\n{{if isOpen tmpl='It is open' /}}\n{{for address tmpl=\"#addressTemplate\"}}...{{/for}}\n{{range members start=1 end=5 /}}\n{{range members reverseSort=true /}}\n\nJsRender expressions can combine values in more complex expressions, using functions, parens, operators such as + - * / ! === == > !== || &&, as well as ternary expressions: ...?...:..., array and object accessors: [...] etc.\nHere are some examples of expressions:\n{{if book.author === \"Jim Boyd\"}}...{{/if}}\n{{:~utilities.format(book.title, 'upper', true)}}\n{{for ~sort(~root.getMembers()}}}...{{/for}}\n{{:person.firstName + ' ' + person.lastName.toUpperCase()}}\n{{range #parent.data.members()/}}\n{{:(~addRebate(book.price) + 23.2)*3.5/2.1}}\n{{:~mode === \"useTitle\" ? book.title : book.name}}\n{{if error}}...{{else !utilities.valid(book.description)}}...{{else}}...{{/if}}\n{{:~books[id].title}}\n{{:people[~currentIndex].name}}\n\nExpressions can include white space. The following two examples are equivalent:\n{{averageValue product.quantity*3.1/4.5 description=~getDescription(#data) /}}\n{{averageValue product.quantity * 3.1 / 4.5 description = ~getDescription( #data ) /}}\n\nThe {{averageValue}} tag is being assigned one argument, and one named “description” parameter. The two expressions differ only in white space, and both are syntactically valid. However, removing optional white space -– as in the first example -– makes it easier to see the distinct arguments and parameters of the tag.\n"
       },
       {
         "_type": "para",
@@ -1378,6 +1214,11 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "_type": "sample",
         "title": "Getter properties with a View Model",
         "text": "Getter properties with a View Model\n\n\n\n  First name: {{:person.firstName()}} <br/>\n  Last name: {{:person.lastName()}} <br/>\n  Full name: {{:person.fullName()}}\n\nfunction firstName() { return this._firstName; }\nfunction lastName() { return this._lastName; }\nfunction fullName() { return this._firstName + \" \" + this._lastName; }\n\nfunction Person(first, last) {\n  this._firstName = first;\n  this._lastName = last;\n}\n\nPerson.prototype = {\n  firstName: firstName,\n  lastName: lastName,\n  fullName: fullName\n};\n\nvar data = {\n  person: new Person(\"Jo\", \"Blow\")\n};\n\nvar html = $(\"#personTmpl\").render(data);\n\n$(\"#result\").html(html);\nData:\nfunction firstName() { return this._firstName; }\nfunction lastName() { return this._lastName; }\nfunction fullName() { return this._firstName + \" \" + this._lastName; }\n\nfunction Person(first, last) {\n  this._firstName = first;\n  this._lastName = last;\n}\n\nPerson.prototype = {\n  firstName: firstName,\n  lastName: lastName,\n  fullName: fullName\n};\n\nvar data = {\n  person: new Person(\"Jo\", \"Blow\")\n};\n\nTemplate:\n  First name: {{:person.firstName()}}\n  Last name: {{:person.lastName()}}\n  Full name: {{:person.fullName()}}\n\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "text": "See also:\n"
       }
     ]
   },
@@ -1582,6 +1423,623 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "_type": "para",
         "title": "Advanced debugging, using debugging helpers",
         "text": "Advanced debugging, using debugging helpers\nInserting breakpoints during rendering:\nJsRender (and JsViews) provide some helpers for debugging code within compiled templates:\n\nThe {{dbg expression/}} tag\nThe {{dbg: expression}} converter\nThe ~dbg(expression) helper function\n\nEach of the above will\n\nevaluate the expression\ninsert a debugger; statement\noutput a console.log(...) call\nthrow and catch an exception - which you can use as a break point by stopping on caught exceptions\nrender the evaluated expression\n\nThis is done by inserting code into the compiled template which calls into the built-in dbgBreak code:\nfunction dbgBreak(val) {\n  try {\n    debugger;\n    console.log(\"JsRender dbg breakpoint: \" + val);\n    throw \"dbg breakpoint\"; // To break here, stop on caught exceptions.\n  }\n  catch (e) {}\n\nval will be the result of evaluating expression.\nWhen rendering execution breaks at the above code, you can then step up through the call stack to the compiled template code, for further debugging.\nUsage examples: {{dbg:...}}, {{:~dbg(...)}}, {{dbg .../}} etc.\nBreakpoints during data linking:\nIn JsViews, a breakpoint can also be inserted during template data-linking, as in {^{for ... onAfterLink=~dbg}}.\nUsing {{*debugger}}:\nAn alternative (but similar) debugging technique is to use allowCode to insert a debugger; statement directly into the compiled template code, as follows:\nCode:\nvar tmpl = $.templates({\n  markup: \"#myTmpl\",\n  allowCode: true // Alternatively use global setting: $.views.settings.allowCode(true)\n});\n\nTemplate:\n...\n{{*debugger}}\n...\n\n"
+      }
+    ]
+  },
+  "advanced": {
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "text": ""
+      }
+    ]
+  },
+  "apps": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Apps using JsRender",
+        "text": "Apps using JsRender\nJsRender is a simple light-weight templating engine. It can be used in the browser within simple web pages, or within complex single-page apps, or in conjunction with other frameworks. It can also be used on the server, using Node.js.\nIt is highly flexible, expressive, and ‘unopiniated’ – so it leaves you free to work within your own choice of overall application architecture (including architectures based on MVVM, MVP or MVC – optionally with server/client integration), and lets you use your own flavor of data/model layer – whether simple plain JavaScript objects, or fully-fledged View Model instances.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Components of an app using JsRender",
+        "text": "Components of an app using JsRender\nAny app or web page using JsRender templates will generally involve defining or registering the following elements:\n\none or more templates – see Templates\na ‘data Layer’ – see Data or View Model\noptionally, helpers – in the form of metadata, helper functions and converter functions, see Helpers and Converters\noptionally, reusable components for use within your templates – see Custom tags\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Apps using JsViews",
+        "text": "Apps using JsViews\nJsRender also provides optional integration with JsViews. JsViews is much more of a framework than JsRender. It does much more than just templating – providing also data-binding, MVVM support, observability of the data/model layer, support for interactive encapsulated components (JsViews tag controls), and more. Nevertheless, it can also interoperate with other frameworks and components. See Building apps in JsViews for more information.\n"
+      }
+    ]
+  },
+  "getindex": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "If you pass an array to the JsRender .render(myArray) method, or if you use {{for myArray}},  in a template, JsRender will iterate over the array, and render an item view for each item in the array.\nWithin an item view you can access the array-index of the current item, using {{:#index}}:\n\nGetting item index within a top-level item view (from .render(myArray)):\n...\n{{:#index}}\n...\n\nGetting item index within a {{for myArray}} block:\n{{for myArray}}\n  ...\n  {{:#index}}\n  ...\n{{/for}}\n\n\nIf there are additional nested tags, then from within the nested tags you can still access the index, by using {{:#getIndex()}}:\n\nGetting item index from nested tags within an item view:\n{{for myArray}}\n  ...\n  {{if ...}}\n    ...\n    {{:#getIndex()}}\n    ...\n  {{/if}}\n  ...\n{{/for}}\n\n\nSee index and getIndex() for additional details.\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also",
+        "text": "See also\n"
+      }
+    ]
+  },
+  "contextualparams": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Defining contextual parameters",
+        "text": "Defining contextual parameters\nContextual parameters provide a very convenient way of passing values in to nested tag contexts. (See View hierarchy.)\nA contextual parameter is defined by simply writing ~myValue=... (for any expression) on any block tag, such as {{if}} or {{for}}.\nThe resulting ~myValue parameter can then be accessed within the block tag – or deeper down within nested tag contexts, at any depth.\nFor example, the following template defines three contextual parameters, and uses them in nested contexts:\n...\n{{if isActive ~teamTitle=title ~teamData=#data ~teamIndex=#index}}\n  {{for members}}\n    {{if ~teamIndex>2}}\n      {{:~teamTitle}} {{:~teamData.description}}\n      ...\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "itemVar &ndash; contextual parameter for data 'item' of block",
+        "text": "itemVar – contextual parameter for data 'item' of block\nThe itemVar feature lets you set up a contextual parameter for the current data ‘item’ of a block. It is in effect an ‘alias’ for #data within the block.\nTo define an itemVar contextual parameter for a block tag, simply write itemVar=~someName. The parameter ~someName can then be accessed like any other helper variable or contextual parameter, within nested contexts to any depth.\n...\n{{for teams itemVar=\"~team\"}}\n  ...\n  {{for members itemVar=\"~member\"}}\n    ...\n    {{if isActive}}\n      {{:~team.title}} {{:~member.name}}\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Accessing root data: the built-in '~root' contextual parameter",
+        "text": "Accessing root data: the built-in '~root' contextual parameter\nThe built-in contextual parameter ~root provides direct access to the root data which was passed to the render() method (or link() method if you are using JsViews). It can be accessed from anywhere within a template, at an level of nested tags.\nNote: If an array is passed to render() or link() then ~root will be the array (so you can render {{:root.length}} for example).\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "text": "See also:\n"
+      }
+    ]
+  },
+  "parentdata": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Accessing \"parent\" data, from nested views. Passing in template variables",
+        "text": "Accessing \"parent\" data, from nested views. Passing in template variables\nWhen a template (containing nested template tags) is rendered, the result is a view hierarchy – where the views provide information on how the underlying data objects map to the rendered UI.\nOften it is helpful to be able to access the data for a parent view from a nested template or block (nested view).\nThere are several ways to get to parent data:\n\nCreate a contextual parameter to pass a value to nested views.\nHere are three examples:\n...\n{{if ... ~teamTitle=title ~teamData=#data ~teamIndex=#index}}\n  ...\n  {{for ...}}\n    ...\n    {{:~teamTitle}} {{:~teamData.title}} {{:~teamIndex}}\n\nUse itemVar to provide a contextual parameter for the current data ‘item’ of a block, to be passed in to deeper nested contexts\n...\n{{for members itemVar=\"~member\"}}\n  ...\n  {{props}}\n    ...\n    {{:~member.name}}\n\nUse the view.parent property to step up through successive parent views (#parent, #parent.parent etc.):\n...\n{{if ...}}\n  ...\n  {{for ...}}\n    ...\n    {{:#parent.parent.data.title}}\n\nUse the view.get(type) method to get to a parent view of a given type:\n...\n{{if ...}}\n  ...\n  {{for ...}}\n    ...\n    {{:#get(\"if\").data.title}}\n\n\nUse the view.getIndex() method to get to the index of a parent “item” view:\n{{if ...}}\n  ...\n  {{for ...}}\n    ...\n    {{:#parent.getIndex()}}\n    {{:#getIndex()}}\n\n\nHere is a sample showing all of these methods:\n"
+      },
+      {
+        "_type": "sample",
+        "text": "\n  <div>\n    Team: {{:title}} -\n    {{mytag members/}}\n\n    {{if members.length\n      ~teamTitle=title\n      ~teamData=#data\n      ~teamIndex=#index\n    }}\n      Members: <ul>\n        {{for members\n          itemVar=\"~member\"\n        }}\n          <li>\n            {{:name}}\n            (\n              {{:~teamTitle}}\n              {{:~teamData.title}}\n              {{:#parent.parent.data.title}}\n              {{:#get(\"if\").data.title}}\n            )\n            <br/>\n            [\n              {{:~teamIndex}}\n              = {{:#parent.getIndex()}}\n              : {{:#getIndex()}}\n            ]\n            <br/>\n            {{props}}\n              {{:key}}: {{:prop}}\n              (\n                {{:~member.name}}\n              )\n            {{/props}}\n          </li>  \n        {{/for}}\n        </ul>\n    {{/if}}\n  </div>\n\n\n\n// mytag: custom tag to output \"1 member\" or \"n members\"\n$.views.tags(\"mytag\", \"{{:length == 1 ? '1 member' : length + ' members'}}\");\n// Alternative version of mytag:\n// $.views.tags(\"mytag\", \"{{if length == 1}}1 member{{else}}{{:length}} members{{/if}}\");\n\nvar teams = [\n  {title: \"The A Team\", members: [{name: \"Jeff\"}, {name: \"Maria\"}]},\n  {title: \"The B Team\", members: [{name: \"Francis\"}]}\n];\n\nvar html = $(\"#teamTemplate\").render(teams);\n\n$(\"#result\").html(html);\nThis sample shows all the ways to get to parent data described in the section above:\n\nCreate a contextual parameter to pass a value to nested views.\nUse itemVar to provide a contextual parameter for the current data ‘item’ of a block, to be passed in to deeper nested contexts\nUse the view.parent property to step up through successive parent views (#parent, #parent.parent etc.):\nUse the view.get(type) method to get to a parent view of a given type:\nUse the view.getIndex() method to get to the index of a parent “item” view:\n\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "text": "See also:\n"
+      }
+    ]
+  },
+  "jsrmodel": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender is designed to work well with either plain JavaScript objects and arrays, or with instances of JavaScript classes, such as View Model classes.\nSo, for example, if you are using data obtained from a JSON request, you can choose between:\n\nrendering your templates directly against the objects and arrays returned from the JSON request\npassing the data through a ‘mapping’ process to create a hierarchy of View Model instances, and rendering your templates against those objects\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "<b>Example: JsRender with plain objects and arrays</b>",
+        "text": "Example: JsRender with plain objects and arrays\n"
+      },
+      {
+        "_type": "code",
+        "title": "Suppose this is our data from a JSON request:",
+        "text": "Suppose this is our data from a JSON request:\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n"
+      },
+      {
+        "_type": "template",
+        "title": "We'll render using a template structured like this:",
+        "text": "We'll render using a template structured like this:\n... \n{{:name}}\n...\n{{:address.street}}\n...\n{{for phones}}\n  ...      \n  {{:number}}\n  ...\n{{/for}}\n...\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Render template directly against plain objects...",
+        "text": "Render template directly against plain objects...\n\n\n\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name}}</td></tr>\n    <tr><td>Street:</td><td>{{:address.street}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones}}\n          <tr><td>\n            {{:number}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n\n// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Data: hierarchy of plain objects and arrays\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n// Render template against plain object hierarchy\n$(\"#result\").html(tmpl.render(person));\n\n\n\n$(\"#result\").html(tmpl.render(person));\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Now we’ll convert the above sample to use View Model classes.\n"
+      },
+      {
+        "_type": "para",
+        "title": "<b>Example: JsRender with View Model objects</b>",
+        "text": "Example: JsRender with View Model objects\nWe’ll convert the data to a corresponding hierarchy of View Model class instances.\n"
+      },
+      {
+        "_type": "para",
+        "title": "View Model classes:",
+        "text": "View Model classes:\nHere is the class definition for Person:\n// Constructor\nfunction Person(name, address, phones) {\n  this._name = name;\n  this._address = address;\n  this._phones = phones;\n}\n\n// Prototype\nvar personProto = {\n  name: function() {\n    return this._name;\n  },\n  address: function() {\n    return this._address;\n  },\n  phones: function() {\n    return this._phones;\n  }\n};\n...\n\nWe define exactly similar classes for our Address and Phone objects too.\nThe above is a recommended pattern for View Model classes used with JsRender. (It will also work seamlessly with JsViews data-binding, if at some point you choose to upgrade to use JsViews features). Variants of this pattern are possible, too.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Getter functions",
+        "text": "Getter functions\nNote that properties are now getter functions, which return the appropriate value (which may be of any type, including objects or arrays – such as address and phones above).\nIn fact they are particular case of computed observables – a concept that can be used quite generally within JsRender and JsViews, not only for View Model properties.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using the same function as both getter and setter",
+        "text": "Using the same function as both getter and setter\nFor properties which are read-write, the above getter functions can be replaced by a corresponding getter/setter, as follows:\nname: function(val) {\n  if (!arguments.length) {\n    return this._name; // If there is no argument, use as a getter\n  }\n  this._name = val;    // If there is a value argument, treat as a setter\n},\n\nNote that when JsRender renders a template using a get/set property {{:name()}} it will always call the function as a getter, not as a setter. However the setter feature lets you modify the value of name() from code, using:\nsomePerson.name(\"newName\"); // setter\n\nAlso, if you use the same View Model class with JsViews then the setter will be called:\n\nwhen the user modifies a data-bound value such as <input data-link=\"name()\" />\nwhen using $.observable(person).setProperty(\"name\", \"newName\") from code\n(See JsViews Data/View Model for details, and alternative setter patterns.)\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Template",
+        "text": "Template\nTo convert our template from using plain objects to using View Model objects, the only change we need to make is to add parens for our properties, which are now getter functions:\n... \n{{:name()}}\n...\n{{:address().street()}}\n...\n{{for phones()}}\n  ...      \n  {{:number()}}\n  ...\n{{/for}}\n...\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Instantiate and render:",
+        "text": "Instantiate and render:\nNow all we need to do is to construct our root person object (with its underlying hierarchy of View Model instance objects) and render the template against that object in the usual way.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Render template against a View Model object hierarchy",
+        "text": "Render template against a View Model object hierarchy\n\n\n\n\n\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address()^street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>\n            {{:number()}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n\n// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Instantiate View Model hierarchy\nvar person = new Person(\n  \"Pete\",\n  new Address(\"1st Ave\"),\n    [\n      new Phone(\"111 111 1111\"),\n      new Phone(\"222 222 2222\")\n    ]\n  );\n\n// Render template against person object (instance of Person)\n$(\"#result\").html(tmpl.render(person));\nInstantiate View Model hierarchy\n\nvar person = new Person(\n  \"Pete\",\n  new Address(\n    \"1st Ave\"),\n    [\n      new Phone(\"111 111 1111\"),\n      new Phone(\"222 222 2222\")\n    ]\n  );\n\n\nRender template against person object (instance of Person)\n\n$(\"#result\").html(tmpl.render(person));\n\n// View Model class definitions, using get/set pattern:\n\n// Person\nfunction Person(name, address, phones) {\n  this._name = name;\n  this._address = address;\n  this._phones = phones;\n}\n\nvar personProto = {\n  name: function(val) {\n    if (!arguments.length) {\n      return this._name; // If there is no argument, use as a getter\n    }\n    this._name = val;    // If there is a value argument, treat as a setter\n  },\n  phones: function(val) {\n    if (!arguments.length) {\n      return this._phones;\n    }\n    this._phones = val;\n  },\n  address: function(val) {\n    if (!arguments.length) {\n      return this._address;\n    }\n    this._address = val;\n  }\n};\n\nPerson.prototype = personProto;\n\n// Address\nfunction Address(street) {\n  this._street = street;\n}\n\nvar addressProto = {\n  street: function(val) {\n    if (!arguments.length) {\n      return this._street;\n    }\n    this._street = val;\n  }\n};\n\nAddress.prototype = addressProto;\n\n// Phone\nfunction Phone(number) {\n  this._number = number;\n}\n\nvar phoneProto = {\n  number: function(val) {\n    if (!arguments.length) {\n      return this._number;\n    }\n    this._number = val;\n  }\n};\n\nPhone.prototype = phoneProto;\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "text": "See also:\n"
+      }
+    ]
+  },
+  "helpersapi": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "$.views.helpers() is used to register helpers, accessed within templates using the syntax ~myhelper. See Using helpers for information about what helpers are, and some additional ways of providing them to templates.\nThis topic provides more details.\nWith $.views.helpers(...) you can:\n\nregister one or more helpers globally, to be used in any template\nadd one or more helpers as private resources for a parent template\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Registering one or more helpers",
+        "text": "Registering one or more helpers\n"
+      },
+      {
+        "_type": "api",
+        "title": "$.views.helpers(...)",
+        "text": "$.views.helpers(...)\nRegister a helper, for use in any template with the syntax:~name\n\n$.views.helpers(\"format\", myFormatFunction);\n\nRegister multiple helpers\n\n$.views.helpers({\n  format: myFormatFunction,\n  utilities: {},\n  mode: \"filtered\"\n});\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is an example using a ‘hierarchy’ of helpers…\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Register multiple helpers, including objects, etc.",
+        "text": "Register multiple helpers, including objects, etc.\n\n\n\n  {{:~format(title, true)}}\n\n  - availability:\n  {{if ~mode===\"filtered\"}}\n    <em>\n      {{:~utilities.subtractMax(sold) > 0\n          ? ~utilities.errorMessages.msg1\n          : \"immediate\"\n      }}\n    </em>\n  {{/if}}\n\nfunction myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\n$.views.helpers({\n  format: myFormatFunction,\n  utilities: {\n    maxCount: 23,\n    subtractMax: function(val) {\n      return val - this.maxCount;\n    },\n    errorMessages: {\n      msg1: \"not available\"\n    }\n  },\n  mode: \"filtered\"\n});\n\nvar html = $(\"#myTemplate\").render({title: \"gizmo\", sold: 27});\n\n$(\"#result\").html(html);\nHere is an example using a ‘hierarchy’ of helpers…\n$.views.helpers({\n  ...\n  utilities: {\n    maxCount: 23,\n    subtractMax: function(val) {\n      return val - this.maxCount;\n    },\n    errorMessages: {\n      msg1: \"not available\"\n    }\n  },\n  ...\n});\n\n{{:~utilities.subtractMax(sold) > 0\n    ? ~utilities.errorMessages.msg1\n    : \"immediate\"\n}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Adding helpers as private resources for a parent template",
+        "text": "Adding helpers as private resources for a parent template\nYou can pass in an existing template as an additional parentTemplate parameter, on  any call to  $.views.helpers(...).\nIn that way the helper you are registering becomes a ‘private helper resource’ for the parentTemplate, rather than being registered globally:\n"
+      },
+      {
+        "_type": "api",
+        "title": "$.views.helpers(namedHelpers[, parentTemplate])",
+        "text": "$.views.helpers(namedHelpers[, parentTemplate])\nAdd one or more helpers as private resources for a parent template\n\n$.views.helpers({\n  format: myFormatFunction,\n  ...\n}, parentTemplate);\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "text": "See also:\n"
+      }
+    ]
+  },
+  "helpers": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "What are helpers?",
+        "text": "What are helpers?\nJsRender templates are made up of HTML markup, text, and template tags. Template tags are used to evaluate data-paths or computed expressions, and insert those values into the rendered output.\nBut often the values you will want to insert are not actually taken from the data, but rather from other parameters or metadata which you want to use. And often you will want to process the values, using helper functions or other code, e.g. for converting values to other formats, or for computed values.\nHelpers, in JsRender, refers to any functions, objects, parameters or metadata which you want to provide, in addition to the actual data you passed to the render() method (or link() method if you are using JsViews).\nHelpers can also be objects, arrays, etc.\nYou access helpers by prepending the ~ character. Here are some examples:\n{{:~myHelperValue}}\n{{:~myHelperFunction(name, title)}}\n{{for ~myHelperObject.mySortFunction(people, \"increasing\")}} ... {{/for}}\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Passing in helpers",
+        "text": "Passing in helpers\nThere are three ways to provide helpers:\n\nGlobal helpers – registered using $.views.helpers(myHelpers)\nHelpers registered for a specific template – $.templates(\"mytmpl\", {markup: ..., helpers: myHelpers}\nHelpers passed in on a specific render call – tmpl.render(data, myHelpers)\n(Similarly you can pass helpers to JsViews link() calls)\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Contextual parameters",
+        "text": "Contextual parameters\nIn addition to providing helpers as above, you can also define contextual parameters within a template, which you access using the same ~someName syntax as for regular helpers.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Global helper: $.views.helpers(...)",
+        "text": "Global helper: $.views.helpers(...)\n\n\n\n  {{:~format(name, true)}}\n\nfunction myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\nvar myHelpers = {format: myFormatFunction};\n\n$.views.helpers(myHelpers);\n\nvar html = $(\"#personTemplate\").render({name: \"Robert\"});\n\n$(\"#person\").html(html);\nvar myHelpers = {format: myFormatFunction};\n\n$.views.helpers(myHelpers);\n\n{{:~format(name, true)}}\n\n\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Helper resource for a specific template",
+        "text": "Helper resource for a specific template\n\n\n\n  {{:~format(name)}}\n  {{:~format(name, true)}}\n\nfunction myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\nvar myHelpers = {format: myFormatFunction};\n\n$.templates({\n  mytmpl: {\n    markup: \"#personTemplate\",\n    helpers: myHelpers\n  }\n});\n\nvar html = $.render.mytmpl({name: \"Robert\"});\n\n$(\"#person\").html(html);\nvar myHelpers = {format: myFormatFunction};\n\n$.templates({\n  mytmpl: {\n    markup: \"#personTemplate\",\n    helpers: myHelpers\n  }\n});\n\n{{:~format(name)}}\n{{:~format(name, true)}}\n\n\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Passing helpers with  a render() call",
+        "text": "Passing helpers with  a render() call\n\n\n\n  {{:~format(name, true)}}\n  {{:~format(name)}}\n\nfunction myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\nvar data = {name: \"Robert\"};\n\nvar myHelpers = {format: myFormatFunction};\n\nvar html = $(\"#personTemplate\").render(data, myHelpers); \n\n$(\"#person\").html(html);\nvar myHelpers = {format: myFormatFunction};\n\nvar html = $(\"#personTemplate\").render(data, myHelpers); \n\n{{:~format(name, true)}}\n{{:~format(name)}}\n\nSee template.render(...)\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "For additional details and scenarios see:",
+        "text": "For additional details and scenarios see:\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "text": "See also:\n"
+      }
+    ]
+  },
+  "usetags": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "What is a custom tag?",
+        "text": "What is a custom tag?\nJsRender custom tags are named tags {{myTag ...}}, which you can register, and then use in your templates.\nA tag renders itself as part of the template output. You determine how it renders, generally by providing either a render function or a template, when you declare your custom tag.\nThe render function, or the template, can access both named parameters (props) and unnamed parameters (args), as in:\n{{myTag arg0 arg1 namedProp1=xxx namedProp2=yyy}} ... {{/myTag}}\n\nIn fact it can also access the current data item – or even the whole hierarchy of views and data…\nWhen you also use JsViews, custom tags acquire a whole new dimension. – They become tag controls, and you can build rich and complex single page apps cleanly and simply using custom tag controls – following an MVP or MVVM coding pattern.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "1 - Simple custom tag using just a function",
+        "text": "1 - Simple custom tag using just a function\n\n\n\n  This is the title:{{boldp title /}}\n\nfunction renderBoldP(value) {\n   return \"\" + value + \"\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\nThe function is the render method for the tag\n\nDeclaring the custom tag\n\nfunction renderBoldP(value) {\n  return \"\" + value + \"\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nUsing the tag\n\nThis is the title:{{boldp title /}}\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Note: the this pointer within the tag render function is the instance of the tag, and can be used in more advanced usage, as in the next two examples:\n"
+      },
+      {
+        "_type": "para",
+        "title": "Wrapping block content using a function-based custom tag",
+        "text": "Wrapping block content using a function-based custom tag\nFirst of all – what if we want our tag to be used as a block tag, and to render itself by wrapping the rendered block content with the ‘bold p’ html – <b><p>...</p></b>as in:\n{{boldp}}\n  This is inside our block content:<br/>\n  <em>{{:title}}</em>\n{{/boldp}}\n\n"
+      },
+      {
+        "_type": "sample",
+        "title": "2 - Rendering block content from a custom tag function",
+        "text": "2 - Rendering block content from a custom tag function\n\n\n\n  {{boldp}}\n    This is inside our block content:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n\nfunction renderBoldP(val) {\n   return \"\" + this.tagCtx.render(val) + \"\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\nTo render the block content, we call this.tagCtx.render(val):\nfunction renderBoldP(val) {\n   return \"<p><b>\" + this.tagCtx.render(val) + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "As well as calling the render() method of this.tagCtx, you can access this.tagCtx.args, this.tagCtx.props, this.tagCtx.view.data and more…\nThe tagCtx.args are the unnamed parameters. So in this example, there are two of them:\n{{someTag title name}}\n\nIn addition to being accessible as tagCtx.args, unnamed parameters are also passed directly as parameters to the render method (if your tag is using one):\nfunction someTagRenderMethod(title, name) {\n  // Here, this.tagCtx.args[1] and the name parameter are the same thing\n}\n\nNow here is an example which has one unnamed parameter and two named parameters. You can access named parameters from tagCtx.props:\n{{range members start=2 end=4}}\n\nWe’ll use that in our third sample, to show accessing properties from the render function of the tag:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "3 - Accessing tagCtx properties from the tag render function",
+        "text": "3 - Accessing tagCtx properties from the tag render function\n\n\n\n  <p><b>{{:title}}</b></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n\n$.views.tags(\"range\", function(array) {\n  var ret = \"\",\n    start = this.tagCtx.props.start,\n    end = this.tagCtx.props.end;\n  for (var i = start; i <= end; i++) {\n    // Render tag content, for this data item\n    ret += this.tagCtx.render(array[i]);\n  }\n  return ret;\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\nThis sample defines a {{range}} tag which iterates over an array which you pass as (unnamed) parameter. It also allows you to set named parameters start and end, to determine the range of iteration. (See also the range sample, for a more advanced implementation of a similar custom tag.)\nYou call it like this:\n{{range members start=1 end=2}}\n ...\n{{/range}}\n\nAnd the render function code accesses context to get at those named and unnamed parameters… :\n$.views.tags(\"range\", function(array) {\n  ...\n  var start = this.tagCtx.props.start,\n  ...\n  // Render tag content, for this data item\n  ret += this.tagCtx.render(array[i]);\n  ...\n  return ret;\n});\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using a tag template instead of a render function",
+        "text": "Using a tag template instead of a render function\nIf the tag definition includes a template, but no render method, then the template will be used to render the tag.\nLet’s re-implement all three examples above using custom tags which use templates instead of render functions.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "1b - Simple custom tag using just a template",
+        "text": "1b - Simple custom tag using just a template\n\n\n\n  {{boldp title /}}\n\n$.views.tags(\"boldp\", {\n  template: \"{{:~tag.tagCtx.args[0]}}\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\nDeclaring the custom tag\n$.views.tags(\"boldp\", {\n  template: \"<p><b>{{:~tag.tagCtx.args[0]}}</b></p>\"\n});\n\nAs you see, the template is accessing the unnamed parameter tagCtx.args[0].\nThe result is identical to the other implementation using a function. You call it just the same:\n{{boldp title /}}\n\n\n"
+      },
+      {
+        "_type": "sample",
+        "title": "2b - Rendering block content from a custom tag template",
+        "text": "2b - Rendering block content from a custom tag template\n\n\n\n  {{boldp}}\n    This is the title:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n\n$.views.tags(\"boldp\", {\n  template: \"{{include tmpl=~tag.tagCtx.content/}}\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\nTo render block content, we use {{include tmpl=~tag.tagCtx.content/}}\ntemplate: \"<p><b>{{include tmpl=~tag.tagCtx.content/}}</b></p>\"\n\nHere we are accessing the content property on the tagCtx, which provides a compiled template for the block content.\nIt is also made available as a content property on the view object – and can be accessed from within a template using #content – which is an example of a view path – equivalent to #view.content. You can try out that alternative syntax by choosing Try it and changing the template above to <p><b>{{include tmpl=#content/}}</b></p>.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Finally let’s re-implement the third example using just a template.\nEven this example can be implemented as a custom tag which has no code at all. – Just a template, which is also able to access all the context that we were able to access from code in our render() function above.\nThis illustrates the power of declarative templates…\n"
+      },
+      {
+        "_type": "sample",
+        "title": " 3b - Accessing more context from the tag template",
+        "text": " 3b - Accessing more context from the tag template\n\n\n\n  <p><b>{{:title}}</b></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n\n$.views.tags(\"range\", {\n  template: \n    \"{{for ~tag.tagCtx.args[0]}}\" +\n      \"{{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\" +\n        \"{{include tmpl=~tag.tagCtx.content/}}\" +\n      \"{{/if}}\" +\n    \"{{/for}}\"\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\nThe template accesses the same context as the function code above, to get at those named and unnamed parameters… :\n{{for ~tag.tagCtx.args[0]}}\n  {{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\n    {{include tmpl=~tag.tagCtx.content/}}\n  {{/if}}\n{{/for}}\n\nThen after filtering for the items within the chosen range, using nested {{for}}{{if} tags, it renders the original block content for those items using {{include tmpl=~tag.tagCtx.content/}}.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Custom tags using both a render function <b>and</b> a template",
+        "text": "Custom tags using both a render function and a template\nIf there is both a template and a render method, then the template will only be used if the render method returns undefined\nLet’s take our {{range}} example using a render function, but provide a template which will be used as “fallback” rendering for the tag in the case when there are no items to render in the chosen range:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "A render() function and a template as \"fallback\"",
+        "text": "A render() function and a template as \"fallback\"\n\n\n\n  <h3>Members 2 to 4</h3>\n  <ul>\n    {{range members start=1 end=3}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n\n  <h3>Members 5 to 8</h3>\n  <ul>\n    {{range members start=4 end=7}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n\n$.views.tags({\n  range: {\n    render: function(array) {\n      var ret = \"\",\n        start = this.tagCtx.props.start,\n        end = this.tagCtx.props.end;\n      for (var i = start; i <= end; i++) {\n        if (array[i]) {\n          // Render tag block content, for this data item\n          ret += this.tagCtx.content.render(array[i]);\n        }\n      }\n      return ret || undefined;\n    },\n    template: \"Nothing to render\"\n  }\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\n\nFirst we will change the original code to test whether the item exists in the array, before rendering the block content.\nAnd secondly, we will make sure that when there is an item we do render the block content and not the template. So we call this.tagCtx.content.render(array[i]), rather than this.tagCtx.render(array[i]).\nThat’s because this.tagCtx.render(...) will actually look to see if there is template associated with the tag, (either a template on the tag definition, or a tmpl property on the tag) – in which case it will render that template and not the block content…\nfor (var i = start; i <= end; i++) {\n  if (array[i]) {\n    // Render tag block content, for this data item\n    ret += this.tagCtx.content.render(array[i]);\n  }\n}\n\nFinally, if there are no items to render, we will return undefined, so the tag will fall back on the template rendering.\nreturn ret || undefined;\n\nAnd here is the “fallback” template:\ntemplate: \"<li>Nothing to render</li>\"\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Custom tags and 'tag controls'",
+        "text": "Custom tags and 'tag controls'\nIf you use JsViews, your custom tag can be developed into a fully functional tag control, with its own life-cycle, properties and methods, etc. It can be used as a presenter according to the MVP pattern.\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "text": "See also:\n"
+      }
+    ]
+  },
+  "tagsapi": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "What is a custom tag?",
+        "text": "What is a custom tag?\nJsRender custom tags are named tags {{myTag ...}}, which you can register, and then use in your templates.\nA tag renders itself as part of the template output. You determine how it renders, generally by providing either a render function or a template, when you declare your custom tag.\nThe render function, or the template, can access both named parameters (props) and unnamed parameters (args), as in:\n{{myTag arg0 arg1 namedProp1=xxx namedProp2=yyy}} ... {{/myTag}}\n\nIn fact it can also access the current data item – or even the whole hierarchy of views and data…\nWhen you also use JsViews, custom tags acquire a whole new dimension. – They become tag controls, and you can build rich and complex single page apps cleanly and simply using custom tag controls – following an MVP or MVVM coding pattern.\n"
+      },
+      {
+        "_type": "api",
+        "title": "$.views.tags(name, tagFn)",
+        "text": "$.views.tags(name, tagFn)\nRegister a simple 'render' function as a custom tag,\n\n$.views.tags(\"mytag\", function(...) {\n  ...return rendered content\n});\n\n{{mytag ...}} ... {{/mytag}}\n\nRegister a custom tag using a tagOptions object\n\n$.views.tags(\"mytag\", {\n  render: function(...) {...},\n  template: ...\n});\n\n{{mytag ...}} ... {{/mytag}}\n\nRegister multiple custom tags\n\n$.views.tags({\n  myTag1: function(val) {...},\n  myTag2: {render: function(val) {...}, ...}\n});\n\n"
+      },
+      {
+        "_type": "sample",
+        "title": "1 - Simple custom tag using just a function",
+        "text": "1 - Simple custom tag using just a function\n\n\n\n  This is the title:{{boldp title /}}\n\nfunction renderBoldP(value) {\n   return \"\" + value + \"\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\nThe function is the render method for the tag\n\nDeclaring the custom tag\n\nfunction renderBoldP(value) {\n  return \"\" + value + \"\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nUsing the tag\n\nThis is the title:{{boldp title /}}\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Note: the this pointer within the tag render function is the instance of the tag, and can be used in more advanced usage, as in the next two examples:\n"
+      },
+      {
+        "_type": "para",
+        "title": "Wrapping block content using a function-based custom tag",
+        "text": "Wrapping block content using a function-based custom tag\nFirst of all – what if we want our tag to be used as a block tag, and to render itself by wrapping the rendered block content with the ‘bold p’ html – <b><p>...</p></b>as in:\n{{boldp}}\n  This is inside our block content:<br/>\n  <em>{{:title}}</em>\n{{/boldp}}\n\n"
+      },
+      {
+        "_type": "sample",
+        "title": "2 - Rendering block content from a custom tag function",
+        "text": "2 - Rendering block content from a custom tag function\n\n\n\n  {{boldp}}\n    This is inside our block content:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n\nfunction renderBoldP(val) {\n   return \"\" + this.tagCtx.render(val) + \"\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\nTo render the block content, we call this.tagCtx.render(val):\nfunction renderBoldP(val) {\n   return \"<p><b>\" + this.tagCtx.render(val) + \"</b></p>\";\n}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "As well as calling the render() method of this.tagCtx, you can access this.tagCtx.args, this.tagCtx.props, this.tagCtx.view.data and more…\nThe tagCtx.args are the unnamed parameters. So in this example, there are two of them:\n{{someTag title name}}\n\nIn addition to being accessible as tagCtx.args, unnamed parameters are also passed directly as parameters to the render method (if your tag is using one):\nfunction someTagRenderMethod(title, name) {\n  // Here, this.tagCtx.args[1] and the name parameter are the same thing\n}\n\nNow here is an example which has one unnamed parameter and two named parameters. You can access named parameters from tagCtx.props:\n{{range members start=2 end=4}}\n\nWe’ll use that in our third sample, to show accessing properties from the render function of the tag:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "3 - Accessing tagCtx properties from the tag render function",
+        "text": "3 - Accessing tagCtx properties from the tag render function\n\n\n\n  <p><b>{{:title}}</b></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n\n$.views.tags(\"range\", function(array) {\n  var ret = \"\",\n    start = this.tagCtx.props.start,\n    end = this.tagCtx.props.end;\n  for (var i = start; i <= end; i++) {\n    // Render tag content, for this data item\n    ret += this.tagCtx.render(array[i]);\n  }\n  return ret;\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\nThis sample defines a {{range}} tag which iterates over an array which you pass as (unnamed) parameter. It also allows you to set named parameters start and end, to determine the range of iteration. (See also the range sample, for a more advanced implementation of a similar custom tag.)\nYou call it like this:\n{{range members start=1 end=2}}\n ...\n{{/range}}\n\nAnd the render function code accesses context to get at those named and unnamed parameters… :\n$.views.tags(\"range\", function(array) {\n  ...\n  var start = this.tagCtx.props.start,\n  ...\n  // Render tag content, for this data item\n  ret += this.tagCtx.render(array[i]);\n  ...\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using a tag template instead of a render function",
+        "text": "Using a tag template instead of a render function\nIf the tag definition includes a template, but no render method, then the template will be used to render the tag.\nLet’s re-implement all three examples above using custom tags which use templates instead of render functions.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "1b - Simple custom tag using just a template",
+        "text": "1b - Simple custom tag using just a template\n\n\n\n  {{boldp title /}}\n\n$.views.tags(\"boldp\", {\n  template: \"{{:~tag.tagCtx.args[0]}}\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\nDeclaring the custom tag\n$.views.tags(\"boldp\", {\n  template: \"<p><b>{{:~tag.tagCtx.args[0]}}</b></p>\"\n});\n\nAs you see, the template is accessing the unnamed parameter tagCtx.args[0].\nThe result is identical to the other implementation using a function. You call it just the same:\n{{boldp title /}}\n\n\n"
+      },
+      {
+        "_type": "sample",
+        "title": "2b - Rendering block content from a custom tag template",
+        "text": "2b - Rendering block content from a custom tag template\n\n\n\n  {{boldp}}\n    This is the title:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n\n$.views.tags(\"boldp\", {\n  template: \"{{include tmpl=~tag.tagCtx.content/}}\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\nTo render block content, we use {{include tmpl=~tag.tagCtx.content/}}\ntemplate: \"<p><b>{{include tmpl=~tag.tagCtx.content/}}</b></p>\"\n\nHere we are accessing the content property on the tagCtx, which provides a compiled template for the block content.\nIt is also made available as a content property on the view object – and can be accessed from within a template using #content – which is an example of a view path – equivalent to #view.content. You can try out that alternative syntax by choosing Try it and changing the template above to <p><b>{{include tmpl=#content/}}</b></p>.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Finally let’s re-implement the third example using just a template.\nEven this example can be implemented as a custom tag which has no code at all. – Just a template, which is also able to access all the context that we were able to access from code in our render() function above.\nThis illustrates the power of declarative templates…\n"
+      },
+      {
+        "_type": "sample",
+        "title": " 3b - Accessing more context from the tag template",
+        "text": " 3b - Accessing more context from the tag template\n\n\n\n  <p><b>{{:title}}</b></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n\n$.views.tags(\"range\", {\n  template: \n    \"{{for ~tag.tagCtx.args[0]}}\" +\n      \"{{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\" +\n        \"{{include tmpl=~tag.tagCtx.content/}}\" +\n      \"{{/if}}\" +\n    \"{{/for}}\"\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\nThe template accesses the same context as the function code above, to get at those named and unnamed parameters… :\n{{for ~tag.tagCtx.args[0]}}\n  {{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\n    {{include tmpl=~tag.tagCtx.content/}}\n  {{/if}}\n{{/for}}\n\nThen after filtering for the items within the chosen range, using nested {{for}}{{if} tags, it renders the original block content for those items using {{include tmpl=~tag.tagCtx.content/}}.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Custom tags using both a render function <b>and</b> a template",
+        "text": "Custom tags using both a render function and a template\nIf there is both a template and a render method, then the template will only be used if the render method returns undefined\nLet’s take our {{range}} example using a render function, but provide a template which will be used as “fallback” rendering for the tag in the case when there are no items to render in the chosen range:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "A render() function and a template as \"fallback\"",
+        "text": "A render() function and a template as \"fallback\"\n\n\n\n  <h3>Members 2 to 4</h3>\n  <ul>\n    {{range members start=1 end=3}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n\n  <h3>Members 5 to 8</h3>\n  <ul>\n    {{range members start=4 end=7}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n\n$.views.tags({\n  range: {\n    render: function(array) {\n      var ret = \"\",\n        start = this.tagCtx.props.start,\n        end = this.tagCtx.props.end;\n      for (var i = start; i <= end; i++) {\n        if (array[i]) {\n          // Render tag block content, for this data item\n          ret += this.tagCtx.content.render(array[i]);\n        }\n      }\n      return ret || undefined;\n    },\n    template: \"Nothing to render\"\n  }\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\n\nFirst we will change the original code to test whether the item exists in the array, before rendering the block content.\nAnd secondly, we will make sure that when there is an item we do render the block content and not the template. So we call this.tagCtx.content.render(array[i]), rather than this.tagCtx.render(array[i]).\nThat’s because this.tagCtx.render(...) will actually look to see if there is template associated with the tag, (either a template on the tag definition, or a tmpl property on the tag) – in which case it will render that template and not the block content…\nfor (var i = start; i <= end; i++) {\n  if (array[i]) {\n    // Render tag block content, for this data item\n    ret += this.tagCtx.content.render(array[i]);\n  }\n}\n\nFinally, if there are no items to render, we will return undefined, so the tag will fall back on the template rendering.\nreturn ret || undefined;\n\nAnd here is the “fallback” template:\ntemplate: \"<li>Nothing to render</li>\"\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Adding tags as private resources for a parent template",
+        "text": "Adding tags as private resources for a parent template\nYou can pass in an existing template as an additional parentTemplate parameter, on  any call to  $.views.tags(...).\nIn that way the tag you are registering becomes a ‘private tag resource’ for the parentTemplate, rather than being registered globally:\n"
+      },
+      {
+        "_type": "api",
+        "title": "",
+        "text": "Add multiple tags as resources, to a parent template\n\n$.views.tags({\n  myTag1: ...,\n  myTag2: ...\n}, parentTemplate);\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Custom tags and 'tag controls'",
+        "text": "Custom tags and 'tag controls'\nIf you use JsViews, your custom tag can be developed into a fully functional tag control, with its own life-cycle, properties and methods, etc. It can be used as a presenter according to the MVP pattern.\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "text": "See also:\n"
+      }
+    ]
+  },
+  "convertersapi": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See Using converters for an overview of what converters are, and some examples.\nThis topic provided more details.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using custom or built-in converters",
+        "text": "Using custom or built-in converters\nIn JsRender, a converter is a convenient way of processing or formatting a data-value, or the result of expression evaluation.\nYou use built-in converters to HTML-encode, attribute-encode, or URL-encode:\n{{html:movie.description}} - This data is HTML encoded\n{{>movie.description}} - (Alternative syntax) - This data is HTML encoded\n\n{{url:~getTheFilePath()}} - This expression will be URL-encoded\n\nAnd you can register custom converters. For example you might register a date formatter or an upper-case converter:\n{{daymonth:invoice.date}} - This date uses my 'daymonth' formatter \n{{upper:name}} - This uses my 'upper' converter \n\n(See: sample.)\nYou can also use converters with any JsRender tag, not just the {{: ...}} tag, using the following syntax:\n{{someTag convert='myconverter' ...}}\n\n(See: sample.)\nNote: With JsViews, you can use converters with two-way data-binding, and you will have a convert and a convertBack converter – one for each direction.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Registering converters",
+        "text": "Registering converters\n$.views.converters() is used to register converters.\nWith $.views.converters(...) you can:\n\nregister one or more converters globally, to be used in any template\nadd one or more converters as private resources for a parent template\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Registering one or more converters",
+        "text": "Registering one or more converters\nA simple sample of registering a converter is shown here.\n"
+      },
+      {
+        "_type": "api",
+        "title": "$.views.converters(...)",
+        "text": "$.views.converters(...)\nRegister a converter\n\n$.views.converters(\"upper\", function(val) {\n  return val.toUpperCase();\n});\n\n{{upper: \"upper case: \" + nickname}}\n\nRegister multiple converters\n\n$.views.converters({\n  upper: function(val) {...},\n  lower: function(val) {...}\n});\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Adding converters as private resources for a parent template",
+        "text": "Adding converters as private resources for a parent template\nYou can pass in an existing template as an additional parentTemplate parameter, on  any call to  $.views.converters(...).\nIn that way the converter you are registering becomes a ‘private converter resource’ for the parentTemplate, rather than being registered globally:\n"
+      },
+      {
+        "_type": "api",
+        "title": "$.views.converters(...) &mdash; adding to parent template",
+        "text": "$.views.converters(...) — adding to parent template\nRegister a converter as private resources for a parent template\n\n$.views.converters(\n  \"upper\",\n  function(val) { ... },\n  parentTemplate\n);\n\nAdd one or more converters as private resources for a parent template\n\n$.views.converters({\n  upper: function(val) {...},\n  lower: function(val) {...}\n}, parentTemplate);\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Converter functions",
+        "text": "Converter functions\nIn most cases a converter function will return a computed value based on the input parameter val:\nfunction myConverter(val) {\n  ... \n  return computedVal; // converted/encoded/formatted value for 'val'\n}\n\nwhere val comes from the data value or expression passed to the tag {{myconverter: someExpression}}.\n(See: sample.)\n"
+      },
+      {
+        "_type": "para",
+        "title": "Converter function signature",
+        "text": "Converter function signature\nHowever a converter can access multiple tag arguments, to produce the computed value which it provides to the tag. Furthermore, the this pointer within the converter function is the instance of the tag, which allows it to access much more, including named tag parameters (this.tagCtx.props...), the full data object (this.tagCtx.view.data), and more…\nfunction myConverter(arg1, arg2, arg3 ...) {\n  var tag = this;\n  var namedTagParameters = tag.tagCtx.props; \n  ...\n  return computedArg1; // converted value for 'arg1' passed to tag\n}\n\n(See fullname sample.)\nHere is the converterFn API definition:\n"
+      },
+      {
+        "_type": "api",
+        "title": "function converterFn(val, ...) {...}",
+        "text": "function converterFn(val, ...) {...}\nA converter function registered using $.views.converters(...)\nConverter function:parameters: one or more tag argumentsthis pointer: the tag instancecomputes return value: which is passed to tag as first argument\n\nfunction myConverterFn(val1, val2, ...) {\n  var tag = this;\n  var tagProperties = tag.tagCtx.props;\n  ...\n  return ...;\n}\n\n$.views.converters(\"myconverter\", myConverterFn);\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using converters with other tags",
+        "text": "Using converters with other tags\nA converter can be used on any tag, thanks to the syntax\n{{someTag ... convert=...}}\n\nwhere someTag can be any custom tag, or a built-in tag such as {{if}} or {{for}}.\nSee the sample using {{for people convert='odd'}} to render only odd (or even) items in an array.\n(Note: This syntax can actually be used with the {{: ...}} tag too – by writing {{:name convert='upper'}}…)\n"
+      },
+      {
+        "_type": "para",
+        "title": "Example: a converter for {{if}}",
+        "text": "Example: a converter for {{if}}\nHere is an advanced sample: an \"inlist\" converter for {{if}}.\n\nIt accepts an item argument and a list argument, and an optional field named property\nIt returns true if the item is found in the list\nIf there is a field specified, it takes the value of that field (property) on the item and searches for it in the list\n\nNote that the converter gets called once for the first {{if}} tag block and once for each subsequent {{else}} block.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "'inlist' converter for {{if}} tag",
+        "text": "'inlist' converter for {{if}} tag\n\n\n\n  <ul>\n    {{for people}}\n      <li>\n        <b>{{:name}}:</b>\n        {{if #data ~root.team convert='inlist'}}\n          Team member\n        {{else #data ~root.reserve field=\"name\"}}\n          Reserve\n        {{else}}\n          Not in team\n        {{/if}}\n      </li>\n    {{/for}}\n  </ul>\n\nvar teamTmpl = $.templates(\"#teamTmpl\");\n\n// Converter function for looking for an item (first argument of tag) in a list (second argument of tag)\nfunction inlistConverter(item, list) {\n  // If no arguments, this is the final {{else}}\n  if (!list) {\n    return true; // Final else, so return true\n  }\n\n  var field = this.tagCtx.props.field;\n  var l = list.length;\n\n  // If the tag has a 'field' property, look for the value of that field among the list items\n  if (field) {\n    while (l--) {\n      if (item[field] === list[l]) {\n        return true; // Return true if found\n      }\n    }\n  }\n\n  // If no field property, look for the item among the list items\n  else {\n    while (l--) {\n      if (item === list[l]) {\n        return true; // Return true if found\n      }\n    }\n  }\n  return false; // Not found\n}\n\n// Register 'inlist' converter just for the 'teamTmpl' template \n$.views.converters({inlist: inlistConverter}, teamTmpl);\n\n// Define model \nvar model= {people: [\n    {name: \"Jo\"},\n    {name: \"Liza\"},\n    {name: \"Eli\"},\n    {name: \"Pete\"},\n    {name: \"Zoey\"}\n  ],\n  // Specify list of reserves, by name\n  reserve: [\"Eli\", \"Liza\"]\n};\n\n// Specify array of team members\nmodel.team = [model.people[0], model.people[3]];\n\n$(\"#result\").html(teamTmpl.render(model));\n\n  ...\n  {{for people}}\n  ...\n  {{if #data ~root.team convert='inlist'}}\n  ...\n  {{else #data ~root.reserve field=\"name\"}}\n  ...\n  {{else}}\n  ...\n  {{/for}}\n  ...\n  </ul>\n\n// Converter function for looking for an item (first argument of tag) in a list (second argument of tag)\nfunction inlistConverter(item, list) {\n  // If no arguments, this is the final {{else}}.\n  ... // Return true\n\n  // If the tag has a 'field' property, look for the value of that field among the list items\n  ... // Return true if found\n\n  // If no field property, look for the item among the list items\n  ... // Return true if found\n\n  return false; // Not found\n}\n\n// Register 'inlist' converter just for the 'teamTmpl' template \n$.views.converters({inlist: inlistConverter}, teamTmpl);\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using helper functions, or dynamically assigning converters",
+        "text": "Using helper functions, or dynamically assigning converters\nThe convert=... syntax allows you to assign a converter function without it being registered by name. For example it can be a data method or a helper function – such as {{someTag ... convert=~myConverterHelper}}.\n(You can do this with the {{: ...}} tag too – by writing {{: ... convert=~myConverterHelper}}…)\nYou can even assign a converter dynamically. For example you can write: {{someTag ... convert=~getConverter(...)}}, where the getConverter() helper might return either a string (for a converter registered by name) or a function to be used as converter.\nTo illustrate, here is a modified version of the previous sample, using {{if ... convert=~getConverter()}}:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Dynamically assigning a converter",
+        "text": "Dynamically assigning a converter\n\n\n\n  <ul>\n    {{for people}}\n      <li>\n        <b>{{:name}}:</b>\n        {{if #data ~root.team convert=~getConverter()}}\n          Team member\n        {{else #data ~root.reserve field=\"name\"}}\n          Reserve\n        {{else}}\n          Not in team\n        {{/if}}\n      </li>\n    {{/for}}\n  </ul>\n\nvar teamTmpl = $.templates(\"#teamTmpl\");\n\n// Converter function for looking for an item (first argument of tag) in a list (second argument of tag)\nfunction inlistConverter(item, list) {\n  // If no arguments, this is the final {{else}}\n  if (!list) {\n    return true; // Final else, so return true\n  }\n\n  var field = this.tagCtx.props.field;\n  var l = list.length;\n\n  // If the tag has a 'field' property, look for the value of that field among the list items\n  if (field) {\n    while (l--) {\n      if (item[field] === list[l]) {\n        return true; // Return true if found\n      }\n    }\n  }\n\n  // If no field property, look for the item among the list items\n  else {\n    while (l--) {\n      if (item === list[l]) {\n        return true; // Return true if found\n      }\n    }\n  }\n  return false; // Not found\n}\n\n// Helper to dynamically assign converters\nfunction getConverter() {\n  return inlistConverter; // For this sample just return `inlistConverter` every time\n}\n\n// Register 'getConverter' helper just for the 'teamTmpl' template \n$.views.helpers(\"getConverter\", getConverter, teamTmpl);\n\n// Define model \nvar model= {people: [\n    {name: \"Jo\"},\n    {name: \"Liza\"},\n    {name: \"Eli\"},\n    {name: \"Pete\"},\n    {name: \"Zoey\"}\n  ],\n  // Specify list of reserves, by name\n  reserve: [\"Eli\", \"Liza\"]\n};\n\n// Specify array of team members\nmodel.team = [model.people[0], model.people[3]];\n\n$(\"#result\").html(teamTmpl.render(model));\n\n// Converter function\nfunction inlistConverter(item, list) { ... }\n\n// Helper to dynamically assign converters\nfunction getConverter() {\n  return inlistConverter; // For this sample just return `inlistConverter` every time\n}\n\n// Register 'getConverter' helper just for the 'teamTmpl' template \n$.views.helpers(\"getConverter\", getConverter, teamTmpl);\n\n{{if #data ~root.team convert=~getConverter()}}\n  ...\n{{/if}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Built-in converters:",
+        "text": "Built-in converters:\nJsRender has the following built-in converters/encoders:\n\nBuilt-in HTML encoder: {{html: ...}} – accessed programmatically as $.views.converters.html()\nBuilt-in attribute encoder: {{attr: ...}} – accessed programmatically as $.views.converters.attr()\nBuilt-in URL encoder: {{url: ...}} – accessed programmatically as $.views.converters.url()\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Built-in HTML encoder",
+        "text": "Built-in HTML encoder\nJsRender includes an HTML encoder, which you can use programmatically as follows:\nvar myHtmlEncodedString = $.views.converters.html(myString);\n\nThe same encoder is accessed declaratively as a converter, as in the following two examples:\n{{html:myExpression}}\n\n{{>myExpression}}\n\nIn fact {{>...}} is exactly equivalent to {{html:...}} and is provided as a simpler syntax for HTML encoding values taken from data or from expressions and rendered within HTML content.\n(Note: the {{> ...}} tag should be used in place of the {{: ...}} tag whenever the data being rendered is not full trusted - in order to prevent HTML injection attacks.)\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Calling the HTML encoder",
+        "text": "Calling the HTML encoder\nShow result\n\n\nvar value = \"< > ' \\\" &\";\nvar result = $.views.converters.html(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});\n\nvar value = \"< > ' \\\" &\";\n\nvar result = $.views.converters.html(value);\n\nalert(result);\n\n"
+      },
+      {
+        "_type": "api",
+        "title": "HTML encoder",
+        "text": "HTML encoder\nReturns the HTML-encoded string\n\nvar encoder = $.views.converters.html;\nvar encodedString = encoder(myString);\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Built-in attribute encoder",
+        "text": "Built-in attribute encoder\nJsRender includes an encoder intended for use when attribute encoding is needed. You can use it programmatically as follows:\nvar myAttributeEncodedString = $.views.converters.attr(myString);\n\nThe same encoder is accessed by declaratively as a converter:\n{{attr:myExpression}}\n\nA typical use case would be to encode an HTML attribute value in a template:\n<div title=\"{{attr:description}}\">...</div>\n\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Calling the 'attribute' encoder",
+        "text": "Calling the 'attribute' encoder\nShow result\n\n\nvar value = \"< > ' \\\" &\";\nvar result = $.views.converters.attr(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});\n\nvar value = \"< > ' \\\" &\";\n\nvar result = $.views.converters.attr(value);\n\nalert(result);\n\n"
+      },
+      {
+        "_type": "api",
+        "title": "Attribute encoder",
+        "text": "Attribute encoder\nReturns the attribute-encoded string\n\nvar encoder = $.views.converters.attr;\nvar encodedString = encoder(myString);\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Built-in URL encoder",
+        "text": "Built-in URL encoder\nJsRender includes a URL encoder, which you can use programmatically as follows:\nvar myUrlEncodedString = $.views.converters.url(myString);\n\nThe same encoder is accessed by declaratively as a converter:\n{{url:myExpression}}\n\nA typical use case would be to encode a HTML URL attribute value in a template:\n<img src=\"{{url:imageurl}}\"/>\n\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Calling the 'url' encoder",
+        "text": "Calling the 'url' encoder\nShow result\n\nvar value = \"<_>_\\\"_ \";\nvar result = $.views.converters.url(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});\n\nvar value = \"<_>_\\\"_ \";\n\nvar result = $.views.converters.url(value);\n\nalert(result);\n\n"
+      },
+      {
+        "_type": "api",
+        "title": "URL encoder",
+        "text": "URL encoder\nReturns the URL-encoded string\n\nvar encoder = $.views.converters.url;\nvar encodedString = encoder(myString);\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "text": "See also:\n"
+      }
+    ]
+  },
+  "converters": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "What are converters?",
+        "text": "What are converters?\nIn JsRender, a converter is a convenient way of processing or formatting data-value, or the result of expression evaluation.\nYou use built-in converters to HTML-encode, attribute-encode, or URL-encode:\n{{html:movie.description}} - This data is HTML encoded\n{{>movie.description}} - (Alternative syntax) - This data is HTML encoded\n\n{{url:~getTheFilePath()}} - This expression will be URL-encoded\n\nAnd you can register custom converters. For example you might register a date formatter or an upper-case converter:\n{{daymonth:invoice.date}} - This date uses my 'daymonth' formatter \n{{upper:name}} - This uses my 'upper' converter \n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Built-in converters",
+        "text": "Built-in converters\nJsRender has the following built-in converters – based on encoders:\n\nBuilt-in HTML encoder: {{> ...}}\nBuilt-in attribute encoder: {{attr ...}}\nBuilt-in URL encoder: {{url ...}}\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Registering a converter",
+        "text": "Registering a converter\nYou can register your own custom converters, using $.views.converters() as in:\n$.views.converters(\"upper\", function(val) {\n  // Convert data-value or expression to upper case\n  return val.toUpperCase();\n});\n\nTo use the \"upper\" converter with the {{:...}} tag, you write:\n{{upper:...}}\n\nHere it is in a sample:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "A simple converter",
+        "text": "A simple converter\n\n\n\n  Name: {{:name}}. Upper case nickname: {{upper:nickname}}\n  <br/><br/>\n  {{upper: \"This will be upper case too\"}} \n\n$.views.converters(\"upper\", function(val) {\n  return val.toUpperCase();\n});\n\nvar person = {name: \"Robert\", nickname: \"Bob\"};\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);\n$.views.converters(\"upper\", function(val) {\n  return val.toUpperCase();\n});\n\nName: {{:name}}. Upper case nickname: {{upper:nickname}}\n...\n{{upper: \"This will be upper case too\"}} \n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Converter arguments",
+        "text": "Converter arguments\nA converter can access any number of tag arguments, to produce the computed value which it provides to the tag:\n$.views.converters(\"myConverter\", function(arg1, arg2, arg3 ...) {\n\nFurthermore, the this pointer within the converter function is the instance of the tag, which allows it to access much more, including named tag parameters (this.tagCtx.props...), the full data object (this.tagCtx.view.data), and more…\nThe following sample shows a \"fullname\" converter, which provides a computed full name based on the first two tag arguments (first and last) and an optional named tag parameter reverse=true:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Full name converter &ndash;  accessing multiple arguments",
+        "text": "Full name converter –  accessing multiple arguments\n\n\n\n  <p><label>Normal:</label> {{fullname:first last}}</p>\n  <p><label>Reverse:</label> {{fullname:first last reverse=true}}</p> \n\n$.views.converters(\"fullname\", function(first, last) {\n  var reverse = this.tagCtx.props.reverse;  \n  if (reverse) {\n    return last.toUpperCase() + \" \" + first;\n  }\n  return first + \" \" + last;\n});\n\nvar person = {first: \"Xavier\", last: \"Prieto\"};\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);\n$.views.converters(\"fullname\", function(first, last) {\n  var reverse = this.tagCtx.props.reverse;  \n  if (reverse) {\n    return last.toUpperCase() + \" \" + first;\n  }\n  return first + \" \" + last;\n});\n\n... {{fullname:first last}}\n... {{fullname:first last reverse=true}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using converters with other tags",
+        "text": "Using converters with other tags\nA converter can be used on any tag, thanks to the syntax\n{{someTag ... convert=...}}\n\nwhere someTag can be any custom tag, or a built-in tag such as {{if}}.\nFor example, you could register an \"inList\" converter which returns true if item is found in itemList:\n{{if convert='inList' item itemList}}...{{/if}}\n\nThe following sample shows named converters used with the {{for ...}} tag – to iterate over an array and show only even or odd items:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Using converters with the {{for}} tag",
+        "text": "Using converters with the {{for}} tag\n\n\n\n  <table><tbody><tr>\n    <td><ul>{{for people convert='odd'}}<li>{{:name}}</li>{{/for}}</ul></td>\n    <td><ul>{{for people convert='even'}}<li>{{:name}}</li>{{/for}}</ul></td>\n  </tr></tbody></table>\n\n$.views.converters({\n  odd: function(arr) {\n    // return only the odd items in the array\n    return arr.filter(function(elem, index) {\n      return (index + 1)%2;\n    })\n  },\n  even: function(arr) {\n    // return only the even items in the array\n    return arr.filter(function(elem, index) {\n      return index%2;\n    })\n  }\n});\n\nvar model= {people: [\n  {name: \"Jo1\"},\n  {name: \"Jo2\"},\n  {name: \"Jo3\"},\n  {name: \"Jo4\"},\n  {name: \"Jo5\"},\n  {name: \"Jo6\"}\n]};\n\nvar html = $(\"#myTmpl\").render(model);\n\n$(\"#result\").html(html);\n$.views.converters({\n  odd: function(arr) {\n    // return only the odd items in the array\n    return arr.filter(function(elem, index) {\n      return (index + 1)%2;\n    })\n  },\n  even: function(arr) {\n    // return only the even items in the array\n    return arr.filter(function(elem, index) {\n      return index%2;\n    })\n  }\n});\n\n...\n{{for people convert='odd'}}\n...\n{{for people convert='even'}}\n...\n\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "For additional details and scenarios see:",
+        "text": "For additional details and scenarios see:\n"
+      },
+      {
+        "_type": "para",
+        "title": "See also the following samples:",
+        "text": "See also the following samples:\nConverters and encoding\nTwo-way binding and converters\n"
       }
     ]
   }

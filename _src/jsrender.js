@@ -1176,7 +1176,7 @@ function onRenderError(e, view, fallback) {
 		message = fallback; // There is a settings.debugMode(handler) onError override. Call it, and use return value (if any) to replace message
 	}
 
-	return view && !view.linkCtx && view.linked ? $converters.html(message) : message;
+	return view && !view.linkCtx ? $converters.html(message) : message;
 }
 
 function error(message) {

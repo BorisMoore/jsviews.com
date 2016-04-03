@@ -10,6 +10,14 @@ body {
 	overflow-y: scroll;
 }
 
+a:link {
+	color: #4949C1;
+}
+
+a:visited {
+	color: #7939A9;
+}
+
 #wrapper {
 	position: relative;
 	min-height: 100%;

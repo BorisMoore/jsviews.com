@@ -1,4 +1,4 @@
-// View Model class definitions:
+// View Model class definitions using pattern with separate getter and setter functions:
 
 // Person
 function Person(name, address, phones) {
