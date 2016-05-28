@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>JsRender/JsViews</title>
+<!--<link href="resources/css/normalize.css" rel="stylesheet" />-->
 	<link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-touch-icon-57x57.png?v=1">
 	<link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-touch-icon-60x60.png?v=1">
 	<link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-touch-icon-72x72.png?v=1">
@@ -19,8 +20,7 @@
 	<link href="resources/css/dataurls.css" rel="stylesheet"/>
 	<link href="resources/css/contents.css" rel="stylesheet"/>
 	<link href="resources/css/highlight.css" rel="stylesheet" /> <!--xcode vs brown_paper googlecode magula mono-blue-->
-	<script src="//code.jquery.com/jquery-1.12.0.js"></script>
-<!--<script src="-jquery1.11.3.js"></script>-->
+	<script src="//code.jquery.com/jquery-1.12.3.js"></script>
 	<script src="//cdn.jsdelivr.net/remarkable/1.6.0/remarkable.min.js"></script>
 	<!--<script src="-remarkable.min.js"></script>-->
 	<script src="lib/highlight.js"></script>
@@ -52,13 +52,13 @@
 		</div>
 		<div class="divider">
 			<span id="id-search">
-				<span class="prevsearch btn" data-link="{on searchTree.prev} class{merge: searchTree.sectionIndex===0 toggle='disabled'}">&lt;</span>
+				<button id="prev" class="btn" data-link="{on searchTree.prev} class{merge: searchTree.sectionIndex===0 toggle='disabled'}" title="Previous (Ctrl+&#8592;)">&lt;</button>
 				<label class="searchbox">
 					<span style="display:none;">Search jsviews.com</span>
-					<input id="id-searchbox" data-link="{:search trigger=true onBeforeChange=searchTree.changing:newsearch}" placeholder="Search"/>
+					<input id="id-searchbox" data-link="{:search trigger=true onBeforeChange=searchTree.changing:newsearch}" placeholder="Search... (Ctrl+/)" title="Search... (Ctrl+/)"/>
 				</label>
-				<span class="nextsearch btn" data-link="{on searchTree.next} class{merge: searchTree.sectionIndex>=filterlen-1 toggle='disabled'}">&gt;</span>
-				<span class="close btn" data-link="{on searchTree.close}">X</span>
+				<button id="next" class="btn" data-link="{on searchTree.next} class{merge: searchTree.sectionIndex>=filterlen-1 toggle='disabled'}" title="Next (Ctrl+&#8594;)">&gt;</button>
+				<button class="close btn" data-link="{on searchTree.close}" title="Quit search (Esc)">X</button>
 				<span class="optiongroups">
 					<span class="optiongroup">
 						<label><input type="checkbox" data-link="include.jsr"/> JsRender</label>
@@ -159,7 +159,7 @@
 	{{/if}}
 {{else classnm="searchnav"}}
 	{^{if noSearch}}
-		<div class="nosearch">{^{:noSearch}}</div>
+		<div class="nosearch" data-link="html{:noSearch}"></div>
 	{{else}}
 		{^{for searched && categories}}
 			{^{if filtered}}{^{searchTree filter=filtered/}}{{/if}}
@@ -174,7 +174,6 @@
 				<div class="menus bottom">
 					<a class="unselected" href="#home">Home</a>
 					<a class="unselected" href="#getstarted">Get Started</a>
-					<a class="unselected" href="#explore">Explore</a>
 					<a class="unselected" href="#jsrapi">JsRender API</a>
 					<a class="unselected" href="#jsvapi">JsViews API</a>
 					<a class="unselected" href="#jsoapi">JsObservable API</a>
@@ -236,7 +235,7 @@
 		{{for signatures ~api=#data}}
 			<div class="signature">
 				<div class="apiheader">
-					<span class="signature">{{:~signature(~api)}}</span> {{if ~api.returns}}<label class="returns">returns: <span>{{:~api.returns}}</span></label>{{/if}}
+					<span class="signature">{{:~signature(~api)}}</span> {{if returns || ~api.returns}}<label class="returns">returns: <span>{{:returns || ~api.returns}}</span></label>{{/if}}
 				</div>
 				<div class="title">{{:title}}</div>
 				<div class="descblock">
@@ -379,7 +378,8 @@
 			<div>Signatures</div>
 			{^{for signatures}}
 				<div class="signature">
-					<label>Title: <input class="description" data-link="title trigger=true" /></label><br/>
+					<label>Title: <input class="description" data-link="title trigger=true" /></label>
+					<label>Return type: <input data-link="returns trigger=true" /></label><br/>
 					<label>Example: <textarea data-link="example trigger=true"></textarea></label>
 					<label>Description: <input class="description" data-link="description trigger=true" /></label>
 					<span class="removesection signature"></span>
@@ -501,8 +501,8 @@
 		</div>
 		<button class="addcodetab cmdbtn">add tab</button><br/>
 
-		<label>markup<textarea data-link="markup trigger=true" rows="5"></textarea></label>
-		<label>data<textarea data-link="{stringify:data trigger=true:parse}" rows="5"></textarea></label>
+		<label>markup<textarea class="low" data-link="markup trigger=true" rows="5"></textarea></label>
+		<label>data<textarea class="low" data-link="{stringify:data trigger=true:parse}" rows="5"></textarea></label>
 		<label>html<textarea data-link="html trigger=true" rows="5"></textarea></label>
 		<label>code<textarea data-link="code trigger=true" rows="5"></textarea></label>
 		<label>How it works:</label>
@@ -547,7 +547,6 @@
 		<div class="menus top">
 			<a href="#home" id="id-home" class="unselected">Home</a>
 			<a href="#getstarted" id="id-getstarted" class="unselected">Get Started</a>
-			<a href="#explore" id="id-explore" class="unselected">Explore</a>
 			<a href="#jsrapi" id="id-jsrapi" class="unselected">JsRender API</a>
 			<a href="#jsvapi" id="id-jsvapi" class="unselected">JsViews API</a>
 			<a href="#jsoapi" id="id-jsoapi" class="unselected">JsObservable API</a>

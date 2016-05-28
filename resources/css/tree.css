@@ -1,5 +1,5 @@
 .tree {
-	margin: 0;
+	margin: 0 0 0 -5px;
 	overflow: hidden;
 	padding: 0;
 }
@@ -14,7 +14,7 @@
 	width: 157px;
 }
 
-.toggle {
+.toggle, .spacerbox {
 	cursor: pointer;
 	vertical-align: middle;
 	display: inline-block;
@@ -27,6 +27,11 @@
 	margin: 0 6px 2px 0;
 	background-color: #f8f8f8;
 	color: Blue;
+}
+
+.spacerbox {
+	cursor: inherit;
+	background-color: #AFD2E4;
 }
 
 .tree .remove {

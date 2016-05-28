@@ -131,7 +131,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "Composition by providing <em>tmpl</em> parameters referencing external templates, rather than inline block content, as in:\n\n```jsr\n{{for languages tmpl=\"#columnTemplate\"/}}\n```\n\nor:\n\n```jsr\n{{if name.charAt(0)==='E' tmpl='#rowTemplate'}}\n{{else tmpl='#columnTemplate'}}\n{{/if}}\n```\n\nAlso shows <em>wrapping</em>, where an external template is used which then <em>wraps</em> the rendered block content, as in:\n\n```jsr\n{{include tmpl=\"#sectionWrapperTemplate\"}}\n  {{>title}}\n{{/include}}\n```\n\n```jsr\n<script id=\"sectionWrapperTemplate\" type=\"text/x-jsrender\">\n  <td>Section: <em>{{include tmpl=#content/}}</em></td>\n</script>\n```\n\nor as in:\n\n```jsr\n{{for languages tmpl='#indexWrapperTemplate'}}\n  <b>{{>name}}</b>\n{{/for}}\n```\n\n```jsr\n<script id=\"indexWrapperTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:#index}}:\n    {{include tmpl=#content/}}\n  </div>\n</script>\n```"
+            "text": "Composition by providing <em>tmpl</em> parameters referencing external templates, rather than inline block content, as in:\n\n```jsr\n{{for languages tmpl=\"#columnTemplate\"/}}\n```\n\nor:\n\n```jsr\n{{if name.charAt(0)==='E' tmpl='#rowTemplate'}}\n{{else tmpl='#columnTemplate'}}\n{{/if}}\n```\n\nAlso shows <em>wrapping</em>, where an external template is used which then <em>wraps</em> the rendered block content, as in:\n\n```jsr\n{{include tmpl=\"#sectionWrapperTemplate\"}}\n  {{>title}}\n{{/include}}\n```\n\n```jsr\n<script id=\"sectionWrapperTemplate\" type=\"text/x-jsrender\">\n  <td>Section: <em>{{include tmpl=#content/}}</em></td>\n</script>\n```\n\nor as in:\n\n```jsr\n{{for languages tmpl='#indexWrapperTemplate'}}\n  <b>{{>name}}</b>\n{{/for}}\n```\n\n```jsr\n<script id=\"indexWrapperTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:#index}}:\n    {{include tmpl=#content/}}\n  </div>\n</script>\n```\n\nNote that `tmpl=#content` above is not a jQuery selector, but rather uses [`view.content`](#viewobject@content). See *[Wrapping content](#tagsyntax@wrap)*."
           }
         ],
         "codetabs": [],
@@ -149,21 +149,19 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "links",
         "title": "",
-        "links": [
+        "links": [],
+        "topics": [
           {
-            "_type": "link",
-            "hash": "hash",
-            "label": "using sub-templates",
-            "url": "#samples/jsr/composition/sub-tmpl"
+            "_type": "topic",
+            "hash": "samples/jsr/composition/sub-tmpl",
+            "label": "Using sub-templates"
           },
           {
-            "_type": "link",
-            "hash": "hash",
-            "label": "contextual template objects",
-            "url": "#samples/jsr/composition/tmpl-objects"
+            "_type": "topic",
+            "hash": "samples/jsr/composition/tmpl-objects",
+            "label": "Contextual template objects"
           }
-        ],
-        "topics": []
+        ]
       }
     ]
   },

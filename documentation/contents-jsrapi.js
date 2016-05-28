@@ -9,11 +9,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "<em>Note:</em> New topics are being added regularly to this documentation."
+        "text": "See [*JsRender Quickstart*](#jsr-quickstart) for an introductory overview."
       },
       {
         "_type": "links",
-        "title": "",
+        "title": "Topics:",
         "links": [],
         "topics": [
           {
@@ -31,6 +31,10 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "hash": "apps",
             "label": "Building apps"
+          },
+          {
+            "hash": "nojqueryapi",
+            "label": "JsRender without jQuery"
           },
           {
             "hash": "settings",
@@ -312,6 +316,16 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "title": "See also:",
         "links": [],
         "topics": [
+          {
+            "_type": "topic",
+            "hash": "converters",
+            "label": "Converters"
+          },
+          {
+            "_type": "topic",
+            "hash": "convertersapi@html",
+            "label": "HTML encoder"
+          },
           {
             "_type": "topic",
             "hash": "samples/jsr/converters",
@@ -2567,12 +2581,17 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "What is a custom tag?",
-        "text": "JsRender custom tags are named tags `{{myTag ...}}`, which you can register, and then use in your templates.\n\nA tag renders itself as part of the template output. You determine how it renders, generally by providing either a <em>render</em> function or a template, when you declare your custom tag.\n\nThe render function, or the template, can access both named parameters (<em>props</em>) and unnamed parameters (<em>args</em>), as in:\n\n```jsr\n{{myTag arg0 arg1 namedProp1=xxx namedProp2=yyy}} ... {{/myTag}}\n```\n\nIn fact it can also access the current data item -- or even the whole hierarchy of views and data...\n\nWhen you also use JsViews, custom tags acquire a whole new dimension. &ndash; They become <em>tag controls</em>, and you can build rich and complex single page apps cleanly and simply using custom tag controls -- following an MVP or MVVM coding pattern. "
+        "text": "JsRender custom tags are named tags `{{myTag ...}}`, which you can register, and then use in your templates.\n\nA tag renders itself as part of the template output. You determine how it renders, generally by providing either a <em>render</em> function or a template, when you declare your custom tag.\n\nThe render function, or the template, can access both named parameters (<em>props</em>) and unnamed parameters (<em>args</em>), [as in](#tagsyntax@tagparams):\n\n```jsr\n{{myTag arg0 arg1 namedProp1=xxx namedProp2=yyy}} ... {{/myTag}}\n```\n\nIn fact it can also access the current data item -- or even the whole hierarchy of views and data...\n\n***Note:*** When you also use JsViews, custom tags acquire a whole new dimension. &ndash; They become <em>tag controls</em>, and you can build rich and complex single page apps cleanly and simply using custom tag controls -- following an MVP or MVVM coding pattern. "
+      },
+      {
+        "_type": "para",
+        "title": "<b>API: $.views.tags(name, tagFn)</b>",
+        "text": "To register a custom tag, you call the `$.views.tags(...)` API -- with four alternative signatures:\n- `$.views.tags(\"myTag\", tagOptions);` -- where the properties of the `tagOptions` object will typically include a `render: tagFn` (specifying a render method), and/or a `template: markupString` (specifying a template to be rendered)\n- `$.views.tags(\"myTag\", tagFn);` -- simplified form, when the only option being specified is a render method\n- `$.views.tags(\"myTag\", tagTemplate);` -- simplified form, when the only option being specified is a template markup string\n- `$.views.tags(namedTags);` -- where namedTags is a hash, declaring multiple custom tags\n"
       },
       {
         "_type": "api",
         "typeLabel": "API:",
-        "title": "$.views.tags(name, tagFn)",
+        "title": "",
         "name": "tags",
         "object": "$.views",
         "method": true,
@@ -2591,16 +2610,16 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
               },
               {
                 "_type": "param",
-                "name": "tagFn",
-                "type": "function",
+                "name": "tagOptions",
+                "type": "object",
                 "optional": false,
-                "description": "Tag function. returns the rendered tag"
+                "description": "A tagOptions object with a render method and/or a template property, and optionally other properties or methods"
               }
             ],
             "args": [],
             "sections": [],
-            "example": "$.views.tags(\"mytag\", function(...) {\n  ...return rendered content\n});\n\n{{mytag ...}} ... {{/mytag}}",
-            "description": "Register a simple 'render' function as a custom tag,"
+            "example": "$.views.tags(\"mytag\", {\n  render: function(...) {...},\n  template: ...\n});\n\n{{mytag ...}} ... {{/mytag}}",
+            "description": "Register a custom tag using a tagOptions object"
           },
           {
             "_type": "signature",
@@ -2615,16 +2634,40 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
               },
               {
                 "_type": "param",
-                "name": "tagOptions",
-                "type": "object",
+                "name": "tagFn",
+                "type": "function",
                 "optional": false,
-                "description": "An tagOptions object with a render method and/or a template property, and optionally other properties or methods"
+                "description": "Tag function. Returns the rendered tag"
               }
             ],
             "args": [],
             "sections": [],
-            "example": "$.views.tags(\"mytag\", {\n  render: function(...) {...},\n  template: ...\n});\n\n{{mytag ...}} ... {{/mytag}}",
-            "description": "Register a custom tag using a tagOptions object"
+            "example": "$.views.tags(\"mytag\", function(...) {\n  ...return rendered content\n});\n\n{{mytag ...}} ... {{/mytag}}",
+            "description": "Register a simple 'render' function as a custom tag"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "name",
+                "type": "string",
+                "optional": false,
+                "description": "name of tag - to be used in template markup: <code>{{<b>name</b> ...}}</code>"
+              },
+              {
+                "_type": "param",
+                "name": "tagTemplate",
+                "type": "string",
+                "optional": false,
+                "description": "A string containing markup (template) to be rendered by the tag"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.tags(\"mytag\", \"templateMarkup...\");\n\n{{mytag ...}} ... {{/mytag}}",
+            "description": "Register a simple template string as a custom tag"
           },
           {
             "_type": "signature",
@@ -2635,12 +2678,12 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
                 "name": "namedTags",
                 "type": "object",
                 "optional": false,
-                "description": "Object (hash) of keys (name of tag) and values (render function or tagOptions object)"
+                "description": "Object (hash) of keys (name of tag) and values (render function, template string, or tagOptions object)"
               }
             ],
             "args": [],
             "sections": [],
-            "example": "$.views.tags({\n  myTag1: function(val) {...},\n  myTag2: {render: function(val) {...}, ...}\n});",
+            "example": "$.views.tags({\n  myTag1: {\n    render: function(val) {...},\n    template: ...\n  },\n  myTag2: function(val) {...},\n  myTag3: tag3TemplateString,\n});",
             "description": "Register multiple custom tags"
           }
         ],
@@ -2685,7 +2728,8 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  This is the title:{{boldp title /}}\n</script>",
         "code": "function renderBoldP(value) {\n   return \"<p><b>\" + value + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
-        "onlyJsRender": true
+        "onlyJsRender": true,
+        "anchor": "sample1"
       },
       {
         "_type": "para",
@@ -2718,7 +2762,8 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    This is inside our block content:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
         "code": "function renderBoldP(val) {\n   return \"<p><b>\" + this.tagCtx.render(val) + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
-        "onlyJsRender": true
+        "onlyJsRender": true,
+        "anchor": "sample2"
       },
       {
         "_type": "para",
@@ -2746,7 +2791,8 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><b>{{:title}}</b></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
         "height": "120",
         "title": "3 - Accessing tagCtx properties from the tag render function",
-        "onlyJsRender": true
+        "onlyJsRender": true,
+        "anchor": "sample3"
       },
       {
         "_type": "para",
@@ -2767,7 +2813,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "Declaring the custom tag",
-            "text": "```js\n$.views.tags(\"boldp\", {\n  template: \"<p><b>{{:~tag.tagCtx.args[0]}}</b></p>\"\n});\n```\n\nAs you see, the template is accessing the unnamed parameter `tagCtx.args[0]`.\n\nThe result is identical to the other implementation using a function. You call it just the same:\n\n```jsr\n{{boldp title /}}\n```"
+            "text": "```js\n$.views.tags(\"boldp\", {\n  template: \"<p><b>{{:~tag.tagCtx.args[0]}}</b></p>\"\n});\n```\n\nNote that since we are only declaring a `template` option, we could equivalently have used the simplified form:\n\n```js\n$.views.tags(\"boldp\", \"<p><b>{{:~tag.tagCtx.args[0]}}</b></p>\");\n```\n\nAs you see, the template is accessing the unnamed parameter `tagCtx.args[0]`.\n\nThe result is identical to the [other implementation](#tags@sample1) using a function. You call it just the same:\n\n```jsr\n{{boldp title /}}\n```"
           }
         ],
         "code": "$.views.tags(\"boldp\", {\n  template: \"<p><b>{{:~tag.tagCtx.args[0]}}</b></p>\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
@@ -2790,7 +2836,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "To render block content, we use `{{include tmpl=~tag.tagCtx.content/}}`\n\n```js\ntemplate: \"<p><b>{{include tmpl=~tag.tagCtx.content/}}</b></p>\"\n```\n\nHere we are accessing the `content` property on the `tagCtx`, which provides a compiled template for the block content.\n\nIt is also made available as a `content` property on the `view` object -- and can be accessed from within a template using `#content` -- which is an example of a `view path` -- equivalent to `#view.content`. You can try out that alternative syntax by choosing <em>Try it</em> and changing the template above to `<p><b>{{include tmpl=#content/}}</b></p>`."
+            "text": "To render block content, we use `{{include tmpl=~tag.tagCtx.content/}}`\n\n```js\ntemplate: \"<p><b>{{include tmpl=~tag.tagCtx.content/}}</b></p>\"\n```\n\nHere we are accessing the `content` property on the `tagCtx`, which provides a compiled template for the block content.\n\nIt is also made available as a `content` property on the `view` object -- and can be accessed from within a template using `#content` -- which is an example of a `view path` -- equivalent to `#view.content`. You can try out that alternative syntax by choosing <em>Try it</em> and changing the template above to `<p><b>{{include tmpl=#content/}}</b></p>`.\n\nAgain, the result is identical to the [other implementation](#tags@sample2) using a function. You call it just the same:\n\n```jsr\n{{boldp}}\n  This is the title:<br/>\n  <em>{{:title}}</em>\n{{/boldp}}```"
           }
         ],
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    This is the title:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
@@ -2818,7 +2864,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "The template accesses the same context as the function code above, to get at those named and unnamed parameters... :\n\n```jsr\n{{for ~tag.tagCtx.args[0]}}\n  {{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\n    {{include tmpl=~tag.tagCtx.content/}}\n  {{/if}}\n{{/for}}\n```\n\nThen after filtering for the items within the chosen range, using nested `{{for}}{{if}` tags, it renders the original block content for those items using `{{include tmpl=~tag.tagCtx.content/}}`."
+            "text": "The template accesses the same context as the function code above, to get at those named and unnamed parameters... :\n\n```jsr\n{{for ~tag.tagCtx.args[0]}}\n  {{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\n    {{include tmpl=~tag.tagCtx.content/}}\n  {{/if}}\n{{/for}}\n```\n\nThen after filtering for the items within the chosen range, using nested `{{for}}{{if}` tags, it renders the original block content for those items using `{{include tmpl=~tag.tagCtx.content/}}`.\n\nAgain, the result is identical to the [other implementation](#tags@sample3) using a function. You call it just the same:\n\n```jsr\n{{range members start=1 end=2}}\n ...\n{{/range}}\n```"
           }
         ],
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><b>{{:title}}</b></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
@@ -2858,7 +2904,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Adding tags as private resources for a parent template",
-        "text": "You can pass in an existing template as an additional `parentTemplate` parameter, on  <em>any</em> call to  `$.views.tags(...)`.\n\nIn that way the tag you are registering becomes a 'private tag resource' for the `parentTemplate`, rather than being registered globally:"
+        "text": "You can pass in an existing template as an additional `parentTemplate` parameter, on  <em>any</em> call to  `$.views.tags(...)`.\n\nIn that way the tag (or tags) you are registering become 'private tag resources' for the `parentTemplate`, rather than being registered globally:"
       },
       {
         "_type": "api",
@@ -2885,7 +2931,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
                 "name": "parentTemplate",
                 "type": "object or string",
                 "optional": true,
-                "description": "Owner template - to which this/these tag(s) are being added as private resources"
+                "description": "Owner template &ndash; to which this/these tag(s) are being added as private resources"
               }
             ],
             "args": [],
@@ -3207,24 +3253,29 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "## Browserify support for JsRender and JsViews\n\n[Browserify](http://browserify.org/) lets you create modular javascript projects for the browser, using the npm `require()` pattern for packages/modules."
+        "text": "## Browserify support for JsRender and JsViews\n\n[Browserify](http://browserify.org/) lets you create modular javascript projects for the browser, using the npm `require()` pattern for packages/modules.\n"
       },
       {
         "_type": "para",
         "title": "JsRender as a Browserify module",
-        "text": "After installing JsRender on the server (using `$ npm install jsrender --save`) it can then be included in the Browserify client-script bundle, and loaded in the browser, by calling:\n\n```js\nvar jsrender = require('jsrender');\n```\n\nIn addition, JsRender includes a Browserify transform: `jsrender/tmplify` (see [below](#node/browserify@clientbundle)) which allows you also to include your server file-based templates in the client-script bundle generated by Browserify. \n\nYou can then access the compiled templates in the browser, as modules, using:\n\n```js\nvar tmpl = require('./templates/myTemplate.html')\nvar html = tmpl.render(myData);\n...\n```\n\nSee [examples below](#node/browserify@clientscript).",
+        "text": "After installing JsRender on the server (using `$ npm install jsrender`) it can then be included in the Browserify client-script bundle, and loaded in the browser.\n\nThere are three options for loading JsRender in the browser as a Browserify module:\n\n- Load jQuery globally (as a script tag -- so `window.jQuery` is defined), then load JsRender as a module in the Browserify client script bundle:\n  ```js\n  require('jsrender'); // Load JsRender as jQuery plugin (attached to global jQuery)\n  ```\n- Load both jQuery and JsRender as modules in the Browserify client script bundle:\n  ```js\n  var $ = require('jquery'); // Load jQuery as a module\n  require('jsrender')($);    // Load JsRender as jQuery plugin (Query instance as parameter)\n  ```\n- Load JsRender as a module in the Browserify client script bundle, without loading jQuery at all:\n  ```js\n  var jsrender = require('jsrender')(); // Load JsRender without jQuery (function call, no parameter)\n  ```\n\n***Note:*** In fact if jQuery is not defined globally, `require('jsrender')` returns a ***function***. \n\nCalling that function without a parameter then loads JsRender without jQuery (and returns the JsRender namespace). \n\nAlternatively, calling that function with a reference to a jQuery instance as parameter loads JsRender as a plugin (attached to that jQuery instance) -- and returns the jQuery instance.\n",
         "anchor": "jsrender"
       },
       {
         "_type": "para",
+        "title": "Example:",
+        "text": "**index.html:**\n\n```jsr\n<html><head>\n  <script src=\".../jquery-xxx.js\"></script> <!-- Load jQuery as global -->\n</head><body>\n  <div id=\"container\"></div>\n  <script src=\"bundle.js\"></script>\n</body></html>\n```\n\n**source.js:**\n\n```js\nrequire('jsrender'); // Load JsRender (jQuery is loaded as global)\nvar tmpl = $.templates('Name: {{:name}}');\nvar data = {name: 'Jo'};\nvar html = tmpl.render(data);\n$('#container').html(html);\n```\n\n**command line:**\n\n```bash\nbrowserify ./source.js > ./bundle.js\n```"
+      },
+      {
+        "_type": "para",
         "title": "JsViews as a Browserify module",
-        "text": "JsViews can also be included in the Browserify client-script bundle, and loaded in the browser.\n\nAfter installing on the server (using `$ npm install jsviews --save`), call:\n\n```js\nrequire('jsviews'); // If jQuery is loaded statically\n```\n\nor (if also loading jQuery as a Browserify module) call:\n```js\nvar $ = require('jquery');\nrequire('jsviews')($);\n```\n\nSee [examples below](#node/browserify@clientscript).",
+        "text": "JsViews can also be included in the Browserify client-script bundle, and loaded in the browser.\n\nAfter installing on the server (using `$ npm install jsviews`), call:\n\n```js\nrequire('jsviews');    // Load JsViews (if jQuery is loaded globally)\n```\n\nor -- if also loading jQuery as a Browserify module, use:\n\n```js\nvar $ = require('jquery');\n...\nrequire('jsviews')($); // Load JsViews (passing local jQuery instance as a parameter)\n```",
         "anchor": "jsviews"
       },
       {
-        "_type": "code",
-        "title": "Browser code example:",
-        "code": "var myTmpl = require(\"./templates/myTemplate.html\"); // Include compiled template in client-script bundle\nvar html = myTmpl(data); // Render"
+        "_type": "para",
+        "title": "Loading templates as Browserify modules",
+        "text": "JsRender includes a Browserify transform: `jsrender/tmplify` (see [below](#node/browserify@clientbundle)) which allows you also to include your server [file-based templates](#node/filetmpls) in the client-script bundle generated by Browserify. \n\nYou can then access the compiled templates in the browser, as modules.\n\nThe exact syntax depends on whether jQuery is loaded globally, loaded as a Browserify module, or not loaded at all.\n\n- If jQuery is loaded globally then use:\n  ```js\n  var tmpl = require('./templates/myTemplate.html');           // Load template (jQuery \n                                                               // is loaded globally)\n  var html = tmpl.render(myData);\n  ...\n  ```\n- If jQuery is loaded as a module, use:\n  ```js\n  var $ = require('jquery');\n  ...\n  var tmpl = require('./templates/myTemplate.html')($);        // Load template (local\n                                                               // jQuery as parameter)\n  var html = tmpl.render(myData);\n  ...\n  ```\n- If loading JsRender as a module, without jQuery, use:\n  ```js\n  var jsrender = require('jsrender')(); // function call -- no parameter\n  ...\n  var tmpl = require('./templates/myTemplate.html')(jsrender); // Load template (jsrender\n                                                               // namespace as parameter)\n  var html = tmpl.render(myData);\n  ...\n  ```\n"
       },
       {
         "_type": "para",
@@ -3245,13 +3296,18 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Including jQuery and/or JsRender/JsViews in the client-script bundle",
-        "text": "When using Browserify with JsRender on Node.js, you will generally need jQuery and JsRender/JsViews in the client, to render (and optionally data-link) the templates.\n\njQuery and JsRender are both available as npm/Browserify modules, so you can choose whether to load them statically, using a script block, or as a module. Here are three examples following alternative strategies:\n\n**Load jQuery and JsRender/JsViews statically**\n\n`$` is defined as a global variable (`window.$`, or `window.jQuery`).<br/>\nUse `require(templatePath)` to load templates as Browserify modules included in the client-script bundle, as in the following example:\n\n```jsr\n<script href=\".../jquery...js\"></script>\n<script href=\".../jsrender.js\"></script>\n\n<script>\n  var myTmpl = require('./templates/myTemplate.html'); // Include compiled template in client-script bundle\n\n  var html = myTmpl(data); // Render using compiled template\n  $('#result').html(html); // $ is a global\n</script>\n```\n\n(See the *[JsRender Node Starter](https://github.com/BorisMoore/jsrender-node-starter)* project for complete examples:\n- [clientcode-hello.js](//github.com/BorisMoore/jsrender-node-starter/blob/master/public/js/clientcode-hello.js) and [layout-hello.html](//github.com/BorisMoore/jsrender-node-starter/blob/master/templates/layout-hello.html) using JsRender\n- [clientcode-movies.js](//github.com/BorisMoore/jsrender-node-starter/blob/master/public/js/clientcode-movies.js) and [layout-movies.html](//github.com/BorisMoore/jsrender-node-starter/blob/master/templates/layout-movies.html) using JsViews.)\n \n**Load jQuery and JsRender/JsViews as Browserify modules**\n\nUse `var $ = require('jquery')` to load jQuery, and `require('jsrender')($)` or `require('jsviews')($)` to load JsRender/JsViews.<br/>\nUse `require(templatePath)($)` to load templates as Browserify modules included in the client-script bundle, as in the following example:\n\n```jsr\n<script>\n  var $ = require('jquery');\n  require('jsrender')($);\n  var myTmpl = require('./templates/myTemplate.html')($); // Include compiled template in client-script bundle\n\n  var html = myTmpl(data); // Render using compiled template\n  $('#result').html(html);\n</script>\n```\n\n(See:\n- [clientcode-hello-browserify.js](//github.com/BorisMoore/jsrender-node-starter/blob/master/browserify/clientcode-hello-browserify.js) and [layout-hello-browserify.html](//github.com/BorisMoore/jsrender-node-starter/blob/master/templates/layout-hello-browserify.html) for an example using JsRender\n- [clientcode-movies-browserify2.js](//github.com/BorisMoore/jsrender-node-starter/blob/master/browserify/clientcode-hello-browserify2.js) and [layout-movies-browserify2.html](//github.com/BorisMoore/jsrender-node-starter/blob/master/templates/layout-hello-browserify2.html) for an example using JsViews.)\n\n**Mixed approach: Load jQuery statically, and JsRender/JsViews as a Browserify module**\n\n`$` is defined as a global variable (`window.$` or `window.jQuery`).<br/>\nUse `require('jsrender')` or `require('jsviews')` to load JsRender/JsViews.<br/>\nUse `require(templatePath)` to load templates as Browserify modules included in the client-script bundle, as in the following example:\n\n```jsr\n<script href=\".../jquery...js\"></script>\n\n<script>\n  require('jsrender');\n  var myTmpl = require('./templates/myTemplate.html'); // Include compiled template in client-script bundle\n\n  var html = myTmpl(data); // Render using compiled template\n  $('#result').html(html); // $ is a global\n</script>\n```\n\njsviews layout-movies-browserify clientcode-movies-browserify\n\n(See [clientcode-movies-browserify.js](//github.com/BorisMoore/jsrender-node-starter/blob/master/browserify/clientcode-movies-browserify.js) and [layout-movies-browserify.html](//github.com/BorisMoore/jsrender-node-starter/blob/master/templates/layout-movies-browserify.html) for an example using JsViews.)",
+        "text": "When using Browserify with JsRender on Node.js, you will generally need jQuery and JsRender/JsViews in the client, to render (and optionally data-link) the templates.\n\njQuery, JsRender and JsViews are all available as npm/Browserify modules, so you can choose whether to load them globally, using a script block, or as a module. Here are three examples following alternative strategies:\n\n**Load jQuery and JsRender/JsViews globally**\n\n`$` is defined as a global variable (`window.$`, or `window.jQuery`).<br/>\nUse `require(templatePath)` to load templates as Browserify modules included in the client-script bundle, as in the following example:\n\n*index.html:*\n\n```jsr\n<script href=\".../jquery...js\"></script>\n<script href=\".../jsrender.js\"></script>\n...\n<script src=\"bundle.js\"></script>\n```\n\n*source.js:*\n\n```js\nvar myTmpl = require('./templates/myTemplate.html'); // Include compiled template in client-script bundle\nvar html = myTmpl(data); // Render using compiled template\n$('#result').html(html);\n```\n\n*command line:*\n\n```bash\nbrowserify -t jsrender/tmplify ./source.js > ./bundle.js\n```\n\nSee the *[JsRender Node Starter](https://github.com/BorisMoore/jsrender-node-starter)* project for complete examples:\n- [clientcode-hello.js](//github.com/BorisMoore/jsrender-node-starter/blob/master/public/js/clientcode-hello.js) and [layout-hello.html](//github.com/BorisMoore/jsrender-node-starter/blob/master/templates/layout-hello.html) using JsRender\n- [clientcode-movies.js](//github.com/BorisMoore/jsrender-node-starter/blob/master/public/js/clientcode-movies.js) and [layout-movies.html](//github.com/BorisMoore/jsrender-node-starter/blob/master/templates/layout-movies.html) using JsViews.\n \n**Load jQuery and JsRender/JsViews as Browserify modules**\n\nUse `var $ = require('jquery')` to load jQuery, and `require('jsrender')($)` or `require('jsviews')($)` to load JsRender/JsViews.<br/>\nUse `require(templatePath)($)` to load templates as Browserify modules included in the client-script bundle, as in the following example:\n\n*index.html:*\n\n```jsr\n...\n<script src=\"bundle.js\"></script>\n```\n\n*source.js:*\n\n```js\nvar $ = require('jquery');\nrequire('jsrender')($);\nvar myTmpl = require('./templates/myTemplate.html')($)\nvar html = myTmpl(data);\n$('#result').html(html);\n```\n\n*command line:*\n\n```bash\nbrowserify -t jsrender/tmplify ./source.js > ./bundle.js\n```\nSee:\n- [clientcode-hello-browserify.js](//github.com/BorisMoore/jsrender-node-starter/blob/master/browserify/clientcode-hello-browserify.js) and [layout-hello-browserify.html](//github.com/BorisMoore/jsrender-node-starter/blob/master/templates/layout-hello-browserify.html) for an example using JsRender\n- [clientcode-movies-browserify2.js](//github.com/BorisMoore/jsrender-node-starter/blob/master/browserify/clientcode-hello-browserify2.js) and [layout-movies-browserify2.html](//github.com/BorisMoore/jsrender-node-starter/blob/master/templates/layout-hello-browserify2.html) for an example using JsViews.\n\n**Mixed approach: Load jQuery globally, and JsRender/JsViews as a Browserify module**\n\n`$` is defined as a global variable (`window.$` or `window.jQuery`).<br/>\nUse `require('jsrender')` or `require('jsviews')` to load JsRender/JsViews.<br/>\nUse `require(templatePath)` to load templates as Browserify modules included in the client-script bundle, as in the following example:\n\n*index.html:*\n\n```jsr\n<script href=\".../jquery...js\"></script>\n...\n<script src=\"bundle.js\"></script>\n```\n\n*source.js:*\n\n```js\nrequire('jsrender');\nvar myTmpl = require('./templates/myTemplate.html');\nvar html = myTmpl(data);\n$('#result').html(html);\n```\n\n*command line:*\n\n```bash\nbrowserify -t jsrender/tmplify ./source.js > ./bundle.js\n```\n\nSee [clientcode-movies-browserify.js](//github.com/BorisMoore/jsrender-node-starter/blob/master/browserify/clientcode-movies-browserify.js) and [layout-movies-browserify.html](//github.com/BorisMoore/jsrender-node-starter/blob/master/templates/layout-movies-browserify.html) for an example using JsViews.",
         "anchor": "clientscript"
       },
       {
         "_type": "para",
         "title": "Sample code",
         "text": "For running code examples using JsRender, Browserify, and the `tmplify` transform, see the *index-express-browserify.js* and *index-hapi-browserify.js* samples in the *[JsRender Node Starter](https://github.com/BorisMoore/jsrender-node-starter)* project."
+      },
+      {
+        "_type": "para",
+        "title": "See also:",
+        "text": "*[Webpack support](#node/webpack)*"
       }
     ]
   },
@@ -3397,18 +3453,18 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "## Installation\n\nOn Node.js from the command line, install jsrender:\n\n```bash\n$ npm install jsrender --save\n```\n\n## Usage\n\nLoad the jsrender module:\n\n```js\nvar jsrender = require('jsrender');\n```\n\nNow call JsRender APIs, or use [Express](#node/express-hapi@express) or [Hapi](#node/express-hapi@hapi) integration, for server-rendering of JsRender templates.\n\n(For loading JsRender in the browser using Browserify, see *[JsRender as a Browserify module](#node/browserify@jsrender)*.)\n"
+        "text": "## Installation\n\nOn Node.js from the command line, install jsrender:\n\n```bash\n$ npm install jsrender\n```\n\n## Usage\n\nLoad the jsrender module:\n\n```js\nvar jsrender = require('jsrender');\n```\n\nNow call JsRender APIs, or use [Express](#node/express-hapi@express) or [Hapi](#node/express-hapi@hapi) integration, for server-rendering of JsRender templates.\n\n(For loading JsRender in the browser using Browserify or webpack, see *[JsRender as a Browserify module](#node/browserify@jsrender)* and *[JsRender as a webpack module](#node/webpack@jsrender)*)\n"
       },
       {
         "_type": "para",
         "title": "JsRender APIs on the server &ndash; same as in the browser!",
-        "text": "In the browser, when jQuery is present, JsRender loads as a jQuery plugin and adds APIs to the jQuery namespace object, as:\n\n`$.views`, `$.templates` and `$.render` \n\nOn the server exactly the same APIs are provided, associated instead with the `jsrender` namespace:\n\n`jsrender.views`, `jsrender.templates` and `jsrender.render`.\n\nFor convenience you can call the namespace `$` and then use the regular APIs: `$.views...` `$.templates...` `$.render...`, or copy from the regular browser examples/samples -- as if in the browser with jQuery.\n\nFor example:\n\n```js\nvar $ = require('jsrender'); // Returns the jsrender namespace object - referenced for convenience as var $\n\nvar tmpl = $.templates('Name: {{:first}} {{upper:last'); // Compile template from string\n\n$.views.converters('upper', function(val) {return val.toUpperCase()}); // Register converter\n \nvar data = {first: 'Jo', last: 'Ryan'};\n\nvar html = tmpl(data); // Or alternative syntax: var html = tmpl.render(data);\n// result: \"Name: Jo RYAN\" \n```",
+        "text": "In the browser, when jQuery is present, JsRender loads as a jQuery plugin and adds APIs to the jQuery namespace object, as:\n\n`$.views`, `$.templates` and `$.render` \n\nOn the server exactly the same APIs are provided, associated instead with the `jsrender` namespace:\n\n`jsrender.views`, `jsrender.templates` and `jsrender.render`.\n\nFor convenience you can call the namespace `$` and then use the regular APIs: `$.views...`, `$.templates...`, `$.render...`, or copy from the regular browser examples/samples -- as if in the browser with jQuery.\n\nFor example:\n\n```js\nvar $ = require('jsrender'); // Returns the jsrender namespace object - referenced for convenience as var $\n\nvar tmpl = $.templates('Name: {{:first}} {{upper:last'); // Compile template from string\n\n$.views.converters('upper', function(val) {return val.toUpperCase()}); // Register converter\n \nvar data = {first: 'Jo', last: 'Ryan'};\n\nvar html = tmpl(data); // Or alternative syntax: var html = tmpl.render(data);\n// result: \"Name: Jo RYAN\" \n```",
         "anchor": "apis"
       },
       {
         "_type": "para",
         "title": "Using helpers, converters, custom tags...",
-        "text": "On Node.js you can use the full set of JsRender features, template tags and APIs, just as you would in the browser -- by simply using the `jsrender` namespace object returned from `require('jsrender')`, instead of the jQuery object, `$`. In addition you can take advantage of file-based templates.\n\n**Custom Tags example:** -- For example, here is the JsRender Quickstart *[Custom Tags Sample](#jsr-quickstart@customtags)*, as you might write it on Node.js:\n\n**Template:** *./templates/personTemplate.html*:\n\n```jsr\nName: {{fullName person/}}\n```\n\n**Code:**\n\n```js\nvar jsrender = require('jsrender');\n\njsrender.views.tags(\"fullName\", \"{{:first}} {{:last}}\"); // Register custom tag\n\nvar tmpl = jsrender.templates('./templates/personTemplate.html'); // Compile template\n\nvar html = tmpl({person: {first: \"Jim\", last: \"Varsov\"}}); // Render\n// result: \"Jim Varsov\"\n```\n\n**Helpers example:** -- And here is the JsRender Quickstart *[Helpers](#jsr-quickstart@helpers)* example, in a version for Node.js:\n\n**Template:** *./templates/personTemplate.html*:\n\n```jsr\n{{:~title}} {{:first}} {{:~upper(last)}}\n```\n\n**Code:**\n\n```js\nvar jsrender = require('jsrender');\n\nvar myHelpers = {\n    upper: function(val) { return val.toUpperCase(); },\n    title: \"Sir\"\n};\n\nvar tmpl = $.templates('./templates/personTemplate.html');\n\nvar data = {first: \"Jim\", last: \"Varsov\"};\n\nvar html =  tmpl(data, myHelpers);\n// result: \"Sir Jim VARSOV\"\n```\n\nOr we can register helpers globally:\n\n```js\njsrender.views.helpers(myHelpers);\n\nvar data = {first: \"Jim\", last: \"Varsov\"};\nvar html =  tmpl(data);\n// result: \"Sir Jim VARSOV\"\n```"
+        "text": "On Node.js you can use the full set of JsRender features, template tags and APIs, just as you would in the browser -- by simply using the `jsrender` namespace object returned from `require('jsrender')`, instead of the jQuery object, `$`. In addition you can take advantage of [file-based templates](#node/filetmpls).\n\n**Custom Tags example:** -- For example, here is the JsRender Quickstart *[Custom Tags Sample](#jsr-quickstart@customtags)*, as you might write it on Node.js:\n\n**Template:** *./templates/personTemplate.html*:\n\n```jsr\nName: {{fullName person/}}\n```\n\n**Code:**\n\n```js\nvar jsrender = require('jsrender');\n\njsrender.views.tags(\"fullName\", \"{{:first}} {{:last}}\"); // Register custom tag\n\nvar tmpl = jsrender.templates('./templates/personTemplate.html'); // Compile template\n\nvar html = tmpl({person: {first: \"Jim\", last: \"Varsov\"}}); // Render\n// result: \"Jim Varsov\"\n```\n\n**Helpers example:** -- And here is the JsRender Quickstart *[Helpers](#jsr-quickstart@helpers)* example, in a version for Node.js:\n\n**Template:** *./templates/personTemplate.html*:\n\n```jsr\n{{:~title}} {{:first}} {{:~upper(last)}}\n```\n\n**Code:**\n\n```js\nvar jsrender = require('jsrender');\n\nvar myHelpers = {\n    upper: function(val) { return val.toUpperCase(); },\n    title: \"Sir\"\n};\n\nvar tmpl = $.templates('./templates/personTemplate.html');\n\nvar data = {first: \"Jim\", last: \"Varsov\"};\n\nvar html =  tmpl(data, myHelpers);\n// result: \"Sir Jim VARSOV\"\n```\n\nOr we can register helpers globally:\n\n```js\njsrender.views.helpers(myHelpers);\n\nvar data = {first: \"Jim\", last: \"Varsov\"};\nvar html =  tmpl(data);\n// result: \"Sir Jim VARSOV\"\n```"
       }
     ]
   },
@@ -3447,7 +3503,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Browserify",
-        "text": "Using Browserify with the `jsrender/tmplify` transform allows you to include your server file-based templates in the Browserify client-script bundle. \n\nYou can then access the compiled templates in the browser, as modules, using:\n\n```js\nvar tmpl = require('./.../myTemplate.html)`\nvar html = tmpl.render(myData);\n...\n```\n\nFor details, see the *[Browserify](#node/browserify)* topic.\n\nFor complete running samples, see the *index-express-browserify.js* and *index-hapi-browserify.js* samples in the *[JsRender Node Starter](https://github.com/BorisMoore/jsrender-node-starter)* project."
+        "text": "Using Browserify with the `jsrender/tmplify` transform allows you to include your server [file-based templates](#node/filetmpls) in the Browserify client-script bundle. \n\nYou can then access the compiled templates in the browser, as modules, using:\n\n```js\nvar tmpl = require('./.../myTemplate.html)`\nvar html = tmpl.render(myData);\n...\n```\n\nFor details, see the *[Browserify](#node/browserify)* topic.\n\nFor complete running samples, see the *index-express-browserify.js* and *index-hapi-browserify.js* samples in the *[JsRender Node Starter](https://github.com/BorisMoore/jsrender-node-starter)* project."
       },
       {
         "_type": "para",
@@ -3846,7 +3902,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender has a *'debug mode'* setting which determines whether error messages encountered during rendering are displayed.\n\n***To get current debug mode:***\n\n```js\nvar isDebugMode = $.views.settings.debugMode(); // false by default\n```\n\n***To set debug mode:***\n\n```js\n$.views.settings.debugMode(...);\n```\n\nDebug mode can be set to any of the following:\n\n- `false` -- *errors during rendering will not be rendered* (but an exception will be thrown)\n- `true` -- no exception will be thrown, but *the error message will be rendered*, in place of the template tag or block\n- `\"some string\"` -- no exception. *The string `\"some string\"` will be rendered* in place of the tag or block\n- `\"\"` (empty string) -- no exception. The tag or block will simply be *replaced by the empty string*\n- an function (to be used as an error handler) -- no exception. The handler will run, and *the error string will be rendered, or else, if the function returns a string, that string will be rendered*\n\nSee *[Error handling and debugging](#onerror)* for a full discussion of alternative approaches, together with [details and working examples](#onerror@debugmode) of `$.views.settings.debugMode(...)`.\n\n "
+        "text": "JsRender has a *'debug mode'* setting which determines whether error messages encountered during rendering are displayed.\n\n***To get current debug mode:***\n\n```js\nvar isDebugMode = $.views.settings.debugMode(); // false by default\n```\n\n***To set debug mode:***\n\n```js\n$.views.settings.debugMode(...);\n```\n\nDebug mode can be set to any of the following:\n\n- `false` -- *errors during rendering will not be rendered* (but an exception will be thrown)\n- `true` -- no exception will be thrown, but *the error message will be rendered*, in place of the template tag or block\n- `\"some string\"` -- no exception. *The string `\"some string\"` will be rendered* in place of the tag or block\n- `\"\"` (empty string) -- no exception. The tag or block will simply be *replaced by the empty string*\n- a function (to be used as an error handler) -- no exception. The handler will run, and *the error string will be rendered, or else, if the function returns a string, that string will be rendered*\n\nSee *[Error handling and debugging](#onerror)* for a full discussion of alternative approaches, together with [details and working examples](#onerror@debugmode) of `$.views.settings.debugMode(...)`.\n\n "
       }
     ]
   },
@@ -4151,7 +4207,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Advanced debugging, using debugging helpers",
-        "text": "***Inserting breakpoints during rendering:***\n\nJsRender (and JsViews) provide some helpers for debugging code within compiled templates:\n\n- The `{{dbg expression/}}` tag\n- The `{{dbg: expression}}` converter\n- The `~dbg(expression)` helper function\n\nEach of the above will\n- evaluate the expression\n- insert a `debugger;` statement\n- output a `console.log(...)` call\n- throw and catch an exception - which you can use as a break point by *stopping on caught exceptions*\n- render the evaluated expression\n\nThis is done by inserting code into the compiled template which calls into the built-in *dbgBreak* code:\n\n```js\nfunction dbgBreak(val) {\n  try {\n    debugger;\n    console.log(\"JsRender dbg breakpoint: \" + val);\n    throw \"dbg breakpoint\"; // To break here, stop on caught exceptions.\n  }\n  catch (e) {}\n```\n\n`val` will be the result of evaluating `expression`.\n\nWhen rendering execution breaks at the above code, you can then step up through the call stack to the compiled template code, for further debugging.\n\nUsage examples: `{{dbg:...}}`, `{{:~dbg(...)}}`, `{{dbg .../}}` etc.\n\n***Breakpoints during data linking:***\n\nIn JsViews, a breakpoint can also be inserted during template data-linking, as in `{^{for ... onAfterLink=~dbg}}`.\n\n___Using {{*debugger}}:___\n\nAn alternative (but similar) debugging technique is to use `allowCode` to insert a `debugger;` statement directly into the compiled template code, as follows:\n\n*Code:*\n\n```js\nvar tmpl = $.templates({\n  markup: \"#myTmpl\",\n  allowCode: true // Alternatively use global setting: $.views.settings.allowCode(true)\n});\n```\n\n*Template:*\n\n```jsr\n...\n{{*debugger}}\n...\n```",
+        "text": "***Inserting breakpoints during rendering:***\n\nJsRender (and JsViews) provide some helpers for debugging code within compiled templates:\n\n- The `{{dbg expression/}}` tag\n- The `{{dbg: expression}}` converter\n- The `~dbg(expression)` helper function\n\nEach of the above will\n- evaluate the expression\n- output a `console.log(...)` call\n- throw and catch an exception - which you can use as a break point by *stopping on caught exceptions*\n- render the evaluated expression\n\nThis is done by inserting code into the compiled template which calls into the built-in *dbgBreak* code:\n\n```js\nfunction dbgBreak(val) {\n  try {\n    console.log(\"JsRender dbg breakpoint: \" + val);\n    throw \"dbg breakpoint\"; // To break here, stop on caught exceptions.\n  }\n  catch (e) {}\n```\n\n`val` will be the result of evaluating `expression`.\n\nWhen rendering execution breaks at the above code, you can then step up through the call stack to the compiled template code, for further debugging.\n\nUsage examples: `{{dbg:...}}`, `{{:~dbg(...)}}`, `{{dbg .../}}` etc.\n\n***Breakpoints during data linking:***\n\nIn JsViews, a breakpoint can also be inserted during template data-linking, as in `{^{for ... onAfterLink=~dbg}}`.\n\n___Using {{*debugger}}:___\n\nAn alternative (but similar) debugging technique is to use `allowCode` to insert a `debugger;` statement directly into the compiled template code, as follows:\n\n*Code:*\n\n```js\nvar tmpl = $.templates({\n  markup: \"#myTmpl\",\n  allowCode: true // Alternatively use global setting: $.views.settings.allowCode(true)\n});\n```\n\n*Template:*\n\n```jsr\n...\n{{*debugger}}\n...\n```",
         "anchor": "dbg"
       }
     ]
@@ -4188,17 +4244,17 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Apps using JsRender",
-        "text": "*JsRender* is a simple light-weight templating engine. It can be used in the browser within simple web pages, or within complex single-page apps, or in conjunction with other frameworks. It can also be used on the server, using *Node.js*.\n\nIt is highly flexible, expressive, and 'unopiniated' -- so it leaves you free to work within your own choice of overall application architecture (including architectures based on *MVVM*, *MVP* or *MVC* -- optionally with server/client integration), and lets you use your own flavor of data/model layer -- whether simple plain JavaScript objects, or fully-fledged *View Model* instances.\n\n\n"
+        "text": "*JsRender* is a simple light-weight templating engine. It can be used in the browser within simple web pages, or within complex single-page apps, or in conjunction with other frameworks. It can also be used on the server, using *Node.js*.\n\nIt is highly flexible, expressive, and 'unopiniated' -- so it leaves you free to work within your own choice of overall application architecture (including architectures based on *MVVM*, *MVP* or *MVC* -- optionally with server/client integration), and lets you use your own flavor of data/model layer -- whether simple plain JavaScript objects, hand-coded *View Model* instances, or *[compiled View Models](#viewmodelsapi)*.\n\n\n"
       },
       {
         "_type": "para",
         "title": "Components of an app using JsRender",
-        "text": "Any app or web page using JsRender templates will generally involve defining or registering the following elements:\n\n- one or more **templates** -- see *[Templates](#compiletmpl)*\n- a **'data Layer'** -- see *[Data or View Model](#jsrmodel)*\n- optionally, **helpers** -- in the form of metadata, helper functions and converter functions, see *[Helpers](#helpers)* and *[Converters](#converters)*\n- optionally, **reusable components** for use within your templates -- see *[Custom tags](#tags)*\n\n"
+        "text": "Any app or web page using JsRender templates will generally involve defining or registering the following elements:\n\n- one or more **templates** -- see *[Templates](#compiletmpl)*\n- a **'data Layer'** -- see *[JsRender: Data or View Model](#jsrmodel)*\n- optionally, **helpers** -- in the form of metadata, helper functions and converter functions, see *[Helpers](#helpers)* and *[Converters](#converters)*\n- optionally, **reusable components** for use within your templates -- see *[Custom tags](#tags)*"
       },
       {
         "_type": "para",
         "title": "Apps using JsViews",
-        "text": "*JsRender* also provides optional integration with *JsViews*. *JsViews* is much more of a framework than *JsRender*. It does much more than just templating -- providing also data-binding, *MVVM* support, observability of the data/model layer, support for interactive encapsulated components (*JsViews tag controls*), and more. Nevertheless, it can also interoperate with other frameworks and components. See *[Building apps in JsViews](#jsvapps)* for more information.\n "
+        "text": "*JsRender* also provides optional integration with *JsViews*. *JsViews* is much more of a framework than *JsRender*. It does much more than just templating -- providing also data-binding, *MVVM* support, observability of the *data/View Model* layer, support for interactive encapsulated components (*JsViews tag controls*), and more. Nevertheless, it can also interoperate with other frameworks and components. See *[Building apps in JsViews](#jsvapps)* for more information."
       }
     ]
   },
@@ -4306,13 +4362,23 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsrmodel": {
-    "title": "Data / View Model",
+    "title": "JsRender: Data / View Model",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "*JsRender* is designed to work well with either plain JavaScript objects and arrays, or with instances of JavaScript classes, such as *View Model* classes.\n\nSo, for example, if you are using data obtained from a JSON request, you can choose between:\n- rendering your templates directly against the objects and arrays returned from the JSON request\n- passing the data through a 'mapping' process to create a hierarchy of *View Model* instances, and rendering your templates against those objects\n"
+        "text": "*JsRender* is designed to work well with either plain JavaScript objects and arrays, or with instances of JavaScript classes, such as *View Model* classes.\n\nSo, for example, if you are using data obtained from a JSON request, you can choose between:\n- rendering your templates directly against the objects and arrays returned from the JSON request\n- passing the data through a 'mapping' process to create a hierarchy of *View Model* instances, and rendering your templates against those objects\n\nThe *plain objects* [approach](#jsrmodel@plain) is convenient and simple for getting rapidly up and running with templates. But for more complex projects the *View Model* approach is better for creating clean well-designed modular code, where each *View Model* has specific *getters*, *setters* and *methods*, and can have its own 'private' properties and state.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using JsRender built-in compiled View Models",
+        "text": "*JsRender* will work well with your own 'hand-coded' *View Model* classes (see [below](#jsrmodel@vm)).\n\nBut in most cases it is simpler and better to use the [`$.views.viewModels(...)`](#jsrmodel@compilevm) API. This API lets you very easily and rapidly compile *View Model* classes for your own needs, following a standard pattern, and with some additional powerful features:\n\n- It provides a built-in mapping and unmapping feature for automatically converting from a plain object hierarchy (such as from a JSON request) to a hierarchy of *View Model* instances, or for converting back to plain data (such as for submitting to the server)\n- It also provides a `merge(...)` feature for incrementally updating the *View Model* hierarchy, using updated plain data from the server.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Data / View Model with JsViews",
+        "text": "All of the alternatives mentioned above (plain object hierarchies, hand-coded *View Model* classes, or JsRender *compiled View Model* classes) can also be used with *JsViews* data-binding and observable data. (For more information see *[JsViews: Data / View Model](#jsvmodel)* and *[JsViews: Compiled View Models](#jsvviewmodelsapi)*.)"
       },
       {
         "_type": "para",
@@ -4342,12 +4408,17 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         },
         "sections": [
           {
-            "_type": "code",
+            "_type": "template",
             "title": "",
-            "code": "$(\"#result\").html(tmpl.render(person));"
+            "markup": "... {{:name}} ..."
+          },
+          {
+            "_type": "code",
+            "title": "Render template against person (plain object)",
+            "code": "$(\"#result\").html(tmpl.render(person));\n"
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name}}</td></tr>\n    <tr><td>Street:</td><td>{{:address.street}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones}}\n          <tr><td>\n            {{:number}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name}}</td></tr>\n    <tr><td>Street:</td><td>{{:address.street}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones}}\n          <tr><td>{{:number}}</td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Data: hierarchy of plain objects and arrays\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n// Render template against plain object hierarchy\n$(\"#result\").html(tmpl.render(person));\n\n",
         "height": "150",
         "onlyJsRender": true,
@@ -4360,23 +4431,20 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "para",
-        "title": "<b>Example: JsRender with View Model objects</b>",
-        "text": "We'll convert the data to a corresponding hierarchy of *View Model* class instances."
+        "title": "<b>Example: JsRender with 'hand-coded' View Model objects</b>",
+        "text": "We'll convert the data to a corresponding hierarchy of simple 'hand-coded' *View Model* class instances. In each case we will replace properties by simple *getters*, and corresponding 'private' properties. ",
+        "anchor": "vm"
       },
       {
         "_type": "para",
         "title": "View Model classes:",
-        "text": "Here is the class definition for <em><b>Person</b></em>:\n\n```js\n// Constructor\nfunction Person(name, address, phones) {\n  this._name = name;\n  this._address = address;\n  this._phones = phones;\n}\n\n// Prototype\nvar personProto = {\n  name: function() {\n    return this._name;\n  },\n  address: function() {\n    return this._address;\n  },\n  phones: function() {\n    return this._phones;\n  }\n};\n...\n```\n\nWe define exactly similar classes for our <em><b>Address</b></em> and <em><b>Phone</b></em> objects too.\n\nThe above is a recommended pattern for *View Model* classes used with *JsRender*. (It will also work seamlessly with *JsViews* data-binding, if at some point you choose to upgrade to use *JsViews* features). Variants of this pattern are possible, too."
+        "text": "Here is the class definition for <em><b>Person</b></em>:\n\n```js\n// Constructor\nfunction Person(name, address, phones) {\n  // Initialize private properties\n  this._name = name;\n  this._address = address;\n  this._phones = phones;\n}\n\n// Prototype\nvar personProto = {\n  // Define a getter for each property \n  name: function() {\n    return this._name;\n  },\n  address: function() {\n    return this._address;\n  },\n  phones: function() {\n    return this._phones;\n  }\n};\n...\n```\n\nWe define exactly similar classes for our <em><b>Address</b></em> and <em><b>Phone</b></em> objects too.\n\nThe above pattern for *View Model* classes will work well with *JsRender*. (It will also work seamlessly with *JsViews* data-binding, if at some point you choose to upgrade to use *JsViews* features).\n\n*Note:* The standard JsRender *View Model* pattern provided by `$.views.viewModels` is similar, but provides also setters (along with optional *'observability'* for two-way binding in *JsViews*).",
+        "anchor": "handvm"
       },
       {
         "_type": "para",
         "title": "Getter functions",
-        "text": "Note that properties are now <em>getter</em> functions, which return the appropriate value (which may be of any type, including objects or arrays -- such as `address` and `phones` above).\n\nIn fact they are particular case of *[computed observables](#computed)* -- a concept that can be used quite generally within *JsRender* and *JsViews*, not only for *View Model* properties.\n"
-      },
-      {
-        "_type": "para",
-        "title": "Using the same function as both getter and setter",
-        "text": "For properties which are <em>read-write</em>, the above *getter* functions can be replaced by a corresponding *getter/setter*, as follows: \n\n```js\nname: function(val) {\n  if (!arguments.length) {\n    return this._name; // If there is no argument, use as a getter\n  }\n  this._name = val;    // If there is a value argument, treat as a setter\n},\n```\n\nNote that when *JsRender* renders a template using a *get/set* property `{{:name()}}` it will *always call the function as a getter, not as a setter*. However the *setter* feature lets you modify the value of `name()` from code, using:\n\n```js\nsomePerson.name(\"newName\"); // setter\n```\n\nAlso, if you use the same *View Model* class with *JsViews* then the *setter* will be called:\n\n- when the user modifies a data-bound value such as `<input data-link=\"name()\" />`\n- when using `$.observable(person).setProperty(\"name\", \"newName\")` from code<br/>\n(See [JsViews Data/View Model](#jsv-model) for details, and alternative *setter* patterns.)"
+        "text": "Note that properties are now <em>getter</em> functions, which return the appropriate value (which may be of any type, including objects or arrays -- such as `address` and `phones` above).\n\nIn fact they are particular case of *[computed properties](#paths@computed)* -- a concept that can be used quite generally within *JsRender* and *JsViews*, not only for *View Model* properties.\n"
       },
       {
         "_type": "para",
@@ -4395,8 +4463,8 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "codetab",
             "name": "",
-            "url": "samples/mvvm/person-view-models-getset.js",
-            "label": "person-view-models-getset.js"
+            "url": "samples/mvvm/person-view-models-jsr.js",
+            "label": "person-view-models-jsr.js"
           }
         ],
         "sectionTypes": {
@@ -4408,9 +4476,14 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         },
         "sections": [
           {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n... {{:name()}} ...\n```"
+          },
+          {
             "_type": "code",
             "title": "Instantiate View Model hierarchy",
-            "code": "var person = new Person(\n  \"Pete\",\n  new Address(\n    \"1st Ave\"),\n    [\n      new Phone(\"111 111 1111\"),\n      new Phone(\"222 222 2222\")\n    ]\n  );\n"
+            "code": "// Use previously defined View Model classes: Person, Address, Phone\nvar person = new Person(\n  \"Pete\",\n  new Address(\n    \"1st Ave\"),\n    [\n      new Phone(\"111 111 1111\"),\n      new Phone(\"222 222 2222\")\n    ]\n  );\n"
           },
           {
             "_type": "code",
@@ -4418,11 +4491,89 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "$(\"#result\").html(tmpl.render(person));"
           }
         ],
-        "html": "<script src=\"mvvm/person-view-models-getset.js\" ></script>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address()^street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>\n            {{:number()}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "html": "<script src=\"mvvm/person-view-models-jsr.js\" ></script>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address().street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>\n            {{:number()}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Instantiate View Model hierarchy\nvar person = new Person(\n  \"Pete\",\n  new Address(\"1st Ave\"),\n    [\n      new Phone(\"111 111 1111\"),\n      new Phone(\"222 222 2222\")\n    ]\n  );\n\n// Render template against person object (instance of Person)\n$(\"#result\").html(tmpl.render(person));",
         "height": "150",
         "onlyJsRender": true,
-        "title": "Render template against a View Model object hierarchy"
+        "title": "Render template against a View Model object hierarchy",
+        "anchor": "vmsample"
+      },
+      {
+        "_type": "para",
+        "title": "Using the same function as both getter and setter",
+        "text": "For properties which are <em>read-write</em>, the above *getter* functions can be replaced by a corresponding *getter/setter*, as follows: \n\n```js\nname: function(val) {\n  if (!arguments.length) {\n    return this._name; // If there is no argument, use as a getter\n  }\n  this._name = val;    // If there is a value argument, treat as a setter\n},\n```\n\nNote that when *JsRender* renders a template using a *get/set* property `{{:name()}}` it will *always call the function as a getter, not as a setter*. However the *setter* feature lets you modify the value of `name()` from code, using:\n\n```js\nsomePerson.name(\"newName\"); // setter\n```\n\nAlso, if you use the same *View Model* class with *JsViews* then the *setter* will be called:\n\n- when the user modifies a value with two-way data-binding such as `<input data-link=\"name()\" />`\n- when using `$.observable(person).setProperty(\"name\", \"newName\")` from code<br/>\n(See [JsViews Data/View Model](#jsvmodel) for details, and alternative *setter* patterns.)"
+      },
+      {
+        "_type": "para",
+        "title": "Adding methods and computed properties to the View Model ",
+        "text": "Typically a *View Model* does not only provide *getter* (or *get/set*) properties - but also other methods or computed properties corresponding to the appropriate logic at that point in the application. For example, a *View Model* for a *Person* might include a `selectPhone(...)` method or a `fullName()` computed property.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "<b>Example: Using JsRender compiled View Models, with $.view.viewModels(...)</b>",
+        "text": "The built-in support in both *JsRender* and *JsViews* for compiled *View Models* makes it extremely easy to define *View Model* classes that include *get/set* properties using the pattern described above, along with any desired additional methods and computed properties. Simple calls to `$.views.viewModels(...)` allow you to compile *View Model* classes conforming to these patterns without having to manually write repetitive code for multiple such *get/set* properties.\n \nAnother advantage of the compiled *View Model* classes is when working with (or migrating to) *JsViews*. In that context the classes automatically become fully-fledged MVVM classes, with a rich range of features -- where the *Views* are observable data-linked templates.\n\nFor details on `$.views.viewModels` see: *[Compiled View Models](#viewmodelsapi)*.\n\nTo illustrate, let's convert our [sample above](#jsrmodel@vm) to use compiled *View Models*. At the same time we will add a `person.addPhone(...)` custom method to the `Person` *View Model* class, and we'll illustrate calling a setter -- `name(...)`:",
+        "anchor": "compilevm"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "... {{:name()}} ..."
+          },
+          {
+            "_type": "code",
+            "title": "Compile View Model classes",
+            "code": "...\n// Compile Person View Model, with addPhone method\nvar Person = $.views.viewModels({\n  getters: [\"name\", \"address\", \"phones\"], // get/set properties\n  extend: {addPhone: addPhone}            // Additional methods or properties\n});\n..."
+          },
+          {
+            "_type": "code",
+            "title": "Instantiate View Model hierarchy using constructors",
+            "code": "var person = Person(\n  \"Pete\",\n  Address(\"1st Ave\"),\n  [Phone(\"111 111 1111\"), Phone(\"222 222 2222\")]\n);\n"
+          },
+          {
+            "_type": "code",
+            "title": "Render template against person object (instance of Person)",
+            "code": "$(\"#result\").html(tmpl.render(person));"
+          },
+          {
+            "_type": "code",
+            "title": "Call setter, call method...",
+            "code": "...\nperson.name(\"newName\");           // Use the name(...) setter\n\n...\nperson.addPhone(\"xxx xxx xxxx\");  // Call the addPhone(...) method"
+          }
+        ],
+        "html": "<style>button {margin-bottom: 9px;}</style>\n\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address().street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>\n            {{:number()}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  this.phones().push(Phone(phoneNo));\n}\n\n// Compile Person View Model, with addPhone method\nvar Person = $.views.viewModels({\n  getters: [\"name\", \"address\", \"phones\"],\n  extend: {addPhone: addPhone}\n});\n\n// Compile Address View Model\nvar Address = $.views.viewModels({getters: [\"street\"]});\n\n// Compile Phone View Model\nvar Phone = $.views.viewModels({getters: [\"number\"]});\n\n// Instantiate View Model hierarchy using constructors\nvar person = Person(\n  \"Pete\",\n  Address(\"1st Ave\"),\n  [Phone(\"111 111 1111\"), Phone(\"222 222 2222\")]\n);\n\n// Render template against person object (instance of Person)\n$(\"#result\").html(tmpl.render(person));\n\n// Button handlers\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");           // Use the name(...) setter\n  $(\"#result\").html(tmpl.render(person));\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");  // Call the addPhone(...) method\n  $(\"#result\").html(tmpl.render(person));\n});",
+        "height": "190",
+        "onlyJsRender": true,
+        "title": "Render template against a hierarchy of compiled View Model objects",
+        "anchor": "compilevmsample"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also the [corresponding sample](#jsvviewmodelsapi@compilevmsample) with JsViews and data-linking (and [this version](#jsvmodel@compilevmsample) with two-way binding)."
+      },
+      {
+        "_type": "links",
+        "title": "For additional details and scenarios for compiled View Models, see:",
+        "links": [],
+        "topics": [
+          {
+            "hash": "viewmodelsapi",
+            "label": "Compiled View Models"
+          }
+        ]
       },
       {
         "_type": "links",
@@ -4432,7 +4583,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "topic",
             "hash": "jsv-model",
-            "label": "JsViews Data/View Model"
+            "label": "JsViews: Data/View Model"
           },
           {
             "_type": "topic",
@@ -4626,7 +4777,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Passing in helpers",
-        "text": "There are three ways to provide helpers:\n\n- Global helpers -- registered using [`$.views.helpers(myHelpers)`](#helpersapi)\n- Helpers registered for a specific template -- [`$.templates(\"mytmpl\", {markup: ..., helpers: myHelpers}`](#d.templates@resources)\n- Helpers passed in on a specific render call -- [`tmpl.render(data, myHelpers)`](#tmplrender@helpers)<br/>\n(Similarly you can [pass helpers](#jsvhelpers) to JsViews `link()` calls)\n"
+        "text": "There are three ways to provide helpers:\n\n- Global helpers -- registered using [`$.views.helpers(myHelpers)`](#helpersapi)\n- Helpers registered for a specific template -- [`$.templates(\"mytmpl\", {markup: ..., helpers: myHelpers}`](#d.templates@resources)\n- Helpers passed in on a specific render call -- [`tmpl.render(data, myHelpers)`](#tmplrender@helpers)<br/>\n(Similarly you can [pass helpers](#jsvhelpers-converters) to JsViews `link()` calls)\n"
       },
       {
         "_type": "para",
@@ -4940,374 +5091,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "height": "206",
         "onlyJsRender": true,
         "title": "A render() function and a template as \"fallback\""
-      },
-      {
-        "_type": "para",
-        "title": "Custom tags and 'tag controls'",
-        "text": "If you use JsViews, your custom tag can be developed into a fully functional <em>tag control</em>, with its own life-cycle, properties and methods, etc. It can be used as a <em>presenter</em> according to the MVP pattern."
-      },
-      {
-        "_type": "links",
-        "title": "See also:",
-        "links": [],
-        "topics": [
-          {
-            "_type": "topic",
-            "hash": "samples/jsr/tags",
-            "label": "Samples: JsRender custom tags"
-          },
-          {
-            "_type": "topic",
-            "hash": "samples/tag-controls",
-            "label": "Samples: JsViews tag controls"
-          }
-        ]
-      }
-    ]
-  },
-  "tagsapi": {
-    "title": "$.views.tags()",
-    "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "What is a custom tag?",
-        "text": "JsRender custom tags are named tags `{{myTag ...}}`, which you can register, and then use in your templates.\n\nA tag renders itself as part of the template output. You determine how it renders, generally by providing either a <em>render</em> function or a template, when you declare your custom tag.\n\nThe render function, or the template, can access both named parameters (<em>props</em>) and unnamed parameters (<em>args</em>), as in:\n\n```jsr\n{{myTag arg0 arg1 namedProp1=xxx namedProp2=yyy}} ... {{/myTag}}\n```\n\nIn fact it can also access the current data item -- or even the whole hierarchy of views and data...\n\nWhen you also use JsViews, custom tags acquire a whole new dimension. &ndash; They become <em>tag controls</em>, and you can build rich and complex single page apps cleanly and simply using custom tag controls -- following an MVP or MVVM coding pattern. "
-      },
-      {
-        "_type": "api",
-        "typeLabel": "API:",
-        "title": "$.views.tags(name, tagFn)",
-        "name": "tags",
-        "object": "$.views",
-        "method": true,
-        "returns": "",
-        "signatures": [
-          {
-            "_type": "signature",
-            "title": "",
-            "params": [
-              {
-                "_type": "param",
-                "name": "name",
-                "type": "string",
-                "optional": false,
-                "description": "name of tag - to be used in template markup: <code>{{<b>name</b> ...}}</code>"
-              },
-              {
-                "_type": "param",
-                "name": "tagFn",
-                "type": "function",
-                "optional": false,
-                "description": "Tag function. returns the rendered tag"
-              }
-            ],
-            "args": [],
-            "sections": [],
-            "example": "$.views.tags(\"mytag\", function(...) {\n  ...return rendered content\n});\n\n{{mytag ...}} ... {{/mytag}}",
-            "description": "Register a simple 'render' function as a custom tag,"
-          },
-          {
-            "_type": "signature",
-            "title": "",
-            "params": [
-              {
-                "_type": "param",
-                "name": "name",
-                "type": "string",
-                "optional": false,
-                "description": "name of tag - to be used in template markup: <code>{{<b>name</b> ...}}</code>"
-              },
-              {
-                "_type": "param",
-                "name": "tagOptions",
-                "type": "object",
-                "optional": false,
-                "description": "An tagOptions object with a render method and/or a template property, and optionally other properties or methods"
-              }
-            ],
-            "args": [],
-            "sections": [],
-            "example": "$.views.tags(\"mytag\", {\n  render: function(...) {...},\n  template: ...\n});\n\n{{mytag ...}} ... {{/mytag}}",
-            "description": "Register a custom tag using a tagOptions object"
-          },
-          {
-            "_type": "signature",
-            "title": "",
-            "params": [
-              {
-                "_type": "param",
-                "name": "namedTags",
-                "type": "object",
-                "optional": false,
-                "description": "Object (hash) of keys (name of tag) and values (render function or tagOptions object)"
-              }
-            ],
-            "args": [],
-            "sections": [],
-            "example": "$.views.tags({\n  myTag1: function(val) {...},\n  myTag2: {render: function(val) {...}, ...}\n});",
-            "description": "Register multiple custom tags"
-          }
-        ],
-        "description": "",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "sample": "sample",
-          "links": "links"
-        }
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "The function is the <em>render</em> method for the tag"
-          },
-          {
-            "_type": "code",
-            "title": "Declaring the custom tag",
-            "code": "function renderBoldP(value) {\n  return \"<p><b>\" + value + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);"
-          },
-          {
-            "_type": "template",
-            "title": "Using the tag",
-            "markup": "This is the title:{{boldp title /}}"
-          }
-        ],
-        "title": "1 - Simple custom tag using just a function",
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  This is the title:{{boldp title /}}\n</script>",
-        "code": "function renderBoldP(value) {\n   return \"<p><b>\" + value + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
-        "height": "80",
-        "onlyJsRender": true
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "<em>Note:</em> the `this` pointer within the tag render function is the instance of the tag, and can be used in more advanced usage, as in the next two examples:"
-      },
-      {
-        "_type": "para",
-        "title": "Wrapping block content using a function-based custom tag",
-        "text": "First of all -- what if we want our tag to be used as a block tag, and to render itself by wrapping the rendered block content with the <em>'bold p'</em> html -- `<b><p>...</p></b> `as in:\n\n```jsr\n{{boldp}}\n  This is inside our block content:<br/>\n  <em>{{:title}}</em>\n{{/boldp}}\n```"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "To render the block content, we call `this.tagCtx.render(val)`:\n\n```js\nfunction renderBoldP(val) {\n   return \"<p><b>\" + this.tagCtx.render(val) + \"</b></p>\";\n}\n```"
-          }
-        ],
-        "title": "2 - Rendering block content from a custom tag function",
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    This is inside our block content:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
-        "code": "function renderBoldP(val) {\n   return \"<p><b>\" + this.tagCtx.render(val) + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
-        "height": "80",
-        "onlyJsRender": true
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "As well as calling the `render()` method of `this.tagCtx`, you can access `this.tagCtx.args`, `this.tagCtx.props`, `this.tagCtx.view.data` and more...\n\nThe `tagCtx.args` are the unnamed parameters. So in this example, there are two of them:\n\n```jsr\n{{someTag title name}}\n```\n\nIn addition to being accessible as `tagCtx.args`, unnamed parameters are also passed directly as parameters to the render method (if your tag is using one):\n\n```js\nfunction someTagRenderMethod(title, name) {\n  // Here, this.tagCtx.args[1] and the name parameter are the same thing\n}\n```\n\nNow here is an example which has one unnamed parameter and two named parameters. You can access named parameters from `tagCtx.props`:\n\n```jsr\n{{range members start=2 end=4}}\n```\n\nWe'll use that in our third sample, to show accessing properties from the render function of the tag:"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "This sample defines a `{{range}}` tag which iterates over an array which you pass as (unnamed) parameter. It also allows you to set named parameters `start` and `end`, to determine the range of iteration. (See also the <a href=\"#samples/tag-controls/range\">range</a> sample, for a more advanced implementation of a similar custom tag.)\n\nYou call it like this:\n\n```jsr\n{{range members start=1 end=2}}\n ...\n{{/range}}\n```\n\nAnd the render function code accesses context to get at those named and unnamed parameters... :\n\n```js\n$.views.tags(\"range\", function(array) {\n  ...\n  var start = this.tagCtx.props.start,\n  ...\n  // Render tag content, for this data item\n  ret += this.tagCtx.render(array[i]);\n  ...\n```"
-          }
-        ],
-        "code": "$.views.tags(\"range\", function(array) {\n  var ret = \"\",\n    start = this.tagCtx.props.start,\n    end = this.tagCtx.props.end;\n  for (var i = start; i <= end; i++) {\n    // Render tag content, for this data item\n    ret += this.tagCtx.render(array[i]);\n  }\n  return ret;\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><b>{{:title}}</b></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
-        "height": "120",
-        "title": "3 - Accessing tagCtx properties from the tag render function",
-        "onlyJsRender": true
-      },
-      {
-        "_type": "para",
-        "title": "Using a tag template instead of a render function",
-        "text": "If the tag definition includes a template, but no render method, then the template will be used to render the tag.\n\nLet's re-implement all three examples above using custom tags which use templates instead of render functions."
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "Declaring the custom tag",
-            "text": "```js\n$.views.tags(\"boldp\", {\n  template: \"<p><b>{{:~tag.tagCtx.args[0]}}</b></p>\"\n});\n```\n\nAs you see, the template is accessing the unnamed parameter `tagCtx.args[0]`.\n\nThe result is identical to the other implementation using a function. You call it just the same:\n\n```jsr\n{{boldp title /}}\n```"
-          }
-        ],
-        "code": "$.views.tags(\"boldp\", {\n  template: \"<p><b>{{:~tag.tagCtx.args[0]}}</b></p>\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp title /}}\n</script>",
-        "title": "1b - Simple custom tag using just a template",
-        "height": "60",
-        "onlyJsRender": true
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "To render block content, we use `{{include tmpl=~tag.tagCtx.content/}}`\n\n```js\ntemplate: \"<p><b>{{include tmpl=~tag.tagCtx.content/}}</b></p>\"\n```\n\nHere we are accessing the `content` property on the `tagCtx`, which provides a compiled template for the block content.\n\nIt is also made available as a `content` property on the `view` object -- and can be accessed from within a template using `#content` -- which is an example of a `view path` -- equivalent to `#view.content`. You can try out that alternative syntax by choosing <em>Try it</em> and changing the template above to `<p><b>{{include tmpl=#content/}}</b></p>`."
-          }
-        ],
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    This is the title:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
-        "code": "$.views.tags(\"boldp\", {\n  template: \"<p><b>{{include tmpl=~tag.tagCtx.content/}}</b></p>\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
-        "height": "80",
-        "title": "2b - Rendering block content from a custom tag template",
-        "onlyJsRender": true
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "Finally let's re-implement the third example using just a template. \n\nEven this example can be implemented as a custom tag which has no code at all. -- Just a template, which is also able to access all the context that we were able to access from code in our `render()` function above.\n\nThis illustrates the power of declarative templates..."
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "The template accesses the same context as the function code above, to get at those named and unnamed parameters... :\n\n```jsr\n{{for ~tag.tagCtx.args[0]}}\n  {{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\n    {{include tmpl=~tag.tagCtx.content/}}\n  {{/if}}\n{{/for}}\n```\n\nThen after filtering for the items within the chosen range, using nested `{{for}}{{if}` tags, it renders the original block content for those items using `{{include tmpl=~tag.tagCtx.content/}}`."
-          }
-        ],
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><b>{{:title}}</b></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
-        "code": "$.views.tags(\"range\", {\n  template: \n    \"{{for ~tag.tagCtx.args[0]}}\" +\n      \"{{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\" +\n        \"{{include tmpl=~tag.tagCtx.content/}}\" +\n      \"{{/if}}\" +\n    \"{{/for}}\"\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
-        "height": "120",
-        "title": " 3b - Accessing more context from the tag template",
-        "onlyJsRender": true
-      },
-      {
-        "_type": "para",
-        "title": "Custom tags using both a render function <b>and</b> a template",
-        "text": "If there is both a template and a render method, then the template will only be used if the render method returns <em>undefined</em>\n\nLet's take our `{{range}}` example using a render function, but provide a template which will be used as \"fallback\" rendering for the tag in the case when there are no items to render in the chosen range:"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "First we will change the original code to test whether the item exists in the array, before rendering the block content.\n\nAnd secondly, we will make sure that when there is an item we do render the block content and not the template. So we call `this.tagCtx.content.render(array[i])`, rather than `this.tagCtx.render(array[i])`.\n\nThat's because `this.tagCtx.render(...)` will actually look to see if there is template associated with the tag, (either a template on the tag definition, or a `tmpl` property on the tag) -- in which case it will render that template and not the block content... \n\n```js\nfor (var i = start; i <= end; i++) {\n  if (array[i]) {\n    // Render tag block content, for this data item\n    ret += this.tagCtx.content.render(array[i]);\n  }\n}\n```\n\nFinally, if there are no items to render, we will return undefined, so the tag will fall back on the template rendering.\n\n```js\nreturn ret || undefined;\n```\n\nAnd here is the \"fallback\" template:\n\n```jsr\ntemplate: \"<li>Nothing to render</li>\"\n```"
-          }
-        ],
-        "code": "$.views.tags({\n  range: {\n    render: function(array) {\n      var ret = \"\",\n        start = this.tagCtx.props.start,\n        end = this.tagCtx.props.end;\n      for (var i = start; i <= end; i++) {\n        if (array[i]) {\n          // Render tag block content, for this data item\n          ret += this.tagCtx.content.render(array[i]);\n        }\n      }\n      return ret || undefined;\n    },\n    template: \"<li>Nothing to render</li>\"\n  }\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\n",
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <h3>Members 2 to 4</h3>\n  <ul>\n    {{range members start=1 end=3}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n\n  <h3>Members 5 to 8</h3>\n  <ul>\n    {{range members start=4 end=7}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
-        "height": "206",
-        "onlyJsRender": true,
-        "title": "A render() function and a template as \"fallback\""
-      },
-      {
-        "_type": "para",
-        "title": "Adding tags as private resources for a parent template",
-        "text": "You can pass in an existing template as an additional `parentTemplate` parameter, on  <em>any</em> call to  `$.views.tags(...)`.\n\nIn that way the tag you are registering becomes a 'private tag resource' for the `parentTemplate`, rather than being registered globally:"
-      },
-      {
-        "_type": "api",
-        "typeLabel": "API:",
-        "title": "",
-        "name": "tags",
-        "object": "$.views",
-        "method": true,
-        "returns": "",
-        "signatures": [
-          {
-            "_type": "signature",
-            "title": "Add one or more tags as private resources for a parent template",
-            "params": [
-              {
-                "_type": "param",
-                "name": "namedTags",
-                "type": "object",
-                "optional": false,
-                "description": "Object (hash) of keys (name of tag) and values (render function or tagOptions)"
-              },
-              {
-                "_type": "param",
-                "name": "parentTemplate",
-                "type": "object or string",
-                "optional": true,
-                "description": "Owner template - to which this/these tag(s) are being added as private resources"
-              }
-            ],
-            "args": [],
-            "sections": [],
-            "example": "$.views.tags({\n  myTag1: ...,\n  myTag2: ...\n}, parentTemplate);",
-            "description": "Add multiple tags as resources, to a parent template"
-          }
-        ],
-        "description": "",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "sample": "sample",
-          "links": "links"
-        }
       },
       {
         "_type": "para",
@@ -5677,7 +5460,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
               {
                 "_type": "para",
                 "title": "",
-                "text": "Encodes according to the following scheme:\n<br/><br/>\n`&` &rarr; `&amp;`<br/>\n`<` &rarr; `&lt;`<br/>\n`>` &rarr; `&gt;`<br/>\n`\\x00` &rarr; `&#0;`<br/>\n`'` &rarr; `&#39;`<br/>\n`\"` &rarr; `&#34;`<br/>\n<code>\\`</code> &rarr; `&#96;`"
+                "text": "Encodes according to the following scheme:\n<br/><br/>\n`&` &rarr; `&amp;`<br/>\n`<` &rarr; `&lt;`<br/>\n`>` &rarr; `&gt;`<br/>\n`\\x00` &rarr; `&#0;`<br/>\n`'` &rarr; `&#39;`<br/>\n`\"` &rarr; `&#34;`<br/>\n<code>\\`</code> &rarr; `&#96;`<br/>\n`=` &rarr; `&#61;`\n"
               }
             ],
             "example": "var encoder = $.views.converters.html;\nvar encodedString = encoder(myString);",
@@ -5717,7 +5500,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "var value = \"< > ' \\\" &\";\n\nvar result = $.views.converters.attr(value);\n\nalert(result);"
           }
         ],
-        "code": "var value = \"< > ' \\\" &\";\nvar result = $.views.converters.attr(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});",
+        "code": "var value = \"< > ' \\\" & =\";\nvar result = $.views.converters.attr(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});",
         "html": "<button id=\"show\">Show result</button>\n\n",
         "height": "46",
         "onlyJsRender": true,
@@ -5749,7 +5532,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
               {
                 "_type": "para",
                 "title": "",
-                "text": "Encodes according to the following scheme:\n<br/><br/>\n`&` &rarr; `&amp;`<br/>\n`<` &rarr; `&lt;`<br/>\n`>` &rarr; `&gt;`<br/>\n`\\x00` &rarr; `&#0;`<br/>\n`'` &rarr; `&#39;`<br/>\n`\"` &rarr; `&#34;`<br/>\n<code>\\`</code> &rarr; `&#96;`"
+                "text": "Encodes according to the following scheme:\n<br/><br/>\n`&` &rarr; `&amp;`<br/>\n`<` &rarr; `&lt;`<br/>\n`>` &rarr; `&gt;`<br/>\n`\\x00` &rarr; `&#0;`<br/>\n`'` &rarr; `&#39;`<br/>\n`\"` &rarr; `&#34;`<br/>\n<code>\\`</code> &rarr; `&#96;`<br/>\n`=` &rarr; `&#61;`"
               },
               {
                 "_type": "para",
@@ -5980,6 +5763,498 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "See also the following samples:",
         "text": "[Converters and encoding](#samples/jsr/converters)<br/>\n[Two-way binding and converters](#samples/form-els/converters)"
+      }
+    ]
+  },
+  "nojqueryapi": {
+    "title": "JsRender without jQuery",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender can be loaded in the browser with or without jQuery, as in these example pages:\n\n- [JsRender with jQuery](#download/pages-jsr-jq)\n- [JsRender without jQuery](#download/pages-jsr)\n\nWhen jQuery is present:\n\n- JsRender loads as a jQuery plugin and adds APIs to the `jQuery` global namespace object -- usually aliased as `var $ = jQuery;`\n- The JsRender APIs are\n  - `$.views...`\n  - `$.templates(...)`\n  - `$.render...`. \n\nIf jQuery is not present:\n\n- JsRender automatically creates its own `jsrender` global namespace variable \n- JsRender APIs are the same as above, but they are now associated with the `jsrender` namespace variable: \n  - `jsrender.views...`\n  - `jsrender.templates(...)`\n  - `jsrender.render...`. \n\nFor convenience you can follow the jQuery approach of creating a global `$` -- set this time to `var $ = jsrender;`\n\nYou can then use the regular APIs: `$.views...`, `$.templates...`, `$.render...`, or copy code from the regular browser examples/samples -- *as if* using JsRender with jQuery.\n\nFor example:\n\n```js\nvar $ = jsrender; // Alias for the jsrender namespace object - referenced for convenience as var $\n\nvar tmpl = $.templates('Name: {{:first}} {{upper:last'); // Compile template from string\n\n$.views.converters('upper', function(val) {return val.toUpperCase()}); // Register converter\n \nvar data = {first: 'Jo', last: 'Ryan'};\n\nvar html = tmpl.render(data);\n// result: \"Name: Jo RYAN\" \n```\n\n***Note:*** The same approach can be used when using [JsRender on the server](#node/install@apis) with Node.js, where JsRender is also being used without jQuery. "
+      }
+    ]
+  },
+  "node/webpack": {
+    "title": "<em>JsRender on Node.js</em>",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "## Webpack support for JsRender and JsViews\n JsRender and JsViews can be loaded using [webpack](https://webpack.github.io/)."
+      },
+      {
+        "_type": "para",
+        "title": "JsRender as a webpack module",
+        "text": "After installing JsRender on the server (using `$ npm install jsrender`) it can then be included in the webpack client-script bundle, and loaded in the browser.\n\nIf using JsRender without jQuery, or with jQuery loaded globally (as a script tag) this is done by calling:\n\n```js\nvar $ = require('jsrender'); // Without jQuery, or if jQuery is loaded globally\n```\n(Here, if jQuery is loaded then `$` is the global jQuery namespace object. Otherwise it is the JsRender global namespace object. Either way, you can now make calls like `var myTmpl = $.templates(...);`)\n\nAlternatively, if jQuery is being loaded also as a webpack module rather than globally, *you need to use a different syntax* -- to tell JsRender to attach as a plugin to the local copy of jQuery:\n\n```js\nvar $ = require('jquery');\nrequire('jsrender')($);      // Passing local jQuery instance as parameter\n```",
+        "anchor": "jsrender"
+      },
+      {
+        "_type": "para",
+        "title": "Example",
+        "text": "**index.html:**\n\n```jsr\n<html><head>\n  <script src=\".../jquery...js\"></script> <!-- Load jQuery as global -->\n</head><body>\n  <div id=\"container\"></div>\n  <script src=\"bundle.js\"></script>\n</body></html>\n```\n\n**source.js:**\n\n```js\nrequire('jsrender'); // Load JsRender (jQuery is loaded as global)\nvar tmpl = $.templates('Name: {{:name}}');\nvar data = {name: 'Jo'};\nvar html = tmpl.render(data);\n$('#container').html(html);\n```\n\n**command line:**\n\n```bash\nwebpack ./source.js bundle.js\n```"
+      },
+      {
+        "_type": "para",
+        "title": "JsViews as a webpack module",
+        "text": "JsViews can also be included in the webpack client-script bundle, and loaded in the browser.\n\nAfter installing on the server (using `$ npm install jsviews`), call:\n\n```js\nrequire('jsviews');    // Load JsViews (if jQuery is loaded globally)\n```\n\nor -- if also loading jQuery as a webpack module, use:\n\n```js\nvar $ = require('jquery');\n...\nrequire('jsviews')($); // Load JsViews (passing local jQuery instance as parameter)\n```",
+        "anchor": "jsviews"
+      },
+      {
+        "_type": "para",
+        "title": "See also:",
+        "text": "*[Browserify support](#node/browserify)*"
+      }
+    ]
+  },
+  "viewmodelsapi": {
+    "title": "Compiled View Models, using $.views.viewModels()",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This topic provides details on using `$.views.viewModels()` to register/compile *View Models*.\n\nThis is the third of the alternative approaches discussed in *[Data / View Models](#jsrmodel)* -- namely:\n- [using](#jsrmodel@plain) plain objects\n- [using](#jsrmodel@vm) 'hand-coded' View Models\n- [using](#jsrmodel@compilevm) `$.views.viewModels()` to compile and register View Models with specific *get/set* properties and methods."
+      },
+      {
+        "_type": "para",
+        "title": "Advantages of compiled View Models",
+        "text": "Using `$.views.viewModels()` to compile *View Models* brings some important advantages over plain object hierarchies or 'hand-coded' *View Models*:\n\n- Simple calls to `$.views.viewModels(...)` allow you to compile these *View Model* classes without having to manually write repetitive code for multiple such *get/set* properties\n- Using compiled *View Models* rather than plain objects makes it easier to have clean well-designed modular code, since each *View Model* has specific *getters*, *setters* and *methods*, and can have its own 'private' properties and state\n- The compiled *View Models* provide a built-in mapping and unmapping feature for automatically converting from a plain object hierarchy (such as from a JSON request) to a hierarchy of *View Model* instances, or for converting back to plain data (such as for submitting to the server)\n- They also provide a `merge(...)` feature for incrementally updating the *View Model* hierarchy, using updated plain data from the server\n- When working with (or migrating to) *JsViews* the compiled classes automatically become fully-fledged MVVM classes, with a rich range of features -- where the *Views* are observable data-linked templates. Updates to the *View Model* hierarchy, and calls to the *View Model* setters both trigger observable changes, with corresponding incremental updates to the *Views*. (For more information see *[JsViews: Data / View Model](#jsvmodel)* and *[JsViews: Compiled View Models](#jsvviewmodelsapi)*.)"
+      },
+      {
+        "_type": "para",
+        "title": "Using compiled View Models",
+        "text": "The basic *use scenarios* of compiled *View Models* are as follows:\n- Using `$.views.viewModels(...)` to [register/compile](#viewmodelsapi@compile) *View Models* (`myVM`)\n- Using a compiled View Model `myVM` as [constructor/factory](#viewmodelsapi@construct) method -- `MyVM(...)` -- to create View Model instances (`myVmInstance`)\n- Using `MyVM.map(...)` to [convert](#viewmodelsapi@map) a plain object hierarchy (such as from a JSON request) to a hierarchy of *View Model* instances\n- Using `myVMInstance.merge(...)` to incrementally [update](#viewmodelsapi@merge) a *View Model* hierarchy, using updated plain data\n- Using `myVMInstance.unmap()` to [convert](#viewmodelsapi@unmap) a *View Model* hierarchy back to a plain object hierarchy\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "<b>API: $.views.viewModels(...)</b>",
+        "text": "To register a *View Model*, you call the `$.views.viewModels(...)` API -- with four alternative signatures:\n- `var MyVM = $.views.viewModels(viewModelOptions);`<br/>returning a compiled *View Model* \n- `$.views.viewModels(\"MyVM\", viewModelOptions);`<br/>registering a named *View Model*, accessible as `$.views.viewModels.MyVM`\n- `$.views.viewModels(namedViewModels);`<br/>where `namedViewModels` is a hash, declaring multiple *View Models*\n- `$.views.viewModels(namedViewModels, myViewModels);`<br/>where `namedViewModels` is a hash, declaring multiple *View Models* and `myViewModels` is a *View Models* collection (hash) which will provide access to the compiled *View Models*, as `myViewModels.MyVM`\n\nIn each case, the compiled *View Model* is specified by a `viewModelOptions` object, with a `getters: gettersArray` (specifying an array of *get/set* properties), and/or an `extend: extendObject` (specifying additional methods or properties).\n\nExample:\n\n```js\nvar Book = $.views.viewModels({   // Compile a Book View Model\n  getters: [\"title\", \"price\"],    // getters array - signature of constructor\n  extend: {                       // extend object - additional methods \n    placeOrder: function() { ... }\n  }\n});\n\nvar book1 = Book(\"Hope\", \"1.50\"); // Construct a Book View Model instance\nbook.price(\"2.50\");               // Modify price\nbook.placeOrder();                // Call method\n```\n",
+        "anchor": "compile"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "$.views.viewModels(...)",
+        "name": "viewModels",
+        "object": "$.views",
+        "method": true,
+        "tag": false,
+        "returns": "",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "viewModelOptions",
+                "type": "object",
+                "optional": false,
+                "description": "A viewModelOptions object which can include:<ul><li>a 'getters' array (details below)</li><li>an  'extend' hash - with additional methods or properties</li><li>an 'id' specifier</li></ul>"
+              }
+            ],
+            "sections": [],
+            "example": "var Book = $.views.viewModels({\n  getters: [\"title\", \"price\"]\n});\n\nvar bk1 = Book(\"Hope\", \"$1.50\");",
+            "description": "Return a compiled View Model (constructor/factory method) with specific get/set properties and methods",
+            "returns": "View Model constructor"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "name",
+                "type": "string",
+                "optional": true,
+                "description": "Name for the registered View Model"
+              },
+              {
+                "_type": "param",
+                "name": "viewModelOptions",
+                "type": "object",
+                "optional": false,
+                "description": "A viewModelOptions object which can include:<ul><li>a 'getters' array (details below)</li><li>an  'extend' hash - with additional methods or properties</li><li>an 'id' specifier</li></ul>"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.viewModels(\"Book\", {\n  getters: [\"title\", \"price\"]\n});\n\nvar bk1 = $.views.viewModels.Book(\"Hope\", \"$1.50\");\n",
+            "description": "Register (and return) a named View Model",
+            "returns": "View Model constructor"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "namedViewModels",
+                "type": "object",
+                "optional": false,
+                "description": "hash of viewModelOptions objects - each of which can include:<ul><li>a 'getters' array (details below)</li><li>an  'extend' hash - with additional methods or properties</li><li>an 'id' specifier</li></ul>"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "$.views.viewModels({\n  Book: {getters: [\"title\", \"price\"]},\n  ...\n});\n\nvar bk1 = $.views.viewModels.Book(\"Hope\", \"$1.50\");\n",
+            "description": "Register multiple named View Models"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "namedViewModels",
+                "type": "object",
+                "optional": false,
+                "description": "hash of viewModelOptions objects - each of which can include:<ul><li>a 'getters' array (details below)</li><li>an  'extend' hash - with additional methods or properties</li><li>an 'id' specifier</li></ul>"
+              },
+              {
+                "_type": "param",
+                "name": "viewModels",
+                "type": "object",
+                "optional": false,
+                "description": "View Model collection object (hash)"
+              }
+            ],
+            "args": [],
+            "sections": [
+              {
+                "_type": "para",
+                "title": "",
+                "text": "*Specifying **viewModelOptions** &ndash; details:*\n\n- The (optional) `getters` array.<br/>-- Each item in the array corresponds to a *get/set* property (and also a constructor argument, which initializes that *get/set* property).<br/>-- It must be either\n  - a string -- the `getterName`, or\n  - an object, which must have a *getter* property: `{getter: getterName}`.<br/><br/>If an object, it can additionally specify:<br/><br/>\n  - a *type* property: `type: viewModelName` -- specifying the name of another *View Model* type (declared in the same View Model collection). In this case then when using `map()` to map from data to a generated *View Model* hierarchy (see below), data values for the *get/set* property will be mapped to instances of that *View Model*.\n  - a *defaultVal* property -- specifying the value to be used at initialization if `undefined` -- such as\n    - `defaultVal:  null` (a value) or,\n    - `defaultVal: function() { return ...; }` (a function, to return a computed value. The <code>this</code> pointer is the data item.) \n- The (optional) `extend` hash has additional members (methods or properties) to be included in the View Model prototype. The prototype will extend this object\n- The (optional) `id` is either a string (the name of a *View Model* property to be treated as **id**) or\na function. The specified *id* or the function call will be used for determining identity when `merge(...)` updates a *View Model* hierarchy (see below)"
+              }
+            ],
+            "example": "var myVms = {};\n\n$.views.viewModels({\n  Book: {getters: [\"title\", \"price\"]},\n  ...\n}, myVms);\n\nvar bk1 = myVms.Book(\"Hope\", \"$1.50\");\n",
+            "description": "Add one or more named View Models to a View Model collection (hash)",
+            "returns": "View Model collection (hash)"
+          }
+        ],
+        "description": "Register one or more View Models",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "Creating View Model instances, using the View Model constructor",
+        "text": "*View Models* compiled/registered/returned by `$.view.viewModels(...)` are in fact constructors for instances of the *View Model* class.\n\n```js\nvar Book = $.views.viewModels({    // Constructor\n  getters: [\"title\", \"price\"]      // getters array - signature of constructor\n  ...\n});\n\nvar book1 = Book(\"Hope\", \"$1.50\"); // Create Book instance\n```\n\nNote that:\n- The `new` keyword is not necessary when calling the constructor. (It is in effect a factory method, that calls `new` internally.)\n- The signature of the constructor call (parameters used to initialize the instance) corresponds to the array of getters specified in the `viewModelOptions` - in this case `[\"title\", \"price\"]`",
+        "anchor": "construct"
+      },
+      {
+        "_type": "para",
+        "title": "View Model hierarchies",
+        "text": "The `Book` View Model example above has simple *get/set* properties `[\"title\", \"price\"]` which are simple primitive types (string in this case).\n\nBut consider the `Person` *View Model*, used in the overview topic *[Data / View Model](#jsrmodel)*. Here a `person` object (whether a plain object or a *View Model* instance) is in fact a hierarchy of objects, since the `address` and `phones` properties of a `Person` are themselves objects (an `Address` object and a `Phone` array)\n\nHere is a `person` plain object/hierarchy (obtained perhaps by 'evaluating' JSON data from the server): \n\n```js\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n```\n\nTo map this object hierarchy to the corresponding *View Model* hierarchy we need to define three *View Models*:\n\n```js\n// Compile Person View Model, with addPhone method\nvar Person = $.views.viewModels({\n  getters: [\"name\", \"address\", \"phones\"],\n  extend: {addPhone: addPhone}\n});\n\n// Compile Address View Model\nvar Address = $.views.viewModels({getters: [\"street\"]});\n\n// Compile Phone View Model\nvar Phone = $.views.viewModels({getters: [\"number\"]});\n```\n\nWe can then instanciate the corresponding *View Model* hierarchy, using constructors:\n\n```js\nvar person = Person(\n  \"Pete\",\n  Address(\"1st Ave\"),\n  [Phone(\"111 111 1111\"), Phone(\"222 222 2222\")]\n);\n```\n\nSee the [sample](#jsrmodel@compilevmsample) in the *[Data / View Model](#jsrmodel)* topic."
+      },
+      {
+        "_type": "para",
+        "title": "<b>Creating View Model instances by mapping from data</b>",
+        "text": "The process of manually writing code to map from JSON data to a corresponding *View Model* hierarchy, as above, can be complex and inconvenient. It requires traversing the data hierarchy and using appropriate *View Model* constructors to instantiate corresponding *View Model* instances. \n\nFortunately *JsRender/JsViews* compiled *View Models* provide a `map(data)` feature which when used together with *View Model* typed hierarchies makes this process quite trivial.\n",
+        "anchor": "map"
+      },
+      {
+        "_type": "para",
+        "title": "API: MyViewModel.map(...)",
+        "text": "Any compiled *View Model*, `MyViewModel`, provides a `MyViewModel.map(...)` method, which can be used to convert a plain object or an array of plain objects (or the equivalent JSON string) to the corresponding *View Model* instance (or array of *View Model* instances)."
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "MyViewModel.map(...)",
+        "name": "map",
+        "object": "MyViewModel",
+        "method": true,
+        "returns": "View Model instance or array or instances",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "data",
+                "type": "object, array of objects, or JSON string",
+                "optional": false,
+                "description": "The data (typically from JSON request)"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "// View Model\nvar Person = $.views.viewModels.Person;\n\n// View Model instance\nvar person = Person.map(personData);",
+            "description": "Generate a View Model instance/hierarchy/array by mapping from data (a plain object instance/hierarchy/array, or JSON string)"
+          }
+        ],
+        "description": "Generate  a View Model hierarchy from data",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Example:\n\n```js\nvar Book = $.views.viewModels({ // Constructor\n  getters: [\"title\", \"price\"]\n});\n```\n\nMap from `bookData` plain object to `book` View Model instance:\n\n```js\nvar bookData1 = {title: \"Hope\", price: \"$1.50\"}; // book (plain object)\nvar book1 = Book.map(bookData1);                 // book (instance of Book View Model)\n```\n  \nMap from `bookDataArray` array of plain objects to `bookArray` array of View Model instances:\n\n```js\nvar bookDataArray1 = [                           // book array (plain objects)\n  {title: \"Hope\", price: \"$1.50\"},\n  {title: \"Courage\", price: \"$2.50\"}\n];\nvar booksArray1 = Book.map(bookDataArray1);      // book array (instances of Book View Model)\n```"
+      },
+      {
+        "_type": "para",
+        "title": "View Model  typed hierarchies",
+        "text": "When specifying `getters` in the `$.views.viewModels(...)` call, you can declare the type of a *get/set* property. For example an `address` *get/set* property can be specified as being of type `Address` -- where `Address` is another *View Model* declared on the same collection.\n\nBy specifying View Model types for properties (and declaring those View Models in the same collection) you obtain a *'View Model typed hierarchy'*.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using MyViewModel.map(...) to map a whole object hierarchy to a View Model instance hierarchy",
+        "text": "In the case of a *'View Model typed hierarchy'*, simply pass the top-level plain object to the `map()` method for the top-level *View Model* class, and all *View Model* instances in the hierarchy will be correctly instantiated:\n\n*Compile View Model classes (typed hierarchy):* \n\n```js\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // Declare 'name' as being a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // Declare 'address' as being an Address (View Model) type\n     {getter: \"phones\", type: \"Phone\"}     // Declare 'phones' as being (an array) of Phone (View Model) types\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone: ...\n});\n```\n\n*Person data (plain object hierarchy, or JSON string):*\n\n```js\nvar personData = {\n    name: \"Pete\",\n    address: {street: \"1st Ave\"},\n    phones: [{number: \"111 111 1111\"}, ...]\n  };\n```\n\n*Use map() to convert from `personData` plain object hierarchy (or JSON string) to `person` *View Model* hierarchy:*\n\n```js\nvar person = $.views.viewModels.Person.map(personData);\n```\n\nThe getter properties then let you traverse the hierarchy, call methods, etc.\n\n```\nperson.name(\"newName\");                   // Use setter: change name\nperson.addPhone(...);                     // Call method: add phone\nvar phone2 = person.phones()[1].number(); // Traverse and use getter: get number\n```\n\nLet's modify the [sample](#jsrmodel@compilevmsample) in *[Data / View Model](#jsrmodel)* to use the `map(...)` approach:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "... {{:name()}} ..."
+          },
+          {
+            "_type": "code",
+            "title": "Compile View Model classes",
+            "code": "...\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // name is a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n     {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: ...\n  Phone: ...\n});\n"
+          },
+          {
+            "_type": "code",
+            "title": "Instantiate View Model hierarchy using Person.map(data)",
+            "code": "var personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\nvar person = vmCollection.Person.map(personData);"
+          },
+          {
+            "_type": "code",
+            "title": "Render template against person object (instance of Person)",
+            "code": "$(\"#result\").html(tmpl.render(person));"
+          },
+          {
+            "_type": "code",
+            "title": "Call setter, call method...",
+            "code": "...\nperson.name(\"newName\");           // Use the name(...) setter\n\n...\nperson.addPhone(\"xxx xxx xxxx\");  // Call the addPhone(...) method"
+          }
+        ],
+        "html": "<style>button {margin-bottom: 9px;}</style>\n\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address().street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>\n            {{:number()}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // name is a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n     {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  this.phones().push(vmCollection.Phone(phoneNo));\n}\n\n// person plain object hierarchy:\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Instantiate View Model hierarchy using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render template against person object (instance of Person)\n$(\"#result\").html(tmpl.render(person));\n\n// Button handlers\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");           // Use the name(...) setter\n  $(\"#result\").html(tmpl.render(person));\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");  // Call the addPhone(...) method\n  $(\"#result\").html(tmpl.render(person));\n});",
+        "height": "190",
+        "onlyJsRender": true,
+        "title": "Using map() to convert from a plain object hierarchy to a View Model hierarchy",
+        "anchor": "mapsample"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "(See also the [corresponding sample](#jsvviewmodelsapi@mapsample) with JsViews and data-linking.)"
+      },
+      {
+        "_type": "para",
+        "title": "Along with the map() feature &ndash; merge() and unmap()",
+        "text": "When working with View Model typed hierarchies, there are two additional features that can be used together with the `map()` feature:\n\n- If later you obtain updated JSON data, `personData2`, you can use `merge()` ([below](#viewmodelsapi@merge)) to trigger an incremental update to the *View Model* hierarchy:\n  ```js\n  person.merge(personData2);\n  ```\n- If values are modified (using setters, or methods) you can at any time can use `unmap()` ([below](#viewmodelsapi@unmap)) to convert back to plain data, but with updated values:\n  ```js\n  var updatedPersonData = person.unmap();\n  ```"
+      },
+      {
+        "_type": "para",
+        "title": "Using myVMobjectOrArray.merge(...) to update a View Model hierarchy",
+        "text": "If a *View Model* hierarchy (or array of *View Model* instances) was created using the `map()` feature above to map from data, then the *View Model* instances (and arrays) will each have a `merge()` method available:\n\n```js\nvar person = Person.map(personData1);\nperson.merge(personData2);             // Incrementally update person (hierarchy)\n```\n\nor for an array:\n\n```js\nvar peopleArray = Person.map(peopleDataArray1);\npeopleArray.merge(peopleDataArray2);   // Incrementally update people array\n```\n\nOr, deeper in the hierarchy:\n\n```js\nvar person = Person.map(personData1);\nperson.phones.merge(phonesDataArray2); // Update just the person.phones array\n```",
+        "anchor": "merge"
+      },
+      {
+        "_type": "para",
+        "title": "Updating with merge() makes minimal incremental changes, and preserves state",
+        "text": "Note that the `merge()` update process does not replace the whole hierarchy of *View Model* instances, but works incrementally to add/remove/modify instances as appropriate. So if most of the data in `personData2` is the same as `personData1`, calling `merge(personData2)` will make only minimal changes to the hierarchy. \n\nThis means that if *View Model* instances have state (such as additional properties that were set programmatically and are not driven by data) then that state can be maintained across the `merge()` update. "
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "myVMobjectOrArray.merge(...)",
+        "name": "merge",
+        "object": "myVMobjectOrArray",
+        "method": true,
+        "returns": "View Model instance or array",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "data",
+                "type": "object, array of objects, or JSON string",
+                "optional": false,
+                "description": "The updated data (typically from JSON request)"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "person.merge(personData2);\n// person (View Model hierarchy) has now\n// been updated, with modified data...",
+            "description": "Update a previously generated View Model instance/hierarchy/array by mapping from updated data"
+          }
+        ],
+        "description": "Update a View Model hierarchy, from modified data",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "Using myVMobjectOrArray.unmap() to convert back to a plain object hierarchy",
+        "text": "If a *View Model* hierarchy (or array of *View Model* instances) was created by mapping from data, using the `map()` feature above, then the View Model instances (and arrays) will each have an `unmap()` method (in addition to the `merge()` method mentioned above):\n\n```js\nvar person = Person.map(personData1);\nperson.addPhone(newPhone);\nperson.name(newName)\nvar modifiedPersonData = person.unmap();          // Convert back to a plain object hierarchy\n```\n\nor for an array:\n\n```js\nvar peopleArray = Person.map(peopleDataArray1);\npeopleArray[1].address.street(newStreet)          // Make changes anywhere in the peopleArray\nvar modifiedPeopleDataArray = people.unmap();     // Convert back to a plain object array\n```\n\nOr, deeper in the hierarchy:\n\n```js\nvar person = Person.map(personData1);\nperson.addPhone(newPhone);\nvar modifiedPhonesArray = person.phones.unmap();  // Get a plain object array for person.phones\n```",
+        "anchor": "unmap"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "myVMobjectOrArray.unmap()",
+        "name": "unmap",
+        "object": "myVMobjectOrArray",
+        "method": true,
+        "returns": "object or array",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [],
+            "args": [],
+            "sections": [],
+            "example": "// Convert back to a plain object hierarchy\nvar modifiedPersonData = person.unmap();\n",
+            "description": "Obtain an updated plain object instance/hierarchy/array, from a previously generated View Model instance/hierarchy/array"
+          }
+        ],
+        "description": "Get a plain object hierarchy from a View Model hierarchy",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is an updated version of our [previous](#viewmodelsapi@mapsample) sample, where now we have added the use of `merge()` and `unmap()`"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "Compile View Model classes",
+            "code": "...\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // name is a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n     {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: ...\n  Phone: ...\n});\n"
+          },
+          {
+            "_type": "code",
+            "title": "Instantiate View Model hierarchy, using map()",
+            "code": "var personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\nvar person = vmCollection.Person.map(personData);"
+          },
+          {
+            "_type": "code",
+            "title": "Update View Model hierarchy, using merge()",
+            "code": "$(\"#update\").on(\"click\", function() {\n  person.merge(personData2);               // Update person View Model hierarchy\n  $(\"#result\").html(tmpl.render(person));\n});\n"
+          },
+          {
+            "_type": "code",
+            "title": "Get current data, using unmap()",
+            "code": "$(\"#getData\").on(\"click\", function() {\n  var updatedPersonData = person.unmap();  // Get plain object hierarchy from current View Model hierarchy\n  window.alert(JSON.stringify(updatedPersonData));\n});"
+          }
+        ],
+        "onlyJsRender": true,
+        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // name is a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n     {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  this.phones().push(vmCollection.Phone(phoneNo));\n}\n\n// First version of data (e.g. from JSON request):\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Second version of data (e.g. new JSON request):\nvar personData2 = {\n  name: \"Peter\",\n  address: {street: \"2nd Ave\"},\n  phones: [{number: \"111 111 9999\"},{number: \"333 333 9999\"}]\n};\n\n// Instantiate View Model hierarchy, using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render template against person object (instance of Person)\n$(\"#result\").html(tmpl.render(person));\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  // Update View Model hierarchy, using merge()\n  person.merge(personData2);\n  $(\"#result\").html(tmpl.render(person));\n});\n\n$(\"#revert\").on(\"click\", function() {\n  // Revert View Model hierarchy, using merge()\n  person.merge(personData);\n  $(\"#result\").html(tmpl.render(person));\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");           // Use the name(...) setter\n  $(\"#result\").html(tmpl.render(person));\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");  // Call the addPhone(...) method\n  $(\"#result\").html(tmpl.render(person));\n});\n\n$(\"#getData\").on(\"click\", function() {\n  // Get current data, using unmap()\n  var updatedPersonData = person.unmap();\n  window.alert(JSON.stringify(updatedPersonData));\n});",
+        "html": "<style>button {margin-bottom: 9px;}</style>\n\n<button id=\"update\">Update</button>\n<button id=\"revert\">Revert</button>\n<button id=\"getData\">Get Data</button><br/>\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address().street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>{{:number()}}</td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "height": "230",
+        "title": "Using merge() to update View Models, and unmap() to return to plain objects",
+        "anchor": "mergesample"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "(See also the [corresponding sample](#jsvviewmodelsapi@mergesample) using JsViews and data-linking.)"
+      },
+      {
+        "_type": "para",
+        "title": "Overriding generated get/set functions",
+        "text": "To override a generated get/set property provided by a compiled View Model you can provide an implementation in the `extend` hash, with the same name as the *get/set* in the `getters` array:\n\n```js\n// Define a myNameGetSet(...)function, to override the compiled name(...) get/set function\nfunction myNameGetSet(val) {\n  if (!arguments.length) {           // This is standard compiled get/set code\n    return this._name;               // If there is no argument, use as a getter\n  }\n  this._name = val;                  // If there is an argument, use as a setter\n  console.log(\"name set to \" + val); // This is an additional line of code, for logging\n}\n\n// Declare a Person View Model with an overridden name() get/set property\n$.views.viewModels({\n  Person: {\n    getters: [\n      {getter: \"name\", ...}, // Compiled name() get/set\n      ...\n    ],\n    extend: {\n      name: myNameGetSet,    // Override name() get/set\n      ...\n    }\n    ...\n  },\n  ...\n});\n```\n\nThe above is equivalent to the generated version except that it adds custom logging to the getter/setter function.\n\n(**Note:** If you want your override function also to work with JsViews observable changes and data-linking, use the complete version shown [here](#jsvviewmodelsapi@override).)",
+        "anchor": "override"
+      },
+      {
+        "_type": "para",
+        "title": "Sample showing some of the advanced View Model features",
+        "text": "The next sample is similar to the [previous](#viewmodelsapi@mergesample) one, but specifically highlights some of the advanced features of compiled *View Models*.\n\n- It stores compiled *View Models* on a `myVmCollection` hash, as a *View Model typed collection*, rather than on<br/>`$.views.viewModels`\n- It maps from an array of 'people' rather than a single person:<br/>\n  `var people = Person.map(peopleData);`\n- It specifies an `id` key for `Person`. When updating the `phones` array the `id` value is treated as 'primary key', and used to map 'identity':<br/>\n  `id: \"id\"`\n- It provides an `id()` callback on `Person`, for determining identity -- allowing identification of corresponding *View Model* instances within the people array, and hence preventing unnecessary disposal and re-instantiation (which would destroy state, such as the `comment` value).\n- It has a `comment()` get/set property that is added as part of the `extend` definition, not the `getters`, so it is not initialized from data, in the constructor. Note therefore that if you set a *comment* on each `person` instance, then click *Update*, then *Revert*, one *comment* is conserved (since that instance is never disposed - based on the 'identity' determination) but the other is lost since the instance is disposed and then re-created by *Revert*:<br/>\n  `extend: {...comment: comment...}`\n- It has `defaultVal` specified for `name`, `address` and `phones`, either as 'static' values or computed by a callback function:<br/>\n  `address: {type: \"Address\", defaultVal: defaultStreet}`\n- It overrides the generated `person.name()` *get/set* by a `myNameGetSet` function which includes logging\n- It passes a JSON string to `merge()` or `map()`\n(See also the [same sample](#jsvviewmodelsapi@mergeadvsample) using JsViews and data-linking.)"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "var myVmCollection = {};\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      {getter: \"name\", defaultVal: \"No name\"}, // Compiled name() get/set\n      {getter: \"address\", type: \"Address\", defaultVal: defaultAddress},\n      {getter: \"phones\", type: \"Phone\", defaultVal: []}\n    ],\n    extend: {\n      name: myNameGetSet,                      // Override name() get/set\n      addPhone: addPhone,\n      comment: comment                         // Additional get/set property, not initialized by data)\n    },\n    id: function(vm, plain) {                  // Callback function to determine 'identity'\n      return vm.personId === plain.personId;\n    }\n  },\n  ...\n  Phone: {\n    getters: [\"number\"],\n    id: \"phoneId\"                              // Treat phoneId as 'primary key', for identity\n  }\n}, myVmCollection);                            // Store View Models (typed hierarchy) on myVmCollection\n\n// Override generated name() get/set\nfunction myNameGetSet(val) {\n  if (!arguments.length) {                     // This is standard compiled get/set code\n    return this._name;                         // If there is no argument, use as a getter\n  }\n  this._name = val;                            // If there is an argument, use as a setter\n  console.log(\"name set to \" + val);           // This is an additional line of code, for logging\n}\n\n// Method for Person class\nfunction addPhone(phoneNo) {                   // Uses myVmCollection.Phone() to construct new instance\n  this.phones().push(myVmCollection.Phone(phoneNo));\n}\n\n// get/set for comment (state on View Model instance, not initialized from data)\nfunction comment(val) {\n  if (!arguments.length) {\n    return this._comment;\n  }\n  this._comment = val;\n}\n\nfunction defaultAddress() {                    // Function providing default address if undefined in data\n  return {street: 'No street for \"' + this.name + '\"'};\n}\n\n// First version of data - array of objects (e.g. from JSON request):\nvar peopleData = [{personId: \"1\", ...}, {personId: \"2\", name: \"Pete\",...}];\n\n// Second version of data - JSON string (e.g. new JSON request):\nvar peopleData2 = '[{\"personId\":\"2\",\"name\":\"Peter\",\"address\":...}]';\n\n// Instantiate View Model hierarchy using map()\nvar people = myVmCollection.Person.map(peopleData);\n\n// Render template against people (array of Person instances)\n$(\"#result\").html(tmpl.render(people));\n...\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  people.merge(peopleData2);\n  ...\n});\n..."
+          }
+        ],
+        "code": "var tmpl = $.templates(\"#personTmpl\");\n\nvar myVmCollection = {};\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      {getter: \"name\", defaultVal: \"No name\"}, // Compiled name() get/set\n      {getter: \"address\", type: \"Address\", defaultVal: defaultAddress},\n      {getter: \"phones\", type: \"Phone\", defaultVal: []}\n    ],\n    extend: {\n      name: myNameGetSet,                      // Override name() get/set\n      addPhone: addPhone,\n      comment: comment                         // Additional get/set property, not initialized by data)\n    },\n    id: function(vm, plain) {                  // Callback function to determine 'identity'\n      return vm.personId === plain.personId;\n    }\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone: {\n    getters: [\"number\"],\n    id: \"phoneId\"                              // Treat phoneId as 'primary key', for identity\n  }\n}, myVmCollection);                            // Store View Models (typed hierarchy) on myVmCollection\n\n// Override generated name() get/set\nfunction myNameGetSet(val) {\n  if (!arguments.length) {                     // This is standard compiled get/set code\n    return this._name;                         // If there is no argument, use as a getter\n  }\n  this._name = val;                            // If there is an argument, use as a setter\n  console.log(\"name set to \" + val);           // This is an additional line of code, for logging\n}\n\n// Method for Person class\nfunction addPhone(phoneNo) {                   // Uses myVmCollection.Phone() to construct new instance\n  this.phones().push(myVmCollection.Phone(phoneNo));\n}\n\n// get/set for comment (state on View Model instance, not initialized from data)\nfunction comment(val) {\n  if (!arguments.length) {\n    return this._comment;                      // If there is no argument, use as a getter\n  }\n  this._comment = val;\n}\n\nfunction defaultAddress() {                    // Function providing default address if undefined in data\n  return {street: 'No street for \"' + this.name + '\"'};\n}\n\n// First version of data - array of objects (e.g. from JSON request):\nvar peopleData = [\n  {\n    personId: \"1\",\n    address: {\n      street: \"2nd Ave\"\n    }\n  },\n  {\n    personId: \"2\",\n    name: \"Pete\",\n    phones: [\n      {number: \"333 333 3333\", phoneId: \"2a\"}\n    ]\n  }\n];\n\n// Second version of data - JSON string (e.g. new JSON request):\nvar peopleData2 = '[{\"personId\":\"2\",\"name\":\"Peter\",\"address\":{\"street\":\"11 1st Ave\"},'\n+ '\"phones\":[{\"number\":\"111 111 9999\",\"phoneId\":\"1a\"},{\"number\":\"333 333 9999\",\"phoneId\":\"2a\"}]}]';\n\n// Instantiate View Model hierarchy using map()\nvar people = myVmCollection.Person.map(peopleData);\n\n// Render template against people (array of Person instances)\n$(\"#result\").html(tmpl.render(people));\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  people.merge(peopleData2);\n  $(\"#result\").html(tmpl.render(people));\n});\n\n$(\"#revert\").on(\"click\", function() {\n  people.merge(peopleData);\n  $(\"#result\").html(tmpl.render(people));\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  people[0].name(\"newName\");\n  $(\"#result\").html(tmpl.render(people));\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  people[0].addPhone(\"xxx xxx xxxx\");\n  $(\"#result\").html(tmpl.render(people));\n});\n\n$(\"#result\").on(\"change\", \".comment\", function(val) {\n  // If comment is modified, update View Model state with new value\n  people[this.getAttribute(\"data-index\")].comment(this.value);\n});\n\n$(\"#getData\").on(\"click\", function() {\n  var updatedPeopleData = people.unmap();\n  window.alert(JSON.stringify(updatedPeopleData));\n});\n",
+        "html": "<style>button, table {margin-bottom: 9px;}</style>\n\n<button id=\"update\">Update</button>\n<button id=\"revert\">Revert</button>\n<button id=\"getData\">Get Data</button><br/>\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Comment:</td><td><input class=\"comment\" data-index=\"{{:#index}}\" value=\"{{:comment()}}\"/></td></tr>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address().street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>{{:number()}}</td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "height": "350",
+        "onlyJsRender": true,
+        "anchor": "mergeadvsample",
+        "title": "Mapping from JSON data to View Model hierarchy &ndash; further features"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "jsvviewmodelsapi",
+            "label": "Compiled View Models (JsViews)"
+          }
+        ]
       }
     ]
   }

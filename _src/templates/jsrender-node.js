@@ -29,12 +29,13 @@ var versionNumber = "v@@include("templates/-version.txt")",
 var nodeFs = require('fs'),
 	nodePath = require('path'),
 	nodePathSep = nodePath.sep,
-	rootDirNameLen = nodePath.resolve("./").length + 1;
+	rootDirPath = nodePath.resolve("./"),
+	rootDirPathLen = rootDirPath.length + 1;
 
 // Support for rendering templates from file system in Node.js Node, and for Express template engine integration,
 // using app.engine('html', jsrender.__express);
 $.renderFile = $.__express = function(filepath, data, callback) {
-	filepath = './' + nodeFs.realpathSync(filepath).slice(rootDirNameLen).split(nodePathSep).join('/'); // Normalize to ./some/file.html
+	filepath = './' + nodeFs.realpathSync(filepath).slice(rootDirPathLen).split(nodePathSep).join('/'); // Normalize to ./some/file.html
 	var html = $templates(filepath).render(data);
 	if (callback) {
 		callback(null, html);

@@ -1,7 +1,7 @@
 var noop = function () {},
 
 	gulp = require('gulp'),
-	browserSync = require('browser-sync'),
+//browserSync = require('browser-sync'),
 	qunit = require('node-qunit-phantomjs'),
 	plugins = require('gulp-load-plugins')(),
 	browserify = require('browserify'),
@@ -20,14 +20,14 @@ var noop = function () {},
 
 function buildTemplate(template, minify, folder, from, to) {
 	var stream = gulp.src([SRC + 'templates/' + (folder || '') + template])
-		.pipe(plugins.fileInclude({									// Compose js files from src templates
+		.pipe(plugins.fileInclude({                           // Compose js files from src templates
 			basepath: SRC
 		}));
 	if (!from) {
-		stream = stream.pipe(plugins.jshint(jshintConfig))			// Run JsHint
-			.pipe(plugins.jscs(jscsConfig))							// Enforce JsCS dode style 
-			.on('error', noop)										// Don't stop on error
-			.pipe(plugins.jscsStylish.combineWithHintResults())		// Combine with JsHint and JsCS results 
+		stream = stream.pipe(plugins.jshint(jshintConfig))    // Run JsHint
+			.pipe(plugins.jscs(jscsConfig))                     // Enforce JsCS dode style 
+			.on('error', noop)                                  // Don't stop on error
+			.pipe(plugins.jscsStylish.combineWithHintResults()) // Combine with JsHint and JsCS results 
 			.pipe(plugins.jshint.reporter('jshint-summary', {
 				reasonCol: 'blue,bold',
 				errorsCol: 'black,bold'
@@ -35,20 +35,20 @@ function buildTemplate(template, minify, folder, from, to) {
 			}));
 		//.pipe(plugins.jshint.reporter('fail'))
 	}
-	stream = stream.pipe(gulp.dest(to || ((from||DOWNLOAD) + (folder || ''))))	// Output js file
+	stream = stream.pipe(gulp.dest(to || ((from||DOWNLOAD) + (folder || '')))) // Output js file
 		.pipe(plugins.debug({title: "built:"}));
 
 	if (minify) {
-		stream = stream.pipe(plugins.sourcemaps.init())				// Prepare sourcemap
-		.pipe(plugins.uglify({										// Minify
+		stream = stream.pipe(plugins.sourcemaps.init())       // Prepare sourcemap
+		.pipe(plugins.uglify({                                // Minify
 			preserveComments: 'some'
 		}))
-		.pipe(plugins.rename(function (path) {						// Rename minified file to min.js
+		.pipe(plugins.rename(function (path) {                // Rename minified file to min.js
 			path.basename += '.min';
 		}))
-		.pipe(plugins.sourcemaps.write('./'))						// Output sourcemap file
+		.pipe(plugins.sourcemaps.write('./'))                 // Output sourcemap file
 		.pipe(plugins.debug({title: "minified:"}))
-		.pipe(gulp.dest(DOWNLOAD + (folder || '')))					// Output min.js file
+		.pipe(gulp.dest(DOWNLOAD + (folder || '')))           // Output min.js file
 	}
 	return stream;
 }
@@ -85,10 +85,10 @@ gulp.task('copy', ['preparejsr', 'preparejsv', 'preparestarter', 'preparejsvcom'
 	gulp.src([DOWNLOAD + 'jsrender.*js*', DOWNLOAD + 'jsviews.*js*', DOWNLOAD + 'jquery.observable.*js*', DOWNLOAD + 'jquery.views.*js*', SRC + 'jsviews/package.json'])
 		.pipe(gulp.dest(DEST_JSV));
 
-	gulp.src(['test/unit-tests/tests-jsrender*.js'])
+	gulp.src(['test/unit-tests/tests-jsrender*.js', 'test/unit-tests/requirejs-config.js'])
 		.pipe(gulp.dest(DEST_JSR + 'test/unit-tests/'));
 
-	gulp.src(['test/unit-tests/*.js'])
+	gulp.src(['test/unit-tests/tests-js*.js', 'test/unit-tests/requirejs-config.js'])
 		.pipe(gulp.dest(DEST_JSV + 'test/unit-tests/'));
 
 	gulp.src([SRC + 'jsrender-node-starter/package.json'])
@@ -103,16 +103,16 @@ gulp.task('minify', function() {
 
 gulp.task('minify2', function() {
 	var stream = gulp.src([DOWNLOAD + 'sample-tag-controls/jsviews-jqueryui-widgets.js']);
-		stream = stream.pipe(plugins.sourcemaps.init())				// Prepare sourcemap
-		.pipe(plugins.uglify({										// Minify
+		stream = stream.pipe(plugins.sourcemaps.init())       // Prepare sourcemap
+		.pipe(plugins.uglify({                                // Minify
 			preserveComments: 'some'
 		}))
-		.pipe(plugins.rename(function (path) {						// Rename minified file to min.js
+		.pipe(plugins.rename(function (path) {                // Rename minified file to min.js
 			path.basename += '.min';
 		}))
-		.pipe(plugins.sourcemaps.write('./'))						// Output sourcemap file
+		.pipe(plugins.sourcemaps.write('./'))                 // Output sourcemap file
 		.pipe(plugins.debug({title: "minified:"}))
-		.pipe(gulp.dest(DOWNLOAD + 'sample-tag-controls/'))					// Output min.js file
+		.pipe(gulp.dest(DOWNLOAD + 'sample-tag-controls/'))   // Output min.js file
 });
 
 //================================= TMPLIFY - Build tmplify/index.js =================================//
@@ -150,22 +150,22 @@ gulp.task('jsviews', function() {
 
 //================================= WATCH - Build jsviews.js and load browser. Watch for changes =================================//
 
-// Task that ensures the 'jsviews' task is complete before reloading browsers
-gulp.task('build-browse', ['jsviews'], browserSync.reload);
+//// Task that ensures the 'jsviews' task is complete before reloading browsers
+//gulp.task('build-browse', ['jsviews'], browserSync.reload);
 
-// Task to launch BrowserSync and watch JS files
-gulp.task('watch', function () {
-	// Serve files from the root of this project
-	browserSync({
-		server: {
-			baseDir: "./"
-		}
-	});
+//// Task to launch BrowserSync and watch JS files
+//gulp.task('watch', function () {
+//	// Serve files from the root of this project
+//	browserSync({
+//		server: {
+//			baseDir: "./"
+//		}
+//	});
 
-	// add browserSync.reload to the tasks array to make
-	// all browsers reload after tasks are complete.
-	gulp.watch([SRC + '*.js', 'index.html'], ['build-browse']);
-});
+//	// add browserSync.reload to the tasks array to make
+//	// all browsers reload after tasks are complete.
+//	gulp.watch([SRC + '*.js', 'index.html'], ['build-browse']);
+//});
 
 //================================= BUNDLE - Run Browserify - create client bundles for test cases =================================//
 // See https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-with-globs.md

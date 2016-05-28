@@ -49,6 +49,10 @@ table input {
 	height: 15px;
 }
 
+.floatleft {
+	float: left;
+}
+
 td span {
 	display: inline-block;
 	margin: 5px;

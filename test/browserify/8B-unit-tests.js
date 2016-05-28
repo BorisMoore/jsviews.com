@@ -2,7 +2,7 @@
 (function(undefined) {
 "use strict";
 
-browserify.done.eight = true;
+browserify.done.eightB = true;
 
 QUnit.module("Browserify - client code");
 
@@ -10,7 +10,7 @@ var isIE8 = window.attachEvent && !window.addEventListener;
 
 if (!isIE8) {
 
-test("No jQuery global: require('jsviews')", function() {
+test("No jQuery global: require('jsrender') require('jsviews')", function() {
 	// ............................... Hide QUnit global jQuery and any previous global jsrender.................................
 	var jQuery = global.jQuery, jsr = global.jsrender;
 	global.jQuery = global.jsrender = undefined;
@@ -19,9 +19,9 @@ test("No jQuery global: require('jsviews')", function() {
 	var data = {name: "Jo"};
 
 	// ................................ Act ..................................
-	var $jq = require('jquery');
-
-	var $jsr = require('jsviews')($jq); // Provide jQuery, so $jsr === $jq is local jQuery namespace
+var $jq = require('jquery');
+var $jsr = require('jsrender')($jq); // Unnecessary loading of additional jsrender instance (Test case)
+var $jsr = require('jsviews')($jq); // Provide jQuery, so $jsr === $jq is local jQuery namespace
 
 	// Use require to get server template, thanks to Browserify bundle that used jsrender/tmplify transform
 	var tmpl = require('../templates/name-template.html')($jsr); // Provide $jsr

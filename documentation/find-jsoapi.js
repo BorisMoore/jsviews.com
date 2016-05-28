@@ -5,6 +5,11 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
   "jsoapi": {
     "sections": [
       {
+        "_type": "para",
+        "title": "",
+        "text": "For an introductory overview see the Making observable changes and Responding to changes sections in JsViews Quickstart.\n"
+      },
+      {
         "_type": "links",
         "title": "Modifying data:",
         "text": "Modifying data:\n"

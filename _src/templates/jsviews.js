@@ -75,7 +75,10 @@ $isArray = $.isArray;
 //========================== Top-level vars ==========================
 
 $viewsSettings = $views.settings;
+$subSettings = $sub.settings;
+$subSettingsAdvanced = $subSettings.advanced;
 $converters = $views.converters;
+$.templates = $templates = $views.templates;
 $tags = $views.tags;
 rFirstElem = /<(?!script)(\w+)[>\s]/;
 

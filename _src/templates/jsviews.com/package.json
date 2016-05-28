@@ -17,7 +17,6 @@
   "homepage": "http://www.jsviews.com",
   "dependencies": {},
   "devDependencies": {
-    "browser-sync": "^2.8.0",
     "browserify": "^11.0.1",
     "glob-stream": "^5.0.0",
     "gulp": "^3.9.0",
@@ -52,7 +51,8 @@
     "evil": true,
     "elision": true,
     "debug": true,
-    "loopfunc": true
+    "loopfunc": true,
+    "multistr":  true
   },
   "jscsConfig": {
     "disallowTrailingWhitespace": true,

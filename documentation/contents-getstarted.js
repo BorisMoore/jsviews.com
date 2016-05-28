@@ -62,11 +62,6 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "_type": "topic",
             "hash": "samples",
             "label": "Samples"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore",
-            "label": "Explore"
           }
         ]
       }
@@ -199,31 +194,6 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "_type": "topic",
             "hash": "jsrtags",
             "label": "Built-in template tags"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore/data",
-            "label": "Data"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore/templates",
-            "label": "Templates"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore/views",
-            "label": "Views"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore/tagexpressions",
-            "label": "Tag expressions"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore/customtags",
-            "label": "Custom tags"
           },
           {
             "_type": "topic",
@@ -421,50 +391,15 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "title": "data-linking to &lt;select>... and much more..."
       },
       {
+        "_type": "para",
+        "title": "Next:",
+        "text": "[JsViews Quickstart](#jsv-quickstart)"
+      },
+      {
         "_type": "links",
         "title": "Links:",
         "links": [],
         "topics": [
-          {
-            "_type": "topic",
-            "hash": "explore/renderorlink",
-            "label": "Rendering versus linking"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore/data",
-            "label": "Data"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore/views",
-            "label": "Views"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore/linkobservedispose",
-            "label": "Linking, observing, disposing"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore/computed",
-            "label": "Computed observables"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore/dependencies",
-            "label": "Declaring dependencies"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore/tag-controls",
-            "label": "Tag Controls"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore/mvvm-mvp",
-            "label": "MVVM and MVP"
-          },
           {
             "_type": "topic",
             "hash": "jsvapi",
@@ -507,7 +442,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "JsRender installation",
-        "text": "*jsrender.js* is available from [downloads](http://www.jsviews.com/#download) on this site. \n\n*CDN delivery* is available from the ***[cdnjs](https://cdnjs.com)*** CDN at [cdnjs.com/libraries/jsrender](https://cdnjs.com/libraries/jsrender).\n\nAlternatively:\n- It can be installed with ***[Bower](http://bower.io/search/?q=jsrender)***, using `$ bower install jsrender` \n- It can be loaded using an *AMD script loader*, such as RequireJS\n- For installation using *Node.js* (*npm*) see *[JsRender Node.js Quickstart](#jsr-node-quickstart)*\n"
+        "text": "*jsrender.js* is available from [downloads](http://www.jsviews.com/#download) on this site. \n\n*CDN delivery* is available from the ***[cdnjs](https://cdnjs.com)*** CDN at [cdnjs.com/libraries/jsrender](https://cdnjs.com/libraries/jsrender).\n\nAlternatively:\n- It can be installed with ***[Bower](http://bower.io/search/?q=jsrender)***, using `$ bower install jsrender` \n- It can be loaded using an *AMD script loader*, such as RequireJS\n- For installation using *Node.js* (*npm*) see *[JsRender Node.js Quickstart](#jsr-node-quickstart)*\n- (For browser loading using *Browserify* or *webpack* -- see also *[JsRender Node.js Quickstart](http://www.jsviews.com/#jsr-node-quickstart)*)\n\n"
       },
       {
         "_type": "para",
@@ -517,7 +452,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "JsRender without jQuery",
-        "text": "When jQuery is not present, JsRender provides its own `jsrender` namespace object, exposed as `window.jsrender`\n\nThe `jsrender` namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\n\n```js\nvar $ = window.jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n```\n\n*Example HTML page:* [JsRender without jQuery](#download/pages-jsr)\n\n<br/>\n## JsRender Usage"
+        "text": "When jQuery is not present, JsRender provides its own `jsrender` namespace object, exposed as `window.jsrender`\n\nThe `jsrender` namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\n\n```js\nvar $ = window.jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n```\n\n*Example HTML page:* [JsRender without jQuery](#download/pages-jsr)\n\n<br/>\n## JsRender usage"
       },
       {
         "_type": "para",
@@ -661,7 +596,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "JsViews installation",
-        "text": "*jsviews.js* is available from [downloads](#download) on this site.\n\n*CDN delivery* is available from the ***[cdnjs](https://cdnjs.com)*** CDN at [cdnjs.com/libraries/jsviews](https://cdnjs.com/libraries/jsviews).\n\nAlternatively:\n\n- It can be installed with ***[Bower](http://bower.io/search/?q=jsviews)***, using `$ bower install jsviews` \n- It can be loaded using an *AMD script loader*, such as RequireJS\n- For installation using *Node.js* (*npm*), and loading using Browserify, see *[JsViews as a Browserify module](#node/browserify@jsviews)*\n\n*Example HTML page:* [Loading JsViews](#download/pages-jsv)\n\n\n<br/>\n## JsViews Usage"
+        "text": "*jsviews.js* is available from [downloads](#download) on this site.\n\n*CDN delivery* is available from the ***[cdnjs](https://cdnjs.com)*** CDN at [cdnjs.com/libraries/jsviews](https://cdnjs.com/libraries/jsviews).\n\nAlternatively:\n\n- It can be installed with ***[Bower](http://bower.io/search/?q=jsviews)***, using `$ bower install jsviews` \n- It can be loaded using an *AMD script loader*, such as RequireJS\n- For installation using *Node.js* (*npm*), and loading using [Browserify](http://browserify.org/) or [webpack](https://webpack.github.io/), see *[JsViews as a Browserify module](#node/browserify@jsviews)* and *[JsViews as a webpack module](#node/webpack@jsviews)*\n\n*Example HTML page:* [Loading JsViews](#download/pages-jsv)\n\n(Note that *jsviews.js* includes all of *jsrender.js* code -- so *jsrender.js* does not need to be loaded first.)\n<br/>\n## JsViews usage"
       },
       {
         "_type": "para",
@@ -683,7 +618,8 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "Making \"observable\" changes to objects and arrays",
-        "text": "In current JavaScript implementations, modifying objects or arrays does not raise any event, so there is no way for the change to be detected elsewhere. JsViews dynamic data-bound UI solves this through <em>data-linking</em>, using the <em>JsObservable observer pattern</em>.\n\nThe JsViews `$.observable()` API provides a way for you to change objects or arrays <em>observably</em>. Each change will raise a *[property change](#onpropchange)* or *[array change](#onarrchange)* event. \n\n**Modify an object observably**\n\n```js\n$.observable(person).setProperty(\"name\", newName);\n```\n\n`$.observable(person)` makes the `person` object *\"observable\"*, by providing a `setProperty(...)` method. Use `setProperty` to change a value, and the change will be *\"observed\"* by the declarative data-binding in the template.\n\n\n**Modify an array observably**\n\n```js\n$.observable(people).insert(newPerson);\n```\n\n`$.observable(people)` makes the `people` array *\"observable\"*, by providing methods like `insert(...)` and `remove(...)`. Use them to make changes to arrays, and the changes will be *\"observed\"* by data-bound elements and tags in the template -- such as the `{^{for dataArray}}` tag.\n\n[Learn more...](#$observable)"
+        "text": "In current JavaScript implementations, modifying objects or arrays does not raise any event, so there is no way for the change to be detected elsewhere. JsViews dynamic data-bound UI solves this through <em>data-linking</em>, using the <em>JsObservable observer pattern</em>.\n\nThe JsViews `$.observable()` API provides a way for you to change objects or arrays <em>observably</em>. Each change will raise a *[property change](#onpropchange)* or *[array change](#onarrchange)* event. \n\n**Modify an object observably**\n\n```js\n$.observable(person).setProperty(\"name\", newName);\n```\n\n`$.observable(person)` makes the `person` object *\"observable\"*, by providing a `setProperty(...)` method. Use `setProperty` to change a value, and the change will be *\"observed\"* by the declarative data-binding in the template.\n\n\n**Modify an array observably**\n\n```js\n$.observable(people).insert(newPerson);\n```\n\n`$.observable(people)` makes the `people` array *\"observable\"*, by providing methods like `insert(...)` and `remove(...)`. Use them to make changes to arrays, and the changes will be *\"observed\"* by data-bound elements and tags in the template -- such as the `{^{for dataArray}}` tag.\n\n[Learn more...](#$observable)",
+        "anchor": "observe"
       },
       {
         "_type": "para",
@@ -715,7 +651,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender can be used to render templates on the server (using Node.js) as well as in the browser. \n\nJsRender on Node.js has the full set of features and APIs provided by JsRender in the browser (see *[JsRender Quickstart](#jsr-quickstart)*).\n\nIn addition, it provides built-in ***Express***, ***Hapi*** and ***Browserify*** integration, as well as APIs for accessing templates stored as simple `.html` files on the file system. This makes it easy to render the same templates server-side, client-side or both."
+        "text": "JsRender can be used to render templates on the server (using Node.js) as well as in the browser. \n\nJsRender on Node.js has the full set of features and APIs provided by JsRender in the browser (see *[JsRender Quickstart](#jsr-quickstart)*).\n\nIn addition, it provides built-in ***Express***, ***Hapi*** and ***Browserify/webpack*** integration, as well as APIs for accessing templates stored as simple `.html` files on the file system. This makes it easy to render the same templates server-side, client-side or both."
       },
       {
         "_type": "para",
@@ -752,7 +688,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "Details:",
-        "text": "[JsRender APIs for Node.js](#jsrnode)\n\n&mdash; [Installation and usage](#node/install)<br/>\n&mdash; [File-based templates](#node/filetmpls)<br/>\n&mdash; [Express and Hapi integration](#node/express-hapi)<br/>\n&mdash; [Server/browser shared templates](#node/server-browser)<br/>\n&mdash; [Browserify support](#node/browserify)<br/>"
+        "text": "[JsRender APIs for Node.js](#jsrnode)\n\n&mdash; [Installation and usage](#node/install)<br/>\n&mdash; [File-based templates](#node/filetmpls)<br/>\n&mdash; [Express and Hapi integration](#node/express-hapi)<br/>\n&mdash; [Server/browser shared templates](#node/server-browser)<br/>\n&mdash; [Browserify support](#node/browserify)<br/>\n&mdash; [Webpack support](#node/webpack)<br/>"
       },
       {
         "_type": "links",

@@ -1,4 +1,4 @@
-// View Model class definitions using pattern with separate getter and setter functions:
+// View Model class definitions using getter pattern
 
 // Person
 function Person(name, address, phones) {
@@ -19,18 +19,6 @@ var personProto = {
   }
 };
 
-personProto.name.set = function(val) {
-  this._name = val;
-};
-
-personProto.address.set = function(val) {
-  this._address = val;
-};
-
-personProto.phones.set = function(val) {
-  this._phones = val;
-};
-
 Person.prototype = personProto;
 
 // Address
@@ -44,10 +32,6 @@ var addressProto = {
   }
 };
 
-addressProto.street.set = function(val) {
-  this._street = val;
-};
-
 Address.prototype = addressProto;
 
 // Phone
@@ -59,10 +43,6 @@ var phoneProto = {
   number: function() {
     return this._number;
   }
-};
-
-phoneProto.number.set = function(val) {
-  this._number = val;
 };
 
 Phone.prototype = phoneProto;

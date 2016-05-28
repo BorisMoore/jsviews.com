@@ -260,251 +260,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
     "expanded": true
   },
   {
-    "name": "explore",
-    "label": "Explore",
-    "heading": "Concepts and Tutorials",
-    "description": "Getting a fuller understanding of JsRender, JsViews and JsObservable",
-    "categories": [
-      {
-        "name": "explore/objectsorvm",
-        "label": "Plain objects or View Model"
-      },
-      {
-        "name": "explore/data",
-        "label": "Data",
-        "categories": [
-          {
-            "name": "",
-            "label": "Plain objects or View Model",
-            "hidden": true
-          },
-          {
-            "name": "explore/ajax",
-            "label": "Ajax requests",
-            "hidden": true
-          },
-          {
-            "name": "explore/observabledata",
-            "label": "Observable data",
-            "hidden": true
-          },
-          {
-            "name": "explore/computed",
-            "label": "Computed observables",
-            "hidden": true
-          },
-          {
-            "name": "explore/dependencies",
-            "label": "Declaring dependencies",
-            "hidden": true
-          }
-        ],
-        "expanded": true,
-        "hidden": true
-      },
-      {
-        "name": "explore/templates",
-        "label": "Templates",
-        "categories": [
-          {
-            "name": "explore/composition",
-            "label": "Composition"
-          },
-          {
-            "name": "explore/jQueryTemplates",
-            "label": "Migrating from jQuery Templates"
-          }
-        ],
-        "expanded": true,
-        "hidden": true
-      },
-      {
-        "name": "explore/views",
-        "label": "Views",
-        "categories": [
-          {
-            "name": "explore/viewhierarchy",
-            "label": "View hierarchy"
-          }
-        ],
-        "expanded": true,
-        "hidden": true
-      },
-      {
-        "name": "explore/renderorlink",
-        "label": "Rendering versus linking",
-        "categories": [
-          {
-            "name": "explore/renderasstring",
-            "label": "String-based rendering"
-          },
-          {
-            "name": "explore/linkingtohtml",
-            "label": "Data-binding to HTML"
-          },
-          {
-            "name": "explore/data-link",
-            "label": "Element-based: data-link"
-          },
-          {
-            "name": "explore/inlinebinding",
-            "label": "Inline tag binding"
-          }
-        ],
-        "expanded": true,
-        "hidden": true
-      },
-      {
-        "name": "explore/helpers",
-        "label": "Providing helpers",
-        "categories": [
-          {
-            "name": "explore/registerhelper",
-            "label": "Registering helpers"
-          },
-          {
-            "name": "explore/passhelper",
-            "label": "Passing in helpers"
-          },
-          {
-            "name": "explore/helperpaths",
-            "label": "Helper paths"
-          }
-        ],
-        "expanded": true,
-        "hidden": true
-      },
-      {
-        "name": "explore/converters",
-        "label": "Converters",
-        "categories": [
-          {
-            "name": "explore/jsr-converter",
-            "label": "converters in JsRender",
-            "expanded": true
-          },
-          {
-            "name": "explore/jsv-converter",
-            "label": "converters in JsViews",
-            "categories": [
-              {
-                "name": "explore/jsv-converter1way",
-                "label": "one-way binding converter"
-              },
-              {
-                "name": "explore/jsv-converterback",
-                "label": "2-way binding - convert back"
-              }
-            ],
-            "expanded": true
-          }
-        ],
-        "expanded": true,
-        "hidden": true
-      },
-      {
-        "name": "explore/customtags",
-        "label": "Custom tags",
-        "categories": [
-          {
-            "name": "explore/jsrcustomtags",
-            "label": "JsRender custom tags"
-          },
-          {
-            "name": "explore/tagsascontrols",
-            "label": "Custom tags as controls"
-          }
-        ],
-        "expanded": true,
-        "hidden": true
-      },
-      {
-        "name": "explore/tagexpressions",
-        "label": "Tag expressions",
-        "categories": [
-          {
-            "name": "explore/allowcode",
-            "label": "Allow code?"
-          },
-          {
-            "name": "explore/expressions",
-            "label": "Expressions"
-          },
-          {
-            "name": "explore/expressions/datapath",
-            "label": "Data paths"
-          },
-          {
-            "name": "explore/expressions/helperpath",
-            "label": "Helper paths"
-          },
-          {
-            "name": "explore/expressions/viewpath",
-            "label": "View paths"
-          }
-        ],
-        "expanded": true,
-        "hidden": true
-      },
-      {
-        "name": "explore/linkobservedispose",
-        "label": "Linking, observing, disposing",
-        "hidden": true
-      },
-      {
-        "name": "explore/tag-controls",
-        "label": "Tag Controls",
-        "categories": [
-          {
-            "name": "explore/taghierarchy",
-            "label": "Tag hierarchy"
-          },
-          {
-            "name": "explore/taglifecycle",
-            "label": "Tag lifecycle"
-          },
-          {
-            "name": "explore/tagmethods",
-            "label": "Tag methods and properties"
-          }
-        ],
-        "expanded": true,
-        "hidden": true
-      },
-      {
-        "name": "explore/mvvm-mvp",
-        "label": "MVVM and MVP",
-        "hidden": true
-      },
-      {
-        "name": "explore/interop",
-        "label": "Using with other librairies",
-        "categories": [
-          {
-            "name": "explore/nojquery",
-            "label": "JsRender without jQuery"
-          },
-          {
-            "name": "explore/globalvars",
-            "label": "Global variables"
-          },
-          {
-            "name": "explore/delimiters",
-            "label": "Choosing delimiters"
-          }
-        ],
-        "expanded": true,
-        "hidden": true
-      },
-      {
-        "name": "explore/node",
-        "label": "Node.js scenarios",
-        "hidden": true
-      }
-    ],
-    "expanded": true
-  },
-  {
     "filter": "jsr",
     "name": "jsrapi",
     "label": "JsRender API - Templated UI",
@@ -617,7 +372,14 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "categories": [
           {
             "name": "jsrmodel",
-            "label": "Data / View Model"
+            "label": "Data / View Model",
+            "categories": [
+              {
+                "name": "viewmodelsapi",
+                "label": "$.views.viewModels"
+              }
+            ],
+            "expanded": false
           },
           {
             "name": "compiletmpl",
@@ -752,7 +514,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "categories": [
           {
             "name": "node/install",
-            "label": "Installation and Usage"
+            "label": "Installation and usage"
           },
           {
             "name": "node/filetmpls",
@@ -771,6 +533,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Browserify support",
             "categories": [],
             "expanded": true
+          },
+          {
+            "name": "node/webpack",
+            "label": "Webpack support"
           }
         ],
         "expanded": true
@@ -912,8 +678,19 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "Building apps",
         "categories": [
           {
-            "name": "jsv-model",
-            "label": "Data / View Model / MVVM"
+            "name": "jsvmodel",
+            "label": "Data / View Model",
+            "categories": [
+              {
+                "name": "jsvviewmodelsapi",
+                "label": "$.views.viewModels"
+              }
+            ],
+            "expanded": false
+          },
+          {
+            "name": "linkedtmpls",
+            "label": "Data-linked templates"
           },
           {
             "name": "jsvtagcontrols",
@@ -924,12 +701,13 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Helpers and converters"
           },
           {
-            "name": "jsv.d.view",
-            "label": "Accessing view/data from UI"
+            "name": "mvvm-views",
+            "label": "MVVM - Dynamic  view hierarchy",
+            "hidden": true
           }
         ],
         "expanded": true,
-        "hidden": true
+        "hidden": false
       },
       {
         "name": "toplink",
@@ -956,7 +734,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "$.view()"
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "link-targets",
@@ -1026,7 +804,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "content-editable"
           }
         ],
-        "expanded": true,
+        "expanded": false,
         "hidden": true
       },
       {
@@ -1122,7 +900,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "hidden": true
               }
             ],
-            "expanded": false
+            "expanded": true
           },
           {
             "name": "other",
@@ -1466,7 +1244,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                     "label": "Editable tree"
                   }
                 ],
-                "expanded": true
+                "expanded": false
               },
               {
                 "name": "samples/tag-controls/edit",
@@ -1485,7 +1263,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                     "label": "Array binding"
                   }
                 ],
-                "expanded": true
+                "expanded": false
               },
               {
                 "name": "samples/tag-controls/validate",
@@ -1504,7 +1282,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                     "label": "Array binding"
                   }
                 ],
-                "expanded": true
+                "expanded": false
               },
               {
                 "name": "samples/tag-controls/datepicker",
@@ -1527,7 +1305,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                     "label": "With validation wizard"
                   }
                 ],
-                "expanded": true
+                "expanded": false
               },
               {
                 "name": "samples/tag-controls/slider",
@@ -1546,7 +1324,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                     "label": "With validation"
                   }
                 ],
-                "expanded": true
+                "expanded": false
               },
               {
                 "name": "samples/tag-controls/range",
@@ -1618,27 +1396,5 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       }
     ],
     "expanded": true
-  },
-  {
-    "name": "links",
-    "label": "Links",
-    "heading": "Learning more",
-    "description": "Learning more - external links...",
-    "categories": [
-      {
-        "name": "learning",
-        "label": "Learning",
-        "expanded": true,
-        "hidden": true
-      },
-      {
-        "name": "blogs",
-        "label": "Blogs",
-        "expanded": true,
-        "hidden": true
-      }
-    ],
-    "expanded": true,
-    "hidden": true
   }
 ];

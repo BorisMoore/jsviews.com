@@ -153,6 +153,11 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
         "text": "data-linking to <select>... and much more...\n\n\n\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n    <button id=\"removeBtn\" data-link=\"disabled{:selectedID === '0'}\">Remove</button>\n  </td></tr>\n  <tr><td>\n    <select data-link=\"selectedID\" size=\"5\">\n      <option value=\"0\">Choose a person to edit</option>\n      {^{for people}}\n        <option data-link=\"{:name} value{:ID}\"></option>\n      {{/for}}\n    </select>\n  </td></tr>\n  <tr><td>\n    <label>Name:<input data-link=\"{:selected()^name trigger=true:} disabled{:selectedID === '0'}\" /></label>\n    <label>Nickname:<input data-link=\"{:selected()^nickname trigger=true:} disabled{:selectedID === '0'}\" /></label>\n  </td></tr>\n  <tr><td class=\"center\">\n    {^{for selected()}}\n      {^{:name}}\t\n      {^{if nickname}}\n        ( {^{:nickname}} )\n      {{/if}}\n    {{/for}}\n  </td></tr>\n\nvar myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n  {\n    ID: \"Ad0\",\n    name: \"Adriana\"\n  },\n  {\n    ID: \"Ro0\",\n    name: \"Robert\",\n    nickname: \"Bob\"\n  }\n];\n\nvar counter = 1;\n\nvar app = {\n    people: people,\n    selectedID: -1, // No selection. (Or could set to initial selection - e.g. \"0\")\n    selected: function() {\n      for (var i=0; iThis sample includes binding to <select>…\n<select data-link=\"selectedID\" size=\"5\">\n\nAnd also to each <option> within the <select>…\n{^{for people}}\n  <option data-link=\"{:name} value{:ID}\"></option>\n{{/for}}\n\nIt also shows observably removing items from an array…\n$.observable(people).remove($.inArray(app.selected(), people));\n\nIt shows data-linking to the disabled property of an element…\n<button data-link=\"disabled{:selectedID === '0'}\">Remove</button>\n\nAnd it shows the use of a computed observable in JsViews:\nvar app = {\n    ...\n    selected: function() {\n      ...\n    }\n  };\n\napp.selected.depends = \"selectedID\";\n\n\n"
       },
       {
+        "_type": "para",
+        "title": "Next:",
+        "text": "Next:\nJsViews Quickstart\n"
+      },
+      {
         "_type": "links",
         "title": "Links:",
         "text": "Links:\n"
@@ -179,7 +184,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "JsRender installation",
-        "text": "JsRender installation\njsrender.js is available from downloads on this site.\nCDN delivery is available from the cdnjs CDN at cdnjs.com/libraries/jsrender.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsrender\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (npm) see JsRender Node.js Quickstart\n\n"
+        "text": "JsRender installation\njsrender.js is available from downloads on this site.\nCDN delivery is available from the cdnjs CDN at cdnjs.com/libraries/jsrender.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsrender\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (npm) see JsRender Node.js Quickstart\n(For browser loading using Browserify or webpack – see also JsRender Node.js Quickstart)\n\n"
       },
       {
         "_type": "para",
@@ -189,7 +194,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "JsRender without jQuery",
-        "text": "JsRender without jQuery\nWhen jQuery is not present, JsRender provides its own jsrender namespace object, exposed as window.jsrender\nThe jsrender namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\nvar $ = window.jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n\nExample HTML page: JsRender without jQuery\n\nJsRender Usage\n"
+        "text": "JsRender without jQuery\nWhen jQuery is not present, JsRender provides its own jsrender namespace object, exposed as window.jsrender\nThe jsrender namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\nvar $ = window.jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n\nExample HTML page: JsRender without jQuery\n\nJsRender usage\n"
       },
       {
         "_type": "para",
@@ -303,7 +308,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "JsViews installation",
-        "text": "JsViews installation\njsviews.js is available from downloads on this site.\nCDN delivery is available from the cdnjs CDN at cdnjs.com/libraries/jsviews.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsviews\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (npm), and loading using Browserify, see JsViews as a Browserify module\n\nExample HTML page: Loading JsViews\n\nJsViews Usage\n"
+        "text": "JsViews installation\njsviews.js is available from downloads on this site.\nCDN delivery is available from the cdnjs CDN at cdnjs.com/libraries/jsviews.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsviews\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (npm), and loading using Browserify or webpack, see JsViews as a Browserify module and JsViews as a webpack module\n\nExample HTML page: Loading JsViews\n(Note that jsviews.js includes all of jsrender.js code – so jsrender.js does not need to be loaded first.)\n\nJsViews usage\n"
       },
       {
         "_type": "para",
@@ -352,7 +357,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender can be used to render templates on the server (using Node.js) as well as in the browser.\nJsRender on Node.js has the full set of features and APIs provided by JsRender in the browser (see JsRender Quickstart).\nIn addition, it provides built-in Express, Hapi and Browserify integration, as well as APIs for accessing templates stored as simple .html files on the file system. This makes it easy to render the same templates server-side, client-side or both.\n"
+        "text": "JsRender can be used to render templates on the server (using Node.js) as well as in the browser.\nJsRender on Node.js has the full set of features and APIs provided by JsRender in the browser (see JsRender Quickstart).\nIn addition, it provides built-in Express, Hapi and Browserify/webpack integration, as well as APIs for accessing templates stored as simple .html files on the file system. This makes it easy to render the same templates server-side, client-side or both.\n"
       },
       {
         "_type": "para",
@@ -387,7 +392,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "Details:",
-        "text": "Details:\nJsRender APIs for Node.js\n— Installation and usage\n— File-based templates\n— Express and Hapi integration\n— Server/browser shared templates\n— Browserify support\n"
+        "text": "Details:\nJsRender APIs for Node.js\n— Installation and usage\n— File-based templates\n— Express and Hapi integration\n— Server/browser shared templates\n— Browserify support\n— Webpack support\n"
       },
       {
         "_type": "links",

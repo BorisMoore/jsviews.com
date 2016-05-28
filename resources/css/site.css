@@ -10,7 +10,22 @@ body {
 	overflow-y: scroll;
 }
 
-a:link {
+/*===================
+ * From normalize.css:
+ * Change font properties to `inherit` in all browsers (opinionated).
+ * Remove the margin in Firefox and Safari.
+ */
+
+button,
+input
+{
+  font: 13px Arial;;
+  margin: 0;
+}
+
+/*===================*/
+
+*/a:link {
 	color: #4949C1;
 }
 
@@ -47,7 +62,7 @@ a:visited {
 
 	.menus a {
 		display: inline-block;
-		width: 10.5%;
+		width: 12.4%;
 		text-align: center;
 		font-size: 9pt;
 		padding: 9px 0 7px;
@@ -100,7 +115,7 @@ a:visited {
 	}
 
 		.menus.bottom a {
-			width: 10%;
+			width: 12%;
 			margin: 4px -3px 4px -3px;
 			padding: 2px 0 2px;
 			color: #e5e5e5;
@@ -543,8 +558,8 @@ button {
 .searchbox > input {
 	margin: 0 0 0 1%;
 	height: 18px;
-	width: 83px;
-	padding: 0 33px 0 7px;
+	width: 109px;
+	padding: 0 7px 0 7px;
 	border-radius: 3px;
 	color: #000;
 	background-color: #CBCBCB;
@@ -577,13 +592,15 @@ button {
 	display: inline-block;
 	background-color: #ccc;
 	color: #666;
-	height: 19px;
-	width: 15px;
-	padding: 1px 0 0 5px;
+	height: 21px;
+	width: 19px;
+	padding: 0 2px 1px 0;
 	font-weight: bold;
 	border-radius: 3px;
 	cursor: pointer;
 	vertical-align: text-bottom;
+	margin-bottom: -1px;
+	line-height: 0;
 	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
 	-moz-user-select: none; /* mozilla browsers */
 	-khtml-user-select: none; /* webkit (konqueror) browsers */
@@ -724,10 +741,10 @@ button {
 	position: fixed;
 	z-index: 50;
 	top: 30px;
-	width: 939px;
+	width: 960px;
 	height: 10px;
 	background-image: linear-gradient(to bottom, rgba(208, 208, 190, .85), transparent);
-	margin-left: 301px;
+	margin-left: 280px;
 }
 
 .indexitems {
@@ -852,7 +869,7 @@ button {
 	content: '>';
 	margin-top: 0;
 	left: 0;
-	height: 11px;
+	height: 10px;
 	width: 9px;
 	position: absolute;
 	color: #72AAC7;
@@ -862,6 +879,9 @@ button {
 
 .searchanchor.target:after {
 	color: #BE614C;
+	background-color: #FFFFC7;
+	padding: 0 1px 9px 1px;
+	border: 1px solid #be614c;
 }
 
 .searchanchor.title:after {

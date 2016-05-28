@@ -6,6 +6,10 @@ browserify.done.one = true;
 
 QUnit.module("Browserify - client code");
 
+var isIE8 = window.attachEvent && !window.addEventListener;
+
+if (!isIE8) {
+
 test("No jQuery global: require('jsrender')()", function() {
 	// ............................... Hide QUnit global jQuery and any previous global jsrender.................................
 	var jQuery = global.jQuery, jsr = global.jsrender;
@@ -32,4 +36,5 @@ test("No jQuery global: require('jsrender')()", function() {
 	global.jsrender = jsr; // Replace any previous global jsrender
 });
 
+}
 })();

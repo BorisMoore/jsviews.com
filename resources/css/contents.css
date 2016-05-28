@@ -269,6 +269,10 @@ a.cmdbtn {
 	height: 300px;
 }
 
+.mode-edit textarea.low {
+	height: 40px;
+}
+
 .mode-edit .signatures > .signature {
 	border-top: 2px solid #851d1d;
 	padding: 10px 0 0 0;
@@ -517,7 +521,7 @@ a {
 		margin-top: 1px;
 	}
 
-.topiclinks {
+.links, .topiclinks {
 	line-height: 20px;
 	margin: 10px 10px 10px 0;
 }

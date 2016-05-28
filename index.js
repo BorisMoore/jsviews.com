@@ -369,13 +369,12 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 		baseTag: "treeNode",
 		template: "{^{if !hidden && filtered}}<li {{:filtered.length ? 'class=\"withgroup\"' : ''}} data-link=\"class{merge: ~tree.topicName === name toggle='topicsel'}\">" +
 			"{^{if categories && categories.length }}" +
-				"<span class=\"toggle\">{^{:expanded ? '-' : '+' }}</span>" +
+				"<span class=\"spacerbox\"></span>" +
 			"{{else}}" +
 				"<span class=\"spacer\">&bull;</span>" +
 			"{{/if}}" +
 			"<span class=\"searchitem\">{{>label}}</span> {{if filtered.length}}<span class='searchgroup'>{^{for filtered ~name=name}}<div class='searchcontext' id='{{:section}}$' data-link=\"{on ~tree.select section true} class{merge: ~tree.selected === section toggle='sectionsel'} {on 'mouseenter' ~tree.mouseenter ~name}\">{{:text}}</div><span class='searchplace'></span>{{/for}}</span>{{/if}}" +
 		"</li>{{if filtered.length}}<li class='aftergroup'></li>{{/if}}" +
-		"{^{if expanded }}" +
 			"<li>" +
 				"<ul>" +
 					"{^{for categories }}" +
@@ -383,7 +382,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					"{{/for}}" +
 				"</ul>" +
 			"</li>" +
-		"{{/if}}{{/if}}"
+		"{{/if}}"
 	},
 
 // {{section}}
@@ -582,6 +581,9 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 			};
 		},
 		onDispose: function() {
+			if (this.iframeWnd.$.observe) {
+				this.iframeWnd.$.unobserve();
+			}
 			this.iframeWnd = this.parent.sampleFrame = this.parentElem = undefined;
 		},
 		onTabChange: function(index, tabs) {
@@ -611,7 +613,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "  <script src=\"//code.jquery.com/jquery-1.12.0.js\"></script>\n"
+					+ "  <script src=\"//code.jquery.com/jquery-1.12.3.min.js\"></script>\n"
 					+ (url
 						? ("  <base href=\"//www.jsviews.com/" + url.slice(0, url.lastIndexOf("/")) + "/\"/>\n"
 							+ tryItData.header
@@ -799,6 +801,26 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 
 var testDiv = $("#testHtml")[0];
 
+document.onkeydown = function(ev) {
+	ev = ev || window.event;
+	var keyCode = ev.keyCode;
+	if (keyCode === 27) { // Escape
+		content.searchTree.close();
+	} else if (ev.ctrlKey) {
+		if (content.search) {
+			if (keyCode === 39) { // Right arrow
+				content.searchTree.next();
+			} else if (keyCode === 37) { //Left Arrow
+				content.searchTree.prev();
+			}
+		}
+		if (keyCode === 191) { // Ctrl+/
+			searchbox.focus();
+			window.scrollTo(0, 0);
+		}
+	}
+};
+
 function treeGroup () {}
 
 treeGroup.prototype = {
@@ -828,7 +850,7 @@ treeGroup.prototype = {
 			}
 			if (searchTerm !== content.search) {
 				if (searchTerm) {
-					noSearch = "Hit Enter to search...";
+					noSearch = "<b>Enter</b>: Search...<br/><b>Escape</b>: Quit<br/><b>Ctrl+Left/Right Arrow</b>: Prev/Next result";
 				}
 			} else {
 				noSearch = "";
@@ -838,6 +860,7 @@ treeGroup.prototype = {
 		return false;
 	},
 	prev: function() {
+		$("#prev").focus();
 		var newIndex = this.sectionIndex === undefined ? content.filterlen - 1 : this.sectionIndex - 1;
 		if (newIndex >= 0) {
 			this.select(content.filter[newIndex].section);
@@ -846,6 +869,7 @@ treeGroup.prototype = {
 		}
 	},
 	next: function() {
+		$("#next").focus();
 		var newIndex = this.sectionIndex === undefined ? 0 : this.sectionIndex + 1;
 		if (newIndex < content.filterlen) {
 			this.select(content.filter[newIndex].section);
@@ -1154,7 +1178,7 @@ function fetchCategory() {
 		oldCategory = selectedCategory,
 		lochash = location.hash;
 
-	if (history) {
+	if (history && history.replaceState) { // In IE9 history.replaceState not supported
 		if (history.state && history.state.url === document.URL) {
 			historyIndex = history.state.index;
 			if (historyStates[historyIndex]) {
