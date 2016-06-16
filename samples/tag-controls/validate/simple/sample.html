@@ -16,13 +16,12 @@
 <script id="myTmpl" type="text/x-jsrender">
   Prevent invalid data:<input type="checkbox" data-link="~page.noInvalidData" /><br/>
 
-  name: <input data-link="name trigger=true"/><br/>
+  name: <input data-link="name"/><br/>
   agree: <input type="checkbox" data-link="agree"/><br/>
 
   <h3>Data-linked tags</h3>
 
   {^{validate name
-    trigger=true
     minLength=3
     ^preventInvalidData=~page.noInvalidData
     convert="upper"
@@ -30,7 +29,6 @@
   /}}
 
   {^{validate name
-    trigger=true
     minLength=3
     ^preventInvalidData=~page.noInvalidData
     convert="upper"
@@ -75,7 +73,6 @@
   {{/validate}}
 
   {^{validate name
-    trigger=true
     minLength=3
     convert="upper"
     convertBack=~lower
@@ -86,8 +83,7 @@
 
   <h3>Data-linked elements</h3>
 
-  <input data-link="{validate name trigger=true
-    trigger=true
+  <input data-link="{validate name
     minLength=3
     msg_minLength='The name must have at least %cond% characters'
     ^preventInvalidData=~page.noInvalidData
@@ -123,8 +119,7 @@
     <label><input type="radio" name="gp1" value="XAVIER"/>Xavier</label><br/>
   </div>
 
-  <textarea data-link="{validate name trigger=true
-    trigger=true
+  <textarea data-link="{validate name
     minLength=3
     ^preventInvalidData=~page.noInvalidData
     convert='upper'

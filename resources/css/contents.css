@@ -6,6 +6,10 @@ pre {
 	overflow: auto;
 }
 
+.close {
+	margin-bottom: -15px;
+}
+
 code {
 	padding: 0 4px;
 	border: 1px solid #dddddd;
@@ -41,7 +45,6 @@ pre code {
 		font-weight: bold;
 		padding: 0 6px 2px;
 		content: 'x';
-		cursor: pointer;
 	}
 
 	.removesection:hover:after {

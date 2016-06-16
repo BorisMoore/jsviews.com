@@ -804,7 +804,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "Data-linked elements: &lt;input data-link=\"...\"/&gt;",
-            "text": "But for two-way data binding of the textboxes in the detail view it uses data-linked `<input/>` elements:\n\n```jsr\n{^{for movies[selectedIndex]}}\n  ...\n  <input data-link=\"title trigger=true\" />\n  ...\n  {^{for languages}}\n    ...\n    <input data-link=\"name\" />\n    ...\n  {{/for}}\n  ...\n{{/for}}\n```"
+            "text": "But for two-way data binding of the textboxes in the detail view it uses data-linked `<input/>` elements:\n\n```jsr\n{^{for movies[selectedIndex]}}\n  ...\n  <input data-link=\"title\" />\n  ...\n  {^{for languages}}\n    ...\n    <input data-link=\"name\" />\n    ...\n  {{/for}}\n  ...\n{{/for}}\n```"
           }
         ],
         "codetabs": [],
@@ -842,7 +842,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "Data-linked elements: &lt;span data-link=\"...\"&gt; etc.",
-            "text": "This sample uses data-linked tags for `{^{for ...}}` (iteration over arrays) but it uses data-linked elements for one-way data binding:\n\n```jsr\n{^{for movies}}\n  <tr class=\"hover\" data-link=\"css-background-color{:~bgColor()}\">\n      <td>\n        <span data-link=\"#index + 1\"></span>:\n        <span data-link=\"title\"></span>\n      </td>\n      <td>\n      {^{for languages}}\n        <div data-link=\"name\"></div>\n      {{/for}}\n    </td>\n    ...\n  </tr>\n{{/for}}\n```\n\nas well as for the two-way data binding of the textboxes in the detail view:\n\n```jsr\n{^{for movies[selectedIndex]}}\n  ...\n  <input data-link=\"title trigger=true\" />\n  ...\n  {^{for languages}}\n    ...\n    <input data-link=\"name\" />\n    ...\n  {{/for}}\n  ...\n{{/for}}\n```"
+            "text": "This sample uses data-linked tags for `{^{for ...}}` (iteration over arrays) but it uses data-linked elements for one-way data binding:\n\n```jsr\n{^{for movies}}\n  <tr class=\"hover\" data-link=\"css-background-color{:~bgColor()}\">\n      <td>\n        <span data-link=\"#index + 1\"></span>:\n        <span data-link=\"title\"></span>\n      </td>\n      <td>\n      {^{for languages}}\n        <div data-link=\"name\"></div>\n      {{/for}}\n    </td>\n    ...\n  </tr>\n{{/for}}\n```\n\nas well as for the two-way data binding of the textboxes in the detail view:\n\n```jsr\n{^{for movies[selectedIndex]}}\n  ...\n  <input data-link=\"title\" />\n  ...\n  {^{for languages}}\n    ...\n    <input data-link=\"name\" />\n    ...\n  {{/for}}\n  ...\n{{/for}}\n```"
           }
         ],
         "codetabs": [],
@@ -930,6 +930,81 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "sampleName": "editable-data/observe",
         "url": "samples/editable-data/observe/sample",
         "height": "320"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In the [next sample](#samples/editable/compiled) we will return to the declarative top-level binding [approach](#samples/editable/toplevel-for) for the detail view, and replace the plain objects hierarchy by a hierarchy of *[compiled View Models](#jsvviewmodelsapi)*."
+      }
+    ]
+  },
+  "samples/editable/compiled": {
+    "title": "Editable data: Using compiled View Models",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This sample returns to the [sample](#samples/editable/toplevel-for) with declarative top-level binding for the detail view, and replaces the plain objects hierarchy by a hierarchy of *[compiled View Models](#jsvviewmodelsapi)*."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Set up initial data:*\n\n```js\napp = {\n  selectedIndex: null,\n  movies: [...]\n};\n```\n\n*Compile View Models:*\n\n```js\n$.views.viewModels({\n  MovieApp: {\n    getters: [...],\n    extend: {...}\n  },\n  Movie: {\n    ...\n  },\n  Language: {\n    ...\n  }\n});\n```\n\n*Instantiate View Models:*\n\n```js\nvar appVm = $.views.viewModels.MovieApp.map(app);\n```\n\n*Top level data-linking - bind content to View Models:*\n\n```js\n$.link(true, \".linkedContent\", appVm);\n```"
+          }
+        ],
+        "codetabs": [],
+        "sampleName": "editable-data/compiled",
+        "url": "samples/editable-data/compiled/sample",
+        "height": "320"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In the <a href=\"#samples/editable/submit\">next sample</a> we will provide a *Save/Undo* feature -- where *Save* uses the submit action of an HTML form to save data changes to the server, and *Undo* uses the *compiled View Model* [`merge()`](#viewmodelsapi@merge) and [`unmap()`](#viewmodelsapi@unmap) features to revert changes. "
+      }
+    ]
+  },
+  "samples/editable/submit": {
+    "title": "Editable data: Using submit",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Using merge() and unmap() for Save/Undo behavior, in an MVVM application",
+        "text": "The following sample (available also at *[MVVM Dynamic view hierarchy](#mvvm-views)*) modifies the [previous sample](#samples/editable/compiled) by providing a *Save/Undo* feature.\n\nIt provides a *Submit Changes* button (which makes a 'snapshot' of current *View Model* data, and which would in a 'real app' save that data back to the server), and an *Undo* button (which reverts current *View Model* data back to the last 'snapshot').\n\nSpecifically:\n\n- *Submit Changes* is bound to the submit action of an HTML form -- so will be triggered also by *Enter*\n- It uses the *compiled View Model* [`unmap()`](#viewmodelsapi@unmap) feature to make a `snapshot` of data for sending to the server\n- *Undo* uses the *compiled View Model* [`merge()`](#viewmodelsapi@merge) feature to revert changes\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Provide *Submit Changes* and *Undo* buttons, binding to *saveData* and *undo* methods of View Model:\n\n```jsr\n<div class=\"linkedContent\">\n  ...\n  <button data-link=\"{on undo} ...\">Undo</button>\n  ...\n  <form data-link=\"{on 'submit' saveData}\">\n    <button type=\"submit\" ...>Submit Changes</button>\n    ...\n    <tbody class=\"movies\" data-link=\"{for movies() tmpl='#movieTemplate'}\"></tbody>\n    ...\n    <div class=\"detail\" data-link=\"{for movies()[selectedIndex()] tmpl='#detailTemplate'}\"></div>\n  </form>\n</div>\n```\n\nProvide *undo* and *saveData* methods on *compiled View Model*:\n\n```js\n$.views.viewModels({\n  MovieApp: {\n    getters: [...],\n    extend: {\n      undo: function() {\n        // Revert to previous savedData\n        this.merge(savedData);\n        ...\n      },\n      saveData: function() {\n        // Save current data, for subsequent Undo behavior\n        savedData = this.unmap();\n        // Submit current data to server\n        $.post(\"/save/data\", ...savedData, function(msg) {...});\n        ...\n      },\n      ...\n```\n"
+          }
+        ],
+        "codetabs": [],
+        "height": "320",
+        "url": "samples/editable-data/submit/sample"
       }
     ]
   },
@@ -1619,22 +1694,22 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "The `{{validate}}` tag derives from the `{{edit}}` tag, and can similarly be used as <em>textbox</em>, <em>checkbox</em>, <em>dropdown</em>, <em>radio buttons</em>, <em>textarea</em>.\n\nIn each case optional properties can be specified on the edit tag, not only for <em>convert</em>, <em>convertBack</em>, <em>linkTo</em> etc., but also properties specifying validation tests to be applied."
+            "text": "The `{{validate}}` tag derives from the `{{edit}}` tag, and can similarly be used as <em>textbox</em>, <em>checkbox</em>, <em>dropdown</em>, <em>radio buttons</em>, <em>textarea</em>.\n\nIn each case optional properties can be specified on the edit tag, not only for <em>convert</em>, <em>convertBack</em>, <em>linkTo</em> etc., but also properties specifying validation tests (validators) to be applied, such as `minLength=3`."
           },
           {
             "_type": "para",
             "title": "Data-linked textbox",
-            "text": "```jsr\n{^{validate name\n  convert=\"upper\"\n  convertBack=~lower\n  linkTo=name2\n}}\n```\n\nor\n\n```jsr\n<input data-link=\"{validate name trigger=true\n  convert='upper'\n  convertBack=~lower\n  linkTo=name2\n}\"/>\n```"
+            "text": "```jsr\n{^{validate name\n  minLength=3\n  msg_minLength='The name ... %cond% ...'\n  convert=\"upper\"\n  convertBack=~lower\n}}\n```\n\nor\n\n```jsr\n<input data-link=\"{validate name\n  minLength=3\n  msg_minLength='The name ... %cond% ...'\n  convert='upper'\n  convertBack=~lower\n}\"/>\n```"
           },
           {
             "_type": "para",
             "title": "Data-linked checkbox",
-            "text": "```jsr\n<!-- optionally include properties on {{validate ...}} tag, such as convert, convertBack, linkTo, ... -->\n{^{validate agree ...}}\n  <input type=\"checkbox\"/>\n{{/validate}}\n```\n\nor\n\n```jsr\n<!-- optionally include properties on {validate ...} tag, such as convert etc. -->\n<input type=\"checkbox\" data-link=\"{validate agree ...}\"/>\n```"
+            "text": "```jsr\n{{!-- optionally include properties on {{validate ...}} tag,\n      such as convert, convertBack, minLength=..., etc. --}}\n{^{validate agree ...}}\n  <input type=\"checkbox\"/>\n{{/validate}}\n```\n\nor\n\n```jsr\n{{!-- optionally include properties on {validate ...} tag, such as convert etc. --}}\n<input type=\"checkbox\" data-link=\"{validate agree ...}\"/>\n```"
           },
           {
             "_type": "para",
             "title": "Data-linked drop down",
-            "text": "```jsr\n{^{validate name ...}}\n  <select size=\"3\">\n    <option value=\"JO\">Jo</option>\n    <option value=\"MARY\">Mary</option>\n  </select>\n{{/validate}}\n```\n\nor\n\n```jsr\n<select size=\"3\" data-link=\"{validate name ...'}\">\n  <option value=\"JO\">Jo</option>\n  <option value=\"MARY\">Mary</option>\n</select>\n```"
+            "text": "```jsr\n{^{validate name ...}} \n  <select size=\"3\">\n    <option value=\"JO\">Jo</option>\n    <option value=\"MARY\">Mary</option>\n  </select>\n{{/validate}}\n```\n\nor\n\n```jsr\n<select size=\"3\" data-link=\"{validate name ...'}\">\n  <option value=\"JO\">Jo</option>\n  <option value=\"MARY\">Mary</option>\n</select>\n```"
           },
           {
             "_type": "para",
@@ -1718,7 +1793,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This version of the sample uses <em>top-level data-linking</em>. An HTML container element in the page is data-linked as follows: \n\n```js\n$(\"#amountPickers\").link(true, data);\n```\n\nand elements within the data-linked container are linked to the data using <em>element-based data-linking syntax</em>:\n\n```jsr\n<div id=\"amountPickers\">\n  ...\n  <span data-link=\"amount\"></span>\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount trigger=true\" />\n  ...\n  <select data-link=\"amount\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"amount\" />\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</div>\n```\n\nNote the above examples use compact data-linking syntax:\n\n```jsr\ndata-link=\"amount\"\n```\n\nwhich is equivalent to the following full syntax:\n\n```jsr\ndata-link=\"{:amount:}\".\n```\n\nUse the full syntax if you need to specify converters, data-linking targets other than the default, or if you need to data-link to more than one target on the same element. For example the following targets both the default binding for `<select>` and also the `size` attribute:\n\n```jsr\n<select data-link=\"{:amount:} size{:listbox ? 4 : null}\">\n```"
+            "text": "This version of the sample uses <em>top-level data-linking</em>. An HTML container element in the page is data-linked as follows: \n\n```js\n$(\"#amountPickers\").link(true, data);\n```\n\nand elements within the data-linked container are linked to the data using <em>element-based data-linking syntax</em>:\n\n```jsr\n<div id=\"amountPickers\">\n  ...\n  <span data-link=\"amount\"></span>\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount\" />\n  ...\n  <select data-link=\"amount\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"amount\" />\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</div>\n```\n\nNote the above examples use compact data-linking syntax:\n\n```jsr\ndata-link=\"amount\"\n```\n\nwhich is equivalent to the following full syntax:\n\n```jsr\ndata-link=\"{:amount:}\".\n```\n\nUse the full syntax if you need to specify converters, data-linking targets other than the default, or if you need to data-link to more than one target on the same element. For example the following targets both the default binding for `<select>` and also the `size` attribute:\n\n```jsr\n<select data-link=\"{:amount:} size{:listbox ? 4 : null}\">\n```"
           }
         ],
         "url": "samples/form-els/simple/top-level",
@@ -1739,7 +1814,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This version of the sample uses <em>data-linking within a template</em>. The template is rendered and data-linked within an HTML container element as follows: \n\n```js\n$.templates(\"#tmpl\").link(\"#amountPickers\", data);\n```\n\nand elements within the template are linked to the data using either <em>element-based data-linking syntax</em> or <em>JsViews tag-based data-linking syntax</em>:\n\n```jsr\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  ...\n  <b data-link=\"amount+1\"></b>\n  ...\n  {^{:amount}}\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount trigger=true\" />\n  ...\n  <select data-link=\"{:amount:} size{:listbox ? 4 : null}\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"amount\" />\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</script>\n\n<div id=\"amountPickers\"></div>\n```"
+            "text": "This version of the sample uses <em>data-linking within a template</em>. The template is rendered and data-linked within an HTML container element as follows: \n\n```js\n$.templates(\"#tmpl\").link(\"#amountPickers\", data);\n```\n\nand elements within the template are linked to the data using either <em>element-based data-linking syntax</em> or <em>JsViews tag-based data-linking syntax</em>:\n\n```jsr\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  ...\n  <b data-link=\"amount+1\"></b>\n  ...\n  {^{:amount}}\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount\" />\n  ...\n  <select data-link=\"{:amount:} size{:listbox ? 4 : null}\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"amount\" />\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</script>\n\n<div id=\"amountPickers\"></div>\n```"
           }
         ],
         "url": "samples/form-els/simple/template",
@@ -1771,7 +1846,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "<span class=\"nonitalic\">Binding  <em>\"base 0\"</em> data values to <em>\"base 1\"</em> values in UI:</span>",
-            "text": "```js\n$.views.converters({\n  minus1: function(val) { return val-1; },\n  plus1: function(val) { return 1+val; },\n  ...\n});\n```\n\n```jsr\n<input data-link=\"{plus1:amount trigger=true:minus1}\" />\n<span data-link=\"{plus1:amount}\"></span>\n```"
+            "text": "```js\n$.views.converters({\n  minus1: function(val) { return val-1; },\n  plus1: function(val) { return 1+val; },\n  ...\n});\n```\n\n```jsr\n<input data-link=\"{plus1:amount:minus1}\" />\n<span data-link=\"{plus1:amount}\"></span>\n```"
           },
           {
             "_type": "para",
@@ -1781,7 +1856,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "<span class=\"nonitalic\">Binding <em>number</em> data values to <em>string</em> values in UI:</span>",
-            "text": "```js\nintToStr: function(value) { return \"\" + value; },\nstrToInt: function (value) { return parseInt(value); }\n```\n\n```jsr\n<input data-link=\"{intToStr:amount trigger=true:strToInt}\"/>...\n<select data-link=\"{intToStr:amount:strToInt} ...\">...\n<input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"{intToStr:amount:strToInt}\" />...\n<textarea data-link=\"{intToStr:amount:strToInt}\" ...></textarea>...\n```"
+            "text": "```js\nintToStr: function(value) { return \"\" + value; },\nstrToInt: function (value) { return parseInt(value); }\n```\n\n```jsr\n<input data-link=\"{intToStr:amount:strToInt}\"/>...\n<select data-link=\"{intToStr:amount:strToInt} ...\">...\n<input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"{intToStr:amount:strToInt}\" />...\n<textarea data-link=\"{intToStr:amount:strToInt}\" ...></textarea>...\n```"
           },
           {
             "_type": "para",
@@ -1812,7 +1887,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "Using convert and convertBack with data-linking",
-            "text": "Link from data value, no converter:\n\n```jsr\n<td data-link=\"dayOff\"></td>\n```\n\nLink from data, converted to display name:\n\n```jsr\n<td data-link=\"{intToDay:dayOff}\"></td>\n```\n\nTwo-way data linking with *convert* and *convertBack* between data format (integer) and display name (text).<br/>Also show data value as tooltip:\n\n```jsr\n<td><input data-link=\"{intToDay:dayOff trigger=true:dayToInt} title{:dayOff}\" /></td>\n```"
+            "text": "Link from data value, no converter:\n\n```jsr\n<td data-link=\"dayOff\"></td>\n```\n\nLink from data, converted to display name:\n\n```jsr\n<td data-link=\"{intToDay:dayOff}\"></td>\n```\n\nTwo-way data linking with *convert* and *convertBack* between data format (integer) and display name (text).<br/>Also show data value as tooltip:\n\n```jsr\n<td><input data-link=\"{intToDay:dayOff:dayToInt} title{:dayOff}\" /></td>\n```"
           }
         ],
         "url": "samples/form-els/converters/day-to-int",
@@ -1982,7 +2057,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "Data-linked textbox",
-            "text": "```jsr\n{^{edit name\n  convert=\"upper\"\n  convertBack=~lower\n  linkTo=name2\n}}\n```\n\nor\n\n```jsr\n<input data-link=\"{edit name trigger=true\n  convert='upper'\n  convertBack=~lower\n  linkTo=name2\n}\"/>\n```"
+            "text": "```jsr\n{^{edit name\n  convert=\"upper\"\n  convertBack=~lower\n  linkTo=name2\n}}\n```\n\nor\n\n```jsr\n<input data-link=\"{edit name\n  convert='upper'\n  convertBack=~lower\n  linkTo=name2\n}\"/>\n```"
           },
           {
             "_type": "para",
@@ -2616,7 +2691,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "markup": "<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n"
           }
         ],
-        "markup": "<p>\n<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n  I am {^{:disableButton?'disabled':'enabled'}}\n</button>\n</p>\n<p>\nDisable: <input data-link=\"disableButton\" type=\"checkbox\" /><br/>\nSet button (on hover) title: <input data-link=\"theTitle trigger=true\" />\n</p>",
+        "markup": "<p>\n<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n  I am {^{:disableButton?'disabled':'enabled'}}\n</button>\n</p>\n<p>\nDisable: <input data-link=\"disableButton\" type=\"checkbox\" /><br/>\nSet button (on hover) title: <input data-link=\"theTitle\" />\n</p>",
         "data": {
           "theTitle": "the title",
           "disableButton": false

@@ -28,7 +28,7 @@ $.views.tags({
         tag.template = tag._optionsTmpl;
       }
     },
-	onAfterLink: function(tagCtx, linkCtx) {
+    onAfterLink: function(tagCtx, linkCtx) {
       var tag = this;
       if (!tag.linkedElem || tag.linkedElem[0] && !tag.linkedElem[0].parentNode) {
         tag.linkedElem = tag._.inline ? tag.contents("select") : $(linkCtx.elem);

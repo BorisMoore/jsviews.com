@@ -32,7 +32,7 @@
     on this page!
   </p>
 
-  Chosen person: <input data-link="person trigger=true"/><br/>
+  Chosen person: <input data-link="person"/><br/>
 
   <h3>Edit names</h3>
   <p>
@@ -41,7 +41,7 @@
   <p>
   {^{for people}}
       <span class="remove"></span>
-      {^{validate name trigger=true minLength=5 msg_minLength="Edit the name: At least %cond% letters!" /}}
+      {^{validate name minLength=5 msg_minLength="Edit the name: At least %cond% letters!" /}}
     {{/for}}
   </p>
 
@@ -74,7 +74,6 @@
   <h3>Data-linked elements</h3>
 
   <input data-link="{validate person
-    trigger=true
     minLength=5
     convert='upper'
     convertBack=~lower

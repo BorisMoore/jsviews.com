@@ -100,6 +100,5 @@ $("#deletelast").on("click", function() {
 });
 
 $("#showdata").on("click", function() {
-  $("#console").append("<hr/>");
-  $("#console").append($("#showData").render(movies));
+  $("#console").append("<hr/>" + $("#showData").render(movies));
 });

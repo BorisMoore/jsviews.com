@@ -120,8 +120,8 @@ autocomplete: {
       change: function(evt, ui) {
         if (ui.item) {
           tag.update(ui.item.value);
-          // If there is a selected item, update bound value on blur.
-          // (Alternatively can set trigger=true)
+          // If there is a selected item, update bound value on keydown.
+          // (Alternatively can set trigger=false to update on change)
         }
       },
       select: function(evt, ui) {

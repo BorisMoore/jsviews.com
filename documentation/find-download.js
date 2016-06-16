@@ -141,7 +141,7 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       {
         "_type": "para",
         "title": "Example HTML page, loading latest version of JsViews from www.jsviews.com",
-        "text": "Example HTML page, loading latest version of JsViews from www.jsviews.com\n<!DOCTYPE html>\n<html>\n<head>\n  <!-- Load jQuery -->\n  <script src=\"//code.jquery.com/jquery-1.12.3.js\"></script>\n\n  <!-- Load JsViews latest version, from www.jsviews.com: -->\n  <script src=\"//www.jsviews.com/download/jsviews.js\"></script>\n</head>\n<body>\n  <!-- Provide container for rendered template output: -->\n  <div id=\"result\"></div>\n\n  <!-- Declare a JsRender template, in a script block: -->\n  <script id=\"myTmpl\" type=\"text/x-jsrender\">\n    <input data-link=\"name trigger=true\" />\n    {^{:name}}\n  </script>\n\n  <script>\n    var tmpl = $.templates(\"#myTmpl\"); // Get compiled template\n    var data = {name: \"Jo\"};           // Define data\n    tmpl.link(\"#result\", data);        // Render and data-link template as content of chosen container element\n  </script>\n</body>\n</html>\n\n"
+        "text": "Example HTML page, loading latest version of JsViews from www.jsviews.com\n<!DOCTYPE html>\n<html>\n<head>\n  <!-- Load jQuery -->\n  <script src=\"//code.jquery.com/jquery-1.12.3.js\"></script>\n\n  <!-- Load JsViews latest version, from www.jsviews.com: -->\n  <script src=\"//www.jsviews.com/download/jsviews.js\"></script>\n</head>\n<body>\n  <!-- Provide container for rendered template output: -->\n  <div id=\"result\"></div>\n\n  <!-- Declare a JsRender template, in a script block: -->\n  <script id=\"myTmpl\" type=\"text/x-jsrender\">\n    <input data-link=\"name\" />\n    {^{:name}}\n  </script>\n\n  <script>\n    var tmpl = $.templates(\"#myTmpl\"); // Get compiled template\n    var data = {name: \"Jo\"};           // Define data\n    tmpl.link(\"#result\", data);        // Render and data-link template as content of chosen container element\n  </script>\n</body>\n</html>\n\n"
       },
       {
         "_type": "para",
@@ -156,45 +156,12 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       {
         "_type": "para",
         "title": "Example HTML page, loading JsViews as separate files",
-        "text": "Example HTML page, loading JsViews as separate files\n<!DOCTYPE html>\n<html>\n<head>\n  <!-- Load jQuery -->\n  <script src=\"//code.jquery.com/jquery-1.12.3.js\"></script>\n\n  <!-- Load JsViews latest version, from www.jsviews.com, as separate component files: -->\n  <script src=\"//www.jsviews.com/download/jsrender.js\"></script>\n  <script src=\"//www.jsviews.com/download/jquery.observable.js\"></script>\n  <script src=\"//www.jsviews.com/download/jquery.views.js\"></script>\n</head>\n<body>\n  <!-- Provide container for rendered template output: -->\n  <div id=\"result\"></div>\n\n  <!-- Declare a JsRender template, in a script block: -->\n  <script id=\"myTmpl\" type=\"text/x-jsrender\">\n    <input data-link=\"name trigger=true\" />\n    {^{:name}}\n  </script>\n\n  <script>\n    var tmpl = $.templates(\"#myTmpl\"); // Get compiled template\n    var data = {name: \"Jo\"};           // Define data\n    tmpl.link(\"#result\", data);        // Render and data-link template as content of chosen container element\n  </script>\n</body>\n</html>\n\n"
+        "text": "Example HTML page, loading JsViews as separate files\n<!DOCTYPE html>\n<html>\n<head>\n  <!-- Load jQuery -->\n  <script src=\"//code.jquery.com/jquery-1.12.3.js\"></script>\n\n  <!-- Load JsViews latest version, from www.jsviews.com, as separate component files: -->\n  <script src=\"//www.jsviews.com/download/jsrender.js\"></script>\n  <script src=\"//www.jsviews.com/download/jquery.observable.js\"></script>\n  <script src=\"//www.jsviews.com/download/jquery.views.js\"></script>\n</head>\n<body>\n  <!-- Provide container for rendered template output: -->\n  <div id=\"result\"></div>\n\n  <!-- Declare a JsRender template, in a script block: -->\n  <script id=\"myTmpl\" type=\"text/x-jsrender\">\n    <input data-link=\"name\" />\n    {^{:name}}\n  </script>\n\n  <script>\n    var tmpl = $.templates(\"#myTmpl\"); // Get compiled template\n    var data = {name: \"Jo\"};           // Define data\n    tmpl.link(\"#result\", data);        // Render and data-link template as content of chosen container element\n  </script>\n</body>\n</html>\n\n"
       },
       {
         "_type": "para",
         "title": "Alternatives: replace the three JsViews &lt;script&gt; tags above by one of the following:",
         "text": "Alternatives: replace the three JsViews <script> tags above by one of the following:\nUsing latest version, minified, from www.jsviews.com:*\n<script src=\"//www.jsviews.com/download/jsrender.min.js\"></script>\n<script src=\"//www.jsviews.com/download/jquery.observable.min.js\"></script>\n<script src=\"//www.jsviews.com/download/jquery.views.min.js\"></script>\n\nUsing specific version from CDN:\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.74/jsrender.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.74/jquery.observable.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.74/jquery.views.js\"></script>\n\nUsing specific version, minified, from CDN:*\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.74/jsrender.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.74/jquery.observable.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.74/jquery.views.min.js\"></script>\n\nLoading from the file system after Bower install:\n– Install JsViews on local file system, using $ bower install jsviews– then load the correspondins .js or .min.js files from the bower_components/jsviews/ folder, as in:\n<script src=\"bower_components/jsviews/jsrender.js\"></script>\n<script src=\"bower_components/jsviews/jquery.observable.js\"></script>\n<script src=\"bower_components/jsviews/jquery.views.js\"></script>\n\n"
-      }
-    ]
-  },
-  "download/pages-jsv-separate": {
-    "sections": [
-      {
-        "_type": "para",
-        "title": "Example HTML page, loading latest version of JsViews from www.jsviews.com",
-        "text": "Example HTML page, loading latest version of JsViews from www.jsviews.com\n<!DOCTYPE html>\n<html>\n<head>\n  <!-- Load jQuery -->\n  <script src=\"//code.jquery.com/jquery-1.12.3.js\"></script>\n\n  <!-- Load JsViews latest version, from www.jsviews.com: -->\n  <script src=\"//www.jsviews.com/download/jsrender.js\"></script>\n  <script src=\"//www.jsviews.com/download/jquery.observable.js\"></script>\n  <script src=\"//www.jsviews.com/download/jquery.views.js\"></script>\n</head>\n<body>\n  <!-- Provide container for rendered template output: -->\n  <div id=\"result\"></div>\n\n  <!-- Declare a JsRender template, in a script block: -->\n  <script id=\"myTmpl\" type=\"text/x-jsrender\">\n    <input data-link=\"name trigger=true\" />\n    {^{:name}}\n  </script>\n\n  <script>\n    var tmpl = $.templates(\"#myTmpl\"); // Get compiled template\n    var data = {name: \"Jo\"};           // Define data\n    tmpl.link(\"#result\", data);        // Render and data-link template as content of chosen container element\n  </script>\n</body>\n</html>\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "Using latest version, minified, from www.jsviews.com:*\n<script src=\"//www.jsviews.com/download/jsviews.min.js\"></script>\n\nUsing specific version from CDN:\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.74/jsviews.js\"></script>\n\nUsing specific version, minified, from CDN:*\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.72/jsviews.min.js\"></script>\n\nLoading from the file system after Bower install:\n– Install JsViews on local file system, using $ bower install jsviews– then load jsviews.js or jsviews.min.js from the bower_components/jsviews/ folder, as in:\n<script src=\"bower_components/jsviews/jsviews.js\"></script>\n\n"
-      }
-    ]
-  },
-  "download/vmutil": {
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "vmutilities.js – Utilities for generating and mapping View Model classes\nLatest version (To download, right-click and select “Save as…” from the menu):\n\nUncompressed (for development): vmutilities.js\nCompressed (for production): vmutilities.min.js. (Source map available here)\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "Usage:",
-        "text": "Usage:\nThe vmutilies script should be loaded after jQuery and either JsRender, JsViews or JsObservable.\nFor example, With JsRender:\n<head>\n  <!-- Load jQuery -->\n  <script src=\"//code.jquery.com/jquery-1.12.3.min.js\"></script>\n\n  <!-- Load JsRender latest version, from www.jsviews.com: -->\n  <script src=\"//www.jsviews.com/download/jsrender.min.js\"></script>\n\n  <script src=\"//www.jsviews.com/download/mvvm/vmutilities.min.js\"></script>\n</head>\n\n"
-      },
-      {
-        "_type": "links",
-        "title": "See:",
-        "text": "See:\n"
       }
     ]
   }

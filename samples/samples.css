@@ -86,7 +86,7 @@ td.center {
 	border: 1px solid blue;
 	padding: 5px;
 	display: inline-block;
-	margin: 8px;
+	margin-top: 8px;
 }
 
 button {
@@ -125,8 +125,6 @@ li .remove {
 	font-weight: bold;
 	padding: 0 6px 0 6px;
 	content: 'x';
-	float: right;
-	cursor: pointer;
 }
 
 .remove:hover:after {

@@ -16,6 +16,7 @@ input, select, textarea {
 .remove {
 	margin-right: -7px;
 	display: inline-block;
+	cursor: pointer;
 }
 
 .remove:after {
@@ -23,7 +24,6 @@ input, select, textarea {
 	font-weight: bold;
 	padding: 0 6px 2px;
 	content: 'x';
-	cursor: pointer;
 }
 
 .remove:hover:after {

@@ -34,20 +34,20 @@
     class="svg-circle" cy="51" stroke-width="2" stroke="blue"></circle>
 </svg>
 
-<h3>Variants of the &#123;{slider}&#125; tag:</h3>
+<h3>Variants of the &lcub;{slider}&rcub; tag:</h3>
 
 <h4>Tag syntax</h4>
 
-<pre>&#123;^{slider size .../}&#125;</pre>
+<pre>&lcub;^{slider size .../}&rcub;</pre>
 
 {^{slider size _range='min' _min=1 _max=200 width=400 /}}
 
 <h4>Tag syntax, wrapping element:</h4>
 
 <pre>
-&#123;^{slider size ...}&#125;
+&lcub;^{slider size ...}&rcub;
     &lt;div ...> ... &lt;/div>
-&#123;^{/slider}&#125;
+&lcub;^{/slider}&rcub;
 </pre>
 
 {^{slider size _range='min' _min=1 _max=200}}
@@ -64,7 +64,7 @@
 
 <h4>Size:</h4>
 
-<input type="text" data-link="{:size trigger=true:tonum}" />
+<input type="text" data-link="{:size:tonum}" />
 
 </script>
 

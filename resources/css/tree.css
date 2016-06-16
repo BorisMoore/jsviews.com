@@ -45,8 +45,6 @@
 	font-weight: bold;
 	padding: 0 6px 2px;
 	content: 'x';
-	float: right;
-	cursor: pointer;
 }
 
 .tree .remove:hover:after {

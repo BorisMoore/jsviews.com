@@ -43,6 +43,7 @@ thead tr {
 
 thead th {
 	padding: 5px;
+	border: none;
 }
 
 .hover {
@@ -68,6 +69,7 @@ thead th {
 table td {
 	padding: 3px;
 	margin: 3px;
+	border: none;
 }
 
 .detail div div {
@@ -94,10 +96,16 @@ table td {
 	color: #009;
 }
 
-.detail div {
+.detail div, .buttons, .message {
 	float: left;
 	clear: both;
 }
+
+.message {
+	font-style: italic;
+	color: #be614c;
+}
+
 
 .detail > div > input {
 	margin: 0 0 3px 3px;
@@ -108,18 +116,18 @@ table td {
 }
 
 .removeLanguage, .removeMovie {
-	margin-right: 4px;
+	margin-right: 3px;
 	display: inline-block;
 	float: right;
+	cursor: pointer;
 }
 
 .removeLanguage:after, .removeMovie:after {
 	color: #be614c;
 	font-weight: bold;
+	font-style: normal;
 	padding: 0 6px 2px;
 	content: 'x';
-	float: right;
-	cursor: pointer;
 }
 
 .removeLanguage:hover:after, .removeMovie:hover:after {

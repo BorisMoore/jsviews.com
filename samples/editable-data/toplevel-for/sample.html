@@ -4,7 +4,7 @@
   <script src="//code.jquery.com/jquery-1.12.3.js"></script>
   <script src="../../../download/jsviews.js"></script>
   <script src="../../sample-viewer.js"></script>
-  <link href="sample.css" rel="stylesheet"/>
+  <link href="../sample.css" rel="stylesheet"/>
 </head>
 <body>
 
@@ -15,6 +15,7 @@
 
 <div class="comment">Click to select and edit</div>
 
+<!----------------- Data-linked content -------------------> 
 <div id="linkedContent">
   <table>
     <thead><tr>
@@ -27,6 +28,7 @@
   <div class="detail" data-link="{for movies[selectedIndex] tmpl='#detailTemplate'}"></div>
 </div>
 
+<!----------------- Templates ------------------->
 <script id="movieTemplate" type="text/x-jsrender">
   <tr class="hover" data-link="css-background-color{:~bgColor()}">
     <td>
@@ -41,17 +43,18 @@
 <script id="detailTemplate" type="text/x-jsrender">
   <div>
     <div class="title">Title:</div>
-    <div><input data-link="title trigger=true" /></div>
+    <div><input data-link="title" /></div>
     <div class="title">
       Languages: <span class="addLanguage">Add</span>
     </div>
     {^{for languages}}
-      <input data-link="name trigger=true" />
+      <input data-link="name" />
       <span class="removeLanguage"></span>
     {{/for}}
   </div>
 </script>
 
+<!----------------- Show data ------------------->
 <script id="showData" type="text/x-jsrender">
   <div>
     <b>Movie:</b> {{>title}}

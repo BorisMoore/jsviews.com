@@ -35,6 +35,7 @@ ul li {
 .remove {
 	margin-right: -7px;
 	display: inline-block;
+	cursor: pointer;
 }
 
 .remove:after {
@@ -42,7 +43,6 @@ ul li {
 	font-weight: bold;
 	padding: 0 6px 2px;
 	content: 'x';
-	cursor: pointer;
 }
 
 .remove:hover:after {

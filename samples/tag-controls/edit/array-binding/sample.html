@@ -13,7 +13,7 @@
 
 <script id="myTmpl" type="text/x-jsrender">
 
-  Chosen person: <input data-link="person trigger=true"/><br/>
+  Chosen person: <input data-link="person"/><br/>
 
   <h3>Edit names</h3>
   <p>
@@ -22,14 +22,13 @@
   <p>
   {^{for people}}
       <span class="remove"></span>
-      {^{edit name trigger=true /}}<br/>
+      {^{edit name /}}<br/>
     {{/for}}
   </p>
 
   <h3>Data-linked tags</h3>
 
   {^{edit person
-    trigger=true
     convert="upper"
     convertBack=~lower
   }}
@@ -37,7 +36,6 @@
   {{/edit}}<br/>
 
   {^{edit person ~people=people
-    trigger=true
     convert="upper"
     convertBack=~lower
   }}
@@ -49,7 +47,6 @@
   {{/edit}}
 
   {^{edit person ~people=people
-    trigger=true
     convert='upper'
     convertBack=~lower
   }}
@@ -63,7 +60,6 @@
   <h3>Data-linked elements</h3>
 
   <input data-link="{edit person
-    trigger=true
     convert='upper'
     convertBack=~lower
   }"/><br/>

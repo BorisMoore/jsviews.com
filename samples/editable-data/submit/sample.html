@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+  <script src="../../../download/jsviews.js"></script>
+  <script src="../../sample-viewer.js"></script>
+  <link href="../sample.css" rel="stylesheet"/>
+</head>
+<body>
+
+<!----------------- Data-linked content -------------------> 
+<div class="linkedContent">
+  <div class="buttons">
+    <button data-link="{on showData}">show data</button>
+    <button data-link="{on deleteLast}">delete last language</button>
+    <button data-link="{on undo} disabled{:msg() !== ''}">Undo</button>
+  </div>
+
+  <form data-link="{on 'submit' saveData}">
+    <button class="buttons" type="submit" data-link="disabled{:msg() !== ''}">Submit Changes</button>
+
+    <div class="comment">Click to select and edit</div>
+    <table>
+      <thead><tr>
+        <th>Title</th><th>Languages</th>
+        <th><span class="addMovie" data-link="{on addMovie}">Add</span></th>
+      </tr></thead>
+      <tbody class="movies" data-link="{for movies() tmpl='#movieTemplate'}"></tbody>
+    </table>
+
+    <div class="detail" data-link="{for movies()[selectedIndex()] tmpl='#detailTemplate'}"></div>
+  </form>
+
+  <div class="message" data-link="msg()"></div>
+</div>
+
+<!----------------- Templates ------------------->
+<script id="movieTemplate" type="text/x-jsrender">
+  <tr class="hover" data-link="css-background-color{:~root.bgColor(#index)} {on ~root.select #index}">
+    <td>
+      <span data-link="#index + 1"></span>:
+      <span data-link="title()"></span>
+    </td>
+    <td>
+      {^{for languages()}}
+        <div data-link="name()"></div>
+      {{/for}}
+    </td>
+    <td><span class="removeMovie" data-link="{on ~root.removeMovie #index}"></span></td>
+  </tr>
+</script>
+
+<script id="detailTemplate" type="text/x-jsrender">
+  <div>
+    <div class="title">Title:</div>
+    <div><input data-link="title()" /></div>
+    <div class="title">
+      Languages: <span class="addLanguage" data-link="{on addLanguage}">Add</span>
+    </div>
+    {^{for languages() ~movie=#data}}
+      <input data-link="name()" />
+      <span class="removeLanguage" data-link="{on ~movie.removeLanguage #index}"></span>
+    {{/for}}
+  </div>
+</script>
+
+<!----------------- Show data ------------------->
+<script id="showData" type="text/x-jsrender">
+  <hr/>
+  {{for movies}}<div>
+    <b>Movie:</b> {{>title}}
+    <b>Languages:</b> {{for languages}} {{>name}}{{/for}}
+  </div>{{/for}}
+</script>
+
+<div id="console">
+</div>
+
+<!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>
