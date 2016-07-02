@@ -21,17 +21,22 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "Any JsRender template can be used with JsViews.\n"
+        "text": "Any JsRender template can be used with JsViews. But in JsViews, templates are “data-linked” (think data-bound). Data-binding is optionally turned on within a data-linked template by data-linking individual tags and elements:\n"
       },
       {
         "_type": "para",
-        "title": "Data-linked templates",
-        "text": "Data-linked templates\nCalling the render() method works just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the link() method – which will first render and then add data binding (data-link the template).\nIf you have data-linked your template by calling the link() method, then you can continue to use the same JsRender template tags as before. But now you optionally make any tag in the template data-linked, by replacing the {{... of the opening tag by {^{..., as in:\n{^{for people}}\n  {^{:name}}\n{{/for}}\n\nIn addition, you can data-link the HTML elements in your template, as in:\n<input data-link=\"name\" />\n<div data-link=\"css-color{:color} {:name}\"></div>\n\nSee Data-link template syntax for details…\n"
+        "title": "JsViews: Using data-linked tags and elements",
+        "text": "JsViews: Using data-linked tags and elements\nCalling the render() method works just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the link() method – which will first render and then add data binding (data-link the template).\nIf you have data-linked your template by calling the link() method, then you can continue to use the same JsRender template tags as before. But now you optionally make any tag in the template data-linked, by replacing the {{... of the opening tag by {^{..., as in:\n{^{for people}}\n  {^{:name}}\n{{/for}}\n\nIn addition, you can data-link the HTML elements in your template, as in:\n<input data-link=\"name\" />\n<div data-link=\"css-color{:color} {:name}\"></div>\n\nSee Data-linked template syntax for details…\n"
       },
       {
         "_type": "para",
-        "title": "But in JsViews templates, your template must be well-formed:",
-        "text": "But in JsViews templates, your template must be well-formed:\nJsRender is different. If you are only using JsRender (so no ‘HTML-aware data-binding’), you have a lot of freedom. You can even do this:\n"
+        "title": "JsRender tags (with data-linking)",
+        "text": "JsRender tags (with data-linking)\nThe following topics give examples and details for data-linking each of the built-in JsRender template tags:\nTags without content:\n\n{^{: ...}} (Evaluate)\n{^{> ...}} (HTML encode)\n\nBlock tags:\n\n{^{include ...}} (Template composition – partials)\n{^{for ...}} (Template composition, with iteration over arrays)\n{^{props ...}} (Iteration over properties of an object)\n{^{if ...}} (Conditional inclusion)\n{^{myTag ...}} (Custom tag controls)\n\nAlternative content blocks:\n\n{{else ...}} (Content block separator)\n\nCreating your own tags (custom tag controls):\n\nCustom tags\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "In JsViews your template must be well-formed:",
+        "text": "In JsViews your template must be well-formed:\nJsViews imposes some ‘well-formed’ constraints on templates which do not apply if you are only using JsRender. This is because JsRender is string-based, and is not ‘aware’ of the HTML structure, whereas JsViews is ‘HTML-aware’ in order to provide element-based data-binding’\nIn JsRender you have a lot of freedom. You can even do this:\n"
       },
       {
         "_type": "sample",
@@ -41,12 +46,12 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "That works because JsRender is pure string-based rendering, it doesn’t mind how you mix you JsRender tag hierarchy with the HTML tag markup.\n"
+        "text": "That works because JsRender (using pure string-based rendering) doesn’t mind how you mix your JsRender tag hierarchy with the HTML tag markup.\n"
       },
       {
         "_type": "para",
         "title": "Rules for a well-formed template in JsViews:",
-        "text": "Rules for a well-formed template in JsViews:\nWith JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\n\nJsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a ^ character (so that for example a {{for}} tag becomes a data-linked {^{for}} tag) – and in that case the rendered content will change dynamically whenever the bound data changes ‘observably’.\nBut tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.\nSimilarly, tags which wrap opening or closing tag in such a way as to produce ‘mal-formed HTML’ will not be valid.\nIn fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.\nIn each of the invalid scenarios mentioned above, the JsRender tags needs to be replaced by corresponding data-linked element syntax. See Data-link template syntax for details.\n\n"
+        "text": "Rules for a well-formed template in JsViews:\nWith JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\n\nJsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a ^ character (so that for example a {{for}} tag becomes a data-linked {^{for}} tag) – and in that case the rendered content will change dynamically whenever the bound data changes ‘observably’.\nBut tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.\nSimilarly, tags which wrap opening or closing tag in such a way as to produce ‘mal-formed HTML’ will not be valid.\nIn fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.\nIn each of the invalid scenarios mentioned above, the JsRender tags needs to be replaced by corresponding data-linked element syntax. See Data-linked template syntax for details.\n\n"
       }
     ]
   },
@@ -381,9 +386,9 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "text": "JsViews data-link syntax takes two forms:\n\nData-linked tags\nData-linked elements\n\nBoth forms use:\n\nData-linked paths\n\n"
       },
       {
-        "_type": "para",
+        "_type": "links",
         "title": "See also:",
-        "text": "See also:\nTutorial sequence of samples: Data-linking tags and elements\n"
+        "text": "See also:\n"
       }
     ]
   },
@@ -396,7 +401,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "sample",
-        "text": "\n\n\n\n<div class=\"buttons\">\n  <button id=\"add\">Add</button>\n</div>\n<ol>\n  {^{for members}}\n    <li>\n      {^{:name}} \n      <span class=\"remove\"></span>\n    </li>\n  {{/for}}\n</ol>\n\n\n\nvar team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ]\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team)\n  .on(\"click\", \".remove\", function() {\n    var view = $.view(this);\n    $.observable(team.members).remove(view.index);\n  })\n  .on(\"click\", \"#add\", function() {\n    $.observable(team.members).insert(0, {name: \"new\" + cnt++})\n  });\nTemplate:\n...\n{^{for members}}\n  <li>\n    {^{:name}} <img class=\"remove\" .../>\n  </li>\n{{/for}}\n...\n\nCode:\n...\n$.templates(\"#teamTemplate\").link(\"#team\", team) ...\n\n\n"
+        "text": "\n\n\n  <button id=\"add\">Add</button>\n  <ol>\n    {^{for members}}\n      <li>\n        {^{:name}} \n        <span class=\"remove\"></span>\n      </li>\n    {{/for}}\n  </ol>\n\n\nvar team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ]\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team)\n  .on(\"click\", \".remove\", function() {\n    var view = $.view(this);\n    $.observable(team.members).remove(view.index);\n  })\n  .on(\"click\", \"#add\", function() {\n    $.observable(team.members).insert(0, {name: \"new\" + cnt++})\n  });\nTemplate:\n...\n{^{for members}}\n  <li>\n    {^{:name}} ...\n  </li>\n{{/for}}\n...\n\nCode:\n...\n$.templates(\"#teamTemplate\").link(\"#team\", team) ...\n\n\n"
       },
       {
         "_type": "para",
@@ -406,7 +411,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Binding to named properties of tags",
-        "text": "Binding to named properties of tags\nIn the sample we went one step further than shown above. We added data-linking to the start and end named properties of the {{range}} tag:\n{^{range members ^start=start-1 ^end=end}}\n\nThe prefixed ^ on the name: ^start=... is used to specify that the start ‘named property’ is to be data-linked. Change the value (using the drop-down in the sample) and you see that the displayed range updates automatically.\nBy default named properties are not data-linked. (This is made ‘opt-in’ for perf optimization reasons.)\n"
+        "text": "Binding to named properties of tags\nIn the sample we went one step further than shown above. We added data-linking to the start and end named properties of the {{range}} tag:\n{^{range members ^start=start-1 ^end=end}}\n\nThe prefixed ^ on the name: ^start=... is used to specify that the start ‘named property’ is to be data-linked (so the whole tag will render if the start value changes). Change the value (using the drop-down in the sample) and you see that the displayed range updates automatically.\nBy default named properties are not data-linked. (This is made ‘opt-in’ for perf optimization reasons.)\n"
       },
       {
         "_type": "para",
@@ -470,7 +475,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "",
-        "text": "Show: \n\n\n$.link(true, \"body\", {show: true});\n\n\nTop-level data-linking to {if ...}{else ...}\nShow: <input data-link=\"show\" type=\"checkbox\"/>\n<b data-link=\"{if show tmpl='show this'}{else tmpl='no show'}\"></b>\n\n$.link(true, \"body\", {show: true});\n\n\n"
+        "text": " Show\n\n\n$.link(true, \"body\", {show: true});\n\n\nTop-level data-linking to {if ...}{else ...}\n<input data-link=\"show\" type=\"checkbox\"/>Show\n<div data-link=\"{if show tmpl='show this'}{else tmpl='no show'}\"></div>\n\n$.link(true, \"body\", {show: true});\n\n\n"
       },
       {
         "_type": "para",
@@ -490,7 +495,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "See also:",
-        "text": "See also:\n\nJsViews API topic: Data-linked tags\nTutorial sequence of samples: Data-linking tags and elements\n"
+        "text": "See also:\n\nJsViews API topic: Data-linked tags\n\n"
       }
     ]
   },
@@ -543,7 +548,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Top-level declarative data-linking",
-        "text": "Top-level declarative data-linking\ninput {margin-bottom:10px;}\n\n\n  \n  \n  CEO \n\n  \n  and I am CEO!\n\n  \n    Employees:\n     \n  \n\n\n$.templates(\"nameTmpl\", \"Name: {{:first}} {{:last}}\");\n\nvar person = {\n  first: \"Jim\",\n  last: \"Rudd\",\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\nvar helpers = {nameLabel: \"My name is \"};\n\n$.link(true, \"#group\", person, helpers);\nTop-level content:\n<div id=\"group\">\n  <input type=\"checkbox\" />\n  ...\n\nAdd two-way data-linking to <input>s\n<input data-link=\"isCEO\" type=\"checkbox\" />...\n<input data-link=\"first\" />...\n\nAdd data-linking to <div>s and <span>s etc.\n<div id=\"group\" data-link=\"css-color{:isCEO ? 'red' : 'blue'}\">...\n<div data-link=\"{for employees tmpl='nameTmpl'}\">...\n\nActivate, using $.link(true, ...)\n$.link(true, \"#group\", person, helpers);\n\n(Could have used alternative syntax: $(\"#group\").link(true, person, helpers);)\n\n"
+        "text": "Top-level declarative data-linking\ninput {margin-bottom:10px;}\n\n\n  \n  \n   CEO\n\n  \n  and I am CEO!\n\n  \n    Employees:\n     \n  \n\n\n$.templates(\"nameTmpl\", \"Name: {{:first}} {{:last}}\");\n\nvar person = {\n  first: \"Jim\",\n  last: \"Rudd\",\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\nvar helpers = {nameLabel: \"My name is \"};\n\n$.link(true, \"#group\", person, helpers);\nTop-level content:\n<div id=\"group\">\n  <input type=\"checkbox\" />\n  ...\n\nAdd two-way data-linking to <input>s\n<input data-link=\"isCEO\" type=\"checkbox\" />...\n<input data-link=\"first\" />...\n\nAdd data-linking to <div>s and <span>s etc.\n<div id=\"group\" data-link=\"css-color{:isCEO ? 'red' : 'blue'}\">...\n<div data-link=\"{for employees tmpl='nameTmpl'}\">...\n\nActivate, using $.link(true, ...)\n$.link(true, \"#group\", person, helpers);\n\n(Could have used alternative syntax: $(\"#group\").link(true, person, helpers);)\n\n"
       },
       {
         "_type": "para",
@@ -593,7 +598,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Top-level programmatic data-linking",
-        "text": "Top-level programmatic data-linking\n \n  CEO: \n   \n\n  Employees: \n\n   \n\n\n$.templates(\"nameTmpl\", \"Name: {{:first}} {{:last}}\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$.link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  \"#group\", // target\n  person // data\n);\n\n$.link(\n  \"isCEO\", // expression\n  \"input.ceo\", // target\n  person // data\n);\n\n$.link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  \"#employees\", // target\n  person // data\n);\n\n$.link(\n  \"visible{:!isCEO} {:~message}\", // expression\n \"#notCeo\", // target\n  person, // data \n  {message: \"Not CEO!\"} // helpers\n);\n\nApply data-link expression to <input>, for two-way binding to isCEO data property:\n$.link(\n  \"isCEO\", // expression\n  \"input.ceo\", // target\n  person // data\n);\n\nApply {for...} and visible:{:...} data-link binding expressions to #employees <div>:\n$.link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  \"#employees\", // target\n  person // data\n);\n\n\n"
+        "text": "Top-level programmatic data-linking\n \n   CEO\n  \n\n  Employees: \n\n   \n\n\n$.templates(\"nameTmpl\", \"Name: {{:first}} {{:last}}\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$.link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  \"#group\", // target\n  person // data\n);\n\n$.link(\n  \"isCEO\", // expression\n  \"input.ceo\", // target\n  person // data\n);\n\n$.link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  \"#employees\", // target\n  person // data\n);\n\n$.link(\n  \"visible{:!isCEO} {:~message}\", // expression\n \"#notCeo\", // target\n  person, // data \n  {message: \"(Not CEO!)\"} // helpers\n);\n\nApply data-link expression to <input>, for two-way binding to isCEO data property:\n$.link(\n  \"isCEO\", // expression\n  \"input.ceo\", // target\n  person // data\n);\n\nApply {for...} and visible:{:...} data-link binding expressions to #employees <div>:\n$.link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  \"#employees\", // target\n  person // data\n);\n\n\n"
       },
       {
         "_type": "para",
@@ -603,7 +608,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Top-level programmatic data-linking <span style=\"font-style:normal;\">(alternative syntax)</span>",
-        "text": "Top-level programmatic data-linking (alternative syntax)\n \n  CEO: \n   \n\n  Employees: \n\n   \n\n\n$.templates(\"nameTmpl\", \"Name: {{:first}} {{:last}}\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$(\"#group\").link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  person // data\n);\n\n$(\"input.ceo\").link(\n  \"isCEO\", // expression\n  person // data\n);\n\n$(\"#employees\").link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  person // data\n);\n\n$(\"#notCeo\").link(\n  \"visible{:!isCEO} {:~message}\", // expression\n  person, // data \n  {message: \"Not CEO!\"} // helpers\n);\n\nApply data-link expression to <input>, for two-way binding to isCEO data property:\n$(\"input.ceo\").link(\n  \"isCEO\", // expression\n  person // data\n);\n\nApply {for...} and visible:{:...} data-link binding expressions to #employees <div>:\n$(\"#employees\").link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  person // data\n);\n\n\n"
+        "text": "Top-level programmatic data-linking (alternative syntax)\n \n   CEO\n  \n\n  Employees: \n\n   \n\n\n$.templates(\"nameTmpl\", \"Name: {{:first}} {{:last}}\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$(\"#group\").link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  person // data\n);\n\n$(\"input.ceo\").link(\n  \"isCEO\", // expression\n  person // data\n);\n\n$(\"#employees\").link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  person // data\n);\n\n$(\"#notCeo\").link(\n  \"visible{:!isCEO} {:~message}\", // expression\n  person, // data \n  {message: \"(Not CEO!)\"} // helpers\n);\n\nApply data-link expression to <input>, for two-way binding to isCEO data property:\n$(\"input.ceo\").link(\n  \"isCEO\", // expression\n  person // data\n);\n\nApply {for...} and visible:{:...} data-link binding expressions to #employees <div>:\n$(\"#employees\").link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  person // data\n);\n\n\n"
       },
       {
         "_type": "links",
@@ -1075,6 +1080,11 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
   "jsvsettings": {
     "sections": [
       {
+        "_type": "para",
+        "title": "",
+        "text": "JsViews provides the following APIs for modifying settings:\n"
+      },
+      {
         "_type": "links",
         "title": "",
         "text": ""
@@ -1134,7 +1144,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Render and link template directly against plain objects...",
-        "text": "Render and link template directly against plain objects...\n\n\n\n  Change data\n  Add phone\n  \n\n\n\n  Change Log:\n  \n  Clear\n  \n\n\n\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n\n$.views.settings.trigger(true);\n\n// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Data: hierarchy of plain objects and arrays\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n// Render and link template against plain object hierarchy\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: {street: \"New Street\"},\n    phones: [{number: \"123 123 1234\"}, {number: \"321 321 4321\"}]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones).insert({\n    number: \"456 456 4567\"\n  });\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"observeAll path: \" + ev.data.observeAll.path() + \"\"\n  }\n  for (var key in eventArgs) {\n    message += \"\" + key + \": \" + JSON.stringify(eventArgs[key]) + \"\";\n  }\n  $(\".messages\").append(\"\" + message + \"\");\n}\nRender and link template\n\nvar tmpl = $.templates(\"#personTmpl\");\ntmpl.link(\"#result\", person);\n\n"
+        "text": "Render and link template directly against plain objects...\n\n\n\n  Change data\n  Add phone\n  \n\n\n\n   Change Log\n  Clear\n  \n\n\n\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n\n$.views.settings.trigger(true);\n\n// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Data: hierarchy of plain objects and arrays\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n// Render and link template against plain object hierarchy\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: {street: \"New Street\"},\n    phones: [{number: \"123 123 1234\"}, {number: \"321 321 4321\"}]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones).insert({\n    number: \"456 456 4567\"\n  });\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"observeAll path: \" + ev.data.observeAll.path() + \"\"\n  }\n  for (var key in eventArgs) {\n    message += \"\" + key + \": \" + JSON.stringify(eventArgs[key]) + \"\";\n  }\n  $(\".messages\").append(\"\" + message + \"\");\n}\nRender and link template\n\nvar tmpl = $.templates(\"#personTmpl\");\ntmpl.link(\"#result\", person);\n\n"
       },
       {
         "_type": "para",
@@ -1276,7 +1286,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "Templates used in JsViews apps are regular JsRender templates, defined/registered in the usual way (see Using templates).\nHowever they can include data-linked tags (such as {^{:name}}) and data-linked elements (such as <div data-link=\"name\" ...>). See: Data-linked template syntax.\n"
+        "text": "Templates used in JsViews apps are regular JsRender templates, defined/registered in the usual way (see Using templates).\nHowever they can include data-linked tags (such as {^{:name}}) and data-linked elements (such as <div data-link=\"name\" ...>). See: Data-linked template syntax.\nInstead of being simply rendered by render() method, they are rendered and data-linked using the link() method.Templates are rendered and data-linked #jsvlinktmpl\n"
       }
     ]
   },
@@ -1291,7 +1301,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "_type": "sample",
         "title": "MVVM Save/Undo, using compiled View Models ",
         "url": "samples/editable-data/submit/sample",
-        "text": "MVVM Save/Undo, using compiled View Models \nProvide Submit Changes and Undo buttons, calling the saveData and undo methods of View Model:\n<div class=\"linkedContent\">\n  ...\n  <button data-link=\"{on undo} ...\">Undo</button>\n  ...\n  <form data-link=\"{on 'submit' saveData}\">\n    <button type=\"submit\" ...>Submit Changes</button>\n    ...\n    <tbody data-link=\"{for movies() tmpl='#movieTemplate'}\"></tbody>\n    ...\n    <div data-link=\"{for movies()[selectedIndex()] tmpl='#detailTemplate'}\"></div>\n  </form>\n</div>\n\nProvide undo and saveData methods on compiled View Model:\n$.views.viewModels({\n  MovieApp: {\n    getters: [...],\n    extend: {\n      undo: function() {\n        // Revert to previous savedData\n        this.merge(savedData);\n        ...\n      },\n      saveData: function() {\n        // Save current data, for subsequent Undo behavior\n        savedData = this.unmap();\n        // Submit current data to server\n        $.post(\"/save/data\", ...savedData, function(msg) {...});\n        ...\n      },\n      ...\n\n\n$.views.settings.trigger(true); // Trigger on key down.\n\nvar VMs = $.views.viewModels,\n  counter = 0,\n\n// Initial data\n  app = {\n    msg: null,\n    selectedIndex: null,\n    movies: [\n    {\n      title:\"Meet Joe Black\",\n      languages: [\n        {name: \"English\"},\n        {name: \"French\"}\n      ]\n    },\n    {\n      title:\"Eyes Wide Shut\",\n      languages: [\n        {name: \"German\"},\n        {name: \"French\"},\n        {name: \"Spanish\"}\n      ]\n    }\n  ]\n  };\n\n// Compile View Models\nVMs({\n  MovieApp: {\n    getters: [\n      \"msg\",\n      \"selectedIndex\",\n      {\n        getter: \"movies\",\n        type: \"Movie\"\n      }\n    ],\n    extend: {\n      undo: function() {\n        this.merge(savedData); // Revert to previous savedData\n        this.msg(null);\n      },\n      saveData: function() {\n        // Save current data, for subsequent Undo behavior\n        savedData = this.unmap();\n        savedData.selectedIndex = null;\n        savedData = JSON.stringify(savedData);\n\n        // In real app, uncomment to save current data to the server:\n        // $.post(\"/save/data\", {movieData : savedData}, function(msg) {\n          var msg = \"In a real app, updated data would have been saved to server\";\n          this.msg(msg); // Display message\n        //});\n        return false; // Do not do default form action for submit\n      },\n      addMovie: function() {\n        $.observable(this.movies()).insert(VMs.Movie(\n          \"NewTitle\" + counter ,\n          [VMs.Language(\"NewLanguage\" + counter++)]\n        ));\n        // Set selection on the added item\n        this.select($.view(\".movies tr:last\").index);\n      },\n      removeMovie: function(index) {\n        this.select(); // unselect\n        $.observable(this.movies()).remove(index);\n        return false;\n      },\n      select: function(index) {\n        if (this.selectedIndex() !== index) {\n          this.selectedIndex(index);\n        }\n      },\n      deleteLast: function() { // Example of action using View Model hierarchy\n        var moviesCount = this.movies().length;\n        if (moviesCount) {\n          var lastMovie = this.movies()[moviesCount-1];\n          var languagesCount = lastMovie.languages().length;\n          if (languagesCount) {\n            lastMovie.removeLanguage(languagesCount-1);\n          }\n        }\n      },\n      showData: function() { // Get the current data, and display in 'console'\n        $(\"#console\").append($(\"#showData\").render(this.unmap()));\n      },\n      bgColor: bgColor // Helper for background color rendering\n    }\n  },\n  Movie: {\n    getters: [\n      \"title\",\n      {\n        getter: \"languages\",\n        type: \"Language\"\n      }\n    ],\n    extend: {\n      addLanguage: function() {\n        $.observable(this.languages()).insert(VMs.Language(\"NewLanguage\" + counter++));\n      },\n      removeLanguage: function(index) {\n        $.observable(this.languages()).remove(index);\n        return false;\n      }\n    }\n  },\n  Language: {\n    getters: [\"name\"]\n  }\n});\n\n// Instantiate View Models\nvar appVm = $.views.viewModels.MovieApp.map(app);\n\n// Background color helper function\nfunction bgColor(index) {\n  return this.selectedIndex() === index\n    ? \"yellow\"\n    : (index%2 ? \"#fdfdfe\" : \"#efeff2\");\n}\n\nbgColor.depends = [\"#index\", appVm, \"selectedIndex\"];\n\n// Save copy of initial data, for Undo feature\nvar savedData = app;\n\n// Top level data-linking - bind content to View Models\n$.link(true, \".linkedContent\", appVm);\n\n// Detect changes - to enable Submit/Undo buttons, and warn on page navigation\n$.observable(appVm.movies()).observeAll(function() {\n  // If there have been any data changes, clear message and enable Submit and Undo buttons\n  appVm.msg(\"\");\n});\n\n// \"Navigate away\" behavior\n$(window).on('beforeunload', function(){\n  if (appVm.msg() === \"\") {\n    return \"You have unsaved changes.\";\n  }\n});\n\n<!----------------- Data-linked content -------------------> \r\n<div class=\"linkedContent\">\r\n  <div class=\"buttons\">\r\n    <button data-link=\"{on showData}\">show data</button>\r\n    <button data-link=\"{on deleteLast}\">delete last language</button>\r\n    <button data-link=\"{on undo} disabled{:msg() !== ''}\">Undo</button>\r\n  </div>\r\n\r\n  <form data-link=\"{on 'submit' saveData}\">\r\n    <button class=\"buttons\" type=\"submit\" data-link=\"disabled{:msg() !== ''}\">Submit Changes</button>\r\n\r\n    <div class=\"comment\">Click to select and edit</div>\r\n    <table>\r\n      <thead><tr>\r\n        <th>Title</th><th>Languages</th>\r\n        <th><span class=\"addMovie\" data-link=\"{on addMovie}\">Add</span></th>\r\n      </tr></thead>\r\n      <tbody class=\"movies\" data-link=\"{for movies() tmpl='#movieTemplate'}\"></tbody>\r\n    </table>\r\n\r\n    <div class=\"detail\" data-link=\"{for movies()[selectedIndex()] tmpl='#detailTemplate'}\"></div>\r\n  </form>\r\n\r\n  <div class=\"message\" data-link=\"msg()\"></div>\r\n</div>\r\n\r\n<!----------------- Templates ------------------->\r\n<script id=\"movieTemplate\" type=\"text/x-jsrender\">\r\n  <tr class=\"hover\" data-link=\"css-background-color{:~root.bgColor(#index)} {on ~root.select #index}\">\r\n    <td>\r\n      <span data-link=\"#index + 1\"></span>:\r\n      <span data-link=\"title()\"></span>\r\n    </td>\r\n    <td>\r\n      {^{for languages()}}\r\n        <div data-link=\"name()\"></div>\r\n      {{/for}}\r\n    </td>\r\n    <td><span class=\"removeMovie\" data-link=\"{on ~root.removeMovie #index}\"></span></td>\r\n  </tr>\r\n</script>\r\n\r\n<script id=\"detailTemplate\" type=\"text/x-jsrender\">\r\n  <div>\r\n    <div class=\"title\">Title:</div>\r\n    <div><input data-link=\"title()\" /></div>\r\n    <div class=\"title\">\r\n      Languages: <span class=\"addLanguage\" data-link=\"{on addLanguage}\">Add</span>\r\n    </div>\r\n    {^{for languages() ~movie=#data}}\r\n      <input data-link=\"name()\" />\r\n      <span class=\"removeLanguage\" data-link=\"{on ~movie.removeLanguage #index}\"></span>\r\n    {{/for}}\r\n  </div>\r\n</script>\r\n\r\n<!----------------- Show data ------------------->\r\n<script id=\"showData\" type=\"text/x-jsrender\">\r\n  <hr/>\r\n  {{for movies}}<div>\r\n    <b>Movie:</b> {{>title}}\r\n    <b>Languages:</b> {{for languages}} {{>name}}{{/for}}\r\n  </div>{{/for}}\r\n</script>\r\n\r\n<div id=\"console\">\r\n</div>\n"
+        "text": "MVVM Save/Undo, using compiled View Models \nProvide Submit Changes and Undo buttons, calling the saveData and undo methods of View Model:\n<div class=\"linkedContent\">\n  ...\n  <button data-link=\"{on undo} ...\">Undo</button>\n  ...\n  <form data-link=\"{on 'submit' saveData}\">\n    <button type=\"submit\" ...>Submit Changes</button>\n    ...\n    <tbody data-link=\"{for movies() tmpl='#movieTemplate'}\"></tbody>\n    ...\n    <div data-link=\"{for movies()[selectedIndex()] tmpl='#detailTemplate'}\"></div>\n  </form>\n</div>\n\nProvide undo and saveData methods on compiled View Model:\n$.views.viewModels({\n  MovieApp: {\n    getters: [...],\n    extend: {\n      undo: function() {\n        // Revert to previous savedData\n        this.merge(savedData);\n        ...\n      },\n      saveData: function() {\n        // Save current data, for subsequent Undo behavior\n        savedData = this.unmap();\n        // Submit current data to server\n        $.post(\"/save/data\", ...savedData, function(msg) {...});\n        ...\n      },\n      ...\n\n\n$.views.settings.trigger(true); // Trigger on key down.\n\nvar VMs = $.views.viewModels,\n  counter = 0,\n\n// Initial data\n  app = {\n    msg: null,\n    selectedIndex: null,\n    movies: [\n    {\n      title:\"Meet Joe Black\",\n      languages: [\n        {name: \"English\"},\n        {name: \"French\"}\n      ]\n    },\n    {\n      title:\"Eyes Wide Shut\",\n      languages: [\n        {name: \"German\"},\n        {name: \"French\"},\n        {name: \"Spanish\"}\n      ]\n    }\n  ]\n  };\n\n// Compile View Models\nVMs({\n  MovieApp: {\n    getters: [\n      \"msg\",\n      \"selectedIndex\",\n      {\n        getter: \"movies\",\n        type: \"Movie\"\n      }\n    ],\n    extend: {\n      undo: function() {\n        this.merge(savedData); // Revert to previous savedData\n        this.msg(null);\n      },\n      saveData: function() {\n        // Save current data, for subsequent Undo behavior\n        savedData = this.unmap();\n        savedData.selectedIndex = null;\n        savedData = JSON.stringify(savedData);\n\n        // In real app, uncomment to save current data to the server:\n        // $.post(\"/save/data\", {movieData : savedData}, function(msg) {\n          var msg = \"In a real app, updated data would have been saved to server\";\n          this.msg(msg); // Display message\n        //});\n        return false; // Do not do default form action for submit\n      },\n      addMovie: function() {\n        $.observable(this.movies()).insert(VMs.Movie(\n          \"NewTitle\" + counter ,\n          [VMs.Language(\"NewLanguage\" + counter++)]\n        ));\n        // Set selection on the added item\n        this.select($.view(\".movies tr:last\").index);\n      },\n      removeMovie: function(index) {\n        this.select(); // unselect\n        $.observable(this.movies()).remove(index);\n        return false;\n      },\n      select: function(index) {\n        if (this.selectedIndex() !== index) {\n          this.selectedIndex(index);\n        }\n      },\n      deleteLast: function() { // Example of action using View Model hierarchy\n        var moviesCount = this.movies().length;\n        if (moviesCount) {\n          var lastMovie = this.movies()[moviesCount-1];\n          var languagesCount = lastMovie.languages().length;\n          if (languagesCount) {\n            lastMovie.removeLanguage(languagesCount-1);\n          }\n        }\n      },\n      showData: function() { // Get the current data, and display in 'console'\n        $(\"#console\").append($(\"#showData\").render(this.unmap()));\n      },\n      bgColor: bgColor // Helper for background color rendering\n    }\n  },\n  Movie: {\n    getters: [\n      \"title\",\n      {\n        getter: \"languages\",\n        type: \"Language\"\n      }\n    ],\n    extend: {\n      addLanguage: function() {\n        $.observable(this.languages()).insert(VMs.Language(\"NewLanguage\" + counter++));\n      },\n      removeLanguage: function(index) {\n        $.observable(this.languages()).remove(index);\n        return false;\n      }\n    }\n  },\n  Language: {\n    getters: [\"name\"]\n  }\n});\n\n// Instantiate View Models\nvar appVm = $.views.viewModels.MovieApp.map(app);\n\n// Background color helper function\nfunction bgColor(index) {\n  return this.selectedIndex() === index\n    ? \"yellow\"\n    : (index%2 ? \"#fdfdfe\" : \"#efeff2\");\n}\n\nbgColor.depends = [\"#index\", appVm, \"selectedIndex\"];\n\n// Save copy of initial data, for Undo feature\nvar savedData = app;\n\n// Top level data-linking - bind content to View Models\n$.link(true, \".linkedContent\", appVm);\n\n// Detect changes - to enable Submit/Undo buttons, and warn on page navigation\n$.observable(appVm.movies()).observeAll(function() {\n  // If there have been any data changes, clear message and enable Submit and Undo buttons\n  appVm.msg(\"\");\n});\n\n// \"Navigate away\" behavior\n$(window).on('beforeunload', function(){\n  if (appVm.msg() === \"\") {\n    return \"You have unsaved changes.\";\n  }\n});\n\n<!----------------- Data-linked content -------------------> \r\n<div class=\"linkedContent\">\r\n  <button data-link=\"{on showData}\">show data</button>\r\n  <button data-link=\"{on deleteLast}\">delete last language</button>\r\n  <button data-link=\"{on undo} disabled{:msg() !== ''}\">Undo</button>\r\n\r\n  <form data-link=\"{on 'submit' saveData}\">\r\n    <button class=\"buttons\" type=\"submit\" data-link=\"disabled{:msg() !== ''}\">Submit Changes</button>\r\n\r\n    <div class=\"comment\">Click to select and edit</div>\r\n    <table>\r\n      <thead><tr>\r\n        <th>Title</th><th>Languages</th>\r\n        <th><span class=\"addMovie\" data-link=\"{on addMovie}\">Add</span></th>\r\n      </tr></thead>\r\n      <tbody class=\"movies\" data-link=\"{for movies() tmpl='#movieTemplate'}\"></tbody>\r\n    </table>\r\n\r\n    <div class=\"detail\" data-link=\"{for movies()[selectedIndex()] tmpl='#detailTemplate'}\"></div>\r\n  </form>\r\n\r\n  <div class=\"message\" data-link=\"msg()\"></div>\r\n</div>\r\n\r\n<!----------------- Templates ------------------->\r\n<script id=\"movieTemplate\" type=\"text/x-jsrender\">\r\n  <tr class=\"hover\" data-link=\"css-background-color{:~root.bgColor(#index)} {on ~root.select #index}\">\r\n    <td>\r\n      <span data-link=\"#index + 1\"></span>:\r\n      <span data-link=\"title()\"></span>\r\n    </td>\r\n    <td>\r\n      {^{for languages()}}\r\n        <div data-link=\"name()\"></div>\r\n      {{/for}}\r\n    </td>\r\n    <td><span class=\"removeMovie\" data-link=\"{on ~root.removeMovie #index}\"></span></td>\r\n  </tr>\r\n</script>\r\n\r\n<script id=\"detailTemplate\" type=\"text/x-jsrender\">\r\n  <div>\r\n    <div class=\"title\">Title:</div>\r\n    <div><input data-link=\"title()\" /></div>\r\n    <div class=\"title\">\r\n      Languages: <span class=\"addLanguage\" data-link=\"{on addLanguage}\">Add</span>\r\n    </div>\r\n    {^{for languages() ~movie=#data}}\r\n      <input data-link=\"name()\" />\r\n      <span class=\"removeLanguage\" data-link=\"{on ~movie.removeLanguage #index}\"></span>\r\n    {{/for}}\r\n  </div>\r\n</script>\r\n\r\n<!----------------- Show data ------------------->\r\n<script id=\"showData\" type=\"text/x-jsrender\">\r\n  <hr/>\r\n  {{for movies}}<div>\r\n    <b>Movie:</b> {{>title}}\r\n    <b>Languages:</b> {{for languages}} {{>name}}{{/for}}\r\n  </div>{{/for}}\r\n</script>\r\n\r\n<div id=\"console\">\r\n</div>\n"
       },
       {
         "_type": "para",
@@ -1375,7 +1385,7 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Using merge() and unmap() &ndash; with two-way binding",
-        "text": "Using merge() and unmap() – with two-way binding\n\n\n\n  Update\n  Revert\n  Get Data\n  Change name\n  Add Phone\n  \n\n\n\n  Change Log:\n  \n  Clear\n  \n\n\n\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\"/></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\"/></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n$.views.settings.trigger(true);\n\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // name is a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n     {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {               // Uses vmCollection.Phone() to construct new instance\n  $.observable(this.phones()).insert(vmCollection.Phone(phoneNo));\n}\n\n// First version of data (e.g. from JSON request):\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Second version of data (e.g. from JSON request):\nvar personData2 = {\n  name: \"Peter\",\n  address: {street: \"2nd Ave\"},\n  phones: [{number: \"111 111 9999\"},{number: \"333 333 9999\"}]\n};\n\n// Instantiate View Model hierarchy, using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render and link the template against person (Person instance)\ntmpl.link(\"#result\", person);\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  person.merge(personData2);\n});\n\n$(\"#revert\").on(\"click\", function() {\n  person.merge(personData);\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n$(\"#getData\").on(\"click\", function() {\n  var updatedPersonData = person.unmap();\n  window.alert(JSON.stringify(updatedPersonData));\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"observeAll path: \" + ev.data.observeAll.path() + \"\"\n  }\n  for (var key in eventArgs) {\n    message += \"\" + key + \": \" + JSON.stringify(eventArgs[key]) + \"\";\n  }\n  $(\".messages\").append(\"\" + message + \"\");\n}\nThis sample illustrates two-way data-linking of get/set properties on compiled View Models, by replacing the data-linked tags of the previous sample, such as:\n{^{:name()}}\n\nwith data-linked input elements:\n<input data-link=\"name()\" />\n\nIt also illustrates using observeAll with compiled View Model instances – by including the Change Log idea, copied over from the samples on the observeAll/unobserveAll topics.\n\n"
+        "text": "Using merge() and unmap() – with two-way binding\n\n\n\n  Update\n  Revert\n  Get Data\n  Change name\n  Add Phone\n  \n\n\n\n   Change Log\n  Clear\n  \n\n\n\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\"/></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\"/></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n$.views.settings.trigger(true);\n\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // name is a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n     {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {               // Uses vmCollection.Phone() to construct new instance\n  $.observable(this.phones()).insert(vmCollection.Phone(phoneNo));\n}\n\n// First version of data (e.g. from JSON request):\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Second version of data (e.g. from JSON request):\nvar personData2 = {\n  name: \"Peter\",\n  address: {street: \"2nd Ave\"},\n  phones: [{number: \"111 111 9999\"},{number: \"333 333 9999\"}]\n};\n\n// Instantiate View Model hierarchy, using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render and link the template against person (Person instance)\ntmpl.link(\"#result\", person);\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  person.merge(personData2);\n});\n\n$(\"#revert\").on(\"click\", function() {\n  person.merge(personData);\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n$(\"#getData\").on(\"click\", function() {\n  var updatedPersonData = person.unmap();\n  window.alert(JSON.stringify(updatedPersonData));\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"observeAll path: \" + ev.data.observeAll.path() + \"\"\n  }\n  for (var key in eventArgs) {\n    message += \"\" + key + \": \" + JSON.stringify(eventArgs[key]) + \"\";\n  }\n  $(\".messages\").append(\"\" + message + \"\");\n}\nThis sample illustrates two-way data-linking of get/set properties on compiled View Models, by replacing the data-linked tags of the previous sample, such as:\n{^{:name()}}\n\nwith data-linked input elements:\n<input data-link=\"name()\" />\n\nIt also illustrates using observeAll with compiled View Model instances – by including the Change Log idea, copied over from the samples on the observeAll/unobserveAll topics.\n\n"
       },
       {
         "_type": "para",
@@ -1401,6 +1411,307 @@ content.find.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "_type": "links",
         "title": "See also:",
         "text": "See also:\n"
+      }
+    ]
+  },
+  "jsvassigntag": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the {^{: someExpression}} tag is a data-bound version of the JsRender {{: ...}} tag – which evaluates the expression and returns its string value.\nWhen using data-linked templates the data-bound version will update automatically when the data in the expression changes observably.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{^{: ...}}",
+        "text": "{^{: ...}}\n\n\n\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n  <em>Nickname:</em> <input data-link=\"manager^nickname\" /><br/>\n\n  <em>&lcub;{^:manager^nickname || manager^name}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{:manager^nickname || manager^name}}\n  </span>\n\n\nvar team = {\n  person1: {\n    name: \"Peter\",\n    nickname: \"Pete\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);\n{^{:manager^nickname || manager^name}}\n\nThe data-linked {^{: ...}} tag updates when the expression manager^nickname || manager^name changes– i.e. when manager.nickname, manager.name or the manager object change.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Note: {^{: ...}} does not HTML-encode the value of the expression. Therefore if you type in ...<sometag>... as nickname, the {^{: ...}} tag will insert that markup as is, into the HTML, which will cause an error (mismatched tag). In this scenario the {^{> ...}} tag should be used instead.\n"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "text": "See:\n"
+      }
+    ]
+  },
+  "jsvhtmltag": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the {^{> someExpression}} tag is a data-bound version of the JsRender {{> ...}} tag – which evaluates the expression and returns the HTML encoded string value of the result.\nWhen using data-linked templates the data-bound version will update automatically when the data in the expression changes observably.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{^{> ...}}",
+        "text": "{^{> ...}}\n\n\n\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n  <em>Nickname:</em> <input data-link=\"manager^nickname\" /><br/>\n\n  <em>&lcub;^{>manager^nickname || manager^name}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{>manager^nickname || manager^name}}\n  </span>\n\nvar team = {\n  person1: {\n    name: \"Peter\",\n    nickname: \"Pete\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);\n{^{:manager^nickname || manager^name}}\n\nThe data-linked {^{> ...}} tag updates when the expression manager^nickname || manager^name changes– i.e. when manager.nickname, manager.name or the manager object change.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Note: Unlike the {^{: ...}}, the {^{> ...}} HTML-encodes the value of the expression. So if you type in ...<sometag>... as nickname, the {^{> ...}} tag will HTML-encode that markup, and there will not be an error.\n"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "text": "See:\n"
+      }
+    ]
+  },
+  "jsvincludetag": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the {^{include ...}} tag is a data-bound version of the JsRender {{include ...}} tag.\nWhen using data-linked templates the data-bound version will update automatically when the data in the expression changes observably.\nThe most common scenario for {{include}} is for composition of templates, without change of data context and with statically-defined templates. In that scenario, even within a JsViews data-linked template, the {{include}} itself does not need to be data-linked:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{{include}}",
+        "text": "{{include}}\n\n\n\n  I am {^{>manager^name}}\n\n\n\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n\n  <em>&lcub;{include tmpl=\"#managerTmpl\"/}&rcub;:</em>\n  <span class=\"spanbox\">\n    {{include tmpl=\"#managerTmpl\"/}}\n  </span>\n\n\n\nvar team = {\n  person1: {\n    name: \"Peter\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);\n{{include tmpl=\"#managerTmpl\"/}}\n\nHere, the {{include}} tag is not data-linked, but the managerTmpl template does itself include data-linking:\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  I am {^{>manager^name}}\n</script>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "If {{include someExpression ...}} has an argument for moving to a new data-context, and changes in the value of the expression are to drive updates, then the data-linked form {^{include}} must be used:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{^{include}}",
+        "text": "{^{include}}\n\n\n\n  I am {^{>name}}\n\n\n\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n\n  <em>&lcub;^{include manager tmpl=\"#managerTmpl\"/}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{include manager tmpl=\"#managerTmpl\"/}}\n  </span>\n\n\n\nvar team = {\n  person1: {\n    name: \"Peter\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);\n{^{include manager tmpl=\"#managerTmpl\"/}}\n\nThe data-linked {^{include}} tag updates when the expression manager changes – i.e. when the manager object is changed.\nAlso the ‘name’ updates when name changes, because the managerTmpl itself has a data-linked {^{>name}} tag:\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  I am {^{>name}}\n</script>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "{^{include ...}} with dynamically changing template",
+        "text": "{^{include ...}} with dynamically changing template\nIf {{include}} uses tmpl=expression to obtain a template from data or from a helper, then the data-linked {^{include}} can be used to drive updates when the template changes dynamically:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "",
+        "text": "\n\n\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n  <em>Template:</em> <input data-link=\"manager^template\" /><br/>\n\n  <em>^&lcub;{include manager ^tmpl=\"manager^template\"/}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{include manager ^tmpl=manager^template/}}\n  </span>\n\nvar team = {\n  person1: {\n    name: \"Peter\",\n    template: \"I am {^{>name}}\"\n  },\n  person2: {\n    name: \"Octavia\",\n    template: \"My name is {^{>name}}\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);\n{^{include manager ^tmpl=manager^template/}}\n\nHere the data-linked {^{include}} uses a different template for each person (^tmpl=manager^template):\nvar team = {\n  person1: {\n    name: \"Peter\",\n    template: \"I am {^{>name}}\" // Template for Peter\n  },\n  ...\n\n– so thanks to the initial ^ in ^tmpl=... (see binding to tag properties), the {^{include}} tag updates also if the template itself changes dynamically.\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "text": "See:\n"
+      }
+    ]
+  },
+  "jsvfortag": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the {^{for someExpression}} tag is a data-bound version of the JsRender {{for ...}} tag – which moves the data context to the object or array returned by the expression, and – if an array – iterates over the array.\nWhen using data-linked templates the data-bound version will update automatically when the data in the expression changes observably, and, for arrays, will also update if the array itself changes observably.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{^{for ...}}",
+        "text": "{^{for ...}}\nli {list-style: none}\n\n\n\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <ul>\n    {^{for members}}\n      <li>\n        {^{:#index + 1}}: {{>name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n      </li>\n    {{else}}\n      <li>There are no members</li>\n    {{/for}}\n  </ul>\n\n\nvar team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ],\n  addMember: function() {\n    $.observable(this.members).insert({name: \"new\" + cnt++});\n  },\n  removeMember: function(index) {\n    $.observable(this.members).remove(index);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", [{name: \"Peter\"}, {name: \"Octavia\"}, {name: \"Xavier\"}]);\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);\nData:\nvar team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ],\n...\n\nTemplate:\n...\n{^{for members}}\n  <li>... {^{>name}} ...</li>\n{{else}}\n  <li>There are no members</li>\n{{/for}}\n...\n\nHere, the data-linked {^{for}} tag updates incrementally when the members array is modified as in:\naddMember: function() {\n  $.observable(this.members).insert({name: \"new\" + cnt++});\n}\n...\nremoveMember: function(index) {\n  $.observable(this.members).remove(index);\n}\n\nand updates if the whole members array is replaced, as in:\nreplaceMembers: function() {\n  $.observable(this).setProperty(\"members\", [{name: \"Peter\"}, ...]);\n}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "{^{for ...}} with dynamically changing template",
+        "text": "{^{for ...}} with dynamically changing template\nIf {{for}} uses tmpl=expression to obtain a template from data or from a helper, then the data-linked {^{for}} can be used to drive updates when the template changes dynamically:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "",
+        "text": "\n\n\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button><br/><br/>\n  <label><input type=\"checkbox\" data-link=\"isEditable\"/> Editable</label>\n  <ol>\n    {^{for members ^tmpl=isEditable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n  </ol>\n\n\n\n  <li>\n    {{>name}}\n    <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n  </li>\n\n\n\n  <li>\n    <input data-link=\"name\"/>\n    <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n  </li>\n\nvar team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ],\n  isEditable: false,\n  addMember: function() {\n    $.observable(this.members).insert({name: \"new\" + cnt++})\n  },\n  removeMember: function(index) {\n    $.observable(this.members).remove(index);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", [{name: \"Peter\"}, {name: \"Octavia\"}, {name: \"Xavier\"}])\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);\n{^{for members ^tmpl=isEditable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n\nHere the data-linked {^{for}} uses two different templates, driven by the isEditable property:\nvar team = {\n  members: [...],\n  isEditable: false,\n  ...\n\n– so thanks to the initial ^ in ^tmpl=... the {^{for}} tag updates if isEditable changes – and uses the appropriate template. (See binding to tag properties.)\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "text": "See:\n"
+      }
+    ]
+  },
+  "jsvpropstag": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the {^{props someExpression}} tag is a data-bound version of the JsRender {{props ...}} tag – which iterates over the properties of the object returned by the expression.\nWhen using data-linked templates the data-bound version will update automatically when the data in the expression changes observably, and will also update if the properties of the object itself change observably.\nThe following sample is functionally similar to the example given for {^{for ...}} – but here instead of using a members array, it uses a members object – a dictionary by key of ‘name’ strings:\nteam.members = {m1: \"Robert\", m2: \"Sarah\"}\n\nAdding or removing properties on the members object triggers incremental updates of the {^{props members}} tag content. Replacing the members object triggers a complete update of the content.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{^{props ...}} &ndash; iterating over string properties ",
+        "text": "{^{props ...}} – iterating over string properties \nli {list-style: none}\n\n\n\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <ul>\n    {^{props members}}\n      <li>\n        {^{:#index+1}}: {{>prop}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{else}}\n      <li>There are no members</li>\n    {{/props}}\n  </ul>\n\n\nvar team = {\n  members: {m1: \"Robert\", m2: \"Sarah\"},\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, \"new\" + cnt++);\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: \"Peter\", m2: \"Octavia\", m3: \"Xavier\"});\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);\nData:\nvar team = {\n  members: {m1: \"Robert\", m2: \"Sarah\"},\n...\n\nTemplate:\n...\n{^{props members}}\n  <li>... {{>prop}} ...</li>\n{{else}}\n  <li>There are no members</li>\n{{/props}}\n...\n\nHere, the data-linked {^{props members}} tag updates incrementally when properties of the members object are added or removed, as in:\naddMember: function() {\n  $.observable(this.members).setProperty(\"n\" + cnt, \"new\" + cnt++);\n}, \n...\nremoveMember: function(key) {\n  $.observable(this.members).removeProperty(key);\n}\n\nIt also updates if the whole members object is replaced, as in:\nreplaceMembers: function() {\n  $.observable(this).setProperty(\"members\", {m1: \"Peter\", ...});\n}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Inside the {^{props members}} tag, a block is rendered for each property, with as data context:\n{key: propertyName, prop: propertyValue}\n\n– so {{>key}} gives the key and {{>prop}} gives the value for that property.\nIf members was not a dictionary of ‘name’ strings, but instead a dictionary of ‘person’ objects, each with a name property, then we would write {{>prop.name}} to display the name for that ‘person’ property.\nHere is a modified version of the sample above, using this dictionary of ‘person’ objects approach:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{^{props ...}} &ndash; iterating over object properties",
+        "text": "{^{props ...}} – iterating over object properties\n\n\n\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <ol>\n    {^{props members}}\n      <li>\n        {{>prop.name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{/props}}\n  </ol>\n\n\nvar team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++});\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}});\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);\nData:\nvar team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n...\n\nTemplate:\n...\n{^{props members}}\n  <li>{{>prop.name}} ...</li>\n{{/props}}\n...\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The above samples show adding and removing properties on the members object, but does not show observably modifying the value of an existing property. Here is an updated version using a dictionary of strings – where you can also modify property values observably.\nTo render the value of the ‘name’ string property, we use the data-linked form: {^{>prop}} – which updates automatically when the value of the property changes observably.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{^{props ...}} &ndash; with observably changing property values (strings)",
+        "text": "{^{props ...}} – with observably changing property values (strings)\n\n\n\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <button data-link=\"{on changeMembers}\">Change</button>\n  <ol>\n    {^{props members}}\n      <li>\n        <input data-link=\"prop\"/>\n        {^{>prop}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{else}}\n      There are no members\n    {{/props}}\n  </ol>\n\n\nvar team = {\n  members: {m1: \"Robert\", m2: \"Sarah\"},\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, \"new\" + cnt++);\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: \"Peter\", m2: \"Octavia\", m3: \"Xavier\"});\n  },\n  changeMembers: function() {\n    for (var property in this.members) {\n      if (property !== $.expando) {\n        $.observable(this.members).setProperty(property, this.members[property] + cnt++);\n      }\n    }\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);\nData:\nvar team = {\n  members: {m1: \"Robert\", m2: \"Sarah\"},\n...\n\nTemplate:\n...\n{^{props members}}\n  <li>\n    <input data-link=\"prop\"/>\n    {^{>prop}} ...\n  </li>\n{{else}}\n  There are no members\n{{/props}}\n...\n\nHere, the Change button modifies each of the properties of members:\nchangeMembers: function() {\n  for (var property in this.members) {\n    ...\n    $.observable(this.members).setProperty(property, ...);\n    ...\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "And here is the same thing, but where members is a dictionary of ‘person’ objects – so we use {^{>prop^name}} to render the name. This will update when the name property of the ‘person’ object changes (e.g. when typing into the textbox: <input data-link=\"prop^name\" />) or when a property of members is changed observably to a different ‘person’ object.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{^{props ...}} &ndash; with observably changing property values (objects)",
+        "text": "{^{props ...}} – with observably changing property values (objects)\n\n\n\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <button data-link=\"{on changeMembers}\">Change</button>\n  <ol>\n    {^{props members}}\n      <li>\n        <input data-link=\"prop^name\"/>\n        {^{>prop^name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{/props}}\n  </ol>\n\n\nvar team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++});\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}});\n  },\n  changeMembers: function() {\n    for (var property in this.members) {\n      if (property !== $.expando) {\n        $.observable(this.members).setProperty(property, {name: this.members[property].name + cnt++});\n      }\n    }\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);\nData:\nvar team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n...\n\nTemplate:\n...\n{^{props members}}\n  <li>\n    <input data-link=\"prop^name\"/>\n    {^{>prop^name}} ...\n  </li>\n{{/props}}\n...\n\nHere, the Change button modifies each of the properties of members – assigning a different person object:\nchangeMembers: function() {\n  for (var property in this.members) {\n    ...\n    $.observable(this.members).setProperty(property, {name: ...});\n    ...\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "More advanced use of {{props}} &ndash; {{jsonview/}}",
+        "text": "More advanced use of {{props}} – {{jsonview/}}\nAn example of more advanced use of {{props}} is the sample custom tag control {{jsonview}}, available from downloads/tag-controls. That tag control uses {^{props}}, and recursively calls itself:\n{^{props}}\n  <li>\n    ...\n    {^{jsonview prop/}}...\n  </li>\n{{/props}}\n\nThe {{jsonview}} tag control can be included in any JsViews page, to show the contextual data at that place in the page, or to show given data returned by an expression {^{jsonview someExpression /}}. Changes to the data will then update dynamically.\nIn the next sample we update the previous one, to include:\n\na data-linked {^{jsonview/}} control to show current data\nallow the user to modify the key values in the members object, using <input data-link=\"key\" />\n{^{props}}...{{else}}...{{/props}} to show a message if the members object is ‘empty’\n\nThis sample is also available at samples/tag-controls/jsonview.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "",
+        "url": "samples/tag-controls/jsonview/sample",
+        "text": "Template:\n...\n<ul>\n  {^{props members}}\n    <li>\n      ...\n      <input data-link=\"key\"/>\n      {^{>key}}\n      <input data-link=\"prop^name\"/>\n      {^{>prop^name}}\n      ...\n    </li>\n  {{else}}\n    ...\n  {{/props}}\n</ul>\n...\n{^{jsonview/}}\n...\n\n\nvar team = {\r\n  members: {\r\n    m1: {name: \"Robert\"},\r\n    m2: {name: \"Sarah\"}\r\n  },\r\n  addMember: function() {\r\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++});\r\n  }, \r\n  removeMember: function(key) {\r\n    $.observable(this.members).removeProperty(key);\r\n  },\r\n  replaceMembers: function() {\r\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}});\r\n  },\r\n  changeMembers: function() {\r\n    for (var property in this.members) {\r\n      if (property !== $.expando) {\r\n        $.observable(this.members).setProperty(property, {name: this.members[property].name + cnt++});\r\n      }\r\n    }\r\n  }\r\n},\r\ncnt = 1;\r\n\r\n$.templates(\"#teamTemplate\").link(\"#team\", team);\r\n\n/*\n * Sample JsViews tag control: {{jsonview}} control\n * http://www.jsviews.com/download/sample-tag-controls/jsonview/jsonview.js\n\n * Copyright 2016, Boris Moore\n * Released under the MIT License.\n*/\n\n(function($) {\n  \"use strict\";\n\n  function isObject(val) {\n    return val && typeof val === \"object\";\n  }\n\n  function notEmpty(val) {\n    return $.views.tags.props.dataMap.getTgt(val).length;\n  }\n\n  notEmpty.depends = \"*\";\n\n  $.views.tags(\"jsonview\", {\n    template: {\n      markup:\n        '{{if ~isArray(#data)}}'\n        + '<span class=\"jsonview\"><span class=\"brace\">[</span>{^{if length}}'\n          + '<ul class=\"jsonview\">'\n            + '{^{for}}'\n              + '<li>{^{jsonview/}}{^{if #index < #parent.data.length-1}},{{/if}}</li>'\n            + '{{/for}}'\n          + '</ul>'\n        + '{{/if}}<span class=\"brace\">]</span></span>'\n      + '{{else ~isObject(#data)}}'\n        + '<span class=\"jsonview\"><span class=\"brace\">{</span>{^{if ~notEmpty(#data)}}'\n          + '<ul class=\"jsonview\">'\n            + '{^{props}}'\n              + '<li>'\n                + '<label>{^{>key}}: </label>'\n                + '{^{jsonview prop/}}{^{if #index < #parent.data.length-1}},{{/if}}'\n              + '</li>'\n            + '{{/props}}'\n          + '</ul>'\n        + '{{/if}}<span class=\"brace\">}</span></span>'\n      + '{{else #data+\"\"===#data}}'\n        + '\"{^{>#data}}\"'\n      + '{{else}}'\n        + '{^{>#data+\"\"}}'\n      + '{{/if}}',\n      helpers: {\n        isObject: isObject,\n        notEmpty: notEmpty,\n        isArray: $.isArray\n      }\n    }\n  });\n})(this.jQuery);\n\n<div id=\"team\"></div>\r\n\r\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\r\n  <div class=\"left\">\r\n    <button data-link=\"{on addMember}\">Add</button>\r\n    <button data-link=\"{on replaceMembers}\">Replace</button>\r\n    <button data-link=\"{on changeMembers}\">Change</button>\r\n    <ul>\r\n      {^{props members}}\r\n        <li>\r\n          {^{:#index+1}}.\r\n          <input data-link=\"key\"/>\r\n          {^{>key}}\r\n          <input data-link=\"prop^name\"/>\r\n          {^{>prop^name}}\r\n          <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\r\n        </li>\r\n      {{else}}\r\n        <li>No members...</li>\r\n      {{/props}}\r\n    </ul>\r\n  </div>\r\n  <div class=\"right\">\r\n    <em><b>Data:</b></em><br/>{^{jsonview/}}\r\n  </div>\r\n</script>\n"
+      },
+      {
+        "_type": "para",
+        "title": "{^{props ...}} with dynamically changing template (advanced)",
+        "text": "{^{props ...}} with dynamically changing template (advanced)\nIf {{props}} uses tmpl=expression to obtain a template from data or from a helper, then the data-linked {^{props}} can be used to drive updates when the template changes dynamically.\nHere it is in a sample (similar to the corresponding sample using the {^{for}} tag).\n"
+      },
+      {
+        "_type": "sample",
+        "title": "",
+        "text": "\n\n\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button><br/><br/>\n  <label><input type=\"checkbox\" data-link=\"isEditable\"/> Editable</label>\n  <ol>\n    {^{props members ^tmpl=isEditable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n  </ol>\n\n\n\n  <li>\n    {{>prop.name}} \n    <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n  </li>\n\n\n\n  <li>\n    <input data-link=\"prop.name\"/>\n    <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n  </li>\n\nvar team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  isEditable: false,\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++})\n  },\n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}})\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);\n{^{props members ^tmpl=editable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n\nHere the data-linked {^{props}} uses two different templates, driven by the isEditable property:\nvar team = {\n  members: [...],\n  isEditable: false,\n  ...\n\n– so thanks to the initial ^ in ^tmpl=... the {^{props}} tag updates if isEditable changes – and uses the appropriate template. (See binding to tag properties.)\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "text": "See:\n"
+      }
+    ]
+  },
+  "jsviftag": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the {^{if someExpression}} tag is a data-bound version of the JsRender {{if ...}} tag, which renders a block conditionally based on the value of the expression.\nWhen using data-linked templates the data-bound version will update automatically when the value of the expression changes observably.\nThe following sample is similar to one found at Samples: Data-linking {^{for}} and {^{if}}:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{^{if ...}}",
+        "text": "{^{if ...}}\n\n\n\n  <label><input type=\"checkbox\" data-link=\"reverse\"/> Reverse name</label><br/><br/>\n\n  {^{if reverse}}\n    <b>{{:last}}</b>, {{:first}}\n  {{else}}\n    {{:first}} <b>{{:last}}</b>\n  {{/if}}\n\n\nvar person = {\n  reverse: true,\n  first:\"Jeff\",\n  last: \"Adams\"\n};\n\nvar tmpl = $.templates(\"#personTemplate\");\n\ntmpl.link(\"#person\", person);\n\n\n\nReverse name \n\n{^{if reverse}}\n  {{:last}}, {{:first}}\n{{else}}\n  {{:first}} {{:last}}\n{{/if}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "{^{if ...}}...{{else}}...{{/if}} with dynamically changing templates (advanced)",
+        "text": "{^{if ...}}...{{else}}...{{/if}} with dynamically changing templates (advanced)\nIf the {{if}} or an associated {{else}} tag use template references, rather than inline markup, with tmpl=expression (obtaining a template from data or from a helper), then the data-linked {^{if}} can be used to drive updates when any of the templates change dynamically:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "",
+        "text": "\n\n\n  <label><input type=\"checkbox\" data-link=\"isEditable\"/> Editable</label><br/>\n  <label><input type=\"checkbox\" data-link=\"reverse\"/> Reverse</label><br/><br/>\n\n  {^{if reverse ^tmpl=isEditable?'#editableReverseTmpl':'#noeditReverseTmpl'}}\n  {{else ^tmpl=isEditable?'#editableTmpl':'#noeditTmpl'}}\n  {{/if}}\n\n\n\n  <input data-link=\"last\" />, <input data-link=\"first\" />\n\n\n\n  <b>{{:last}}</b>, {{:first}}\n\n\n\n  <input data-link=\"first\" /> <input data-link=\"last\" />\n\n\n\n  {{:first}} <b>{{:last}}</b>\n\nvar person = {\n  isEditable: true,\n  reverse: true,\n  first:\"Jeff\",\n  last: \"Adams\"\n};\n\nvar tmpl = $.templates(\"#personTemplate\");\n\ntmpl.link(\"#person\", person);\n\n\n  {^{if reverse ^tmpl=isEditable?'#editableReverseTmpl':'#noeditReverseTmpl'}}\n  {{else ^tmpl=isEditable?'#editableTmpl':'#noeditTmpl'}}\n  {{/if}}\n\nHere the data-linked {^{if}} and the {{else}} each use two alternate templates, driven by the isEditable property:\nvar team = {\n  members: [...],\n  isEditable: false,\n  ...\n\n– so thanks to the initial ^ in ^tmpl=... (see binding to tag properties), the {^{if}} and {{else}} blocks each update if the isEditable changes – and use the appropriate template.\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "text": "See:\n"
+      }
+    ]
+  },
+  "jsvelsetag": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the {{else ...}} tag is identical to the {{else ...}} tag used in JsRender, and acts as a separator for alternate content blocks, in as association with an {{if}}, {{for}} or {{props}} tag, or with any custom tag.\nIf the associated tag is data-linked, then the rendering of the {{else}} block can also be dynamically driven by observable data changes. See for example the first sample in the {^{if}}, {^{for}} and {^{props}} topics\nIn each case rendering will switch dynamically to the {{else}} block when the data changes appropriately – for example, in the case of {^{for members}}...{{else})...{{/for}}, when the members array is empty.\nThe following example shows an {^{if}} tag with multiple {{else}} blocks:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{^{: ...}}",
+        "text": "{^{: ...}}\n\n\n\n  <select data-link=\"type\" size=\"3\">\n    <option value=\"\">Choose type</option>\n    <option>book</option>\n    <option>car</option>\n  </select><br/><br/>\n\n  <input data-link=\"type\" /><br/><br/>\n \n  {^{if type==='book'}}\n    The book price is {{>price}} \n  {{else type==='car'}}\n    The car costs {{>price}}\n  {{else}}\n    Nothing chosen\n  {{/if}}\n\n\nvar object = {\n  type: \"car\",\n  price:\"$25000\"\n};\n\nvar tmpl = $.templates(\"#objectTemplate\");\n\ntmpl.link(\"#object\", object);\n\n\nTemplate:\n...\n{^{if type==='book'}}\n  The book price is {{>price}} \n{{else type==='car'}}\n  The car costs {{>price}}\n{{else}}\n  The price is {{>price}}\n{{/if}}\n...\n\nNote that {{else expression}} behaves as else if, but it is not necessary to write {^{else ...}} – since the dynamic data-linking is determined by the associated {^{if ...}} tag.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Similarly with {{for ...}} with multiple {{else}} blocks, the data-linked {^{for ...}} means that there is dynamic binding to expressions not only on the {^{for}} tag itself, but also on the {{else}} tags:\n"
+      },
+      {
+        "_type": "sample",
+        "text": "li {list-style: none}\n\n\n\n  <button data-link=\"{on addMember}\">Add member</button>\n  <button data-link=\"{on addReserve}\">Add reserve</button>\n  <ul>\n    {^{for members}}\n      <li>\n        Member {^{:#index + 1}}: {{>name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n      </li>\n    {{else reserves}}\n      <li>\n        Reserve {^{:#index + 1}}: {{>name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeReserve #index}\"></span>\n      </li>\n    {{else}}\n      <li>No members or reserves</li>\n    {{/for}}\n  </ul>\n\n\nvar team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ],\n  reserves: [\n    {name: \"Xavier\"}\n  ],\n  addMember: function() {\n    $.observable(this.members).insert({name: \"new\" + cnt++});\n  },\n  addReserve: function() {\n    $.observable(this.reserves).insert({name: \"new\" + cnt++});\n  },\n  removeMember: function(index) {\n    $.observable(this.members).remove(index);\n  },\n  removeReserve: function(index) {\n    $.observable(this.reserves).remove(index);\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);\nTemplate:\n{^{for members}}\n  ...Member ... {{>name}}...\n{{else reserves}}\n  ...Reserve ... {{>name}}...\n{{else}}\n  ...No members or reserves...\n{{/for}}\n\nHere, removing all members causes the {{else reserves}} block to be displayed. Then removing all reserves causes the final {{else}} block to be displayed.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "For the case of {^{if}}...{{else}}...{{/if}} binding, with external template references, see the last {^{if}} sample, which uses the pattern:\n{^{if ... ^tmpl=...}}\n{{else ^tmpl=...}}\n{{/if}}\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "text": "See:\n"
+      }
+    ]
+  },
+  "jsvontag": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the {^{: ...}} tag is a data-bound version of the JsRender {{: ...}} tag.\nWhen using data-linked templates the data-bound version will update automatically when the data in the expression changes observably.\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the {^{props someExpression}} tag is a data-bound version of the JsRender {{props ...}} tag – which iterates over the properties of the object returned by the expression.\nWhen using data-linked templates the data-bound version will update automatically when the data in the expression changes observably, and will also update if the properties of the object itself change observably.\nThe following sample is functionally identical to the example given for {^{for ...}} – but here instead of using a members array, it uses a members object.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{^{: ...}}",
+        "text": "{^{: ...}}\n\n\n\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <ol>\n    {^{props members}}\n      <li>\n        {{:prop.name}} \n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{/props}}\n  </ol>\n\n\nvar team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++});\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}});\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);\nData:\nvar team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n...\n\nTemplate:\n...\n{^{props members}}\n  <li>\n    {{:prop.name}} ...\n  </li>\n{{/props}}\n\n...\n\nHere, the data-linked {^{props}} tag updates incrementally when the properties of the members object are added or removed, as in:\naddMember: function() {\n  $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++});\n}, \n...\nremoveMember: function(key) {\n  $.observable(this.members).removeProperty(key);\n}\n\nand updates if the whole members object is replaced, as in:\nreplaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"} ...});\n}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "If {{props}} uses tmpl=expression to obtain a template from data or from a helper, then the data-linked {^{props}} can be used to drive updates when the template changes dynamically:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{^{for ...}} with dynamically changing template",
+        "text": "{^{for ...}} with dynamically changing template\n\n\n\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button><br/><br/>\n  <label>Editable <input type=\"checkbox\" data-link=\"isEditable\"/></label>\n  <ol>\n    {^{props members ^tmpl=isEditable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n  </ol>\n\n\n\n  <li>\n    {{:prop.name}} \n    <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n  </li>\n\n\n\n  <li>\n    <input data-link=\"prop.name\"/>\n    <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n  </li>\n\nvar team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  isEditable: false,\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++})\n  },\n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}})\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);\n{^{props members ^tmpl=editable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n\nHere the data-linked {^{props}} uses two different templates, driven by the isEditable property:\nvar team = {\n  members: [...],\n  isEditable: false,\n  ...\n\n– so thanks to the initial ^ in ^tmpl=... (see binding to tag properties), the {^{props}} tag updates if the isEditable changes – and uses the appropriate template.\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "text": "See:\n"
+      }
+    ]
+  },
+  "jsvcustomtags": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the {^{: ...}} tag is a data-bound version of the JsRender {{: ...}} tag.\nWhen using data-linked templates the data-bound version will update automatically when the data in the expression changes observably.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{^{: ...}}",
+        "text": "{^{: ...}}\n\n\n\n\n<button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n<em>Name:</em> <input data-link=\"manager^name\" /><br/>\n<em>Nickname:</em> <input data-link=\"manager^nickname\" /><br/><br/>\n\n<em>{^&lcub;:manager^nickname || manager^name}&rcub;:</em> <b>{^{:manager^nickname || manager^name}}</b>\n\n\nvar team = {\n  person1: {\n    name: \"Peter\",\n    nickname: \"Pete\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", team);\n{^{:manager^nickname || manager^name}}\n\nData-linked tag updates when expression manager^nickname || manager^name changes– i.e. when manager.nickname, manager.name or manager object change.\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "text": "See:\n"
       }
     ]
   }

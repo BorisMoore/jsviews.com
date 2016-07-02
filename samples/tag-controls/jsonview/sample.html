@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+  <script src="../../../download/jsviews.js"></script>
+  <script src="../../sample-viewer.js"></script>
+  <script src="../../../download/sample-tag-controls/jsonview/jsonview.js"></script>
+  <link href="../../samples.css" rel="stylesheet" />
+  <link href="../../../download/sample-tag-controls/jsonview/jsonview.css" rel="stylesheet" />
+  <link href="sample.css" rel="stylesheet" />
+</head>
+<body>
+<div id="team"></div>
+
+<script id="teamTemplate" type="text/x-jsrender">
+  <div class="left">
+    <button data-link="{on addMember}">Add</button>
+    <button data-link="{on replaceMembers}">Replace</button>
+    <button data-link="{on changeMembers}">Change</button>
+    <ul>
+      {^{props members}}
+        <li>
+          {^{:#index+1}}.
+          <input data-link="key"/>
+          {^{>key}}
+          <input data-link="prop^name"/>
+          {^{>prop^name}}
+          <span class="remove" data-link="{on ~root.removeMember key}"></span>
+        </li>
+      {{else}}
+        <li>No members...</li>
+      {{/props}}
+    </ul>
+  </div>
+  <div class="right">
+    <em><b>Data:</b></em><br/>{^{jsonview/}}
+  </div>
+</script>
+
+<!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

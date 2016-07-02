@@ -14,10 +14,10 @@
 <h3>JsViews 'validate' tag control: The {{validate}} tag</h3>
 
 <script id="myTmpl" type="text/x-jsrender">
-  Prevent invalid data:<input type="checkbox" data-link="~page.noInvalidData" /><br/>
+  <label>Prevent invalid data <input type="checkbox" data-link="~page.noInvalidData" /></label><br/>
 
   name: <input data-link="name"/><br/>
-  agree: <input type="checkbox" data-link="agree"/><br/>
+  <label>Agree <input type="checkbox" data-link="agree"/></label><br/>
 
   <h3>Data-linked tags</h3>
 
@@ -37,13 +37,13 @@
     <input/>
   {{/validate}}
 
-  Agree:
+  <label>Agree
   {^{validate agree
     checked=true
     ^preventInvalidData=~page.noInvalidData
   }}
     <input type="checkbox"/>
-  {{/validate}}
+  {{/validate}}</label>
 
   {^{validate name
     minLength=3
@@ -91,11 +91,11 @@
     convertBack=~lower
   }"/>
 
-  Agree:
+  <label> Agree
   <input type="checkbox" data-link="{validate agree
     checked=true
     ^preventInvalidData=~page.noInvalidData
-  }"/>
+  }"/></label>
 
   <select size="3" data-link="{validate name
     minLength=3

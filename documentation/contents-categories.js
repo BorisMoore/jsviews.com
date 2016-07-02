@@ -295,7 +295,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "label": "Accessing parent data"
               }
             ],
-            "expanded": false
+            "expanded": true
           }
         ],
         "expanded": true
@@ -607,46 +607,41 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "jsvassigntag",
             "label": "{^{: ...}}",
-            "hidden": true
+            "hidden": false
           },
           {
             "name": "jsvhtmltag",
             "label": "{^{> ...}}",
-            "hidden": true
+            "hidden": false
           },
           {
             "name": "jsvincludetag",
-            "label": "{{include ...}}",
-            "hidden": true
+            "label": "{^{include ...}}",
+            "hidden": false
           },
           {
             "name": "jsvfortag",
             "label": "{^{for ...}}",
-            "hidden": true
-          },
-          {
-            "name": "jsvpropstag",
-            "label": "{^{props ...}}",
-            "hidden": true
+            "hidden": false
           },
           {
             "name": "jsviftag",
             "label": "{^{if ...}}",
-            "hidden": true
+            "hidden": false
+          },
+          {
+            "name": "jsvpropstag",
+            "label": "{^{props ...}}",
+            "hidden": false
           },
           {
             "name": "jsvelsetag",
             "label": "{{else ...}}",
-            "hidden": true
+            "hidden": false
           },
           {
             "name": "jsvontag",
             "label": "{^{on ...}}",
-            "hidden": true
-          },
-          {
-            "name": "jsvcommenttag",
-            "label": "{{!-- ... --}}",
             "hidden": true
           },
           {
@@ -941,6 +936,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "setprop",
             "label": "$.observable(object).setProperty()"
+          },
+          {
+            "name": "removeprop",
+            "label": "$.observable(obj).removeProperty()"
           }
         ],
         "expanded": true
@@ -1016,7 +1015,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Namespaces"
           }
         ],
-        "expanded": true
+        "expanded": false
       }
     ],
     "expanded": true
@@ -1347,6 +1346,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "samples/tag-controls/range",
                 "label": "range control"
+              },
+              {
+                "name": "samples/tag-controls/jsonview",
+                "label": "jsonview control"
               }
             ],
             "expanded": true

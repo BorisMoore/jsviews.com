@@ -19,11 +19,11 @@
 <div id="people"></div>
 
 <script id="peopleTemplate" type="text/x-jsrender">
-  <button id="add">Add person</button><br />
-  Reverse name: <input type="checkbox" data-link="reverse"/>
+  <button id="add">Add person</button><br /><br />
+  <label><input type="checkbox" data-link="reverse"/> Reverse name</label>
   {^{for people}}
     <div class="person">
-      Lead: <input type="checkbox" data-link="isLead"/>
+      <label><input type="checkbox" data-link="isLead"/> Lead: </label>
       <span class="red-border"
         data-link="
           class{merge:isLead toggle='special'}

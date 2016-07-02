@@ -20,8 +20,8 @@
     "hapi": "^9.0.3",
     "inert": "^3.0.1",
     "jquery": "^2.1.4",
-    "jsrender": "^0.9.77",
-    "jsviews": "^0.9.77",
+    "jsrender": "^0.9.78",
+    "jsviews": "^0.9.78",
     "serve-favicon": "^2.3.0",
     "through2": "^2.0.0",
     "vision": "^3.0.0"

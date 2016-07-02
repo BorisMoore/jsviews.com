@@ -96,6 +96,11 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
         "_type": "para",
         "title": "<b>{{range/}}</b>:",
         "text": "{{range/}}:\n\n  range.js used in the\n    extending for JsRender sample and the range JsViews sample\n  \n"
+      },
+      {
+        "_type": "para",
+        "title": "<b>{{jsonview/}}</b>:",
+        "text": "{{jsonview/}}:\n\n  jsonview.js used in the jsonview JsViews sample\n  \n"
       }
     ]
   },

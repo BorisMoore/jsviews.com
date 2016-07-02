@@ -61,23 +61,28 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvtags": {
-    "title": "$.views.tags()",
+    "title": "Template tags in JsViews",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "***Any JsRender template*** can be used with JsViews."
+        "text": "***Any JsRender template*** can be used with JsViews. But in JsViews, templates are *\"data-linked\"* (think *data-bound*). Data-binding is optionally turned on within a data-linked template by data-linking individual tags and elements: "
       },
       {
         "_type": "para",
-        "title": "Data-linked templates",
-        "text": "Calling the <a href=\"#rendertmpl\">`render()`</a> method works just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the <a href=\"#jsvlinktmpl\">`link()`</a> method -- which will first render and then add data binding (<em>data-link the template</em>).\n\nIf you have data-linked your template by calling the `link()` method, then you can continue to use the same <a href=\"#jsrtags\">JsRender template tags</a> as before. But now you optionally make any tag in the template [data-linked](#linked-tag-syntax), by replacing the `{{...` of the opening tag by `{^{...`, as in:\n\n```jsr\n{^{for people}}\n  {^{:name}}\n{{/for}}\n```\n\nIn addition, you can [*data-link* the HTML elements](#linked-elem-syntax) in your template, as in:\n\n```jsr\n<input data-link=\"name\" />\n<div data-link=\"css-color{:color} {:name}\"></div>\n```\n \nSee *[Data-link template syntax](#linked-template-syntax)* for details..."
+        "title": "JsViews: Using data-linked tags and elements",
+        "text": "Calling the <a href=\"#rendertmpl\">`render()`</a> method works just the same within JsViews as it does if only JsRender is loaded. But alternatively you can use the <a href=\"#jsvlinktmpl\">`link()`</a> method -- which will first render and then add data binding (<em>data-link the template</em>).\n\nIf you have data-linked your template by calling the `link()` method, then you can continue to use the same [JsRender template tags](#jsrtags) as before. But now you optionally make any tag in the template [data-linked](#linked-tag-syntax), by replacing the `{{...` of the opening tag by `{^{...`, as in:\n\n```jsr\n{^{for people}}\n  {^{:name}}\n{{/for}}\n```\n\nIn addition, you can [*data-link* the HTML elements](#linked-elem-syntax) in your template, as in:\n\n```jsr\n<input data-link=\"name\" />\n<div data-link=\"css-color{:color} {:name}\"></div>\n```\n \nSee *[Data-linked template syntax](#linked-template-syntax)* for details..."
       },
       {
         "_type": "para",
-        "title": "But in JsViews templates, your template must be well-formed:",
-        "text": "JsRender is different. If you are only using JsRender (so no 'HTML-aware data-binding'), you have a lot of freedom. You can even do this:"
+        "title": "JsRender tags (with data-linking)",
+        "text": "The following topics give examples and details for data-linking each of the [built-in JsRender template tags](#jsrtags):\n\n*Tags without content:*\n\n- [`{^{: ...}}`](#jsvassigntag) (Evaluate)\n- [`{^{> ...}}`](#jsvhtmltag) (HTML encode)\n\n*Block tags:*\n\n- [`{^{include ...}}`](#jsvincludetag) (Template composition -- partials)\n- [`{^{for ...}}`](#jsvfortag) (Template composition, with iteration over arrays)\n- [`{^{props ...}}`](#jsvpropstag) (Iteration over properties of an object)\n- [`{^{if ...}}`](#jsviftag) (Conditional inclusion)\n- [`{^{myTag ...}}`](#jsvtagcontrols) (Custom tag controls)\n\n*Alternative content blocks:*\n\n- [`{{else ...}}`](#jsvelsetag) (Content block separator)\n\n*Creating your own tags (custom tag controls):*\n\n- [Custom tags](#jsvtagcontrols)\n"
+      },
+      {
+        "_type": "para",
+        "title": "In JsViews your template must be well-formed:",
+        "text": "JsViews imposes some 'well-formed' constraints on templates which do not apply if you are only using JsRender. This is because JsRender is string-based, and is not 'aware' of the HTML structure, whereas JsViews is 'HTML-aware' in order to provide element-based data-binding'\n\nIn JsRender you have a lot of freedom. You can even do this:"
       },
       {
         "_type": "sample",
@@ -106,12 +111,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "That works because JsRender is pure string-based rendering, it doesn't mind how you mix you JsRender tag hierarchy with the HTML tag markup."
+        "text": "That works because JsRender (using pure string-based rendering) doesn't mind how you mix your JsRender tag hierarchy with the HTML tag markup."
       },
       {
         "_type": "para",
         "title": "Rules for a well-formed template in JsViews:",
-        "text": "With JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\n\n- JsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a `^` character (so that for example a `{{for}}` tag becomes a data-linked `{^{for}}` tag) -- and in that case the rendered content will change dynamically whenever the bound data changes *['observably'](#$observable)*.\n- But tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.\n- Similarly, tags which wrap opening or closing tag in such a way as to produce 'mal-formed HTML' will not be valid.\n- In fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.\n- In each of the invalid scenarios mentioned above, ***the JsRender tags needs to be replaced by corresponding data-linked element syntax***. See *[Data-link template syntax](#linked-template-syntax)* for details.\n"
+        "text": "With JsViews, it is different. Here are the rules of what is valid, or invalid, within a JsViews template:\n\n- JsRender template tags which are outside HTML elements, or fully within the element content of an HTML element can remain unchanged in a JsViews template. They will work correctly. They can optionally be data-linked by simply adding a `^` character (so that for example a `{{for}}` tag becomes a data-linked `{^{for}}` tag) -- and in that case the rendered content will change dynamically whenever the bound data changes *['observably'](#$observable)*.\n- But tags which are within the markup of the actual HTML opening tag itself, whether placed between attributes, or spanning attributes, or within the attribute content (the text value of the attribute), will not be valid in a JsViews template.\n- Similarly, tags which wrap opening or closing tag in such a way as to produce 'mal-formed HTML' will not be valid.\n- In fact a valid JsViews template will have the tree hierarchy of nested HTML tags and nested template tags combining together, as it were, as a single well-formed tree.\n- In each of the invalid scenarios mentioned above, ***the JsRender tags needs to be replaced by corresponding data-linked element syntax***. See *[Data-linked template syntax](#linked-template-syntax)* for details.\n"
       }
     ]
   },
@@ -122,7 +127,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The `link(container, data, helpersOrContext)` is similar to the `render(data, helpersOrContext)` method, but in addition to rendering the template, it also inserts the rendered output as content of the target HTML `container` element, and then *data-links* (data-binds to *observable* data) the HTML content to the underlying data.\n\nThe `link(container, data, helpersOrContext)` method takes as parameters the target HTML container element (or jQuery selector), the data (used as the <em>'data context'</em> during the rendering and linking), and optionally additional metadata or contextual helpers. It returns a jQuery object corresponding to the container element.\n\nThere are two ways of calling the `link()` method:\n- If you have a reference to the <em>template object</em> - `myTmpl`, call [myTmpl.link(...)](#jsvtmpllink)\n- If you have registered the template by name - `\"myTmpl\"`, call [$.link.myTmpl(...)](#jsv.d.link)\n"
+        "text": "The `link(container, data, helpersOrContext)` is similar to the [`render(data, helpersOrContext)`](#rendertmpl) method, but in addition to rendering the template, it also inserts the rendered output as content of the target HTML `container` element, and then *data-links* (data-binds to *observable* data) the HTML content to the underlying data.\n\nThe `link(container, data, helpersOrContext)` method takes as parameters the target HTML container element (or jQuery selector), the data (used as the <em>'data context'</em> during the rendering and linking), and optionally additional metadata or contextual helpers. It returns a jQuery object corresponding to the container element.\n\nThere are two ways of calling the `link()` method:\n- If you have a reference to the <em>template object</em> - `myTmpl`, call [myTmpl.link(...)](#jsvtmpllink)\n- If you have registered the template by name - `\"myTmpl\"`, call [$.link.myTmpl(...)](#jsv.d.link)\n"
       },
       {
         "_type": "links",
@@ -1086,7 +1091,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "sections": []
   },
   "linked-template-syntax": {
-    "title": "Data-link template syntax",
+    "title": "Data-linked template syntax",
     "path": "",
     "sections": [
       {
@@ -1095,9 +1100,38 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "text": "JsViews data-link syntax takes two forms:\n\n- [Data-linked tags](#linked-tag-syntax)\n- [Data-linked elements](#linked-elem-syntax)\n\nBoth forms use:\n\n- [Data-linked paths](#linked-paths)"
       },
       {
-        "_type": "para",
+        "_type": "links",
         "title": "See also:",
-        "text": "Tutorial sequence of samples: <a href=\"#samples/data-link\">Data-linking tags and elements</a>"
+        "links": [],
+        "topics": [
+          {
+            "hash": "link2way",
+            "label": "Two-way binding"
+          },
+          {
+            "hash": "link-events",
+            "label": "Event bindings"
+          },
+          {
+            "hash": "jsvviews",
+            "label": "View hierarchy"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsvtags",
+            "label": "JsViews template tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/data-link",
+            "label": "Tutorial sequence of data-linking samples"
+          },
+          {
+            "_type": "topic",
+            "hash": "tmplsyntax",
+            "label": "JsRender template syntax"
+          }
+        ]
       }
     ]
   },
@@ -1125,10 +1159,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*Template:*\n\n```jsr\n...\n{^{for members}}\n  <li>\n    {^{:name}} <img class=\"remove\" .../>\n  </li>\n{{/for}}\n...\n```\n\n*Code:*\n\n```js\n...\n$.templates(\"#teamTemplate\").link(\"#team\", team) ...\n```"
+            "text": "*Template:*\n\n```jsr\n...\n{^{for members}}\n  <li>\n    {^{:name}} ...\n  </li>\n{{/for}}\n...\n```\n\n*Code:*\n\n```js\n...\n$.templates(\"#teamTemplate\").link(\"#team\", team) ...\n```"
           }
         ],
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n\n<div class=\"buttons\">\n  <button id=\"add\">Add</button>\n</div>\n<ol>\n  {^{for members}}\n    <li>\n      {^{:name}} \n      <span class=\"remove\"></span>\n    </li>\n  {{/for}}\n</ol>\n\n</script>\n",
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button id=\"add\">Add</button>\n  <ol>\n    {^{for members}}\n      <li>\n        {^{:name}} \n        <span class=\"remove\"></span>\n      </li>\n    {{/for}}\n  </ol>\n</script>\n",
         "code": "var team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ]\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team)\n  .on(\"click\", \".remove\", function() {\n    var view = $.view(this);\n    $.observable(team.members).remove(view.index);\n  })\n  .on(\"click\", \"#add\", function() {\n    $.observable(team.members).insert(0, {name: \"new\" + cnt++})\n  });",
         "height": "120"
       },
@@ -1140,12 +1174,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Binding to named properties of tags",
-        "text": "In the sample we went one step further than shown above. We added data-linking to the `start` and `end` <em>named properties</em> of the `{{range}}` tag:\n\n```jsr\n{^{range members ^start=start-1 ^end=end}}\n```\n\nThe prefixed `^` on the name: `^start=...` is used to specify that the `start` 'named property' is to be data-linked. Change the value (using the drop-down in the sample) and you see that the displayed range updates automatically.\n\nBy default named properties are not data-linked. (This is made 'opt-in' for perf optimization reasons.)"
+        "text": "In the sample we went one step further than shown above. We added data-linking to the `start` and `end` <em>named properties</em> of the `{{range}}` tag:\n\n```jsr\n{^{range members ^start=start-1 ^end=end}}\n```\n\nThe prefixed `^` on the name: `^start=...` is used to specify that the `start` 'named property' is to be data-linked (so the whole tag will render if the `start` value changes). Change the value (using the drop-down in the sample) and you see that the displayed range updates automatically.\n\nBy default named properties are not data-linked. (This is made 'opt-in' for perf optimization reasons.)",
+        "anchor": "linkedproperties"
       },
       {
         "_type": "para",
         "title": "See also:",
-        "text": "- JsViews API topic: <a href=\"#linked-elem-syntax\">Data-linked elements</a>\n- Tutorial sequence of samples: <a href=\"#samples/data-link\">Data-linking tags and elements</a>\n"
+        "text": "- JsViews API topic: *[Data-linked elements](#linked-elem-syntax)*\n- Tutorial sequence of samples: [Data-linking tags and elements](#samples/data-link)\n"
       }
     ]
   },
@@ -1263,12 +1298,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "Top-level data-linking to {if ...}{else ...}",
-            "text": "```jsr\nShow: <input data-link=\"show\" type=\"checkbox\"/>\n<b data-link=\"{if show tmpl='show this'}{else tmpl='no show'}\"></b>\n```\n\n```js\n$.link(true, \"body\", {show: true});\n```"
+            "text": "```jsr\n<input data-link=\"show\" type=\"checkbox\"/>Show\n<div data-link=\"{if show tmpl='show this'}{else tmpl='no show'}\"></div>\n```\n\n```js\n$.link(true, \"body\", {show: true});\n```"
           }
         ],
-        "html": "Show: <input data-link=\"show\" type=\"checkbox\"/>\n<b data-link=\"{if show tmpl='show this'}{else tmpl='no show'}\"></b>\n",
+        "html": "<label><input data-link=\"show\" type=\"checkbox\"/> Show</label>\n<div data-link=\"{if show tmpl='show this'}{else tmpl='no show'}\"></div>\n",
         "code": "$.link(true, \"body\", {show: true});\n\n",
-        "height": "40",
+        "height": "70",
         "title": ""
       },
       {
@@ -1315,7 +1350,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "See also:",
-        "text": "<ul>\n<li>JsViews API topic: <a href=\"#linked-tag-syntax\">Data-linked tags</a></li>\n<li>Tutorial sequence of samples: <a href=\"#samples/data-link\">Data-linking tags and elements</a></li>\n</ul>"
+        "text": "- JsViews API topic: *[Data-linked tags](#linked-tag-syntax)*\n"
       }
     ]
   },
@@ -1488,7 +1523,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "Top-level content:\n\n```jsr\n<div id=\"group\">\n  <input type=\"checkbox\" />\n  ...\n```\n\nAdd two-way data-linking to `<input>`s\n\n```jsr\n<input data-link=\"isCEO\" type=\"checkbox\" />...\n<input data-link=\"first\" />...\n```\n\nAdd data-linking to `<div>`s and `<span>`s etc.\n\n```jsr\n<div id=\"group\" data-link=\"css-color{:isCEO ? 'red' : 'blue'}\">...\n<div data-link=\"{for employees tmpl='nameTmpl'}\">...\n```\n\nActivate, using `$.link(true, ...)`\n\n```js\n$.link(true, \"#group\", person, helpers);\n```\n\n(Could have used alternative syntax: `$(\"#group\").link(true, person, helpers);`)"
           }
         ],
-        "html": "<style>input {margin-bottom:10px;}</style>\n\n<div id=\"group\" data-link=\"css-color{:isCEO ? 'green' : 'blue'}\">\n  <input data-link=\"first\" />\n  <input data-link=\"last\" />\n  CEO <input data-link=\"isCEO\" type=\"checkbox\" /><br/>\n\n  <span data-link=\"~nameLabel + first + ' ' + last\" ></span>\n  <b data-link=\"visible{:isCEO}\">and I am CEO!</b>\n\n  <div data-link=\"visible{:isCEO}\"><br/>\n    <b>Employees:</b>\n    <div data-link=\"{for employees tmpl='nameTmpl'}\"></div> \n  </div>\n</div>\n",
+        "html": "<style>input {margin-bottom:10px;}</style>\n\n<div id=\"group\" data-link=\"css-color{:isCEO ? 'green' : 'blue'}\">\n  <input data-link=\"first\" />\n  <input data-link=\"last\" />\n  <label><input data-link=\"isCEO\" type=\"checkbox\" /> CEO</label><br/>\n\n  <span data-link=\"~nameLabel + first + ' ' + last\" ></span>\n  <b data-link=\"visible{:isCEO}\">and I am CEO!</b>\n\n  <div data-link=\"visible{:isCEO}\"><br/>\n    <b>Employees:</b>\n    <div data-link=\"{for employees tmpl='nameTmpl'}\"></div> \n  </div>\n</div>\n",
         "code": "$.templates(\"nameTmpl\", \"<div>Name: {{:first}} {{:last}}</div>\");\n\nvar person = {\n  first: \"Jim\",\n  last: \"Rudd\",\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\nvar helpers = {nameLabel: \"My name is \"};\n\n$.link(true, \"#group\", person, helpers);",
         "height": "136",
         "title": "Top-level declarative data-linking",
@@ -1705,8 +1740,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "Apply data-link expression to `<input>`, for two-way binding to `isCEO` data property:\n\n```js\n$.link(\n  \"isCEO\", // expression\n  \"input.ceo\", // target\n  person // data\n);\n```\n\nApply `{for...}` and `visible:{:...}` data-link binding expressions to `#employees` `<div>`:\n\n```js\n$.link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  \"#employees\", // target\n  person // data\n);\n```"
           }
         ],
-        "html": "<div id=\"group\"> \n  CEO: <input class=\"ceo\" type=\"checkbox\"/>\n  <span id=\"notCeo\"></span><br/><br/> \n\n  <b>Employees:</b> \n\n  <div id=\"employees\"></div> \n</div>\n",
-        "code": "$.templates(\"nameTmpl\", \"<div>Name: {{:first}} {{:last}}</div>\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$.link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  \"#group\", // target\n  person // data\n);\n\n$.link(\n  \"isCEO\", // expression\n  \"input.ceo\", // target\n  person // data\n);\n\n$.link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  \"#employees\", // target\n  person // data\n);\n\n$.link(\n  \"visible{:!isCEO} {:~message}\", // expression\n \"#notCeo\", // target\n  person, // data \n  {message: \"Not CEO!\"} // helpers\n);\n",
+        "html": "<div id=\"group\"> \n  <label><input class=\"ceo\" type=\"checkbox\"/> CEO</label>\n  <span id=\"notCeo\"></span><br/><br/>\n\n  <b>Employees:</b> \n\n  <div id=\"employees\"></div> \n</div>\n",
+        "code": "$.templates(\"nameTmpl\", \"<div>Name: {{:first}} {{:last}}</div>\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$.link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  \"#group\", // target\n  person // data\n);\n\n$.link(\n  \"isCEO\", // expression\n  \"input.ceo\", // target\n  person // data\n);\n\n$.link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  \"#employees\", // target\n  person // data\n);\n\n$.link(\n  \"visible{:!isCEO} {:~message}\", // expression\n \"#notCeo\", // target\n  person, // data \n  {message: \"(Not CEO!)\"} // helpers\n);\n",
         "height": "108",
         "title": "Top-level programmatic data-linking"
       },
@@ -1733,8 +1768,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "Apply data-link expression to `<input>`, for two-way binding to `isCEO` data property:\n\n```js\n$(\"input.ceo\").link(\n  \"isCEO\", // expression\n  person // data\n);\n```\n\nApply `{for...}` and `visible:{:...}` data-link binding expressions to `#employees` `<div>`:\n\n```js\n$(\"#employees\").link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  person // data\n);\n```"
           }
         ],
-        "html": "<div id=\"group\"> \n  CEO: <input class=\"ceo\" type=\"checkbox\"/>\n  <span id=\"notCeo\"></span><br/><br/> \n\n  <b>Employees:</b> \n\n  <div id=\"employees\"></div> \n</div>\n",
-        "code": "$.templates(\"nameTmpl\", \"<div>Name: {{:first}} {{:last}}</div>\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$(\"#group\").link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  person // data\n);\n\n$(\"input.ceo\").link(\n  \"isCEO\", // expression\n  person // data\n);\n\n$(\"#employees\").link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  person // data\n);\n\n$(\"#notCeo\").link(\n  \"visible{:!isCEO} {:~message}\", // expression\n  person, // data \n  {message: \"Not CEO!\"} // helpers\n);\n",
+        "html": "<div id=\"group\"> \n  <label><input class=\"ceo\" type=\"checkbox\"/> CEO</label>\n  <span id=\"notCeo\"></span><br/><br/>\n\n  <b>Employees:</b> \n\n  <div id=\"employees\"></div> \n</div>\n",
+        "code": "$.templates(\"nameTmpl\", \"<div>Name: {{:first}} {{:last}}</div>\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$(\"#group\").link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  person // data\n);\n\n$(\"input.ceo\").link(\n  \"isCEO\", // expression\n  person // data\n);\n\n$(\"#employees\").link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  person // data\n);\n\n$(\"#notCeo\").link(\n  \"visible{:!isCEO} {:~message}\", // expression\n  person, // data \n  {message: \"(Not CEO!)\"} // helpers\n);\n",
         "height": "108",
         "title": "Top-level programmatic data-linking <span style=\"font-style:normal;\">(alternative syntax)</span>",
         "markup": ""
@@ -2774,6 +2809,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "path": "",
     "sections": [
       {
+        "_type": "para",
+        "title": "",
+        "text": "JsViews provides the following APIs for modifying settings:"
+      },
+      {
         "_type": "links",
         "title": "",
         "links": [],
@@ -2796,7 +2836,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "hash": "jsvsettings/advanced",
-            "label": "Advanced"
+            "label": "Additional avanced settings"
           }
         ]
       }
@@ -2876,7 +2916,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "var tmpl = $.templates(\"#personTmpl\");\ntmpl.link(\"#result\", person);"
           }
         ],
-        "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <input type=\"checkbox\" checked id=\"attach\"/>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label><input type=\"checkbox\" checked id=\"attach\"/> Change Log</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "$.views.settings.trigger(true);\n\n// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Data: hierarchy of plain objects and arrays\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n// Render and link template against plain object hierarchy\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: {street: \"New Street\"},\n    phones: [{number: \"123 123 1234\"}, {number: \"321 321 4321\"}]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones).insert({\n    number: \"456 456 4567\"\n  });\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "title": "Render and link template directly against plain objects..."
@@ -3171,7 +3211,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Templates used in *JsViews* apps are regular *JsRender* templates, defined/registered in the usual way (see *[Using templates](#compiletmpl)*).\n\nHowever they can include data-linked tags (such as `{^{:name}}`) and data-linked elements (such as `<div data-link=\"name\" ...>`). See: *[Data-linked template syntax](#linked-template-syntax)*."
+        "text": "Templates used in *JsViews* apps are regular *JsRender* templates, defined/registered in the usual way (see *[Using templates](#compiletmpl)*).\n\nHowever they can include data-linked tags (such as `{^{:name}}`) and data-linked elements (such as `<div data-link=\"name\" ...>`). See: *[Data-linked template syntax](#linked-template-syntax)*.\n\nInstead of being simply rendered by [`render()`](#rendertmpl) method, they are rendered and data-linked using the [`link()`](#jsvlinktmpl) method.Templates are rendered and data-linked #jsvlinktmpl"
       }
     ]
   },
@@ -3412,7 +3452,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "This sample illustrates two-way data-linking of *get/set* properties on compiled *View Models*, by replacing the data-linked tags of the previous sample, such as: \n\n```jsr\n{^{:name()}}\n```\n\nwith data-linked input elements:\n\n```jsr\n<input data-link=\"name()\" />\n```\n\nIt also illustrates using `observeAll` with compiled *View Model* instances -- by including the <em>Change Log</em> idea, copied over from the samples on the <a href=\"#observeAll\">`observeAll`</a>/<a href=\"#unobserveAll\">`unobserveAll`</a> topics."
           }
         ],
-        "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"update\">Update</button>\n  <button id=\"revert\">Revert</button>\n  <button id=\"getData\">Get Data</button><br/>\n  <button id=\"changeName\">Change name</button>\n  <button id=\"addPhone\">Add Phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <input type=\"checkbox\" checked id=\"attach\"/>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\"/></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\"/></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table></script>",
+        "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"update\">Update</button>\n  <button id=\"revert\">Revert</button>\n  <button id=\"getData\">Get Data</button><br/>\n  <button id=\"changeName\">Change name</button>\n  <button id=\"addPhone\">Add Phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label><input type=\"checkbox\" checked id=\"attach\"/> Change Log</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\"/></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\"/></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table></script>",
         "code": "$.views.settings.trigger(true);\n\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // name is a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n     {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {               // Uses vmCollection.Phone() to construct new instance\n  $.observable(this.phones()).insert(vmCollection.Phone(phoneNo));\n}\n\n// First version of data (e.g. from JSON request):\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Second version of data (e.g. from JSON request):\nvar personData2 = {\n  name: \"Peter\",\n  address: {street: \"2nd Ave\"},\n  phones: [{number: \"111 111 9999\"},{number: \"333 333 9999\"}]\n};\n\n// Instantiate View Model hierarchy, using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render and link the template against person (Person instance)\ntmpl.link(\"#result\", person);\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  person.merge(personData2);\n});\n\n$(\"#revert\").on(\"click\", function() {\n  person.merge(personData);\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n$(\"#getData\").on(\"click\", function() {\n  var updatedPersonData = person.unmap();\n  window.alert(JSON.stringify(updatedPersonData));\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "400",
         "anchor": "mergesample2",
@@ -3467,6 +3507,833 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "viewmodelsapi",
             "label": "Compiled View Models (JsRender)"
+          }
+        ]
+      }
+    ]
+  },
+  "jsvassigntag": {
+    "title": "Data-linked template tag: {^{: ...}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the `{^{: someExpression}}` tag is a data-bound version of the JsRender [`{{: ...}}`](#assigntag) tag -- which evaluates the expression and returns its string value.\n\nWhen using [data-linked templates](#linkedtmpls) the data-bound version will update automatically when the data in the expression changes observably.\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{:manager^nickname || manager^name}}\n```\n\nThe data-linked `{^{: ...}}` tag updates when the expression `manager^nickname || manager^name` changes<br/>-- i.e. when `manager.nickname`, `manager.name` or the `manager` object change."
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n  <em>Nickname:</em> <input data-link=\"manager^nickname\" /><br/>\n\n  <em>&lcub;{^:manager^nickname || manager^name}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{:manager^nickname || manager^name}}\n  </span>\n\n</script>",
+        "code": "var team = {\n  person1: {\n    name: \"Peter\",\n    nickname: \"Pete\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);",
+        "title": "{^{: ...}}",
+        "height": "155"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "*Note:* `{^{: ...}}` does not HTML-encode the value of the expression. Therefore if you type in `...<sometag>...` as nickname, the `{^{: ...}}` tag will insert that markup as is, into the HTML, which will cause an error (mismatched tag). In this scenario the [`{^{> ...}}`](#jsvhtmltag) tag should be used instead."
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-paths",
+            "label": "Data-linked paths"
+          },
+          {
+            "_type": "topic",
+            "hash": "assigntag",
+            "label": "JsRender: {{: ...}}"
+          }
+        ]
+      }
+    ]
+  },
+  "jsvhtmltag": {
+    "title": "Data-linked template tag: {^{> ...}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the `{^{> someExpression}}` tag is a data-bound version of the JsRender [`{{> ...}}`](#htmltag) tag -- which evaluates the expression and returns the HTML encoded string value of the result.\n\nWhen using [data-linked templates](#linkedtmpls) the data-bound version will update automatically when the data in the expression changes observably.\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{:manager^nickname || manager^name}}\n```\n\nThe data-linked `{^{> ...}}` tag updates when the expression `manager^nickname || manager^name` changes<br/>-- i.e. when `manager.nickname`, `manager.name` or the `manager` object change."
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n  <em>Nickname:</em> <input data-link=\"manager^nickname\" /><br/>\n\n  <em>&lcub;^{>manager^nickname || manager^name}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{>manager^nickname || manager^name}}\n  </span>\n</script>",
+        "code": "var team = {\n  person1: {\n    name: \"Peter\",\n    nickname: \"Pete\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);",
+        "title": "{^{> ...}}",
+        "height": "155"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "*Note:* Unlike the [`{^{: ...}}`](#jsvassigntag), the `{^{> ...}}` HTML-encodes the value of the expression. So if you type in `...<sometag>...` as nickname, the `{^{> ...}}` tag will HTML-encode that markup, and there will not be an error."
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-paths",
+            "label": "Data-linked paths"
+          },
+          {
+            "_type": "topic",
+            "hash": "htmltag",
+            "label": "JsRender: {{> ...}}"
+          }
+        ]
+      }
+    ]
+  },
+  "jsvincludetag": {
+    "title": "Data-linked template tag: {^{include ...}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the `{^{include ...}}` tag is a data-bound version of the JsRender [`{{include ...}}`](#includetag) tag.\n\nWhen using [data-linked templates](#linkedtmpls) the data-bound version will update automatically when the data in the expression changes observably.\n\nThe most common scenario for `{{include}}` is for composition of templates, without change of data context and with statically-defined templates. In that scenario, even within a JsViews data-linked template, the `{{include}}` itself does not need to be data-linked:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{{include tmpl=\"#managerTmpl\"/}}\n```\n\nHere, the `{{include}}` tag is not data-linked, but the `managerTmpl` template does itself include data-linking:\n\n```jsr\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  I am {^{>manager^name}}\n</script>\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  I am {^{>manager^name}}\n</script>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n\n  <em>&lcub;{include tmpl=\"#managerTmpl\"/}&rcub;:</em>\n  <span class=\"spanbox\">\n    {{include tmpl=\"#managerTmpl\"/}}\n  </span>\n</script>\n\n",
+        "code": "var team = {\n  person1: {\n    name: \"Peter\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);",
+        "title": "{{include}}",
+        "height": "130"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "If `{{include someExpression ...}}` has an argument for moving to a new data-context, and changes in the value of the expression are to drive updates, then the data-linked form `{^{include}}` must be used: "
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{include manager tmpl=\"#managerTmpl\"/}}\n```\n\nThe data-linked `{^{include}}` tag updates when the expression `manager` changes -- i.e. when the `manager` object is changed.\n\nAlso the 'name' updates when `name` changes, because the `managerTmpl` itself has a data-linked `{^{>name}}` tag:\n\n```jsr\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  I am {^{>name}}\n</script>\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  I am {^{>name}}\n</script>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n\n  <em>&lcub;^{include manager tmpl=\"#managerTmpl\"/}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{include manager tmpl=\"#managerTmpl\"/}}\n  </span>\n</script>\n\n",
+        "code": "var team = {\n  person1: {\n    name: \"Peter\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);",
+        "title": "{^{include}}",
+        "anchor": "",
+        "height": "130"
+      },
+      {
+        "_type": "para",
+        "title": "{^{include ...}} with dynamically changing template",
+        "text": "If `{{include}}` uses `tmpl=expression` to obtain a template from data or from a helper, then the data-linked `{^{include}}` can be used to drive updates when the template changes dynamically:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{include manager ^tmpl=manager^template/}}\n```\n\nHere the data-linked `{^{include}}` uses a different template for each person (`^tmpl=manager^template`):\n\n```js\nvar team = {\n  person1: {\n    name: \"Peter\",\n    template: \"I am {^{>name}}\" // Template for Peter\n  },\n  ...\n```\n\n-- so thanks to the initial `^` in `^tmpl=...` (see *[binding to tag properties](#linked-tag-syntax@linkedproperties)*), the `{^{include}}` tag updates also if the template itself changes dynamically."
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n  <em>Template:</em> <input data-link=\"manager^template\" /><br/>\n\n  <em>^&lcub;{include manager ^tmpl=\"manager^template\"/}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{include manager ^tmpl=manager^template/}}\n  </span>\n</script>",
+        "code": "var team = {\n  person1: {\n    name: \"Peter\",\n    template: \"I am {^{>name}}\"\n  },\n  person2: {\n    name: \"Octavia\",\n    template: \"My name is <b>{^{>name}}</b>\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);",
+        "title": "",
+        "height": "155"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-paths",
+            "label": "Data-linked paths"
+          },
+          {
+            "_type": "topic",
+            "hash": "includetag",
+            "label": "JsRender: {{include ...}}"
+          }
+        ]
+      }
+    ]
+  },
+  "jsvfortag": {
+    "title": "Data-linked template tag: {^{for ...}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the `{^{for someExpression}}` tag is a data-bound version of the JsRender [`{{for ...}}`](#fortag) tag -- which moves the data context to the object or array returned by the expression, and -- if an array -- iterates over the array.\n\nWhen using [data-linked templates](#linkedtmpls) the data-bound version will update automatically when the data in the expression changes observably, and, for arrays, will also update if the array itself changes observably.\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ],\n...\n```\n\n*<div class=\"close\">Template:</div>*\n\n```jsr\n...\n{^{for members}}\n  <li>... {^{>name}} ...</li>\n{{else}}\n  <li>There are no members</li>\n{{/for}}\n...\n```\n\nHere, the data-linked `{^{for}}` tag updates incrementally when the `members` array is modified as in:\n\n```js\naddMember: function() {\n  $.observable(this.members).insert({name: \"new\" + cnt++});\n}\n...\nremoveMember: function(index) {\n  $.observable(this.members).remove(index);\n}\n```\n\nand updates if the whole `members` array is replaced, as in:\n\n```js\nreplaceMembers: function() {\n  $.observable(this).setProperty(\"members\", [{name: \"Peter\"}, ...]);\n}\n```"
+          }
+        ],
+        "html": "<style>li {list-style: none}</style>\n<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <ul>\n    {^{for members}}\n      <li>\n        {^{:#index + 1}}: {{>name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n      </li>\n    {{else}}\n      <li>There are no members</li>\n    {{/for}}\n  </ul>\n</script>\n",
+        "code": "var team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ],\n  addMember: function() {\n    $.observable(this.members).insert({name: \"new\" + cnt++});\n  },\n  removeMember: function(index) {\n    $.observable(this.members).remove(index);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", [{name: \"Peter\"}, {name: \"Octavia\"}, {name: \"Xavier\"}]);\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
+        "title": "{^{for ...}}",
+        "height": "120"
+      },
+      {
+        "_type": "para",
+        "title": "{^{for ...}} with dynamically changing template",
+        "text": "If `{{for}}` uses `tmpl=expression` to obtain a template from data or from a helper, then the data-linked `{^{for}}` can be used to drive updates when the template changes dynamically:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{for members ^tmpl=isEditable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n```\n\nHere the data-linked `{^{for}}` uses two different templates, driven by the `isEditable` property:\n\n```js\nvar team = {\n  members: [...],\n  isEditable: false,\n  ...\n```\n\n-- so thanks to the initial `^` in `^tmpl=...` the `{^{for}}` tag updates if `isEditable` changes -- and uses the appropriate template. (See *[binding to tag properties](#linked-tag-syntax@linkedproperties)*.)"
+          }
+        ],
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button><br/><br/>\n  <label><input type=\"checkbox\" data-link=\"isEditable\"/> Editable</label>\n  <ol>\n    {^{for members ^tmpl=isEditable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n  </ol>\n</script>\n\n<script id=\"memberTmpl\" type=\"text/x-jsrender\">\n  <li>\n    {{>name}}\n    <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n  </li>\n</script>\n\n<script id=\"memberEditTmpl\" type=\"text/x-jsrender\">\n  <li>\n    <input data-link=\"name\"/>\n    <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n  </li>\n</script>",
+        "code": "var team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ],\n  isEditable: false,\n  addMember: function() {\n    $.observable(this.members).insert({name: \"new\" + cnt++})\n  },\n  removeMember: function(index) {\n    $.observable(this.members).remove(index);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", [{name: \"Peter\"}, {name: \"Octavia\"}, {name: \"Xavier\"}])\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
+        "height": "160",
+        "title": "",
+        "anchor": "chgtmpl"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-paths",
+            "label": "Data-linked paths"
+          },
+          {
+            "_type": "topic",
+            "hash": "fortag",
+            "label": "JsRender: {{for ...}}"
+          }
+        ]
+      }
+    ]
+  },
+  "jsvpropstag": {
+    "title": "Data-linked template tag: {^{props ...}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the `{^{props someExpression}}` tag is a data-bound version of the JsRender [`{{props ...}}`](#propstag) tag -- which iterates over the properties of the object returned by the expression.\n\nWhen using [data-linked templates](#linkedtmpls) the data-bound version will update automatically when the data in the expression changes observably, and will also update if the properties of the object itself change observably.\n\nThe following sample is functionally similar to the example given for [`{^{for ...}}`](#jsvfortag) -- but here instead of using a `members` array, it uses a `members` object -- a *dictionary by key of 'name' strings*: \n\n```js\nteam.members = {m1: \"Robert\", m2: \"Sarah\"}\n```\n\nAdding or removing properties on the `members` object triggers incremental updates of the `{^{props members}}` tag content. Replacing the `members` object triggers a complete update of the content.\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar team = {\n  members: {m1: \"Robert\", m2: \"Sarah\"},\n...\n```\n\n*<div class=\"close\">Template:</div>*\n\n```jsr\n...\n{^{props members}}\n  <li>... {{>prop}} ...</li>\n{{else}}\n  <li>There are no members</li>\n{{/props}}\n...\n```\n\nHere, the data-linked `{^{props members}}` tag updates incrementally when properties of the `members` object are added or removed, as in:\n\n```js\naddMember: function() {\n  $.observable(this.members).setProperty(\"n\" + cnt, \"new\" + cnt++);\n}, \n...\nremoveMember: function(key) {\n  $.observable(this.members).removeProperty(key);\n}\n```\n\nIt also updates if the whole `members` object is replaced, as in:\n\n```js\nreplaceMembers: function() {\n  $.observable(this).setProperty(\"members\", {m1: \"Peter\", ...});\n}\n```"
+          }
+        ],
+        "html": "<style>li {list-style: none}</style>\n<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <ul>\n    {^{props members}}\n      <li>\n        {^{:#index+1}}: {{>prop}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{else}}\n      <li>There are no members</li>\n    {{/props}}\n  </ul>\n</script>\n",
+        "code": "var team = {\n  members: {m1: \"Robert\", m2: \"Sarah\"},\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, \"new\" + cnt++);\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: \"Peter\", m2: \"Octavia\", m3: \"Xavier\"});\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
+        "height": "130",
+        "title": "{^{props ...}} &ndash; iterating over string properties "
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Inside the `{^{props members}}` tag, a block is rendered for each property, with as data context:\n\n```js\n{key: propertyName, prop: propertyValue}\n```\n\n-- so `{{>key}}` gives the key and `{{>prop}}` gives the value for that property.\n\nIf `members` was not a *dictionary of 'name' strings*, but instead a *dictionary of 'person' objects*, each with a `name` property, then we would write `{{>prop.name}}` to display the name for that 'person' property. \n\nHere is a modified version of the sample above, using this *dictionary of 'person' objects* approach:   "
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n...\n```\n\n*<div class=\"close\">Template:</div>*\n\n```jsr\n...\n{^{props members}}\n  <li>{{>prop.name}} ...</li>\n{{/props}}\n...\n```"
+          }
+        ],
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <ol>\n    {^{props members}}\n      <li>\n        {{>prop.name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{/props}}\n  </ol>\n</script>\n",
+        "code": "var team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++});\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}});\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
+        "height": "130",
+        "title": "{^{props ...}} &ndash; iterating over object properties"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The above samples show adding and removing properties on the `members` object, but does not show observably modifying the value of an existing property. Here is an updated version using a *dictionary of strings* -- where you can also modify property values observably. \n\nTo render the value of the 'name' string property, we use the data-linked form: `{^{>prop}}` -- which updates automatically when the value of the property changes observably. \n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar team = {\n  members: {m1: \"Robert\", m2: \"Sarah\"},\n...\n```\n\n*<div class=\"close\">Template:</div>*\n\n```jsr\n...\n{^{props members}}\n  <li>\n    <input data-link=\"prop\"/>\n    {^{>prop}} ...\n  </li>\n{{else}}\n  There are no members\n{{/props}}\n...\n```\n\nHere, the *Change* button modifies each of the properties of `members`:\n\n```js\nchangeMembers: function() {\n  for (var property in this.members) {\n    ...\n    $.observable(this.members).setProperty(property, ...);\n    ...\n```\n"
+          }
+        ],
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <button data-link=\"{on changeMembers}\">Change</button>\n  <ol>\n    {^{props members}}\n      <li>\n        <input data-link=\"prop\"/>\n        {^{>prop}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{else}}\n      There are no members\n    {{/props}}\n  </ol>\n</script>\n",
+        "code": "var team = {\n  members: {m1: \"Robert\", m2: \"Sarah\"},\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, \"new\" + cnt++);\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: \"Peter\", m2: \"Octavia\", m3: \"Xavier\"});\n  },\n  changeMembers: function() {\n    for (var property in this.members) {\n      if (property !== $.expando) {\n        $.observable(this.members).setProperty(property, this.members[property] + cnt++);\n      }\n    }\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
+        "title": "{^{props ...}} &ndash; with observably changing property values (strings)",
+        "height": "140"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "And here is the same thing, but where members is a *dictionary of 'person' objects* -- so we use `{^{>prop^name}}` to render the `name`. This will update when the `name` property of the 'person' object changes (e.g. when typing into the textbox: `<input data-link=\"prop^name\"` />) or when a property of `members` is changed observably to a different 'person' object."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n...\n```\n\n*<div class=\"close\">Template:</div>*\n\n```jsr\n...\n{^{props members}}\n  <li>\n    <input data-link=\"prop^name\"/>\n    {^{>prop^name}} ...\n  </li>\n{{/props}}\n...\n```\n\nHere, the *Change* button modifies each of the properties of `members` -- assigning a different `person` object:\n\n```js\nchangeMembers: function() {\n  for (var property in this.members) {\n    ...\n    $.observable(this.members).setProperty(property, {name: ...});\n    ...\n```\n"
+          }
+        ],
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <button data-link=\"{on changeMembers}\">Change</button>\n  <ol>\n    {^{props members}}\n      <li>\n        <input data-link=\"prop^name\"/>\n        {^{>prop^name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{/props}}\n  </ol>\n</script>\n",
+        "code": "var team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++});\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}});\n  },\n  changeMembers: function() {\n    for (var property in this.members) {\n      if (property !== $.expando) {\n        $.observable(this.members).setProperty(property, {name: this.members[property].name + cnt++});\n      }\n    }\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
+        "title": "{^{props ...}} &ndash; with observably changing property values (objects)",
+        "height": "140"
+      },
+      {
+        "_type": "para",
+        "title": "More advanced use of {{props}} &ndash; {{jsonview/}}",
+        "text": "An example of more advanced use of `{{props}}` is the sample custom tag control `{{jsonview}}`, available from [downloads/tag-controls](#download/tag-controls). That tag control uses `{^{props}}`, and recursively calls itself:\n\n```jsr\n{^{props}}\n  <li>\n    ...\n    {^{jsonview prop/}}...\n  </li>\n{{/props}}\n```\n\nThe `{{jsonview}}` tag control can be included in any JsViews page, to show the contextual data at that place in the page, or to show given data returned by an expression `{^{jsonview someExpression /}}`. Changes to the data will then update dynamically.\n\nIn the next sample we update the previous one, to include:\n\n- a data-linked `{^{jsonview/}}` control to show current data\n- allow the user to modify the key values in the members object, using `<input data-link=\"key\" />`\n- `{^{props}}...{{else}}...{{/props}}` to show a message if the members object is 'empty'\n\nThis sample is also available at [samples/tag-controls/jsonview](#samples/tag-controls/jsonview).",
+        "anchor": "jsonview"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsonview/jsonview.js",
+            "label": "jsonview.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Template:</div>*\n\n```js\n...\n<ul>\n  {^{props members}}\n    <li>\n      ...\n      <input data-link=\"key\"/>\n      {^{>key}}\n      <input data-link=\"prop^name\"/>\n      {^{>prop^name}}\n      ...\n    </li>\n  {{else}}\n    ...\n  {{/props}}\n</ul>\n...\n{^{jsonview/}}\n...\n```\n"
+          }
+        ],
+        "title": "",
+        "height": "300",
+        "sampleName": "",
+        "url": "samples/tag-controls/jsonview/sample"
+      },
+      {
+        "_type": "para",
+        "title": "{^{props ...}} with dynamically changing template (advanced)",
+        "text": "If `{{props}}` uses `tmpl=expression` to obtain a template from data or from a helper, then the data-linked `{^{props}}` can be used to drive updates when the template changes dynamically.\n\nHere it is in a sample (similar to the [corresponding sample](#jsvfortag@chgtmpl) using the `{^{for}}` tag). "
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{props members ^tmpl=editable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n```\n\nHere the data-linked `{^{props}}` uses two different templates, driven by the `isEditable` property:\n\n```js\nvar team = {\n  members: [...],\n  isEditable: false,\n  ...\n```\n\n-- so thanks to the initial `^` in `^tmpl=...` the `{^{props}}` tag updates if `isEditable` changes -- and uses the appropriate template. (See *[binding to tag properties](#linked-tag-syntax@linkedproperties)*.)"
+          }
+        ],
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button><br/><br/>\n  <label><input type=\"checkbox\" data-link=\"isEditable\"/> Editable</label>\n  <ol>\n    {^{props members ^tmpl=isEditable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n  </ol>\n</script>\n\n<script id=\"memberTmpl\" type=\"text/x-jsrender\">\n  <li>\n    {{>prop.name}} \n    <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n  </li>\n</script>\n\n<script id=\"memberEditTmpl\" type=\"text/x-jsrender\">\n  <li>\n    <input data-link=\"prop.name\"/>\n    <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n  </li>\n</script>",
+        "code": "var team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  isEditable: false,\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++})\n  },\n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}})\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
+        "height": "160",
+        "title": "",
+        "anchor": ""
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-paths",
+            "label": "Data-linked paths"
+          }
+        ]
+      }
+    ]
+  },
+  "jsviftag": {
+    "title": "Data-linked template tag: {^{if ...}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the `{^{if someExpression}}` tag is a data-bound version of the JsRender [`{{if ...}}`](#iftag) tag, which renders a block conditionally based on the value of the expression.\n\nWhen using [data-linked templates](#linkedtmpls) the data-bound version will update automatically when the value of the expression changes observably.\n\nThe following sample is similar to one found at *[Samples: Data-linking {^{for}} and {^{if}}](#samples/data-link/for-and-if)*:\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "template",
+            "title": "",
+            "markup": "Reverse name <input type=\"checkbox\" data-link=\"reverse\"/>\n\n{^{if reverse}}\n  <b>{{:last}}</b>, {{:first}}\n{{else}}\n  {{:first}} <b>{{:last}}</b>\n{{/if}}\n"
+          }
+        ],
+        "url": "",
+        "height": "80",
+        "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label><input type=\"checkbox\" data-link=\"reverse\"/> Reverse name</label><br/><br/>\n\n  {^{if reverse}}\n    <b>{{:last}}</b>, {{:first}}\n  {{else}}\n    {{:first}} <b>{{:last}}</b>\n  {{/if}}\n</script>\n",
+        "code": "var person = {\n  reverse: true,\n  first:\"Jeff\",\n  last: \"Adams\"\n};\n\nvar tmpl = $.templates(\"#personTemplate\");\n\ntmpl.link(\"#person\", person);\n\n",
+        "title": "{^{if ...}}"
+      },
+      {
+        "_type": "para",
+        "title": "{^{if ...}}...{{else}}...{{/if}} with dynamically changing templates (advanced)",
+        "text": "If the `{{if}}` or an associated `{{else}}` tag use template references, rather than inline markup, with `tmpl=expression` (obtaining a template from data or from a helper), then the data-linked `{^{if}}` can be used to drive updates when any of the templates change dynamically:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n  {^{if reverse ^tmpl=isEditable?'#editableReverseTmpl':'#noeditReverseTmpl'}}\n  {{else ^tmpl=isEditable?'#editableTmpl':'#noeditTmpl'}}\n  {{/if}}\n```\nHere the data-linked `{^{if}}` and the `{{else}}` each use two alternate templates, driven by the `isEditable` property:\n\n```js\nvar team = {\n  members: [...],\n  isEditable: false,\n  ...\n```\n\n-- so thanks to the initial `^` in `^tmpl=...` (see *[binding to tag properties](#linked-tag-syntax@linkedproperties)*), the `{^{if}}` and `{{else}}` blocks each update if the `isEditable` changes -- and use the appropriate template."
+          }
+        ],
+        "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label><input type=\"checkbox\" data-link=\"isEditable\"/> Editable</label><br/>\n  <label><input type=\"checkbox\" data-link=\"reverse\"/> Reverse</label><br/><br/>\n\n  {^{if reverse ^tmpl=isEditable?'#editableReverseTmpl':'#noeditReverseTmpl'}}\n  {{else ^tmpl=isEditable?'#editableTmpl':'#noeditTmpl'}}\n  {{/if}}\n</script>\n\n<script id=\"editableReverseTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"last\" />, <input data-link=\"first\" />\n</script>\n\n<script id=\"noeditReverseTmpl\" type=\"text/x-jsrender\">\n  <b>{{:last}}</b>, {{:first}}\n</script>\n\n<script id=\"editableTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"first\" /> <input data-link=\"last\" />\n</script>\n\n<script id=\"noeditTmpl\" type=\"text/x-jsrender\">\n  {{:first}} <b>{{:last}}</b>\n</script>",
+        "code": "var person = {\n  isEditable: true,\n  reverse: true,\n  first:\"Jeff\",\n  last: \"Adams\"\n};\n\nvar tmpl = $.templates(\"#personTemplate\");\n\ntmpl.link(\"#person\", person);\n\n",
+        "height": "110",
+        "title": ""
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-paths",
+            "label": "Data-linked paths"
+          },
+          {
+            "_type": "topic",
+            "hash": "iftag",
+            "label": "JsRender: {{if ...}}"
+          }
+        ]
+      }
+    ]
+  },
+  "jsvelsetag": {
+    "title": "Data-linked template tag: {{else ...}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the `{{else ...}}` tag is identical to the [`{{else ...}}`](#elsetag) tag used in JsRender, and acts as a separator for alternate content blocks, in as association with an `{{if}}`, `{{for}}` or `{{props}}` tag, or with any custom tag.\n\nIf the associated tag is data-linked, then the rendering of the `{{else}}` block can also be dynamically driven by observable data changes. See for example the first sample in the [`{^{if}}`](#jsviftag), [`{^{for}}`](#jsvfortag) and [`{^{props}}`](#jsvpropstag) topics\n\nIn each case rendering will switch dynamically to the `{{else}}` block when the data changes appropriately -- for example, in the case of `{^{for members}}...{{else})...{{/for}}`, when the members array is empty.\n\nThe following example shows an `{^{if}}` tag with multiple `{{else}}` blocks:\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Template:</div>*\n\n```jsr\n...\n{^{if type==='book'}}\n  The book price is {{>price}} \n{{else type==='car'}}\n  The car costs {{>price}}\n{{else}}\n  The price is {{>price}}\n{{/if}}\n...\n```\n\nNote that `{{else expression}}` behaves as *else if*, but it is not necessary to write `{^{else ...}}` -- since the dynamic data-linking is determined by the associated `{^{if ...}}` tag. "
+          }
+        ],
+        "html": "<div id=\"object\"></div>\n\n<script id=\"objectTemplate\" type=\"text/x-jsrender\">\n  <select data-link=\"type\" size=\"3\">\n    <option value=\"\">Choose type</option>\n    <option>book</option>\n    <option>car</option>\n  </select><br/><br/>\n\n  <input data-link=\"type\" /><br/><br/>\n \n  {^{if type==='book'}}\n    The book price is {{>price}} \n  {{else type==='car'}}\n    The car costs {{>price}}\n  {{else}}\n    Nothing chosen\n  {{/if}}\n</script>\n",
+        "code": "var object = {\n  type: \"car\",\n  price:\"$25000\"\n};\n\nvar tmpl = $.templates(\"#objectTemplate\");\n\ntmpl.link(\"#object\", object);\n\n",
+        "title": "{^{: ...}}",
+        "height": "160"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Similarly with `{{for ...}}` with multiple `{{else}}` blocks, the data-linked `{^{for ...}}` means that there is dynamic binding to expressions not only on the `{^{for}}` tag itself, but also on the `{{else}}` tags:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Template:</div>*\n\n```jsr\n{^{for members}}\n  ...Member ... {{>name}}...\n{{else reserves}}\n  ...Reserve ... {{>name}}...\n{{else}}\n  ...No members or reserves...\n{{/for}}\n```\n\nHere, removing all `members` causes the `{{else reserves}}` block to be displayed. Then removing all `reserves` causes the final `{{else}}` block to be displayed."
+          }
+        ],
+        "html": "<style>li {list-style: none}</style>\n<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add member</button>\n  <button data-link=\"{on addReserve}\">Add reserve</button>\n  <ul>\n    {^{for members}}\n      <li>\n        Member {^{:#index + 1}}: {{>name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n      </li>\n    {{else reserves}}\n      <li>\n        Reserve {^{:#index + 1}}: {{>name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeReserve #index}\"></span>\n      </li>\n    {{else}}\n      <li>No members or reserves</li>\n    {{/for}}\n  </ul>\n</script>\n",
+        "code": "var team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ],\n  reserves: [\n    {name: \"Xavier\"}\n  ],\n  addMember: function() {\n    $.observable(this.members).insert({name: \"new\" + cnt++});\n  },\n  addReserve: function() {\n    $.observable(this.reserves).insert({name: \"new\" + cnt++});\n  },\n  removeMember: function(index) {\n    $.observable(this.members).remove(index);\n  },\n  removeReserve: function(index) {\n    $.observable(this.reserves).remove(index);\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
+        "height": "130"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "For the case of `{^{if}}...{{else}}...{{/if}}` binding, with external template references, see the last [`{^{if}}` sample](#jsviftag), which uses the pattern:\n\n```jsr\n{^{if ... ^tmpl=...}}\n{{else ^tmpl=...}}\n{{/if}}\n```"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-paths",
+            "label": "Data-linked paths"
+          },
+          {
+            "_type": "topic",
+            "hash": "elsetag",
+            "label": "JsRender: {{else}}"
+          }
+        ]
+      }
+    ]
+  },
+  "jsvontag": {
+    "title": "Data-linked template tag: {^{on ...}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the `{^{: ...}}` tag is a data-bound version of the JsRender [`{{: ...}}`](#assigntag) tag.\n\nWhen using [data-linked templates](#linkedtmpls) the data-bound version will update automatically when the data in the expression changes observably.\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the `{^{props someExpression}}` tag is a data-bound version of the JsRender [`{{props ...}}`](#propstag) tag -- which iterates over the properties of the object returned by the expression.\n\nWhen using data-linked [templates](#linkedtmpls) the data-bound version will update automatically when the data in the expression changes observably, and will also update if the properties of the object itself change observably.\n\nThe following sample is functionally identical to the example given for [`{^{for ...}}`](#jsvfortag) -- but here instead of using a `members` array, it uses a `members` object.\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n...\n```\n\n*<div class=\"close\">Template:</div>*\n\n```jsr\n...\n{^{props members}}\n  <li>\n    {{:prop.name}} ...\n  </li>\n{{/props}}\n\n...\n```\n\nHere, the data-linked `{^{props}}` tag updates incrementally when the properties of the `members` object are added or removed, as in:\n\n```js\naddMember: function() {\n  $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++});\n}, \n...\nremoveMember: function(key) {\n  $.observable(this.members).removeProperty(key);\n}\n```\n\nand updates if the whole `members` object is replaced, as in:\n\n```js\nreplaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"} ...});\n}\n```"
+          }
+        ],
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <ol>\n    {^{props members}}\n      <li>\n        {{:prop.name}} \n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{/props}}\n  </ol>\n</script>\n",
+        "code": "var team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++});\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}});\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
+        "title": "{^{: ...}}",
+        "height": "120"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "If `{{props}}` uses `tmpl=expression` to obtain a template from data or from a helper, then the data-linked `{^{props}}` can be used to drive updates when the template changes dynamically:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{props members ^tmpl=editable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n```\n\nHere the data-linked `{^{props}}` uses two different templates, driven by the `isEditable` property:\n\n```js\nvar team = {\n  members: [...],\n  isEditable: false,\n  ...\n```\n\n-- so thanks to the initial `^` in `^tmpl=...` (see *[binding to tag properties](#linked-tag-syntax@linkedproperties)*), the `{^{props}}` tag updates if the `isEditable` changes -- and uses the appropriate template."
+          }
+        ],
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button><br/><br/>\n  <label>Editable <input type=\"checkbox\" data-link=\"isEditable\"/></label>\n  <ol>\n    {^{props members ^tmpl=isEditable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n  </ol>\n</script>\n\n<script id=\"memberTmpl\" type=\"text/x-jsrender\">\n  <li>\n    {{:prop.name}} \n    <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n  </li>\n</script>\n\n<script id=\"memberEditTmpl\" type=\"text/x-jsrender\">\n  <li>\n    <input data-link=\"prop.name\"/>\n    <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n  </li>\n</script>",
+        "code": "var team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  isEditable: false,\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++})\n  },\n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}})\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
+        "height": "160",
+        "title": "{^{for ...}} with dynamically changing template"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-paths",
+            "label": "Data-linked paths"
+          }
+        ]
+      }
+    ]
+  },
+  "jsvcustomtags": {
+    "title": "Data-linked custom tags",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In JsViews the `{^{: ...}}` tag is a data-bound version of the JsRender [`{{: ...}}`](#assigntag) tag.\n\nWhen using [data-linked templates](#linkedtmpls) the data-bound version will update automatically when the data in the expression changes observably.\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{:manager^nickname || manager^name}}\n```\n\nData-linked tag updates when expression `manager^nickname || manager^name` changes<br/>-- i.e. when `manager.nickname`, `manager.name` or `manager` object change."
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n\n<button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n<em>Name:</em> <input data-link=\"manager^name\" /><br/>\n<em>Nickname:</em> <input data-link=\"manager^nickname\" /><br/><br/>\n\n<em>{^&lcub;:manager^nickname || manager^name}&rcub;:</em> <b>{^{:manager^nickname || manager^name}}</b>\n\n</script>",
+        "code": "var team = {\n  person1: {\n    name: \"Peter\",\n    nickname: \"Pete\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", team);",
+        "title": "{^{: ...}}"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-paths",
+            "label": "Data-linked paths"
           }
         ]
       }

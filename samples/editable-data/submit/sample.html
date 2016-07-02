@@ -10,11 +10,9 @@
 
 <!----------------- Data-linked content -------------------> 
 <div class="linkedContent">
-  <div class="buttons">
-    <button data-link="{on showData}">show data</button>
-    <button data-link="{on deleteLast}">delete last language</button>
-    <button data-link="{on undo} disabled{:msg() !== ''}">Undo</button>
-  </div>
+  <button data-link="{on showData}">show data</button>
+  <button data-link="{on deleteLast}">delete last language</button>
+  <button data-link="{on undo} disabled{:msg() !== ''}">Undo</button>
 
   <form data-link="{on 'submit' saveData}">
     <button class="buttons" type="submit" data-link="disabled{:msg() !== ''}">Submit Changes</button>

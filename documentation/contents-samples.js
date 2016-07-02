@@ -1658,7 +1658,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "sampleName": "tag-controls/slider/with-validation",
         "url": "samples/tag-controls/slider/with-validation/sample",
-        "height": "890"
+        "height": "810"
       }
     ]
   },
@@ -2387,13 +2387,13 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "Reverse name: <input type=\"checkbox\" data-link=\"reverse\"/>\n{^{for people}}\n  <div class=\"person\">\n    {^{if ~root.reverse}}\n      <b>{{:last}}</b>, {{:first}}\n    {{else}}\n      {{:first}} <b>{{:last}}</b>\n    {{/if}}\n  </div>\n{{/for}}"
+            "markup": "<input type=\"checkbox\" data-link=\"reverse\"/> Reverse name\n{^{for people}}\n  <div class=\"person\">\n    {^{if ~root.reverse}}\n      <b>{{:last}}</b>, {{:first}}\n    {{else}}\n      {{:first}} <b>{{:last}}</b>\n    {{/if}}\n  </div>\n{{/for}}"
           }
         ],
         "html": "",
         "code": "",
         "url": "samples/data-link/6_linked-if-tag",
-        "height": "160",
+        "height": "180",
         "title": "Data-linked {^{if ...}} tag"
       },
       {
@@ -2552,10 +2552,10 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "```jsr\n.red-border { border: 1px solid red; }\n```\n\n```jsr\n<span class=\"red-border\"\n  data-link=\"class{:isLead?'special':''}\">\n```"
           }
         ],
-        "html": "<style>\n  .person { padding: 3px; margin: 5px; }\n  .special { color: blue; font-style: italic; }\n  .red-border { border: 1px solid red; padding: 3px; }\n</style>\n\n<div id=\"people\"></div>\n\n<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <button id=\"add\">Add person</button><br />\n  Reverse name: <input type=\"checkbox\" data-link=\"reverse\"/>\n  {^{for people}}\n    <div class=\"person\">\n      Lead: <input type=\"checkbox\" data-link=\"isLead\"/>\n      <span class=\"red-border\"\n        data-link=\"class{:isLead?'special':''}\">\n        {^{if ~root.reverse}}\n          <b>{{:last}}</b>, {{:first}}\n        {{else}}\n          {{:first}} <b>{{:last}}</b>\n        {{/if}}\n      </span>\n    </div>\n  {{/for}}\n</script>",
+        "html": "<style>\n  .person { padding: 3px; margin: 5px; }\n  .special { color: blue; font-style: italic; }\n  .red-border { border: 1px solid red; padding: 3px; }\n</style>\n\n<div id=\"people\"></div>\n\n<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <button id=\"add\">Add person</button><br /><br />\n  <label><input type=\"checkbox\" data-link=\"reverse\"/> Reverse name</label>\n  {^{for people}}\n    <div class=\"person\">\n      <label><input type=\"checkbox\" data-link=\"isLead\"/> Lead: </label>\n      <span class=\"red-border\"\n        data-link=\"class{:isLead?'special':''}\">\n        {^{if ~root.reverse}}\n          <b>{{:last}}</b>, {{:first}}\n        {{else}}\n          {{:first}} <b>{{:last}}</b>\n        {{/if}}\n      </span>\n    </div>\n  {{/for}}\n</script>",
         "code": "var data = {\n  people: [\n    {\n      first:\"Jeff\",\n      last: \"Adams\",\n      isLead: true\n    },\n    {\n      first:\"Eugenia\",\n      last: \"Tyzak\"\n    }\n  ]\n};\n\n$.templates({ \n  peopleTmpl: \"#peopleTemplate\"\n});\n\n$.templates.peopleTmpl.link(\"#people\", data);\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(data.people).insert({\n    first:\"Amos\",\n    last: \"Sanchez\"\n  });\n})",
         "markup": "",
-        "height": "160"
+        "height": "180"
       },
       {
         "_type": "para",
@@ -2585,9 +2585,9 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "```jsr\n.red-border { border: 1px solid red; }\n```\n\n```jsr\n<span class=\"red-border\"\n  data-link=\"class{merge:isLead toggle='special'}\">\n```"
           }
         ],
-        "html": "<style>\n  .person { padding: 3px; margin: 5px; }\n  .special { color: blue; font-style: italic; }\n  .red-border { border: 1px solid red; padding: 3px; }\n</style>\n\n<div id=\"people\"></div>\n\n<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <button id=\"add\">Add person</button><br />\n  Reverse name: <input type=\"checkbox\" data-link=\"reverse\"/>\n  {^{for people}}\n    <div class=\"person\">\n      Lead: <input type=\"checkbox\" data-link=\"isLead\"/>\n      <span class=\"red-border\"\n        data-link=\"class{merge:isLead toggle='special'}\">\n        {^{if ~root.reverse}}\n          <b>{{:last}}</b>, {{:first}}\n        {{else}}\n          {{:first}} <b>{{:last}}</b>\n        {{/if}}\n      </span>\n    </div>\n  {{/for}}\n</script>",
+        "html": "<style>\n  .person { padding: 3px; margin: 5px; }\n  .special { color: blue; font-style: italic; }\n  .red-border { border: 1px solid red; padding: 3px; }\n</style>\n\n<div id=\"people\"></div>\n\n<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <button id=\"add\">Add person</button><br /><br />\n  <label><input type=\"checkbox\" data-link=\"reverse\"/> Reverse name</label>\n  {^{for people}}\n    <div class=\"person\">\n      <label><input type=\"checkbox\" data-link=\"isLead\"/> Lead: </label>\n      <span class=\"red-border\"\n        data-link=\"class{merge:isLead toggle='special'}\">\n        {^{if ~root.reverse}}\n          <b>{{:last}}</b>, {{:first}}\n        {{else}}\n          {{:first}} <b>{{:last}}</b>\n        {{/if}}\n      </span>\n    </div>\n  {{/for}}\n</script>",
         "code": "var data = {\n  people: [\n    {\n      first:\"Jeff\",\n      last: \"Adams\",\n      isLead: true\n    },\n    {\n      first:\"Eugenia\",\n      last: \"Tyzak\"\n    }\n  ]\n};\n\n$.templates({ \n  peopleTmpl: \"#peopleTemplate\"\n});\n\n$.templates.peopleTmpl.link(\"#people\", data);\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(data.people).insert({\n    first:\"Amos\",\n    last: \"Sanchez\"\n  });\n})",
-        "height": "160"
+        "height": "180"
       },
       {
         "_type": "para",
@@ -2617,8 +2617,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "```js\npeople: [\n  {\n    first:\"Jeff\",\n    last: \"Adams\",\n    role: \"Marketing\",\n    isLead: true\n  },\n  {\n    first:\"Eugenia\",\n    last: \"Tyzak\",\n    role: \"Visiting member\"\n  }\n```\n\n```jsr\nLead: <input type=\"checkbox\" data-link=\"isLead\"/>\n<span class=\"red-border\"\n  data-link=\"class{merge:isLead toggle='special'}\">\n  ...\n</span>\n<span data-link=\"\n    {:role}\n    {merge:isLead toggle='- (Lead)'}\n  \"\n  ...\n></span>\n```"
           }
         ],
-        "height": "160",
-        "html": "<style>\n  .person { padding: 3px; margin: 5px; }\n  .special { color: blue; font-style: italic; }\n  .red-border { border: 1px solid red; padding: 3px; }\n  .details { color: green; border: 2px solid grey;\n             padding: 3px; margin-left :40px; }\n</style>\n\n<div id=\"people\"></div>\n\n<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <button id=\"add\">Add person</button><br />\n  Reverse name: <input type=\"checkbox\" data-link=\"reverse\"/>\n  {^{for people}}\n    <div class=\"person\">\n      Lead: <input type=\"checkbox\" data-link=\"isLead\"/>\n      <span class=\"red-border\"\n        data-link=\"class{merge:isLead toggle='special'}\">\n        {^{if ~root.reverse}}\n          <b>{{:last}}</b>, {{:first}}\n        {{else}}\n          {{:first}} <b>{{:last}}</b>\n        {{/if}}\n      </span>\n      <span data-link=\"\n          {:role}\n          {merge:isLead toggle='- (Lead)'}\n        \"\n        class=\"details\"\n      ></span>\n  </div>\n  {{/for}}\n</script>",
+        "height": "180",
+        "html": "<style>\n  .person { padding: 3px; margin: 5px; }\n  .special { color: blue; font-style: italic; }\n  .red-border { border: 1px solid red; padding: 3px; }\n  .details { color: green; border: 2px solid grey;\n             padding: 3px; margin-left :40px; }\n</style>\n\n<div id=\"people\"></div>\n\n<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <button id=\"add\">Add person</button><br /><br />\n  <label><input type=\"checkbox\" data-link=\"reverse\"/> Reverse name</label>\n  {^{for people}}\n    <div class=\"person\">\n      <label><input type=\"checkbox\" data-link=\"isLead\"/> Lead: </label>\n      <span class=\"red-border\"\n        data-link=\"class{merge:isLead toggle='special'}\">\n        {^{if ~root.reverse}}\n          <b>{{:last}}</b>, {{:first}}\n        {{else}}\n          {{:first}} <b>{{:last}}</b>\n        {{/if}}\n      </span>\n      <span data-link=\"\n          {:role}\n          {merge:isLead toggle='- (Lead)'}\n        \"\n        class=\"details\"\n      ></span>\n  </div>\n  {{/for}}\n</script>",
         "code": "var data = {\n  people: [\n    {\n      first:\"Jeff\",\n      last: \"Adams\",\n      role: \"Marketing\",\n      isLead: true\n    },\n    {\n      first:\"Eugenia\",\n      last: \"Tyzak\",\n      role: \"Visiting member\"\n    }\n  ]\n};\n\n$.templates({ \n  peopleTmpl: \"#peopleTemplate\"\n});\n\n$.templates.peopleTmpl.link(\"#people\", data);\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(data.people).insert({\n    first:\"Amos\",\n    last: \"Sanchez\",\n    role: \"Support\"\n  });\n})\n"
       },
       {
@@ -2645,7 +2645,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/data-link/8_toggle-class",
-        "height": "160"
+        "height": "180"
       },
       {
         "_type": "para",
@@ -2691,7 +2691,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "markup": "<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n"
           }
         ],
-        "markup": "<p>\n<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n  I am {^{:disableButton?'disabled':'enabled'}}\n</button>\n</p>\n<p>\nDisable: <input data-link=\"disableButton\" type=\"checkbox\" /><br/>\nSet button (on hover) title: <input data-link=\"theTitle\" />\n</p>",
+        "markup": "<p>\n<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n  I am {^{:disableButton?'disabled':'enabled'}}\n</button>\n</p>\n<p>\n<label><input data-link=\"disableButton\" type=\"checkbox\" /> Disable</label><br/>\nSet button (on hover) title: <input data-link=\"theTitle\" />\n</p>",
         "data": {
           "theTitle": "the title",
           "disableButton": false
@@ -2868,11 +2868,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "",
-            "markup": "Lead: <input type=\"checkbox\" data-link=\"isLead\"/>\n<span data-link=\"class{:isLead?'special':''}\">\n  ...\n</span>"
+            "markup": "<input type=\"checkbox\" data-link=\"isLead\"/> Lead:\n<span data-link=\"class{:isLead?'special':''}\">\n  ...\n</span>"
           }
         ],
         "url": "samples/data-link/7_link-to-class",
-        "height": "160",
+        "height": "180",
         "title": "Data-linked class attribute"
       },
       {
@@ -2915,7 +2915,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/data-link/10_linked-visibility",
-        "height": "150"
+        "height": "170"
       },
       {
         "_type": "para",
@@ -3037,14 +3037,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "sample",
         "typeLabel": "Sample:",
-        "codetabs": [
-          {
-            "_type": "codetab",
-            "name": "",
-            "url": "download/sample-tag-controls/range/range.js",
-            "label": "range.js"
-          }
-        ],
+        "codetabs": [],
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -3059,7 +3052,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "We use the `{{range}}` custom tag to create a drop-down to select an integer between 1 and 10 as the `start` integer (...and similarly for the `end` integer).\n\n```jsr\n<select data-link=\"{:start:strToInt}\">\n  {^{range start=1 end=10}}\n    <option>{{:#data}}</option>\n  {{/range}}\n</select>\n```\n\nThen we again use the `{{range}}` tag to show a partial list of team members.\n\nWe bind to the observable `members` array, and we also bind to the `start` and `end` 'range' integers.\n\n```jsr\n<ul>\n  {^{range members ^start=start-1 ^end=end}}\n    <li>\n      {^{:#index + ~root.start}}. {^{:name}}\n    </li>\n  {{else}}\n    <li>No items</li>\n  {{/range}}\n</ul>\n```\n\nNote the ^ character here:\n\n```jsr\n^start=start-1\n```\n\nand here:\n\n```jsr\n^end=end\n```\n\nto specify that the start and end 'named properties' on the `{{range}}` tag are data-linked. By default named properties are not data-linked. (This is made 'opt-in' for perf optimization reasons.)"
           }
         ],
-        "sampleName": "tag-controls/range",
+        "sampleName": "",
         "url": "samples/tag-controls/range/sample",
         "height": "400"
       }
@@ -3230,6 +3223,38 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "height": "250",
         "title": "Shopping cart (linked template)",
         "anchor": "tmpl"
+      }
+    ]
+  },
+  "samples/tag-controls/jsonview": {
+    "title": "The jsonview control",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This sample shows the `{{jsonview/}}` control, which is available from [downloads/tag-controls](#download/tag-controls).\n\nThe `{{jsonview}}` tag control can be included in any JsViews page, to show the contextual data at that place in the page, or to show given data returned by an expression `{^{jsonview someExpression /}}`. Changes to the data will then update dynamically.\n\nThe following sample (shown also in the *[Data-linked template tag: {^{props ...}}](#jsvpropstag@jsonview)* topic) illustrates the use of `{{jsonview}}`:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Template:</div>*\n\n```js\n...\n<ul>\n  {^{props members}}\n    <li>\n      ...\n      <input data-link=\"key\"/>\n      {^{>key}}\n      <input data-link=\"prop^name\"/>\n      {^{>prop^name}}\n      ...\n    </li>\n  {{else}}\n    ...\n  {{/props}}\n</ul>\n...\n{^{jsonview/}}\n...\n```\n"
+          }
+        ],
+        "url": "samples/tag-controls/jsonview/sample",
+        "height": "300"
       }
     ]
   }

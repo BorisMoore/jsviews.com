@@ -48,7 +48,7 @@ if (!$ || !$.fn) {
 
 var versionNumber = "v@@include("templates/-version.txt")",
 
-	jsvStoreName, rTag, rTmplString, topView, $views, $observe, $observable,
+	jsvStoreName, rTag, rTmplString, topView, $views, $observe, $observable, $expando,
 
 @@include('jsrender.js')
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsObservable >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -63,6 +63,7 @@ $views = $.views;
 $sub = $views.sub;
 $isFunction = $.isFunction;
 $isArray = $.isArray;
+$expando = $.expando;
 @@include("jquery.observable.js")
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsViews >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

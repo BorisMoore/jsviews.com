@@ -21,10 +21,10 @@
     <button id="refresh-outer">Refresh validation container</button>
     <button id="refresh">Refresh validated controls</button>
   </p>
-  Prevent invalid data:<input type="checkbox" data-link="~page.noInvalidData" /><br/>
+  <label>Prevent invalid data <input type="checkbox" data-link="~page.noInvalidData" /></label><br/>
 
   name: <input data-link="name"/><br/>
-  agree: <input type="checkbox" data-link="agree"/><br/>
+  <label>Agree <input type="checkbox" data-link="agree"/></label><br/>
 
   <p>There are
     {^{if ~tag.isValid}}
@@ -44,9 +44,9 @@
     convertBack=~lower
   }"/>
 
-  Agree: <input type="checkbox" data-link="{validate agree
+  <label>Agree <input type="checkbox" data-link="{validate agree
     checked=true
-  }"/>
+  }"/></label> 
 
   <select size="3" data-link="{validate name
     minLength=3
@@ -84,11 +84,11 @@
     <input/>
   {{/validate}}
 
-  {^{validate agree
+  <label>Agree {^{validate agree
     checked=true
   }}
-    Agree: <input type="checkbox"/>
-  {{/validate}}
+    <input type="checkbox"/> 
+  {{/validate}}</label>
 
   {^{validate name
     minLength=3

@@ -138,7 +138,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "Unlike {{for objectOrArray}}, {{include objectOrArray}} does not iterate over arrays.\nConsider this example:\nNumber of friends: {{:friends.length}}        {{!-- Get 'length' of 'friends' array --}}\nFriends:\n{{for friends}}                               {{!-- Iterate over 'friends' array --}}\n  {{name:}}                                   {{!-- Current data context (#data) is a 'friend'. Get 'name' --}}   \n{{/for}}\n\nThe example could actually be rewritten, equivalently, as follows:\n{{include friends}}                           {{!-- Move to 'friends' array as data context, no iteration --}}\n  Number of friends: {{:length}}              {{!-- Current data context (#data) is 'friends'. Get 'length' --}}\n  Friends:\n  {{for}}    {{!-- or {{for #data}} ... --}}  {{!-- Iterate over current data context (friends array) --}}\n    {{name:}} \n  {{/for}}\n{{/include}}\n\nHere it is as a running sample:\n"
+        "text": "Unlike {{for objectOrArray}}, {{include objectOrArray}} does not iterate over arrays.\nConsider this example:\nNumber of friends: {{:friends.length}}    {{!-- Get 'length' of 'friends' array --}}\nFriends:\n{{for friends}}                           {{!-- Iterate over 'friends' array --}}\n  {{name:}}                               {{!-- Current data context (#data) is a 'friend'. Get 'name' --}}   \n{{/for}}\n\nThe example could actually be rewritten, equivalently, as follows:\n{{include friends}}                       {{!-- Move to 'friends' array as data context, no iteration --}}\n  Number of friends: {{:length}}          {{!-- Current data context (#data) is 'friends'. Get 'length' --}}\n  Friends:\n  {{for}} {{!-- or {{for #data}} ... --}} {{!-- Iterate over current data context (friends array) --}}\n    {{name:}} \n  {{/for}}\n{{/include}}\n\nHere it is as a running sample:\n"
       },
       {
         "_type": "sample",
@@ -451,7 +451,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "$.render.myTmpl()",
-        "text": "$.render.myTmpl()\nIf a template has been registered as a named template:\n$.templates(\"myTmpl\", \"#personTmpl\");\n\n…then you can call the render() method of the template without needing to hold on to the compiled template object returned from $.templates(...).\nJust call $.render.myTmpl(...), or $.render[\"myTmpl\"](...)\n(Note: there is also an alternative syntax for rendering a named template: $.templates.myTmpl1(...);)\n"
+        "text": "$.render.myTmpl()\nIf a template has been registered as a named template:\n$.templates(\"myTmpl\", \"#personTmpl\");\n\nor\n$.templates(\"myTmpl\", \"some markup string\");\n\n…then you can call the render() method of the template without needing to hold on to the compiled template object returned from $.templates(...).\nJust call $.render.myTmpl(...), or $.render[\"myTmpl\"](...)\n(Note: there is also an alternative syntax for rendering a named template: $.templates.myTmpl(...);)\n"
       },
       {
         "_type": "api",
@@ -1240,6 +1240,11 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
   "tmplsyntax": {
     "sections": [
       {
+        "_type": "para",
+        "title": "",
+        "text": "The following topics provide information on JsRender template syntax:\n"
+      },
+      {
         "_type": "links",
         "title": "",
         "text": ""
@@ -1248,6 +1253,11 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
   },
   "settings": {
     "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender provides the following APIs for modifying settings:\n"
+      },
       {
         "_type": "links",
         "title": "",
@@ -1488,7 +1498,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Defining contextual parameters",
-        "text": "Defining contextual parameters\nContextual parameters provide a very convenient way of passing values in to nested tag contexts. (See View hierarchy.)\nA contextual parameter is defined by simply writing ~myValue=... (for any expression) on any block tag, such as {{if}} or {{for}}.\nThe resulting ~myValue parameter can then be accessed within the block tag – or deeper down within nested tag contexts, at any depth.\nFor example, the following template defines three contextual parameters, and uses them in nested contexts:\n...\n{{if isActive ~teamTitle=title ~teamData=#data ~teamIndex=#index}}\n  {{for members}}\n    {{if ~teamIndex>2}}\n      {{:~teamTitle}} {{:~teamData.description}}\n      ...\n\n"
+        "text": "Defining contextual parameters\nContextual parameters provide a very convenient way of passing values in to nested tag contexts. (See View hierarchy.)\nA contextual parameter is defined by simply writing ~myValue=... (for any expression) on any block tag, such as {{if}} or {{for}}.\nThe resulting ~myValue parameter can then be accessed within the block tag – or deeper down within nested tag contexts, at any depth.\nFor example, the following template defines three contextual parameters, and uses them in nested contexts:\n...\n{{if isActive ~teamTitle=title ~teamData=#data ~teamIndex=#index}}\n  {{for members}}\n    {{if ~teamIndex>2}}\n      {{:~teamTitle}} {{:~teamData.description}}\n      ...\n\nNote: You can also set contextual parameters on {{else}} blocks, such as in the following example which uses the same template for the {{if}} and {{else}} blocks, but assigns different values to the ~teamTitle parameter in each case:\n{{if isActive ~teamTitle=activeTitle tmpl=\"teamTmpl\"}}\n{{else ~teamTitle=inactiveTitle tmpl=\"teamTmpl\"}}\n{{/if}}\n\n"
       },
       {
         "_type": "para",

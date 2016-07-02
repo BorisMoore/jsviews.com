@@ -227,13 +227,23 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "topics": [
           {
             "_type": "topic",
-            "hash": "samples/jsr/converters",
-            "label": "Sample: Converters and encoding"
+            "hash": "converters",
+            "label": "Using converters"
           },
           {
             "_type": "topic",
             "hash": "paths",
             "label": "Paths and expressions"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/jsr/converters",
+            "label": "Sample: Converters and encoding"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsvassigntag",
+            "label": "JsViews: {^{: ...}}"
           }
         ]
       }
@@ -319,7 +329,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "topic",
             "hash": "converters",
-            "label": "Converters"
+            "label": "Using converters"
           },
           {
             "_type": "topic",
@@ -335,6 +345,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "paths",
             "label": "Paths and expressions"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsvhtmltag",
+            "label": "JsViews: {^{> ...}}"
           }
         ]
       }
@@ -474,7 +489,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Unlike `{{for objectOrArray}}`, `{{include objectOrArray}}` does not iterate over arrays.\n\nConsider this example:\n\n```jsr\nNumber of friends: {{:friends.length}}        {{!-- Get 'length' of 'friends' array --}}\nFriends:\n{{for friends}}                               {{!-- Iterate over 'friends' array --}}\n  {{name:}}                                   {{!-- Current data context (#data) is a 'friend'. Get 'name' --}}   \n{{/for}}\n```\n\nThe example could actually be rewritten, equivalently, as follows:\n\n```jsr\n{{include friends}}                           {{!-- Move to 'friends' array as data context, no iteration --}}\n  Number of friends: {{:length}}              {{!-- Current data context (#data) is 'friends'. Get 'length' --}}\n  Friends:\n  {{for}}    {{!-- or {{for #data}} ... --}}  {{!-- Iterate over current data context (friends array) --}}\n    {{name:}} \n  {{/for}}\n{{/include}}\n```\n\nHere it is as a running sample:"
+        "text": "Unlike `{{for objectOrArray}}`, `{{include objectOrArray}}` does not iterate over arrays.\n\nConsider this example:\n\n```jsr\nNumber of friends: {{:friends.length}}    {{!-- Get 'length' of 'friends' array --}}\nFriends:\n{{for friends}}                           {{!-- Iterate over 'friends' array --}}\n  {{name:}}                               {{!-- Current data context (#data) is a 'friend'. Get 'name' --}}   \n{{/for}}\n```\n\nThe example could actually be rewritten, equivalently, as follows:\n\n```jsr\n{{include friends}}                       {{!-- Move to 'friends' array as data context, no iteration --}}\n  Number of friends: {{:length}}          {{!-- Current data context (#data) is 'friends'. Get 'length' --}}\n  Friends:\n  {{for}} {{!-- or {{for #data}} ... --}} {{!-- Iterate over current data context (friends array) --}}\n    {{name:}} \n  {{/for}}\n{{/include}}\n```\n\nHere it is as a running sample:"
       },
       {
         "_type": "sample",
@@ -530,6 +545,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "paths",
             "label": "Paths and expressions"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsvincludetag",
+            "label": "JsViews: {^{include ...}}"
           }
         ]
       }
@@ -810,6 +830,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "samples/jsr/paths",
             "label": "Sample: Paths"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsvfortag",
+            "label": "JsViews: {^{for ...}}"
           }
         ]
       }
@@ -1053,6 +1078,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "samples/jsr/paths",
             "label": "Sample: Paths"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsvpropstag",
+            "label": "JsViews: {^{props ...}}"
           }
         ]
       }
@@ -1309,6 +1339,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "paths",
             "label": "Paths and expressions"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsviftag",
+            "label": "JsViews: {^{if ...}}"
           }
         ]
       }
@@ -1331,17 +1366,17 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "topic",
             "hash": "iftag",
-            "label": "API: {{if}}"
+            "label": "{{if}}"
           },
           {
             "_type": "topic",
             "hash": "fortag",
-            "label": "API: {{for}}"
+            "label": "{{for}}"
           },
           {
             "_type": "topic",
             "hash": "propstag",
-            "label": "API: {{props}}"
+            "label": "{{props}}"
           },
           {
             "_type": "topic",
@@ -1362,6 +1397,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "paths",
             "label": "Paths and expressions"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsvelsetag",
+            "label": "JsViews: {{else}}"
           }
         ]
       }
@@ -1633,7 +1673,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "myTmpl.render()",
-        "text": "If `myTmpl` is the compiled template object for your template, you can render it using the `myTmpl.render()` method -- which takes a <em>data</em> object or array (as well as an optional <em>helpersOrContext</em> object), and returns the rendered template as a string.\n\nThere is also a shortcut version of the `render()` method: you can call the template object itself as a function: `var html = myTmpl(data)` -- which is equivalent to `var html = myTmpl.render(data)`.\n\nTo get a template object from a template string, a template declared in a script block, or a previously registered *named template*, see <a href=\"#d.templates\">`$.templates()`</a>."
+        "text": "If `myTmpl` is the compiled template object for your template, you can render it using the `myTmpl.render()` method -- which takes a <em>data</em> object or array (as well as an optional <em>helpersOrContext</em> object), and returns the rendered template as a string.\n\nThere is also a shortcut version of the `render()` method: you can call the template object itself as a function: `var html = myTmpl(data)` -- which is equivalent to `var html = myTmpl.render(data)`.\n\nTo get a template object from a template string, a template declared in a script block, or a previously registered *named template*, see [`$.templates()`](#d.templates)."
       },
       {
         "_type": "api",
@@ -1827,7 +1867,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "$.render.myTmpl()",
-        "text": "If a template has been registered as a named template:\n\n```js\n$.templates(\"myTmpl\", \"#personTmpl\");\n```\n\n...then you can call the <a href=\"#tmplrender\">`render()`</a> method of the template without needing to hold on to the compiled template object returned from <a href=\"#d.templates\">`$.templates(...)`</a>.\n\nJust call `$.render.myTmpl(...)`, or `$.render[\"myTmpl\"](...)`\n\n(**Note:** there is also an alternative syntax for rendering a named template: `$.templates.myTmpl1(...);`)\n"
+        "text": "If a template has been [registered](#d.templates) as a named template:\n\n```js\n$.templates(\"myTmpl\", \"#personTmpl\");\n```\n\nor\n\n```js\n$.templates(\"myTmpl\", \"some markup string\");\n```\n\n...then you can call the <a href=\"#tmplrender\">`render()`</a> method of the template without needing to hold on to the compiled template object returned from <a href=\"#d.templates\">`$.templates(...)`</a>.\n\nJust call `$.render.myTmpl(...)`, or `$.render[\"myTmpl\"](...)`\n\n(**Note:** there is also an alternative syntax for rendering a named template: `$.templates.myTmpl(...);`)\n"
       },
       {
         "_type": "api",
@@ -1922,7 +1962,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "$(\"#myTmpl\").render()",
-        "text": "If a template has been registered using a script block:\n\n```jsr\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  ...\n</script>\n```\n\n...then you can call the <a href=\"#tmplrender\">`render()`</a> method of the template without needing to hold on to the compiled template object returned from <a href=\"#d.templates\">`$.templates(...)`</a>.\n\nJust call `$(\"#myTmpl\").render(...)`"
+        "text": "If a template has been [registered](#d.templates) using a script block:\n\n```jsr\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  ...\n</script>\n```\n\n...then you can call the <a href=\"#tmplrender\">`render()`</a> method of the template without needing to hold on to the compiled template object returned from <a href=\"#d.templates\">`$.templates(...)`</a>.\n\nJust call `$(\"#myTmpl\").render(...)`"
       },
       {
         "_type": "api",
@@ -3786,6 +3826,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "path": "",
     "sections": [
       {
+        "_type": "para",
+        "title": "",
+        "text": "The following topics provide information on JsRender template syntax:"
+      },
+      {
         "_type": "links",
         "title": "",
         "links": [],
@@ -3811,6 +3856,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "path": "",
     "sections": [
       {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender provides the following APIs for modifying settings:"
+      },
+      {
         "_type": "links",
         "title": "",
         "links": [],
@@ -3829,7 +3879,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "hash": "settings/advanced",
-            "label": "Advanced"
+            "label": "Additional advanced settings"
           }
         ]
       }
@@ -3896,7 +3946,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "sections": []
   },
   "settings/debugmode": {
-    "title": "Debug mode",
+    "title": "Setting debug mode",
     "path": "",
     "sections": [
       {
@@ -4288,7 +4338,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Defining contextual parameters",
-        "text": "*Contextual parameters* provide a very convenient way of passing values in to nested tag contexts. (See *[View hierarchy](#views)*.)\n\nA contextual parameter is defined by simply writing `~myValue=...` (for any expression) on any block tag, such as `{{if}}` or `{{for}}`.\n\nThe resulting `~myValue` parameter can then be accessed within the block tag -- or deeper down within nested tag contexts, at any depth. \n\nFor example, the following template defines three contextual parameters, and uses them in nested contexts:\n\n```jsr\n...\n{{if isActive ~teamTitle=title ~teamData=#data ~teamIndex=#index}}\n  {{for members}}\n    {{if ~teamIndex>2}}\n      {{:~teamTitle}} {{:~teamData.description}}\n      ...\n```\n"
+        "text": "*Contextual parameters* provide a very convenient way of passing values in to nested tag contexts. (See *[View hierarchy](#views)*.)\n\nA contextual parameter is defined by simply writing `~myValue=...` (for any expression) on any block tag, such as `{{if}}` or `{{for}}`.\n\nThe resulting `~myValue` parameter can then be accessed within the block tag -- or deeper down within nested tag contexts, at any depth. \n\nFor example, the following template defines three contextual parameters, and uses them in nested contexts:\n\n```jsr\n...\n{{if isActive ~teamTitle=title ~teamData=#data ~teamIndex=#index}}\n  {{for members}}\n    {{if ~teamIndex>2}}\n      {{:~teamTitle}} {{:~teamData.description}}\n      ...\n```\n\n*Note:* You can also set contextual parameters on `{{else}}` blocks, such as in the following example which uses the same template for the `{{if}}` and `{{else}}` blocks, but assigns different values to the `~teamTitle` parameter in each case:\n\n```jsr\n{{if isActive ~teamTitle=activeTitle tmpl=\"teamTmpl\"}}\n{{else ~teamTitle=inactiveTitle tmpl=\"teamTmpl\"}}\n{{/if}}\n```\n"
       },
       {
         "_type": "para",

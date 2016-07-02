@@ -72,6 +72,7 @@ var versionNumber = "v0.9.74",
 	$subSettings = $sub.settings,
 	$subSettingsAdvanced = $subSettings.advanced,
 	$isFunction = $.isFunction,
+	$expando = $.expando,
 	$isArray = $.isArray,
 	OBJECT = "object";
 

@@ -44,7 +44,7 @@ var setGlobals = $ === false; // Only set globals if script block in browser (no
 $ = $ && $.fn ? $ : global.jQuery; // $ is jQuery passed in by CommonJS loader (Browserify), or global jQuery.
 
 var versionNumber = "v@@include("templates/-version.txt")",
-	jsvStoreName, rTag, rTmplString, topView, $views,
+	jsvStoreName, rTag, rTmplString, topView, $views,	$expando,
 
 @@include('jsrender.js', { "isNode": false })
 return $ || jsr;

@@ -13,7 +13,7 @@
 
 <script id="myTmpl" type="text/x-jsrender">
   person: <input data-link="person"/><br/>
-  agree: <input type="checkbox" data-link="agree"/><br/>
+  <label>Agree <input type="checkbox" data-link="agree"/></label><br/>
 
   person2: <input data-link="person2"/>
 
@@ -39,11 +39,9 @@
     <input/>
   {{/edit}}<br/>
 
-
-  Agree:
-  {^{edit agree }}
+  <label>Agree {^{edit agree }}
     <input type="checkbox"/>
-  {{/edit}}<br/>
+  {{/edit}}</label><br/>
 
   {^{edit person
     convert="upper"
@@ -88,7 +86,7 @@
     linkTo=person2
   }"/><br/>
 
-  Agree: <input type="checkbox" data-link="{edit agree}"/><br/>
+  <label>Agree <input type="checkbox" data-link="{edit agree}"/></label><br/>
 
   <select size="3" data-link="{edit person
     convert='upper'

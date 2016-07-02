@@ -31,10 +31,10 @@
   <span data-link="visible{:people.length > 2}" class="status">
     The team is complete!
   </span>
-<br />
+<br /><br />
   {^{for people}}
     <div class="person">
-      Lead: <input type="checkbox" data-link="isLead"/>
+      <label><input type="checkbox" data-link="isLead"/> Lead:</label>
       <span class="red-border"
         data-link="class{merge:isLead toggle='special'}">
           {{:first}} <b>{{:last}}</b>
