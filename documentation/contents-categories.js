@@ -379,7 +379,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "label": "$.views.viewModels"
               }
             ],
-            "expanded": false
+            "expanded": true
           },
           {
             "name": "compiletmpl",
@@ -575,7 +575,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "link-events",
             "label": "Event bindings",
-            "hidden": true
+            "hidden": false
           },
           {
             "name": "jsvviews",
@@ -642,7 +642,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "jsvontag",
             "label": "{^{on ...}}",
-            "hidden": true
+            "hidden": false
           },
           {
             "name": "jsvcustomtags",
@@ -729,7 +729,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "$.view()"
           }
         ],
-        "expanded": false
+        "expanded": true
       },
       {
         "name": "link-targets",

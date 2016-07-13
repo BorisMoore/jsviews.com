@@ -116,7 +116,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           }
         ],
         "title": "A first template:",
-        "markup": "<label>Name:</label> {{:name}}<br/>",
+        "markup": "<label>Name:</label> {{:name}}",
         "data": {
           "name": "Adriana"
         },
@@ -366,7 +366,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "A more complete sample:",
-        "text": "This was just a glimpse of some of the richness of JsViews data-linking. The next sample lets you see a more fully-fledged example, which you can experiment with.\n\nMore details on JsViews features and APIs will be available soon, and will be added to the *Links* section below."
+        "text": "This was just a glimpse of some of the richness of JsViews data-linking. The next sample lets you see a more fully-fledged example, which you can experiment with.\n\nFor more details on JsViews features and APIs see the *Links* section below."
       },
       {
         "_type": "sample",
@@ -641,6 +641,28 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "_type": "para",
         "title": "Computed observables",
         "text": "JsViews also allows you to data-bind to computed values, such as:\n\n```jsr\n{^{:shoppingCart.totalAmount()}}           <!-- updates when totalAmount() changes -->\n<input data-link=\"person.fullName()\" />    <!-- two-way binding to the computed fullName() -->\n```\n\n[Learn more...](#computed)"
+      },
+      {
+        "_type": "links",
+        "title": "Links:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "jsvapi",
+            "label": "JsViews API"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsoapi",
+            "label": "JsObservable API"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/jsv",
+            "label": "JsViews samples"
+          }
+        ]
       }
     ]
   },

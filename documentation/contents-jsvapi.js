@@ -77,7 +77,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "JsRender tags (with data-linking)",
-        "text": "The following topics give examples and details for data-linking each of the [built-in JsRender template tags](#jsrtags):\n\n*Tags without content:*\n\n- [`{^{: ...}}`](#jsvassigntag) (Evaluate)\n- [`{^{> ...}}`](#jsvhtmltag) (HTML encode)\n\n*Block tags:*\n\n- [`{^{include ...}}`](#jsvincludetag) (Template composition -- partials)\n- [`{^{for ...}}`](#jsvfortag) (Template composition, with iteration over arrays)\n- [`{^{props ...}}`](#jsvpropstag) (Iteration over properties of an object)\n- [`{^{if ...}}`](#jsviftag) (Conditional inclusion)\n- [`{^{myTag ...}}`](#jsvtagcontrols) (Custom tag controls)\n\n*Alternative content blocks:*\n\n- [`{{else ...}}`](#jsvelsetag) (Content block separator)\n\n*Creating your own tags (custom tag controls):*\n\n- [Custom tags](#jsvtagcontrols)\n"
+        "text": "The following topics give examples and details for data-linking each of the [built-in JsRender template tags](#jsrtags):\n\n*Tags without content:*\n\n- [`{^{: ...}}`](#jsvassigntag) (Evaluate)\n- [`{^{> ...}}`](#jsvhtmltag) (HTML encode)\n\n*Block tags:*\n\n- [`{^{include ...}}`](#jsvincludetag) (Template composition -- partials)\n- [`{^{for ...}}`](#jsvfortag) (Template composition, with iteration over arrays)\n- [`{^{props ...}}`](#jsvpropstag) (Iteration over properties of an object)\n- [`{^{if ...}}`](#jsviftag) (Conditional inclusion)\n- [`{^{on ...}}`](#jsvontag) (Button, or event binding)\n- [`{^{myTag ...}}`](#jsvtagcontrols) (Custom tag controls)\n\n*Alternative content blocks:*\n\n- [`{{else ...}}`](#jsvelsetag) (Content block separator)\n\n*Creating your own tags (custom tag controls):*\n\n- [Custom tags](#jsvtagcontrols)\n"
       },
       {
         "_type": "para",
@@ -2681,7 +2681,435 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "include submit binding, used in MVVM sample. Explain context, including context=..."
+        "text": "JsViews provides alternative ways of attaching handlers for events such as the *click* event:<br/><br/>\n\n- Using jQuery event binding to attach a handler function to elements (either at top level or rendered by templates):\n  ```js\n  $(selector).on(\"click\", handlerFn);\n  ```\n- Using the `{on}` data-link binding (either on top-level data-linked elements or on elements rendered by \ntemplates):\n  ```jsr\n  <button data-link=\"{on handlerFn}\">...</button>\n  ```\n- Using the `{^{on}}` tag, within templates:\n  ```jsr\n  {^{on handlerFn/}}\n  ```\n\nHere are working examples of each approach:"
+      },
+      {
+        "_type": "para",
+        "title": "Using jQuery event binding",
+        "text": "```js\n$(selector).on(\"click\", handler);\n```\n\njQuery event binding can be used to attach a handler to elements either at top level or rendered by templates.\n\nHere is an example showing both a top-level button element and an element within a template:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<button class=\"myButton\">top level</button>\n<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button class=\"myButton\">in template</button>\n</script>\n```\n\n```js\n...\ntmpl.link(\"#result\", person); // Render and link the template\n\n// Attach handler to buttons (class 'myButton'), whether in top-level or rendered content. \n$(\".myButton\").on(\"click\", helpers.doSomething);\n```\n"
+          }
+        ],
+        "html": "<button class=\"myButton\">top level</button>\n<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button class=\"myButton\">in template</button>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function() {\n    alert(\"do something\");\n  }\n}\n\ntmpl.link(\"#result\", person); // Render and link the template\n\n// Attach handler to buttons (class 'myButton'), whether in top-level or rendered content.\n$(\".myButton\").on(\"click\", helpers.doSomething);\n",
+        "height": "45",
+        "title": ""
+      },
+      {
+        "_type": "para",
+        "title": "Using the {on} data-link binding",
+        "text": "```jsr\n<button data-link=\"{on ~doSomething}\">...</button>\n```\n\nThe `{on}` data-link binding provides a declarative approach to attaching handlers to elements. The `handlerFn` argument is passed along with other optional arguments and properties (details below): `{on ... handlerFn ...}`. (The first argument of type 'function' will be treated as `handler` argument).\n\nIt can be used either on top-level elements (provided they are data-linked -- see *[top-level data linking](#toplink)*), or on elements rendered by templates. Here is an example of each:\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<span id=\"topLinked\">\n  <button data-link=\"{on ~doSomething}\">top level</button>\n</span>\n```\n\n```jsr\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on ~doSomething}\">in template</button>\n</script>\n```\n\n```js\n...\nvar helpers = {doSomething: function(){...} }\n\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n\n$.link(true, \"#topLinked\", person, helpers); // Data-link top-level content\n\n```\n"
+          }
+        ],
+        "html": "<span id=\"topLinked\">\n  <button data-link=\"{on ~doSomething}\">top level</button>\n</span>\n\n<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on ~doSomething}\">in template</button>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function() {\n    alert(\"do something\");\n  }\n}\n\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n\n$.link(true, \"#topLinked\", person, helpers); // Data-link top-level content\n\n",
+        "height": "45"
+      },
+      {
+        "_type": "para",
+        "title": "Using the {^{on}} tag, within templates",
+        "text": "Within templates, the *tag* form `{^{on ...}}` of the JsViews 'on' event binding can be convenient, as an alternative to `data-link={on ...}`:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~doSomething/}}\n</script>\n```\n\n```js\n...\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n```\n"
+          }
+        ],
+        "html": "<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~doSomething/}}\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function() {\n    alert(\"do something\");\n  }\n}\n\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n",
+        "height": "45"
+      },
+      {
+        "_type": "para",
+        "title": "Calling a View Model method in the click event",
+        "text": "The most common usage scenario for the `{on}` event binding is to have the click event invoke a *View Model* method -- for example, to provide a button to invoke the `add()` method, as in [this sample](#samples/editable/compiled)."
+      },
+      {
+        "_type": "para",
+        "title": "<b style=\"font-style: normal\">Features of the <b style=\"font-style: italic\">data-link=\"{on ...}\"</b> binding and the <b style=\"font-style: italic\">{^{on ...}}</b> tag</b>",
+        "text": " "
+      },
+      {
+        "_type": "para",
+        "title": "Determining the target element",
+        "text": "The `data-link=\"{on ...}\"` binding and the `{^{on ...}}` tag provide alternative (and generally equivalent) ways of attaching handler actions to HTML elements -- differing only in how they determine which element is used:\n\n- With `data-link`, the element is the data-linked element\n\n  ```jsr\n  <button data-link=\"{on ~doSomething}\">\n    Click me\n  </button>\n  ```\n- With `{^{on ...}}` the element is the element (or elements) wrapped by the tag\n\n  ```jsr\n  {^{on ~doSomething}}\n    <button>\n      Click me\n    </button>\n  {{/on}}\n  ```\n\nThe HTML element above can of course be *any* HTML element -- not necessarily `<button>`. But in the particular case of an `{^{on}}` tag wrapping a `<button>`, a simpler format is available -- since the `{^{on}}` tag wrapping only text will automatically render itself as a `<button>`:"
+      },
+      {
+        "_type": "para",
+        "title": "The {^{on}} tag as button",
+        "text": "In the case of an `{^{on ...}}` which wraps only text, the tag generates a `<button>` element with the text as label -- and attaches to that element.\n\n```jsr\n{^{on ~doSomething}}\n  Click me\n{{/on}}\n```\n\nSimilarly, `{^{on ...}}` with a `tmpl='sometext'` property generates a `<button>` with the text as label.\n\n```jsr\n{^{on ~doSomething tmpl=\"Click me\" /}}\n```\n\nFinally, `{^{on ...}}` with no content at all will generate a `<button>`, and use the handler name as label.\n\n```jsr\n{^{on ~doSomething /}}\n```\n\nHere is a working sample with four alternative styles for creating a clickable *button*:",
+        "anchor": "button"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<button data-link=\"{on ~doSomething}\">Click me</button>\n\n{^{on ~doSomething}}<button>Click me</button>{{/on}}\n\n{^{on ~doSomething}}Click me{{/on}}\n\n{^{on ~doSomething tmpl=\"Click me\" /}}\n\n{^{on ~doSomething /}}\n```\n"
+          }
+        ],
+        "html": "<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on ~doSomething}\">Click me</button>\n\n  {^{on ~doSomething}}<button>Click me</button>{{/on}}\n\n  {^{on ~doSomething}}Click me{{/on}}\n\n  {^{on ~doSomething tmpl=\"Click me\" /}}\n\n  {^{on ~doSomething /}}\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function() {\n    alert(\"do something\");\n  }\n}\n\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n",
+        "height": "45"
+      },
+      {
+        "_type": "para",
+        "title": "Choosing the events",
+        "text": "The `handlerFn` argument of `{on ...}` can optionally be preceded by an `eventName` string argument  containing one or more white-space separated event names (or namespaced event names, such as `\"click.my.ns\"`).\n\nIn the absence of an `eventName` argument, the default is to use the `\"click\"` event.\n\nHere is an sample showing three examples -- which attach to the `\"mouseup mousedown\"`, `\"change\"` and `\"submit\"` events, respectively."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<input type=\"checkbox\" data-link=\"{on 'change' change}\"/> ...\n\n{^{on \"mouseup mousedown\" mouseUpAndDown}} ...\n\n<form data-link=\"{on 'submit' formSubmit}\"> ...\n```\n"
+          }
+        ],
+        "height": "170",
+        "html": "<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label><input type=\"checkbox\" data-link=\"{on 'change' change}\"/> Decrease on change</label>\n\n  {^{on \"mouseup mousedown\" mouseUpAndDown}}Increase on up and down{{/on}} <br/><br/>\n\n  <form data-link=\"{on 'submit' formSubmit}\">\n    Age: {^{>age}} <br/>\n    Name: <input data-link=\"name\" /> <br/>\n    Submitted: {^{>submitted}} <br/><br/>\n\n    <button type=\"submit\">Submit</button>\n  </form> \n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {\n  name: \"Jo\",\n  age: 20,\n  submitted: false,\n  change: function() {\n    $.observable(this).setProperty({\n      age: this.age - 1,\n      submitted: false\n    });\n  },\n  mouseUpAndDown: function() {\n    $.observable(this).setProperty({\n      age: this.age + 1,\n      submitted: false\n    });\n  },\n  formSubmit: function() {\n    $.observable(this).setProperty(\"submitted\", true);\n    return false;\n  }  \n};\n\ntmpl.link(\"#result\", person); // Render and link the template\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "And here is the same sample -- but attaching to top-level data-linked elements rather than to content rendered by a data-linked template: "
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<input type=\"checkbox\" data-link=\"{on 'change' change}\"/> ...\n\n<button data-link=\"{on 'mouseup mousedown' mouseUpAndDown}\"> ...\n\n<form data-link=\"{on 'submit' formSubmit}\"> ...\n```\n"
+          }
+        ],
+        "html": "<span id=\"result\"></span>\n\n<div id=\"linkedContent\">\n  <label><input type=\"checkbox\" data-link=\"{on 'change' change}\"/> Decrease on change</label>\n\n  <button data-link=\"{on 'mouseup mousedown' mouseUpAndDown}\">Increase on up and down</button> <br/><br/>\n\n  <form data-link=\"{on 'submit' formSubmit}\">\n    Age: <span data-link=\"age\"></span> <br/>\n    Name: <input data-link=\"name\" /> <br/>\n    Submitted: <span data-link=\"submitted\"></span> <br/><br/>\n\n    <button type=\"submit\" value=\"x\">Submit</button>\n  </form> \n</div>",
+        "code": "var person = {\n  name: \"Jo\",\n  age: 20,\n  submitted: false,\n  change: function() {\n    $.observable(this).setProperty({\n      age: this.age - 1,\n      submitted: false\n    });\n  },\n  mouseUpAndDown: function() {\n    $.observable(this).setProperty({\n      age: this.age + 1,\n      submitted: false\n    });\n  },\n  formSubmit: function() {\n    $.observable(this).setProperty(\"submitted\", true);\n    return false;\n  }  \n};\n\n$.link(true, \"#linkedContent\", person); // Data-link top-level content\n",
+        "height": "170"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "(For a more complete example of attaching to the `\"submit\"` event, see the *[Using submit](#samples/editable/submit)* sample.)"
+      },
+      {
+        "_type": "para",
+        "title": "Attaching handlers to specific elements within nested content &ndash; the selector argument",
+        "text": "If the `{on}` binding is on an element or tag with nested element content, then an additional optional `selector` argument can be passed (after the `eventName` argument and before the `handlerFn` argument).\n\nAs a result the event handler will be attached to the element(s) targeted by the `selector`. (This is equivalent to the jQuery *'delegated events'* pattern).\n\nHere is an example where only the `<li>`s of class `active` have click handlers attached:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Example, with `data-link=\"{on}\"` binding:*\n\n```jsr\n{^{on 'click' '.active' select}}\n  <li>one</li>\n  <li class=\"active\">two</li>\n  ...\n```\n\n*Example, with `{^{on}}` tag:*\n\n```jsr\n<ul data-link=\"{on 'click' '.active' select}\">\n  <li>one</li>\n  <li class=\"active\">two</li>\n  ...\n```\n\n"
+          }
+        ],
+        "html": "<style>.active {border: 1px solid green; width: 100px; background-color: white; cursor: pointer;}</style>\n\n<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n<ul>\n  {^{on 'click' '.active' select}}\n    <li>one</li>\n    <li class=\"active\">two</li>\n    <li class=\"active\">three</li>\n  {{/on}}\n</ul>\n</script>\n\n<div id=\"linkedContent\">\n  <ul data-link=\"{on 'click' '.active' select}\">\n    <li>one</li>\n    <li class=\"active\">two</li>\n    <li class=\"active\">three</li>\n  </ul>\n</div>\n\n<div id=\"result\"></div>",
+        "code": "var data = {\n  select: function(ev, eventArgs) {\n    var targetStyle = ev.target.style;\n    targetStyle.backgroundColor = targetStyle.backgroundColor===\"yellow\" ? \"white\" : \"yellow\";\n  }  \n};\n\n$.link(true, \"#linkedContent\", data); // Data-link top-level content\n\n$.templates(\"#tmpl\").link(\"#result\", data); // Render and link template\n",
+        "height": "160"
+      },
+      {
+        "_type": "para",
+        "title": "Multiple {on} bindings on the same element",
+        "text": "It is possible to have multiple `{on}` bindings on the same element -- which might use different `selector`, `eventName` or `handler` arguments. The following sample has an outer `<div>` element with three `{on}` bindings -- each attaching a different handler to different elements in the nested content  (specified by different `selector` arguments):\n\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<div data-link=\"\n  {on 'click' '.addBtn' add}\n  {on 'click' '.remove' remove}\n  {on 'click' 'li' select}\n\">\n  <button class=\"addBtn\">add</button>\n  <ul>\n    {^{for items}}\n        <li>{{>label}} <span class=\"remove\"></span></li>\n        ...\n```"
+          }
+        ],
+        "html": "<style>\nul { margin: 0; padding-left: 0;}\nli {border: 1px solid green; width: 100px; background-color: white; cursor: pointer; list-style: none;}\n</style>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <div data-link=\"\n    {on 'click' '.addBtn' add}\n    {on 'click' '.remove' remove}\n    {on 'click' 'li' select}\n  \">\n    <button class=\"addBtn\">add</button>\n    <ul>\n      {^{for items}}\n        <li>{{>label}} <span class=\"remove\"></span></li>\n      {{/for}}\n    </ul>\n  </div>\n</script>\n\n<div id=\"result\"></div>\n",
+        "code": "var cnt = 0,\ndata = {\n  add: function(ev, eventArgs) {\n    $.observable(data.items).insert({label: \"new\" + cnt++});\n  }, \n  remove: function(ev, eventArgs) {\n    var index = $.view(ev.target).index\n    $.observable(data.items).remove(index);\n    return false;\n  },\n  select: function(ev, eventArgs) {\n    var targetStyle = ev.target.style;\n    targetStyle.backgroundColor = targetStyle.backgroundColor===\"yellow\" ? \"white\" : \"yellow\";\n  },  \n  items: [\n    {label: \"one\"},\n    {label: \"two\"},\n    {label: \"three\"}\n  ]\n};\n\n$.templates(\"#tmpl\").link(\"#result\", data); // Render and link template",
+        "height": "140"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "And similarly, the following variant of the same sample wraps the same nested element content as above with three `{^{on}}` tags -- each of which attaches a handler to different nested elements:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{on 'click' '.addBtn' add}}\n{^{on 'click' '.remove' remove}}\n{^{on 'click' 'li' select}}\n  <button class=\"addBtn\">add</button>\n  <ul>\n    {^{for items}}\n      <li>{{>label}} <span class=\"remove\"></span></li>\n      ...\n```"
+          }
+        ],
+        "html": "<style>\nul { margin: 0; padding-left: 0;}\nli {border: 1px solid green; width: 100px; background-color: white; cursor: pointer; list-style: none;}\n</style>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on 'click' '.addBtn' add}}\n  {^{on 'click' '.remove' remove}}\n  {^{on 'click' 'li' select}}\n    <button class=\"addBtn\">add</button>\n    <ul>\n      {^{for items}}\n        <li>{{>label}} <span class=\"remove\"></span></li>\n      {{/for}}\n    </ul>\n  {{/on}}\n  {{/on}}\n  {{/on}}\n</script>\n\n<div id=\"result\"></div>\n",
+        "code": "var cnt = 0,\ndata = {\n  add: function(ev, eventArgs) {\n    $.observable(data.items).insert({label: \"new\" + cnt++});\n  }, \n  remove: function(ev, eventArgs) {\n    var index = $.view(ev.target).index\n    $.observable(data.items).remove(index);\n    return false;\n  },\n  select: function(ev, eventArgs) {\n    var targetStyle = ev.target.style;\n    targetStyle.backgroundColor = targetStyle.backgroundColor===\"yellow\" ? \"white\" : \"yellow\";\n  },  \n  items: [\n    {label: \"one\"},\n    {label: \"two\"},\n    {label: \"three\"}\n  ]\n};\n\n$.templates(\"#tmpl\").link(\"#result\", data); // Render and link template",
+        "height": "140"
+      },
+      {
+        "_type": "para",
+        "title": "The selector argument can target elements that are added later",
+        "text": "The above two samples illustrate the fact that the 'delegated events' pattern (using a `selector` argument) can target elements which are added later in time -- and were not yet present when the `{on}` binding was created.\n\nIn this case, clicking *add* will add a new `<li>` which can be selected and removed thanks to the already established `{on}` bindings for the *select* and *remove* handler actions."
+      },
+      {
+        "_type": "para",
+        "title": "Passing parameters",
+        "text": "The `{on}` binding can include parameters to be passed to the handler:\n\n```jsr\n{on ... myHandler param1 param2}\n```\n\nIn the above case the handler should have the signature `function(param1, param2, ev, eventArgs)`"
+      },
+      {
+        "_type": "para",
+        "title": "Setting context",
+        "text": "The `{on}` binding can take an optional `context` property -- used to specify the *this* pointer in the handler. \n\nIf no `context` property is provided then:\n- if the provided handler is a 'property chain', such as `a.b.myHandler`, the context will be the preceding object in the chain -- in this case `a.b`\n- otherwise, it will be the current data context\n\nFor example if the current data context is `team`:\n\n- `{on add}`<br/>-- Here the handler is the `team.add()` method, the `this` pointer is `team`\n- `{on settings.edit}`<br/>-- Here the handler is the `team.settings.edit()` method, the `this` pointer is `team.settings`\n- `{on ~reverse}`<br/>-- Here the handler is the `reverse()` helper method, the `this` pointer is `team`\n- `{on settings.edit context=#data}`<br/>-- Here the handler is the `settings.edit()` method, the `this` pointer is `team`\n- `{on ~reverse context=settings}`<br/>-- Here the handler is the `reverse()` helper method, the `this` pointer is `team.settings`"
+      },
+      {
+        "_type": "para",
+        "title": "Passing data",
+        "text": "The `{on}` binding can take an optional `data` property -- used to specify data which will then be passed to the handler as `ev.data`.\n\n \n"
+      },
+      {
+        "_type": "para",
+        "title": "The signature of the event handler function",
+        "text": "If the `{on}` binding is:\n\n```jsr\n{^{on 'click' myHandler param1 param2 data=myData}}\n```\nor\n\n```jsr\ndata-link=\"{on 'click' myHandler param1 param2 data=myData}\"\n```\n\nthen the `myHandler` function should have the signature:\n\n```js\nfunction myHandler(param1, param2, ev, eventArgs) { ... }\n```\n\nwhere `ev` is the *jQuery event object*, with properties that include:\n\n- *target*: the HTML element where the click event occurred\n- *data*: the `myData` data\n\nand `eventArgs` is the *JsViews event object*, with properties:\n\n- *change*: the event: `\"click\"`\n- *linkCtx*: the link context \n- *view*: the view object\n"
+      },
+      {
+        "_type": "para",
+        "title": "<b style=\"font-style: normal\">{on} binding &ndash; API summary</b>",
+        "text": "The following is a summary of the arguments and properties which can be provided to the `{on}` binding:"
+      },
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "",
+        "name": "name",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "pathOrExpression",
+                "type": "object or string",
+                "optional": true,
+                "description": "The <b>this</b> pointer in the handler. (Otherwise <b>this</b> will reference preceding object in <b>a.b.c</b> chain, or current data context)",
+                "propName": "context"
+              },
+              {
+                "_type": "param",
+                "name": "pathOrExpression",
+                "type": "object or string",
+                "optional": true,
+                "description": "Data to be provided to handler as ev.data",
+                "propName": "data"
+              },
+              {
+                "_type": "param",
+                "name": "label",
+                "type": "string (or template reference)",
+                "optional": true,
+                "description": "(For {^{on/}} tag) &ndash; String to be used as label (or reference to external template containing label)",
+                "propName": "tmpl"
+              }
+            ],
+            "args": [
+              {
+                "_type": "param",
+                "name": "eventName",
+                "type": "string",
+                "optional": true,
+                "description": "One or more white-space separated event names"
+              },
+              {
+                "_type": "param",
+                "name": "handler",
+                "type": "function",
+                "optional": false,
+                "description": "The event handler function"
+              },
+              {
+                "_type": "param",
+                "name": "param1 param2...",
+                "type": "object(s) or string(s)",
+                "optional": true,
+                "description": "One or more parameters  to be passed to handler"
+              }
+            ],
+            "sections": [],
+            "example": "{^{on myHandler /}}\n{^{on myHandler}}Click me{{/on}}\n{^{on 'click' ~showMsg msg tmpl=\"Click me\"/}}\n{^{on 'click' '.btn' ~go context=~root}}...{{/on}}\n<hr>\ndata-link=\"{on myHandler}\"\ndata-link=\"{on 'click' ~showMsg msg}\"\ndata-link=\"{on 'click' '.btn' ~go context=~root}\"\n",
+            "description": "{^{on}} tag or {on} data-link binding",
+            "variant": "{on [eventName][selector] handler [param1...][context=expr][data=expr][tmpl='label'] }"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is a sample which shows the use of most of the above API features:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">__{on}__ data-link binding:</div>*\n\n```jsr\n<table data-link=\"{on 'focus' 'input' ~hlp.showFocus 'Textbox:' context=~settings data=address}\">\n  <tbody><tr>\n    <td>\n      <input data-link=\"first\"/>\n      ...\n```\n\n*__{on}__ arguments:*\n- `eventName`: `'focus'`\n- `selector`: `'input'`\n- `handlerFn`: `~hlp.showFocus`\n- `parameter`: `'Textbox:'`\n\n*__{on}__ properties:*\n- `context`: `~settings`\n- `data`: `address`\n\n*<div class=\"close\">__Handler:__</div>*\n\n```js\nshowFocus: function(msg, ev, eventArgs) {\n  var message = this.format(msg, ev.target.value, ev.data.street);\n  ...\n  lastTd.text(message);\n}\n```\n"
+          }
+        ],
+        "html": "<style>table {width:80%;}</style>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <table\n    data-link=\"{on 'focus' 'input' ~hlp.showFocus 'Textbox:' context=~settings data=address}\"\n  >\n    <tbody><tr>\n      <td>\n        <input data-link=\"first\"/>\n      </td><td>\n        <input data-link=\"last\"/>\n      </td><td style=\"width:40%\">\n        Move focus to textbox, for message\n      </td>\n    </tr></tbody>\n  </table>\n</script>\n\n<div id=\"result\"></div>",
+        "code": "var cnt = 0,\n  person = {\n    first: \"Jo\",\n    last: \"Blow\",\n    address: {street: \"1st\"}\n  },\n  helpers = {\n    settings: {\n      format: function(message, val, street) {\n        return message + \" \" + val + \" Address: \" + street;\n      }\n    },\n    hlp: {\n      showFocus: function(msg, ev, eventArgs) {\n        var message = this.format(msg, ev.target.value, ev.data.street);\n        var lastTd = $(ev.target).parents(\"tr\").children().last();\n        lastTd.text(message);\n      }\n    }\n  };\n\n$.templates(\"#tmpl\").link(\"#result\", person, helpers);",
+        "height": "60"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "***See also:*** the *[Compiled View Models](#samples/editable/compiled)* or *[Using submit](#samples/editable/submit)* samples for examples of using `{on}` bindings to call methods on *View Models*."
+      },
+      {
+        "_type": "para",
+        "title": "The <span style='font-style: normal'>jsv-domchange</span> event (advanced)",
+        "text": "An advanced JsViews feature allows you to add an event listener for the `'jsv-domchange'` event, on an element wrapping dynamic content such as a `{^{for someArray}}` block, or an `{^{if someExpression}}` block. \n\nThe event handler will get called whenever the immediate content changes dynamically, as in this example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<ul data-link=\"{on 'jsv-domchange' domChanges} ...\">\n  {^{for items}}\n   ...\n```\n\n```js\ndomChanges: function(ev, eventArgs, tagCtx, linkCtx, observableEventArgs) {\n  $(\"#change\").text(observableEventArgs.change);\n  ...\n},\n``` "
+          }
+        ],
+        "html": "<style>ul {margin: 0; padding-left: 0;} li {list-style: none;}</style>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on add/}}\n  <ul data-link=\"{on 'jsv-domchange' domChanges} {on 'click' '.remove' remove}\">\n    {^{for items}}\n      <li>{{>label}} <span class=\"remove\"></span></li>\n    {{/for}}\n  </ul>\n</script>\n\n<div><b>Change:</b> <em id=\"change\">-</em></div>\n<div><b>Index:</b> <em id=\"index\">-</em></div><br/>\n\n<div id=\"result\"></div>\n",
+        "code": "var cnt = 0,\ndata = {\n  add: function(ev, eventArgs) {\n    $.observable(data.items).insert({label: \"new\" + cnt++});\n  }, \n  remove: function(ev, eventArgs) {\n    var index = $.view(ev.target).index\n    $.observable(data.items).remove(index);\n    return false;\n  },\n  domChanges: function(ev, eventArgs, tagCtx, linkCtx, observableEventArgs) {\n    $(\"#change\").text(observableEventArgs.change);\n    $(\"#index\").text(observableEventArgs.index);\n  },  \n  items: [\n    {label: \"one\"},\n    {label: \"two\"}\n  ]\n};\n\n$.templates(\"#tmpl\").link(\"#result\", data);",
+        "height": "160"
       }
     ]
   },
@@ -4212,80 +4640,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "In JsViews the `{^{: ...}}` tag is a data-bound version of the JsRender [`{{: ...}}`](#assigntag) tag.\n\nWhen using [data-linked templates](#linkedtmpls) the data-bound version will update automatically when the data in the expression changes observably.\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "In JsViews the `{^{props someExpression}}` tag is a data-bound version of the JsRender [`{{props ...}}`](#propstag) tag -- which iterates over the properties of the object returned by the expression.\n\nWhen using data-linked [templates](#linkedtmpls) the data-bound version will update automatically when the data in the expression changes observably, and will also update if the properties of the object itself change observably.\n\nThe following sample is functionally identical to the example given for [`{^{for ...}}`](#jsvfortag) -- but here instead of using a `members` array, it uses a `members` object.\n"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n...\n```\n\n*<div class=\"close\">Template:</div>*\n\n```jsr\n...\n{^{props members}}\n  <li>\n    {{:prop.name}} ...\n  </li>\n{{/props}}\n\n...\n```\n\nHere, the data-linked `{^{props}}` tag updates incrementally when the properties of the `members` object are added or removed, as in:\n\n```js\naddMember: function() {\n  $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++});\n}, \n...\nremoveMember: function(key) {\n  $.observable(this.members).removeProperty(key);\n}\n```\n\nand updates if the whole `members` object is replaced, as in:\n\n```js\nreplaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"} ...});\n}\n```"
-          }
-        ],
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <ol>\n    {^{props members}}\n      <li>\n        {{:prop.name}} \n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{/props}}\n  </ol>\n</script>\n",
-        "code": "var team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++});\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}});\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
-        "title": "{^{: ...}}",
-        "height": "120"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "If `{{props}}` uses `tmpl=expression` to obtain a template from data or from a helper, then the data-linked `{^{props}}` can be used to drive updates when the template changes dynamically:"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "```jsr\n{^{props members ^tmpl=editable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n```\n\nHere the data-linked `{^{props}}` uses two different templates, driven by the `isEditable` property:\n\n```js\nvar team = {\n  members: [...],\n  isEditable: false,\n  ...\n```\n\n-- so thanks to the initial `^` in `^tmpl=...` (see *[binding to tag properties](#linked-tag-syntax@linkedproperties)*), the `{^{props}}` tag updates if the `isEditable` changes -- and uses the appropriate template."
-          }
-        ],
-        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button><br/><br/>\n  <label>Editable <input type=\"checkbox\" data-link=\"isEditable\"/></label>\n  <ol>\n    {^{props members ^tmpl=isEditable?\"#memberEditTmpl\":\"#memberTmpl\" /}}\n  </ol>\n</script>\n\n<script id=\"memberTmpl\" type=\"text/x-jsrender\">\n  <li>\n    {{:prop.name}} \n    <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n  </li>\n</script>\n\n<script id=\"memberEditTmpl\" type=\"text/x-jsrender\">\n  <li>\n    <input data-link=\"prop.name\"/>\n    <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n  </li>\n</script>",
-        "code": "var team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  isEditable: false,\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++})\n  },\n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}})\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
-        "height": "160",
-        "title": "{^{for ...}} with dynamically changing template"
-      },
-      {
-        "_type": "links",
-        "title": "See:",
-        "links": [],
-        "topics": [
-          {
-            "_type": "topic",
-            "hash": "linked-tag-syntax",
-            "label": "Data-linked tags"
-          },
-          {
-            "_type": "topic",
-            "hash": "linked-paths",
-            "label": "Data-linked paths"
-          }
-        ]
+        "text": "In JsViews the `{^{on ...}}` tag is used:\n\n- For attaching event handlers, as an alternative syntax to `data-link=\"{on ...}\"`\n- For [creating buttons](#link-events@button), to call a *data method/View Model method/helper method*.\n\nIt is used only as a data-bound tag in JsViews, and is not available in JsRender. \n\nSee the *[Event bindings](#link-events)* topic for more information and examples.\n"
       }
     ]
   },

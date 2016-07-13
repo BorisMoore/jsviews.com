@@ -132,10 +132,6 @@ li .remove {
 	background-color: #dbffe0;
 }
 
-.remove:hover {
-	cursor: pointer;
-}
-
 .add {
 	text-decoration: underline;
 	font-style: italic;

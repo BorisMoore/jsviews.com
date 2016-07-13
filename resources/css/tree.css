@@ -52,10 +52,6 @@
 	background-color: #dbffe0;
 }
 
-.tree .remove:hover {
-	cursor: pointer;
-}
-
 .tree .spacer {
 	display: inline-block;
 	width: 12px;

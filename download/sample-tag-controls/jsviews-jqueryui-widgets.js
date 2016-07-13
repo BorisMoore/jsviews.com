@@ -1,8 +1,14 @@
-﻿/*! JsViews jQueryUI widget integration v1.0.0-alpha:
+﻿/*! JsViews jQueryUI widget integration v0.9.78 (Beta)
 see: http://www.jsviews.com/#download */
 /*
  * Copyright 2016, Boris Moore
  * Released under the MIT License.
+ */
+
+/*
+ *           autocomplete button buttonset droppable menu progressbar resizable selectable slider spinner tabs sortable draggable accordion
+ *   wrap    -            -      -         wrap      wrap wrap        wrap      wrap       -      -       wrap wrap     wrap      wrap
+ *   elem    input        button -         -         ul   div         div       -          div    input   div  -        -         -
  */
 
 (function (global, $, undefined) {
@@ -16,16 +22,16 @@ function keepParentDataCtx(val) {
 $.views.tags({
 widget: {
   init: function(tagCtx, linkCtx) {
-    var tag = this,
-      props = tagCtx.props,
-      content = tagCtx.content,
-      elemType;
+    var content, elemType, props,
+      tag = this;
 
     if (tag._.inline) {
+      props = tagCtx.props;
+      content = tagCtx.tmpl.markup;
       if (elemType = props.elem || tag.elem) {
         if (content) {
           if (tag.wrap) {
-            tag.template = "<" + elemType + ">" + content.markup + "</" + elemType + ">";
+            tag.template = "<" + elemType + ">" + $.trim(content) + "</" + elemType + ">";
           }
         } else {
           tag.template = (elemType === "input") ? "<input/>" : "<"+ elemType +"></"+ elemType +">";
@@ -33,7 +39,6 @@ widget: {
       }
       tag.attr = "html";
     }
-    delete props.elem;
   },
   onAfterLink: function(tagCtx, linkCtx) {
     var linkedElem, prop, i,
@@ -149,7 +154,7 @@ button: {
   init: function(tagCtx, linkCtx) {
     var template,
       tag = this,
-      content = tagCtx.content,
+      content = tagCtx.tmpl,
       props = tagCtx.props,
       id = props.id,
       parent = tag.parent;
@@ -237,7 +242,7 @@ buttonset: {
 
     if (tag._.inline) {
       tag.id = tagCtx.props.id || "jsv" + Math.random();
-      tag.template = '<span id="' + tag.id + '">' + tagCtx.content.markup + "</span>";
+      tag.template = '<span id="' + tag.id + '">' + tagCtx.tmpl.markup + "</span>";
     }
   },
   render: keepParentDataCtx,

@@ -209,8 +209,8 @@ function $viewsDelimiters(openChars, closeChars, link) {
 	// Default:  bind     tagName         cvt   cln html code    params            slash   bind2         closeBlk  comment
 	//      /(?:{(\^)?{(?:(\w+(?=[\/\s}]))|(\w+)?(:)|(>)|(\*))\s*((?:[^}]|}(?!}))*?)(\/)?|{(\^)?{(?:(?:\/(\w+))\s*|!--[\s\S]*?--))}}
 
-	rTmplString = new RegExp("<.*>|([^\\\\]|^)[{}]|" + openChars + ".*" + closeChars);
-	// rTmplString looks for html tags or { or } char not preceded by \\, or JsRender tags {{xxx}}. Each of these strings are considered
+	$sub.rTmpl = new RegExp("<.*>|([^\\\\]|^)[{}]|" + openChars + ".*" + closeChars);
+	// $sub.rTmpl looks for html tags or { or } char not preceded by \\, or JsRender tags {{xxx}}. Each of these strings are considered
 	// NOT to be jQuery selectors
 	return $viewsSettings;
 }
@@ -765,7 +765,7 @@ function compileTmpl(name, tmpl, parentTmpl, options) {
 						// Look for server-generated script block with id "./some/file.html"
 						elem = document.getElementById(value);}
 					}
-				}@@if (!context.isNode) { else if ($.fn && !rTmplString.test(value)) {
+				}@@if (!context.isNode) { else if ($.fn && !$sub.rTmpl.test(value)) {
 					try {
 						elem = $(document).find(value)[0]; // if jQuery is loaded, test for selector returning elements, and get first element
 					} catch (e) {}

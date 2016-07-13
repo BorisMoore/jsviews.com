@@ -288,7 +288,8 @@ a.cmdbtn {
 	padding: 2px;
 }
 
-.apiheader, .apiheader .sreturns span {
+
+.apiheader, .apiheader {
 	text-align: center;
 	font-weight: bold;
 	font-family: monospace;
@@ -303,6 +304,18 @@ a.cmdbtn {
 	}
 
 		.apiheader .returns span {
+			font-style: normal;
+			font-weight: normal;
+		}
+
+	.apiheader .leftlabel {
+		text-align: left;
+		font-family: Verdana;
+		font-style: italic;
+		font-size: 13px;
+	}
+
+		.apiheader .leftlabel span {
 			font-style: normal;
 			font-weight: normal;
 		}
