@@ -41,7 +41,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 	pageTag = {
 		init: function() {
 			window.pagetag = page = this;
-			page.data =  content;
+			page.data = content;
 			page.category = selectedCategory;
 		},
 		onAfterLink: function() {
@@ -81,7 +81,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 				})
 				.on("click", ".revertSample", function() {
 					var tag = $.view(this).ctx.tag,
-						section =  tag.tagName === "section" ? tag : tag.parent.parents.section;
+						section = tag.tagName === "section" ? tag : tag.parent.parents.section;
 					section.sampleFrame.runCode(true);
 				})
 				.on("click", ".tryIt", function() {
@@ -410,7 +410,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 		},
 		onAfterLink: function() {
 			var self = this;
-			if (self.ctx.mode === "edit") {
+			if ($.views.getCtx(self.ctx.mode) === "edit") {
 				self.contents(".cmdbtn").on("click", function(ev) {
 					ev.stopPropagation();
 					ev.stopImmediatePropagation();
@@ -473,7 +473,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 	sectionButtonsTag = {
 		render: function(sectionTypes) {
 			var ret = "<div class=\"buttons\">",
-				nestedSectionType = this.ctx.sectionType;
+				nestedSectionType = $.views.getCtx(this.ctx.sectionType);
 			for (var type in sectionTypes) {
 				ret += "<button class=\""
 							+ (this.tagCtx.props.append ? "append " : "")
@@ -511,7 +511,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 			}
 
 			self.parent.sampleFrame = self;
-			self.getScript =  function(loadScript) {
+			self.getScript = function(loadScript) {
 				self.loadScript = loadScript;
 				if (data.url) {
 					var html = $.trim(self.iframeWnd.document.body.innerHTML),
@@ -782,7 +782,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 				markup: "#linksTmpl",
 				helpers: {
 					url: function(hash) {
-						return location.pathname +"#" +  hash;
+						return location.pathname +"#" + hash;
 					}
 				}
 			})
@@ -1297,7 +1297,7 @@ function getContent(topics) {
 	if (topics === categories) {
 		name = "categories";
 		path = "JsViewsDocCategories";
-		l =  topics.length;
+		l = topics.length;
 		while (l--) {
 			topic = topics[l];
 			loaded[l] = topic.loaded;
@@ -1312,7 +1312,7 @@ function getContent(topics) {
 		+ stringify(topics) + ";";
 
 	if (topics === categories) {
-		l =  topics.length;
+		l = topics.length;
 		while (l--) {
 			topics[l].loading = loading[l];
 			topics[l].loaded = loaded[l];
@@ -1467,7 +1467,7 @@ function loadAllContent(prefix) {
 			if (!category.hidden && !(prefix==="contents" ? content : content[prefix])[category.name]) {
 				notLoaded++;
 				category[loadingLabel] = " ";
-				$.getScript("documentation/" +  prefix + "-" + category.name + ".js")
+				$.getScript("documentation/" + prefix + "-" + category.name + ".js")
 					.then(function() {
 						$.observable(category).setProperty(loadedLabel, true);
 						category.loading = "";

@@ -51,6 +51,7 @@ var versionNumber = "v@@include("templates/-version.txt")",
 	jsvStoreName, rTag, rTmplString, topView, $views, $observe, $observable, $expando,
 
 @@include('jsrender.js')
+
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsObservable >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 /* JsObservable:
  * See http://www.jsviews.com/#jsobservable and http://github.com/borismoore/jsviews
@@ -65,7 +66,6 @@ $isFunction = $.isFunction;
 $isArray = $.isArray;
 $expando = $.expando;
 @@include("jquery.observable.js")
-
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsViews >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 /* JsViews:
  * Interactive data-driven views using templates and data-linking.

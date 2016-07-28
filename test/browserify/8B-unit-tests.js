@@ -21,7 +21,7 @@ test("No jQuery global: require('jsrender') require('jsviews')", function() {
 	// ................................ Act ..................................
 var $jq = require('jquery');
 var $jsr = require('jsrender')($jq); // Unnecessary loading of additional jsrender instance (Test case)
-var $jsr = require('jsviews')($jq); // Provide jQuery, so $jsr === $jq is local jQuery namespace
+  $jsr = require('jsviews')($jq); // Provide jQuery, so $jsr === $jq is local jQuery namespace
 
 	// Use require to get server template, thanks to Browserify bundle that used jsrender/tmplify transform
 	var tmpl = require('../templates/name-template.html')($jsr); // Provide $jsr

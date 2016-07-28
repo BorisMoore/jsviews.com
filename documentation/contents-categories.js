@@ -504,6 +504,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               }
             ],
             "expanded": true
+          },
+          {
+            "name": "lifecycle",
+            "label": "Life-cycle events",
+            "hidden": true
           }
         ],
         "expanded": false
@@ -754,7 +759,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "link-button",
                 "label": "button",
-                "hidden": true
+                "hidden": false
               }
             ],
             "expanded": true
@@ -762,31 +767,31 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "link-text-html",
             "label": "innerText / innerHTML",
-            "hidden": true
+            "hidden": false
           },
           {
             "name": "link-css",
             "label": "CSS attributes",
-            "hidden": true
+            "hidden": false
           },
           {
             "name": "link-class",
             "label": "class",
-            "hidden": true
+            "hidden": false
           },
           {
             "name": "link-visibility",
             "label": "visibility",
-            "hidden": true
+            "hidden": false
           },
           {
-            "name": "link-properties",
-            "label": "element properties",
-            "hidden": true
+            "name": "link-elemattribs",
+            "label": "Element attributes",
+            "hidden": false
           },
           {
             "name": "link-tags",
-            "label": "tag bindings",
+            "label": "Tag bindings",
             "hidden": true
           },
           {
@@ -802,7 +807,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "link-svg",
             "label": "SVG elements",
-            "hidden": true
+            "hidden": false
           },
           {
             "name": "link-contenteditable",
@@ -1320,6 +1325,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                   {
                     "name": "samples/tag-controls/datepicker/with-validation-wizard",
                     "label": "With validation wizard"
+                  },
+                  {
+                    "name": "samples/tag-controls/datepicker/with-converters",
+                    "label": "With converters"
                   }
                 ],
                 "expanded": false

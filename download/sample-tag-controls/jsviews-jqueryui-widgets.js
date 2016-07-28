@@ -1,4 +1,4 @@
-﻿/*! JsViews jQueryUI widget integration v0.9.78 (Beta)
+﻿/*! JsViews jQueryUI widget integration v0.9.80 (Beta)
 see: http://www.jsviews.com/#download */
 /*
  * Copyright 2016, Boris Moore
@@ -261,6 +261,7 @@ datepicker: {
   baseTag: "widget",
   widgetName: "datepicker",
   elem: "input",
+
   options: function() {
     var tag = this;
     return {
@@ -282,10 +283,12 @@ datepicker: {
   onAfterLink: function(tagCtx) {
     var tag = this;
     tag.baseApply(arguments);
-    tag.setValue(tagCtx.args[0]);
+    tag.setValue(tag.cvtArgs()[0]);
     if (tag.linkedElem[0].tagName !== "INPUT") {
       // This datepicker is not using an input (e.g. using a div) - so set to inline-block
       tag.linkedElem.css("display", "inline-block");
+    } else {
+      tag.tagCtx.props.trigger = false;
     }
   }
 },

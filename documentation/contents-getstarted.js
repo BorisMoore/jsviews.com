@@ -466,7 +466,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       },
       {
         "_type": "para",
-        "title": "Register a named template - and render it",
+        "title": "Register a named template &ndash; and render it",
         "text": "```js\n// Register named template \"myTmpl1\", from string \n$.templates(\"myTmpl1\", \"Name: {{:name}}<br/> \");\n// (or from script block: $.templates(\"myTmpl1\", \"#myTemplate\"); ...)\n\nvar person = {name: \"Jim\"};\n\n// Render named template\nvar html = $.render.myTmpl1(person);\n\n// result: \"Name: Jim<br/> \"\n```\n<a href=\"#rendertmpl\">Learn more...</a>"
       },
       {
@@ -477,7 +477,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "Template tag syntax",
-        "text": "- All tags other than [`{{: ...}}`](#assigntag) [`{{> ...}}`](#htmltag) [`{{* ...}}`](#allowcodetag) [`{{!-- --}}`](#commenttag) behave as block tags<br/><br/>\n- Block tags can have content, unless they use the self-closing syntax:\n  - Block tag - with content: `{{someTag ...}} content {{/someTag}}`\n  - Self-closing tag - no content (empty): `{{someTag .../}}`<br/><br/>\n- A particular case where self-closing syntax is used is when a block tag uses the named parameter `tmpl=...` to reference an external template &ndash; which then replaces what would have been the block content:\n  - Self-closing block  tag referencing an external template: `{{someTag ... tmpl=.../}}`<br/>(This lets you do [template composition](#tagsyntax@composition). See [example](#samples/jsr/composition/tmpl).)<br/><br/>\n- Tags can take both unnamed arguments and named parameters:\n  - `{{someTag argument1 param1=...}} content {{/someTag}}`\n  - an example of a named parameter is the `tmpl=...` parameter mentioned above\n  - arguments and named parameters can be assigned values from simple data-paths such as `address.street` or from richer expressions such as `product.quantity * 3.1 / 4.5`, or `name.toUpperCase()`\n\n[Learn more...](#tagsyntax)\n\n<div class=\"title\">Built-in tags</div>"
+        "text": "- All tags other than [`{{: ...}}`](#assigntag) [`{{> ...}}`](#htmltag) [`{{* ...}}`](#allowcodetag) [`{{!-- --}}`](#commenttag) behave as block tags<br/><br/>\n- Block tags can have content, unless they use the self-closing syntax:\n  - Block tag -- with content: `{{someTag ...}} content {{/someTag}}`\n  - Self-closing tag -- no content (empty): `{{someTag .../}}`<br/><br/>\n- A particular case where self-closing syntax is used is when a block tag uses the named parameter `tmpl=...` to reference an external template &ndash; which then replaces what would have been the block content:\n  - Self-closing block  tag referencing an external template: `{{someTag ... tmpl=.../}}`<br/>(This lets you do [template composition](#tagsyntax@composition). See [example](#samples/jsr/composition/tmpl).)<br/><br/>\n- Tags can take both unnamed arguments and named parameters:\n  - `{{someTag argument1 param1=...}} content {{/someTag}}`\n  - an example of a named parameter is the `tmpl=...` parameter mentioned above\n  - arguments and named parameters can be assigned values from simple data-paths such as `address.street` or from richer expressions such as `product.quantity * 3.1 / 4.5`, or `name.toUpperCase()`\n\n[Learn more...](#tagsyntax)\n\n<div class=\"title\">Built-in tags</div>"
       },
       {
         "_type": "para",
@@ -498,7 +498,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       },
       {
         "_type": "para",
-        "title": "<b>{{include ...}}</b> (Template composition - partials)",
+        "title": "<b>{{include ...}}</b> (Template composition &ndash; partials)",
         "text": "`{{include pathOrExpr}}...{{/include}}`evaluates the block content against a specified/modified data context.\n\n`{{include ... tmpl=.../}}` evaluates the specified template against an (optionally modified) context, and inserts the result. (Template composition).\n\n```js\nvar data = {name: \"Jim\", address: {street: \"Main Street\"} };\n\n// Register two named templates\n$.templates({\n    streetTmpl: \"<i>{{:street}}</i>\",\n    addressTmpl: \"{{:name}}'s address is {{include address tmpl='streetTmpl'/}}.\"\n});\n\n// Render outer template\nvar html = $.templates.addressTmpl.render(data);\n\n// result: \"Jim's address is <i>Main Street</i>\"\n```\n<a href=\"#includetag\">Learn more...</a>",
         "anchor": "includetag"
       },
@@ -517,7 +517,7 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "<b>{{if ...}}</b> (Conditional inclusion)",
-        "text": "`{{if pathOrExpr}}...{{/if}}` or `{{if pathOrExpr tmpl=.../}}` renders the content/template only if the evaluated path or expression is 'truthy'.\n\n`{{if pathOrExpr}}...{{else pathOrExpr2}}...{{else}}...{{/if}}`  behaves as '*if' - 'else if' - 'else'* and renders each block based on the conditions.\n\n```jsr\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  {{if nickname}}\n    Nickname: {{:nickname}}\n  {{else name}}\n    Name: {{:name}}\n  {{else}}\n    No name provided\n  {{/if}}\n</script>\n```\n\n```js\nvar data = {nickname: \"Jim\", name: \"James\"};\nvar tmpl = $.templates(\"#personTmpl\");\nvar html = tmpl.render(data);\n\n// result: \"Nickname: Jim\"\n```\n<a href=\"#iftag\">Learn more...</a>",
+        "text": "`{{if pathOrExpr}}...{{/if}}` or `{{if pathOrExpr tmpl=.../}}` renders the content/template only if the evaluated path or expression is 'truthy'.\n\n`{{if pathOrExpr}}...{{else pathOrExpr2}}...{{else}}...{{/if}}`  behaves as '*if -- else if -- else'* and renders each block based on the conditions.\n\n```jsr\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  {{if nickname}}\n    Nickname: {{:nickname}}\n  {{else name}}\n    Name: {{:name}}\n  {{else}}\n    No name provided\n  {{/if}}\n</script>\n```\n\n```js\nvar data = {nickname: \"Jim\", name: \"James\"};\nvar tmpl = $.templates(\"#personTmpl\");\nvar html = tmpl.render(data);\n\n// result: \"Nickname: Jim\"\n```\n<a href=\"#iftag\">Learn more...</a>",
         "anchor": "iftag"
       },
       {

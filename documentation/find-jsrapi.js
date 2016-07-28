@@ -315,7 +315,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender templates allow you to write rich expressions within the template tags, such as:\n{{:person.firstName + ' ' + person.lastName.toUpperCase()}}\n\nNevertheless, in order to improve encapsulation and maintainability, they don’t allow arbitrary code. For example, they don’t allow you to access global variables, like window.\nIf you want complete freedom to insert any code into a compiled template, you can set allowCode to true, either globally, or specifically for that template. You can then run any code as part of the template rendering, using the {{* ...}} tag, or you can return (render into the template output) the result of evaluating any expression, using the {{*: ...}} tag.\n(Note: these allow code tags are not recommended for use within data-linked templates – with JsViews)\n"
+        "text": "JsRender templates allow you to write rich expressions within the template tags, such as:\n{{:person.firstName + ' ' + person.lastName.toUpperCase()}}\n\nNevertheless, in order to improve encapsulation and maintainability, they don’t allow arbitrary code. For example, they don’t allow you to access global variables, like window.\nIf you want complete freedom to insert any code into a compiled template, you can set allowCode to true, either globally, or specifically for that template. You can then run any code as part of the template rendering, using the {{* ...}} tag, or you can return (render into the template output) the result of evaluating any expression, using the {{*: ...}} tag.\n(Note: these allow code tags are not recommended for use within data-linked templates – with JsViews.)\n"
       },
       {
         "_type": "tag",
@@ -378,7 +378,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "A template is rendered by calling the render() method.\nThe render(data, helpersOrContext) method takes as parameters the data (used as the ‘data context’ during the rendering), and optionally additional metadata or contextual helpers. It returns a string – which is the rendered template – typically HTML markup with data values or computed values inserted at appropriate points in the string.\nThere are three ways of calling the render() method:\n\nIf you have a reference to the template object - myTmpl, call myTmpl.render(…)\nIf you have registered the template by name - \"myTmpl\", call $.render.myTmpl(…)\nIf the template is declared in a script block, with selector \"#myTmpl\", you can also call $(“#myTmpl”).render(…)\n\n"
+        "text": "A template is rendered by calling the render() method.\nThe render(data, helpersOrContext) method takes as parameters the data (used as the ‘data context’ during the rendering), and optionally additional metadata or contextual helpers. It returns a string – which is the rendered template – typically HTML markup with data values or computed values inserted at appropriate points in the string.\nThere are three ways of calling the render() method:\n\nIf you have a reference to the template object – myTmpl, call myTmpl.render(…)\nIf you have registered the template by name – \"myTmpl\", call $.render.myTmpl(…)\nIf the template is declared in a script block, with selector \"#myTmpl\", you can also call $(“#myTmpl”).render(…)\n\n"
       },
       {
         "_type": "links",
@@ -563,7 +563,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "api",
         "title": "$.templates(...)",
-        "text": "$.templates(...)\nCreate one or more compiled templates - optionally registered as named templates\nCompile a template from a string or selector, and return the template object\n\nvar myTemplate = $.templates(myMarkupString);\n\nRegister a named template from a string or selector\n\n$.templates(\"myTemplateName\", myMarkupString);\n\n"
+        "text": "$.templates(...)\nCreate one or more compiled templates – optionally registered as named templates\nCompile a template from a string or selector, and return the template object\n\nvar myTemplate = $.templates(myMarkupString);\n\nRegister a named template from a string or selector\n\n$.templates(\"myTemplateName\", myMarkupString);\n\n"
       },
       {
         "_type": "sample",
@@ -981,7 +981,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "api",
         "title": "jsrender.renderFile(filepath, data)",
-        "text": "jsrender.renderFile(filepath, data)\nShortcut method - compile and render\nLoad file-based template, compile and render against data\n\nvar jsr = require('jsrender');\nvar html = jsr.renderFile('./.../tmpl.html', data);\n\n"
+        "text": "jsrender.renderFile(filepath, data)\nShortcut method – compile and render\nLoad file-based template, compile and render against data\n\nvar jsr = require('jsrender');\nvar html = jsr.renderFile('./.../tmpl.html', data);\n\n"
       },
       {
         "_type": "para",
@@ -990,8 +990,8 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "para",
-        "title": "Register a file-based template by name - and render it",
-        "text": "Register a file-based template by name - and render it\nFor convenience you can register file-based templates by name, just as you can for templates from strings.\n// Register named template - \"myTmpl1\n$.templates(\"myTmpl1\", \"./templates/myTemplate.html\");\n\n// Render named template\nvar html = $.templates.myTmpl1(person);\n\n// Alternative syntax: var html = $.render.myTmpl1(person);\n\n"
+        "title": "Register a file-based template by name &ndash; and render it",
+        "text": "Register a file-based template by name – and render it\nFor convenience you can register file-based templates by name, just as you can for templates from strings.\n// Register named template - \"myTmpl1\n$.templates(\"myTmpl1\", \"./templates/myTemplate.html\");\n\n// Render named template\nvar html = $.templates.myTmpl1(person);\n\n// Alternative syntax: var html = $.render.myTmpl1(person);\n\n"
       },
       {
         "_type": "para",
@@ -1096,7 +1096,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Tags without content",
-        "text": "Tags without content\nThe most common JsRender tags are {{: pathOrExpr}} - which inserts the value of the path or expression, and {{> pathOrExpr}} which inserts the HTML-encoded value of the path or expression.\nThose tags, along with the allow code tag {{* ...}} and comment tag {{!-- ... --}}, are self-contained tags which do not wrap other content:\nBuilt-in tags without content:\n{{: pathOrExpr}}             (value)\n{{> pathOrExpr}}             (HTML-encoded value)\n{{* mycode}}                 (using code)\n{{!-- this is a comment --}} \n\n"
+        "text": "Tags without content\nThe most common JsRender tags are {{: pathOrExpr}} – which inserts the value of the path or expression, and {{> pathOrExpr}} which inserts the HTML-encoded value of the path or expression.\nThose tags, along with the allow code tag {{* ...}} and comment tag {{!-- ... --}}, are self-contained tags which do not wrap other content:\nBuilt-in tags without content:\n{{: pathOrExpr}}             (value)\n{{> pathOrExpr}}             (HTML-encoded value)\n{{* mycode}}                 (using code)\n{{!-- this is a comment --}} \n\n"
       },
       {
         "_type": "para",
@@ -1106,7 +1106,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Using tmpl=... to reference content as an external template",
-        "text": "Using tmpl=... to reference content as an external template\nA particular case of self-closing syntax is when any block tag uses the named parameter tmpl=... to reference an external template, which then replaces what would have been the block content.\nThis is a very useful technique for encapsulation and reuse of tag content. The content becomes a ‘partial’ - and is included thanks to template composition:\nSelf-closing block tag referencing an external template:\n{{someTag ... tmpl=.../}}\n\n(See for example {{for languages tmpl=\"#columnTemplate\"/}} in this sample.)\n"
+        "text": "Using tmpl=... to reference content as an external template\nA particular case of self-closing syntax is when any block tag uses the named parameter tmpl=... to reference an external template, which then replaces what would have been the block content.\nThis is a very useful technique for encapsulation and reuse of tag content. The content becomes a ‘partial’ – and is included thanks to template composition:\nSelf-closing block tag referencing an external template:\n{{someTag ... tmpl=.../}}\n\n(See for example {{for languages tmpl=\"#columnTemplate\"/}} in this sample.)\n"
       },
       {
         "_type": "para",
@@ -1198,7 +1198,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender tags can take unamed arguments, or named parameters:\n{{:arg0}}\n\n{{someTag arg1 arg2 param_a=param1 param_b=param2}}\n  content\n{{/someTag}}\n\nThe values of the arguments or parameters (such as arg0… param1 … above) must be valid JsRender paths or expressions.\nJsRender expressions are regular Javascript expressions, but with no access to global variables.\nInstead of global Javascript variables, JsRender expressions use data paths, helper paths and view paths, to access data values, values provided by helpers, and values obtained from the view hierarchy, such as the #getIndex().\nData paths are of the form dataProperty.bb.cc, and they step through the data hierarchy, starting from the current data item (the data context for the current view). They can include array access, such as team.members[id]\nView paths are of the form #viewProperty.bb.cc, and they start from the current view. So for example, #data is short for #view.data - where #view is the current view.\nHelper paths are of the form ~myHelper.bb.cc, and they start from the named helper \"myHelper\". In addition they can be used to access contextual parameters, or the built-in ~root\nHere are some examples of JsRender paths and values:\nData paths:\n{{:name}}\n{{for address.street}}...{{/for}}\n{{>team.members[0].lastName}}\n{{:name.toUpperCase()}}\n\nHelper paths:\n{{>~utilities.errorMessages.msg1}}\n{{if ~settings.show}}...{{/if}}\n{{:~root.selectedName}}         {{!--Accessing root data--}}\n\nView paths:\n{{:#getIndex()}}\n{{include #content /}}\n{{if #parent.parent.data.isLead}}...{{/if}}\n{{>~getDescription(#data)}}\n\nA primitive value of type string, number, boolean, null …:\n{{if isOpen tmpl='It is open' /}}\n{{for address tmpl=\"#addressTemplate\"}}...{{/for}}\n{{range members start=1 end=5 /}}\n{{range members reverseSort=true /}}\n\nJsRender expressions can combine values in more complex expressions, using functions, parens, operators such as + - * / ! === == > !== || &&, as well as ternary expressions: ...?...:..., array and object accessors: [...] etc.\nHere are some examples of expressions:\n{{if book.author === \"Jim Boyd\"}}...{{/if}}\n{{:~utilities.format(book.title, 'upper', true)}}\n{{for ~sort(~root.getMembers()}}}...{{/for}}\n{{:person.firstName + ' ' + person.lastName.toUpperCase()}}\n{{range #parent.data.members()/}}\n{{:(~addRebate(book.price) + 23.2)*3.5/2.1}}\n{{:~mode === \"useTitle\" ? book.title : book.name}}\n{{if error}}...{{else !utilities.valid(book.description)}}...{{else}}...{{/if}}\n{{:~books[id].title}}\n{{:people[~currentIndex].name}}\n\nExpressions can include white space. The following two examples are equivalent:\n{{averageValue product.quantity*3.1/4.5 description=~getDescription(#data) /}}\n{{averageValue product.quantity * 3.1 / 4.5 description = ~getDescription( #data ) /}}\n\nThe {{averageValue}} tag is being assigned one argument, and one named “description” parameter. The two expressions differ only in white space, and both are syntactically valid. However, removing optional white space -– as in the first example -– makes it easier to see the distinct arguments and parameters of the tag.\n"
+        "text": "JsRender tags can take unamed arguments, or named parameters:\n{{:arg0}}\n\n{{someTag arg1 arg2 param_a=param1 param_b=param2}}\n  content\n{{/someTag}}\n\nThe values of the arguments or parameters (such as arg0… param1 … above) must be valid JsRender paths or expressions.\nJsRender expressions are regular Javascript expressions, but with no access to global variables.\nInstead of global Javascript variables, JsRender expressions use data paths, helper paths and view paths, to access data values, values provided by helpers, and values obtained from the view hierarchy, such as the #getIndex().\nData paths are of the form dataProperty.bb.cc, and they step through the data hierarchy, starting from the current data item (the data context for the current view). They can include array access, such as team.members[id]\nView paths are of the form #viewProperty.bb.cc, and they start from the current view. So for example, #data is short for #view.data – where #view is the current view.\nHelper paths are of the form ~myHelper.bb.cc, and they start from the named helper \"myHelper\". In addition they can be used to access contextual parameters, or the built-in ~root\nHere are some examples of JsRender paths and values:\nData paths:\n{{:name}}\n{{for address.street}}...{{/for}}\n{{>team.members[0].lastName}}\n{{:name.toUpperCase()}}\n\nHelper paths:\n{{>~utilities.errorMessages.msg1}}\n{{if ~settings.show}}...{{/if}}\n{{:~root.selectedName}}         {{!--Accessing root data--}}\n\nView paths:\n{{:#getIndex()}}\n{{include #content /}}\n{{if #parent.parent.data.isLead}}...{{/if}}\n{{>~getDescription(#data)}}\n\nA primitive value of type string, number, boolean, null …:\n{{if isOpen tmpl='It is open' /}}\n{{for address tmpl=\"#addressTemplate\"}}...{{/for}}\n{{range members start=1 end=5 /}}\n{{range members reverseSort=true /}}\n\nJsRender expressions can combine values in more complex expressions, using functions, parens, operators such as + - * / ! === == > !== || &&, as well as ternary expressions: ...?...:..., array and object accessors: [...] etc.\nHere are some examples of expressions:\n{{if book.author === \"Jim Boyd\"}}...{{/if}}\n{{:~utilities.format(book.title, 'upper', true)}}\n{{for ~sort(~root.getMembers()}}}...{{/for}}\n{{:person.firstName + ' ' + person.lastName.toUpperCase()}}\n{{range #parent.data.members()/}}\n{{:(~addRebate(book.price) + 23.2)*3.5/2.1}}\n{{:~mode === \"useTitle\" ? book.title : book.name}}\n{{if error}}...{{else !utilities.valid(book.description)}}...{{else}}...{{/if}}\n{{:~books[id].title}}\n{{:people[~currentIndex].name}}\n\nExpressions can include white space. The following two examples are equivalent:\n{{averageValue product.quantity*3.1/4.5 description=~getDescription(#data) /}}\n{{averageValue product.quantity * 3.1 / 4.5 description = ~getDescription( #data ) /}}\n\nThe {{averageValue}} tag is being assigned one argument, and one named “description” parameter. The two expressions differ only in white space, and both are syntactically valid. However, removing optional white space -– as in the first example -– makes it easier to see the distinct arguments and parameters of the tag.\n"
       },
       {
         "_type": "para",
@@ -1208,7 +1208,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Computed properties",
-        "text": "Computed properties\nIn some cases a property may be of type function (possibly taking parameters), so you might have:\nteam.manager().getAddress('home').street\n– where the manager property is in fact a ‘getter’ function which returns a person object, which has a getAddress() parameterized accessor (taking 'home' or 'work' – or maybe a Boolean isHomeAddress). Similarly a path can include an array accessor such as team.members['id'].address.\nProperties of type function – returning a value – are referred to as a computed properties, or getter properties, and \nteam.manager().getAddress('home').street is an example of chained computed properties.\n(See also Computed properties and computed observables - for using computed properties with JsViews and data-linking.)\n"
+        "text": "Computed properties\nIn some cases a property may be of type function (possibly taking parameters), so you might have:\nteam.manager().getAddress('home').street\n– where the manager property is in fact a ‘getter’ function which returns a person object, which has a getAddress() parameterized accessor (taking 'home' or 'work' – or maybe a Boolean isHomeAddress). Similarly a path can include an array accessor such as team.members['id'].address.\nProperties of type function – returning a value – are referred to as a computed properties, or getter properties, and \nteam.manager().getAddress('home').street is an example of chained computed properties.\n(See also Computed properties and computed observables – for using computed properties with JsViews and data-linking.)\n"
       },
       {
         "_type": "para",
@@ -1280,7 +1280,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Changing delimiters:",
-        "text": "Changing delimiters:\nSometimes there can be a need to use different delimiters. For example there may be a conflict if the template is being rendered on the server using a declarative syntax such as Django with the same default delimiters {{ and }}.\nThe following call:\n$.views.settings.delimiters(\"<%\", \"%>\");\n\nwill change the tag syntax to <%...%>.\n"
+        "text": "Changing delimiters:\nSometimes there can be a need to use different delimiters. For example there may be a conflict if the template is being rendered on the server using a declarative syntax such as Django with the same default delimiters {{ and }}.\nThe following call:\n$.views.settings.delimiters(\"<%\", \"%>\");\n\nwill change the tag syntax to <%...%>.\n(Note: $.views.settings.delimiters(...); also accepts as parameter an array such as [\"<%\", %>\"] – as shown in the last sample below.)\n"
       },
       {
         "_type": "para",
@@ -1290,7 +1290,27 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Choosing alternative tag delimiters, with JsRender",
-        "text": "Choosing alternative tag delimiters, with JsRender\n\n\n\n  <b>[%:title%]</b>\n  <ul>\n    [%for members%]\n      <li>Name: [%:name%]</li>\n    [%/for%]\n  </ul>\n\n\n$.views.settings.delimiters(\"[%\", \"%]\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n\nvar team = {\n    title: \"A team\",\n    members: [{name: \"Jo\"}]\n  };\n\nvar html = tmpl.render(team);\n\n$(\"#result\").html(html);\nMarkup:\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <b>[%:title%]</b>\n  <ul>\n    [%for members%]\n      <li>Name: [%:name%]</li>\n    [%/for%]\n  </ul>\n</script>\n\nCode\n$.views.settings.delimiters(\"[%\", \"%]\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n...\n\n\n"
+        "text": "Choosing alternative tag delimiters, with JsRender\n\n\n\n  <b>[%:title%]</b>\n  <ul>\n    [%for members%]\n      <li>Name: [%:name%]</li>\n    [%/for%]\n  </ul>\n\n$.views.settings.delimiters(\"[%\", \"%]\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n\nvar team = {\n    title: \"A team\",\n    members: [{name: \"Jo\"}]\n  };\n\nvar html = tmpl.render(team);\n\n$(\"#result\").html(html);\nMarkup:\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <b>[%:title%]</b>\n  <ul>\n    [%for members%]\n      <li>Name: [%:name%]</li>\n    [%/for%]\n  </ul>\n</script>\n\nCode\n$.views.settings.delimiters(\"[%\", \"%]\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n...\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using alternative delimiters to 'render a template with a template'",
+        "text": "Using alternative delimiters to 'render a template with a template'\nIn some scenarios you might want to use a template to generate a template, such as a template on the server to generate/render a template that will then be used in the browser.\nA good approach to achieving this is to use a different set of delimiters on the server.\nA similar scenario is to use a ‘base’ template to render different versions of a template for different languages/localities, as in this example:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Template for a template",
+        "text": "Template for a template\n\n  <%:hello%>, {{:name}}<br/>\n  <%:welcome%> {{:place}}\n\n\n\n\nvar spanishTerms = {\n  hello: \"Hola\",\n  welcome: \"Bienvenido a\"\n};\n\nvar data = {\n  name: \"John\",\n  place: \"Madrid\"\n};\n\n// Get current delimiters\nvar currentDelimiters = $.views.settings.delimiters();\n\n// Temporarily switch delimiters\n$.views.settings.delimiters(\"<%\", \"%>\");\n\n// Translate to Spanish localized version\nvar localizedTemplate = $.templates(\"#baseTmpl\").render(spanishTerms);\n\n// Revert to original delimiters\n$.views.settings.delimiters(currentDelimiters);\n\n// Render data using localized template\nhtml = $.templates(localizedTemplate).render(data);\n\n$(\"#result\").html(html);\n<%:hello%>, {{:name}}<br/>\n<%:welcome%> {{:place}}\n\n// Get current delimiters\nvar currentDelimiters = $.views.settings.delimiters();\n\n// Temporarily switch delimiters\n$.views.settings.delimiters(\"<%\", \"%>\");\n\n// Translate to Spanish localized version\nvar localizedTemplate = $.templates(\"#baseTmpl\").render(spanishTerms);\n\n// Revert to original delimiters\n$.views.settings.delimiters(currentDelimiters);\n\n// Render data using localized template\nhtml = $.templates(localizedTemplate).render(data);\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Incidentally the above scenario of localized terms in a template can be achieved without the ‘build step’ of creating localized templates, simply by passing in the terms as helpers, distinct from the data itself.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Passing in terms as helpers",
+        "text": "Passing in terms as helpers\n\n  {{:~hello}}, {{:name}}<br/>\n  {{:~welcome}} {{:place}}\n\n\n\n\nvar spanishTerms = {\n  hello: \"Hola\",\n  welcome: \"Bienvenido a\"\n};\n\nvar data = {\n  name: \"John\",\n  place: \"Madrid\"\n};\n\n// Pass in localized terms as helpers\nvar html = $.templates(\"#tmpl\").render(data, spanishTerms );\n\n$(\"#result\").html(html);\n\nvar spanishTerms = {\n  hello: \"Hola\",\n  welcome: \"Bienvenido a\"\n};\n\nvar data = {\n  name: \"John\",\n  place: \"Madrid\"\n};\n\n// Pass in localized terms as helpers\nvar html = $.templates(\"#tmpl\").render(data, spanishTerms );\n\n\n"
       }
     ]
   },
@@ -1314,7 +1334,12 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender templates allow you to write rich expressions within the template tags, such as:\n{{:person.firstName + ' ' + person.lastName.toUpperCase()}}\n\nNevertheless, in order to improve encapsulation and maintainability, they don’t allow arbitrary code. For example, they don’t allow you to access global variables, like window.\nIf you want complete freedom to insert any code into a compiled template, you can set allowCode to true, either globally, or specifically for that template. You can then run any code as part of the template rendering, using the {{* ...}} tag, or you can return (render into the template output) the result of evaluating any expression, using the {{*: ...}} tag.\n"
+        "text": "JsRender templates allow you to write rich expressions within the template tags, such as:\n{{:person.firstName + ' ' + person.lastName.toUpperCase()}}\n\nNevertheless, in order to improve encapsulation, security and maintainability, they don’t allow arbitrary code. For example, they don’t allow you to access global variables, like window.\nIf you want complete freedom to insert any code into a compiled template, you can set allowCode to true, either globally, or specifically for that template. You can then run any code as part of the template rendering, using the {{* ...}} tag, or you can return (render into the template output) the result of evaluating any expression, using the {{*: ...}} tag.\n(Note: it is not recommended to set allowCode to true within data-linked templates – with JsViews.)\n"
+      },
+      {
+        "_type": "para",
+        "title": "User-defined templates and security",
+        "text": "User-defined templates and security\nFor most purposes there is no need to set allowCode to true, since the built-in template expressions provide rich functionality which is sufficient for most scenarios.\nJsRender can be used to render templates either on the server or in the browser – and is often used for applications which allow users to create their own templates, or to insert markup and expressions into templates. With allowCode false, JsRender is designed to make it impossible for such user-defined templates to run arbitrary code.\nUsers can include rich template expressions in the template, but they won’t be able to insert code that accesses any variables (or runs any methods) that are outside of the template scope. (They can only access the contextual data/model, use the standard operators, and use any helper methods and variables which the author decides to provide.)\n"
       },
       {
         "_type": "para",
@@ -1447,7 +1472,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Advanced debugging, using debugging helpers",
-        "text": "Advanced debugging, using debugging helpers\nInserting breakpoints during rendering:\nJsRender (and JsViews) provide some helpers for debugging code within compiled templates:\n\nThe {{dbg expression/}} tag\nThe {{dbg: expression}} converter\nThe ~dbg(expression) helper function\n\nEach of the above will\n\nevaluate the expression\noutput a console.log(...) call\nthrow and catch an exception - which you can use as a break point by stopping on caught exceptions\nrender the evaluated expression\n\nThis is done by inserting code into the compiled template which calls into the built-in dbgBreak code:\nfunction dbgBreak(val) {\n  try {\n    console.log(\"JsRender dbg breakpoint: \" + val);\n    throw \"dbg breakpoint\"; // To break here, stop on caught exceptions.\n  }\n  catch (e) {}\n\nval will be the result of evaluating expression.\nWhen rendering execution breaks at the above code, you can then step up through the call stack to the compiled template code, for further debugging.\nUsage examples: {{dbg:...}}, {{:~dbg(...)}}, {{dbg .../}} etc.\nBreakpoints during data linking:\nIn JsViews, a breakpoint can also be inserted during template data-linking, as in {^{for ... onAfterLink=~dbg}}.\nUsing {{*debugger}}:\nAn alternative (but similar) debugging technique is to use allowCode to insert a debugger; statement directly into the compiled template code, as follows:\nCode:\nvar tmpl = $.templates({\n  markup: \"#myTmpl\",\n  allowCode: true // Alternatively use global setting: $.views.settings.allowCode(true)\n});\n\nTemplate:\n...\n{{*debugger}}\n...\n\n"
+        "text": "Advanced debugging, using debugging helpers\nInserting breakpoints during rendering:\nJsRender (and JsViews) provide some helpers for debugging code within compiled templates:\n\nThe {{dbg expression/}} tag\nThe {{dbg: expression}} converter\nThe ~dbg(expression) helper function\n\nEach of the above will\n\nevaluate the expression\noutput a console.log(...) call\nthrow and catch an exception – which you can use as a break point by stopping on caught exceptions\nrender the evaluated expression\n\nThis is done by inserting code into the compiled template which calls into the built-in dbgBreak code:\nfunction dbgBreak(val) {\n  try {\n    console.log(\"JsRender dbg breakpoint: \" + val);\n    throw \"dbg breakpoint\"; // To break here, stop on caught exceptions.\n  }\n  catch (e) {}\n\nval will be the result of evaluating expression.\nWhen rendering execution breaks at the above code, you can then step up through the call stack to the compiled template code, for further debugging.\nUsage examples: {{dbg:...}}, {{:~dbg(...)}}, {{dbg .../}} etc.\nBreakpoints during data linking:\nIn JsViews, a breakpoint can also be inserted during template data-linking, as in {^{for ... onAfterLink=~dbg}}.\nUsing {{*debugger}}:\nAn alternative (but similar) debugging technique is to use allowCode to insert a debugger; statement directly into the compiled template code, as follows:\nCode:\nvar tmpl = $.templates({\n  markup: \"#myTmpl\",\n  allowCode: true // Alternatively use global setting: $.views.settings.allowCode(true)\n});\n\nTemplate:\n...\n{{*debugger}}\n...\n\n"
       }
     ]
   },
@@ -1615,7 +1640,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Adding methods and computed properties to the View Model ",
-        "text": "Adding methods and computed properties to the View Model \nTypically a View Model does not only provide getter (or get/set) properties - but also other methods or computed properties corresponding to the appropriate logic at that point in the application. For example, a View Model for a Person might include a selectPhone(...) method or a fullName() computed property.\n"
+        "text": "Adding methods and computed properties to the View Model \nTypically a View Model does not only provide getter (or get/set) properties – but also other methods or computed properties corresponding to the appropriate logic at that point in the application. For example, a View Model for a Person might include a selectPhone(...) method or a fullName() computed property.\n"
       },
       {
         "_type": "para",
@@ -1901,7 +1926,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Built-in HTML encoder",
-        "text": "Built-in HTML encoder\nJsRender includes an HTML encoder, which you can use programmatically as follows:\nvar myHtmlEncodedString = $.views.converters.html(myString);\n\nThe same encoder is accessed declaratively as a converter, as in the following two examples:\n{{html:myExpression}}\n\n{{>myExpression}}\n\nIn fact {{>...}} is exactly equivalent to {{html:...}} and is provided as a simpler syntax for HTML encoding values taken from data or from expressions and rendered within HTML content.\n(Note: the {{> ...}} tag should be used in place of the {{: ...}} tag whenever the data being rendered is not full trusted - in order to prevent HTML injection attacks.)\n"
+        "text": "Built-in HTML encoder\nJsRender includes an HTML encoder, which you can use programmatically as follows:\nvar myHtmlEncodedString = $.views.converters.html(myString);\n\nThe same encoder is accessed declaratively as a converter, as in the following two examples:\n{{html:myExpression}}\n\n{{>myExpression}}\n\nIn fact {{>...}} is exactly equivalent to {{html:...}} and is provided as a simpler syntax for HTML encoding values taken from data or from expressions and rendered within HTML content.\n(Note: the {{> ...}} tag should be used in place of the {{: ...}} tag whenever the data being rendered is not full trusted – in order to prevent HTML injection attacks.)\n"
       },
       {
         "_type": "sample",
@@ -1995,7 +2020,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Using helper functions or data methods as converters",
-        "text": "Using helper functions or data methods as converters\nThe convert=... syntax not only works on any tag, but also allows you to use not only registered converters, by name, as in\n{{for people convert='odd'}}\n\nbut alternatively to use helpers, or data methods as in\n{{for people convert=filter.odd}} // Using data method\n\nYou can also use that approach on {{:..}} tags as in\n{{:name convert=~hlp.bold}} // Using helper\n\nNote that the one tag which does not support this syntax is {{>...}} - for which you would need instead to write:\n{{>~hlp.bold(name)}} // Using helper \n\nHere is a modified version of the sample above, using helpers and data methods:\n"
+        "text": "Using helper functions or data methods as converters\nThe convert=... syntax not only works on any tag, but also allows you to use not only registered converters, by name, as in\n{{for people convert='odd'}}\n\nbut alternatively to use helpers, or data methods as in\n{{for people convert=filter.odd}} // Using data method\n\nYou can also use that approach on {{:..}} tags as in\n{{:name convert=~hlp.bold}} // Using helper\n\nNote that the one tag which does not support this syntax is {{>...}} – for which you would need instead to write:\n{{>~hlp.bold(name)}} // Using helper \n\nHere is a modified version of the sample above, using helpers and data methods:\n"
       },
       {
         "_type": "sample",
@@ -2181,7 +2206,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Sample showing some of the advanced View Model features",
-        "text": "Sample showing some of the advanced View Model features\nThe next sample is similar to the previous one, but specifically highlights some of the advanced features of compiled View Models.\n\nIt stores compiled View Models on a myVmCollection hash, as a View Model typed collection, rather than on$.views.viewModels\nIt maps from an array of ‘people’ rather than a single person:\nvar people = Person.map(peopleData);\nIt specifies an id key for Person. When updating the phones array the id value is treated as 'primary key’, and used to map 'identity’:\nid: \"id\"\nIt provides an id() callback on Person, for determining identity – allowing identification of corresponding View Model instances within the people array, and hence preventing unnecessary disposal and re-instantiation (which would destroy state, such as the comment value).\nIt has a comment() get/set property that is added as part of the extend definition, not the getters, so it is not initialized from data, in the constructor. Note therefore that if you set a comment on each person instance, then click Update, then Revert, one comment is conserved (since that instance is never disposed - based on the ‘identity’ determination) but the other is lost since the instance is disposed and then re-created by Revert:\nextend: {...comment: comment...}\nIt has defaultVal specified for name, address and phones, either as ‘static’ values or computed by a callback function:\naddress: {type: \"Address\", defaultVal: defaultStreet}\nIt overrides the generated person.name() get/set by a myNameGetSet function which includes logging\nIt passes a JSON string to merge() or map()\n(See also the same sample using JsViews and data-linking.)\n\n"
+        "text": "Sample showing some of the advanced View Model features\nThe next sample is similar to the previous one, but specifically highlights some of the advanced features of compiled View Models.\n\nIt stores compiled View Models on a myVmCollection hash, as a View Model typed collection, rather than on$.views.viewModels\nIt maps from an array of ‘people’ rather than a single person:\nvar people = Person.map(peopleData);\nIt specifies an id key for Person. When updating the phones array the id value is treated as 'primary key’, and used to map 'identity’:\nid: \"id\"\nIt provides an id() callback on Person, for determining identity – allowing identification of corresponding View Model instances within the people array, and hence preventing unnecessary disposal and re-instantiation (which would destroy state, such as the comment value).\nIt has a comment() get/set property that is added as part of the extend definition, not the getters, so it is not initialized from data, in the constructor. Note therefore that if you set a comment on each person instance, then click Update, then Revert, one comment is conserved (since that instance is never disposed – based on the ‘identity’ determination) but the other is lost since the instance is disposed and then re-created by Revert:\nextend: {...comment: comment...}\nIt has defaultVal specified for name, address and phones, either as ‘static’ values or computed by a callback function:\naddress: {type: \"Address\", defaultVal: defaultStreet}\nIt overrides the generated person.name() get/set by a myNameGetSet function which includes logging\nIt passes a JSON string to merge() or map()\n(See also the same sample using JsViews and data-linking.)\n\n"
       },
       {
         "_type": "sample",
@@ -2192,6 +2217,15 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "_type": "links",
         "title": "See also:",
         "text": "See also:\n"
+      }
+    ]
+  },
+  "lifecycle": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph\n"
       }
     ]
   }

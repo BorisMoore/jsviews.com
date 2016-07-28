@@ -1,5 +1,3 @@
-$.views.settings.trigger(true); // Trigger on key down.
-
 var VMs = $.views.viewModels,
   counter = 0,
 

@@ -145,7 +145,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "A more complete sample:",
-        "text": "A more complete sample:\nThis was just a glimpse of some of the richness of JsViews data-linking. The next sample lets you see a more fully-fledged example, which you can experiment with.\nMore details on JsViews features and APIs will be available soon, and will be added to the Links section below.\n"
+        "text": "A more complete sample:\nThis was just a glimpse of some of the richness of JsViews data-linking. The next sample lets you see a more fully-fledged example, which you can experiment with.\nFor more details on JsViews features and APIs see the Links section below.\n"
       },
       {
         "_type": "sample",
@@ -208,8 +208,8 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       },
       {
         "_type": "para",
-        "title": "Register a named template - and render it",
-        "text": "Register a named template - and render it\n// Register named template \"myTmpl1\", from string \n$.templates(\"myTmpl1\", \"Name: {{:name}}<br/> \");\n// (or from script block: $.templates(\"myTmpl1\", \"#myTemplate\"); ...)\n\nvar person = {name: \"Jim\"};\n\n// Render named template\nvar html = $.render.myTmpl1(person);\n\n// result: \"Name: Jim<br/> \"\n\nLearn more…\n"
+        "title": "Register a named template &ndash; and render it",
+        "text": "Register a named template – and render it\n// Register named template \"myTmpl1\", from string \n$.templates(\"myTmpl1\", \"Name: {{:name}}<br/> \");\n// (or from script block: $.templates(\"myTmpl1\", \"#myTemplate\"); ...)\n\nvar person = {name: \"Jim\"};\n\n// Render named template\nvar html = $.render.myTmpl1(person);\n\n// result: \"Name: Jim<br/> \"\n\nLearn more…\n"
       },
       {
         "_type": "para",
@@ -219,7 +219,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "Template tag syntax",
-        "text": "Template tag syntax\n\nAll tags other than {{: ...}} {{> ...}} {{* ...}} {{!-- --}} behave as block tags\nBlock tags can have content, unless they use the self-closing syntax:\n\nBlock tag - with content: {{someTag ...}} content {{/someTag}}\nSelf-closing tag - no content (empty): {{someTag .../}}\n\nA particular case where self-closing syntax is used is when a block tag uses the named parameter tmpl=... to reference an external template – which then replaces what would have been the block content:\n\nSelf-closing block  tag referencing an external template: {{someTag ... tmpl=.../}}(This lets you do template composition. See example.)\n\nTags can take both unnamed arguments and named parameters:\n\n{{someTag argument1 param1=...}} content {{/someTag}}\nan example of a named parameter is the tmpl=... parameter mentioned above\narguments and named parameters can be assigned values from simple data-paths such as address.street or from richer expressions such as product.quantity * 3.1 / 4.5, or name.toUpperCase()\n\n\nLearn more…\nBuilt-in tags"
+        "text": "Template tag syntax\n\nAll tags other than {{: ...}} {{> ...}} {{* ...}} {{!-- --}} behave as block tags\nBlock tags can have content, unless they use the self-closing syntax:\n\nBlock tag – with content: {{someTag ...}} content {{/someTag}}\nSelf-closing tag – no content (empty): {{someTag .../}}\n\nA particular case where self-closing syntax is used is when a block tag uses the named parameter tmpl=... to reference an external template – which then replaces what would have been the block content:\n\nSelf-closing block  tag referencing an external template: {{someTag ... tmpl=.../}}(This lets you do template composition. See example.)\n\nTags can take both unnamed arguments and named parameters:\n\n{{someTag argument1 param1=...}} content {{/someTag}}\nan example of a named parameter is the tmpl=... parameter mentioned above\narguments and named parameters can be assigned values from simple data-paths such as address.street or from richer expressions such as product.quantity * 3.1 / 4.5, or name.toUpperCase()\n\n\nLearn more…\nBuilt-in tags"
       },
       {
         "_type": "para",
@@ -238,8 +238,8 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       },
       {
         "_type": "para",
-        "title": "<b>{{include ...}}</b> (Template composition - partials)",
-        "text": "{{include ...}} (Template composition - partials)\n{{include pathOrExpr}}...{{/include}}evaluates the block content against a specified/modified data context.\n{{include ... tmpl=.../}} evaluates the specified template against an (optionally modified) context, and inserts the result. (Template composition).\nvar data = {name: \"Jim\", address: {street: \"Main Street\"} };\n\n// Register two named templates\n$.templates({\n    streetTmpl: \"<i>{{:street}}</i>\",\n    addressTmpl: \"{{:name}}'s address is {{include address tmpl='streetTmpl'/}}.\"\n});\n\n// Render outer template\nvar html = $.templates.addressTmpl.render(data);\n\n// result: \"Jim's address is <i>Main Street</i>\"\n\nLearn more…\n"
+        "title": "<b>{{include ...}}</b> (Template composition &ndash; partials)",
+        "text": "{{include ...}} (Template composition – partials)\n{{include pathOrExpr}}...{{/include}}evaluates the block content against a specified/modified data context.\n{{include ... tmpl=.../}} evaluates the specified template against an (optionally modified) context, and inserts the result. (Template composition).\nvar data = {name: \"Jim\", address: {street: \"Main Street\"} };\n\n// Register two named templates\n$.templates({\n    streetTmpl: \"<i>{{:street}}</i>\",\n    addressTmpl: \"{{:name}}'s address is {{include address tmpl='streetTmpl'/}}.\"\n});\n\n// Render outer template\nvar html = $.templates.addressTmpl.render(data);\n\n// result: \"Jim's address is <i>Main Street</i>\"\n\nLearn more…\n"
       },
       {
         "_type": "para",
@@ -254,7 +254,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "<b>{{if ...}}</b> (Conditional inclusion)",
-        "text": "{{if ...}} (Conditional inclusion)\n{{if pathOrExpr}}...{{/if}} or {{if pathOrExpr tmpl=.../}} renders the content/template only if the evaluated path or expression is 'truthy’.\n{{if pathOrExpr}}...{{else pathOrExpr2}}...{{else}}...{{/if}}  behaves as 'if’ - ‘else if’ - ‘else’ and renders each block based on the conditions.\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  {{if nickname}}\n    Nickname: {{:nickname}}\n  {{else name}}\n    Name: {{:name}}\n  {{else}}\n    No name provided\n  {{/if}}\n</script>\n\nvar data = {nickname: \"Jim\", name: \"James\"};\nvar tmpl = $.templates(\"#personTmpl\");\nvar html = tmpl.render(data);\n\n// result: \"Nickname: Jim\"\n\nLearn more…\n"
+        "text": "{{if ...}} (Conditional inclusion)\n{{if pathOrExpr}}...{{/if}} or {{if pathOrExpr tmpl=.../}} renders the content/template only if the evaluated path or expression is 'truthy’.\n{{if pathOrExpr}}...{{else pathOrExpr2}}...{{else}}...{{/if}}  behaves as 'if – else if – else’ and renders each block based on the conditions.\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  {{if nickname}}\n    Nickname: {{:nickname}}\n  {{else name}}\n    Name: {{:name}}\n  {{else}}\n    No name provided\n  {{/if}}\n</script>\n\nvar data = {nickname: \"Jim\", name: \"James\"};\nvar tmpl = $.templates(\"#personTmpl\");\nvar html = tmpl.render(data);\n\n// result: \"Nickname: Jim\"\n\nLearn more…\n"
       },
       {
         "_type": "para",
@@ -349,6 +349,11 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
         "_type": "para",
         "title": "Computed observables",
         "text": "Computed observables\nJsViews also allows you to data-bind to computed values, such as:\n{^{:shoppingCart.totalAmount()}}           <!-- updates when totalAmount() changes -->\n<input data-link=\"person.fullName()\" />    <!-- two-way binding to the computed fullName() -->\n\nLearn more…\n"
+      },
+      {
+        "_type": "links",
+        "title": "Links:",
+        "text": "Links:\n"
       }
     ]
   },

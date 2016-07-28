@@ -961,7 +961,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "*Set up initial data:*\n\n```js\napp = {\n  selectedIndex: null,\n  movies: [...]\n};\n```\n\n*Compile View Models:*\n\n```js\n$.views.viewModels({\n  MovieApp: {\n    getters: [...],\n    extend: {...}\n  },\n  Movie: {\n    ...\n  },\n  Language: {\n    ...\n  }\n});\n```\n\n*Instantiate View Models:*\n\n```js\nvar appVm = $.views.viewModels.MovieApp.map(app);\n```\n\n*Top level data-linking - bind content to View Models:*\n\n```js\n$.link(true, \".linkedContent\", appVm);\n```"
+            "text": "*Set up initial data:*\n\n```js\napp = {\n  selectedIndex: null,\n  movies: [...]\n};\n```\n\n*Compile View Models:*\n\n```js\n$.views.viewModels({\n  MovieApp: {\n    getters: [...],\n    extend: {...}\n  },\n  Movie: {\n    ...\n  },\n  Language: {\n    ...\n  }\n});\n```\n\n*Instantiate View Models:*\n\n```js\nvar appVm = $.views.viewModels.MovieApp.map(app);\n```\n\n*Top level data-linking -- bind content to View Models:*\n\n```js\n$.link(true, \".linkedContent\", appVm);\n```"
           }
         ],
         "codetabs": [],
@@ -1167,6 +1167,10 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "hash": "samples/tag-controls/datepicker/with-validation-wizard",
             "label": "With validation wizard"
+          },
+          {
+            "hash": "samples/tag-controls/datepicker/with-converters",
+            "label": "With converters"
           }
         ]
       }
@@ -1967,7 +1971,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "topics": [
           {
             "hash": "samples/form-els/simple",
-            "label": "Form element binding"
+            "label": "Form element binding (top-level or in template)"
           },
           {
             "hash": "samples/form-els/array-binding",
@@ -2287,7 +2291,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       },
       {
         "_type": "para",
-        "title": "Next step - convert to JsViews data-linking",
+        "title": "Next step &ndash; convert to JsViews data-linking",
         "text": "So we have reached a relatively complex JsRender template, and we are ready to convert it to use data-linking -- (move 'from render to link')...  \n\nThe details of adding data-linking to the above sample -- and taking it forward to additional functionality -- will be shown in the rest of this <a href=\"#samples/data-link\">tutorial sequence</a>. "
       },
       {
@@ -2322,12 +2326,24 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Linked and unlinked tags, and element markup",
-        "text": "By changing the `{{for}}` tag to a data-linked `{^{for}}` tag, we have obtained dynamic data-linking (binding) of our sample to changes in the `person` array.\n\nBut we still have an `{{include}}` tag and an `{{if}}` tag - nested within the `{^{for}}` block. If we could change them also to be to data-linked (using `{^{include}}` and `{^{if}}`) then we could dynamically bind to changes in the `role` -- and make our conditional toggling of the <em>'special'</em> class and our <em>hover</em> behavior be data-driven.\n\nHowever, those tags are ***within*** the markup of HTML element tags (between the `<` and `>`): \n\n```jsr\n<div class=\"person\" {{include .../}} >\n  <span class=\"{{if ...}}special{{/if}}\" >\n```\n\nJsViews does not support using a data-linked tag (`{^{...}}`) within HTML element tag markup. (Try it and you will get a *syntax error* message). Instead, it provides for [data-linking HTML elements](#linked-template-syntax) directly.\n\nLater pages of this tutorial sequence will show you how to use data-linked elements to add data-driven *class* and *hover behavior* to our sample.\n\n<em>The next page gives more detail on <a href=\"#samples/data-link/for-and-if\">data-linking `{^{for}}` and `{^{if}}`</a>.</em>"
+        "text": "By changing the `{{for}}` tag to a data-linked `{^{for}}` tag, we have obtained dynamic data-linking (binding) of our sample to changes in the `person` array.\n\nBut we still have an `{{include}}` tag and an `{{if}}` tag -- nested within the `{^{for}}` block. If we could change them also to be to data-linked (using `{^{include}}` and `{^{if}}`) then we could dynamically bind to changes in the `role` -- and make our conditional toggling of the <em>'special'</em> class and our <em>hover</em> behavior be data-driven.\n\nHowever, those tags are ***within*** the markup of HTML element tags (between the `<` and `>`): \n\n```jsr\n<div class=\"person\" {{include .../}} >\n  <span class=\"{{if ...}}special{{/if}}\" >\n```\n\nJsViews does not support using a data-linked tag (`{^{...}}`) within HTML element tag markup. (Try it and you will get a *syntax error* message). Instead, it provides for [data-linking HTML elements](#linked-template-syntax) directly.\n\nLater pages of this tutorial sequence will show you how to use data-linked elements to add data-driven *class* and *hover behavior* to our sample.\n\n<em>The next page gives more detail on <a href=\"#samples/data-link/for-and-if\">data-linking `{^{for}}` and `{^{if}}`</a>.</em>"
       },
       {
-        "_type": "para",
-        "title": "See also the JsViews API topics:",
-        "text": "<ul><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-elem-syntax",
+            "label": "Data-linked elements"
+          }
+        ]
       }
     ]
   },
@@ -2407,9 +2423,21 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "text": "In the previous page -- *[From rendering to linking](#samples/data-link/from-render-to-link)* -- we also used `{{if}}` to conditionally set a <em>'special'</em> class on a <em>span</em>, as follows:\n\n```jsr\n<span class=\"{{if role.indexOf('Lead')>=0}}special{{/if}}\">\n```\n\n<em>The next page shows how we can convert that using data-linked element syntax, so as to dynamically <a href=\"#samples/data-link/class\">data-link class</a>.</em>"
       },
       {
-        "_type": "para",
-        "title": "See also the JsViews API topics:",
-        "text": "<ul><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-elem-syntax",
+            "label": "Data-linked elements"
+          }
+        ]
       }
     ]
   },
@@ -2456,7 +2484,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       },
       {
         "_type": "para",
-        "title": "Attaching event handlers - and using $.view(this) to find the associated \"role details' element",
+        "title": "Attaching event handlers &ndash; and using $.view(this) to find the associated \"role details' element",
         "text": "For the second approach, we use attached event handlers, rather than inline code.\n\nWe don't need to insert IDs into the rendered HTML elements, since we can get the view for this person we moused over, and find the target element in the context of that view...:\n\n```js\n$.view(this)\n```\n\n```js\n$.view(this)\n  .contents(true, \".details\")\n  .show()\n```"
       },
       {
@@ -2514,9 +2542,26 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "text": "<em>On the next page we move to showing how to <a href=\"#samples/data-link/css\">data-link CSS styles or attributes</a>.</em>"
       },
       {
-        "_type": "para",
-        "title": "See also the JsViews API topics:",
-        "text": "<ul><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-elem-syntax",
+            "label": "Data-linked elements"
+          },
+          {
+            "_type": "topic",
+            "hash": "link-visibility",
+            "label": "Data-linking to visibility"
+          }
+        ]
       }
     ]
   },
@@ -2565,7 +2610,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Using the <b>merge</b> converter to toggle the class",
-        "text": "You just add the `{merge:` converter, data-link to a boolean value, and then set the `toggle='...'` named parameter to the string (the name of your class) that you want to toggle:\n\n```jsr\n<span class=\"red-border\"\n  data-link=\"someTarget{merge:some.boolean.value toggle='someTermInWhiteSpaceSeparatedList'}\">\n```\n\nLet's use that to toggle our `special` class within the `className` list (which includes `red-border`):"
+        "text": "You just data-link the target (such as `class`) to a boolean value, add the `{merge:` converter, and then set the `toggle='...'` named parameter to the string (the name of your class) that you want to toggle. When the boolean is `true`, the toggle term will get added to the current value of the target (such as `class`), treated as a white-space-separated list. When `false`, it will get removed...:\n\n```jsr\n<span class=\"red-border\"\n  data-link=\"someTarget{merge:some.boolean.value toggle='someTermInWhiteSpaceSeparatedList'}\">\n```\n\nLet's use that to toggle our `special` class within the `className` list (which includes `red-border`):"
       },
       {
         "_type": "sample",
@@ -2624,7 +2669,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Toggle multiple classes at the same time",
-        "text": "And we can even have multiple simultaneous data-link bindings targeting the same list, but toggling different items in the list. Let's toggle another class on the same span, based in whether the `reverse` boolean for swapping the name order. Select \"Reverse name\" and we will apply a different class for the border color: "
+        "text": "And we can even have multiple simultaneous data-link bindings targeting the same list, but toggling different items in the list. Let's toggle two more classes on the same span, based in whether the `reverse` boolean (already used for swapping the name order) is `true`, or `false`. Set \"Reverse name\" to `true` and we will apply a different class for the border color. Set it to `false` and we will remove that class and add a different one...: "
       },
       {
         "_type": "sample",
@@ -2653,9 +2698,26 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "text": "\n\nHere we have covered data-linking the <em>class</em> attribute. You can similarly data-link other attributes.\n\n*The next page -- [Data-linking HTML attributes](#samples/data-link/attributes) -- illustrates that with the `title` and `disabled` attributes.*"
       },
       {
-        "_type": "para",
-        "title": "See also the JsViews API topics:",
-        "text": "<ul><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-elem-syntax",
+            "label": "Data-linked elements"
+          },
+          {
+            "_type": "topic",
+            "hash": "link-class",
+            "label": "Data-linking to class"
+          }
+        ]
       }
     ]
   },
@@ -2691,7 +2753,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "markup": "<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n"
           }
         ],
-        "markup": "<p>\n<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\"\n>\n  I am {^{:disableButton?'disabled':'enabled'}}\n</button>\n</p>\n<p>\n<label><input data-link=\"disableButton\" type=\"checkbox\" /> Disable</label><br/>\nSet button (on hover) title: <input data-link=\"theTitle\" />\n</p>",
+        "markup": "<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\n\">\n  I am {^{:disableButton?'disabled':'enabled'}}\n</button><br/><br/>\n\n<label><input data-link=\"disableButton\" type=\"checkbox\" /> Disable</label><br/>\n<label>Set button title: <input data-link=\"theTitle\" /></label> (To see it, hover over the button)",
         "data": {
           "theTitle": "the title",
           "disableButton": false
@@ -2731,9 +2793,26 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "text": "<em>On the next page we will make the message more discoverable, by <a href=\"#samples/data-link/visibility\">data-linking visibility</a>:</em>"
       },
       {
-        "_type": "para",
-        "title": "See also the JsViews API topics:",
-        "text": "<ul><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-elem-syntax",
+            "label": "Data-linked elements"
+          },
+          {
+            "_type": "topic",
+            "hash": "link-elemattribs",
+            "label": "Data-linking to element attributes"
+          }
+        ]
       }
     ]
   },
@@ -2791,9 +2870,26 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "text": "<em>On the next page we will show <a href=\"#samples/data-link/svg\">data-linking SVG elements</a>.</em>"
       },
       {
-        "_type": "para",
-        "title": "See also the JsViews API topics:",
-        "text": "<ul><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-elem-syntax",
+            "label": "Data-linked elements"
+          },
+          {
+            "_type": "topic",
+            "hash": "link-css",
+            "label": "Data-linking to CSS"
+          }
+        ]
       }
     ]
   },
@@ -2881,9 +2977,26 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "text": "In data-linking to <em>class</em> as target, we are actually linking to the HTML `className` property of the element, which is of course generally a white-space-separated list of class names.\n\nSo in our current sample we are toggling the value of `className` between `\"\"` and `\"special\"`, depending on the value of our `isLead` data property.\n\nWhat if there are other classes set on the element? Clearly we would like to have our data-linking toggle just one class (the `special` class) within that list.\n\n<em>The next page takes up shows how to use <a href=\"#samples/data-link/toggle\">data-linking to toggle a term in a list</a>, and applies that to the <b>class</b>, to achieve that scenario.</em>"
       },
       {
-        "_type": "para",
-        "title": "See also the JsViews API topics:",
-        "text": "<ul><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-elem-syntax",
+            "label": "Data-linked elements"
+          },
+          {
+            "_type": "topic",
+            "hash": "link-class",
+            "label": "Data-linking to class"
+          }
+        ]
       }
     ]
   },
@@ -2923,9 +3036,26 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "text": "Now, here are two more samples using data-linked visibility:\n\n- The *[Form elements and data-linked visibility](#samples/form-els/visible-binding)* sample\n- The *[Tree with 'visible' binding](#samples/tag-controls/tree/visible-binding)* sample\n\n\nBut let's also use <em>visible</em> data-linking to hide and show the details blocks when the user hovers over the name -- following the feature used in the original <a href=\"\">JsRender template version</a>. <em>The <a href=\"#samples/data-link/hover\">next page</a> explores three different approaches to doing just that.</em>"
       },
       {
-        "_type": "para",
-        "title": "See also the JsViews API topics:",
-        "text": "<ul><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-elem-syntax",
+            "label": "Data-linked elements"
+          },
+          {
+            "_type": "topic",
+            "hash": "link-visibility",
+            "label": "Data-linking to visibility"
+          }
+        ]
       }
     ]
   },
@@ -2957,12 +3087,29 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/data-link/13_linked-svg",
-        "height": "510"
+        "height": "474"
       },
       {
-        "_type": "para",
-        "title": "See also the JsViews API topics:",
-        "text": "<ul><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-elem-syntax",
+            "label": "Data-linked elements"
+          },
+          {
+            "_type": "topic",
+            "hash": "link-svg",
+            "label": "Data-linking to SVG elements"
+          }
+        ]
       }
     ]
   },
@@ -3022,6 +3169,23 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "_type": "para",
         "title": "See also the JsViews API topics:",
         "text": "<ul><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "linked-tag-syntax",
+            "label": "Data-linked tags"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-elem-syntax",
+            "label": "Data-linked elements"
+          }
+        ]
       }
     ]
   },
@@ -3037,7 +3201,14 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "sample",
         "typeLabel": "Sample:",
-        "codetabs": [],
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/range/range.js",
+            "label": "range.js"
+          }
+        ],
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -3254,6 +3425,39 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/tag-controls/jsonview/sample",
+        "height": "300"
+      }
+    ]
+  },
+  "samples/tag-controls/datepicker/with-converters": {
+    "title": "Sample: Datepicker with converters",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The JsViews 'datepicker' tag control can be used with converters to convert to and from a chosen underlying data-format. \n\nIn the following example, the chosen data format is the WCF JSON DateTime format. (The *[moment.js](http://momentjs.com/)* library is used to convert to and from the WCF format.)"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<div data-link=\"{datepicker date\n   _dateFormat='dd/mm/y'\n   convert='toDateString'\n   convertBack='toWcfDate'\n}\"></div>\n```"
+          }
+        ],
+        "sampleName": "",
+        "url": "samples/tag-controls/datepicker/with-converters/sample",
         "height": "300"
       }
     ]

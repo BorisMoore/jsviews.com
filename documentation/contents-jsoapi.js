@@ -287,7 +287,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Sample: Changing multiple properties in one call:",
-        "text": "In this sample we make changes to properties on two different objects, with a single call to `setProperty()`.\n\nWe register a single listener for the observable property changes on both objects - with one call to <a href=\"#observe\">`$.observe()`</a>."
+        "text": "In this sample we make changes to properties on two different objects, with a single call to `setProperty()`.\n\nWe register a single listener for the observable property changes on both objects -- with one call to <a href=\"#observe\">`$.observe()`</a>."
       },
       {
         "_type": "sample",
@@ -641,7 +641,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var things = [\n  {id: \"item1\"},\n  {id: \"item2\"},\n  {id: \"item3\"}\n];\n\n$(\"#remove0\").on(\"click\", function() {\n  $.observable(things).remove(0);\n});\n\n$(\"#remove1\").on(\"click\", function() {\n  $.observable(things).remove(1);\n});\n\nvar tmpl = $.templates(\"id: {{:id}}<br/>\");\n\ntmpl.link(\"#result\", things);\n\n$([things]).on(\"arrayChange\", changeHandler); \n\nfunction changeHandler(ev, eventArgs) {\n  var message = eventArgs.items.length + \" item(s) removed at index: \" + eventArgs.index;\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"remove0\">Remove item 0</button>\n  <button id=\"remove1\">Remove item 1</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Changes:</label>\n  <div class=\"messages\"></div>\n</div>",
         "height": "135",
-        "title": "Observable array change - remove item at chosen index"
+        "title": "Observable array change &ndash; remove item at chosen index"
       },
       {
         "_type": "para",
@@ -976,7 +976,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Arguments of the propertyChange event handler",
-        "text": "```js\nfunction changeHandler(ev, eventArgs) { ... }\n```\n\n**The first argument (`ev`) is the _jQuery event object_**\n\nThe properties include:\n\n- *target*: the object which changed\n- *namespace*: The `setProperty()` [namespace](#namespaces@handler)\n- *data*: *JsViews metadata*:\n\n-- where *`ev.data` JsViews metadata* corresponds to the `observe()` or `observeCall()` call, with properties that include:\n\n- *ns*: The handler [namespace](#namespaces@handler)\n- *fullPath*: the full path –- such as `\"team.manager.address.street\"`\n- *prop*: the property being changed -– such as `\"manager\"`\n- *paths*: array of 'ongoing' paths -- when doing 'deep' binding<br/>(So if this property is part of a deep path such as `\"team.manager^address.street\"`, and `manager` is being changed, the `paths` will include `[\"address^street\"]`)\n- *observeAll*: *access to additional metadata*\n\n-- where *`ev.data.observeAll`*, for `observeAll()` calls, provides methods:\n\n- _ev.data.observeAll.**path()**_: returns path to object being changed - e.g. `\"root.team\"` \n- _ev.data.observeAll.**parents()**_: returns 'parent objects' to object being changed, e.g. `[team, model]`\n\n**The second argument (`eventArgs`) is the _JsViews event object for property changes_**\n\nThe properties are:\n\n- *change*: the string `\"set\"`\n- *path*: e.g. '\"manager\"'\n- *value*: new value of property being set\n- *oldValue*: previous value of property",
+        "text": "```js\nfunction changeHandler(ev, eventArgs) { ... }\n```\n\n**The first argument (`ev`) is the _jQuery event object_**\n\nThe properties include:\n\n- *target*: the object which changed\n- *namespace*: The `setProperty()` [namespace](#namespaces@handler)\n- *data*: *JsViews metadata*:\n\n-- where *`ev.data` JsViews metadata* corresponds to the `observe()` or `observeCall()` call, with properties that include:\n\n- *ns*: The handler [namespace](#namespaces@handler)\n- *fullPath*: the full path –- such as `\"team.manager.address.street\"`\n- *prop*: the property being changed -– such as `\"manager\"`\n- *paths*: array of 'ongoing' paths -- when doing 'deep' binding<br/>(So if this property is part of a deep path such as `\"team.manager^address.street\"`, and `manager` is being changed, the `paths` will include `[\"address^street\"]`)\n- *observeAll*: *access to additional metadata*\n\n-- where *`ev.data.observeAll`*, for `observeAll()` calls, provides methods:\n\n- _ev.data.observeAll.**path()**_: returns path to object being changed, e.g. `\"root.team\"` \n- _ev.data.observeAll.**parents()**_: returns 'parent objects' to object being changed, e.g. `[team, model]`\n\n**The second argument (`eventArgs`) is the _JsViews event object for property changes_**\n\nThe properties are:\n\n- *change*: the string `\"set\"`\n- *path*: e.g. '\"manager\"'\n- *value*: new value of property being set\n- *oldValue*: previous value of property",
         "anchor": "args"
       },
       {
@@ -1264,7 +1264,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "description": "Handler for observable property or array change events"
           }
         ],
-        "description": "An event handler for observable data changes - registered using <code>$.observe(...)</code> or <code>$.observable(object).observeAll(...)</code>",
+        "description": "An event handler for observable data changes &ndash; registered using <code>$.observe(...)</code> or <code>$.observable(object).observeAll(...)</code>",
         "sectionTypes": {
           "para": "para",
           "data": "data",
