@@ -241,7 +241,6 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "text": "If you look at the code you will see it is almost identical to the previous JsRender sample. One difference though: the two lines for rendering the template as a string and then inserting it into the DOM:\n\n```js\nvar html = myTemplate.render(app);\n\n$(\"#peopleList\").html(html);\n```\n\n...have been replaced by a single line:\n\n```js\nmyTemplate.link(\"#peopleList\", app);\n```\n\nThat line of code actually does three things:\n<ul class=\"textbefore\"><li>First it renders the template against the data (second parameter)</li>\n<li>Next, it inserts the resulting HTML under the container element (first parameter)</li>\n<li>Finally, it <em>data-binds the HTML</em> against the data</li></ul> "
           }
         ],
-        "sampleName": "",
         "url": "",
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <ul>\n      {{for people}}\n        <li>\n          {{:name}}\n        </li>\n      {{/for}}\n    </ul>\n  </td></tr>\n</script>\n",
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar app = {\n    people: people\n  };\n\nmyTemplate.link(\"#peopleList\", app);",

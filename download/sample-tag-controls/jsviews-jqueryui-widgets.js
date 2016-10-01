@@ -1,14 +1,20 @@
-﻿/*! JsViews jQueryUI widget integration v0.9.80 (Beta)
-see: http://www.jsviews.com/#download */
+﻿/*! JsViews jQueryUI widget integration v0.9.81 (Beta)
+see: http://www.jsviews.com/#download/tag-controls */
 /*
  * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
 
-/*
- *           autocomplete button buttonset droppable menu progressbar resizable selectable slider spinner tabs sortable draggable accordion
- *   wrap    -            -      -         wrap      wrap wrap        wrap      wrap       -      -       wrap wrap     wrap      wrap
- *   elem    input        button -         -         ul   div         div       -          div    input   div  -        -         -
+/* Wrap behavior (wrapping HTML content) and default element, for each widget: */
+
+/*         autocomplete button   buttonset  droppable  menu      progressbar  resizable
+ * wrap:   -            -        -          wrap       wrap      wrap         wrap     
+ * elem:   input        button   -          -          ul        div          div      
+ */
+
+/*         selectable   slider   spinner    tabs       sortable  draggable    accordion
+ * wrap:   wrap         -        -          wrap       wrap      wrap         wrap
+ * elem:   -            div      input      div        -         -            -
  */
 
 (function (global, $, undefined) {
@@ -21,7 +27,8 @@ function keepParentDataCtx(val) {
 
 $.views.tags({
 widget: {
-  init: function(tagCtx, linkCtx) {
+  linkedElement: "*",
+  init: function(tagCtx) {
     var content, elemType, props,
       tag = this;
 
@@ -40,47 +47,49 @@ widget: {
       tag.attr = "html";
     }
   },
-  onAfterLink: function(tagCtx, linkCtx) {
-    var linkedElem, prop, i,
+  onBind: function(tagCtx) {
+    var linkedElem, prop, i, optionKey,
       tag = this,
-      options = tag.options,
       presets = tag.initOptions,
-      props = tagCtx.props,
-      widgetName = tag.widgetName || tagCtx.args[0],
+      widgetName = tag.widgetName,
       widgetFullName = widgetName;
       widgetName = widgetName.split("-").pop();
 
-    if (tag._.unlinked) {
-      if (i = presets && presets.length) {
-        presets = {};
-        while (i--) {
-          i = tag.initOptions[i];
-          if (prop = tagCtx.props["_" + i]) {
-            presets[i] = prop;
-          }
+    if (i = presets && presets.length) {
+      presets = {};
+      while (i--) {
+        optionKey = tag.initOptions[i];
+        if (prop = tagCtx.props["_" + optionKey]) {
+          presets[optionKey] = prop;
         }
       }
-      if (widgetFullName === widgetName) {
-        widgetFullName = "ui-" + widgetName;
-      }
-      if (!tag.linkedElem) {
-        tag.linkedElem = tag._.inline ? tag.contents("*").first() : $(linkCtx.elem);
-      }
-      linkedElem = tag.linkedElem;
-      if (!linkedElem[0]) {
-        // This may be due to using {{myWidget}} No element found here {{/myWidget}} 
-        throw "No element found for widget '" + widgetName +"'";
-      }
-      // Instantiate widget
-      linkedElem[widgetName](presets);
-
-      // Store widget instance
-      tag.widget = linkedElem.data(widgetFullName) || linkedElem.data(widgetName);
-      if (!tag.widget) {
-        // widget failed to load, or is not a valid widget factory type
-        throw "widget '" + widgetName + "' failed";
-      }
     }
+    if (widgetFullName === widgetName) {
+      widgetFullName = "ui-" + widgetName;
+    }
+    linkedElem = tag.linkedElem;
+    if (!linkedElem[0]) {
+      // This may be due to using {{myWidget}} No element found here {{/myWidget}} 
+      throw "No element found for widget '" + widgetName +"'";
+    }
+    // Instantiate widget
+    linkedElem[widgetName](presets);
+
+    // Store widget instance
+    tag.widget = linkedElem.data(widgetFullName) || linkedElem.data(widgetName);
+
+    if (!tag.widget) {
+      // widget failed to load, or is not a valid widget factory type
+      throw "widget '" + widgetName + "' failed";
+    }
+  },
+  onAfterLink: function(tagCtx) {
+    var linkedElem,
+      tag = this,
+      options = tag.options,
+      props = tagCtx.props,
+      widgetName = tag.widgetName.split("-").pop();
+
     linkedElem = tag.linkedElem;
     if (options) {
       if ($.isFunction(options)) {
@@ -114,6 +123,25 @@ widget: {
   attr: "none"
 },
 
+button: {
+  baseTag: "widget",
+  widgetName: "button",
+  elem: "button",
+  setSize: true,
+  wrap: true,
+  onBind: function(tagCtx, linkCtx) {
+    var elem = this.linkedElem[0];
+      elem.innerHTML = elem.innerHTML || "&nbsp;"; // Fixes jQuery UI button issue if no label text
+    this.baseApply(arguments);
+  },
+  onAfterLink: function(tagCtx, linkCtx, ctx, event) {
+    this.baseApply(arguments);
+		if (event) {
+			this.widget.refresh();
+		}
+  },
+  render: keepParentDataCtx
+},
 autocomplete: {
   baseTag: "widget",
   widgetName: "autocomplete",
@@ -146,116 +174,31 @@ autocomplete: {
     return this.linkedElem.val();
   }
 },
-button: {
+checkboxradio: {
   baseTag: "widget",
-  widgetName: "button",
-  elem: "button",
-  setSize: true,
-  init: function(tagCtx, linkCtx) {
-    var template,
-      tag = this,
-      content = tagCtx.tmpl,
-      props = tagCtx.props,
-      id = props.id,
-      parent = tag.parent;
-
-    if (tag._.radio = parent && parent.tagName === "buttonset") {
-      tagCtx = parent.tagCtx;
-    } else {
-      tag._.chkBx = (tag._.inline ? props : linkCtx.elem).type === "checkbox";
-    }
-
-    var  params = tagCtx.params,
-      paramprops = params.props || {};
-
-    tag.baseApply(arguments);
-
-    if (tag._.inline) {
-      content = content && content.markup || "&nbsp;"; // (&nbsp; fixes a jQueryUI button rendering issue)
-      if (tag._.radio || tag._.chkBx) {
-        id = id || "jsv" + Math.random();
-        template = '<input id="' + id + '" data-link="' + params.args[0] 
-          + (paramprops.convert ? " convert=" + paramprops.convert : "")
-          + (paramprops.convertBack ? " convertBack=" + paramprops.convertBack : "")
-          + (tag._.radio
-            ? '" name="' + parent.id + '" type="radio" value="' + props.value + 
-              '"/><label for="' + id + '">' + content + '</label>'
-            : '" type="checkbox"/><label for="' + id + '">' + content + '</label>');
-      } else {
-        template = "<button>" + content + "</button>";
-      }
-      tag.template = template;
-    }
-  },
+  widgetName: "checkboxradio",
+  linkedElement: "input",
   onAfterLink: function(tagCtx, linkCtx) {
     var tag = this,
-      elem = linkCtx.elem,
+      elem = tag.linkedElem[0],
       val = tag.cvtArgs()[0];
-
-    if (tag._.radio || tag._.chkBx) {
-      if (!tag._.inline) {
-        if (tag._.unlinked && !elem.id) {
-          elem.id = "jsv" + Math.random();
-          $(elem).after('<label for="' + elem.id + '">&nbsp;</label>');
-        }
-        elem.checked = tag._.radio
-          ? (elem.name = tag.parent.id, val === elem.value)
-          : val && val !== "false";
-      }
-
-      tag.baseApply(arguments);
-
-      elem = tag.linkedElem[0];
-
-      if (tag._.radio) {
-        // Use {^{button value="xxx"}}Label{{/button}}
-        if (elem.value === "undefined") {
-          // Default, for {^{button}}xxx{{/button}} or {^{button _label="xxx"/}}
-          elem.value = tag.widget.option("label"); 
-        }
-        elem.checked = val === elem.value;
-      } else {
-        elem.checked = val && val !== "false";
-      }
-
-      if (tag._.chkBx) {
-        tag.widget.refresh();
-      }
-    } else {
-      if (!tag._.inline) {
-        elem.innerHTML = elem.innerHTML || "&nbsp;"; // Fixes jQuery UI button issue if no label text
-      }
-      tag.baseApply(arguments);
-    }
-  },
-  render: keepParentDataCtx
-},
-buttonset: {
-  baseTag: "widget",
-  widgetName: "buttonset",
-  setSize: true,
-  init: function(tagCtx) {
-    var id,
-      tag = this;
+    // Set the value to arg[0] (after applying converter, if there is one)
 
     tag.baseApply(arguments);
 
-    if (tag._.inline) {
-      tag.id = tagCtx.props.id || "jsv" + Math.random();
-      tag.template = '<span id="' + tag.id + '">' + tagCtx.tmpl.markup + "</span>";
-    }
-  },
-  render: keepParentDataCtx,
-  onAfterLink: function(tagCtx, linkCtx) {
-    var tag = this,
-      elem = linkCtx.elem,
-      val = tag.cvtArgs()[0];
-    tag.baseApply(arguments);
-    tag.widget.buttons.each(function(i, elem) {
-      elem.checked = val === elem.value;
-      $(elem).button("refresh");
-    });
+    elem.checked = elem.type === "radio"
+      ? (val === elem.value)
+      : val && val !== "false";
+
+    tag.widget.refresh();
   }
+},
+controlgroup: {
+  baseTag: "widget",
+  widgetName: "controlgroup",
+  wrap: true,
+  elem: "span",
+  render: keepParentDataCtx
 },
 datepicker: {
   baseTag: "widget",
@@ -439,6 +382,123 @@ tabs: {
 
 });
 
+if ($.ui.version.slice(0, 4) === "1.11") {
+	// Add backward compatibility for {{buttonset}} and {{button}}
+$.views.tags({
+button: {
+  baseTag: "widget",
+  widgetName: "button",
+  elem: "button",
+  setSize: true,
+  init: function(tagCtx, linkCtx) {
+    var template,
+      tag = this,
+      content = tagCtx.tmpl,
+      props = tagCtx.props,
+      id = props.id,
+      parent = tag.parent;
+
+    if (tag._.radio = parent && parent.tagName === "buttonset") {
+      tagCtx = parent.tagCtx;
+    } else {
+      tag._.chkBx = (tag._.inline ? props : linkCtx.elem).type === "checkbox";
+    }
+
+    var  params = tagCtx.params,
+      paramprops = params.props || {};
+
+    tag.baseApply(arguments);
+
+    if (tag._.inline) {
+      content = content && content.markup || "&nbsp;"; // (&nbsp; fixes a jQueryUI button rendering issue)
+      if (tag._.radio || tag._.chkBx) {
+        id = id || "jsv" + Math.random();
+        template = '<input id="' + id + '" data-link="' + params.args[0] 
+          + (paramprops.convert ? " convert=" + paramprops.convert : "")
+          + (paramprops.convertBack ? " convertBack=" + paramprops.convertBack : "")
+          + (tag._.radio
+            ? '" name="' + parent.id + '" type="radio" value="' + props.value + 
+              '"/><label for="' + id + '">' + content + '</label>'
+            : '" type="checkbox"/><label for="' + id + '">' + content + '</label>');
+      } else {
+        template = "<button>" + content + "</button>";
+      }
+      tag.template = template;
+    }
+  },
+  onAfterLink: function(tagCtx, linkCtx) {
+    var tag = this,
+      elem = linkCtx.elem,
+      val = tag.cvtArgs()[0];
+
+    if (tag._.radio || tag._.chkBx) {
+      if (!tag._.inline) {
+        if (tag._.unlinked && !elem.id) {
+          elem.id = "jsv" + Math.random();
+          $(elem).after('<label for="' + elem.id + '">&nbsp;</label>');
+        }
+        elem.checked = tag._.radio
+          ? (elem.name = tag.parent.id, val === elem.value)
+          : val && val !== "false";
+      }
+
+      tag.baseApply(arguments);
+
+      elem = tag.linkedElem[0];
+
+      if (tag._.radio) {
+        // Use {^{button value="xxx"}}Label{{/button}}
+        if (elem.value === "undefined") {
+          // Default, for {^{button}}xxx{{/button}} or {^{button _label="xxx"/}}
+          elem.value = tag.widget.option("label"); 
+        }
+        elem.checked = val === elem.value;
+      } else {
+        elem.checked = val && val !== "false";
+      }
+
+      if (tag._.chkBx) {
+        tag.widget.refresh();
+      }
+    } else {
+      if (!tag._.inline) {
+        elem.innerHTML = elem.innerHTML || "&nbsp;"; // Fixes jQuery UI button issue if no label text
+      }
+      tag.baseApply(arguments);
+    }
+  },
+  render: keepParentDataCtx
+},
+buttonset: {
+  baseTag: "widget",
+  widgetName: "buttonset",
+  setSize: true,
+  init: function(tagCtx) {
+    var id,
+      tag = this;
+
+    tag.baseApply(arguments);
+
+    if (tag._.inline) {
+      tag.id = tagCtx.props.id || "jsv" + Math.random();
+      tag.template = '<span id="' + tag.id + '">' + tagCtx.tmpl.markup + "</span>";
+    }
+  },
+  render: keepParentDataCtx,
+  onAfterLink: function(tagCtx, linkCtx) {
+    var tag = this,
+      elem = linkCtx.elem,
+      val = tag.cvtArgs()[0];
+    tag.baseApply(arguments);
+    tag.widget.buttons.each(function(i, elem) {
+      elem.checked = val === elem.value;
+      $(elem).button("refresh");
+    });
+  }
+}
+});
+}
+
 if ($.ui.sortable) {
   $.widget("jsv.sortable", $.ui.sortable, {
     _create: function() {
@@ -505,7 +565,7 @@ if ($.ui.accordion) {
     _create: function() {
       var widget = this;
       widget.options.header = widget.options.header.replace(":not(li):even", ":not(li,script):even");
-      widget.element.on("jsv-domchange", function(ev, tagCtx, linkCtx, eventArgs) {
+      widget.element.on("jsv-domchange", function() {
         widget.refresh();
       });
       widget._super();

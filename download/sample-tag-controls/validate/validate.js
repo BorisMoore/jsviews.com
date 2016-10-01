@@ -70,13 +70,15 @@ $.views.tags({
 
   validate: {
     baseTag: "edit",
-    onInit: function(tagCtx, linkCtx) {
-      // onInit() is called by the base {{edit}} tag, at the end of its init()
+    init: function(tagCtx, linkCtx) {
+      this.baseApply(arguments);
       this.validationGroup = this.parents.validation;
       if (this.validationGroup) {
         this.validationGroup.addChild(this);
       }
     },
+    //onBind: function(tagCtx, linkCtx) {
+
     onAfterLink: function(tagCtx, linkCtx) {
       var tag = this,
         props = tagCtx.props;

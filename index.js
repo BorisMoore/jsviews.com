@@ -506,9 +506,6 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 			var self = this,
 				data = $.parseJSON(stringify(self.parent.parents.section.data)),
 				codetabs = data.codetabs;
-			if (data.sampleName) {
-				data.url = "samples/" + data.sampleName + "/sample";
-			}
 
 			self.parent.sampleFrame = self;
 			self.getScript = function(loadScript) {
@@ -548,14 +545,14 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 						markup: data.markup,
 						html: data.html,
 						code: data.code,
-						onlyJsRender: data.onlyJsRender
+						jsrJsvJqui: data.jsrJsvJqui
 					};
 					self.tryItData = {
 						data: data.data,
 						markup: data.markup,
 						html: data.html,
 						code: data.code,
-						onlyJsRender: data.onlyJsRender
+						jsrJsvJqui: data.jsrJsvJqui
 					};
 					codetabs && self.loadTabs(codetabs);
 				}
@@ -569,8 +566,8 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 				}, "text");
 			});
 		},
-		template: "<iframe src=\"{{attr:url||'samples/iframeDefault' + (onlyJsRender?'Jsr':'')}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}px;\"></iframe>",
-		onBeforeLink: function() {
+		template: "<iframe src=\"{{attr:url||'samples/iframedefault' + (jsrJsvJqui||'')}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}px;\"></iframe>",
+		onBind: function() {
 			var self = this,
 				iframeWnd = self.iframeWnd = $(self.parentElem).find(".sampleframe")[0].contentWindow;
 			if (iframeWnd) {
@@ -613,7 +610,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "  <script src=\"//code.jquery.com/jquery-1.12.3.min.js\"></script>\n"
+					+ "  <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n"
 					+ (url
 						? ("  <base href=\"//www.jsviews.com/" + url.slice(0, url.lastIndexOf("/")) + "/\"/>\n"
 							+ tryItData.header
@@ -621,9 +618,20 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 								? ("<script>\n" + code
 									+ "\n</script>\n")
 								: ""))
-						: ("  <base href=\"//www.jsviews.com/samples/\"/>\n"
-							+ "  <link href=\"samples.css\" rel=\"stylesheet\"/>\n"
-							+ "  <script src=\"../download/js" + (onlyJsRender ? "render" : "views") + ".js\"></script>\n"))
+						: (
+					(jsrJsvJqui === "jqui"
+						? "  <script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n"
+						+ "  <link href=\"//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css\" rel=\"stylesheet\">\n"
+						: ""
+					)
+					+ "  <base href=\"//www.jsviews.com/samples/\"/>\n"
+					+ "  <link href=\"samples.css\" rel=\"stylesheet\"/>\n"
+					+ "  <script src=\"../download/js" + (jsrJsvJqui === "jsr" ? "render" : "views")
+					+ ".js\"></script>\n"
+					+ (jsrJsvJqui === "jqui"
+						? "  <script src=\"../download/sample-tag-controls/jsviews-jqueryui-widgets.js\"></script>\n"
+						: "")
+					))
 					+ "</head>\n"
 					+ "<body>\n\n"
 					+ (html
@@ -636,7 +644,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 								+ "<script>\n"
 								+ "var data = " + stringify(tryItData.data) + ";\n\n"
 								+ "var template = $.templates(\"#theTmpl\");\n\n"
-								+ (onlyJsRender
+								+ (jsrJsvJqui === "jsr"
 									? ("var htmlOutput = template.render(data);\n\n"
 										+ "$(\"#result\").html(htmlOutput);")
 									: "template.link(\"#result\", data);")
@@ -679,7 +687,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 
 			var ret = "",
 				tryItData = this.data,
-				onlyJsRender = this.tagCtx.view.data.origData.onlyJsRender,
+				jsrJsvJqui = this.tagCtx.view.data.origData.jsrJsvJqui,
 				editable = mode==="edit",
 				url = this.parent.parents.section.data.url;
 

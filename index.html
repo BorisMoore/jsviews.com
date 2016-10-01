@@ -9,7 +9,7 @@
 	<link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-touch-icon-76x76.png?v=1">
 	<link rel="icon" type="image/png" href="/icons/favicon-32x32.png?v=1" sizes="32x32">
 	<link rel="icon" type="image/png" href="/icons/favicon-16x16.png?v=1" sizes="16x16">
-	<link rel="manifest" href="/icons/manifest.json?v=1">
+	<link rel="manifest" href="/icons/manifest.txt?v=1">
 	<link rel="shortcut icon" href="/icons/favicon.ico?v=1">
 	<meta name="msapplication-TileColor" content="#da532c">
 	<meta name="msapplication-config" content="/icons/browserconfig.xml?v=1">
@@ -20,7 +20,7 @@
 	<link href="resources/css/dataurls.css" rel="stylesheet"/>
 	<link href="resources/css/contents.css" rel="stylesheet"/>
 	<link href="resources/css/highlight.css" rel="stylesheet" /> <!--xcode vs brown_paper googlecode magula mono-blue-->
-	<script src="//code.jquery.com/jquery-1.12.3.js"></script>
+	<script src="//code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
 	<script src="lib/highlight.js"></script>
 	<script src="download/jsviews.js"></script>
@@ -484,17 +484,18 @@
 <script id="editSampleTmpl" type="text/x-jsrender">
 	{{sectionHeader /}}
 	<div>
-		<label>sample name: <input data-link="sampleName" /></label>
-		<label>url: <input data-link="url" /></label>
-		<label>height: <input data-link="height" /></label>
-		<label>JsRender only: <input data-link="onlyJsRender" type="checkbox"/></label><br/>
+		<label>url: <input data-link="url" class="url" type="text"/></label>
+		<label>height: <input data-link="height" class="height" type="text"/></label>
+		<label><input data-link="jsrJsvJqui" value="jsr" name="jsr/jsv" type="radio"/> JsRender</label>
+		<label><input data-link="jsrJsvJqui||''" value="" name="jsr/jsv" type="radio"/> JsViews</label>
+		<label><input data-link="jsrJsvJqui" value="jqui" name="jsr/jsv" type="radio"/> jQueryUI</label>
 		<div class="tabs">
 			<div>Code tabs:</div>
 			{^{for codetabs}}
 				<div>
-					<label>label: <input data-link="label" /></label>
-					<label>url: <input data-link="url" /></label>
-					<span class="removesection codetab"></span>
+					<label>label: <input data-link="label" type="text"/></label>
+					<label>url: <input data-link="url" class="url" type="text"/></label>
+					<span class="removesection codetb"></span>
 				</div>
 			{{/for}}
 		</div>

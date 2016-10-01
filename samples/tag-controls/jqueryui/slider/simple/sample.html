@@ -1,20 +1,21 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="//code.jquery.com/jquery-1.12.3.js"></script>
-  <script src="../../../../download/jsviews.js"></script>
-  <script src="../../../sample-viewer.js"></script>
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-  <link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
-  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../../download/jsviews.js"></script>
+  <script src="../../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
   <link href="../sample.css" rel="stylesheet" />
 </head>
 <body>
 
-<h3>JsViews 'slider' tag control. Top-level binding: data-link="{slider}" and data-linked SVG elements</h3>
+<h3>JsViews 'slider' tag control (using jQuery UI slider): {{slider}} tag, with data-linked SVG elements</h3>
 
-<h4>Top-level data-linked SVG:</h4>
+<h4>Data-linked SVG:</h4>
 
+<script id="myTmpl" type="text/x-jsrender">
 <svg data-link="css-width{: 2 + size*2}" class="svg-circles">
   <circle data-link="r{:size} cx{:size + 1}"
     class="svg-circle" cy="51" stroke-width="2" stroke="green"></circle>
@@ -26,13 +27,16 @@
     class="svg-circle" cy="51" stroke-width="2" stroke="blue"></circle>
 </svg>
 
-<h4>Top-level data-linked slider</h4>
+<h4>Slider</h4>
 
-<div data-link="{slider size _range='min' _min=1 _max=200 width=400}"></div>
+{^{slider size _range='min' _min=1 _max=200 width=400 /}}
 
 <h4>Size:</h4>
 
 <input type="text" data-link="{:size:tonum}" />
+</script>
+
+<div id="page"></div>
 
 <!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
 </body>

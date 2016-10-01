@@ -1,140 +1,136 @@
 body {
-	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
-	font-size: 15px;
-	padding: 0 0 0 5px;
+  font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  padding: 0 0 0 5px;
 }
 
 label {
-	font-style: italic;
-	font-weight: bold;
+  font-style: italic;
+  font-weight: bold;
 }
 
 table tr {
-	color: blue;
-	height: 25px;
+  color: blue;
+  height: 25px;
 }
 
 table {
-	border-collapse: collapse;
-	border: 2px solid blue;
-	padding: 2px;
-	background-color: #f8f8f8;
-	width: 500px;
+  border-collapse: collapse;
+  border: 2px solid blue;
+  padding: 2px;
+  background-color: #f8f8f8;
+  width: 500px;
 }
 
 table.nowidth, table.nowidth input {
-	width: auto;
+  width: auto;
 }
 
 thead tr {
-	color: #009;
-	border-bottom: solid #77c 2px;
-	background-color: #E8E8F7;
+  color: #009;
+  border-bottom: solid #77c 2px;
+  background-color: #E8E8F7;
 }
 
 thead th {
-	padding: 5px;
-	border: 1px solid #77c;
+  padding: 5px;
+  border: 1px solid #77c;
 }
 
 table td {
-	padding: 3px;
-	border: solid #77c 1px;
+  padding: 3px;
+  border: solid #77c 1px;
 }
 
 table input {
-	width: 94%;
-	border: 1px solid gray;
-	padding: 4px;
-	height: 15px;
+  width: 94%;
+  border: 1px solid gray;
+  padding: 4px;
+  height: 15px;
 }
 
 .floatleft {
-	float: left;
+  float: left;
 }
 
 td span {
-	display: inline-block;
-	margin: 5px;
+  display: inline-block;
+  margin: 5px;
 }
 
 td label {
-	color: black;
-	width: 48%;
-	display: inline-block;
+  color: black;
+  width: 48%;
+  display: inline-block;
 }
 
 td label input {
-	width: 55%;
-	color: black;
-	margin-left: 10px;
+  width: 55%;
+  color: black;
+  margin-left: 10px;
 }
 
 td select {
-	width: 100%;
+  width: 100%;
 }
 
 td.center {
-	text-align: center;
-}
-
-#result > div {
-	padding: 4px;
+  text-align: center;
 }
 
 .spanbox {
-	border: 1px solid blue;
-	padding: 5px;
-	display: inline-block;
-	margin-top: 8px;
+  border: 1px solid blue;
+  padding: 5px;
+  display: inline-block;
+  margin-top: 8px;
 }
 
 button {
-	cursor: pointer;
-	margin-bottom: 3px;
+  cursor: pointer;
+  margin-bottom: 3px;
 }
 
 .left {
-	float: left;
-	border: 1px solid grey;
-	padding: 10px 10px 4px 10px;
-	margin: 0 12px 8px -4px;
+  float: left;
+  border: 1px solid grey;
+  padding: 10px 10px 4px 10px;
+  margin: 0 12px 8px -4px;
 }
 
 .left > #result {
-	margin-top: 7px;
+  margin-top: 7px;
 }
 
 input {
-	margin: 1px 0;
+  margin: 1px 0;
 }
 
 li .remove {
-	float: none;
+  float: none;
 }
 
 .remove {
-	cursor: pointer;
-	float: right;
-	display: inline-block;
-	margin-top: 3px;
+  cursor: pointer;
+  float: right;
+  display: inline-block;
+  margin-top: 3px;
 }
 
 .remove:after {
-	color: #be614c;
-	font-weight: bold;
-	padding: 0 6px 0 6px;
-	content: 'x';
+  color: #be614c;
+  font-weight: bold;
+  padding: 0 6px 0 6px;
+  content: 'x';
 }
 
 .remove:hover:after {
-	color: red;
-	background-color: #dbffe0;
+  color: red;
+  background-color: #dbffe0;
 }
 
 .add {
-	text-decoration: underline;
-	font-style: italic;
-	cursor: pointer;
-	padding: 0 5px 0 15px;
+  text-decoration: underline;
+  font-style: italic;
+  cursor: pointer;
+  padding: 0 5px 0 15px;
 }

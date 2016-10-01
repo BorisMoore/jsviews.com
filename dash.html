@@ -349,14 +349,20 @@
 		$("#compile").on("click", function() {
 			var categories = content.categories,
 				l = categories.length,
-				m = l-1;
+				m = l-1,
+				compiledFindResult = {};
 			while (l-- > 1) {
-				console.log("GO " + l + " Cat: " + categories[l].name)
+				//console.log("GO " + l + " Cat: " + name)
 				compile(categories[l].name).then(function() {
+					var name = categories[m].name;
+					compiledFindResult[name] = "var content = $.views.documentation.content;\n\ncontent.find." + name
+						+ ' = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/find/'+ name + '")) ||\n'
+						+ stringify(content.find[name]);
 					m--;
-					console.log("M " + m + " Cat: " + categories[m].name)
+					//console.log("M " + m + " Cat: " + categories[m].name)
 					if (!m) {
-						debugger; // done
+						debugger; // done. 
+						//Take compiledFindResult properties, and copy from text visualizer into find-xxx.js files each top-level category
 					}
 				});
 			}

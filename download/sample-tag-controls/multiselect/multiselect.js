@@ -11,42 +11,42 @@
 
 $.views.tags({
   multisel: {
+    noVal: true, // This tag control does not bind to arg[0] - no default binding to current #data context
+    linkedElement: "select",
     init: function(tagCtx, linkCtx) {
       var tag = this;
-      tag.noVal = true; // This tag control does not bind to arg[0] - no default binding to current #data context
       tag._optionsTmpl = "{^{for ~tag.items}}<option data-link='value{:name}'>{{:name}}</option>{{/for}}";
       tag.items = tagCtx.props.items;
       tag.selectedItems = tagCtx.props.selected || [];
       if (tag._.inline) {
-        if (!tagCtx.content) {
-          tag.template = "<select multiple='multiple'>" + tag._optionsTmpl + "</select>";
-        } else {
+        if (tagCtx.content) {
           $.views.sub.error("{{multiselect}} must be empty");
+        } else {
+          tag.template = "<select multiple='multiple'>" + tag._optionsTmpl + "</select>";
         }
       } else {
         linkCtx.elem.multiple = "multiple";
         tag.template = tag._optionsTmpl;
       }
     },
-    onAfterLink: function(tagCtx, linkCtx) {
+    onBind: function(tagCtx, linkCtx) {
       var tag = this;
-      if (!tag.linkedElem || tag.linkedElem[0] && !tag.linkedElem[0].parentNode) {
-        tag.linkedElem = tag._.inline ? tag.contents("select") : $(linkCtx.elem);
-        tag.linkedElem.on("change", function(ev, evargs) {
-            var newSelection = tag.linkedElem.find("option").map(function(i) {
-              return this.selected && tag.items[i] || null;
-            }).get();
+      tag.linkedElem.on("change", function(ev, evargs) {
+          var newSelection = tag.linkedElem.find("option").map(function(i) {
+            return this.selected && tag.items[i] || null;
+          }).get();
 
-          tag._selSet = true;
-          $.observable(tag.selectedItems).refresh(newSelection);
-          tag._selSet = false;
-        });
-        $([tag.selectedItems]).on("arrayChange", $.proxy(tag.updateSelection, tag));
-        $([tag.items]).on("arrayChange", $.proxy(tag.updateItems, tag));
-        tag.updateSelection();
-      }
+        tag._selSet = true;
+        $.observable(tag.selectedItems).refresh(newSelection);
+        tag._selSet = false;
+      });
+      $([tag.selectedItems]).on("arrayChange", $.proxy(tag.updateSelection, tag));
+      $([tag.items]).on("arrayChange", $.proxy(tag.updateItems, tag));
+      tag.updateSelection();
+    },
+    onAfterLink: function(tagCtx, linkCtx) {
       if (tagCtx.props.size) {
-        tag.linkedElem[0].size = tagCtx.props.size
+        this.linkedElem[0].size = tagCtx.props.size;
       }
     },
     onDispose: function() {

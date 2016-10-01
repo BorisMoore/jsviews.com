@@ -78,7 +78,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               }
             ],
             "markup": "<div>\n   <em>Name:</em> {{:name}}\n   {{if showNickname && nickname}}\n      (Goes by <em>{{:nickname}}</em>)\n   {{/if}}\n</div>",
-            "onlyJsRender": true,
+            "jsrJsvJqui": "jsr",
             "height": "85"
           }
         ],
@@ -145,7 +145,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               }
             ],
             "markup": "",
-            "onlyJsRender": false,
             "height": "106",
             "html": "<div id=\"result\"></div>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n<div>\n  Edit: <input type=\"checkbox\" data-link=\"editable\"/>\n  <em>Name:</em> {^{:name}}\n  {^{if showNickname && nickname}}\n    (Goes by <em data-link=\"nickname\"></em>)\n  {{/if}}\n  {^{if editable}}\n    <div>\n      <input data-link=\"name\"/>\n      <input data-link=\"nickname\"/>\n      Show nickname: <input type=\"checkbox\" data-link=\"showNickname\"/>\n    </div>\n  {{/if}}\n</div>\n</script>",
             "code": "var data = [\n  {\n    \"name\": \"Robert\",\n    \"nickname\": \"Bob\",\n    \"showNickname\": true\n  },\n  {\n    \"name\": \"Susan\",\n    \"nickname\": \"Sue\",\n    \"showNickname\": false\n  }\n];\n\nvar template = $.templates(\"#theTmpl\");\n\ntemplate.link(\"#result\", data);"
@@ -212,7 +211,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             ],
             "data": {},
             "markup": "",
-            "onlyJsRender": false,
             "height": "175",
             "html": "<table><tbody id=\"result\"></tbody></table>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr><td>\n      <button class=\"change\">Change</button>\n      <button class=\"remove\"></button>\n      {^{:name}} \n    </td></tr>\n  {{/for}}\n</script>",
             "code": "var template = $.templates(\"#theTmpl\");\n\nvar people = [\n    {\n      name: \"Adriana\"\n    },\n    {\n      name: \"Robert\"\n    }\n  ];\n\nvar counter = 1;\n\ntemplate.link(\"#result\", {people: people});\n\n$(\"#addBtn\").on(\"click\", function() {\n  $.observable(people).insert({name: \"name\" + counter++});\n})\n\n$(\"#result\")\n  .on(\"click\", \".change\", function() {\n    var dataItem = $.view(this).data;\n    $.observable(dataItem).setProperty(\"name\", dataItem.name + \"*\");\n  })\n  .on(\"click\", \".remove\", function() {\n    var index = $.view(this).index;\n    $.observable(people).remove(index);\n  });"
@@ -379,7 +377,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "label": "$.views.viewModels"
               }
             ],
-            "expanded": true
+            "expanded": false
           },
           {
             "name": "compiletmpl",
@@ -792,12 +790,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "link-tags",
             "label": "Tag bindings",
-            "hidden": true
-          },
-          {
-            "name": "link-widgets",
-            "label": "jQuery UI widgets",
-            "hidden": true
+            "hidden": false
           },
           {
             "name": "link-computed",
@@ -1242,6 +1235,118 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Tag controls",
             "categories": [
               {
+                "name": "jqui",
+                "label": "jQueryUI widget controls",
+                "categories": [
+                  {
+                    "name": "samples/tag-controls/datepicker",
+                    "label": "datepicker control",
+                    "categories": [
+                      {
+                        "name": "samples/tag-controls/datepicker/simple",
+                        "label": "Simple datepicker"
+                      },
+                      {
+                        "name": "samples/tag-controls/datepicker/variants",
+                        "label": "datepicker variants"
+                      },
+                      {
+                        "name": "samples/tag-controls/datepicker/with-validation",
+                        "label": "With validation"
+                      },
+                      {
+                        "name": "samples/tag-controls/datepicker/with-validation-wizard",
+                        "label": "With validation wizard"
+                      },
+                      {
+                        "name": "samples/tag-controls/datepicker/with-converters",
+                        "label": "With converters"
+                      }
+                    ],
+                    "expanded": false
+                  },
+                  {
+                    "name": "samples/tag-controls/slider",
+                    "label": "slider control",
+                    "categories": [
+                      {
+                        "name": "samples/tag-controls/slider/simple",
+                        "label": "Simple slider"
+                      },
+                      {
+                        "name": "samples/tag-controls/slider/variants",
+                        "label": "slider variants"
+                      },
+                      {
+                        "name": "samples/tag-controls/slider/with-validation",
+                        "label": "With validation"
+                      },
+                      {
+                        "name": "samples/tag-controls/slider/color-picker",
+                        "label": "Color picker"
+                      }
+                    ],
+                    "expanded": false
+                  },
+                  {
+                    "name": "samples/tag-controls/button",
+                    "label": "button control",
+                    "hidden": true
+                  },
+                  {
+                    "name": "samples/tag-controls/tabs-jqui",
+                    "label": "tabs control (jQuery UI)",
+                    "hidden": true
+                  },
+                  {
+                    "name": "samples/tag-controls/menu",
+                    "label": "menu control",
+                    "hidden": true
+                  },
+                  {
+                    "name": "samples/tag-controls/selectmenu",
+                    "label": "selectmenu control",
+                    "hidden": true
+                  },
+                  {
+                    "name": "samples/tag-controls/progressbar",
+                    "label": "progressbar control",
+                    "hidden": true
+                  },
+                  {
+                    "name": "samples/tag-controls/accordion",
+                    "label": "accordion control",
+                    "hidden": true
+                  },
+                  {
+                    "name": "samples/tag-controls/autocomplete",
+                    "label": "autocomplete control",
+                    "hidden": true
+                  },
+                  {
+                    "name": "samples/tag-controls/selectable",
+                    "label": "selectable control",
+                    "hidden": true
+                  },
+                  {
+                    "name": "samples/tag-controls/sortable",
+                    "label": "sortable control",
+                    "hidden": true
+                  },
+                  {
+                    "name": "samples/tag-controls/resizable",
+                    "label": "resizable control",
+                    "hidden": true
+                  },
+                  {
+                    "name": "samples/tag-controls/droppable",
+                    "label": "droppable control",
+                    "hidden": true
+                  }
+                ],
+                "expanded": true
+              },
+              {
                 "name": "samples/tag-controls/tabs",
                 "label": "tabs control"
               },
@@ -1302,52 +1407,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                   {
                     "name": "samples/tag-controls/validate/array-binding",
                     "label": "Array binding"
-                  }
-                ],
-                "expanded": false
-              },
-              {
-                "name": "samples/tag-controls/datepicker",
-                "label": "datepicker control",
-                "categories": [
-                  {
-                    "name": "samples/tag-controls/datepicker/simple",
-                    "label": "Simple datepicker"
-                  },
-                  {
-                    "name": "samples/tag-controls/datepicker/variants",
-                    "label": "datepicker variants"
-                  },
-                  {
-                    "name": "samples/tag-controls/datepicker/with-validation",
-                    "label": "With validation"
-                  },
-                  {
-                    "name": "samples/tag-controls/datepicker/with-validation-wizard",
-                    "label": "With validation wizard"
-                  },
-                  {
-                    "name": "samples/tag-controls/datepicker/with-converters",
-                    "label": "With converters"
-                  }
-                ],
-                "expanded": false
-              },
-              {
-                "name": "samples/tag-controls/slider",
-                "label": "slider control",
-                "categories": [
-                  {
-                    "name": "samples/tag-controls/slider/simple",
-                    "label": "Simple slider"
-                  },
-                  {
-                    "name": "samples/tag-controls/slider/variants",
-                    "label": "slider variants"
-                  },
-                  {
-                    "name": "samples/tag-controls/slider/with-validation",
-                    "label": "With validation"
                   }
                 ],
                 "expanded": false

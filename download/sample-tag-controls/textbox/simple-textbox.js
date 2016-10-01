@@ -11,15 +11,13 @@
 
 $.views.tags({
   textbox: {
-    onAfterLink: function() {
-      // Find input in contents, if not already found
-      this.linkedElem = this.linkedElem || this.contents("input");
-    },
+    linkedElement: "input",
+    template: "<input/>",
     onUpdate: function() {
       // No need to re-render whole tag, when content updates.
       return false;
     },
-    template: "<input/>"
+    dataBoundOnly: true
   }
 });
 

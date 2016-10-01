@@ -1,94 +1,94 @@
 .tree {
-	margin: 0 0 0 -5px;
-	overflow: hidden;
-	padding: 0;
+  margin: 0 0 0 -5px;
+  overflow: hidden;
+  padding: 0;
 }
 
 .tree li li {
-	margin-left: 20px;
+  margin-left: 20px;
 }
 
 .tree input {
-	padding: 3px;
-	margin: 0 2px 2px 2px;
-	width: 157px;
+  padding: 3px;
+  margin: 0 2px 2px 2px;
+  width: 157px;
 }
 
 .toggle, .spacerbox {
-	cursor: pointer;
-	vertical-align: middle;
-	display: inline-block;
-	border: 1px solid #555;
-	text-align: center;
-	height: 12px;
-	width: 12px;
-	line-height: 11px;
-	padding-top: 1px;
-	margin: 0 6px 2px 0;
-	background-color: #f8f8f8;
-	color: Blue;
+  cursor: pointer;
+  vertical-align: middle;
+  display: inline-block;
+  border: 1px solid #555;
+  text-align: center;
+  height: 12px;
+  width: 12px;
+  line-height: 11px;
+  padding-top: 1px;
+  margin: 0 6px 2px 0;
+  background-color: #f8f8f8;
+  color: Blue;
 }
 
 .spacerbox {
-	cursor: inherit;
-	background-color: #AFD2E4;
+  cursor: inherit;
+  background-color: #AFD2E4;
 }
 
 .tree .remove {
-	cursor: pointer;
-	float: right;
-	margin: 4px 6px;
+  cursor: pointer;
+  float: right;
+  margin: 4px 6px;
 }
 
 .tree .remove:after {
-	color: #be614c;
-	font-weight: bold;
-	padding: 0 6px 2px;
-	content: 'x';
+  color: #be614c;
+  font-weight: bold;
+  padding: 0 6px 2px;
+  content: 'x';
 }
 
 .tree .remove:hover:after {
-	color: red;
-	background-color: #dbffe0;
+  color: red;
+  background-color: #dbffe0;
 }
 
 .tree .spacer {
-	display: inline-block;
-	width: 12px;
-	margin: 0 2px 2px 0;
-	margin-right: 2px;
+  display: inline-block;
+  width: 12px;
+  margin: 0 2px 2px 0;
+  margin-right: 2px;
 }
 
 .tree ul {
-	padding: 0;
-	margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .tree li {
-	margin-left: 8px;
-	list-style-type: none;
-	padding: 1px 0 0 2px;
+  margin-left: 8px;
+  list-style-type: none;
+  padding: 1px 0 0 2px;
 }
 
 .tree .selected {
-	background-color: white;
-	border: 1px solid rgba(40, 129, 175, 0.63);
-	padding: 2px;
-	cursor: default;
-	margin-right: 2px;
+  background-color: white;
+  border: 1px solid rgba(40, 129, 175, 0.63);
+  padding: 2px;
+  cursor: default;
+  margin-right: 2px;
 }
 
 .tree .selected label {
-	display: block;
-	float: right;
-	clear: both;
+  display: block;
+  float: right;
+  clear: both;
 }
 
 .tree .unselected {
-	padding: 3px;
-	cursor: pointer;
+  padding: 3px;
+  cursor: pointer;
 }
 
 .tree .bottom {
-	clear: both;
+  clear: both;
 }

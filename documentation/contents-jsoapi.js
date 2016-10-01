@@ -1431,11 +1431,6 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "explore/objectsorvm",
-            "label": "Plain objects or View Model"
-          },
-          {
-            "_type": "topic",
             "hash": "namespaces",
             "label": "Namespaces"
           }
@@ -1636,11 +1631,6 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "explore/objectsorvm",
-            "label": "Plain objects or View Model"
-          },
-          {
-            "_type": "topic",
             "hash": "namespaces",
             "label": "Namespaces"
           }
@@ -1821,11 +1811,6 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "explore/objectsorvm",
-            "label": "Plain objects or View Model"
-          },
-          {
-            "_type": "topic",
             "hash": "namespaces",
             "label": "Namespaces"
           }
@@ -1945,11 +1930,6 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "unobserve",
             "label": "unobserve()"
-          },
-          {
-            "_type": "topic",
-            "hash": "explore/objectsorvm",
-            "label": "Plain objects or View Model"
           },
           {
             "_type": "topic",
@@ -2182,18 +2162,6 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "Observing computed observables",
         "text": "`depends` declarations and `$.observe()` calls both use paths such as `\"manager.name\"` for listening to changes in the `manager.name`, as in:\n\n```js\ngetNamesList.depends = [\"manager.name\", ...]; // Dependency declaration for team.getNamesList()\n```\n\n```js\n$.observe(team, \"manager.name\", myHandler); // Observe changes in manager.name\n```\n\nIf `manager.fullName()` is a *computed observable* then the corresponding path (for listening to changes in the `manager.fullName()`) is `\"manager.fullName\"` (*without parens*) -- as in:\n\n```js\ngetNamesList.depends = [\"manager.fullName\", ...]; // Dependency declaration for team.getNamesList()\n```\n\n```js\n$.observe(team, \"manager.fullName\", myHandler); // Observe changes in manager.fullName()\n```\n\nSee [`$.observe()` with computed observables](#observe@computed)."
-      },
-      {
-        "_type": "links",
-        "title": "See also:",
-        "links": [],
-        "topics": [
-          {
-            "_type": "topic",
-            "hash": "explore/objectsorvm",
-            "label": "Plain objects or View Model"
-          }
-        ]
       }
     ]
   },

@@ -11,7 +11,7 @@
 				(new Function(sampleData.code))();
 			}
 			if (sampleData.markup) {
-				if (sampleData.onlyJsRender) {
+				if (sampleData.jsrJsvJqui === "jsr") {
 					$('#result').html($.templates(sampleData.markup).render(sampleData.data));
 				} else {
 					$.templates(sampleData.markup).link('#result', sampleData.data);

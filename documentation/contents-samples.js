@@ -135,9 +135,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "codetabs": [],
-        "sampleName": "jsrender/composition/tmpl",
         "url": "samples/jsrender/composition/tmpl/sample",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "255",
         "title": ""
       },
@@ -192,9 +191,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "codetabs": [],
-        "sampleName": "jsrender/composition/from-strings",
         "height": "94",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "url": "samples/jsrender/composition/from-strings/sample"
       },
       {
@@ -259,10 +257,9 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "address.js"
           }
         ],
-        "sampleName": "jsrender/composition/remote-tmpl",
         "url": "samples/jsrender/composition/remote-tmpl/sample",
         "height": "94",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       }
     ]
   },
@@ -293,10 +290,9 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "codetabs": [],
-        "sampleName": "jsrender/composition/sub-tmpl",
         "url": "samples/jsrender/composition/sub-tmpl/sample",
         "height": "210",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       }
     ]
   },
@@ -327,8 +323,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "codetabs": [],
-        "sampleName": "jsrender/composition/tmpl-objects",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "url": "samples/jsrender/composition/tmpl-objects/sample",
         "height": "210"
       }
@@ -398,10 +393,9 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "codetabs": [],
-        "sampleName": "jsrender/tags/wrap-content",
         "url": "samples/jsrender/tags/wrap-content/sample",
         "height": "224",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       }
     ]
   },
@@ -454,10 +448,9 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "range.js"
           }
         ],
-        "sampleName": "jsrender/tags/extend-for",
         "url": "samples/jsrender/tags/extend-for/sample",
         "height": "464",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       }
     ]
   },
@@ -490,7 +483,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "multiselect.js"
           }
         ],
-        "sampleName": "tag-controls/multiselect",
         "height": "500",
         "url": "samples/tag-controls/multiselect/sample"
       }
@@ -534,10 +526,9 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "codetabs": [],
-        "sampleName": "jsrender/helpers",
         "url": "samples/jsrender/helpers/sample",
         "height": "175",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       }
     ]
   },
@@ -578,9 +569,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "codetabs": [],
-        "sampleName": "jsrender/paths",
         "height": "346",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "url": "samples/jsrender/paths/sample"
       }
     ]
@@ -660,11 +650,10 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "codetabs": [],
-        "sampleName": "jsrender/converters",
         "url": "samples/jsrender/converters/sample",
         "height": "448",
         "title": "Using {{: }} or {{> }} to render data values with optional conversion or encoding",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       }
     ]
   },
@@ -677,6 +666,10 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "title": "",
         "links": [],
         "topics": [
+          {
+            "hash": "jqui",
+            "label": "jQueryUI widget controls"
+          },
           {
             "hash": "samples/tag-controls/tabs",
             "label": "tabs control"
@@ -698,16 +691,12 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "validate control"
           },
           {
-            "hash": "samples/tag-controls/datepicker",
-            "label": "datepicker control"
-          },
-          {
-            "hash": "samples/tag-controls/slider",
-            "label": "slider control"
-          },
-          {
             "hash": "samples/tag-controls/range",
             "label": "range control"
+          },
+          {
+            "hash": "samples/tag-controls/jsonview",
+            "label": "jsonview control"
           }
         ]
       }
@@ -747,7 +736,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "url": "download/sample-tag-controls/tabs/tabs.js"
           }
         ],
-        "sampleName": "tag-controls/tabs",
         "height": "310",
         "title": "Tabs control"
       }
@@ -808,7 +796,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "codetabs": [],
-        "sampleName": "editable-data/linked-tags",
         "url": "samples/editable-data/linked-tags/sample",
         "height": "320"
       },
@@ -846,7 +833,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "codetabs": [],
-        "sampleName": "editable-data/linked-elems",
         "url": "samples/editable-data/linked-elems/sample",
         "height": "320"
       },
@@ -889,7 +875,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "codetabs": [],
-        "sampleName": "editable-data/toplevel-for",
         "url": "samples/editable-data/toplevel-for/sample",
         "height": "320"
       },
@@ -927,7 +912,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "codetabs": [],
-        "sampleName": "editable-data/observe",
         "url": "samples/editable-data/observe/sample",
         "height": "320"
       },
@@ -965,7 +949,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "codetabs": [],
-        "sampleName": "editable-data/compiled",
         "url": "samples/editable-data/compiled/sample",
         "height": "320"
       },
@@ -1201,6 +1184,10 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "hash": "samples/tag-controls/slider/with-validation",
             "label": "With validation"
+          },
+          {
+            "hash": "samples/tag-controls/slider/color-picker",
+            "label": "Color picker"
           }
         ]
       }
@@ -1245,9 +1232,9 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "jsviews-jqueryui-widgets"
           }
         ],
-        "sampleName": "tag-controls/datepicker/simple",
-        "url": "samples/tag-controls/datepicker/simple/sample",
-        "height": "750"
+        "url": "samples/tag-controls/jqueryui/datepicker/simple/sample",
+        "height": "750",
+        "jsrJsvJqui": "jqui"
       }
     ]
   },
@@ -1272,10 +1259,17 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "Multiple examples of `{{datepicker}}` syntax..."
           }
         ],
-        "codetabs": [],
-        "sampleName": "tag-controls/datepicker/variants",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
+          }
+        ],
         "height": "1600",
-        "url": "samples/tag-controls/datepicker/variants/sample"
+        "url": "samples/tag-controls/jqueryui/datepicker/variants/sample",
+        "jsrJsvJqui": "jqui"
       }
     ]
   },
@@ -1320,9 +1314,9 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "jsviews-jqueryui-widgets"
           }
         ],
-        "sampleName": "tag-controls/datepicker/with-validation",
         "height": "820",
-        "url": "samples/tag-controls/datepicker/with-validation/sample"
+        "url": "samples/tag-controls/jqueryui/datepicker/with-validation/sample",
+        "jsrJsvJqui": "jqui"
       }
     ]
   },
@@ -1369,8 +1363,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "jsviews-jqueryui-widgets"
           }
         ],
-        "sampleName": "tag-controls/datepicker/with-validation-wizard",
-        "url": "samples/tag-controls/datepicker/with-validation-wizard/sample"
+        "url": "samples/tag-controls/jqueryui/datepicker/with-validation-wizard/sample",
+        "jsrJsvJqui": "jqui"
       }
     ]
   },
@@ -1408,7 +1402,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "The data is a hierarchy of <em>node objects</em> each of which has a `name` property and an optional `folder` property containing child data nodes:\n\n```js\nvar rootFolder = {\n  name: \"Categories\", folders: [\n    {name: \"Drama\", folders: [\n      {name: \"Courtroom\"},\n      {name: \"Political\"}\n    ]},\n    {name: \"Classic\", folders: [\n      ...\n    ]}\n  ]};\n```\n\nThe `{{tree}}` tag is a tag control for a node in the tree. It renders a node in the data hierarchy, and has a boolean `expanded` property.\n\n```js\n$.views.tags({\n  tree: {\n    onAfterLink: function() {\n      var self = this;\n      self.contents(\"li\").first()\n        .on(\"click\", \".toggle\", function() {\n          self.toggle();\n        })\n        .on(\"click\", \".selectable\", function() {\n          self.select();\n        });\n    },\n    template: \"#treeTemplate\",\n\n    //PROPERTIES\n    expanded: false, // default to unexpanded\n\n    //METHODS\n    toggle: function() {\n      $.observable(this).setProperty(\"expanded\", !this.expanded);\n    },\n    ...\n  }\n});\n```\n\nIt uses a template which recursively renders the child data nodes using the same data-linked tag: `{^{tree}}`, and data-links to the `expanded` property of the control (<em>tag</em> instance).\n\n```jsr\n<li>\n  ...\n  <span>{{>name}}</span>\n</li>\n{{if folders}}\n  <li data-link=\"visible{:~tag.expanded}\">\n    <ul>\n      {{for folders}}\n        {^{tree/}}\n      {{/for}}\n    </ul>\n  </li>\n{{/if}}\n```\n\nThis version of the `{{tree}}` binds using the data-link `visible` target  to show or hide the child nodes. \n\n```jsr\n<li data-link=\"visible{:~tag.expanded}\">\n```"
           }
         ],
-        "sampleName": "tag-controls/tree/visible-binding",
         "url": "samples/tag-controls/tree/visible-binding/sample",
         "height": "290"
       }
@@ -1448,7 +1441,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "The data is a the same hierarchy of <em>node objects</em> used in the <a href=\"#samples/tag-controls/tree/visible-binding\">previous sample</a>:\n\n```js\nvar rootFolder = {\n  name: \"Categories\", folders: [\n    {name: \"Drama\", folders: [\n      {name: \"Courtroom\"},\n      {name: \"Political\"}\n    ]},\n    {name: \"Classic\", folders: [\n      ...\n    ]}\n  ]};\n```\n\nThe `{{tree}}` tag is a tag control for a node in the tree. It renders a node in the data hierarchy, and sets a boolean `expanded` property on the data node.\n\n```js\n$.views.tags({\n  tree: {\n    init: function(tagCtx, linkCtx, ctx) {\n      ...\n    },\n    onAfterLink: function() {\n      ... \n    },\n    template: \"#treeTemplate\",\n\n    //METHODS\n    toggle: function() {\n      $.observable(this.data).setProperty(\"expanded\", !this.data.expanded);\n    },\n    ...\n  }\n});\n```\n\nIt has a template which with a `{^{if expanded }}` section which renders the child data nodes only if `expanded === true`, using the same data-linked tag: `{^{tree}}`.\n\n```jsr\n<li>\n  ...\n  {{>name}}\n</li>\n{^{if expanded}}\n  <li>\n    <ul>\n      {{for folders}}\n        {^{tree/}}\n      {{/for}}\n    </ul>\n  </li>\n{{/if}}\n```"
           }
         ],
-        "sampleName": "tag-controls/tree/if-binding",
         "height": "290",
         "url": "samples/tag-controls/tree/if-binding/sample"
       }
@@ -1481,7 +1473,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "This version builds on the <a href=\"#samples/tag-controls/tree/if-binding\">previous sample</a>, and adds editability:\n\n```js\n$.views.tags({\n  tree: {\n    ...\n    template: \"#treeTemplate\",\n\n    //METHODS\n    toggle: function() {\n      $.observable(this.data).setProperty(\"expanded\", !this.data.expanded);\n    },\n    remove: function() {\n      var parentFolders = this.parent.data.folders,\n        index = this.tagCtx.view.index;\n      $.observable(parentFolders).remove(index);\n    },\n    addFolder: function() {\n      $.observable(this.data.folders).insert({\n        name: \"new folder\",\n        folders: []\n      });\n      $.observable(this.data).setProperty(\"expanded\", true);\n    }\n    ...\n  }\n});\n```\n\n```jsr\n<li>\n  ...\n  <input data-link=\"name\" />\n  <span class=\"add\">add</span>\n  {^{if ~parentTags.tree}}\n    {{!-- Don't allow removing the top-level tree control --}}\n    <span class=\"remove\"><span>\n  {{/if}}\n</li>\n{^{if expanded}}\n  ...\n{{/if}}\n```"
           }
         ],
-        "sampleName": "tag-controls/tree/editable",
         "height": "320",
         "url": "samples/tag-controls/tree/editable/sample"
       }
@@ -1531,10 +1522,10 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "markup": "<svg data-link=\"css-width{: 2 + size*2}\" class=\"svg-circles\">\n  <circle data-link=\"r{:size} cx{:size + 1}\" ...></circle>\n  ...\n</svg>"
           }
         ],
-        "sampleName": "tag-controls/slider/simple",
-        "url": "samples/tag-controls/slider/simple/sample",
+        "url": "samples/tag-controls/jqueryui/slider/simple/sample",
         "height": "400",
-        "title": "Slider control"
+        "title": "Slider control",
+        "jsrJsvJqui": "jqui"
       },
       {
         "_type": "para",
@@ -1576,11 +1567,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "code": "$.link(true, \"body\", model);"
           }
         ],
-        "sampleName": "tag-controls/slider/simple-toplevel",
-        "url": "samples/tag-controls/slider/simple-toplevel/sample",
+        "url": "samples/tag-controls/jqueryui/slider/simple-toplevel/sample",
         "height": "400",
         "title": "Top-level data-link=\"{slider ...}\"",
-        "anchor": "toplink"
+        "anchor": "toplink",
+        "jsrJsvJqui": "jqui"
       }
     ]
   },
@@ -1613,9 +1604,9 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "Multiple examples of `{{slider}}` syntax..."
           }
         ],
-        "sampleName": "tag-controls/slider/variants",
-        "url": "samples/tag-controls/slider/variants/sample",
-        "height": "800"
+        "url": "samples/tag-controls/jqueryui/slider/variants/sample",
+        "height": "800",
+        "jsrJsvJqui": "jqui"
       }
     ]
   },
@@ -1660,9 +1651,9 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "To add validation to a slider, simply wrap with a `{{validation}}` tag.\n\n```jsr\n{^{validate size\n  min=20\n  max=150\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  {^{slider _orientation='vertical' ... /}}\n{{/validate}}\n```\n\nor\n\n```jsr\n{^{validate size\n  min=50 max=100\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  <div data-link=\"{slider _orientation='vertical' ...}\"></div>\n{{/validate}}\n```"
           }
         ],
-        "sampleName": "tag-controls/slider/with-validation",
-        "url": "samples/tag-controls/slider/with-validation/sample",
-        "height": "810"
+        "url": "samples/tag-controls/jqueryui/slider/with-validation/sample",
+        "height": "810",
+        "jsrJsvJqui": "jqui"
       }
     ]
   },
@@ -1726,7 +1717,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "```jsr\n{^{validate person ...}}\n  <textarea></textarea>\n{{/validate}}\n```\n\nor\n\n```jsr\n<textarea data-link=\"{validate person ...}\"></textarea>\n```"
           }
         ],
-        "sampleName": "tag-controls/validate/simple",
         "url": "samples/tag-controls/validate/simple/sample",
         "height": "860"
       }
@@ -1767,7 +1757,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "The `{{validation}}` validation group control is a validation container, which manages all the `{{validate}}` tags within the container. \n\nIt provides useful functionality, such as a `validate()` method which validates the child tags, and triggers display of the validation message on the first invalid control encountered. \n\nIt is even possible to data-link directly to the `isValid` property of the `{{validation}}` tag, to determine whether the whole form (or container) is valid:\n\n```jsr\n{^{if ~tag.isValid}}\n  <span class=\"val-title\">no errors</span>\n{{else}}\n  <span class=\"val-title-error\">VALIDATION ERRORS</span>\n{{/if}}\n```"
           }
         ],
-        "sampleName": "tag-controls/validate/validation-group",
         "url": "samples/tag-controls/validate/validation-group/sample",
         "height": "890"
       }
@@ -1954,7 +1943,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "```jsr\n<div data-link=\"visible{:name}\">\n...\n<div data-link=\"visible{:name && selectedMovie!=='none'}\">\n...\n<div data-link=\"visible{:request}\">\n```\n\n```jsr\n<select data-link=\"selectedMovie\">\n  <option value=\"none\">Choose...</option>\n  {{for ~movies}}\n    <option value=\"{{:#index}}\">{{>title}}</option>\n  {{/for}}\n</select>\n```\n\n```jsr\n<textarea data-link=\"request\" ...></textarea>\n```\n\n```jsr\n<input type=\"checkbox\" data-link=\"~app.chooseCurrency\" />\n```\n\n```jsr\n{{for ~currencies ~details=#data}}\n  <input \n    type=\"radio\"\n    name=\"currencyPicker\"\n    value=\"{{:#index}}\"\n    data-link=\"~details.selectedCurrency\"\n  />{{:label}}<br/>\n{{/for}}\n```"
           }
         ],
-        "sampleName": "",
         "url": "samples/form-els/visible-binding/sample",
         "height": "450"
       }
@@ -2019,7 +2007,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "title": "The  {{edit}} tag with &lt;option> collections or &ltinput type=\\\"radio\\\"> collections data-linked to arrays",
-        "sampleName": "tag-controls/edit/array-binding",
         "height": "900",
         "url": "samples/tag-controls/edit/array-binding/sample"
       }
@@ -2084,7 +2071,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "```jsr\n{^{edit person ...}}\n  <textarea></textarea>\n{{/edit}}\n```\n\nor\n\n```jsr\n<textarea data-link=\"{edit person ...}\"></textarea>\n```"
           }
         ],
-        "sampleName": "tag-controls/edit/generic",
         "url": "samples/tag-controls/edit/generic/sample",
         "height": "1006"
       }
@@ -2125,7 +2111,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "This sample is similar to the previous <a href=\"#samples/tag-controls/validate/group\">validation group</a> sample -- but here the `people` array can be modified -- by adding or removing people, or changing their `name` property.\n\n```js\n.on(\"click\", \"#add\", function() {\n  $.observable(model.people).insert({name: \"new\"...});\n})\n.on(\"click\", \".remove\", function() {\n  var view = $.view(this);\n  $.observable(model.people).remove(view.index);\n  validation.validate();\n});\n```\n\nThe collection of `<option>` elements or `<input type=\"radio\">` elements is dynamically driven by data-linking to the `people` array:\n\n```jsr\n{^{validate person ...}}\n  <select>\n    {^{for people}}\n      <option data-link=\"value{upper:name} {:name:}\"></option>\n    {{/for}}\n  </select>\n{{/validate}}\n```\n\n```jsr\n{^{validate person ...}}\n  <div class=\"radiogroup\">\n    {^{for people}}\n      <input type=\"radio\" name=\"gp1\" data-link=\"value{upper:name}\"/>...\n    {{/for}}\n  </div>\n{{/validate}}\n```"
           }
         ],
-        "sampleName": "tag-controls/validate/array-binding",
         "url": "samples/tag-controls/validate/array-binding/sample",
         "height": "975",
         "title": "The  {{validate}} tag with &lt;option> collections or &ltinput type=\\\"radio\\\"> collections data-linked to arrays"
@@ -2163,10 +2148,9 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This sample illustrates the simplest possible custom tag control supporting <em>two-way data-binding</em>.\n\nBy using a template which includes an <em>input</em> element:\n\n```jsr\n<input/>\n```\n\nand then, in the `onAfterLink` handler, setting the `linkedElem` property to be a jQuery object containing that <em>input</em> element:\n\n```js\n$.views.tags({\n  textbox: {\n    onAfterLink: function() {\n      this.linkedElem = this.contents(\"input\");\n    },\n    template: \"<input/>\"\n  }\n});\n```\n\nJsViews automatically sets up two-way data-linking on the <em>input</em> element.\n\nNow you can get two-binding to your data, simply by setting the path to the data as parameter on your `{{textbox}}` tag:\n\n```jsr\n{{textbox my.data.path /}}\n```\n\nAs an optional optimization, we can set the `onUpdate` handler of our tag control to return `false`. This has the effect that when the data changes, the control will not re-render itself completely. (The updating of the textbox content is already assured by the data-linked <em>input</em>, so re-rendering is unnecessary.)  \n\n```js\n$.views.tags({\n  textbox: {\n    onAfterLink: function() {\n      this.linkedElem = this.contents(\"input\");\n    },\n    onUpdate: function() {\n      return false;\n    },\n    template: \"<input/>\"\n  }\n});\n```"
+            "text": "This sample illustrates the simplest possible custom tag control supporting <em>two-way data-binding</em>.\n\nBy using a template which includes an <em>input</em> element:\n\n```jsr\n<input/>\n```\n\nand then setting the `linkedElement` property to `\"input\"`:\n\n```js\n$.views.tags({\n  textbox: {\n    linkedElement: \"input\",\n    template: \"<input/>\",\n    ...\n  }\n});\n```\n\nJsViews automatically looks for a matching element (the `linkedElement` string being treated as a jQuery selector), which it then provides as a property on the resulting tag instance (wrapped in a jQuery object): `tag.linkedElem`.\n\nJsViews sets up two-way data-linking on that <em>input</em> element.\n\nNow you can get two-way binding to your data, simply by setting the path to the data as parameter on your `{{textbox}}` tag:\n\n```jsr\n{{textbox my.data.path /}}\n```\n\nAs an optional optimization, we can set the `onUpdate` handler of our tag control to return `false`. This has the effect of preventing the control from re-rendering itself each time that data changes. (The updating of the textbox content is already assured by the data-linked <em>input</em>, so re-rendering is unnecessary.)  \n\n```js\n$.views.tags({\n  textbox: {\n    linkedElement: \"input\",\n    template: \"<input/>\",\n    onUpdate: function() {\n      return false;\n    },\n    template: \"<input/>\"\n  }\n});\n```"
           }
         ],
-        "sampleName": "",
         "url": "samples/tag-controls/edit/simple-textbox/sample",
         "height": "340"
       }
@@ -2211,7 +2195,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "url": "samples/data-link/1_if-tag-in-attribute",
         "height": "100",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "{{if}} tag in attribute markup"
       },
       {
@@ -2248,7 +2232,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "title": "Template-rendered mouse events",
-        "sampleName": "",
         "url": "samples/data-link/2_mouse-events-in-template",
         "height": "100"
       },
@@ -3108,6 +3091,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "_type": "topic",
             "hash": "link-svg",
             "label": "Data-linking to SVG elements"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/tag-controls/slider/simple",
+            "label": "Sample: slider"
           }
         ]
       }
@@ -3223,7 +3211,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "We use the `{{range}}` custom tag to create a drop-down to select an integer between 1 and 10 as the `start` integer (...and similarly for the `end` integer).\n\n```jsr\n<select data-link=\"{:start:strToInt}\">\n  {^{range start=1 end=10}}\n    <option>{{:#data}}</option>\n  {{/range}}\n</select>\n```\n\nThen we again use the `{{range}}` tag to show a partial list of team members.\n\nWe bind to the observable `members` array, and we also bind to the `start` and `end` 'range' integers.\n\n```jsr\n<ul>\n  {^{range members ^start=start-1 ^end=end}}\n    <li>\n      {^{:#index + ~root.start}}. {^{:name}}\n    </li>\n  {{else}}\n    <li>No items</li>\n  {{/range}}\n</ul>\n```\n\nNote the ^ character here:\n\n```jsr\n^start=start-1\n```\n\nand here:\n\n```jsr\n^end=end\n```\n\nto specify that the start and end 'named properties' on the `{{range}}` tag are data-linked. By default named properties are not data-linked. (This is made 'opt-in' for perf optimization reasons.)"
           }
         ],
-        "sampleName": "",
         "url": "samples/tag-controls/range/sample",
         "height": "400"
       }
@@ -3279,7 +3266,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "url": "samples/computed/fullname/data",
         "height": "340",
-        "sampleName": "",
         "title": "Computed data properties (declared on plain object instance)",
         "anchor": "plain"
       },
@@ -3303,7 +3289,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "url": "samples/computed/fullname/prototype",
         "height": "340",
-        "sampleName": "",
         "title": "Computed data properties (declared on prototype) &ndash; View Model approach",
         "anchor": "vm"
       },
@@ -3327,7 +3312,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "url": "samples/computed/fullname/helper",
         "height": "600",
-        "sampleName": "",
         "title": "Computed data properties (using computed helper)",
         "anchor": "helper"
       }
@@ -3361,7 +3345,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/computed/shopping-cart/top-level",
-        "sampleName": "",
         "height": "250",
         "title": "Shopping cart (top-level data-linking)",
         "anchor": "top-level"
@@ -3390,7 +3373,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/computed/shopping-cart/tmpl",
-        "sampleName": "",
         "height": "250",
         "title": "Shopping cart (linked template)",
         "anchor": "tmpl"
@@ -3441,7 +3423,14 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "sample",
         "typeLabel": "Sample:",
-        "codetabs": [],
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
+          }
+        ],
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -3456,9 +3445,74 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "```jsr\n<div data-link=\"{datepicker date\n   _dateFormat='dd/mm/y'\n   convert='toDateString'\n   convertBack='toWcfDate'\n}\"></div>\n```"
           }
         ],
-        "sampleName": "",
-        "url": "samples/tag-controls/datepicker/with-converters/sample",
-        "height": "300"
+        "url": "samples/tag-controls/jqueryui/datepicker/with-converters/sample",
+        "height": "300",
+        "jsrJsvJqui": "jqui"
+      }
+    ]
+  },
+  "samples/tag-controls/accordion": {
+    "title": "accordion control",
+    "path": "",
+    "sections": []
+  },
+  "samples/tag-controls/slider/color-picker": {
+    "title": "Sample: Sliders as color picker",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Three sliders each data-linked to a color variable (`red`, `green`, `blue`):\n\n```jsr\n{^{slider red class=\"red\" ... /}}\n{^{slider green class=\"green\" ... /}}\n{^{slider blue class=\"blue\" ... /}}\n```\n\nand a `<div>` data-linked to three color arguments -- with a converter producing a single resulting background color:\n\n```jsr\n<div class=\"swatch\" data-link=\"css-background-color{toHex:red green blue}\"></div>\n```"
+          }
+        ],
+        "url": "samples/tag-controls/jqueryui/slider/colorpicker/sample",
+        "jsrJsvJqui": "jqui",
+        "height": "220"
+      }
+    ]
+  },
+  "jqui": {
+    "title": "JsViews tag controls using jQuery UI widgets",
+    "path": "",
+    "sections": [
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "samples/tag-controls/datepicker",
+            "label": "datepicker control"
+          },
+          {
+            "hash": "samples/tag-controls/slider",
+            "label": "slider control"
+          },
+          {
+            "hash": "samples/tag-controls/accordion",
+            "label": "accordion control"
+          }
+        ]
       }
     ]
   }

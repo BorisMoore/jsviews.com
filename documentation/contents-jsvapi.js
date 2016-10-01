@@ -104,7 +104,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "code": "var myTemplate = $.templates(\"#peopleTmpl\");\n\nvar people = [\n  {\n    firstName: \"Jeff\"\n  },\n  {\n    firstName: \"Xavier\",\n    lastName: \"Prieto\"\n  }\n];\n\nvar html = myTemplate.render(people);\n\n$(\"#peopleList\").html(html);\n",
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td \n      {{if lastName}}\n        >{{:firstName}}</td><td>{{:lastName}}\n      {{else}}\n        colspan=\"2\">{{:firstName}}\n      {{/if}}\n    </td>\n  </tr>\n</script>",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "80",
         "title": "Badly-formed template &ndash; but OK in JsRender!"
       },
@@ -127,7 +127,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The `link(container, data, helpersOrContext)` method is similar to the [`render(data, helpersOrContext)`](#rendertmpl) method, but in addition to rendering the template it also inserts the rendered output as content of the target HTML `container` element, and then *data-links* (data-binds to *observable* data) the HTML content to the underlying data.\n\nThe `link(container, data, helpersOrContext)` method takes as parameters the target HTML container element (or jQuery selector), the data (used as the <em>'data context'</em> during the rendering and linking), and optionally additional metadata or contextual helpers. It returns a jQuery object corresponding to the container element.\n\nThere are two ways of calling the `link()` method:\n- If you have a reference to the <em>template object</em> -- `myTmpl`, call [myTmpl.link(...)](#jsvtmpllink)\n- If you have registered the template by name -- `\"myTmpl\"`, call [$.link.myTmpl(...)](#jsv.d.link)\n"
+        "text": "The `link(container, data, helpersOrContext)` method is similar to the [`render(data, helpersOrContext)`](#rendertmpl) method, but in addition to rendering the template, it also inserts the rendered output as content of the target HTML `container` element, and then *data-links* (data-binds to *observable* data) the HTML content to the underlying data.\n\nThe `link(container, data, helpersOrContext)` method takes as parameters the target HTML container element (or jQuery selector), the data (used as the <em>'data context'</em> during the rendering and linking), and optionally additional metadata or contextual helpers. It returns a jQuery object corresponding to the container element.\n\nThere are two ways of calling the `link()` method:\n- If you have a reference to the <em>template object</em> -- `myTmpl`, call [myTmpl.link(...)](#jsvtmpllink)\n- If you have registered the template by name -- `\"myTmpl\"`, call [$.link.myTmpl(...)](#jsv.d.link)\n"
       },
       {
         "_type": "links",
@@ -224,7 +224,6 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<table><tbody id=\"person\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>{^{:name}}</td>\n    <td><input data-link=\"name\" /></td>\n  </tr>\n</script>",
         "code": "var myTmpl = $.templates(\"#personTmpl\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar html = myTmpl.link(\"#person\", person);\n",
         "title": "template.link(object):",
-        "onlyJsRender": false,
         "height": "60"
       },
       {
@@ -252,7 +251,6 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<button id=\"add\">Add person</button>\n\n<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>{^{:name}}</td>\n    <td><input data-link=\"name\" /></td>\n  </tr>\n</script>",
         "code": "var myTmpl = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nmyTmpl.link(\"#peopleList\", people);\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(people).insert({\n    name: \"name\"\n  });\n});\n",
         "title": "template.link(array):",
-        "onlyJsRender": false,
         "height": "160"
       },
       {
@@ -1235,7 +1233,6 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "data": {
           "name": "Jeff"
         },
-        "onlyJsRender": false,
         "title": "Data-linked elements in templates",
         "height": "120"
       },
@@ -1270,7 +1267,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Full syntax &ndash; multiple targets, multiple tags, multiple bindings...",
-        "text": "The full syntax allows you to bind multiple expressions each to a different target 'attrib', and is written like this: `data-link=\"attrib1{linkExpression1} attrib2{linkExpression2} ...\"`.\n\n`attrib` corresponds to the target -- such as the following:\n- HTML attribute (such as <code>title{...}</code>, <code>class{...}</code>, <code>id{...}</code>, <code>disabled{...}</code> or <code>data-foo{...}</code>)\n- CSS property (such as <code>css-background-color{...}</code>)\n- innerHTML (as in <code>html{...}</code>)\n- innerText (as in <code>text{...}</code>)\n- special targets like <code>visible{...}</code>\n- or can be missing altogether (as in <code>{...}</code>) in which case it stands for the default target for the element.\n\nThe default target for most elements is `innerText`, but for `input` and `select` elements it is `value`.\n\nThe linkExpression `{...}` is actually a *template tag*, such as `{{:a.b.c}}` or `{{myCustomTag .../}}`. *The difference from regular JsRender tag syntax is that with data-link expressions, **you only put a single curly brace to delimit, and you don't put the self-closing `/`**, which is assumed*.\n\nIn fact as long as the tag is self-closing, you can use any JsRender tag you want -- including custom tags.\n\nFor example, if you have a JsRender tag as content of an element: \n\n```jsr\n<div>{{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- then you can make it into a data-linked tag, using:\n\n```jsr\n<div>{^{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- or into a data-linked element, using:\n\n```jsr\n<div data-link=\"{for some.path tmpl='myForTmpl'}\" ></div>\n```\n\nSo examples would be: \n\n- `<div data-link=\"{:name}\"></div>` (one-way binding to `innerText` -- default target attrib -- so automatically HTML encodes).\n- `<div data-link=\"html{:name}\"></div>` (one-way binding to `innerHTML`)\n- `<div data-link=\"text{:name}\"></div>` (one-way binding to `innerText` -- equivalent to default above)\n- `<div data-link=\"html{>name}\"></div>` (one-way binding to `innerHTML` but with HTML encoding)\n- `<input data-link=\"{:name}\" >` (one-way binding to `value` -- default target attrib)\n- `<input data-link=\"value{:name}\" />` (one-way binding to `value`)\n- `<input data-link=\"title{:name}\" />` (one-way binding to the `title` attribute)\n- `<input data-link=\"{:name trigger=false:}\" />` (two-way binding to `value`, trigger only on blur) <br/>-- equivalent to abbreviated syntax: `<input data-link=\"name trigger=false\" />`\n- `<input data-link=\"{cvt:name:cvtBack}\" />` (two-way binding to `value`, with converters)\n- `<input data-link=\"{cvt:name trigger=false:cvtBack}\" />` (two-way binding to `value`, with converters, and trigger only on blur)\n- `<input data-link=\"{cvt:name:cvtBack} title{:info.description}\" />` (two-way binding to `value`, with converters and one-way binding to `title`)\n- `<img data-link=\"src{:'/myImagesFolder/' + fileName + '.png'}\" />` (one-way binding to `src` -- using an expression to build full path)\n- `<div data-link=\"{myCustomTag name}\"></div>` (data-linking -- and instantiating -- a JsViews custom tag control. Renders as `innerHTML` -- default target attrib for tags other than {: ...} -- so the control can insert HTML markup)\n- `<div data-link=\"text{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control -- rendering as `innerText` -- so automatically HTML encodes)\n- `<svg><ellipse data-link=\"cx{:x} fill{:color}\"></ellipse>` (data-linking to attributes of an SVG element)",
+        "text": "The full syntax allows you to bind multiple expressions each to a different target, and is written like this: `data-link=\"target1{linkExpression1} target2{linkExpression2} ...\"`.\n\nPossible targets include the following:\n- an HTML attribute (such as <code>title{...}</code>, <code>class{...}</code>, <code>id{...}</code>, <code>disabled{...}</code> or <code>data-foo{...}</code>)\n- a CSS property (such as <code>css-background-color{...}</code>)\n- innerHTML (as in <code>html{...}</code>)\n- innerText (as in <code>text{...}</code>)\n- special targets like <code>visible{...}</code>\n- or can be missing altogether (as in <code>{...}</code>) in which case it stands for the default target for the element.\n\nThe default target for most elements is `innerText`, but for `input` and `select` elements it is `value`.\n\nThe linkExpression `{...}` is actually a *template tag*, such as `{^{:a.b.c}}` or `{^{myCustomTag .../}}`. *The difference from regular JsRender tag syntax is that with data-link expressions, **you only put a single curly brace to delimit, and you don't put the self-closing `/`**, which is assumed*.\n\nIn fact as long as the tag is self-closing, you can use any JsRender tag you want -- including custom tags.\n\nFor example, if you have a JsRender tag as content of an element: \n\n```jsr\n<div>{{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- then you can make it into a data-linked tag, using:\n\n```jsr\n<div>{^{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- or into a data-linked element, using:\n\n```jsr\n<div data-link=\"{for some.path tmpl='myForTmpl'}\" ></div>\n```\n\nSo examples would be: \n\n- `<div data-link=\"{:name}\"></div>` (one-way binding to `innerText` -- default target attrib -- so automatically HTML encodes).\n- `<div data-link=\"html{:name}\"></div>` (one-way binding to `innerHTML`)\n- `<div data-link=\"text{:name}\"></div>` (one-way binding to `innerText` -- equivalent to default above)\n- `<div data-link=\"html{>name}\"></div>` (one-way binding to `innerHTML` but with HTML encoding)\n- `<input data-link=\"{:name}\" >` (one-way binding to `value` -- default target attrib)\n- `<input data-link=\"value{:name}\" />` (one-way binding to `value`)\n- `<input data-link=\"title{:name}\" />` (one-way binding to the `title` attribute)\n- `<input data-link=\"{:name trigger=false:}\" />` (two-way binding to `value`, trigger only on blur) <br/>-- equivalent to abbreviated syntax: `<input data-link=\"name trigger=false\" />`\n- `<input data-link=\"{cvt:name:cvtBack}\" />` (two-way binding to `value`, with converters)\n- `<input data-link=\"{cvt:name trigger=false:cvtBack}\" />` (two-way binding to `value`, with converters, and trigger only on blur)\n- `<input data-link=\"{cvt:name:cvtBack} title{:info.description}\" />` (two-way binding to `value`, with converters and one-way binding to `title`)\n- `<img data-link=\"src{:'/myImagesFolder/' + fileName + '.png'}\" />` (one-way binding to `src` -- using an expression to build full path)\n- `<div data-link=\"{myCustomTag name}\"></div>` (data-linking -- and instantiating -- a JsViews custom tag control. Renders as `innerHTML` -- default target attrib for tags other than {: ...} -- so the control can insert HTML markup)\n- `<div data-link=\"text{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control -- rendering as `innerText` -- so automatically HTML encodes)\n- `<svg><ellipse data-link=\"cx{:x} fill{:color}\"></ellipse>` (data-linking to attributes of an SVG element)\n\nSee: [Targets for data-linking](#link-targets) for additional details and samples.",
         "anchor": "fullsyntax"
       },
       {
@@ -1344,13 +1341,18 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "para",
+        "title": "",
+        "text": "See also [Tag bindings](#link-tags)."
+      },
+      {
+        "_type": "para",
         "title": "Samples of data-linking:",
         "text": "- There are many samples showing data-linking under [JsViews Samples](#samples/jsv).\n- See in particular this [tutorial sequence on data-linking](#samples/data-link)\n"
       },
       {
         "_type": "para",
         "title": "See also:",
-        "text": "- JsViews API topic: *[Data-linked tags](#linked-tag-syntax)*\n"
+        "text": "- *[Data-linked tags](#linked-tag-syntax)*\n- *[Targets for data-linking](#link-targets)*\n"
       }
     ]
   },
@@ -1569,7 +1571,6 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "$.link(true, \"body\", model);"
           }
         ],
-        "sampleName": "tag-controls/slider/simple-toplevel",
         "url": "samples/tag-controls/slider/simple-toplevel/sample",
         "height": "370",
         "title": "Top-level data-link=\"{slider ...}\"",
@@ -2024,14 +2025,24 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "text": "paragraph"
       },
       {
-        "_type": "para",
-        "title": "",
-        "text": "paragraph"
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~changeName}}Change name{{/on}}\n  <input data-link=\"name\" /><br/><br/>\n\n  <div data-link=\"name\"></div>\n  <div data-link=\"text{:name}\"></div>\n  <div data-link=\"html{:name}\"></div>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo <b>Blow</b>\"};\nvar swapped = false;\n\ntmpl.link(\"#result\", person, {changeName: function() {\n  swapped = !swapped;\n  $.observable(person).setProperty(\"name\", swapped ? \"Jethro <em>Tull</em>\" : \"Jo <b>Blow</b>\");\n}});"
       }
     ]
   },
   "link-targets": {
-    "title": "Data-link targets",
+    "title": "Targets for data-linking",
     "path": "",
     "sections": [
       {
@@ -2061,15 +2072,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "hash": "link-elemattribs",
-            "label": "element attributes"
+            "label": "Element attributes"
           },
           {
             "hash": "link-tags",
-            "label": "tag bindings"
-          },
-          {
-            "hash": "link-widgets",
-            "label": "jQuery UI widgets"
+            "label": "Tag bindings"
           },
           {
             "hash": "link-computed",
@@ -2621,6 +2628,21 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "",
         "text": "paragraph"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~changeName}}Change name{{/on}}\n  <input data-link=\"name\" /><br/><br/>\n\n  <div data-link=\"name\"></div>\n  <div data-link=\"text{:name}\"></div>\n  <div data-link=\"html{:name}\"></div>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo <b>Blow</b>\"};\nvar swapped = false;\n\ntmpl.link(\"#result\", person, {changeName: function() {\n  swapped = !swapped;\n  $.observable(person).setProperty(\"name\", swapped ? \"Jethro <em>Tull</em>\" : \"Jo <b>Blow</b>\");\n}});"
       }
     ]
   },
@@ -2631,7 +2653,58 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "`{for}` `{if}` `{on}` `{slider}` `{mytag}` etc."
+        "text": "The most common data-link expression for a data-linked element is a data path, such as:\n\n```jsr\n<div data-link=\"address.street\"></div>...\n```\n\n-- which is actually abbreviated syntax, and is equivalent to the full syntax:\n\n```jsr\n<div data-link=\"{:address.street}\"></div>...\n```\n\nIn fact this example is using the default target of `innerText`, and is equivalent to the even more explicit syntax:\n\n```jsr\n<div data-link=\"text{:address.street}\"></div>...\n```\n\nFor explanation and examples of the full syntax see the *[Data-linked elements (full syntax)](#linked-elem-syntax@fullsyntax)* topic.\n\nOur example, `data-link=\"{:address.street}\"` corresponds to the JsViews tag `{^{:address.street}}`.\n\nSimilarly we can data-link to ***any*** tag, such as:\n\n```jsr\n{^{:...}}, {^{>...}}, {^{for...}}, {^{if}}, {^{on}}, {^{slider}}, {^{myTag}} etc.\n```\n\nFor example to use `{^{myTag .../}}` as an element binding, you simply remove the initial `{^` and the last `}`, and optionally specify a target, such as `title` (or use the default `innerText` target):\n\n```jsr\ndata-link=\"title{myTag ...}\"\n```\n\nA data-linked element can use multiple bindings, each of which has a target and a link expression, and where the link expression corresponds to a data-linked JsViews/JsRender tag:\n\n```jsr\ndata-link=\"target1{linkExpression1} target2{linkExpression2}\" ...\n```\n\nExamples of tags are:\n\n```jsr\n{^{:age}}\n{^{>name}}\n{^{slider age/}}\n{^{if age < 15}}Child{{else age > 65}}Senior{{else}}Adult{{/if}}\n{^{for phones}}...{{/for}}\n{^{on increaseAge}}Increase Age{{/on}}\n{^{myTag person.name/}} \n```\n\nThe following examples show the same tags used as link expressions for data-linking elements (using in each case the default element data-linking target `innerText`):\n\n```jsr\n<div data-link=\"age\"></div>\n<div data-link=\"name\"></div>\n<div data-link=\"{slider age}\"></div>\n<span data-link=\"{if age < 15 tmpl='Child'}{else age > 65 tmpl='Senior'}{else tmpl='Adult'}\"></span>\n<div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n<button data-link=\"{on increaseAge}\">Increase Age</button>\n<div data-link=\"{myTag person.name}\"></div>\n```\n\nAnd the following example shows two bindings, one using the default target, and binding to a `{^{slider}}` tag and the other targeting the CSS `background` property of the `div`, and binding to an `{^{if ...}}}{{else ...}}{{else}}` tag:\n \n```jsr\n<div data-link=\"{slider age} css-background{if ... tmpl='green'}{else ... tmpl='red'}{else tmpl='blue'}\"></div>\n```\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "A top-level `<div>` is data-linked to a slider (two-way binding to `age`).\n\nIn addition, its background color is also data-linked to `age`, using an `{if}{else}` binding:\n\n```jsr\n<div data-link=\"\n  {slider age ...}\n\n  css-background{if age < 15 tmpl='green'}\n  {else age > 65 tmpl='red'}\n  {else tmpl='blue'}\n\"></div>\n```\n\nA top-level `<span>` is also data-linked to `age` -- but here instead of using an `{if}{else}` binding, we use the alternative approach of a `{:}` binding with a converter:\n\n```jsr\n<span data-link=\"{ageCat:age}\"></span>\n```\n\nwhere the converter allows us to provide equivalent if/else semantics, in code:\n\n```js\n$.views.converters(\"ageCat\", function(val) {\n  var category;\n  if (val < 15) {\n     category = \"Child\";\n  } else if (val > 65) {\n     category = \"Senior\";\n  } else {\n     category = \"Adult\";\n  }\n  return val + \" (\" + category + \")\";\n})\n```"
+          }
+        ],
+        "html": "<div id=\"topLevel\">\n\n  <br/>\n\n  <div data-link=\"\n    {slider age _max=99 width='50%'}\n\n    css-background{if age < 15 tmpl='green'}\n    {else age > 65 tmpl='red'}\n    {else tmpl='blue'}\n  \"></div>\n\n  <br/>\n\n  <label>Age:</label>\n  <span data-link=\"{ageCat:age}\"></span>\n\n</div>\n",
+        "code": "var person = {age: 23};\n\n$.views.converters(\"ageCat\", function(val) {\n  var category;\n  if (val < 15) {\n     category = \"Child\";\n  } else if (val > 65) {\n     category = \"Senior\";\n  } else {\n     category = \"Adult\";\n  }\n  return val + \" (\" + category + \")\";\n})\n\n$.link(true, \"#topLevel\", person);",
+        "jsrJsvJqui": "jqui",
+        "height": "100"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following sample illustrates how any tags can be used within a template with either tag syntax or data-linked element syntax (tag bindings).\n\nThe identical data-linked element syntax can also be used for binding top-level elements.\n\nIn all three situations, the resulting rendering and interactivity are the same.\n\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Tag syntax within a template:\n\n```jsr\n{^{on increaseAge}}Increase Age{{/on}}\n{^{for phones}}\n  <div>{^{if cell}}Home{{else}}Cell{{/if}}...</div>\n{{/for}}\n{^{slider age/}}\n...\n({^{if ...}}...{{else ...}}...{{else}}...{{/if}})\n{^{summary/}}\n```\n\nData-linked element syntax (tag bindings) either within a template or on top-level elements:\n\n```jsr\n<button data-link=\"{on increaseAge}\">Increase Age</button>\n<div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n<div data-link=\"{slider age}\"></div>\n...\n<span data-link=\"{if ...}{else ...}{else ...}\"></span>\n<div data-link=\"{summary}\"></div>\n```\n\nCode to set up data-linking:\n\n```js\ntmpl.link(\"#result\", person); // Data-linked template\n\n$.link(true, \"#topLevel\", person); // Data-linked top-level elements\n```\n"
+          }
+        ],
+        "html": "<style>\n  button {margin-bottom: 12px;}\n  .ui-slider {margin: 16px 0;}\n  .summary {margin: 8px 0 18px 0}\n</style>\n\n<script id=\"phonesTmpl\" type=\"text/x-jsrender\">\n  <div>\n    <span data-link=\"\n      {if cell tmpl='Home'}\n      {else tmpl='Cell'}\n    \"></span>:\n    <span data-link=\"number\"></span>\n  </div>\n</script>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n\n<h3>(Tags in template)</h3>\n\n{^{on increaseAge}}Increase Age{{/on}}\n{^{for phones}}<div>\n  {^{if cell}}Home{{else}}Cell{{/if}}: {{:number}}</div>\n{{/for}}\n{^{slider age _max=99 width=\"50%\"/}}\n<label>Age:</label>\n{^{>age}}\n({^{if 15>age}}Child{{else age>65}}Senior{{else}}Adult{{/if}})\n{^{summary/}}\n\n<hr/>\n<h3>(Data-linked elements in template)</h3>\n\n<div>\n  <button data-link=\"{on increaseAge}\">Increase Age</button>\n  <div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n  <div data-link=\"{slider age _max=99 width='50%'}\"></div>\n  <label>Age:</label>\n  <span data-link=\"age\"></span>\n  (<span data-link=\"\n    {if 15>age tmpl='Child'}\n    {else age>65 tmpl='Senior'}\n    {else tmpl='Adult'}\n  \"></span>)\n  <div data-link=\"{summary}\"></div>\n</div>\n</script>\n\n<h3>(Top-level data-linked elements)</h3>\n\n<div id=\"topLevel\">\n  <button data-link=\"{on increaseAge}\">Increase Age</button>\n  <div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n  <div data-link=\"{slider age _max=99 width='50%'}\"></div>\n  <label>Age:</label>\n  <span data-link=\"age\"></span>\n (<span data-link=\"\n    {if 15>age tmpl='Child'}\n    {else age>65 tmpl='Senior'}\n    {else tmpl='Adult'}\n  \"></span>)\n  <div data-link=\"{summary}\"></div>\n</div>\n <hr/>\n\n<div id=\"result\"></div>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [\n    {number: \"111 111 1111\"},\n    {number:\"222 222 2222\", cell: true}\n  ],\n  age: 23,\n  increaseAge: function() {\n    $.observable(this).setProperty(\n      \"age\",\n      this.age + 10\n    );\n  }\n};\n\n$.views.tags(\n  \"summary\",\n  \"<div class='summary'>My name is {{>name}}.\"\n  + \"I am <b>{^{:age}}</b> years old.</div>\"\n);\n\ntmpl.link(\"#result\", person);\n$.link(true, \"#topLevel\", person);",
+        "jsrJsvJqui": "jqui",
+        "height": "730"
       }
     ]
   },
@@ -2680,6 +2753,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "samples/data-link/svg",
             "label": "Tutorial: Data-linking SVG"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/tag-controls/slider/simple",
+            "label": "Sample: slider"
           }
         ]
       }
@@ -3393,7 +3471,6 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"result\">\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <b>[[:title]]</b>\n  <ul>\n    [[for members]]\n      <li>Name: [*[:name]] <input data-link=\"name\"/></li>\n    [[/for]]\n  </ul>\n</script>\n",
         "code": "$.views.settings.delimiters(\"[[\", \"]]\", \"*\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n\nvar team = {\n    title: \"A team\",\n    members: [{name: \"Jo\"}]\n  };\n\ntmpl.link(\"#result\", team);",
-        "onlyJsRender": false,
         "height": "90",
         "title": "Choosing alternative tag delimiters, with JsViews"
       },
@@ -4059,7 +4136,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "url": "",
         "anchor": "",
         "height": "320",
-        "html": "<link href=\"editable-data/sample.css\" rel=\"stylesheet\"/>\n\n<!----------------- Data-linked content -------------------> \n<div class=\"linkedContent\">\n  <div class=\"buttons\">\n    <button data-link=\"{on ~showData}\">show data</button>\n    <button data-link=\"{on ~deleteLast}\">delete last language</button>\n    <button data-link=\"{on ~undo} disabled{:msg !== ''}\">Undo</button>\n  </div>\n\n  <form data-link=\"{on 'submit' ~saveData}\">\n    <button class=\"buttons\" type=\"submit\"\n     data-link=\"disabled{:msg !== ''}\">Submit Changes</button>\n\n    <div class=\"comment\">Click to select and edit</div>\n    <table data-link=\"\n      {on 'click' '.addMovie' ~addMovie}\n      {on 'click' '.movies tr' ~select}\n      {on 'click' '.removeMovie' ~removeMovie}\n    \">\n      <thead><tr>\n        <th>Title</th><th>Languages</th>\n        <th><span class=\"addMovie\">Add</span></th>\n      </tr></thead>\n      <tbody class=\"movies\"\n        data-link=\"{for movies tmpl='#movieTemplate'}\"></tbody>\n    </table>\n\n    <div class=\"detail\"\n      data-link=\"{for movies[selectedIndex] tmpl='#detailTemplate'}\n        {on 'click' '.addLanguage' ~addLanguage}\n        {on 'click' '.removeLanguage' ~removeLanguage}\n    \"></div>\n  </form>\n\n  <div class=\"message\" data-link=\"msg\"></div>\n</div>\n\n<!----------------- Templates ------------------->\n<script id=\"movieTemplate\" type=\"text/x-jsrender\">\n  <tr class=\"hover\" data-link=\"css-background-color{:~bgColor(#index)}\">\n    <td>\n      <span data-link=\"#index + 1\"></span>:\n      <span data-link=\"title\"></span>\n    </td>\n    <td>\n      {^{for languages}}\n        <div data-link=\"name\"></div>\n      {{/for}}\n    </td>\n    <td><span class=\"removeMovie\"></span></td>\n  </tr>\n</script>\n\n<script id=\"detailTemplate\" type=\"text/x-jsrender\">\n  <div>\n    <div class=\"title\">Title:</div>\n    <div><input data-link=\"title\" /></div>\n    <div class=\"title\">\n      Languages: <span class=\"addLanguage\">Add</span>\n    </div>\n    {^{for languages}}\n      <input data-link=\"name\" />\n      <span class=\"removeLanguage\"></span>\n    {{/for}}\n  </div>\n</script>\n\n<!----------------- Show data ------------------->\n<script id=\"showData\" type=\"text/x-jsrender\">\n  <hr/>\n  {{for movies}}<div>\n    <b>Movie:</b> {{>title}}\n    <b>Languages:</b> {{for languages}} {{>name}}{{/for}}\n  </div>{{/for}}\n</script>\n\n<div id=\"console\"></div>",
+        "html": "<link href=\"editable-data/sample.css\" rel=\"stylesheet\"/>\n\n<!----------------- Data-linked content -------------------> \n<div class=\"linkedContent\">\n  <div class=\"buttons\">\n    <button data-link=\"{on ~showData}\">show data</button>\n    <button data-link=\"{on ~deleteLast}\">delete last language</button>\n    <button data-link=\"{on ~undo} disabled{:msg !== ''}\">Undo</button>\n  </div>\n\n  <form data-link=\"{on 'submit' ~saveData}\">\n    <button class=\"buttons\" type=\"submit\"\n     data-link=\"disabled{:msg !== ''}\">Submit Changes</button>\n\n    <div class=\"comment\">Click to select and edit</div>\n    <table data-link=\"\n      {on 'click' '.addMovie' ~addMovie}\n      {on 'click' '.movies tr' ~select}\n      {on 'click' '.removeMovie' ~removeMovie}\n    \">\n      <thead><tr>\n        <th>Title</th><th>Languages</th>\n        <th><span class=\"addMovie\">Add</span></th>\n      </tr></thead>\n      <tbody class=\"movies\"\n        data-link=\"{for movies tmpl='#movieTemplate'}\"></tbody>\n    </table>\n\n    <div class=\"detail\"\n      data-link=\"{for movies[selectedIndex] tmpl='#detailTemplate'}\n        {on 'click' '.addLanguage' ~addLanguage}\n        {on 'click' '.removeLanguage' ~removeLanguage}\n    \"></div>\n  </form>\n\n  <div class=\"message\" data-link=\"msg\"></div>\n</div>\n\n<!----------------- Templates ------------------->\n<script id=\"movieTemplate\" type=\"text/x-jsrender\">\n  <tr class=\"hover\" data-link=\"css-background-color{:~bgColor(#index)}\">\n    <td>\n      <span data-link=\"#index + 1\"></span>:\n      <span data-link=\"title\"></span>\n    </td>\n    <td>\n      {^{for languages}}\n        <div data-link=\"name\"></div>\n      {{/for}}\n    </td>\n    <td><span class=\"removeMovie\"></span></td>\n  </tr>\n</script>\n\n<script id=\"detailTemplate\" type=\"text/x-jsrender\">\n  <div>\n    <div class=\"title\">Title:</div>\n    <div><input data-link=\"title\" /></div>\n    <div class=\"title\">\n      Languages: <span class=\"addLanguage\">Add</span>\n    </div>\n    {^{for languages ~movie=#data}}\n      <input data-link=\"name\" />\n      <span class=\"removeLanguage\"\"></span>\n    {{/for}}\n  </div>\n</script>\n\n<!----------------- Show data ------------------->\n<script id=\"showData\" type=\"text/x-jsrender\">\n  <hr/>\n  {{for movies}}<div>\n    <b>Movie:</b> {{>title}}\n    <b>Languages:</b> {{for languages}} {{>name}}{{/for}}\n  </div>{{/for}}\n</script>\n\n<div id=\"console\"></div>",
         "code": "var VMs = $.views.viewModels,\n  counter = 0,\n\n  // Initial data\n  app = {\n    msg: null,\n    selectedIndex: null,\n    movies: [\n      {\n        title:\"Meet Joe Black\",\n        languages: [\n          {name: \"English\"},\n          {name: \"French\"}\n        ]\n      },\n      {\n        title:\"Eyes Wide Shut\",\n        languages: [\n          {name: \"German\"},\n          {name: \"French\"},\n          {name: \"Spanish\"}\n        ]\n      }\n    ],\n    select: function(index) {\n      if (this.selectedIndex !== index) {\n        $.observable(this)\n          .setProperty(\"selectedIndex\", index);\n      }\n    },\n    showMsg: function(msg) {\n      $.observable(this).setProperty(\"msg\", msg);\n    }\n  },\n\n  savedData = JSON.stringify(app.movies),\n\n  handlers = {\n    undo: function() {\n      // Revert to previous savedData\n      $.observable(this.movies).refresh(JSON.parse(savedData));\n      $.observable(this).removeProperty(\"selectedIndex\");\n    },\n    saveData: function() {\n      // Make new savedData snapshot\n      savedData = JSON.stringify(this.movies);\n\n      // In real app, uncomment to save current data to the server:\n      // $.post(\"/save/data\", {movieData : savedData}, function(msg) {\n        var msg = \"In a real app, updated data would have been saved to server\";\n        this.showMsg(msg); // Display message\n      //});\n      return false; // Do not do default form action for submit\n    },\n    addMovie: function() {\n      $.observable(this.movies).insert({\n        title: \"NewTitle\" + counter ,\n        languages: [\n          {name: \"NewLanguage\" + counter++}\n        ]}\n      );\n      // Set selection on the added item\n      this.select($.view(\".movies tr:last\").index);\n    },\n    removeMovie: function(ev, evtArgs) {\n      this.select(); // unselect\n      var thisIndex = $.view(ev.target).index;\n      $.observable(this.movies).remove(thisIndex);\n      return false;\n    },\n    addLanguage: function(ev, evtArgs) {\n      var selectedMovie = this.movies[this.selectedIndex];\n      $.observable(selectedMovie.languages).insert({\n        name: \"NewLanguage\" + counter++\n      });\n    },\n    removeLanguage: function(ev, evtArgs) {\n      var selectedMovie = this.movies[this.selectedIndex];\n      var thisIndex = $.view(ev.currentTarget).index;\n      $.observable(selectedMovie.languages).remove(thisIndex);\n      return false;\n    },\n    select: function(ev, evtArgs) {\n      this.select($.view(ev.currentTarget).index);\n    },\n    deleteLast: function() {\n      if (this.movies.length) {\n        var languages = this.movies[this.movies.length - 1].languages;\n        $.observable(languages).remove();\n      }\n    },\n    showData: function() {\n      $(\"#console\").append($(\"#showData\").render(this));\n    },\n    bgColor: bgColor\n  };\n\n// Background color helper function\nfunction bgColor() {\n  return app.selectedIndex === this.index\n    ? \"yellow\"\n    : (this.index%2 ? \"#fdfdfe\" : \"#efeff2\");\n}\n\nbgColor.depends = [\"#index\", app, \"selectedIndex\"];\n\n$.observable(app.movies).observeAll(function() {\n  app.showMsg(\"\"); \n// If there have been any changes made to the movies data we clear\n\t//the Saved... message and this also drives the Save button\n\t//disabled property and the \"navigate away\" behavior.\n});\n\n// \"Navigate away\" behavior\n$(window).on('beforeunload', function(){\n  return app.msg === \"\" ? \"You have unsaved changes.\" : undefined;\n});\n\n$.link(true, \".linkedContent\", app, handlers);",
         "title": "MVVM Save/Undo, using plain objects"
       },
@@ -4176,7 +4253,6 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<style>button {margin-bottom: 9px;}</style>\n\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{^{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{^{:address().street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            {^{:number()}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // name is a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n     {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  $.observable(this.phones()).insert(vmCollection.Phone(phoneNo));\n}\n\n// person plain object hierarchy:\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Instantiate View Model hierarchy using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Button handlers\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");           // Use the name(...) setter\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");  // Call the addPhone(...) method\n});",
         "height": "190",
-        "onlyJsRender": false,
         "title": "Using map() to convert from a plain object hierarchy to a View Model hierarchy",
         "anchor": "mapsample"
       },
@@ -4208,7 +4284,6 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "This sample, based on the corresponding [JsRender version](#viewmodelsapi@mergesample), includes using `merge()`to trigger an incremental (minimal) update to the *View Model* hierarchy, and as a result, to the data-linked view:\n\n```js\n$(\"#update\").on(\"click\", function() {\n  person.merge(personData2);               // Update person View Model hierarchy\n});\n```"
           }
         ],
-        "onlyJsRender": false,
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // name is a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n     {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  $.observable(this.phones()).insert(vmCollection.Phone(phoneNo));\n}\n\n// First version of data (e.g. from JSON request):\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Second version of data (e.g. new JSON request):\nvar personData2 = {\n  name: \"Peter\",\n  address: {street: \"2nd Ave\"},\n  phones: [{number: \"111 111 9999\"},{number: \"333 333 9999\"}]\n};\n\n// Instantiate View Model hierarchy, using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  // Update View Model hierarchy, using merge()\n  person.merge(personData2);\n});\n\n$(\"#revert\").on(\"click\", function() {\n  // Revert View Model hierarchy, using merge()\n  person.merge(personData);\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");           // Use the name(...) setter\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");  // Call the addPhone(...) method\n});\n\n$(\"#getData\").on(\"click\", function() {\n  // Get current data, using unmap()\n  var updatedPersonData = person.unmap();\n  window.alert(JSON.stringify(updatedPersonData));\n});",
         "html": "<style>button {margin-bottom: 9px;}</style>\n\n<button id=\"update\">Update</button>\n<button id=\"revert\">Revert</button>\n<button id=\"getData\">Get Data</button><br/>\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{^{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{^{:address().street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>{^{:number()}}</td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "height": "230",
@@ -4767,7 +4842,6 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "title": "",
         "height": "300",
-        "sampleName": "",
         "url": "samples/tag-controls/jsonview/sample"
       },
       {

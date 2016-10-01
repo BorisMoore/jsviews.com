@@ -43,7 +43,7 @@ if (!$ || !$.fn) {
 	throw "JsObservable requires jQuery"; // We require jQuery
 }
 
-var versionNumber = "v0.9.74",
+var versionNumber = "v@@include("templates/-version.txt")",
 	$observe, $observable,
 
 	$views = $.views =

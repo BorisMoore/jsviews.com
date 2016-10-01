@@ -148,7 +148,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         },
         "markup": "{{:name}}",
         "height": "40",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "{{:dataproperty}}"
       },
       {
@@ -176,7 +176,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         },
         "markup": "{{:name}}: lives in <b>{{:address.city}}</b>.<br/>\n\nHere is <em>~root.address.city</em>: <b>{{:~root.address.city}}</b><br/>\n\nHere is <em>#data.address.city</em>: <b>{{:#data.address.city}}</b>",
         "height": "80",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "{{:data.paths}}"
       },
       {
@@ -212,7 +212,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "height": "60",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "{{:#index ...}}"
       },
       {
@@ -312,7 +312,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "description": "A <b>very nice</b> apartment"
         },
         "markup": "{{:description}}<br/>\n{{>description}}",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "60",
         "title": ""
       },
@@ -410,7 +410,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "markup": "{{:name}} lives in {{include tmpl=\"#addressTemplate\"/}}\n"
           }
         ],
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "60",
         "code": "var people = [\n  {\n    \"name\": \"Pete\",\n    \"address\": {\n      \"city\": \"Seattle\"\n    }\n  },\n  {\n    \"name\": \"Heidi\",\n    \"address\": {\n      \"city\": \"Sidney\"\n    }\n  }\n];\n\nvar html = $(\"#peopleTemplate\").render(people);\n\n$(\"#peopleList\").html(html);",
         "html": "<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:name}} lives in {{include tmpl=\"#addressTemplate\"/}}\n  </div>\n</script>\n\n<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n    <b>{{>address.city}}</b>\n</script>\n\n<div id=\"peopleList\"></div>",
@@ -523,7 +523,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             }
           ]
         },
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "55"
       },
       {
@@ -647,7 +647,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "code": "",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "70",
         "html": "",
         "data": [
@@ -686,7 +686,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:name}} lives in {{for address tmpl=\"#addressTemplate\" /}}\n  </div>\n</script>\n\n<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n  <b>{{>city}}</b>\n</script>\n\n<div id=\"result\"></div>",
         "code": "var people = [\n  {\n    \"name\": \"Pete\",\n    \"address\": {\n      \"city\": \"Seattle\"\n    }\n  },\n  {\n    \"name\": \"Heidi\",\n    \"address\": {\n      \"city\": \"Sidney\"\n    }\n  }\n];\n\nvar html = $(\"#peopleTemplate\").render(people);\n\n$(\"#result\").html(html);",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "70",
         "title": "{{for object tmpl=... /}}"
       },
@@ -727,7 +727,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           ]
         },
         "markup": "<b>{{:title}}</b>\n<ul>\n  {{for members}}\n      <li>{{:name}} lives in <b>{{:address.city}}</b></li>\n  {{/for}}\n</ul>",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "100",
         "title": "{{for array}}"
       },
@@ -804,7 +804,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "height": "144",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "links",
@@ -932,7 +932,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "code": "",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "230",
         "html": "",
         "data": [
@@ -975,7 +975,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<script id=\"peopleTemplate\" type=\"text/x-jsrender\">\n  <table><tbody>\n    <tr><td><b>name:</b> {{:name}}</td></tr>\n    <tr><td> \n      {{props address tmpl=\"#addressTemplate\" /}}\n    </td></tr>\n  </tbody></table>\n</script>\n\n<script id=\"addressTemplate\" type=\"text/x-jsrender\">\n  <b>{{>key}}:</b> {{>prop}}<br/>\n</script>\n\n<div id=\"result\"></div>",
         "code": "var people = [\n  {\n    \"name\": \"Pete\",\n    \"address\": {\n      \"street\": \"12 Pike Place\",\n      \"city\": \"Seattle\",\n      \"ZIP\": \"98101\"\n    }\n  },\n  {\n    \"name\": \"Heidi\",\n    \"address\": {\n      \"street\": \"5000 Broadway\",\n      \"city\": \"Sidney\",\n      \"country\": \"Australia\"\n    }\n  }\n];\n\nvar html = $(\"#peopleTemplate\").render(people);\n\n$(\"#result\").html(html);",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "230",
         "title": "{{props object tmpl=... /}}"
       },
@@ -1052,7 +1052,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "height": "200",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "links",
@@ -1316,7 +1316,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "standby": []
           }
         ],
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "316",
         "title": "{{if}}...{{else}}...{{/if}}"
       },
@@ -1535,7 +1535,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "Enable `allowCode` in all templates:\n\n```js\n$.views.settings.allowCode(true);\n```\n\nDefine a global variable, then increment it:\n\n```jsr\n{{* window.myvar=2; myvar+=4; }}\n```\n\nInsert the value into the rendered output:\n\n```jsr\n<div> Initial value: {{*:myvar}}</div>\n```\n\nIncrement the value again, and output the new value:\n\n```js\n{{* window.myvar+=11; }}\n\n<div> New value: {{*:myvar}}</div>\n```"
           }
         ],
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "70",
         "code": "$.views.settings.allowCode(true); \n\nvar html = $(\"#myTemplate\").render();\n\n$(\"#result\").html(html);",
         "html": "<script id=\"myTemplate\" type=\"text/x-jsrender\">\n\n  {{* window.myvar=2; myvar+=4; }}\n\n  <div> Initial value: {{*:myvar}}</div>\n\n  {{* window.myvar+=11; }}\n\n  <div> New value: {{*:myvar}}</div>\n\n</script>\n\n<div id=\"result\"></div>",
@@ -1565,7 +1565,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```js\n$.views.settings.allowCode(true);\n```\n\nDefine a global variable:\n\n```jsr\n{{* window.total = 0}}\n```\n\nIterate through a list, and use `{{* ...}}` to increment the `total`, and `{{*:}}` to return each value:\n\n```js\n{{for list}}\n  {{* total += data}}\n    <li>\n      Amount {{:}} (Running total: {{*: total}})\n   </li>\n{{/for}}\n```"
           }
         ],
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "160",
         "code": "var data = {\n    title: \"My list\",\n    list: [2, 10.3, 77, -44, -5.5]\n  };\n\n$.views.settings.allowCode(true);\n\nvar html = $(\"#myTemplate\").render(data);\n\n$(\"#result\").html(html);",
         "html": "<script id=\"myTemplate\" type=\"text/x-jsrender\">\n  {{* window.total = 0}}\n  <ol>\n    {{for list}}\n      {{* total += data}}\n        <li>\n          Amount {{:}} (Running total: {{*: total}})\n       </li>\n    {{/for}}\n  </ol>\n  <u>Total: {{*: total}}</u>\n</script>\n\n<div id=\"result\"></div>",
@@ -1594,7 +1594,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "Enable allowCode just for this template:\n\n```js\nvar tmpl = $.templates({\n    markup: \"#myTemplate\",\n    allowCode: true\n  });\n \nvar html = tmpl.render(data);\n```\n\nInsert template code to iterate over odd numbers:\n\n```jsr\n{{* for (i=0; i<data.list.length; i+=2) { }}\n```\n\nOutput the 1-based index and the value:\n\n```js\n{{*: i+1}}: Amount {{*:data.list[i]}}\n```\n\nInsert the end of the <em>for</em> block, <code>{{* <b>}</b> }}</code> into the template code:\n\n```jsr\n {{* } }}\n```\n\n"
           }
         ],
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "110",
         "code": "var data = {\n    title: \"My list\",\n    list: [2, 10.3, 77, -44, -5.5]\n  };\n\nvar tmpl = $.templates({\n    markup: \"#myTemplate\",\n    allowCode: true\n  });\n \nvar html = tmpl.render(data);\n\n$(\"#result\").html(html);",
         "html": "<script id=\"myTemplate\" type=\"text/x-jsrender\">\n  Here are the odd numbered items:\n  <ul>\n    {{* for (i=0; i<data.list.length; i+=2) { }}\n      <li>\n        {{*: i+1}}: Amount {{*:data.list[i]}}\n      </li>\n    {{* } }}\n  </ul>\n</script>\n\n<div id=\"result\"></div>",
@@ -1737,7 +1737,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<table><tbody id=\"person\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>\n      {{:name}}\n    </td>\n  </tr>\n</script>",
         "code": "var myTmpl = $.templates(\"#personTmpl\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar html = myTmpl.render(person);\n\n$(\"#person\").html(html);",
         "title": "template.render(object):",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "60"
       },
       {
@@ -1765,7 +1765,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>\n      {{:name}}\n    </td>\n  </tr>\n</script>",
         "code": "var myTmpl = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nvar html = myTmpl.render(people);\n\n$(\"#peopleList\").html(html);",
         "title": "template.render(array):",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "80"
       },
       {
@@ -1844,7 +1844,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "function toUpper(val) { return val.toUpperCase(); }\n\nvar myTmpl = $.templates(\"#personTemplate\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar myHelpers = {color: \"red\", format: toUpper};\n\nvar html = myTmpl.render(person, myHelpers);\n\n$(\"#person\").html(html);",
         "title": "template.render(object, myHelpers):",
         "height": "60",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "links",
@@ -1939,7 +1939,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "function toUpper(val) { return val.toUpperCase(); }\n\n$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar myHelpers = {color: \"red\", format: toUpper};\n\nvar html = $.render.personTmpl(person, myHelpers);\n\n$(\"#person\").html(html);",
         "title": "$.render.personTmpl(...):",
         "height": "60",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "links",
@@ -2034,7 +2034,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var person = {\n    name: \"Adriana\"\n  };\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);",
         "title": "$(\"#personTemplate\").render(...):",
         "height": "60",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "links",
@@ -2080,7 +2080,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "data": {},
         "code": "$.getScript(\"//www.jsviews.com/samples/resources/templates/person.js\", function() {\n    var html = $.render.person(people);\n    $(\"#peopleList\").html(html);\n  });\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];",
         "html": "<div id=\"peopleList\"></div>",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "40",
         "title": "Registering a template from a markup string (in this case, fetched  from the server in a script file):",
         "codetabs": [
@@ -2117,7 +2117,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"peopleList\"></div>\n",
         "code": "var personTemplate;\n\n$.get(\"resources/templates/person.txt\", function(value) {\n  personTemplate = $.templates(value);\n  var html = personTemplate.render(people);\n  $(\"#peopleList\").html(html);\n});\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];",
         "title": "Compiling a template from a markup string (fetched  from the server in a text file):",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "40"
       },
       {
@@ -2145,7 +2145,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>",
         "code": "$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nvar html = $.render.personTmpl(people);\n\n$(\"#peopleList\").html(html);",
         "title": "Registering a template declared in script block:",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "40"
       },
       {
@@ -2273,7 +2273,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"peopleList\"></div>\n",
         "code": "var myTmpl = $.templates(\"<label>Name:</label> {{:name}}\");\n\nvar person = {name: \"Robert\"};\n\nvar html = myTmpl.render(person);\n\n$(\"#peopleList\").html(html);",
         "title": "Compile a template from a string",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "40"
       },
       {
@@ -2297,7 +2297,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>",
         "code": "var myTmpl = $.templates(\"#personTemplate\");\n\nvar person = {name: \"Robert\"};\n\nvar html = myTmpl.render(person);\n\n$(\"#peopleList\").html(html);",
         "height": "40",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "sample",
@@ -2321,7 +2321,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "height": "40",
         "title": "Register named template from a string",
         "anchor": "namedfromstring",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "sample",
@@ -2344,7 +2344,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>",
         "title": "Register named template from script block",
         "height": "40",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "para",
@@ -2410,7 +2410,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "$.templates({\n  personTmpl: \"#personTemplate\",\n  labelTmpl: \"<label>Name:</label>\"\n});\n\nvar person = {name: \"Robert\"};\n\nvar html = $.render.personTmpl(person);\n\n$(\"#peopleList\").html(html);",
         "title": "Registering multiple templates",
         "height": "40",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "para",
@@ -2535,7 +2535,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "// Register a template along with a converter and a helper that it will use.\n// These resources are private to the template, rather than being registered\n// globally using $.views.converters or $.views.helpers\n$.templates(\"personTmpl\", {\n  markup: \"#personTemplate\",\n  converters: {\n    upper: function(val) {return val.toUpperCase();}\n  },\n  helpers: {\n    append: function(a, b) {return a + b;}\n  }\n});\n\nvar person = {name: \"Robert\"};\n\nvar html = $.render.personTmpl(person);\n\n$(\"#peopleList\").html(html);",
         "title": "Register a named template along with specified resources",
         "height": "40",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "para",
@@ -2563,7 +2563,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{include tmpl=\"labelTmpl\"/}} {{:name}}\n</script>",
         "title": "Add a \"labelTmpl\" template resource as a 'sub template' &ndash; a private resource for an existing \"personTemplate\"",
         "height": "40",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "links",
@@ -2768,7 +2768,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  This is the title:{{boldp title /}}\n</script>",
         "code": "function renderBoldP(value) {\n   return \"<p><b>\" + value + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "anchor": "sample1"
       },
       {
@@ -2802,7 +2802,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    This is inside our block content:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
         "code": "function renderBoldP(val) {\n   return \"<p><b>\" + this.tagCtx.render(val) + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "anchor": "sample2"
       },
       {
@@ -2831,7 +2831,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><b>{{:title}}</b></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
         "height": "120",
         "title": "3 - Accessing tagCtx properties from the tag render function",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "anchor": "sample3"
       },
       {
@@ -2860,7 +2860,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp title /}}\n</script>",
         "title": "1b - Simple custom tag using just a template",
         "height": "60",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "sample",
@@ -2883,7 +2883,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "$.views.tags(\"boldp\", {\n  template: \"<p><b>{{include tmpl=~tag.tagCtx.content/}}</b></p>\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
         "title": "2b - Rendering block content from a custom tag template",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "para",
@@ -2904,14 +2904,14 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "The template accesses the same context as the function code above, to get at those named and unnamed parameters... :\n\n```jsr\n{{for ~tag.tagCtx.args[0]}}\n  {{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\n    {{include tmpl=~tag.tagCtx.content/}}\n  {{/if}}\n{{/for}}\n```\n\nThen after filtering for the items within the chosen range, using nested `{{for}}{{if}` tags, it renders the original block content for those items using `{{include tmpl=~tag.tagCtx.content/}}`.\n\nAgain, the result is identical to the [other implementation](#tags@sample3) using a function. You call it just the same:\n\n```jsr\n{{range members start=1 end=2}}\n ...\n{{/range}}\n```"
+            "text": "The template accesses the same context as the function code above, to get at those named and unnamed parameters... :\n\n```jsr\n{{for ~tag.tagCtx.args[0]}}\n  {{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\n    {{include tmpl=~tag.tagCtx.content/}}\n  {{/if}}\n{{/for}}\n```\n\nThen after filtering for the items within the chosen range, using nested `{{for}}{{if}` tags, it renders the original block content for those items using `{{include tmpl=~tag.tagCtx.content/}}` (or you could use the equivalent `{{include tmpl=#content/}}`).\n\nAgain, the result is identical to the [other implementation](#tags@sample3) using a function. You call it just the same:\n\n```jsr\n{{range members start=1 end=2}}\n ...\n{{/range}}\n```"
           }
         ],
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><b>{{:title}}</b></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
         "code": "$.views.tags(\"range\", {\n  template: \n    \"{{for ~tag.tagCtx.args[0]}}\" +\n      \"{{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\" +\n        \"{{include tmpl=~tag.tagCtx.content/}}\" +\n      \"{{/if}}\" +\n    \"{{/for}}\"\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "120",
         "title": " 3b - Accessing more context from the tag template",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "para",
@@ -2938,7 +2938,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "$.views.tags({\n  range: {\n    render: function(array) {\n      var ret = \"\",\n        start = this.tagCtx.props.start,\n        end = this.tagCtx.props.end;\n      for (var i = start; i <= end; i++) {\n        if (array[i]) {\n          // Render tag block content, for this data item\n          ret += this.tagCtx.content.render(array[i]);\n        }\n      }\n      return ret || undefined;\n    },\n    template: \"<li>Nothing to render</li>\"\n  }\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\n",
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <h3>Members 2 to 4</h3>\n  <ul>\n    {{range members start=1 end=3}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n\n  <h3>Members 5 to 8</h3>\n  <ul>\n    {{range members start=4 end=7}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
         "height": "206",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "A render() function and a template as \"fallback\""
       },
       {
@@ -3195,7 +3195,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           ]
         },
         "title": "getIndex() &ndash; iterating + grouping by 3",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "110"
       },
       {
@@ -3230,7 +3230,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{{mytag}}\n  <div>inside mytag</div>\n{{/mytag}}\n\n<hr/>\n\n{{mytag tmpl=\"externalTmpl\"}}\n  <div>inside mytag with external tmpl</div>\n{{/mytag}}\n</script>\n",
         "code": "$.views.tags(\n  \"mytag\",\n  \"startTag {{include tmpl=#content /}} endTag\"\n);\n\n$.templates(\n  \"externalTmpl\",\n  \"<div><em>startTmpl {{include tmpl=#content /}} endTmpl</em></div>\"\n);\n\n$(\"#result\").html(\n  $.templates(\"#myTmpl\").render()\n);\n",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "view.content &ndash; wrapping content",
         "height": "214"
       },
@@ -3692,7 +3692,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "markup": "",
         "html": "<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <div>\n    Team: {{:title}} -\n    {{mytag members/}}\n\n    {{if members.length}}\n      Members:\n        {{for members}}\n          {{:name}}\n        {{/for}}\n    {{/if}}\n  </div>\n</script>\n\n<div id=\"result\"></div>",
         "code": "// mytag: custom tag to output \"1 member\" or \"n members\"\n$.views.tags(\"mytag\", \"{{:length == 1 ? '1 member' : length + ' members'}}<br/>\");\n// Alternative version of mytag:\n// $.views.tags(\"mytag\", \"{{if length == 1}}1 member{{else}}{{:length}} members{{/if}}<br/>\");\n\nvar teams = [\n  {title: \"The A Team\", members: [{name: \"Jeff\"}, {name: \"Maria\"}]},\n  {title: \"The B Team\", members: [{name: \"Francis\"}]}\n];\n\nvar html = $(\"#teamTemplate\").render(teams);\n\n$(\"#result\").html(html);",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "110"
       },
       {
@@ -3773,7 +3773,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "function firstName() { return this._firstName; }\nfunction lastName() { return this._lastName; }\nfunction fullName() { return this._firstName + \" \" + this._lastName; }\n\nvar data = {\n  person: {\n    _firstName: \"Jo\",\n    _lastName: \"Blow\",\n    firstName: firstName,\n    lastName: lastName,\n    fullName: fullName\n  }\n};\n\nvar html = $(\"#personTmpl\").render(data);\n\n$(\"#result\").html(html);",
         "html": "<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  First name: {{:person.firstName()}} <br/>\n  Last name: {{:person.lastName()}} <br/>\n  Full name: {{:person.fullName()}}\n</script>",
         "height": "76",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "Getter properties with plain objects",
         "anchor": "getter-plain-sample"
       },
@@ -3801,7 +3801,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  First name: {{:person.firstName()}} <br/>\n  Last name: {{:person.lastName()}} <br/>\n  Full name: {{:person.fullName()}}\n</script>",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "76",
         "code": "function firstName() { return this._firstName; }\nfunction lastName() { return this._lastName; }\nfunction fullName() { return this._firstName + \" \" + this._lastName; }\n\nfunction Person(first, last) {\n  this._firstName = first;\n  this._lastName = last;\n}\n\nPerson.prototype = {\n  firstName: firstName,\n  lastName: lastName,\n  fullName: fullName\n};\n\nvar data = {\n  person: new Person(\"Jo\", \"Blow\")\n};\n\nvar html = $(\"#personTmpl\").render(data);\n\n$(\"#result\").html(html);",
         "title": "Getter properties with a View Model",
@@ -3934,7 +3934,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"result\">\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <b>[%:title%]</b>\n  <ul>\n    [%for members%]\n      <li>Name: [%:name%]</li>\n    [%/for%]\n  </ul>\n</script>",
         "code": "$.views.settings.delimiters(\"[%\", \"%]\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n\nvar team = {\n    title: \"A team\",\n    members: [{name: \"Jo\"}]\n  };\n\nvar html = tmpl.render(team);\n\n$(\"#result\").html(html);",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "80",
         "title": "Choosing alternative tag delimiters, with JsRender"
       },
@@ -3964,7 +3964,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<script id=\"baseTmpl\" type=\"text/x-jsrender\">\n  <%:hello%>, {{:name}}<br/>\n  <%:welcome%> {{:place}}\n</script>\n\n<div id=\"result\"></div>\n",
         "code": "var spanishTerms = {\n  hello: \"Hola\",\n  welcome: \"Bienvenido a\"\n};\n\nvar data = {\n  name: \"John\",\n  place: \"Madrid\"\n};\n\n// Get current delimiters\nvar currentDelimiters = $.views.settings.delimiters();\n\n// Temporarily switch delimiters\n$.views.settings.delimiters(\"<%\", \"%>\");\n\n// Translate to Spanish localized version\nvar localizedTemplate = $.templates(\"#baseTmpl\").render(spanishTerms);\n\n// Revert to original delimiters\n$.views.settings.delimiters(currentDelimiters);\n\n// Render data using localized template\nhtml = $.templates(localizedTemplate).render(data);\n\n$(\"#result\").html(html);",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "60",
         "title": "Template for a template"
       },
@@ -3996,7 +3996,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "height": "60",
         "title": "Passing in terms as helpers",
         "anchor": "passing",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       }
     ]
   },
@@ -4105,7 +4105,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  Phones:\n  {{for phones() onError=\"<em>No phones</em>\"}}\n    {{:}}\n  {{/for}}\n  <br/>\n  <b>{{:address.street onError=\"Address unavailable\"}}</b>\n  <hr/>\n{{/for}}\n</script>\n",
         "markup": "",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "data": [],
         "code": "function phones() {\n  if (!this._phones) {\n    throw new Error(\"phones() error\");\n  }\n  return this._phones;\n}\n\nvar team = {\n  members: [\n    {address: {street: \"1st Ave\"}, _phones: [\"888\", \"456\"],\n      phones: phones},\n    {address: undefined, _phones: [\"987\", \"111\"],       // No address\n      phones: phones},\n    {address: {street: \"Main St\"}, _phones: undefined,  // _No phones\n      phones: phones}\n  ]\n};\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);",
         "title": "onError=\"fallback string...\" ",
@@ -4137,7 +4137,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>Name: {{:name}}<br/>\n    Phones:\n    {{for phones() onError=name + \" has no phones\"}}\n      {{:}}\n    {{/for}}\n    <br/>\n    <b>{{:address.street onError=~errorMessages(1, name, \"address\")}}</b>\n    <hr/>\n  </div>\n{{/for}}\n</script>",
         "code": "function phones() {\n  if (!this._phones) {\n    throw new Error(\"phones() error\");\n  }\n  return this._phones;\n}\n\nvar team = {\n  members: [\n    {name: \"Bill\", address: {street: \"1st Ave\"}, _phones: [\"888\", \"456\"],\n      phones: phones},\n    {name: \"Jane\", address: undefined, _phones: [\"987\", \"111\"],       // No address\n      phones: phones},\n    {name: \"Ava\", address: {street: \"Main St\"}, _phones: undefined,  // _No phones\n      phones: phones}\n  ]\n};\n\n$.views.helpers(\"errorMessages\", function(id, param1, param2) {\n  if (id === 1) {\n    return param1 + \" has no \" + param2;\n  } \n});\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);\n",
         "height": "270",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "onError=someExpression..."
       },
       {
@@ -4166,7 +4166,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var team = {\n  members: [\n    {name: \"Bill\", address: {street: \"1st Ave\"}},\n    {name: \"Jane\", address: undefined}           // No address\n  ]\n};\n\nfunction onErrorHandler(e, view) {\n  console.log(e.message);\n  if (!this.address) {\n    return this.name + \" has no address (\" + e.message + \")\";\n  }\n}\n\nvar html = $(\"#teamTmpl\").render(team, {myOnError: onErrorHandler});\n\n$(\"#result\").html(html);\n",
         "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>Name: {{:name}}<br/>\n    <b>{{:address.street onError=~myOnError}}</b>\n    <hr/>\n  </div>\n{{/for}}\n</script>\n",
         "height": "150",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "onError=~myOnError"
       },
       {
@@ -4206,7 +4206,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "code": "$.views.settings.debugMode(true); \n// Change to $.views.settings.debugMode(false); - The error\n// will not be displayed, but an exception will be thrown.\n\nvar team = {members: [\n {name:\"Jo\", address: {street: \"1st Ave\"}},\n {name:\"Bill\"},  // Bill does not have an address!!\n {name:\"Ava\", address: {street: \"Main St\"}}\n]};\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);\n",
         "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>{{:name}} - <b>{{:address.street}}</b></div>\n{{/for}}\n</script>\n",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "100",
         "title": "Debug mode set to true"
       },
@@ -4265,7 +4265,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>{{:name}} - <b>{{:address.street}}</b></div>\n{{/for}}\n</script>\n",
         "code": "$.views.settings.debugMode(\"Error!\");  // Do not throw exception - render \"Error!\"\n\nvar team = {members: [\n {name:\"Jo\", address: {street: \"1st Ave\"}},\n {name:\"Bill\"},  // Bill does not have an address!!\n {name:\"Ava\", address: {street: \"Main St\"}}\n]};\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);\n",
         "title": "Debug mode set to a default string",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "100"
       },
       {
@@ -4294,7 +4294,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "title": "Debug mode set to empty string",
         "code": "$.views.settings.debugMode(\"\");   // Do not throw exception - render \"\"\n\nvar team = {members: [\n {name:\"Jo\", address: {street: \"1st Ave\"}},\n {name:\"Bill\"},  // Bill does not have an address!!\n {name:\"Ava\", address: {street: \"Main St\"}}\n]};\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);\n",
         "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>{{:name}} - <b>{{:address.street}}</b></div>\n{{/for}}\n</script>\n",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "90"
       },
       {
@@ -4323,7 +4323,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>Name: {{:name}}<br/>\n    {{:address.street onError='address'}}\n    <hr/>\n  </div>\n{{/for}}\n</script>\n",
         "code": "var team = {\n  members: [\n    {name: \"Bill\", address: {street: \"1st Ave\"}},\n    {name: \"Jane\", address: undefined}           // No address\n  ]\n};\n\nfunction onErrorHandler(e, fallback, view) {\n  console.log(e.message);\n  if (fallback === \"address\") {\n    return '<b>Address error</b> for ' + this.name + '. <em>(\"' + e.message + '\")</em>';\n  }\n}\n\n$.views.settings.debugMode(onErrorHandler);\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);\n",
         "title": "Debug mode &ndash; onError handler",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "para",
@@ -4465,7 +4465,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <div>\n    Team: {{:title}} -\n    {{mytag members/}}\n\n    {{if members.length\n      ~teamTitle=title\n      ~teamData=#data\n      ~teamIndex=#index\n    }}\n      Members: <ul>\n        {{for members\n          itemVar=\"~member\"\n        }}\n          <li>\n            {{:name}}\n            (\n              {{:~teamTitle}}\n              {{:~teamData.title}}\n              {{:#parent.parent.data.title}}\n              {{:#get(\"if\").data.title}}\n            )\n            <br/>\n            [\n              {{:~teamIndex}}\n              = {{:#parent.getIndex()}}\n              : {{:#getIndex()}}\n            ]\n            <br/>\n            {{props}}\n              {{:key}}: {{:prop}}\n              (\n                {{:~member.name}}\n              )\n            {{/props}}\n          </li>  \n        {{/for}}\n        </ul>\n    {{/if}}\n  </div>\n</script>\n\n<div id=\"result\"></div>",
         "code": "// mytag: custom tag to output \"1 member\" or \"n members\"\n$.views.tags(\"mytag\", \"{{:length == 1 ? '1 member' : length + ' members'}}<br/>\");\n// Alternative version of mytag:\n// $.views.tags(\"mytag\", \"{{if length == 1}}1 member{{else}}{{:length}} members{{/if}}<br/>\");\n\nvar teams = [\n  {title: \"The A Team\", members: [{name: \"Jeff\"}, {name: \"Maria\"}]},\n  {title: \"The B Team\", members: [{name: \"Francis\"}]}\n];\n\nvar html = $(\"#teamTemplate\").render(teams);\n\n$(\"#result\").html(html);",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "320"
       },
       {
@@ -4542,7 +4542,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name}}</td></tr>\n    <tr><td>Street:</td><td>{{:address.street}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones}}\n          <tr><td>{{:number}}</td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Data: hierarchy of plain objects and arrays\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n// Render template against plain object hierarchy\n$(\"#result\").html(tmpl.render(person));\n\n",
         "height": "150",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "Render template directly against plain objects..."
       },
       {
@@ -4615,7 +4615,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<script src=\"mvvm/person-view-models-jsr.js\" ></script>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address().street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>\n            {{:number()}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Instantiate View Model hierarchy\nvar person = new Person(\n  \"Pete\",\n  new Address(\"1st Ave\"),\n    [\n      new Phone(\"111 111 1111\"),\n      new Phone(\"222 222 2222\")\n    ]\n  );\n\n// Render template against person object (instance of Person)\n$(\"#result\").html(tmpl.render(person));",
         "height": "150",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "Render template against a View Model object hierarchy",
         "anchor": "vmsample"
       },
@@ -4676,7 +4676,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<style>button {margin-bottom: 9px;}</style>\n\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address().street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>\n            {{:number()}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  this.phones().push(Phone(phoneNo));\n}\n\n// Compile Person View Model, with addPhone method\nvar Person = $.views.viewModels({\n  getters: [\"name\", \"address\", \"phones\"],\n  extend: {addPhone: addPhone}\n});\n\n// Compile Address View Model\nvar Address = $.views.viewModels({getters: [\"street\"]});\n\n// Compile Phone View Model\nvar Phone = $.views.viewModels({getters: [\"number\"]});\n\n// Instantiate View Model hierarchy using constructors\nvar person = Person(\n  \"Pete\",\n  Address(\"1st Ave\"),\n  [Phone(\"111 111 1111\"), Phone(\"222 222 2222\")]\n);\n\n// Render template against person object (instance of Person)\n$(\"#result\").html(tmpl.render(person));\n\n// Button handlers\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");           // Use the name(...) setter\n  $(\"#result\").html(tmpl.render(person));\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");  // Call the addPhone(...) method\n  $(\"#result\").html(tmpl.render(person));\n});",
         "height": "190",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "Render template against a hierarchy of compiled View Model objects",
         "anchor": "compilevmsample"
       },
@@ -4816,7 +4816,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"result\"></div>\n\n<script id=\"myTemplate\" type=\"text/x-jsrender\">\n  {{:~format(title, true)}}\n\n  - availability:\n  {{if ~mode===\"filtered\"}}\n    <em>\n      {{:~utilities.subtractMax(sold) > 0\n          ? ~utilities.errorMessages.msg1\n          : \"immediate\"\n      }}\n    </em>\n  {{/if}}\n</script>",
         "title": "Register multiple helpers, including objects, etc.",
         "height": "40",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "para",
@@ -4925,7 +4925,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "title": "Global helper: $.views.helpers(...)",
         "code": "function myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\nvar myHelpers = {format: myFormatFunction};\n\n$.views.helpers(myHelpers);\n\nvar html = $(\"#personTemplate\").render({name: \"Robert\"});\n\n$(\"#person\").html(html);",
         "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{:~format(name, true)}}\n</script>",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "40"
       },
       {
@@ -4948,7 +4948,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "title": "Helper resource for a specific template",
         "code": "function myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\nvar myHelpers = {format: myFormatFunction};\n\n$.templates({\n  mytmpl: {\n    markup: \"#personTemplate\",\n    helpers: myHelpers\n  }\n});\n\nvar html = $.render.mytmpl({name: \"Robert\"});\n\n$(\"#person\").html(html);",
         "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{:~format(name)}}\n  {{:~format(name, true)}}\n</script>",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "40"
       },
       {
@@ -4971,7 +4971,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "title": "Passing helpers with  a render() call",
         "code": "function myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\nvar data = {name: \"Robert\"};\n\nvar myHelpers = {format: myFormatFunction};\n\nvar html = $(\"#personTemplate\").render(data, myHelpers); \n\n$(\"#person\").html(html);",
         "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  {{:~format(name, true)}}\n  {{:~format(name)}}\n</script>",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "40"
       },
       {
@@ -5048,7 +5048,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  This is the title:{{boldp title /}}\n</script>",
         "code": "function renderBoldP(value) {\n   return \"<p><b>\" + value + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "para",
@@ -5081,7 +5081,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp}}\n    This is inside our block content:<br/>\n    <em>{{:title}}</em>\n  {{/boldp}}\n</script>",
         "code": "function renderBoldP(val) {\n   return \"<p><b>\" + this.tagCtx.render(val) + \"</b></p>\";\n}\n\n$.views.tags(\"boldp\", renderBoldP);\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "para",
@@ -5109,7 +5109,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <p><b>{{:title}}</b></p>\n  <ul>\n    {{range members start=1 end=2}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
         "height": "120",
         "title": "3 - Accessing tagCtx properties from the tag render function",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "para",
@@ -5137,7 +5137,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  {{boldp title /}}\n</script>",
         "title": "1b - Simple custom tag using just a template",
         "height": "60",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "sample",
@@ -5160,7 +5160,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "$.views.tags(\"boldp\", {\n  template: \"<p><b>{{include tmpl=~tag.tagCtx.content/}}</b></p>\"\n});\n\nvar team = {\n  title: \"The A Team\"\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "80",
         "title": "2b - Rendering block content from a custom tag template",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "para",
@@ -5188,7 +5188,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "$.views.tags(\"range\", {\n  template: \n    \"{{for ~tag.tagCtx.args[0]}}\" +\n      \"{{if #index >= ~tag.tagCtx.props.start && #index <= ~tag.tagCtx.props.end}}\" +\n        \"{{include tmpl=~tag.tagCtx.content/}}\" +\n      \"{{/if}}\" +\n    \"{{/for}}\"\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);",
         "height": "120",
         "title": " 3b - Accessing more context from the tag template",
-        "onlyJsRender": true
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "para",
@@ -5215,7 +5215,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "$.views.tags({\n  range: {\n    render: function(array) {\n      var ret = \"\",\n        start = this.tagCtx.props.start,\n        end = this.tagCtx.props.end;\n      for (var i = start; i <= end; i++) {\n        if (array[i]) {\n          // Render tag block content, for this data item\n          ret += this.tagCtx.content.render(array[i]);\n        }\n      }\n      return ret || undefined;\n    },\n    template: \"<li>Nothing to render</li>\"\n  }\n});\n\nvar team = {\n  title: \"The A Team\",\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n};\n\nvar html = $(\"#teamTemplate\").render(team);\n\n$(\"#team\").html(html);\n",
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <h3>Members 2 to 4</h3>\n  <ul>\n    {{range members start=1 end=3}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n\n  <h3>Members 5 to 8</h3>\n  <ul>\n    {{range members start=4 end=7}} \n      <li>\n        {{:name}}\n      </li>\n    {{/range}}\n  </ul> \n</script>",
         "height": "206",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "A render() function and a template as \"fallback\""
       },
       {
@@ -5493,7 +5493,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "title": "'inlist' converter for {{if}} tag",
         "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <ul>\n    {{for people}}\n      <li>\n        <b>{{:name}}:</b>\n        {{if #data ~root.team convert='inlist'}}\n          Team member\n        {{else #data ~root.reserve field=\"name\"}}\n          Reserve\n        {{else}}\n          Not in team\n        {{/if}}\n      </li>\n    {{/for}}\n  </ul>\n</script>",
         "code": "var teamTmpl = $.templates(\"#teamTmpl\");\n\n// Converter function for looking for an item (first argument of tag) in a list (second argument of tag)\nfunction inlistConverter(item, list) {\n  // If no arguments, this is the final {{else}}\n  if (!list) {\n    return true; // Final else, so return true\n  }\n\n  var field = this.tagCtx.props.field;\n  var l = list.length;\n\n  // If the tag has a 'field' property, look for the value of that field among the list items\n  if (field) {\n    while (l--) {\n      if (item[field] === list[l]) {\n        return true; // Return true if found\n      }\n    }\n  }\n\n  // If no field property, look for the item among the list items\n  else {\n    while (l--) {\n      if (item === list[l]) {\n        return true; // Return true if found\n      }\n    }\n  }\n  return false; // Not found\n}\n\n// Register 'inlist' converter just for the 'teamTmpl' template \n$.views.converters({inlist: inlistConverter}, teamTmpl);\n\n// Define model \nvar model= {people: [\n    {name: \"Jo\"},\n    {name: \"Liza\"},\n    {name: \"Eli\"},\n    {name: \"Pete\"},\n    {name: \"Zoey\"}\n  ],\n  // Specify list of reserves, by name\n  reserve: [\"Eli\", \"Liza\"]\n};\n\n// Specify array of team members\nmodel.team = [model.people[0], model.people[3]];\n\n$(\"#result\").html(teamTmpl.render(model));\n",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "140",
         "anchor": "iftag"
       },
@@ -5522,7 +5522,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <ul>\n    {{for people}}\n      <li>\n        <b>{{:name}}:</b>\n        {{if #data ~root.team convert=~getConverter()}}\n          Team member\n        {{else #data ~root.reserve field=\"name\"}}\n          Reserve\n        {{else}}\n          Not in team\n        {{/if}}\n      </li>\n    {{/for}}\n  </ul>\n</script>",
         "code": "var teamTmpl = $.templates(\"#teamTmpl\");\n\n// Converter function for looking for an item (first argument of tag) in a list (second argument of tag)\nfunction inlistConverter(item, list) {\n  // If no arguments, this is the final {{else}}\n  if (!list) {\n    return true; // Final else, so return true\n  }\n\n  var field = this.tagCtx.props.field;\n  var l = list.length;\n\n  // If the tag has a 'field' property, look for the value of that field among the list items\n  if (field) {\n    while (l--) {\n      if (item[field] === list[l]) {\n        return true; // Return true if found\n      }\n    }\n  }\n\n  // If no field property, look for the item among the list items\n  else {\n    while (l--) {\n      if (item === list[l]) {\n        return true; // Return true if found\n      }\n    }\n  }\n  return false; // Not found\n}\n\n// Helper to dynamically assign converters\nfunction getConverter() {\n  return inlistConverter; // For this sample just return `inlistConverter` every time\n}\n\n// Register 'getConverter' helper just for the 'teamTmpl' template \n$.views.helpers(\"getConverter\", getConverter, teamTmpl);\n\n// Define model \nvar model= {people: [\n    {name: \"Jo\"},\n    {name: \"Liza\"},\n    {name: \"Eli\"},\n    {name: \"Pete\"},\n    {name: \"Zoey\"}\n  ],\n  // Specify list of reserves, by name\n  reserve: [\"Eli\", \"Liza\"]\n};\n\n// Specify array of team members\nmodel.team = [model.people[0], model.people[3]];\n\n$(\"#result\").html(teamTmpl.render(model));\n",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "140",
         "title": "Dynamically assigning a converter"
       },
@@ -5557,7 +5557,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var value = \"< > ' \\\" &\";\nvar result = $.views.converters.html(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});",
         "html": "<button id=\"show\">Show result</button>\n\n",
         "height": "46",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "Calling the HTML encoder"
       },
       {
@@ -5629,7 +5629,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var value = \"< > ' \\\" & =\";\nvar result = $.views.converters.attr(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});",
         "html": "<button id=\"show\">Show result</button>\n\n",
         "height": "46",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "Calling the 'attribute' encoder"
       },
       {
@@ -5706,7 +5706,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var value = \"<_>_\\\"_ \";\nvar result = $.views.converters.url(value);\n\n$(\"#show\").on(\"click\", function() {\n  alert(result);\n});",
         "html": "<button id=\"show\">Show result</button>\n",
         "height": "46",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "Calling the 'url' encoder"
       },
       {
@@ -5811,7 +5811,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  Name: {{:name}}. Upper case nickname: {{upper:nickname}}\n  <br/><br/>\n  {{upper: \"This will be upper case too\"}} \n</script>",
         "height": "90",
         "title": "A simple converter",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "anchor": "simple"
       },
       {
@@ -5839,7 +5839,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <p><label>Normal:</label> {{fullname:first last}}</p>\n  <p><label>Reverse:</label> {{fullname:first last reverse=true}}</p> \n</script>",
         "code": "$.views.converters(\"fullname\", function(first, last) {\n  var reverse = this.tagCtx.props.reverse;  \n  if (reverse) {\n    return last.toUpperCase() + \" \" + first;\n  }\n  return first + \" \" + last;\n});\n\nvar person = {first: \"Xavier\", last: \"Prieto\"};\n\nvar html = $(\"#personTemplate\").render(person);\n\n$(\"#person\").html(html);",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "90",
         "title": "Full name converter &ndash;  accessing multiple arguments",
         "anchor": "fullname"
@@ -5871,7 +5871,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"result\"></div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <table><tbody><tr>\n    <td><ul>{{for people convert='odd'}}<li>{{:name}}</li>{{/for}}</ul></td>\n    <td><ul>{{for people convert='even'}}<li>{{:name}}</li>{{/for}}</ul></td>\n  </tr></tbody></table>\n</script>",
         "code": "$.views.converters({\n  odd: function(arr) {\n    // return only the odd items in the array\n    return arr.filter(function(elem, index) {\n      return (index + 1)%2;\n    });\n  },\n  even: function(arr) {\n    // return only the even items in the array\n    return arr.filter(function(elem, index) {\n      return index%2;\n    });\n  }\n});\n\nvar model= {people: [\n  {name: \"Jo1\"},\n  {name: \"Jo2\"},\n  {name: \"Jo3\"},\n  {name: \"Jo4\"},\n  {name: \"Jo5\"},\n  {name: \"Jo6\"}\n]};\n\nvar html = $(\"#myTmpl\").render(model);\n\n$(\"#result\").html(html);",
         "title": "Using converters with the {{for}} tag",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "130",
         "anchor": "fortag"
       },
@@ -5900,7 +5900,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "code": "var helpers = {\n  hlp: {\n    bold: function(val) {\n      return \"<b>\" + val + \"</b>\";\n    },\n    italic: function(val) {\n      return \"<em>\" + val + \"</em>\";\n    }\n  }\n};\n\nvar model= {people: [\n    {name: \"Jo1\"},\n    {name: \"Jo2\"},\n    {name: \"Jo3\"},\n    {name: \"Jo4\"}\n  ],\n  filter: {\n    odd: function(arr) {\n      // return only the odd items in the array\n      return arr.filter(function(elem, index) {\n        return (index + 1)%2;\n      });\n    },\n    even: function(arr) {\n      // return only the even items in the array\n      return arr.filter(function(elem, index) {\n        return index%2;\n      });\n    }\n  }\n};\n\nvar html = $(\"#myTmpl\").render(model, helpers);\n\n$(\"#result\").html(html);",
         "html": "<div id=\"result\"></div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <table><tbody><tr>\n    <td><ul>\n      {{for people convert=filter.odd}}  {{!-- using data method --}}\n        <li>\n          {{:name convert=~hlp.bold}}    {{!-- using helper --}}\n        </li>\n      {{/for}}\n    </ul></td>\n    <td><ul>\n      {{for people convert=filter.even}} {{!-- using data method --}}\n        <li>\n          {{:name convert=~hlp.italic}}  {{!-- using helper --}}\n        </li>\n      {{/for}}\n    </ul></td>\n  </tr></tbody></table>\n</script>",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "height": "120"
       },
       {
@@ -6221,7 +6221,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<style>button {margin-bottom: 9px;}</style>\n\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address().street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>\n            {{:number()}}\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // name is a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n     {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  this.phones().push(vmCollection.Phone(phoneNo));\n}\n\n// person plain object hierarchy:\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Instantiate View Model hierarchy using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render template against person object (instance of Person)\n$(\"#result\").html(tmpl.render(person));\n\n// Button handlers\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");           // Use the name(...) setter\n  $(\"#result\").html(tmpl.render(person));\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");  // Call the addPhone(...) method\n  $(\"#result\").html(tmpl.render(person));\n});",
         "height": "190",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "title": "Using map() to convert from a plain object hierarchy to a View Model hierarchy",
         "anchor": "mapsample"
       },
@@ -6356,7 +6356,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "$(\"#getData\").on(\"click\", function() {\n  var updatedPersonData = person.unmap();  // Get plain object hierarchy from current View Model hierarchy\n  window.alert(JSON.stringify(updatedPersonData));\n});"
           }
         ],
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // name is a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n     {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  this.phones().push(vmCollection.Phone(phoneNo));\n}\n\n// First version of data (e.g. from JSON request):\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Second version of data (e.g. new JSON request):\nvar personData2 = {\n  name: \"Peter\",\n  address: {street: \"2nd Ave\"},\n  phones: [{number: \"111 111 9999\"},{number: \"333 333 9999\"}]\n};\n\n// Instantiate View Model hierarchy, using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render template against person object (instance of Person)\n$(\"#result\").html(tmpl.render(person));\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  // Update View Model hierarchy, using merge()\n  person.merge(personData2);\n  $(\"#result\").html(tmpl.render(person));\n});\n\n$(\"#revert\").on(\"click\", function() {\n  // Revert View Model hierarchy, using merge()\n  person.merge(personData);\n  $(\"#result\").html(tmpl.render(person));\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");           // Use the name(...) setter\n  $(\"#result\").html(tmpl.render(person));\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");  // Call the addPhone(...) method\n  $(\"#result\").html(tmpl.render(person));\n});\n\n$(\"#getData\").on(\"click\", function() {\n  // Get current data, using unmap()\n  var updatedPersonData = person.unmap();\n  window.alert(JSON.stringify(updatedPersonData));\n});",
         "html": "<style>button {margin-bottom: 9px;}</style>\n\n<button id=\"update\">Update</button>\n<button id=\"revert\">Revert</button>\n<button id=\"getData\">Get Data</button><br/>\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address().street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>{{:number()}}</td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "height": "230",
@@ -6400,7 +6400,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var tmpl = $.templates(\"#personTmpl\");\n\nvar myVmCollection = {};\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      {getter: \"name\", defaultVal: \"No name\"}, // Compiled name() get/set\n      {getter: \"address\", type: \"Address\", defaultVal: defaultAddress},\n      {getter: \"phones\", type: \"Phone\", defaultVal: []}\n    ],\n    extend: {\n      name: myNameGetSet,                      // Override name() get/set\n      addPhone: addPhone,\n      comment: comment                         // Additional get/set property, not initialized by data)\n    },\n    id: function(vm, plain) {                  // Callback function to determine 'identity'\n      return vm.personId === plain.personId;\n    }\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone: {\n    getters: [\"number\"],\n    id: \"phoneId\"                              // Treat phoneId as 'primary key', for identity\n  }\n}, myVmCollection);                            // Store View Models (typed hierarchy) on myVmCollection\n\n// Override generated name() get/set\nfunction myNameGetSet(val) {\n  if (!arguments.length) {                     // This is standard compiled get/set code\n    return this._name;                         // If there is no argument, use as a getter\n  }\n  this._name = val;                            // If there is an argument, use as a setter\n  console.log(\"name set to \" + val);           // This is an additional line of code, for logging\n}\n\n// Method for Person class\nfunction addPhone(phoneNo) {                   // Uses myVmCollection.Phone() to construct new instance\n  this.phones().push(myVmCollection.Phone(phoneNo));\n}\n\n// get/set for comment (state on View Model instance, not initialized from data)\nfunction comment(val) {\n  if (!arguments.length) {\n    return this._comment;                      // If there is no argument, use as a getter\n  }\n  this._comment = val;\n}\n\nfunction defaultAddress() {                    // Function providing default address if undefined in data\n  return {street: 'No street for \"' + this.name + '\"'};\n}\n\n// First version of data - array of objects (e.g. from JSON request):\nvar peopleData = [\n  {\n    personId: \"1\",\n    address: {\n      street: \"2nd Ave\"\n    }\n  },\n  {\n    personId: \"2\",\n    name: \"Pete\",\n    phones: [\n      {number: \"333 333 3333\", phoneId: \"2a\"}\n    ]\n  }\n];\n\n// Second version of data - JSON string (e.g. new JSON request):\nvar peopleData2 = '[{\"personId\":\"2\",\"name\":\"Peter\",\"address\":{\"street\":\"11 1st Ave\"},'\n+ '\"phones\":[{\"number\":\"111 111 9999\",\"phoneId\":\"1a\"},{\"number\":\"333 333 9999\",\"phoneId\":\"2a\"}]}]';\n\n// Instantiate View Model hierarchy using map()\nvar people = myVmCollection.Person.map(peopleData);\n\n// Render template against people (array of Person instances)\n$(\"#result\").html(tmpl.render(people));\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  people.merge(peopleData2);\n  $(\"#result\").html(tmpl.render(people));\n});\n\n$(\"#revert\").on(\"click\", function() {\n  people.merge(peopleData);\n  $(\"#result\").html(tmpl.render(people));\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  people[0].name(\"newName\");\n  $(\"#result\").html(tmpl.render(people));\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  people[0].addPhone(\"xxx xxx xxxx\");\n  $(\"#result\").html(tmpl.render(people));\n});\n\n$(\"#result\").on(\"change\", \".comment\", function(val) {\n  // If comment is modified, update View Model state with new value\n  people[this.getAttribute(\"data-index\")].comment(this.value);\n});\n\n$(\"#getData\").on(\"click\", function() {\n  var updatedPeopleData = people.unmap();\n  window.alert(JSON.stringify(updatedPeopleData));\n});\n",
         "html": "<style>button, table {margin-bottom: 9px;}</style>\n\n<button id=\"update\">Update</button>\n<button id=\"revert\">Revert</button>\n<button id=\"getData\">Get Data</button><br/>\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Comment:</td><td><input class=\"comment\" data-index=\"{{:#index}}\" value=\"{{:comment()}}\"/></td></tr>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address().street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>{{:number()}}</td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "height": "350",
-        "onlyJsRender": true,
+        "jsrJsvJqui": "jsr",
         "anchor": "mergeadvsample",
         "title": "Mapping from JSON data to View Model hierarchy &ndash; further features"
       },
