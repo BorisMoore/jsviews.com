@@ -683,12 +683,12 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "tree control"
           },
           {
-            "hash": "samples/tag-controls/edit",
-            "label": "edit control"
-          },
-          {
             "hash": "samples/tag-controls/validate",
             "label": "validate control"
+          },
+          {
+            "hash": "samples/tag-controls/simple-textbox",
+            "label": "Simple textbox control"
           },
           {
             "hash": "samples/tag-controls/range",
@@ -1061,36 +1061,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "samples/tag-controls/edit": {
-    "title": "Samples: Two-way binding with custom tag controls",
-    "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "These samples show you how to create custom tag controls that provide for two-data binding -- i.e. controls that which allow not only for viewing data, but for modifying (or editing) data.\n\nThe first, the <a href=\"#samples/tag-controls/edit/simple-textbox\">simple textbox control</a> is a very simple and minimalistic example, showing the basic concept of a <em>linkedElem</em> HTML element which the control uses for actual data entry.\n\nThe second and third, -- the *[Generic edit control](#samples/tag-controls/edit/generic)* and the *[Array binding](#samples/tag-controls/edit/array-binding)* samples -- both use the powerful `{{edit}}` tag which can be associated with different types of user entry control (from <em>textbox</em> to <em>radio button group</em>) and also provides the basis for other controls such as the <a href=\"#samples/tag-controls/datepicker\">`{{datepicker}}`</a> and <a href=\"#samples/tag-controls/validate\">`{{validate}}`</a> controls."
-      },
-      {
-        "_type": "links",
-        "title": "Samples:",
-        "links": [],
-        "topics": [
-          {
-            "hash": "samples/tag-controls/edit/simple-textbox",
-            "label": "Simple textbox control"
-          },
-          {
-            "hash": "samples/tag-controls/edit/generic",
-            "label": "Generic edit control"
-          },
-          {
-            "hash": "samples/tag-controls/edit/array-binding",
-            "label": "Array binding"
-          }
-        ]
-      }
-    ]
-  },
   "samples/tag-controls/validate": {
     "title": "Samples: A JsViews \"validate\" tag control",
     "path": "",
@@ -1098,7 +1068,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "These samples take the `{{edit}}` tag control above, and derive from it to provide a `{{validate}}` control.\n\nThis allows all the variants of the `{{edit}}` control (as <em>text box</em>, <em>dropdown</em>, <em>checkbox</em>, <em>radio button group</em>, or <em>textarea</em>) to support validation.\n\nIn addition, a `{{validation}}` control adds group validation. See the date-picker validation wizard sample, as an example of using the group validation features: In that sample, the <em>next</em> button is only enabled when all controls on the current pane validate successfully."
+        "text": "These samples use the custom `{{validate}}` tag control.\n\nThis provides validation support to all the two-way bound controls based on form elements, such as <em>text box</em>, <em>dropdown</em>, <em>checkbox</em>, <em>radio button group</em> or <em>textarea</em>, as well as to custom tags such as the `{{datepicker}}` and `{{slider}}` controls.\n\nIn addition, a `{{validation}}` control adds group validation. See the date-picker validation wizard sample, as an example of using the group validation features: In that sample, the <em>next</em> button is only enabled when all controls on the current pane validate successfully."
       },
       {
         "_type": "links",
@@ -1128,7 +1098,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "The `{{datepicker}}` tag derives from the `{{edit}}` tag, and integrates the <em>jQueryUI datepicker widget</em>.\n\nThis allows data-linking directly to widget properties, as well as using the `{{edit}}` tag functionality such as <em>convert</em> and <em>convertBack</em>.\n\nIn addition, validation support is obtained, simply by wrapping a `{{datepicker}}` tag with a `{{validation}}`."
+        "text": "The `{{datepicker}}` tag integrates the <em>jQueryUI datepicker widget</em>.\n\nThis allows data-linking directly to widget properties, as well as using generic tag functionality such as <em>convert</em> and <em>convertBack</em>.\n\nIn addition, validation support is obtained, simply by wrapping a `{{datepicker}}` tag with a `{{validation}}`."
       },
       {
         "_type": "links",
@@ -1166,7 +1136,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "The `{{slider}}` tag derives from the `{{edit}}` tag, and integrates the <em>jQueryUI slider widget</em>.\n\nThis allows data-linking directly to widget properties, as well as using the `{{edit}}` tag functionality such as <em>convert</em> and <em>convertBack</em>.\n\nIn addition, validation support is obtained, simply by wrapping a `{{slider}}` tag with a `{{validation}}`."
+        "text": "The `{{slider}}` tag derives integrates the <em>jQueryUI slider widget</em>.\n\nThis allows data-linking directly to widget properties, as well as using generic tag functionality such as <em>convert</em> and <em>convertBack</em>.\n\nIn addition, validation support is obtained, simply by wrapping a `{{slider}}` tag with a `{{validation}}`."
       },
       {
         "_type": "links",
@@ -1291,21 +1261,15 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "To add validation to a datepicker, simply wrap with a `{{validation}}` tag.\n\n```jsr\n{^{validate startDate\n  required=true\n  ^maxday=endDate\n}}\n  {^{datepicker _numberOfMonths=2 /}}\n{{/validate}}\n```"
+            "text": "To add validation to a datepicker, simply wrap with a `{{validation}}` tag.\n\n```jsr\n{^{validate startDate\n  required=true\n  ^maxday=endDate\n}}\n  {^{datepicker startDate _numberOfMonths=2 /}}\n{{/validate}}\n```"
           }
         ],
         "codetabs": [
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/generic-edit/edit.js",
-            "label": "edit.js"
-          },
-          {
-            "_type": "codetab",
-            "name": "",
             "url": "download/sample-tag-controls/validate/validate.js",
-            "label": "validation.js"
+            "label": "validate.js"
           },
           {
             "_type": "codetab",
@@ -1338,7 +1302,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "The sample shows a wizard, using `{^{if ...}} ... {{else ...}} ... {{else ...}} ... {{else}} ... {{/if}}` to manage displaying the separate wizard steps, one after the other...\n\nMoving to the next step is not possible until the <em>validate</em> controls on the current step are all valid. \n\nThis is achieved by wrapping in a validation group `{{validation}}`.\n\nThe enabled/disabled state of the <em>Next</em> button is data-linked to the `validation.isValid` property:\n\n```jsr\n{^{validation}}\n  ...\n  <button id=\"next\" data-link=\"... disabled{:!~tag.isValid}\">Next</button>\n  ...\n  <h4>Choose a start date:</h4> \n  {^{validate startDate\n    required=true\n    ^maxday=endDate\n  }}\n    {^{datepicker _numberOfMonths=1 /}}\n  {{/validate}}\n  ...\n{{/validation}}\n```"
+            "text": "The sample shows a wizard, using `{^{if ...}} ... {{else ...}} ... {{else ...}} ... {{else}} ... {{/if}}` to manage displaying the separate wizard steps, one after the other...\n\nMoving to the next step is not possible until the <em>validate</em> controls on the current step are all valid. \n\nThis is achieved by wrapping in a validation group `{{validation}}`.\n\nThe enabled/disabled state of the <em>Next</em> button is data-linked to the `validation.isValid` property:\n\n```jsr\n{^{validation}}\n  ...\n  <button id=\"next\" data-link=\"... disabled{:!~tag.isValid}\">Next</button>\n  ...\n  <h4>Choose a start date:</h4> \n  {^{validate startDate\n    required=true\n    ^maxday=endDate\n  }}\n    {^{datepicker startDate _numberOfMonths=1 /}}\n  {{/validate}}\n  ...\n{{/validation}}\n```"
           }
         ],
         "title": "",
@@ -1347,14 +1311,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/generic-edit/edit.js",
-            "label": "edit.js"
-          },
-          {
-            "_type": "codetab",
-            "name": "",
             "url": "download/sample-tag-controls/validate/validate.js",
-            "label": "validation.js"
+            "label": "validate.js"
           },
           {
             "_type": "codetab",
@@ -1621,14 +1579,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/generic-edit/edit.js",
-            "label": "edit.js"
-          },
-          {
-            "_type": "codetab",
-            "name": "",
             "url": "download/sample-tag-controls/validate/validate.js",
-            "label": "validation.js"
+            "label": "validate.js"
           },
           {
             "_type": "codetab",
@@ -1648,7 +1600,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "To add validation to a slider, simply wrap with a `{{validation}}` tag.\n\n```jsr\n{^{validate size\n  min=20\n  max=150\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  {^{slider _orientation='vertical' ... /}}\n{{/validate}}\n```\n\nor\n\n```jsr\n{^{validate size\n  min=50 max=100\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  <div data-link=\"{slider _orientation='vertical' ...}\"></div>\n{{/validate}}\n```"
+            "text": "To add validation to a slider, simply wrap with a `{{validation}}` tag.\n\n```jsr\n{^{validate size\n  min=20\n  max=150\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  {^{slider size _orientation='vertical' ... /}}\n{{/validate}}\n```\n\nor\n\n```jsr\n{^{validate size\n  min=50 max=100\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  <div data-link=\"{slider size _orientation='vertical' ...}\"></div>\n{{/validate}}\n```"
           }
         ],
         "url": "samples/tag-controls/jqueryui/slider/with-validation/sample",
@@ -1668,14 +1620,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/generic-edit/edit.js",
-            "label": "edit.js"
-          },
-          {
-            "_type": "codetab",
-            "name": "",
             "url": "download/sample-tag-controls/validate/validate.js",
-            "label": "validation.js"
+            "label": "validate.js"
           }
         ],
         "sectionTypes": {
@@ -1689,12 +1635,12 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "The `{{validate}}` tag derives from the `{{edit}}` tag, and can similarly be used as <em>textbox</em>, <em>checkbox</em>, <em>dropdown</em>, <em>radio buttons</em>, <em>textarea</em>.\n\nIn each case optional properties can be specified on the edit tag, not only for <em>convert</em>, <em>convertBack</em>, <em>linkTo</em> etc., but also properties specifying validation tests (validators) to be applied, such as `minLength=3`."
+            "text": "The `{{validate}}` tag can be used as a validating <em>textbox</em>, <em>checkbox</em>, <em>dropdown</em>, <em>radio button group</em> or <em>textarea</em>.\n\nIn each case optional properties can be specified on the validate tag, not only for <em>convert</em>, <em>convertBack</em>, <em>linkTo</em> etc., but also properties specifying validation tests (validators) to be applied, such as `minLength=3`."
           },
           {
             "_type": "para",
             "title": "Data-linked textbox",
-            "text": "```jsr\n{^{validate name\n  minLength=3\n  msg_minLength='The name ... %cond% ...'\n  convert=\"upper\"\n  convertBack=~lower\n}}\n```\n\nor\n\n```jsr\n<input data-link=\"{validate name\n  minLength=3\n  msg_minLength='The name ... %cond% ...'\n  convert='upper'\n  convertBack=~lower\n}\"/>\n```"
+            "text": "```jsr\n{^{validate person\n  minLength=3\n  msg_minLength='The name ... %cond% ...'\n  convert=\"upper\"\n  convertBack=~lower\n}}\n```\n\nor\n\n```jsr\n<input data-link=\"{validate person\n  minLength=3\n  msg_minLength='The name ... %cond% ...'\n  convert='upper'\n  convertBack=~lower\n}\"/>\n```"
           },
           {
             "_type": "para",
@@ -1704,12 +1650,12 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "Data-linked drop down",
-            "text": "```jsr\n{^{validate name ...}} \n  <select size=\"3\">\n    <option value=\"JO\">Jo</option>\n    <option value=\"MARY\">Mary</option>\n  </select>\n{{/validate}}\n```\n\nor\n\n```jsr\n<select size=\"3\" data-link=\"{validate name ...'}\">\n  <option value=\"JO\">Jo</option>\n  <option value=\"MARY\">Mary</option>\n</select>\n```"
+            "text": "```jsr\n{^{validate person ...}} \n  <select size=\"3\">\n    <option value=\"JO\">Jo</option>\n    <option value=\"MARY\">Mary</option>\n  </select>\n{{/validate}}\n```\n\nor\n\n```jsr\n<select size=\"3\" data-link=\"{validate person ...'}\">\n  <option value=\"JO\">Jo</option>\n  <option value=\"MARY\">Mary</option>\n</select>\n```"
           },
           {
             "_type": "para",
             "title": "Data-linked radio buttons",
-            "text": "```jsr\n{^{validate person ...}}\n  <div class=\"radiogroup\">\n    <input type=\"radio\" person=\"gp2\" value=\"JO\"/>\n    ...\n  </div>\n{{/validate}}\n```\n\nor\n\n```jsr\n<div data-link=\"{validate person ...}\" class=\"radiogroup\">\n  <input type=\"radio\" name=\"gp1\" value=\"JO\"/>\n  ...\n</div>\n```"
+            "text": "```jsr\n{^{validate name radiogroup=true ...}}\n  <div>\n    <label><input type=\"radio\" value=\"JO\" /> Jo</label>\n    ...\n  </div>\n{{/validate}}\n```\n\nor\n\n```jsr\n<div data-link=\"{validate name radiogroup=true ...}\">\n  <label><input type=\"radio\" value=\"JO\" /> Jo</label>\n  ...\n</div>\n```"
           },
           {
             "_type": "para",
@@ -1733,14 +1679,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/generic-edit/edit.js",
-            "label": "edit.js"
-          },
-          {
-            "_type": "codetab",
-            "name": "",
             "url": "download/sample-tag-controls/validate/validate.js",
-            "label": "validation.js"
+            "label": "validate.js"
           }
         ],
         "sectionTypes": {
@@ -1768,7 +1708,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "sections": [
       {
         "_type": "code",
-        "title": "",
+        "title": "Top-level form element binding",
         "code": "$(\"#amountPickers\").link(true, data);"
       },
       {
@@ -1786,11 +1726,16 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This version of the sample uses <em>top-level data-linking</em>. An HTML container element in the page is data-linked as follows: \n\n```js\n$(\"#amountPickers\").link(true, data);\n```\n\nand elements within the data-linked container are linked to the data using <em>element-based data-linking syntax</em>:\n\n```jsr\n<div id=\"amountPickers\">\n  ...\n  <span data-link=\"amount\"></span>\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount\" />\n  ...\n  <select data-link=\"amount\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"amount\" />\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</div>\n```\n\nNote the above examples use compact data-linking syntax:\n\n```jsr\ndata-link=\"amount\"\n```\n\nwhich is equivalent to the following full syntax:\n\n```jsr\ndata-link=\"{:amount:}\".\n```\n\nUse the full syntax if you need to specify converters, data-linking targets other than the default, or if you need to data-link to more than one target on the same element. For example the following targets both the default binding for `<select>` and also the `size` attribute:\n\n```jsr\n<select data-link=\"{:amount:} size{:listbox ? 4 : null}\">\n```"
+            "text": "This version of the sample uses <em>top-level data-linking</em>. An HTML container element in the page is data-linked as follows: \n\n```js\n$(\"#amountPickers\").link(true, data);\n```\n\nand elements within the data-linked container are linked to the data using <em>element-based data-linking syntax</em>:\n\n```jsr\n<div id=\"amountPickers\">\n  ...\n  <span data-link=\"amount\"></span>\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount\" />\n  ...\n  <select data-link=\"amount\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <div data-link=\"{radiogroup amount}\">\n    <label><input type=\"radio\" value=\"0\" /> 0</label>\n    ...\n  </div>\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</div>\n```\n\nNote the above examples use compact data-linking syntax:\n\n```jsr\ndata-link=\"amount\"\n```\n\nwhich is equivalent to the following full syntax:\n\n```jsr\ndata-link=\"{:amount:}\".\n```\n\nUse the full syntax if you need to specify converters, data-linking targets other than the default, or if you need to data-link to more than one target on the same element. For example the following targets both the default binding for `<select>` and also the `size` attribute:\n\n```jsr\n<select data-link=\"{:amount:} size{:listbox ? 4 : null}\">\n```"
           }
         ],
         "url": "samples/form-els/simple/top-level",
         "height": "806"
+      },
+      {
+        "_type": "code",
+        "title": "Form element binding within a template",
+        "code": "$.templates(\"#tmpl\").link(\"#amountPickers\", data);"
       },
       {
         "_type": "sample",
@@ -1807,7 +1752,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This version of the sample uses <em>data-linking within a template</em>. The template is rendered and data-linked within an HTML container element as follows: \n\n```js\n$.templates(\"#tmpl\").link(\"#amountPickers\", data);\n```\n\nand elements within the template are linked to the data using either <em>element-based data-linking syntax</em> or <em>JsViews tag-based data-linking syntax</em>:\n\n```jsr\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  ...\n  <b data-link=\"amount+1\"></b>\n  ...\n  {^{:amount}}\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount\" />\n  ...\n  <select data-link=\"{:amount:} size{:listbox ? 4 : null}\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"amount\" />\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</script>\n\n<div id=\"amountPickers\"></div>\n```"
+            "text": "This version of the sample uses <em>data-linking within a template</em>. The template is rendered and data-linked within an HTML container element as follows: \n\n```js\n$.templates(\"#tmpl\").link(\"#amountPickers\", data);\n```\n\nand elements within the template are linked to the data using either <em>element-based data-linking syntax</em> or <em>JsViews tag-based data-linking syntax</em>:\n\n```jsr\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  ...\n  <b data-link=\"amount+1\"></b>\n  ...\n  {^{:amount}}\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount\" />\n  ...\n  <select data-link=\"{:amount:} size{:listbox ? 4 : null}\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <div data-link=\"{radiogroup amount}\">\n    <label><input type=\"radio\" value=\"0\" /> 0</label>\n    ...\n  </div>\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</script>\n\n<div id=\"amountPickers\"></div>\n```"
           }
         ],
         "url": "samples/form-els/simple/template",
@@ -1849,7 +1794,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "<span class=\"nonitalic\">Binding <em>number</em> data values to <em>string</em> values in UI:</span>",
-            "text": "```js\nintToStr: function(value) { return \"\" + value; },\nstrToInt: function (value) { return parseInt(value); }\n```\n\n```jsr\n<input data-link=\"{intToStr:amount:strToInt}\"/>...\n<select data-link=\"{intToStr:amount:strToInt} ...\">...\n<input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"{intToStr:amount:strToInt}\" />...\n<textarea data-link=\"{intToStr:amount:strToInt}\" ...></textarea>...\n```"
+            "text": "```js\nintToStr: function(value) { return \"\" + value; },\nstrToInt: function (value) { return parseInt(value); }\n```\n\n```jsr\n<input data-link=\"{intToStr:amount:strToInt}\"/>...\n<select data-link=\"{intToStr:amount:strToInt} ...\">...\n{^{radiogroup amount convert=\"intToStr\" convertBack=\"strToInt\"}}\n<input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"{intToStr:amount:strToInt}\" />...\n<textarea data-link=\"{intToStr:amount:strToInt}\" ...></textarea>...\n```"
           },
           {
             "_type": "para",
@@ -1907,7 +1852,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This sample is similar to the previous <a href=\"#samples/form-els/converters\">converters</a> sample -- but here the `amount` can be selected from a range of integers that is chosen by the user (by choosing the number of bits!).\n\nThe array of possible integers is then generated from code:\n\n```js\nfunction setData() {\n  ...\n  newAmounts = [];\n  ...\n  var maxAmount = Math.pow(2, bitCount);\n  for(var i = 0; i < maxAmount ; i++) {\n    newAmounts.push(i);\n  }\n  ...\n  $.observable(amounts).refresh(newAmounts);\n}\n```\n\nThe collection of `<input type=\"radio\">` elements, and the collection of `<option>` elements under the `<select>` are dynamically driven by data-linking to the `amounts` array:\n\n```jsr\n{^{for amounts}}\n  <input type=\"radio\" name=\"amt\" value=\"{{:#data}}\" data-link=\"{intToStr:~root.amount:strToInt}\" />\n  {{:#data}}...\n{{/for}}\n```\n\n```jsr\n<select data-link=\"{intToStr:amount:strToInt} size{:listbox ? amounts.length : null}\">\n  {^{for amounts}}\n    <option data-link=\"value{:#data}\">{{:#data}}</option>\n  {{/for}}\n</select>\n```"
+            "text": "This sample is similar to the previous <a href=\"#samples/form-els/converters\">converters</a> sample -- but here the `amount` can be selected from a range of integers that is chosen by the user (by choosing the number of bits!).\n\nThe array of possible integers is then generated from code:\n\n```js\nfunction setData() {\n  ...\n  newAmounts = [];\n  ...\n  var maxAmount = Math.pow(2, bitCount);\n  for(var i = 0; i < maxAmount ; i++) {\n    newAmounts.push(i);\n  }\n  ...\n  $.observable(amounts).refresh(newAmounts);\n}\n```\n\nThe collection of `<input type=\"radio\">` elements, and the collection of `<option>` elements under the `<select>` are dynamically driven by data-linking to the `amounts` array:\n\n```jsr\n{^{radiogroup amount convert='intToStr' convertBack='strToInt'}}\n  {^{for amounts}}\n    <label><input type=\"radio\" value=\"{{:#data}}\" /> {{:#data}}</label>\n    ...\n  {{/for}}\n{{/radiogroup}}\n```\n\n```jsr\n<select data-link=\"{intToStr:amount:strToInt} size{:listbox ? amounts.length : null}\">\n  {^{for amounts}}\n    <option data-link=\"value{:#data}\">{{:#data}}</option>\n  {{/for}}\n</select>\n```"
           }
         ],
         "url": "samples/form-els/array-binding/sample",
@@ -1940,7 +1885,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<div data-link=\"visible{:name}\">\n...\n<div data-link=\"visible{:name && selectedMovie!=='none'}\">\n...\n<div data-link=\"visible{:request}\">\n```\n\n```jsr\n<select data-link=\"selectedMovie\">\n  <option value=\"none\">Choose...</option>\n  {{for ~movies}}\n    <option value=\"{{:#index}}\">{{>title}}</option>\n  {{/for}}\n</select>\n```\n\n```jsr\n<textarea data-link=\"request\" ...></textarea>\n```\n\n```jsr\n<input type=\"checkbox\" data-link=\"~app.chooseCurrency\" />\n```\n\n```jsr\n{{for ~currencies ~details=#data}}\n  <input \n    type=\"radio\"\n    name=\"currencyPicker\"\n    value=\"{{:#index}}\"\n    data-link=\"~details.selectedCurrency\"\n  />{{:label}}<br/>\n{{/for}}\n```"
+            "text": "```jsr\n<div data-link=\"visible{:name}\">\n...\n<div data-link=\"visible{:name && selectedMovie!=='none'}\">\n...\n<div data-link=\"visible{:request}\">\n```\n\n```jsr\n<select data-link=\"selectedMovie\">\n  <option value=\"none\">Choose...</option>\n  {{for ~movies}}\n    <option value=\"{{:#index}}\">{{>title}}</option>\n  {{/for}}\n</select>\n```\n\n```jsr\n<textarea data-link=\"request\" ...></textarea>\n```\n\n```jsr\n<input type=\"checkbox\" data-link=\"~app.chooseCurrency\" />\n```\n\n```jsr\n{^{radiogroup selectedCurrency}}\n  {{for ~currencies}}\n    <label><input type=\"radio\" value=\"{{:#index}}\" /> {{:label}}</label>\n  {{/for}}\n{{/radiogroup}}\n```"
           }
         ],
         "url": "samples/form-els/visible-binding/sample",
@@ -1977,105 +1922,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "samples/tag-controls/edit/array-binding": {
-    "title": "Sample: Array binding with the edit control",
-    "path": "",
-    "sections": [
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [
-          {
-            "_type": "codetab",
-            "name": "",
-            "url": "download/sample-tag-controls/generic-edit/edit.js",
-            "label": "edit.js"
-          }
-        ],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "This sample is similar to the previous <a href=\"#samples/tag-controls/edit/generic\">edit control</a> sample -- but here the `people` array can be modified -- by adding or removing people, or changing their `name` property.\n\n```js\n.on(\"click\", \"#add\", function() {\n  $.observable(model.people).insert({name: \"new\"...});\n})\n.on(\"click\", \".remove\", function() {\n  var view = $.view(this);\n  $.observable(model.people).remove(view.index);\n});\n```\n\nThe collection of `<option>` elements or `<input type=\"radio\">` elements is dynamically driven by data-linking to the `people` array:\n\n```jsr\n{^{edit person ...}}\n  <select>\n    {^{for ~people}}\n      <option data-link=\"value{upper:name} {:name}\"></option>\n    {{/for}}\n  </select>\n{{/edit}}\n```\n\n```jsr\n{^{edit person ...}}\n  <div class=\"radiogroup\">\n    {^{for ~people}}\n      <input type=\"radio\" name=\"gp1\" data-link=\"value{upper:name}\"/>...\n    {{/for}}\n  </div>\n{{/edit}}\n```"
-          }
-        ],
-        "title": "The  {{edit}} tag with &lt;option> collections or &ltinput type=\\\"radio\\\"> collections data-linked to arrays",
-        "height": "900",
-        "url": "samples/tag-controls/edit/array-binding/sample"
-      }
-    ]
-  },
-  "samples/tag-controls/edit/generic": {
-    "title": "Sample: Generic edit control",
-    "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "This sample takes the previous *[Simple textbox](#samples/tag-controls/edit/simple-textbox)* sample a lot further, and shows a powerful generic custom `{{edit}}` tag control which allows you to provide <em>editable data</em> support through two-way data-binding associated with any of the standard <em>HTML Form</em> controls.\n\nIt can be associated with a <em>text box</em>, a <em>dropdown</em>, a <em>checkbox</em>, a <em>radio button group</em>, or a <em>textarea</em>.\n\nNote that you can also data-link directly to <em>HTML Form elements</em>, as shown in the *[Form elements](#samples/form-elems)* samples. \n\nHowever, the `{{edit}}` custom tag allows you to provide additional functionality, along with the syntactic advantages and power of custom tags: `{{mytag mydata myproperty=xxx...}}`:\n\n- You can use it as the starting point for your own tags, (and if you wish you can remove functionality, to create something simpler, as was done in the [simple text box](#samples/tag-controls/edit/simple-textbox) example).\n- Alternatively you can use it as the *base class* for your own custom tag.\n- See the later [datepicker](#samples/tag-controls/datepicker) and [slider](#samples/tag-controls/slider) samples for examples of using the `{{edit}}` as base class for your own control. You could use the same approach to create a tag that encapsulates other *jQuery UI* widgets, or that wraps controls from other client-side UI libraries.\n\nOut of the box, `{{edit}}` already provides some useful functionality beyond the simple data-linked [form elements](#samples/form-elems):\n\n- It allows optional *convert* and *convertBack* converters to be associated with the control -- no matter what type of control it is (*radio buttons*, *select*, *textarea*...).\n- It also provides *linkTo* support to allow two-way binding where the *'bind from'* source data node and the *'bind to'* target data node are different nodes (as distinct from normal two-way binding on a single data node).\n- The `{{edit}}` control can be used with either data-linked tag syntax (`{^{edit ...}}`) or element-based data-linking syntax (`data-link=\"{edit ...}\"`).\n\nIt will be used as a *base control* for the [`{{validate}}`](#samples/tag-controls/validate), [`{{datepicker}}`](#samples/tag-controls/datepicker) and [`{{slider}}`](#samples/tag-controls/slider) controls that are shown in later samples, below. "
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [
-          {
-            "_type": "codetab",
-            "name": "",
-            "url": "download/sample-tag-controls/generic-edit/edit.js",
-            "label": "edit.js"
-          }
-        ],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "The `{{edit}}` tag can be used as <em>textbox</em>, <em>checkbox</em>, <em>dropdown</em>, <em>radio buttons</em>, <em>textarea</em>.\n\nIn each case optional properties can be specified on the edit tag for <em>convert</em>, <em>convertBack</em>, <em>linkTo</em> etc."
-          },
-          {
-            "_type": "para",
-            "title": "Data-linked textbox",
-            "text": "```jsr\n{^{edit name\n  convert=\"upper\"\n  convertBack=~lower\n  linkTo=name2\n}}\n```\n\nor\n\n```jsr\n<input data-link=\"{edit name\n  convert='upper'\n  convertBack=~lower\n  linkTo=name2\n}\"/>\n```"
-          },
-          {
-            "_type": "para",
-            "title": "Data-linked checkbox",
-            "text": "```jsr\n<!-- optionally include properties on {{edit ...}} tag, such as convert, convertBack, linkTo, ... -->\n{^{edit agree ...}}\n  <input type=\"checkbox\"/>\n{{/edit}}\n```\n\nor\n\n```jsr\n<!-- optionally include properties on {edit ...} tag, such as convert etc. -->\n<input type=\"checkbox\" data-link=\"{edit agree ...}\"/>\n```"
-          },
-          {
-            "_type": "para",
-            "title": "Data-linked drop down",
-            "text": "```jsr\n{^{edit name ...}}\n  <select size=\"3\">\n    <option value=\"JO\">Jo</option>\n    <option value=\"MARY\">Mary</option>\n  </select>\n{{/edit}}\n```\n\nor\n\n```jsr\n<select size=\"3\" data-link=\"{edit name ...'}\">\n  <option value=\"JO\">Jo</option>\n  <option value=\"MARY\">Mary</option>\n</select>\n```"
-          },
-          {
-            "_type": "para",
-            "title": "Data-linked radio buttons",
-            "text": "```jsr\n{^{edit person ...}}\n  <div class=\"radiogroup\">\n    <input type=\"radio\" person=\"gp2\" value=\"JO\"/>\n    ...\n  </div>\n{{/edit}}\n```\n\nor\n\n```jsr\n<div data-link=\"{edit person ...}\" class=\"radiogroup\">\n  <input type=\"radio\" name=\"gp1\" value=\"JO\"/>\n  ...\n</div>\n```"
-          },
-          {
-            "_type": "para",
-            "title": "Data-linked textarea",
-            "text": "```jsr\n{^{edit person ...}}\n  <textarea></textarea>\n{{/edit}}\n```\n\nor\n\n```jsr\n<textarea data-link=\"{edit person ...}\"></textarea>\n```"
-          }
-        ],
-        "url": "samples/tag-controls/edit/generic/sample",
-        "height": "1006"
-      }
-    ]
-  },
   "samples/tag-controls/validate/array-binding": {
     "title": "Sample: Array binding with the validation control",
     "path": "",
@@ -2087,14 +1933,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/generic-edit/edit.js",
-            "label": "edit.js"
-          },
-          {
-            "_type": "codetab",
-            "name": "",
             "url": "download/sample-tag-controls/validate/validate.js",
-            "label": "validation.js"
+            "label": "validate.js"
           }
         ],
         "sectionTypes": {
@@ -2108,23 +1948,23 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This sample is similar to the previous <a href=\"#samples/tag-controls/validate/group\">validation group</a> sample -- but here the `people` array can be modified -- by adding or removing people, or changing their `name` property.\n\n```js\n.on(\"click\", \"#add\", function() {\n  $.observable(model.people).insert({name: \"new\"...});\n})\n.on(\"click\", \".remove\", function() {\n  var view = $.view(this);\n  $.observable(model.people).remove(view.index);\n  validation.validate();\n});\n```\n\nThe collection of `<option>` elements or `<input type=\"radio\">` elements is dynamically driven by data-linking to the `people` array:\n\n```jsr\n{^{validate person ...}}\n  <select>\n    {^{for people}}\n      <option data-link=\"value{upper:name} {:name:}\"></option>\n    {{/for}}\n  </select>\n{{/validate}}\n```\n\n```jsr\n{^{validate person ...}}\n  <div class=\"radiogroup\">\n    {^{for people}}\n      <input type=\"radio\" name=\"gp1\" data-link=\"value{upper:name}\"/>...\n    {{/for}}\n  </div>\n{{/validate}}\n```"
+            "text": "This sample is similar to the previous <a href=\"#samples/tag-controls/validate/group\">validation group</a> sample -- but here the `people` array can be modified -- by adding or removing people, or changing their `name` property.\n\n```js\n.on(\"click\", \"#add\", function() {\n  $.observable(model.people).insert({name: \"new\"...});\n})\n.on(\"click\", \".remove\", function() {\n  var view = $.view(this);\n  $.observable(model.people).remove(view.index);\n  validation.validate();\n});\n```\n\nThe collection of `<option>` elements or `<input type=\"radio\">` elements is dynamically driven by data-linking to the `people` array:\n\n```jsr\n{^{validate person ...}}\n  <select>\n    {^{for people}}\n      <option data-link=\"value{upper:name} {:name:}\"></option>\n    {{/for}}\n  </select>\n{{/validate}}\n```\n\n```jsr\n{^{validate person radiogroup=true ...}}\n  {^{for people}}\n    <label><input type=\"radio\" data-link=\"value{upper:name}\"/> {^{:name}}</label>\n  {{/for}}\n{{/validate}}\n```"
           }
         ],
         "url": "samples/tag-controls/validate/array-binding/sample",
-        "height": "975",
+        "height": "1090",
         "title": "The  {{validate}} tag with &lt;option> collections or &ltinput type=\\\"radio\\\"> collections data-linked to arrays"
       }
     ]
   },
-  "samples/tag-controls/edit/simple-textbox": {
+  "samples/tag-controls/simple-textbox": {
     "title": "Sample: Simple textbox control",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "This sample show a simple custom `{{textbox}}` tag control.\n\nIt can be considered as a first step towards a more advanced control, such as the generic `{{edit}}` control shown in the <a href=\"#samples/tag-controls/edit/generic\">next sample</a>."
+        "text": "This sample show a simple custom `{{textbox}}` tag control.\n\nIt can be considered as a first step towards a more advanced control."
       },
       {
         "_type": "sample",
@@ -2151,7 +1991,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "text": "This sample illustrates the simplest possible custom tag control supporting <em>two-way data-binding</em>.\n\nBy using a template which includes an <em>input</em> element:\n\n```jsr\n<input/>\n```\n\nand then setting the `linkedElement` property to `\"input\"`:\n\n```js\n$.views.tags({\n  textbox: {\n    linkedElement: \"input\",\n    template: \"<input/>\",\n    ...\n  }\n});\n```\n\nJsViews automatically looks for a matching element (the `linkedElement` string being treated as a jQuery selector), which it then provides as a property on the resulting tag instance (wrapped in a jQuery object): `tag.linkedElem`.\n\nJsViews sets up two-way data-linking on that <em>input</em> element.\n\nNow you can get two-way binding to your data, simply by setting the path to the data as parameter on your `{{textbox}}` tag:\n\n```jsr\n{{textbox my.data.path /}}\n```\n\nAs an optional optimization, we can set the `onUpdate` handler of our tag control to return `false`. This has the effect of preventing the control from re-rendering itself each time that data changes. (The updating of the textbox content is already assured by the data-linked <em>input</em>, so re-rendering is unnecessary.)  \n\n```js\n$.views.tags({\n  textbox: {\n    linkedElement: \"input\",\n    template: \"<input/>\",\n    onUpdate: function() {\n      return false;\n    },\n    template: \"<input/>\"\n  }\n});\n```"
           }
         ],
-        "url": "samples/tag-controls/edit/simple-textbox/sample",
+        "url": "samples/tag-controls/simple-textbox/sample",
         "height": "340"
       }
     ]
@@ -3231,7 +3071,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           },
           {
             "hash": "samples/computed/shopping-cart",
-            "label": "shopping cart"
+            "label": "Shopping cart"
+          },
+          {
+            "hash": "samples/computed/team-manager",
+            "label": "Team manager"
           }
         ]
       }
@@ -3391,7 +3235,14 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "sample",
         "typeLabel": "Sample:",
-        "codetabs": [],
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsonview/jsonview.js",
+            "label": "jsonview.js"
+          }
+        ],
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -3513,6 +3364,119 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "accordion control"
           }
         ]
+      }
+    ]
+  },
+  "samples/computed/team-manager": {
+    "title": "Team manager",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This sample shows two-way binding to compiled *View Model* properties *get/set* properties, as well as to an additional custom `Person.isManager()` *get/set* property. The same sample is shown [here](#jsvviewmodelsapi@ismanagersample) in the *JsViews [Compiled View Models](#jsvviewmodelsapi)* topic."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "See the [same sample](#jsvviewmodelsapi@ismanagersample) in the *JsViews [Compiled View Models](#jsvviewmodelsapi)* topic, for details and discussion."
+          }
+        ],
+        "url": "samples/computed/team-manager/sample",
+        "height": "350"
+      }
+    ]
+  },
+  "samples/tag-controls/toolbar": {
+    "title": "Samples: Toolbar &ndash; using {{controlgroup}}, {{button}} etc.",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following sample is a more advanced example of using multiple *jQuery UI* based *JsViews* tag controls:\n\n- `{{controlgroup}}` - based on the *jQuery UI controlgroup* widget\n- `{{button}}` - based on the *jQuery UI button* widget\n- `{{radio}}` - based on the *jQuery UI checkboxradio* widget\n- `{{checkbox}}` - based on the *jQuery UI checkboxradio* widget\n- `{{progressbar}}` - based on the *jQuery UI progressbar* widget\n- `{{slider}}` - based on the *jQuery UI slider* widget"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{controlgroup class=...}}\n  {^{on toStart}}\n    {^{button _icon=... .../}}\n  {{/on}}\n  ...\n{{/controlgroup}}\n{^{checkbox reverse label=\"Reverse\" .../}}\n{^{controlgroup _classes=...}}\n  {^{radiogroup mode}}\n    {^{radio label=\"Once\" value=\"once\"/}}\n    ...\n  {{/radiogroup}}\n{{/controlgroup}}\n```"
+          }
+        ],
+        "jsrJsvJqui": "jqui",
+        "title": "Toolbar",
+        "url": "samples/tag-controls/jqueryui/toolbar/toolbar",
+        "height": "476"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following modified  version of the *Toolbar* sample includes dynamically-driven radio button groups:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "The `model` includes a `model.modes` and a `model.speeds` arrays:\n\n```js\nmodel = {\n  mode: \"return\",\n  speed: \"2\",\n  modes: [\n      {action: \"once\", label: \"Once\"},\n      ...\n    ],\n    speeds: [\n      {speedFactor: \"1\", label: \"Speed 1\"},\n      ...\n    ],\n    ...\n```\n\nThe UI includes data-driven `{^{for}}` tags within the `{^{radiogroup}}` tags.\n\n```jsr\n{^{controlgroup _classes=...}}\n  {^{radiogroup mode}}\n    {^{for modes}}\n      {^{radio label=label value=action/}}\n    {{/for}}\n  {{/radiogroup}}\n{{/controlgroup}}\n  ...\n```"
+          }
+        ],
+        "url": "samples/tag-controls/jqueryui/toolbar/toolbararray",
+        "jsrJsvJqui": "jqui",
+        "height": "476",
+        "title": "Toolbar with dynamic {{radio}} array"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The second version of the sample, above, also shows alternative approaches to setting options on the *jQuery UI* widgets:\n\n- *Declarative setting of options:*\n  ```jsr\n  {^{controlgroup _classes=~myUiOverrides}}\n  ```\n- *Programmatic approach, using an overridden event handler:*\n  ```jsr\n  {^{controlgroup onBind=~onbind}}\n  ```\n  ```js\n  pageTmpl.link(\"#page\", model, {\n    ...\n    onbind: function(val) {\n      this.baseApply(arguments);\n      this.linkedElem.controlgroup( \"option\", \"classes\", uiOverrides);\n    },\n    ...\n  });\n  ```\n- *Programmatic approach, using an `id` and corresponding jQuery selector:*\n  ```jsr\n  {^{checkbox reverse id=\"reverseChkBx\"/}}\n  ```\n  ```js\n  $(\"#reverseChkBx\").checkboxradio(\"option\", \"classes\", {\"ui-checkboxradio-label\": ...});\n\n  $.observe(model, \"reverse\", function() {\n    $(\"#reverseChkBx\").checkboxradio(\"option\", \"label\", model.reverse ? \"Forward\" : \"Reverse\");\n  });\n  ```"
       }
     ]
   }

@@ -8,7 +8,6 @@
   <link href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
   <script src="../../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
   <link href="../sample.css" rel="stylesheet" />
-  <script src="../../../../../download/sample-tag-controls/generic-edit/edit.js"></script>
   <script src="../../../../../download/sample-tag-controls/validate/validate.js"></script>
   <link href="../../../../../download/sample-tag-controls/validate/validate.css" rel="stylesheet"/>
 </head>
@@ -40,6 +39,7 @@
     _range='min'
     _min=1
     _max=200
+    width=400
   }" class="main-slider"></div>
 
   <h4>Limited range: 50 - 100</h4>
@@ -49,12 +49,12 @@
     msg_max="Max size: %cond%"
     preventInvalidData=~page.noInvalidData
   }}
-    <div data-link="{slider
+    <div data-link="{slider size
       _orientation='vertical'
-      _height=150
       _range='min'
       _min=0
       _max=200
+      height=120
     }"></div>
   {{/validate}}
 
@@ -66,12 +66,12 @@
     msg_max="Max size: %cond%"
     preventInvalidData=~page.noInvalidData
   }}
-    {^{slider
+    {^{slider size
       _orientation='vertical'
-      _height=150
       _range='min'
       _min=0
       _max=200
+      height=120
     /}}
   {{/validate}}
 

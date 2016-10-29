@@ -638,6 +638,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "hidden": false
           },
           {
+            "name": "jsvradiogrouptag",
+            "label": "{^{radiogroup ...}}"
+          },
+          {
             "name": "jsvelsetag",
             "label": "{{else ...}}",
             "hidden": false
@@ -795,7 +799,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "link-computed",
             "label": "Computed observables",
-            "hidden": true
+            "hidden": false
           },
           {
             "name": "link-svg",
@@ -1226,9 +1230,13 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "samples/computed/shopping-cart",
                 "label": "Shopping cart"
+              },
+              {
+                "name": "samples/computed/team-manager",
+                "label": "Team manager"
               }
             ],
-            "expanded": false
+            "expanded": true
           },
           {
             "name": "samples/tag-controls",
@@ -1289,9 +1297,9 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                     "expanded": false
                   },
                   {
-                    "name": "samples/tag-controls/button",
-                    "label": "button control",
-                    "hidden": true
+                    "name": "samples/tag-controls/toolbar",
+                    "label": "Toolbar: multiple controls",
+                    "hidden": false
                   },
                   {
                     "name": "samples/tag-controls/tabs-jqui",
@@ -1374,25 +1382,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "expanded": false
               },
               {
-                "name": "samples/tag-controls/edit",
-                "label": "edit control",
-                "categories": [
-                  {
-                    "name": "samples/tag-controls/edit/simple-textbox",
-                    "label": "Simple textbox control"
-                  },
-                  {
-                    "name": "samples/tag-controls/edit/generic",
-                    "label": "Generic edit control"
-                  },
-                  {
-                    "name": "samples/tag-controls/edit/array-binding",
-                    "label": "Array binding"
-                  }
-                ],
-                "expanded": false
-              },
-              {
                 "name": "samples/tag-controls/validate",
                 "label": "validate control",
                 "categories": [
@@ -1410,6 +1399,12 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                   }
                 ],
                 "expanded": false
+              },
+              {
+                "name": "samples/tag-controls/simple-textbox",
+                "label": "simple textbox control",
+                "categories": [],
+                "expanded": true
               },
               {
                 "name": "samples/tag-controls/range",

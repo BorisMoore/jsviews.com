@@ -20,11 +20,20 @@
 
     <input data-link="{intToStr:amount:strToInt}"/><br/><br/>
 
+    {^{radiogroup amount convert='intToStr' convertBack='strToInt'}}
+      {^{for amounts}}
+        <label><input type="radio" value="{{:#data}}" />
+         {{:#data}}</label><br/>
+      {{/for}}
+    {{/radiogroup}}<br/>
+
+{{!-- Alternative syntax without using {{radiogroup}} tag:
     {^{for amounts}}
       <label><input type="radio" name="amt" value="{{:#data}}"
         data-link="{intToStr:~root.amount:strToInt}" />
       {{:#data}}</label><br/>
     {{/for}}<br/>
+--}}
 
     <label><input type="checkbox" data-link="listbox" /> Show as listbox</label><br/>
     <select data-link="{intToStr:amount:strToInt} size{:listbox ? amounts.length : null}">

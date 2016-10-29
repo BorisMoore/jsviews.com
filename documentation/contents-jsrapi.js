@@ -81,6 +81,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "Alternative content blocks",
         "text": "- [`{{else ...}}`](#elsetag) (Content block separator)"
+      },
+      {
+        "_type": "para",
+        "title": "Additional tags in JsViews",
+        "text": "When using data-linked templates, with *JsViews*, the following additional template tags are available:\n\n- [`{^{radiogroup ...}}`](#jsvradiogrouptag) (Radio button group)\n- [`{^{on ...}}`](#jsvontag) (Button, or event binding)\n\n*See: [Template tags in JsViews](#jsvtags)*"
       }
     ]
   },
@@ -807,6 +812,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "jsrJsvJqui": "jsr"
       },
       {
+        "_type": "para",
+        "title": "",
+        "text": "*Note:* A `{{for}}` tag (like an `{\"{if}}` tag) can have multiple `{{else}}` blocks. See for example [this sample](#jsvelsetag@for-else-multiple)."
+      },
+      {
         "_type": "links",
         "title": "See also:",
         "links": [],
@@ -1424,7 +1434,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "args": [],
             "sections": [],
             "example": "{{!-- this is a comment --}}",
-            "description": "The comment will be ignored during template rendering - and will produce no output",
+            "description": "The comment will be ignored during template rendering &ndash; and will produce no output",
             "variant": ""
           },
           {
@@ -3602,7 +3612,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Wrapping content ",
-        "text": "If a tag has an external `tmpl=...` reference, ***and*** inline block content, then the external template takes precedence. However, the external template can behave as a wrapper, wrapping the inline block content (one or more times), thanks to the [`view.content`](#viewobject@content) or `#content` property:\n\n```jsr\n{{sometag ... tmpl=\"externalTmpl\"}}\n  inline block content\n{{/sometag}}\n```\n\n```js\n$.templates(\"externalTmpl\", \"before {{include tmpl=#content /}} after\");\n```\n\nSimilarly, a custom tag can use a built-in template which wraps the inline content:\n\n \n```jsr\n{{mytag}}\n  inline block content\n{{/mytag}}\n```\n\n```js\n$.view.tags(\"mytag\", {\n  ...\n  template: \"before {{include tmpl=#content /}} after\"),\n  ...\n});\n```",
+        "text": "If a tag has an external `tmpl=...` reference, ***and*** inline block content, then the external template takes precedence. However, the external template can behave as a wrapper, wrapping the inline block content (one or more times), thanks to the [`view.content`](#viewobject@content) or `#content` property:\n\n```jsr\n{{sometag ... tmpl=\"externalTmpl\"}}\n  inline block content\n{{/sometag}}\n```\n\n```js\n$.templates(\"externalTmpl\", \"before {{include tmpl=#content /}} after\";\n```\n\nSimilarly, a custom tag can use a built-in template which wraps the inline content:\n\n \n```jsr\n{{mytag}}\n  inline block content\n{{/mytag}}\n```\n\n```js\n$.view.tags(\"mytag\", {\n  ...\n  template: \"before {{include tmpl=#content /}} after\"),\n  ...\n});\n```",
         "anchor": "wrap"
       },
       {
@@ -6371,13 +6381,14 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Overriding generated get/set functions",
-        "text": "To override a generated get/set property provided by a compiled View Model you can provide an implementation in the `extend` hash, with the same name as the *get/set* in the `getters` array:\n\n```js\n// Define a myNameGetSet(...)function, to override the compiled name(...) get/set function\nfunction myNameGetSet(val) {\n  if (!arguments.length) {           // This is standard compiled get/set code\n    return this._name;               // If there is no argument, use as a getter\n  }\n  this._name = val;                  // If there is an argument, use as a setter\n  console.log(\"name set to \" + val); // This is an additional line of code, for logging\n}\n\n// Declare a Person View Model with an overridden name() get/set property\n$.views.viewModels({\n  Person: {\n    getters: [\n      {getter: \"name\", ...}, // Compiled name() get/set\n      ...\n    ],\n    extend: {\n      name: myNameGetSet,    // Override name() get/set\n      ...\n    }\n    ...\n  },\n  ...\n});\n```\n\nThe above is equivalent to the generated version except that it adds custom logging to the getter/setter function.\n\n(**Note:** If you want your override function also to work with JsViews observable changes and data-linking, use the complete version shown [here](#jsvviewmodelsapi@override).)",
+        "text": "To override a generated get/set property provided by a compiled View Model you can provide an implementation in the `extend` hash, with the same name as the *get/set* in the `getters` array:\n\n```js\n// Define a myNameGetSet(...)function, to override the compiled name(...) get/set function\nfunction myNameGetSet(val) {\n  if (!arguments.length) {           // This is standard compiled get/set code\n    return this._name;               // If there is no argument, use as a getter\n  }\n  this._name = val;                  // If there is an argument, use as a setter\n  console.log(\"name set to \" + val); // This is an additional line of code, for logging\n}\n\n// Declare a Person View Model with an overridden name() get/set property\n$.views.viewModels({\n  Person: {\n    getters: [\n      {getter: \"name\", ...}, // Compiled name() get/set\n      ...\n    ],\n    extend: {\n      name: myNameGetSet,    // Override name() get/set\n      ...\n    }\n    ...\n  },\n  ...\n});\n```\n\nThe above is equivalent to the generated version except that it adds custom logging to the getter/setter function.\n\n**Note:** In the context of JsViews, the View Model get/set properties can be data-linked (one-way or two-way data-binding) -- and will then be invoked automatically during observable changes to the property. (This applies also to overridden properties -- using a variant of the above pattern, described in [the corresponding JsViews topic](#jsvviewmodelsapi@override)).",
         "anchor": "override"
       },
       {
         "_type": "para",
         "title": "Sample showing some of the advanced View Model features",
-        "text": "The next sample is similar to the [previous](#viewmodelsapi@mergesample) one, but specifically highlights some of the advanced features of compiled *View Models*.\n\n- It stores compiled *View Models* on a `myVmCollection` hash, as a *View Model typed collection*, rather than on<br/>`$.views.viewModels`\n- It maps from an array of 'people' rather than a single person:<br/>\n  `var people = Person.map(peopleData);`\n- It specifies an `id` key for `Person`. When updating the `phones` array the `id` value is treated as 'primary key', and used to map 'identity':<br/>\n  `id: \"id\"`\n- It provides an `id()` callback on `Person`, for determining identity -- allowing identification of corresponding *View Model* instances within the people array, and hence preventing unnecessary disposal and re-instantiation (which would destroy state, such as the `comment` value).\n- It has a `comment()` get/set property that is added as part of the `extend` definition, not the `getters`, so it is not initialized from data, in the constructor. Note therefore that if you set a *comment* on each `person` instance, then click *Update*, then *Revert*, one *comment* is conserved (since that instance is never disposed -- based on the 'identity' determination) but the other is lost since the instance is disposed and then re-created by *Revert*:<br/>\n  `extend: {...comment: comment...}`\n- It has `defaultVal` specified for `name`, `address` and `phones`, either as 'static' values or computed by a callback function:<br/>\n  `address: {type: \"Address\", defaultVal: defaultStreet}`\n- It overrides the generated `person.name()` *get/set* by a `myNameGetSet` function which includes logging\n- It passes a JSON string to `merge()` or `map()`\n(See also the [same sample](#jsvviewmodelsapi@mergeadvsample) using JsViews and data-linking.)"
+        "text": "The next sample is similar to the [previous](#viewmodelsapi@mergesample) one, but specifically highlights some of the advanced features of compiled *View Models*.\n\n- It stores compiled *View Models* on a `myVmCollection` hash, as a *View Model typed collection*, rather than on<br/>`$.views.viewModels`\n- It maps from an array of 'people' rather than a single person:<br/>\n  `var people = Person.map(peopleData);`\n- It specifies an `id` key for `Person`. When updating the `phones` array the `id` value is treated as 'primary key', and used to map 'identity':<br/>\n  `id: \"id\"`\n- It provides an `id()` callback on `Person`, for determining identity -- allowing identification of corresponding *View Model* instances within the people array, and hence preventing unnecessary disposal and re-instantiation (which would destroy state, such as the `comment` value).\n- It has a `comment()` get/set property that is added as part of the `extend` definition, not the `getters`, so it is not initialized from data, in the constructor. Note therefore that if you set a *comment* on each `person` instance, then click *Update*, then *Revert*, one *comment* is conserved (since that instance is never disposed -- based on the 'identity' determination) but the other is lost since the instance is disposed and then re-created by *Revert*:<br/>\n  `extend: {...comment: comment...}`\n- It has `defaultVal` specified for `name`, `address` and `phones`, either as 'static' values or computed by a callback function:<br/>\n  `address: {type: \"Address\", defaultVal: defaultStreet}`\n- It overrides the generated `person.name()` *get/set* by a `myNameGetSet` function which includes logging\n- It passes a JSON string to `merge()` or `map()`\n(See also the [same sample](#jsvviewmodelsapi@mergesampleadv) using JsViews and data-linking.)",
+        "anchor": "mergesampleadv"
       },
       {
         "_type": "sample",
@@ -6401,8 +6412,38 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<style>button, table {margin-bottom: 9px;}</style>\n\n<button id=\"update\">Update</button>\n<button id=\"revert\">Revert</button>\n<button id=\"getData\">Get Data</button><br/>\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Comment:</td><td><input class=\"comment\" data-index=\"{{:#index}}\" value=\"{{:comment()}}\"/></td></tr>\n    <tr><td>Name:</td><td>{{:name()}}</td></tr>\n    <tr><td>Street:</td><td>{{:address().street()}}</td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {{for phones()}}\n          <tr><td>{{:number()}}</td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "height": "350",
         "jsrJsvJqui": "jsr",
-        "anchor": "mergeadvsample",
+        "anchor": "",
         "title": "Mapping from JSON data to View Model hierarchy &ndash; further features"
+      },
+      {
+        "_type": "para",
+        "title": "Adding a custom get/set property to a compiled View Model ",
+        "text": "Finally, here is a sample which extends a compiled *View Model* with a custom `Person.isManager() `*get/set* property. The property is coupled to the `Team.manager()` property -- so setting `Person.isManager(...)` will update the `Team.manager()` correspondingly (and conversely when setting `Team.manager(...)`.\n\n`Person.isManager` is not included in the `getters` declaration, so that the constructor for `Person` will not expect an `isManager` parameter to be provided for initialization.\n\n(See also the [related sample](#jsvviewmodelsapi@ismanagersample) using JsViews and data-linking.)",
+        "anchor": "ismanagersample"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\n// Custom function for Person.isManager get/set property\nfunction myIsManager(val) {\n  if (!arguments.length) {\n    return this === team.manager(); // If there is no argument, use as a getter\n  }\n  if (val) {\n    // Make this team member manager\n    team.manager(this);\n  } else if (this.isManager()) {\n    // Set team manager to null\n    team.manager(null);\n  }\n}\n\n// Compile View Models\n$.views.viewModels({\n  Team: {...},\n  Person: {\n    getters: [\n      \"name\",\n      ...\n    ],\n    extend: {\n      isManager: myIsManager // use custom function\n    }\n  },\n  Address: {...}\n});\n\n...\n\n//Initialize second team member to be manager.\nvar manager = team.members()[1];\nmanager.isManager(true);\n\n...\n\n// Attach handler for checkbox\n$(\"#result\")\n  .on(\"change\", \".isManager\", function() {\n    ...\n    member.isManager(this.checked);\n    renderTemplate(); // Refresh rendering, with modified data\n  })\n  ...\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n\n<button class=\"noManager\">No Manager</button>\n<button class=\"changeManager\" data-index=\"0\">Set Manager 0</button>\n<button class=\"changeManager\" data-index=\"1\">Set Manager 1</button>\n<button class=\"changeManager\" data-index=\"2\">Set Manager 2</button>\n\n<h4>Team members:</h4>\n\n<table>\n  <thead><tr><td>Is Manager</td><td>Name</td><td>Street</td><td>ZIP</td></tr></thead>\n  <tbody>\n    {{for members()}}\n      <tr><td><input class=\"isManager\" type=\"checkbox\"\n        data-index=\"{{:#index}}\"\n        {{:isManager() ? 'checked' : ''}}\n      /></td>\n      <td>{{:name()}}</td>\n      <td>{{:address().street()}}</td>\n      <td>{{:address().ZIP()}}</td>\n      </tr>\n    {{/for}}\n  </tbody>\n</table>\n\n{{if manager()}}\n  <h4>Manager:</h4>\n  <table><tbody><tr>\n    <td>{{:manager().name()}}</td>\n    <td>{{:manager().address().street()}}</td>\n    <td>{{:manager().address().ZIP()}}</td>\n  </tr></tbody></table>\n{{else}}\n  <h4>No manager</h4>\n{{/if}}\n\n</script>",
+        "code": "// Compile template\nvar tmpl = $.templates(\"#teamTmpl\");\n\n// Custom function for Person.isManager get/set property\nfunction myIsManager(val) {\n  if (!arguments.length) {\n    return this === team.manager(); // If there is no argument, use as a getter\n  }\n  if (val) {\n    // Setting this.isManager() to true\n    // So make this team member manager\n    team.manager(this);\n  } else if (this.isManager()) {\n    // Setting this.isManager to false, and this team member is currently manager.\n    // So set team manager to null\n    team.manager(null);\n  }\n}\n\n// Compile View Models\n$.views.viewModels({\n  Team: {\n    getters: [\n      {\n        getter: \"manager\",\n        type: \"Person\"\n      },\n      {\n        getter: \"members\",\n        type: \"Person\"\n      }\n    ]\n  },\n  Person: {\n    getters: [\n      \"name\",\n      {\n        getter: \"address\",\n        type: \"Address\"\n      }\n    ],\n    extend: {\n      isManager: myIsManager // use custom function\n    }\n  },\n  Address: {\n    getters: [\"street\", \"ZIP\"]\n  }\n});\n\n// Initial data  \nvar teamData = {\n    manager: null,\n    members: [{\n      name: \"Pete\",\n      address: {\n        street: \"1st Ave\",\n        ZIP: \"12345\"\n      }\n    },{\n      name: \"Bess\",\n      address: {\n        street: \"Central Way\",\n        ZIP: \"98765\"\n      }\n    },\n    {\n      name: \"Henry\",\n      address: {\n        street: \"Main St\",\n        ZIP: \"54321\"\n      }\n    }]\n  };\n\n// Instantiate View Models\nvar team = $.views.viewModels.Team.map(teamData);\n\n//Initialize second team member to be manager.\nvar manager = team.members()[1];\nmanager.isManager(true);\n\nfunction renderTemplate() {\n  // Refresh template rendering completely\n  $(\"#result\").html(tmpl.render(team));\n}\n\nrenderTemplate();\n\n// Attach handlers for checkbox and buttons\n$(\"#result\")\n  .on(\"change\", \".isManager\", function() {\n    var memberIndex = $(this).data(\"index\"),\n      member = team.members()[memberIndex];\n    member.isManager(this.checked);\n    renderTemplate(); // Refresh rendering, with modified data\n  })\n  .on(\"click\", \".changeManager\", function() {\n    var memberIndex = $(this).data(\"index\"),\n      member = team.members()[memberIndex];\n    member.isManager(true);\n    renderTemplate(); // Refresh rendering, with modified data\n  })\n  .on(\"click\", \".noManager\", function() {\n    team.manager(null);\n    renderTemplate(); // Refresh rendering, with modified data\n  }\n);",
+        "title": "Sample: extending Person with  an isManager property",
+        "height": "320",
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "links",

@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="sample.css" rel="stylesheet" />
+</head>
+<body>
+<style>
+.mygroup {border: #888888 solid 1px; margin: 2px;}
+.tb {border: #b42e2e solid 1px; margin: 2px;}
+.play {border-left: #b42e2e solid 1px; border-right: #b42e2e solid 1px;}
+.rvrs, .myuibutton {padding: 9px 5px; font-size: 8pt; line-height: 16px;}
+.rvrs {border: #888888 solid 1px; padding: 10px 5px; margin: 2px;}
+</style>
+
+<h4>JsViews {{controlgroup}}, {{button}}, {{checkbox}}, {{radio}}, {{progressbar}}
+    and {{slider}} tag controls<br> - using corresponding jQuery UI widgets</h4>
+
+<script id="myTmpl" type="text/x-jsrender">
+<div id="toolbar" class="ui-widget-header ui-corner-all">
+  {^{controlgroup class="tb ui-corner-all"}}
+    {^{on toStart}}
+      {^{button _icon="ui-icon-seek-start" class="ui-button-icon-only"/}}
+    {{/on}}
+    {^{on toPrev}}
+      {^{button _icon="ui-icon-seek-prev" class="ui-button-icon-only"/}}
+    {{/on}}
+    {^{on play}}
+      {^{button _icon="ui-icon-play" class="ui-button-icon-only play" ^_disabled=playing/}}
+    {{/on}}
+    {^{on stop}}
+      {^{button _icon="ui-icon-stop" class="ui-button-icon-only" ^_disabled=!playing/}}
+    {{/on}}
+    {^{on toNext}}
+      {^{button _icon="ui-icon-seek-next" class="ui-button-icon-only"/}}
+    {{/on}}
+  {{/controlgroup}}
+  {^{checkbox reverse id="reverseChkBx" label="Reverse"/}}
+  {^{controlgroup _classes=~myUiOverrides}}
+    {^{radiogroup mode}}
+      {^{for modes}}
+        {^{radio label=label value=action/}}
+      {{/for}}
+    {{/radiogroup}}
+  {{/controlgroup}}
+  {^{controlgroup onBind=~onbind}}
+    {^{radiogroup speed}}
+      {^{on addSpeed}}
+        {^{button _label="+"/}}
+      {{/on}}
+      {^{on removeSpeed}}
+        {^{button _label="-"/}}
+      {{/on}}
+      {^{for speeds}}
+        {^{radio label=label value=speedFactor/}}
+      {{/for}}
+    {{/radiogroup}}
+  {{/controlgroup}}
+</div>
+
+<svg data-link="css-width{:2 + time*.2} css-background-color{:~toHex(time*51/600)}"
+   class="svg-circles">
+  <circle data-link="r{:time*.1} cx{:time*.1 + 1}"
+    class="svg-circle" cy="51" stroke-width="2" stroke="green"></circle>
+  <circle data-link="r{:time*.075} cx{:time*.1 + 1} cy{:102 - time*.075}"
+    class="svg-circle" stroke="#b42e2e"></circle>
+  <circle data-link="r{:time*.05} cx{:time*.1 + 1} cy{:time*.05}"
+    class="svg-circle" stroke="#ffb"></circle>
+  <circle data-link="r{:time*.025} cx{:time*.1 + 1}"
+    class="svg-circle" cy="51" stroke-width="2" stroke="blue"></circle>
+</svg>
+
+{^{progressbar time _max=3000 width=600 height=15/}}
+
+{^{slider class='slider' time _range='min' _min=1 _max=3000 width=600 /}}
+
+<div>
+Time: <input data-link="{:time:tonum}" /><br/>
+Mode: {^{:mode}}<br/>
+<label>Reverse: <input type="checkbox" data-link="reverse" /></label><br/>
+<label>Playing: <input type="checkbox" data-link="playing" /></label>
+</div>
+</script>
+
+<div id="page"></div>
+
+<!--<script src="toolbararray.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

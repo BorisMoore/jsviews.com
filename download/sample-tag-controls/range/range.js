@@ -23,11 +23,13 @@ $.views.tags({
     // Override the render method of {{for}}
     render: function(val) {
       var array = val,
-        start = this.tagCtx.props.start || 0,
-        end = this.tagCtx.props.end;
+        tagCtx = this.tagCtx,
+        start = tagCtx.props.start || 0,
+        end = tagCtx.props.end,
+        props = tagCtx.params.props;
 
       if (start || end) {
-        if (!this.tagCtx.args.length) { // No array argument passed from tag, so create
+        if (!tagCtx.args.length) { // No array argument passed from tag, so create
                                         // a computed array of integers from start to end
 
           array = [];
@@ -42,7 +44,10 @@ $.views.tags({
       }
 
       // Call the {{for}} baseTag render method
-      return this.base(array);
+      return arguments.length || props && (props.start || props.end)
+        ? this.base(array)
+        : this.base(); // Final {{else}} tag, so call base() without arguments, for
+                       // final {{else}} of base {{for}} tag
     },
 
     // override onArrayChange of the {{for}} tag implementation

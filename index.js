@@ -812,19 +812,21 @@ var testDiv = $("#testHtml")[0];
 document.onkeydown = function(ev) {
 	ev = ev || window.event;
 	var keyCode = ev.keyCode;
-	if (keyCode === 27) { // Escape
-		content.searchTree.close();
-	} else if (ev.ctrlKey) {
-		if (content.search) {
-			if (keyCode === 39) { // Right arrow
-				content.searchTree.next();
-			} else if (keyCode === 37) { //Left Arrow
-				content.searchTree.prev();
+	if (!ev.altKey && !ev.shiftKey) {
+		if (keyCode === 27) { // Escape
+			content.searchTree.close();
+		} else if (ev.ctrlKey) {
+			if (content.search) {
+				if (keyCode === 39) { // Right arrow
+					content.searchTree.next();
+				} else if (keyCode === 37) { //Left Arrow
+					content.searchTree.prev();
+				}
 			}
-		}
-		if (keyCode === 191) { // Ctrl+/
-			searchbox.focus();
-			window.scrollTo(0, 0);
+			if (keyCode === 191) { // Ctrl+/
+				searchbox.focus();
+				window.scrollTo(0, 0);
+			}
 		}
 	}
 };

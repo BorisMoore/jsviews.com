@@ -3,12 +3,12 @@
  * derived from {{edit}} control, and {{validation}} group control
  * http://www.jsviews.com/download/sample-tag-controls/validate/validate.js
  * Used in samples:
- * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation
- * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation-wizard
- * http://www.jsviews.com/#samples/tag-controls/slider/with-validation
  * http://www.jsviews.com/#samples/tag-controls/validate/simple
  * http://www.jsviews.com/#samples/tag-controls/validate/group
  * http://www.jsviews.com/#samples/tag-controls/validate/array-binding
+ * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation
+ * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation-wizard
+ * http://www.jsviews.com/#samples/tag-controls/slider/with-validation
  * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
@@ -16,7 +16,7 @@
 (function($) {
 "use strict";
 
-$.views.tags({
+  $.views.tags({
   validation: {
     init: function() {
       this.childValidates = [];
@@ -67,23 +67,62 @@ $.views.tags({
     isValid: true,
     dataBoundOnly: true
   },
-
   validate: {
-    baseTag: "edit",
+    baseTag: "radiogroup",
+    linkedElement: "select,textarea,input",
     init: function(tagCtx, linkCtx) {
-      this.baseApply(arguments);
-      this.validationGroup = this.parents.validation;
-      if (this.validationGroup) {
-        this.validationGroup.addChild(this);
+      var tag = this;
+      if (tag.radiogroup = tagCtx.props.radiogroup) {
+        tag.baseApply(arguments);
+      } else if (tag._.inline && !tagCtx.content) {
+        tag.template = "<input/>";
+      }
+      tag.validationGroup = this.parents.validation;
+      if (tag.validationGroup) {
+        tag.validationGroup.addChild(this);
       }
     },
-    //onBind: function(tagCtx, linkCtx) {
+		render: function(val) {
+      var ret,
+        tag = this,
+        tagCtx = this.tagCtx;
+      if (tag._.inline) {
+         // Keep same data context for content
+        ret = tagCtx.render(tagCtx.view, true);
+        // For radio buttons provide wrapper for validation messages
+        ret = tag.radiogroup ? ("<div>" + ret + "</div>") : ret;
+        return ret;
+      }
+    },
+    onBind: function(tagCtx, linkCtx) {
+      var arrayView,
+        tag = this,
+        target = tag.linkedElem && tag.linkedElem[0];
+      if (tag._.inline && target && $.view(target).tag !== tag) {
+        // The target element is contained in another tag - so we will find it
+        tag.linkedElem = undefined;
+      }
+      if (!tag.linkedElem || !tag.linkedElem[0]) {
+        // {{validate}} may wrap another tag, such as {{slider}}
+        // or {{datepicker}} rather than an element such as <input/>
+        if (tag.targetTag = tag.childTags()[0]) {
+          tag.targetTag.onBeforeChange = function(ev, val) {
+            return tag.onBeforeChange.call(tag, ev, val);
+          };
+        }
+      }
+      if (tag.radiogroup) {
+        this.baseApply(arguments);
+      }
+    },
 
     onAfterLink: function(tagCtx, linkCtx) {
       var tag = this,
         props = tagCtx.props;
 
-      tag.baseApply(arguments);
+      if (tag.targetTag) {
+        tag.targetTag.setValue(tagCtx.args[0]);
+      }
 
       if (props.preventInvalidData !== undefined) {
         tag.preventInvalidData = props.preventInvalidData;
@@ -95,8 +134,13 @@ $.views.tags({
         if (tag.targetTag) {
           tag.messageElem = tag.targetTag.linkedElem;
         } else {
-          tag.messageElem = tag.linkedElem.prevObject || tag.linkedElem;
+          tag.messageElem = tag.radiogroup
+            ? tag._.inline ? tag.contents("*").first() : $(linkCtx.elem)
+            : tag.linkedElem;
           // messageElem is the linkedElem (or, for radio buttons, the wrapping div)
+        }
+        if (!tag.messageElem) {
+          throw "No message element. Set radiogroup=true for radio buttons";
         }
         tag.messageElem.addClass("val-msg");
       }

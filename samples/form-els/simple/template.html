@@ -27,7 +27,7 @@
 
   <div class="box">
     <b>Amount: <em>text box</em></b><br/><br/>
-    <input data-link="amount"/><br/><br/>
+    <input data-link="amount" /><br/><br/>
 
     <b>Amount: <em>dropdown or listbox</em></b><br/><br/>
     <select data-link="{:amount:} size{:listbox ? 4 : null}">
@@ -38,15 +38,12 @@
     </select><br/><br/>
 
     <b>Amount: <em>radio buttons</em></b><br/><br/>
-    <label><input type="radio" name="amt" value="0" data-link="amount" />
-      0</label><br/>
-    <label><input type="radio" name="amt" value="1" data-link="amount" />
-      1</label><br/>
-    <label><input type="radio" name="amt" value="2" data-link="amount" />
-      2</label><br/>
-    <label><input type="radio" name="amt" value="3" data-link="amount" />
-      3</label><br/><br/>
-
+    {^{radiogroup amount}}
+      <label><input type="radio" value="0" /> 0</label><br/>
+      <label><input type="radio" value="1" /> 1</label><br/>
+      <label><input type="radio" value="2" /> 2</label><br/>
+      <label><input type="radio" value="3" /> 3</label><br/>
+    {{/radiogroup}}
     <b>Amount: <em>text area</em></b><br/><br/>
     <textarea data-link="amount" rows="2" cols="10"></textarea><br/><br/>
   </div>

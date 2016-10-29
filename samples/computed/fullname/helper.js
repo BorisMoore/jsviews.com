@@ -43,9 +43,13 @@ var tmpl = $.templates("#personTmpl");
 tmpl.link("#details", people, {fullName: fullName});
 
 //================ Observable property change ================
-$("#changeName").on("click", function() {
-  $.observable(person).setProperty({
-    firstName: person.firstName + "x",
-    lastName: person.lastName + "y"
+$("#changeNames").on("click", function() {
+  $.observable(people[0]).setProperty({
+    firstName: people[0].firstName + "x",
+    lastName: people[0].lastName + "y"
+  });
+  $.observable(people[1]).setProperty({
+    firstName: people[1].firstName + "w",
+    lastName: people[1].lastName + "z"
   });
 });

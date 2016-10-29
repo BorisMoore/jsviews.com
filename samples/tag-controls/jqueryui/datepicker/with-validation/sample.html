@@ -8,7 +8,6 @@
   <link href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
   <script src="../../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
 
-  <script src="../../../../../download/sample-tag-controls/generic-edit/edit.js"></script>
   <script src="../../../../../download/sample-tag-controls/validate/validate.js"></script>
   <link href="../sample.css" rel="stylesheet"/>
   <link href="../../../../../download/sample-tag-controls/validate/validate.css" rel="stylesheet"/>
@@ -23,7 +22,7 @@
     required=true
     ^maxday=endDate
   }}
-    {^{datepicker _numberOfMonths=2 /}}
+    {^{datepicker startDate _numberOfMonths=2 /}}
   {{/validate}}
 
   <h4>Choose an end date:</h4>
@@ -32,7 +31,7 @@
     required=true
     ^minday=startDate
   }}
-    {^{datepicker _numberOfMonths=2
+    {^{datepicker endDate _numberOfMonths=2
     /}}
   {{/validate}}
 
@@ -56,7 +55,7 @@
     ^minday=startDate
     ^maxday=endDate
   }}
-    {^{datepicker
+    {^{datepicker middleDate
       ^_minDate=~root.startDate
       ^_maxDate=~root.endDate
       ^_numberOfMonths=~page.monthsSpan

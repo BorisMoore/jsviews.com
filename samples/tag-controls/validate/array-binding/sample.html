@@ -4,7 +4,6 @@
   <script src="//code.jquery.com/jquery-1.12.4.js"></script>
   <script src="../../../../download/jsviews.js"></script>
   <script src="../../../sample-viewer.js"></script>
-  <script src="../../../../download/sample-tag-controls/generic-edit/edit.js"></script>
   <script src="../../../../download/sample-tag-controls/validate/validate.js"></script>
   <link href="../../../../download/sample-tag-controls/validate/validate.css" rel="stylesheet"/>
   <link href="../sample.css" rel="stylesheet"/>
@@ -47,28 +46,35 @@
 
   <h3>Choose a person with a name of at least 5 letters!</h3>
 
-  {^{validate person ~people=people
+  <h3>Data-linked tags</h3>
+
+  {^{validate person
+    minLength=5
+    convert='upper'
+    convertBack=~lower
+  /}}<br/>
+
+  {^{validate person
     minLength=5
     convert="upper"
     convertBack=~lower
   }}
     <select size="5">
-      {^{for ~people}}
+      {^{for people}}
         <option data-link="value{upper:name} {:name}"></option>
       {{/for}}
     </select>
   {{/validate}}
 
-  {^{validate person ~people=people
+  {^{validate person
+    radiogroup=true
     minLength=5
     convert='upper'
     convertBack=~lower
   }}
-    <div class="radiogroup">
-      {^{for ~people}}
-        <label><input type="radio" name="gp1" data-link="value{upper:name}"/>{^{:name}}</label><br/>
-      {{/for}}
-    </div>
+    {^{for people}}
+      <label><input type="radio" data-link="value{upper:name}"/> {^{:name}}</label><br/>
+    {{/for}}
   {{/validate}}
 
   <h3>Data-linked elements</h3>
@@ -90,12 +96,13 @@
   </select>
 
   <div data-link="{validate person
+    radiogroup=true
     minLength=5
     convert='upper'
     convertBack=~lower
-  }" class="radiogroup">
+  }">
       {^{for people}}
-        <label><input type="radio" name="gp2" value="{{upper:name}}" data-link="value^{upper:name}"/>{^{:name}}</label><br/>
+        <label><input type="radio" value="{{upper:name}}" data-link="value^{upper:name}"/> {^{:name}}</label><br/>
       {{/for}}
   </div>
 {{/validation}}

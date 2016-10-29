@@ -77,7 +77,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "JsRender tags (with data-linking)",
-        "text": "The following topics give examples and details for data-linking each of the [built-in JsRender template tags](#jsrtags):\n\n*Tags without content:*\n\n- [`{^{: ...}}`](#jsvassigntag) (Evaluate)\n- [`{^{> ...}}`](#jsvhtmltag) (HTML encode)\n\n*Block tags:*\n\n- [`{^{include ...}}`](#jsvincludetag) (Template composition -- partials)\n- [`{^{for ...}}`](#jsvfortag) (Template composition, with iteration over arrays)\n- [`{^{props ...}}`](#jsvpropstag) (Iteration over properties of an object)\n- [`{^{if ...}}`](#jsviftag) (Conditional inclusion)\n- [`{^{on ...}}`](#jsvontag) (Button, or event binding)\n- [`{^{myTag ...}}`](#jsvtagcontrols) (Custom tag controls)\n\n*Alternative content blocks:*\n\n- [`{{else ...}}`](#jsvelsetag) (Content block separator)\n\n*Creating your own tags (custom tag controls):*\n\n- [Custom tags](#jsvtagcontrols)\n"
+        "text": "The following topics give examples and details for data-linking each of the [built-in JsRender template tags](#jsrtags):\n\n*Tags without content:*\n\n- [`{^{: ...}}`](#jsvassigntag) (Evaluate)\n- [`{^{> ...}}`](#jsvhtmltag) (HTML encode)\n\n*Block tags:*\n\n- [`{^{include ...}}`](#jsvincludetag) (Template composition -- partials)\n- [`{^{for ...}}`](#jsvfortag) (Template composition, with iteration over arrays)\n- [`{^{props ...}}`](#jsvpropstag) (Iteration over properties of an object)\n- [`{^{if ...}}`](#jsviftag) (Conditional inclusion)\n- [`{^{myTag ...}}`](#jsvtagcontrols) (Custom tag controls)\n\n*Block tags (JsViews only):*\n\n- [`{^{radiogroup ...}}`](#jsvradiogrouptag) (Radio button group)\n- [`{^{on ...}}`](#jsvontag) (Button, or event binding)\n\n*Alternative content blocks:*\n\n- [`{{else ...}}`](#jsvelsetag) (Content block separator)\n\n*Creating your own tags (custom tag controls):*\n\n- [Custom tags](#jsvtagcontrols)\n"
       },
       {
         "_type": "para",
@@ -1571,7 +1571,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "$.link(true, \"body\", model);"
           }
         ],
-        "url": "samples/tag-controls/slider/simple-toplevel/sample",
+        "url": "samples/tag-controls/jqueryui/slider/simple-toplevel/sample",
         "height": "370",
         "title": "Top-level data-link=\"{slider ...}\"",
         "anchor": "toplinkslidersample"
@@ -1818,10 +1818,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<input data-link=\"name\"/>\n```\n\n```jsr\n<label><input data-link=\"{toBool:gender:toString}\" type=\"checkbox\" /> Male</label>\n```\n\n```jsr\n<label><input data-link=\"gender\" value=\"male\" type=\"radio\" name=\"gender\" /> Male</label>\n<label><input data-link=\"gender\" value=\"female\" type=\"radio\" name=\"gender\" /> Female</label>\n```\n\n```jsr\n<select data-link=\"gender\">\n  <option value=\"male\">Male</option>\n  <option value=\"female\">Female</option>\n</select>\n```\n\n```jsr\n<textarea data-link=\"name\"></textarea>\n```\n\n```jsr\n<span data-link=\"name\" contenteditable=\"true\"></span>\n```\n\n```jsr\n{^{textbox name/}}\n```"
+            "text": "```jsr\n<input data-link=\"name\"/>\n```\n\n```jsr\n<label><input data-link=\"{toBool:gender:toString}\" type=\"checkbox\" /> Male</label>\n```\n\n```jsr\n<div data-link=\"{radiogroup gender}\">\n  <label><input value=\"male\" type=\"radio\" /> Male</label>\n  <label><input value=\"female\" type=\"radio\" /> Female</label>\n</div>\n```\n\n```jsr\n<select data-link=\"gender\">\n  <option value=\"male\">Male</option>\n  <option value=\"female\">Female</option>\n</select>\n```\n\n```jsr\n<textarea data-link=\"name\"></textarea>\n```\n\n```jsr\n<span data-link=\"name\" contenteditable=\"true\"></span>\n```\n\n```jsr\n{^{textbox name/}}\n```"
           }
         ],
-        "html": "<style>\n  [contenteditable] {border:1px solid green; padding:5px;}\n  .block {display: block; margin-bottom: 10px} .green {color: green;}\n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" class=\"block\"/>\n\n  <label class=\"block\"><input data-link=\"{toBool:gender:toString}\" type=\"checkbox\" /> Male</label>\n\n  <div class=\"block\">\n    <label><input data-link=\"gender\" value=\"male\" type=\"radio\" name=\"gender\" /> Male</label><br/>\n    <label><input data-link=\"gender\" value=\"female\" type=\"radio\" name=\"gender\" /> Female</label>\n  </div>\n\n  <select data-link=\"gender\" class=\"block\">\n    <option value=\"male\">Male</option>\n    <option value=\"female\">Female</option>\n  </select>\n\n  <textarea data-link=\"name\" class=\"block\"></textarea>\n\n  <div class=\"block\">\n    <span data-link=\"name\" contenteditable=\"true\"></span>\n  </div>\n\n  <div class=\"block\">\n    {^{textbox name label=\"Name:\"/}}\n  </div>\n\n  <hr/>\n\n  <div class=\"green\"><b>person:</b> {^{>name}} {^{>gender}}</div>\n</script>",
+        "html": "<style>\n  [contenteditable] {border:1px solid green; padding:5px;}\n  .block {display: block; margin-bottom: 10px} .green {color: green;}\n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" class=\"block\"/>\n\n  <label class=\"block\"><input data-link=\"{toBool:gender:toString}\" type=\"checkbox\" /> Male</label>\n\n  <div class=\"block\" data-link=\"{radiogroup gender}\">\n    <label><input value=\"male\" type=\"radio\" /> Male</label><br/>\n    <label><input data-link=\"gender\" value=\"female\" type=\"radio\" /> Female</label>\n  </div>\n\n  <select data-link=\"gender\" class=\"block\">\n    <option value=\"male\">Male</option>\n    <option value=\"female\">Female</option>\n  </select>\n\n  <textarea data-link=\"name\" class=\"block\"></textarea>\n\n  <div class=\"block\">\n    <span data-link=\"name\" contenteditable=\"true\"></span>\n  </div>\n\n  <div class=\"block\">\n    {^{textbox name label=\"Name:\"/}}\n  </div>\n\n  <hr/>\n\n  <div class=\"green\"><b>person:</b> {^{>name}} {^{>gender}}</div>\n</script>",
         "code": "$.views.converters({\n  toString: function(val) {\n   return val ? 'male' : 'female';\n  },\n  toBool: function(val) {\n    return val === 'male';\n }\n});\n\n$.views.tags({\n  textbox: {\n    onAfterLink: function() {\n      // Find input in contents, if not already found\n      this.linkedElem = this.linkedElem || this.contents(\"input\");\n    },\n    onUpdate: function() {\n      // No need to re-render whole tag, when content updates.\n      return false;\n    },\n    template: \"<em>{{:~tag.tagCtx.props.label}}</em> <input/>\"\n  }\n});\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo\", gender: \"male\"};\n\ntmpl.link(\"#result\", person);\n",
         "height": "346",
         "title": "Two way binding"
@@ -1855,7 +1855,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```jsr\n<input data-link=\"gender convert=~toBool convertBack=~toString\" type=\"checkbox\" />\n``` "
           }
         ],
-        "html": "<style>.block {display: block; margin-bottom: 10px} .green {color: green;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label class=\"block\">\n  <input data-link=\"gender convert=~toBool convertBack=~toString\" type=\"checkbox\" />\n  Male</label>\n\n  <div class=\"block\">\n    <label><input data-link=\"gender\" value=\"male\" type=\"radio\" name=\"gender\" /> Male</label><br/>\n    <label><input data-link=\"gender\" value=\"female\" type=\"radio\" name=\"gender\" /> Female</label>\n  </div>\n\n  <hr/>\n\n  <div class=\"green\">{^{>gender}}</div>\n</script>",
+        "html": "<style>.block {display: block; margin-bottom: 10px} .green {color: green;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label class=\"block\">\n  <input data-link=\"gender convert=~toBool convertBack=~toString\" type=\"checkbox\" />\n  Male</label>\n\n  <div class=\"block\" data-link=\"{radiogroup gender}\">\n    <label><input value=\"male\" type=\"radio\" /> Male</label><br/>\n    <label><input value=\"female\" type=\"radio\" /> Female</label>\n  </div>\n\n  <hr/>\n\n  <div class=\"green\">{^{>gender}}</div>\n</script>",
         "code": "var helpers = {\n  toString: function(val) {\n   return val ? 'male' : 'female';\n  },\n  toBool: function(val) {\n    return val === 'male';\n }\n};\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {gender: \"male\"};\n\ntmpl.link(\"#result\", person, helpers);\n",
         "title": "Two-way binding &ndash; using helpers as converters",
         "height": "140"
@@ -1908,7 +1908,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "para",
-        "title": "Data-linking to deep changes in the path",
+        "title": "Data-linking to deep changes in the path ('deep linking')",
         "text": "\nThe chained paths can be in the `data-link=\"...\"` expression of [data-linked elements](#linked-elem-syntax) or in [data-linked tags](#linked-tag-syntax): `{^{...}}`. Either way, the template data-binding will automatically 'listen' to observable changes in the leaf property (`ZIP` in this case). \n\nBut sometimes you may want your template to respond dynamically to changes on objects higher up in the path (*deep changes* on the path). You can specify this by a simple syntax change: replace a `.` with a `^` at the level up to which you want to listen to changes.\n\nFor example, write `manager.address^ZIP` in order to respond not only to leaf changes (to `ZIP`) but also to observable changes in the `address` property of the `manager`. And write `manager^address.ZIP` in order to data-bind also to changes where the `manager` property of the top-level `team` object is swapped observably to another `manager` object.\n\n(If you know that in your app the objects higher up the path will never change dynamically, then stick with the default <em>leaf</em> binding, since that will provide better perf optimization...)\n\nSee also the related discussion and examples on [using `$.observe()` with deep changes](#observe@deep).\n\nHere it is in a sample, with leaf binding only. Editing the ZIP or clicking *\"Change leaf values\"* triggers template updates. But clicking *\"Change manager\"* does not work.\n\nClick on ***Try it*** and change paths to `manager^address.ZIP` -- and see how *\"Change manager\"* now works.",
         "anchor": "deep"
       },
@@ -1936,6 +1936,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "height": "130"
       },
       {
+        "_type": "para",
+        "title": "",
+        "text": "Here is the same sample but with the deep path binding to manager: `manager^address.ZIP`"
+      },
+      {
         "_type": "sample",
         "typeLabel": "Sample:",
         "codetabs": [],
@@ -1950,13 +1955,14 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<input data-link=\"manager^address.ZIP\" />\n\n{^{if manager^address.ZIP}}\n  ZIP: {^{:manager^address.ZIP}}\n{{/if}}\n```\n\nModify leaf or manager: template values all update correctly in response\n"
+            "text": "```jsr\n<input data-link=\"manager^address.ZIP\" />\n\n{^{if manager^address.ZIP}}\n  ZIP: {^{:manager^address.ZIP}}\n{{/if}}\n```\n\nModify leaf (ZIP) or manager: template values all update correctly in response\n"
           }
         ],
         "html": "<div class=\"left\">\n  <button id=\"modifyLeaf\">Change leaf values</button>\n  <button id=\"changeManager\">Change manager</button>\n  <div id=\"result\"></div>\n</div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n\n<input data-link=\"manager^address.ZIP\" />\n\n{^{if manager^address.ZIP}}\n  ZIP: {^{:manager^address.ZIP}}\n{{/if}}\n\n<hr/>\n\nManager: {^{if manager === person1}}person1{{else}}person2{{/if}}\n\n</script>",
         "code": "var team = {\n  person1: {\n    address: {\n      City: \"New York\",\n      ZIP: \"10035\"\n    }\n  },\n  person2: {\n    address: {\n      City: \"London\"\n    }\n  }\n};\n\nteam.manager = team.person1;\n\n\n$(\"#modifyLeaf\").on(\"click\", function() {\n  $.observable(team.manager.address).setProperty({\n    \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n  });\n});\n\n$(\"#changeManager\").on(\"click\", function() {\n  $.observable(team).setProperty({\n    manager: team.manager === team.person1 ? team.person2 : team.person1\n  });\n});\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", team);",
         "title": "Data-linking to deep changes",
-        "height": "130"
+        "height": "130",
+        "anchor": ""
       },
       {
         "_type": "para",
@@ -1984,7 +1990,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div class=\"left\">\n  <button id=\"modifyLeaf\">Change leaf values</button>\n  <button id=\"changeAddress\">New address</button>\n  <button id=\"UKAddress\">UK address</button>\n  <button id=\"changeManager\">Change manager</button>\n  <div id=\"result\"></div>\n</div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"manager^name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"manager^address.street\" /></td></tr>\n    <tr>\n      {^{if manager^address.ZIP}}\n        <td>ZIP:</td><td><input data-link=\"manager^address.ZIP\" /></td>\n       {{else}}\n      <td colspan=\"2\">UK address - No ZIP</td>\n      {{/if}}\n    </tr>\n  </tbody></table>\n</script>",
         "code": "var person1 = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n    ZIP: \"34009\"\n  }\n};\n\nvar person2 = {\n  name: \"Henry\",\n  address: {\n    street: \"Trinity St\"\n  }\n};\n\nvar data = {\n  manager: person1\n};\n\n$(\"#modifyLeaf\").on(\"click\", function() {\n  $.observable(data.manager).setProperty({\n    name: \"Hermione\",\n    \"address.street\": \"Main St\",\n    \"address.ZIP\": \"45008\"\n  });\n});\n\n$(\"#changeAddress\").on(\"click\", function() {\n  $.observable(data.manager).setProperty(\n    \"address\", \n    {\n      street: \"New Street\",\n      ZIP: \"99999\"\n    }\n  );\n});\n\n$(\"#UKAddress\").on(\"click\", function() {\n  $.observable(data.manager).setProperty(\n    \"address\", \n    {\n      street: \"St James St\"\n    }\n  );\n});\n\n$(\"#changeManager\").on(\"click\", function() {\n  $.observable(data).setProperty({\n    manager: data.manager === person1 ? person2 : person1\n  });\n});\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", data);",
         "height": "180",
-        "title": "Data-linking to deep changes (three levels)"
+        "title": "Data-linking to deep changes (three levels)",
+        "anchor": "deep3levels"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "(See also [this sample](#jsvviewmodelsapi@ismanagersample), showing similar deep linking but with computed get/set properties: `data-link=\"manager()^address().ZIP()\"`)"
       },
       {
         "_type": "links",
@@ -2022,22 +2034,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "paragraph"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~changeName}}Change name{{/on}}\n  <input data-link=\"name\" /><br/><br/>\n\n  <div data-link=\"name\"></div>\n  <div data-link=\"text{:name}\"></div>\n  <div data-link=\"html{:name}\"></div>\n</script>",
-        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo <b>Blow</b>\"};\nvar swapped = false;\n\ntmpl.link(\"#result\", person, {changeName: function() {\n  swapped = !swapped;\n  $.observable(person).setProperty(\"name\", swapped ? \"Jethro <em>Tull</em>\" : \"Jo <b>Blow</b>\");\n}});"
+        "text": "Data-linking to computed observables can include:\n\n- data-linking to a computed value (as in [this sample](#computed@getsetdepends)): \n  ```jsr\n  <span data-link=\"person.fullName()\"></span>\n  ```\n- two-way data-linking to a get/set property (as in [this sample](#computed@getset)):\n  ```jsr\n  <input data-link=\"person.firstName()\" />`\n  ```\n- data-linking to a deep path that includes one or more computed values (as in [this sample](#jsvviewmodelsapi@ismanagersample) -- where the displayed `ZIP` updates correctly when `team.manager()` changes):\n  ```jsr\n  <span data-link=\"manager()^address().ZIP()\"></span>`\n  ```\n\nSee:\n\n- [Data / View Model](#jsvmodel)\n- [Computed properties and computed observables](#computed)\n- [Samples: fullName() – variants](#samples/computed/fullname)\n- [Samples: Shopping cart - totalAmount()](#samples/computed/shopping-cart)\n- [Compiled VMs - Team manager sample](#jsvviewmodelsapi@ismanagersample)"
       }
     ]
   },
@@ -2164,13 +2161,18 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Data-linked radio buttons",
-        "text": "The following samples show data-linked radio buttons:\n\n- [Two-way data-binding](#link-input@radio2way)\n- Data-driven by [array](#link-input@radioarray) data (in a `{{for}}` loop)\n- Data-driven by an [editable array](#link-input@radioedit) (in a `{^{for}}` loop)\n- Data-driven by an [editable array](#link-input@radioeditid) -- including `id`\n- Using [converters](#link-input@radioconvert)",
+        "text": "The simplest way to provide two-way data-linking to a group of radio buttons is by wrapping with the `<input>`s with a [`{^{radiogroup ...}}`](#jsvradiogrouptag) tag. \n\nAlternatively, it is also possible to [data-link directly](#link-input@radio2waydirect) to the `<input>` elements.",
         "anchor": "radio"
       },
       {
         "_type": "para",
-        "title": "Radio buttons &ndash; two-way data-binding",
-        "text": "The `<input>`s are grouped by `name`. Each one has the same data-link expression.\n\nHere, two groups (with different `name` values) show two-way binding. Changing selection on one group triggers the corresponding selection change on the other group, thanks to two-way binding to the `selected` property:\n",
+        "title": "Samples in this section",
+        "text": "\nThis topic includes the following radio-button samples showing data-linked radio buttons:\n\n- Two-way data-binding, with [{radiogroup}](#link-input@radio2way)\n- Two-way data-binding, [linking directly to the input elements](#link-input@radio2waydirect)\n- [Top-level](#link-input@topdirect) linking directly to the input elements\n- [Top-level](#link-input@topradiogroup) with {radiogroup} binding\n- Data-driven by [array](#link-input@radioarray) data (in a `{{for}}` loop)\n- Data-driven by an [editable array](#link-input@radioedit) (in a `{^{for}}` loop)\n- Data-driven by an [editable array](#link-input@radioeditid) -- including `id`\n- Using [converters](#link-input@radioconvert)"
+      },
+      {
+        "_type": "para",
+        "title": "Radio buttons &ndash; two-way data-binding &ndash; using {^{radiogroup}}  ",
+        "text": "A radio button group will generally consist of a group of `<input>` elements of type `\"radio\"`, each associated with a `<label>` (which either wraps the `<input>`, or references it by id, through the `for=\"inputId\"` attribute).\n\nTo data-link the radio buttons, wrap the `<input>` (and `<label>`) elements with a `{^{radiogroup ...}}` tag, linking to the appropriate data path such as the `selectedCar` property on the current data object:\n\n```jsr\n{^{radiogroup selectedCar}}\n```",
         "anchor": "radio2way"
       },
       {
@@ -2188,18 +2190,100 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  selected: \"ford-us\",\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n<input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selected\"/> None ...\n<input name=\"cars\" type=\"radio\" value=\"volvo-eur\" data-link=\"selected\"/> Volvo ...\n<input name=\"cars\" type=\"radio\" value=\"ford-us\" data-link=\"selected\"/> Ford ...\n```\n\n```jsr\n<input name=\"cars-long\" type=\"radio\" value=\"\" data-link=\"selected\"/> None ...\n<input name=\"cars-long\" type=\"radio\" value=\"volvo-eur\" data-link=\"selected\"/> Volvo Europe ...\n<input name=\"cars-long\" type=\"radio\" value=\"ford-us\" data-link=\"selected\"/> Ford US ...\n```\n\n"
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  selectedCar: \"frd\",\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  <label><input type=\"radio\" value=\"vlv\"/> Volvo</label>\n  <label><input type=\"radio\" value=\"frd\"/> Ford</label>\n{{/radiogroup}}\n```\n"
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selected\"/>\n    None</label><br/>\n  <label><input name=\"cars\" type=\"radio\" value=\"volvo-eur\" data-link=\"selected\"/>\n    Volvo</label><br/>\n  <label><input name=\"cars\" type=\"radio\" value=\"ford-us\" data-link=\"selected\"/>\n    Ford</label><br/>\n\n  <hr/>\n\n  <label><input name=\"cars-long\" type=\"radio\" value=\"\" data-link=\"selected\"/>\n    None</label><br/>\n  <label><input name=\"cars-long\" type=\"radio\" value=\"volvo-eur\" data-link=\"selected\"/>\n    Volvo Europe</label><br/>\n  <label><input name=\"cars-long\" type=\"radio\" value=\"ford-us\" data-link=\"selected\"/>\n    Ford US</label><br/>\n\n  <hr/>\n\n  <span class=\"spanbox\" data-link=\"selected||'none'\"></span>\n</script>",
-        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {selected: \"ford-us\"};\n\ntmpl.link(\"#result\", data);",
-        "height": "206",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{radiogroup selectedCar}}\n    <label><input type=\"radio\" value=\"\"/>\n      None</label><br/>\n    <label><input type=\"radio\" value=\"vlv\"/>\n      Volvo</label><br/>\n    <label><input type=\"radio\" value=\"frd\"/>\n      Ford</label><br/>\n  {{/radiogroup}}\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {selectedCar: \"frd\"};\n\ntmpl.link(\"#result\", data);",
+        "height": "130",
         "title": ""
       },
       {
         "_type": "para",
+        "title": "Radio buttons &ndash; data-binding directly to the &lt;inputs>",
+        "text": "It is also possible to data-link directly to `<input>` elements, without using a `{{radiogroup}}` tag, by:\n\n- data-linking each `<input>` directly (each to the same data path, such as `data-link=\"selectedCar\"`)\n- including a `name` attribute on each `<input>` of the group (such as `name=\"cars\"`)\n\n```jsr\n<label><input name=\"cars\" type=\"radio\" value=\"vlv\" data-link=\"selectedCar\"/> ...\n```\n\nNote that setting the `name` attribute was not necessary when using `{{radiogroup}}` -- since the `{{radiogroup}}` tag will automatically add a generated `name` property to each `<input>`, if none has been specified).",
+        "anchor": "radio2waydirect"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  selectedCar: \"frd\",\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n<label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/> None ...\n<label><input name=\"cars\" type=\"radio\" value=\"vlv\" data-link=\"selectedCar\"/> Volvo ...\n<label><input name=\"cars\" type=\"radio\" value=\"frd\" data-link=\"selectedCar\"/> Ford ...\n```\n\n"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/>\n    None</label><br/>\n  <label><input name=\"cars\" type=\"radio\" value=\"vlv\" data-link=\"selectedCar\"/>\n    Volvo</label><br/>\n  <label><input name=\"cars\" type=\"radio\" value=\"frd\" data-link=\"selectedCar\"/>\n    Ford</label><br/>\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {selectedCar: \"frd\"};\n\ntmpl.link(\"#result\", data);",
+        "height": "130"
+      },
+      {
+        "_type": "para",
+        "title": "Top-level data-linking of radio buttons",
+        "text": "For top-level data-linking, there are two alternatives:\n\n- Top-level data-linked `<input>` elements (using direct data-linking as in the previous example)\n- Top-level `{radiogroup}` binding (shown also [here](#jsvradiogrouptag@top-radiogroup))\n\nThe following two samples show those two approaches:\n",
+        "anchor": "top"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<div id=\"top-level-linked\">\n  <label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/> None...\n  ...\n```\n\n```js\nvar data = {selectedCar: \"frd\"};\n$.link(true, \"#top-level-linked\", data);\n```"
+          }
+        ],
+        "html": "<div id=\"top-level-linked\">\n  <label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/>\n    None</label><br/>\n  <label><input name=\"cars\" type=\"radio\" value=\"vlv\" data-link=\"selectedCar\"/>\n    Volvo</label><br/>\n  <label><input name=\"cars\" type=\"radio\" value=\"frd\" data-link=\"selectedCar\"/>\n    Ford</label><br/>\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</div>",
+        "code": "var data = {selectedCar: \"frd\"};\n\n$.link(true, \"#top-level-linked\", data);",
+        "title": "Top-level data-linked &lt;input> elements",
+        "height": "130",
+        "anchor": "topdirect"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<div id=\"top-level-linked\">\n  <div data-link=\"{radiogroup selectedCar}\">\n    <label><input type=\"radio\" value=\"\"/> None...\n    ...\n```\n\n```js\nvar data = {selectedCar: \"frd\"};\n$.link(true, \"#top-level-linked\", data);\n```"
+          }
+        ],
+        "code": "var data = {selectedCar: \"frd\"};\n\n$.link(true, \"#top-level-linked\", data);\n",
+        "html": "<div id=\"top-level-linked\">\n  <div data-link=\"{radiogroup selectedCar}\">\n    <label><input type=\"radio\" value=\"\"/>\n      None</label><br/>\n    <label><input type=\"radio\" value=\"vlv\"/>\n      Volvo</label><br/>\n   <label><input type=\"radio\" value=\"frd\"/>\n      Ford</label>\n  </div>\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</div>",
+        "title": "Top-level {radiogroup ...} binding",
+        "height": "130",
+        "anchor": "topradiogroup"
+      },
+      {
+        "_type": "para",
         "title": "Radio buttons &ndash; in {{for}} loop with array",
-        "text": "A `cars` array has values for the displayed `name` and the corresponding `id` (used as *key*, and data-linked to the `selected` property).\n\nWe loop through the array using `{{for cars}}`, and within the nested context we access the `selected` property using `~root.selected`.",
+        "text": "In this example, a `cars` array has values for the displayed `name` and for the corresponding `id` (used as *key*, and data-linked to the `selectedCar` property).\n\nWe provide a first radio button for the 'unselected' case, and then loop through the array using `{{for cars}}` to provide a radio button for each item.\n\nWe wrap both the initial static radio button and the buttons rendered by `{{for}}` in a `{{radiogroup}}` tag providing two-way data-link binding.",
         "anchor": "radioarray"
       },
       {
@@ -2217,12 +2301,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Data includes `cars` array:</div>*\n\n```js\nvar data = {\n  selected: \"ford-us\",\n  cars: [\n    {id: \"volvo-eur\", name: \"Volvo\"},\n    ...\n  ]\n};\n```\n\n*<div class=\"close\">First radio button -- 'unselected' value: `\"\"`:</div>*\n\n```jsr\n<label>\n  <input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selected\"/>\n  None\n</label>\n```\n\n*<div class=\"close\">Radio buttons in `{{for}}` loop, data-linked to same `selected` / `~root.selected` property:</div>*\n\n```jsr\n{{for cars}}\n  <label>\n    <input name=\"cars\" type=\"radio\" value=\"{{:id}}\" data-link=\"~root.selected\"/>\n    {{:name}}\n  </label>\n{{/for}}\n```"
+            "text": "*<div class=\"close\">Data includes `cars` array:</div>*\n\n```js\nvar data = {\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    ...\n  ]\n};\n```\n\n*<div class=\"close\">First radio button -- 'unselected' value: `\"\"`:</div>*\n\n```jsr\n  <label><input type=\"radio\" value=\"\"/> None</label><br/>\n```\n\n*<div class=\"close\">{{radiogroup}} wrapping first 'unselected' radio button and additional data-driven array of radio buttons:</div>*\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\"/> None</label><br/>\n  {{for cars}}\n    <label><input type=\"radio\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n  {{/for}}\n{{/radiogroup}}\n```"
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label>\n    <input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selected\"/>\n    None\n  </label><br/>\n\n  {{for cars}}\n    <label>\n      <input name=\"cars\" type=\"radio\" value=\"{{:id}}\" data-link=\"~root.selected\"/>\n      {{:name}}\n    </label><br/>\n  {{/for}}\n\n  <span class=\"spanbox\" data-link=\"selected||'none'\"></span>\n</script>",
-        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selected: \"ford-us\",\n  cars: [\n    {id: \"volvo-eur\", name: \"Volvo\"},\n    {id: \"ford-us\", name: \"Ford\"},\n    {id: \"honda-jap\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
-        "height": "136",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{radiogroup selectedCar}}\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    {{for cars}}\n      <label><input type=\"radio\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
+        "height": "130",
         "title": ""
       },
       {
@@ -2246,18 +2330,18 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">The `cars` array (but not the `id` properties) is editable. Using data-linked tags: `{^{...}}`:</div>*\n\n```jsr\n{^{for cars}}\n  <label>\n    <input name=\"cars\" type=\"radio\" value=\"{{:id}}\" data-link=\"~root.selected\"/>\n    {^{:name}}\n  </label><br/>\n{{/for}}\n```"
+            "text": "*<div class=\"close\">The `cars` array (but not the `id` properties) is editable. We use the data-linked `{^{for ...}}` tag:</div>*\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  {^{for cars}}\n    <label><input type=\"radio\" value=\"{{:id}}\"/> {^{:name}}</label>\n  {{/for}}\n{{/radiogroup}}<\n```"
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on add}\">Add car</button>\n  <table>\n    <tbody>\n      {^{for cars}}\n        <tr>\n          <td><input data-link=\"name\"/></td>\n          <td>{{:id}}</td>\n          <td><span class=\"remove\" data-link=\"{on ~root.remove #index}\"></span></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table><br/>\n\n  <label>\n    <input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selected\"/>\n    None\n  </label><br/>\n  {^{for cars}}\n    <label>\n      <input name=\"cars\" type=\"radio\" value=\"{{:id}}\" data-link=\"~root.selected\"/>\n      {^{:name}}\n    </label><br/>\n  {{/for}}\n\n  <span class=\"spanbox\" data-link=\"selected||'none'\"></span>\n</script>",
-        "code": "var idCount = 0;\nvar tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  add: function() {\n    idCount++;\n    var id = \"car\" + idCount;\n    $.observable(this.cars).insert({id: id, name:\"name\"});\n    $.observable(this).setProperty(\"selected\", id);\n  },\n  remove: function(index) {\n    $.observable(this.cars).remove(index);\n  },\n  selected: \"ford-us\",\n  cars: [\n    {id: \"volvo-eur\", name: \"Volvo\"},\n    {id: \"ford-us\", name: \"Ford\"},\n    {id: \"honda-jap\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on add}\">Add car</button>\n  <table>\n    <tbody>\n      {^{for cars}}\n        <tr>\n          <td><input data-link=\"name\"/></td>\n          <td>{{:id}}</td>\n          <td><span class=\"remove\" data-link=\"{on ~root.remove #index}\"></span></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table><br/>\n\n  {^{radiogroup selectedCar}}\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    {^{for cars}}\n      <label><input type=\"radio\" value=\"{{:id}}\"/> {^{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}<br/>\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</script>",
+        "code": "var idCount = 0;\nvar tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  add: function() {\n    idCount++;\n    var id = \"car\" + idCount;\n    $.observable(this.cars).insert({id: id, name: \"name\" + idCount});\n    $.observable(this).setProperty(\"selectedCar\", id);\n  },\n  remove: function(index) {\n    $.observable(this.cars).remove(index);\n  },\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
         "title": "",
         "height": "330"
       },
       {
         "_type": "para",
         "title": "Radio buttons &ndash; dynamic array including id (value)",
-        "text": "Here we allow the user also to change the `id` value (used as key) -- which requires more advanced data-link syntax: `value^{:id}` to update the `value` of the `<input>`s when the `id` changes.",
+        "text": "Here we allow the user also to change the `id` value (used as key) -- which requires more advanced data-link syntax: `value^{:id}` to update the `value` of the `<input>`s when the `id` changes.\n\nWe provide two radio button groups -- showing the alternative syntax styles -- data-linking through a `{{radiogroup}}` wrapper tag, or data-linking directly to the `<input>`s. Since both groups data-link to the same `selectedCar` property, the two-way binding keeps them in sync.",
         "anchor": "radioeditid"
       },
       {
@@ -2275,12 +2359,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">The `id` is also editable. Include data-linking to `value^{:id}` -- which binds to changes in `id`:</div>*\n```jsr\n{^{for cars}}\n  <label>\n    <input name=\"cars\" type=\"radio\" value=\"{{:id}}\" data-link=\"{:~root.selected:} value^{:id}\"/>\n    {^{:name}}\n  </label><br/>\n{{/for}}\n```\n\nNote that the initialization of `value=\"idValue\"` is done during initial rendering, by using a JsRender tag, `{{:id}}`, rather than through data-linking. Writing `<input ... data-link=\"{:~sel:} value{:id}\"/>` would initialize `value` too late to ensure correct initial selection of the *Ford* radio button (based on the initial value `\"ford-us\"` of `selected`).\n\n"
+            "text": "*<div class=\"close\">Two radio button groups:<br/>-- with `{{radiogroup}}`:</div>*\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  {^{for cars}}\n    <label><input type=\"radio\" data-link=\"value{:id}\"/> {^{:name}}</label>\n  {{/for}}\n{{/radiogroup}}\n```\n\n*<div class=\"close\">-- and with direct data-linking to the `<input>`s:</div>*\n\n```jsr\n<label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/> None</label>\n{^{for cars}}\n  <label><input name=\"cars\" type=\"radio\"\n    value=\"{{:id}}\" data-link=\"{:~root.selectedCar:} value^{:id}\"\n  /> {^{:name}}</label>\n{{/for}}\n```\n\nSince the `id` is also editable, we are data-linking to `id`: `data-link=\"value{:id}\"`. \n\nFor the second style (data-linking directly to the `<input>`) we need to ensure that the `value` is initialized during rendering, using `value=\"{{:id}}\"` (to ensure correct initial selection of the *Ford* radio button -- based on the initial value `\"frd\"` of `selectedCar`) -- in addition to binding to subsequent changes in `id` using `value^{:id}`."
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on add}\">Add car</button>\n  <table>\n    <tbody>\n      {^{for cars}}\n        <tr>\n          <td><input data-link=\"name\"/></td>\n          <td><input data-link=\"id\"/></td>\n          <td><span class=\"remove\" data-link=\"{on ~root.remove #index}\"></span></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table><br/>\n\n  <label>\n    <input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selected\"/>\n    None\n  </label><br/>\n  {^{for cars}}\n    <label>\n      <input name=\"cars\" type=\"radio\" value=\"{{:id}}\" data-link=\"{:~root.selected:} value^{:id}\"/>\n      {^{:name}}\n    </label><br/>\n  {{/for}}\n\n  <span class=\"spanbox\" data-link=\"selected||'none'\"></span>\n</script>",
-        "code": "var idCount = 0;\nvar tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  add: function() {\n    idCount++;\n    var id = \"car\" + idCount;\n    $.observable(this.cars).insert({id: id, name:\"name\"});\n    $.observable(this).setProperty(\"selected\", id);\n  },\n  remove: function(index) {\n    $.observable(this.cars).remove(index);\n  },\n  selected: \"ford-us\",\n  cars: [\n    {id: \"volvo-eur\", name: \"Volvo\"},\n    {id: \"ford-us\", name: \"Ford\"},\n    {id: \"honda-jap\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
-        "height": "330",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on add}\">Add car</button>\n  <table>\n    <tbody>\n      {^{for cars}}\n        <tr>\n          <td><input data-link=\"name\"/></td>\n          <td><input data-link=\"id\"/></td>\n          <td><span class=\"remove\" data-link=\"{on ~root.remove #index}\"></span></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table><br/>\n\n  {^{radiogroup selectedCar}}\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    {^{for cars}}\n      <label><input type=\"radio\" data-link=\"value{:id}\"/> {^{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}<br/>\n \n  <label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/> None</label><br/>\n  {^{for cars}}\n    <label><input name=\"cars\" type=\"radio\"\n      value=\"{{:id}}\" data-link=\"{:~root.selectedCar:} value^{:id}\"\n    /> {^{:name}}</label><br/>\n  {{/for}}\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</script>",
+        "code": "var idCount = 0;\nvar tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  add: function() {\n    idCount++;\n    var id = \"car\" + idCount;\n    $.observable(this.cars).insert({id: id, name: \"name\" + idCount});\n    $.observable(this).setProperty(\"selectedCar\", id);\n  },\n  remove: function(index) {\n    $.observable(this.cars).remove(index);\n  },\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
+        "height": "390",
         "title": "",
         "anchor": "radioeditable"
       },
@@ -2305,12 +2389,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Define converters:</div>*\n\n```js\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.ctx.root.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.ctx.root.cars[val].id;\n  }\n});\n```\n\n*<div class=\"close\">Initialize the data</div>*\n\n```js\nvar data = {\n  selIndex: 1,\n  cars: [...]\n}\n```\n\n*<div class=\"close\">Data-link to `selIndex`, using the converters:</div>*\n\n```jsr\n<input name=\"cars\" type=\"radio\" value=\"{{:id}}\" data-link=\"{toId:~root.selIndex:fromId} value^{:id}\"/>\n``` "
+            "text": "*<div class=\"close\">Define converters:</div>*\n\n```js\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.tagCtx.view.data.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.tagCtx.view.data.cars[val].id;\n}});\n```\n  \n*<div class=\"close\">Initialize the data</div>*\n\n```js\nvar data = {\n  selIndex: 1,\n  cars: [...]\n}\n```\n\n*<div class=\"close\">Data-link to `selIndex`, using the converters:</div>*\n\n```jsr\n{^{radiogroup selIndex convert=\"toId\" convertBack=\"fromId\"}}\n```\n\nIf we had used the direct linking to `<input>`s, we would have used:\n\n```jsr\n<input name=\"cars\" type=\"radio\" \n  value=\"{{:id}}\" data-link=\"{toId:~root.selIndex:fromId} value^{:id}\"\n/>\n```\n``` "
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label>\n    <input name=\"cars\" type=\"radio\" value=\"\" data-link=\"{toId:selIndex:fromId}\"/>\n    None\n  </label><br/>\n  {^{for cars}}\n    <label>\n      <input name=\"cars\" type=\"radio\" value=\"{{:id}}\" data-link=\"{toId:~root.selIndex:fromId}\"/>\n      {^{:name}}\n    </label><br/>\n  {{/for}}\n\n  <span class=\"spanbox\" data-link=\"selIndex\"></span> <em>Selected index</em><br/>\n  <span class=\"spanbox\" data-link=\"selIndex === -1 ? 'None' : cars[selIndex].name\"></span> <em>Selected car name</em>\n</script>",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label>\n    <input name=\"cars\" type=\"radio\" value=\"\" data-link=\"{toId:selIndex:fromId}\"/>\n    None\n  </label><br/>\n  {^{radiogroup selIndex convert=\"toId\" convertBack=\"fromId\"}}\n    {^{for cars}}\n      <label><input type=\"radio\" value=\"{{:id}}\"/> {^{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}\n\n  <span class=\"spanbox\" data-link=\"selIndex\"></span> <em>Selected index</em><br/>\n  <span class=\"spanbox\"\n  data-link=\"selIndex === -1 ? 'None' : cars[selIndex].name\"></span>\n  <em>Selected car name</em>\n</script>",
         "height": "170",
-        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selIndex: 1,\n  cars: [\n    {id: \"volvo-eur\", name: \"Volvo\"},\n    {id: \"ford-us\", name: \"Ford\"},\n    {id: \"honda-jap\", name: \"Honda\"}\n  ]\n};\n\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.ctx.root.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.ctx.root.cars[val].id;\n  }\n});\n\ntmpl.link(\"#result\", data);",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selIndex: 1,\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.tagCtx.view.data.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.tagCtx.view.data.cars[val].id;\n}});\n\ntmpl.link(\"#result\", data);",
         "title": ""
       },
       {
@@ -2318,6 +2402,16 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "title": "See also:",
         "links": [],
         "topics": [
+          {
+            "_type": "topic",
+            "hash": "jsvradiogrouptag",
+            "label": "The {^{radiogroup}} tag"
+          },
+          {
+            "_type": "topic",
+            "hash": "",
+            "label": ""
+          },
           {
             "_type": "topic",
             "hash": "link2way",
@@ -2330,8 +2424,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "samples/tag-controls/edit/generic",
-            "label": "Generic edit control sample"
+            "hash": "samples/tag-controls/validate",
+            "label": "Validate tag control samples"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/tag-controls/toolbar",
+            "label": "jQuery UI toolbar samples"
           }
         ]
       }
@@ -2349,7 +2448,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "&lt;select&gt;: two-way data-binding",
-        "text": "The `<selects>`s are data-linked to the `selected` property (one a drop-down and the other a listbox: `size=\"3\"`). \n\nChanging selection on one `<select>` triggers the corresponding selection change on the other, thanks to two-way binding to the `selected` property:\n",
+        "text": "The `<selects>`s are data-linked to the `selectedCar` property (one a drop-down and the other a listbox: `size=\"3\"`). \n\nChanging selection on one `<select>` triggers the corresponding selection change on the other, thanks to two-way binding to the `selectedCar` property:\n",
         "anchor": "select2way"
       },
       {
@@ -2367,18 +2466,18 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  selected: \"ford-us\",\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n<select data-link=\"selected\">\n  <option value=\"\">Choose a car</option>\n  <option value=\"volvo-eur\">Volvo</option>\n  <option value=\"ford-us\">Ford</option>\n</select>\n```\n\n```jsr\n<select data-link=\"selected\" size=\"3\">\n  <option value=\"\">Choose a car</option>\n  <option value=\"volvo-eur\">Volvo</option>\n  <option value=\"ford-us\">Ford</option>\n</select>\n```"
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  selectedCar: \"frd\",\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n<select data-link=\"selectedCar\">\n  <option value=\"\">Choose a car</option>\n  <option value=\"vlv\">Volvo</option>\n  <option value=\"frd\">Ford</option>\n</select>\n```\n\n```jsr\n<select data-link=\"selectedCar\" size=\"3\">\n  <option value=\"\">Choose a car</option>\n  <option value=\"vlv\">Volvo</option>\n  <option value=\"frd\">Ford</option>\n</select>\n```"
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <select data-link=\"selected\">\n    <option value=\"\">Choose a car</option>\n    <option value=\"volvo-eur\">Volvo</option>\n    <option value=\"ford-us\">Ford</option>\n  </select><br/><br/>\n\n  <select data-link=\"selected\" size=\"3\">\n    <option value=\"\">Choose a car</option>\n    <option value=\"volvo-eur\">Volvo</option>\n    <option value=\"ford-us\">Ford</option>\n  </select><br/>\n\n  <span class=\"spanbox\" data-link=\"selected||'none'\"></span>\n</script>",
-        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {selected: \"ford-us\"};\n\ntmpl.link(\"#result\", data);",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <select data-link=\"selectedCar\">\n    <option value=\"\">Choose a car</option>\n    <option value=\"vlv\">Volvo</option>\n    <option value=\"frd\">Ford</option>\n  </select><br/><br/>\n\n  <select data-link=\"selectedCar\" size=\"3\">\n    <option value=\"\">Choose a car</option>\n    <option value=\"vlv\">Volvo</option>\n    <option value=\"frd\">Ford</option>\n  </select><br/>\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {selectedCar: \"frd\"};\n\ntmpl.link(\"#result\", data);",
         "height": "150",
         "title": ""
       },
       {
         "_type": "para",
         "title": "&lt;select&gt;: &lt;option&gt;s in {{for}} loop with array",
-        "text": "A `cars` array has values for the displayed `name` and the corresponding `id` (used as *key*, and data-linked to the `selected` property). We loop through the array using `{{for cars}}`, to create an `<option>` for each car.",
+        "text": "A `cars` array has values for the displayed `name` and the corresponding `id` (used as *key*, and data-linked to the `selectedCar` property). We loop through the array using `{{for cars}}`, to create an `<option>` for each car.",
         "anchor": "selectarray"
       },
       {
@@ -2396,11 +2495,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Data includes `cars` array:</div>*\n\n```js\nvar data = {\n  selected: \"ford-us\",\n  cars: [\n    {id: \"volvo-eur\", name: \"Volvo\"},\n    ...\n  ]\n};\n```\n\n*<div class=\"close\">The first `<option>` has the 'unselected' value: `\"\"`. The following `<option>s` are in a `{{for}}` loop:</div>*\n\n```jsr\n<select data-link=\"selected\" size=\"4\">\n  <option value=\"\">Choose a car</option>\n  {^{for cars}}\n    <option value=\"{{:id}}\">{{:name}}</option>\n  {{/for}}\n</select>\n```"
+            "text": "*<div class=\"close\">Data includes `cars` array:</div>*\n\n```js\nvar data = {\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    ...\n  ]\n};\n```\n\n*<div class=\"close\">The first `<option>` has the 'unselected' value: `\"\"`. The following `<option>s` are in a `{{for}}` loop:</div>*\n\n```jsr\n<select data-link=\"selectedCar\" size=\"4\">\n  <option value=\"\">Choose a car</option>\n  {^{for cars}}\n    <option value=\"{{:id}}\">{{:name}}</option>\n  {{/for}}\n</select>\n```"
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <select data-link=\"selected\" size=\"4\">\n    <option value=\"\">Choose a car</option>\n    {^{for cars}}\n      <option value=\"{{:id}}\">{{:name}}</option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\" data-link=\"selected||'none'\"></span><br/>\n</script>",
-        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selected: \"ford-us\",\n  cars: [\n    {id: \"volvo-eur\", name: \"Volvo\"},\n    {id: \"ford-us\", name: \"Ford\"},\n    {id: \"honda-jap\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <select data-link=\"selectedCar\" size=\"4\">\n    <option value=\"\">Choose a car</option>\n    {^{for cars}}\n      <option value=\"{{:id}}\">{{:name}}</option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span><br/>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
         "height": "130",
         "title": ""
       },
@@ -2425,11 +2524,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">The `cars` array is editable. Using data-linked tags: `{^{...}}`:</div>*\n\n```jsr\n<select data-link=\"{:selected:} size{:cars.length + 1}\">\n  <option value=\"\">Choose a car</option>\n  {^{for cars}}\n    <option data-link=\"value{:id} {:name}\"></option>\n  {{/for}}\n</select>\n```\n\nNote that `<option data-link=\"value{:id} {:name}\"></option>` data-links the `value` to `id` and innerText to `name`. We could alternatively have written `<option data-link=\"value{:id}\">{^{>name}}</option>`."
+            "text": "*<div class=\"close\">The `cars` array is editable. Using data-linked tags: `{^{...}}`:</div>*\n\n```jsr\n<select data-link=\"{:selectedCar:} size{:cars.length + 1}\">\n  <option value=\"\">Choose a car</option>\n  {^{for cars}}\n    <option data-link=\"value{:id} {:name}\"></option>\n  {{/for}}\n</select>\n```\n\nNote that `<option data-link=\"value{:id} {:name}\"></option>` data-links the `value` to `id` and innerText to `name`. We could alternatively have written `<option data-link=\"value{:id}\">{^{>name}}</option>`."
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on add}\">Add car</button>\n  <table>\n    <tbody>\n      {^{for cars}}\n        <tr>\n          <td><input data-link=\"name\"/></td>\n          <td><input data-link=\"id\"/></td>\n          <td><span class=\"remove\" data-link=\"{on ~root.remove #index}\"></span></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table><br/>\n\n  <select data-link=\"{:selected:} size{:cars.length + 1}\">\n    <option value=\"\">Choose a car</option>\n    {^{for cars}}\n      <option data-link=\"value{:id} {:name}\"></option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\" data-link=\"selected||'none'\"></span><br/>\n</script>",
-        "code": "var idCount = 0;\nvar tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  add: function() {\n    idCount++;\n    var id = \"car\" + idCount;\n    $.observable(this.cars).insert({id: id, name:\"name\"});\n    $.observable(this).setProperty(\"selected\", id);\n  },\n  remove: function(index) {\n    $.observable(this.cars).remove(index);\n  },\n  selected: \"ford-us\",\n  cars: [\n    {id: \"volvo-eur\", name: \"Volvo\"},\n    {id: \"ford-us\", name: \"Ford\"},\n    {id: \"honda-jap\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on add}\">Add car</button>\n  <table>\n    <tbody>\n      {^{for cars}}\n        <tr>\n          <td><input data-link=\"name\"/></td>\n          <td><input data-link=\"id\"/></td>\n          <td><span class=\"remove\" data-link=\"{on ~root.remove #index}\"></span></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table><br/>\n\n  <select data-link=\"{:selectedCar:} size{:cars.length + 1}\">\n    <option value=\"\">Choose a car</option>\n    {^{for cars}}\n      <option data-link=\"value{:id} {:name}\"></option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span><br/>\n</script>",
+        "code": "var idCount = 0;\nvar tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  add: function() {\n    idCount++;\n    var id = \"car\" + idCount;\n    $.observable(this.cars).insert({id: id, name:\"name\"});\n    $.observable(this).setProperty(\"selectedCar\", id);\n  },\n  remove: function(index) {\n    $.observable(this.cars).remove(index);\n  },\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
         "height": "330",
         "title": ""
       },
@@ -2459,7 +2558,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <select data-link=\"{toId:selIndex:fromId}\" size=\"4\">\n    <option value=\"\">Choose a car</option>\n    {^{for cars}}\n      <option data-link=\" value{:id} {:name}\"></option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\" data-link=\"selIndex\"></span><br/>\n  <span class=\"spanbox\" data-link=\"selIndex === -1 ? 'None' : cars[selIndex].name\"></span>\n</script>",
         "height": "170",
-        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selIndex: 1,\n  cars: [\n    {id: \"volvo-eur\", name: \"Volvo\"},\n    {id: \"ford-us\", name: \"Ford\"},\n    {id: \"honda-jap\", name: \"Honda\"}\n  ]\n};\n\n$.views.converters({\n  fromId: function(val) {\n    var index = 1;\n    this.ctx.root.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {\n    return val === -1 ? \"\" : this.ctx.root.cars[val].id;\n  }\n});\n\ntmpl.link(\"#result\", data);",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selIndex: 1,\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\n$.views.converters({\n  fromId: function(val) {\n    var index = 1;\n    this.ctx.root.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {\n    return val === -1 ? \"\" : this.ctx.root.cars[val].id;\n  }\n});\n\ntmpl.link(\"#result\", data);",
         "title": ""
       },
       {
@@ -2482,11 +2581,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Initialize the data (with `selected` property as an array of strings):</div>*\n\n```js\nvar data = {\n  selected: [\"renault-fr\", \"ferrari-it\"],\n  cars: [\n    {id: \"volvo-eur\", name: \"Volvo\"},\n    ...\n  ]\n}\n```\n\n*<div class=\"close\">Data-link to `selected` array):</div>*\n\n```jsr\n<select data-link=\"selected\" multiple ...>\n  {^{for cars}}\n    <option data-link=\" value{:id} {:name}\"></option>\n  {{/for}}\n</select>\n```"
+            "text": "*<div class=\"close\">Initialize the data (with `selectedCar` property as an array of strings):</div>*\n\n```js\nvar data = {\n  selectedCar: [\"rnl\", \"frr\"],\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    ...\n  ]\n}\n```\n\n*<div class=\"close\">Data-link to `selectedCar` array):</div>*\n\n```jsr\n<select data-link=\"selectedCar\" multiple ...>\n  {^{for cars}}\n    <option data-link=\" value{:id} {:name}\"></option>\n  {{/for}}\n</select>\n```"
           }
         ],
-        "html": "<style>select {margin: 10px 0;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <em>Choose one or more cars:</em><br/>\n\n  <select data-link=\"selected\" size=\"5\" multiple>\n    {^{for cars}}\n      <option data-link=\" value{:id} {:name}\"></option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\">\n    {^{for selected}}{{:}} {{else}}<em>None</em>{{/for}}\n  </span>\n</script>",
-        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selected: [\"renault-fr\", \"ferrari-it\"],\n  cars: [\n    {id: \"volvo-eur\", name: \"Volvo\"},\n    {id: \"ford-us\", name: \"Ford\"},\n    {id: \"renault-fr\", name: \"renault\"},\n    {id: \"ferrari-it\", name: \"Ferrari\"},\n    {id: \"honda-jap\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
+        "html": "<style>select {margin: 10px 0;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <em>Choose one or more cars:</em><br/>\n\n  <select data-link=\"selectedCar\" size=\"5\" multiple>\n    {^{for cars}}\n      <option data-link=\" value{:id} {:name}\"></option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\">\n    {^{for selectedCar}}{{:}} {{else}}<em>None</em>{{/for}}\n  </span>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selectedCar: [\"rnl\", \"frr\"],\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"rnl\", name: \"Renault\"},\n    {id: \"frr\", name: \"Ferrari\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
         "height": "186"
       },
       {
@@ -2511,8 +2610,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "samples/tag-controls/edit/generic",
-            "label": "Generic edit control sample"
+            "hash": "samples/tag-controls/validate",
+            "label": "Validate tag control samples"
           }
         ]
       }
@@ -2567,8 +2666,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "samples/tag-controls/edit/generic",
-            "label": "Generic edit control sample"
+            "hash": "samples/tag-controls/validate",
+            "label": "Validate tag control samples"
           }
         ]
       }
@@ -3914,8 +4013,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "Form element samples"
           },
           {
-            "hash": "samples/tag-controls/edit/generic",
-            "label": "Generic edit control sample"
+            "hash": "samples/tag-controls/validate",
+            "label": "Validate tag control samples"
           }
         ]
       }
@@ -4314,7 +4413,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"update\">Update</button>\n  <button id=\"revert\">Revert</button>\n  <button id=\"getData\">Get Data</button><br/>\n  <button id=\"changeName\">Change name</button>\n  <button id=\"addPhone\">Add Phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label><input type=\"checkbox\" checked id=\"attach\"/> Change Log</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\"/></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\"/></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table></script>",
-        "code": "var tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // name is a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n     {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {               // Uses vmCollection.Phone() to construct new instance\n  $.observable(this.phones()).insert(vmCollection.Phone(phoneNo));\n}\n\n// First version of data (e.g. from JSON request):\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Second version of data (e.g. from JSON request):\nvar personData2 = {\n  name: \"Peter\",\n  address: {street: \"2nd Ave\"},\n  phones: [{number: \"111 111 9999\"},{number: \"333 333 9999\"}]\n};\n\n// Instantiate View Model hierarchy, using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render and link the template against person (Person instance)\ntmpl.link(\"#result\", person);\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  person.merge(personData2);\n});\n\n$(\"#revert\").on(\"click\", function() {\n  person.merge(personData);\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n$(\"#getData\").on(\"click\", function() {\n  var updatedPersonData = person.unmap();\n  window.alert(JSON.stringify(updatedPersonData));\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "code": "var tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                               // name is a primitive type (string)\n      {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n      {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {                // Uses vmCollection.Phone() to construct new instance\n  $.observable(this.phones()).insert(vmCollection.Phone(phoneNo));\n}\n\n// First version of data (e.g. from JSON request):\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Second version of data (e.g. from JSON request):\nvar personData2 = {\n  name: \"Peter\",\n  address: {street: \"2nd Ave\"},\n  phones: [{number: \"111 111 9999\"},{number: \"333 333 9999\"}]\n};\n\n// Instantiate View Model hierarchy, using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render and link the template against person (Person instance)\ntmpl.link(\"#result\", person);\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  person.merge(personData2);\n});\n\n$(\"#revert\").on(\"click\", function() {\n  person.merge(personData);\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n$(\"#getData\").on(\"click\", function() {\n  var updatedPersonData = person.unmap();\n  window.alert(JSON.stringify(updatedPersonData));\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "400",
         "anchor": "mergesample2",
         "title": "Using merge() and unmap() &ndash; with two-way binding"
@@ -4326,9 +4425,15 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "para",
+        "title": "Overriding generated get/set functions (JsViews version)",
+        "text": "To override a generated *get/set* property provided by a compiled *View Model* you can provide an implementation in the `extend` hash, with the same name as the *get/set* in the `getters` array,  following the pattern below.\n\n(Note that this pattern is slightly different from the [JsRender version](#viewmodelsapi@override)):\n\n```js\n// Define a myNameGetSet(...) function, to override the compiled name(...) get/set function\nfunction myNameGetSet(val) {\n  if (!arguments.length) {\n    // No argument: use as a getter\n    return this._name;\n  }\n  // Called with argument: use as setter, and trigger observable change\n  $.observable(this).setProperty(\"name\", val);\n\n  // The above lines are standard compiled get/set code when using JsViews\n\n  console.log(\"name set to \" + val); // This is an additional line of code, for logging\n}\n\n// The following is standard compiled get/set code when using JsViews\nmyNameGetSet.set = function(val) {\n  // Setter called by observable property change\n  this._name = val;\n};\n\n// Declare a Person View Model with an overridden name() get/set property\n$.views.viewModels({\n  Person: {\n    getters: [\n      {getter: \"name\", ...}, // Compiled name() get/set\n      ...\n    ],\n    extend: {\n      name: myNameGetSet,    // Override name() get/set\n      ...\n    }\n    ...\n  },\n  ...\n});\n```\n\nThe above is equivalent to the generated version except that it adds custom logging to the getter/setter function.",
+        "anchor": "override"
+      },
+      {
+        "_type": "para",
         "title": "Sample showing some of the advanced View Model features",
-        "text": "The next sample specifically highlights some of the advanced features of compiled *View Models*, by adding JsViews data-linking to the corresponding JsRender [sample](#viewmodelsapi@mergeadvsample).\n\n- It stores compiled *View Models* on a `myVmCollection` hash, as a *View Model typed collection*, rather than on<br/>`$.views.viewModels`\n- It maps from an array of 'people' rather than a single person:<br/>\n  `var people = Person.map(peopleData);`\n- It specifies an `id` key for `Person`. When updating the `phones` array the `id` value is treated as 'primary key', and used to map 'identity':<br/>\n  `id: \"id\"`\n- It provides an `id()` callback on `Person`, for determining identity -- allowing identification of corresponding *View Model* instances within the people array, and hence preventing unnecessary disposal and re-instantiation (which would destroy state, such as the `comment` value).\n- It has a `comment()` get/set property that is added as part of the `extend` definition, not the `getters`, so it is not initialized from data, in the constructor. Note therefore that if you set a *comment* on each `person` instance, then click *Update*, then *Revert*, one *comment* is conserved (since that instance is never disposed -- based on the 'identity' determination) but the other is lost since the instance is disposed and then re-created by *Revert*:<br/>\n  `extend: {...comment: comment...}`\n- It has `defaultVal` specified for `name`, `address` and `phones`, either as 'static' values or computed by a callback function:<br/>\n  `address: {type: \"Address\", defaultVal: defaultStreet}`\n- It overrides the generated `person.name()` *get/set* by a `myNameGetSet` function which includes logging\n- It passes a JSON string to `merge()` or `map()`",
-        "anchor": "mergeadvsample"
+        "text": "The next sample specifically highlights some of the advanced features of compiled *View Models*, by adding JsViews data-linking to the corresponding JsRender [sample](#viewmodelsapi@mergesampleadv).\n\n- It stores compiled *View Models* on a `myVmCollection` hash, as a *View Model typed collection*, rather than on<br/>`$.views.viewModels`\n- It maps from an array of 'people' rather than a single person:<br/>\n  `var people = Person.map(peopleData);`\n- It specifies an `id` key for `Person`. When updating the `phones` array the `id` value is treated as 'primary key', and used to map 'identity':<br/>\n  `id: \"id\"`\n- It provides an `id()` callback on `Person`, for determining identity -- allowing identification of corresponding *View Model* instances within the people array, and hence preventing unnecessary disposal and re-instantiation (which would destroy state, such as the `comment` value).\n- It has a `comment()` get/set property that is added as part of the `extend` definition, not the `getters`, so it is not initialized from data, in the constructor. Note therefore that if you set a *comment* on each `person` instance, then click *Update*, then *Revert*, one *comment* is conserved (since that instance is never disposed -- based on the 'identity' determination) but the other is lost since the instance is disposed and then re-created by *Revert*:<br/>\n  `extend: {...comment: comment...}`\n- It has `defaultVal` specified for `name`, `address` and `phones`, either as 'static' values or computed by a callback function:<br/>\n  `address: {type: \"Address\", defaultVal: defaultStreet}`\n- It overrides the generated `person.name()` *get/set* by a `myNameGetSet` function which includes logging\n- It passes a JSON string to `merge()` or `map()`",
+        "anchor": "mergesampleadv"
       },
       {
         "_type": "sample",
@@ -4345,19 +4450,45 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "This sample, like the corresponding [JsRender version](#viewmodelsapi@mergeadvsample), shows some of the advanced features of compiled *View Models*.\n"
+            "text": "This sample, like the corresponding [JsRender version](#viewmodelsapi@mergesampleadv), shows some of the advanced features of compiled *View Models*.\n"
           }
         ],
         "html": "<style>table {margin-bottom: 9px;}</style>\n\n<button id=\"update\">Update</button>\n<button id=\"revert\">Revert</button>\n<button id=\"getData\">Get Data</button><br/>\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Comment:</td><td><input data-link=\"comment()\"/></td></tr>\n    <tr><td>Name:</td><td><input data-link=\"name()\"/></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\"/></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones() ~personIndex=#index}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\" data-link=\"{on remove #index ~personIndex}\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table></script>",
         "code": "var tmpl = $.templates(\"#personTmpl\");\n\nvar myVmCollection = {};\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      {getter: \"name\", defaultVal: \"No name\"}, // Compiled name() get/set\n      {getter: \"address\", type: \"Address\", defaultVal: defaultAddress},\n      {getter: \"phones\", type: \"Phone\", defaultVal: []}\n    ],\n    extend: {\n      name: myNameGetSet,                      // Override name() get/set\n      addPhone: addPhone,\n      comment: comment                         // Additional get/set property, not initialized by data)\n    },\n    id: function(vm, plain) {                  // Callback function to determine 'identity'\n      return vm.personId === plain.personId;\n    }\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone: {\n    getters: [\"number\"],\n    extend: {\n      remove: remove,\n    },\n    id: \"phoneId\"                              // Treat phoneId as 'primary key', for identity\n  }\n}, myVmCollection);                            // Store View Models (typed hierarchy) on myVmCollection\n\n// Override generated name() get/set\nfunction myNameGetSet(val) {\n  if (!arguments.length) {\n    return this._name; // If there is no argument, use as a getter\n  }\n  $.observable(this).setProperty(\"name\", val);\n};\n\nmyNameGetSet.set = function(val) {\n  this._name = val; // Setter called by observable property change\n  console.log(\"name set to \" + val);           // This is an additional line of code, for logging\n};\n\n// Method for Person class\nfunction addPhone(phoneNo) {                   // Uses myVmCollection.Phone() to construct new instance\n  $.observable(this.phones()).insert(myVmCollection.Phone(phoneNo));\n}\n\n// Method for Phone class\nfunction remove(index, personIndex) {\n  $.observable(people[personIndex].phones()).remove(index);\n};\n\n// get/set for comment (state on View Model instance, not initialized from data)\nfunction comment(val) {\n  if (!arguments.length) {\n    return this._comment; // If there is no argument, use as a getter\n  }\n  $.observable(this).setProperty(\"comment\", val);\n}\n\ncomment.set = function(val) {\n  this._comment = val; // Setter called by observable property change\n};\n\nfunction defaultAddress() {                    // Function providing default address if undefined in data\n  return {street: 'No street for \"' + this.name + '\"'};\n}\n\n// First version of data - array of objects (e.g. from JSON request):\nvar peopleData = [\n  {\n    personId: \"1\",\n    address: {\n      street: \"2nd Ave\"\n    }\n  },\n  {\n    personId: \"2\",\n    name: \"Pete\",\n    phones: [\n      {number: \"333 333 3333\", phoneId: \"2a\"}\n    ]\n  }\n];\n\n// Second version of data - JSON string (e.g. new JSON request):\nvar peopleData2 = '[{\"personId\":\"2\",\"name\":\"Peter\",\"address\":{\"street\":\"11 1st Ave\"},'\n+ '\"phones\":[{\"number\":\"111 111 9999\",\"phoneId\":\"1a\"},{\"number\":\"333 333 9999\",\"phoneId\":\"2a\"}]}]';\n\n// Instantiate View Model hierarchy using map()\nvar people = myVmCollection.Person.map(peopleData);\n\n// Render and link the template against people (array of Person instances)\ntmpl.link(\"#result\", people);\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  people.merge(peopleData2);\n});\n\n$(\"#revert\").on(\"click\", function() {\n  people.merge(peopleData);\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  people[0].name(\"newName\");\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  people[0].addPhone(\"xxx xxx xxxx\");\n});\n\n$(\"#getData\").on(\"click\", function() {\n  var updatedPeopleData = people.unmap(people);\n  window.alert(JSON.stringify(updatedPeopleData));\n});",
         "height": "400",
-        "title": "Mapping from JSON data to View Model hierarchy &ndash; further features"
+        "title": "Mapping from JSON data to View Model hierarchy &ndash; further features",
+        "anchor": ""
       },
       {
         "_type": "para",
-        "title": "Overriding generated get/set functions",
-        "text": "The above sample shows how to override compiled *get/set* function. (It includes a `myNameGetSet()` function which overrides the compiled `name()` *get/set* function.)\n\nTo override a generated get/set property provided by a compiled View Model you can provide an implementation in the `extend` hash, with the same name as the *get/set* in the `getters` array:\n\n```js\n// Define a myNameGetSet(...) function, to override the compiled name(...) get/set function\nfunction myNameGetSet(val) {\n  if (!arguments.length) {           // This is standard compiled get/set code\n    return this._name;               // If there is no argument, use as a getter\n  }\n  this._name = val;                  // If there is an argument, use as a setter\n  console.log(\"name set to \" + val); // This is an additional line of code, for logging\n}\n\n// Declare a Person View Model with an overridden name() get/set property\n$.views.viewModels({\n  Person: {\n    getters: [\n      {getter: \"name\", ...}, // Compiled name() get/set\n      ...\n    ],\n    extend: {\n      name: myNameGetSet,    // Override name() get/set\n      ...\n    }\n    ...\n  },\n  ...\n});\n```\n\nThe above is equivalent to the generated version except that it adds custom logging to the getter/setter function.",
-        "anchor": "override"
+        "title": "Adding a custom data-linked property to a compiled View Model",
+        "text": "Finally, here is a sample which extends a compiled *View Model* with a custom hand-coded `Person.isManager() `*get/set* property. The property is coupled to the `Team.manager()` property -- so setting `Person.isManager(...)` will update the `Team.manager()` correspondingly (and conversely when setting `Team.manager(...)`.\n\n`Person.isManager` is not included in the `getters` declaration, so that the constructor for `Person` will not expect an `isManager` parameter to be provided for initialization.\n\nSee also the related [JsRender sample](#viewmodelsapi@ismanagersample). Note that the *JsViews* version below is able to take advantage of data-linking, including data-linking directly to the custom `Person.isManager` property, and as a result is simpler than *JsRender* version, and requires less code. Also, changing *manager* triggers minimal incremental updates, whereas in the *JsRender* version it triggers a complete re-rendering of the whole template.",
+        "anchor": "ismanagersample"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\n// Custom function for Person.isManager get/set property\nfunction myIsManager(val) {\n  if (!arguments.length) {\n    return this === team.manager(); // If there is no argument, use as a getter\n  }\n  if (val) {\n    team.manager(this);             // Make this team member manager\n  } else if (this.isManager()) {\n    team.manager(null);             // Set team manager to null\n  }\n}\n\n// Compile View Models\n$.views.viewModels({\n  Team: {...},\n  Person: {\n    getters: [\"name\", ...],\n    extend: {\n      isManager: myIsManager        // use custom function\n    }\n  },\n  Address: {...}\n});\n\n// Specify that the same function is a setter - for two-way data-linking\nmyIsManager.set = true;\n\n// Specify dependency: if team.manager() changes, manager.isManger() should update\nmyIsManager.depends = function() {\n  return [team, \"manager\"];\n}\n// Alternatively - more declarative approach: use ~manager contextual parameter:\n// myIsManager.depends = \"~manager\"\n...\n\n//Initialize second team member to be manager.\nvar manager = team.members()[1];\nmanager.isManager(true);\n...\n```\n\nData-link directly to `isManager()` with two-way binding:\n```jsr\n<input data-link=\"isManager()\" type=\"checkbox\"/>\n```\n\nUse *deep linking* on other paths so they update when the `team.manager()` changes:\n```jsr\n<input data-link=\"manager()^address().ZIP()\" />\n```"
+          }
+        ],
+        "html": "",
+        "code": "",
+        "height": "350",
+        "title": "Sample: extending Person with an isManager property",
+        "anchor": "",
+        "url": "samples/computed/team-manager/sample"
       },
       {
         "_type": "links",
@@ -4374,7 +4505,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvassigntag": {
-    "title": "Data-linked template tag: {^{: ...}}",
+    "title": "Data-linked template tag: {^{: ...}} <span style=\"font-weight:normal;\">(Evaluate)</span>",
     "path": "",
     "sections": [
       {
@@ -4435,7 +4566,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvhtmltag": {
-    "title": "Data-linked template tag: {^{> ...}}",
+    "title": "Data-linked template tag: {^{> ...}} <span style=\"font-weight:normal;\">(HTML encode)</span>",
     "path": "",
     "sections": [
       {
@@ -4496,7 +4627,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvincludetag": {
-    "title": "Data-linked template tag: {^{include ...}}",
+    "title": "Data-linked template tag: {^{include ...}} <span style=\"font-weight:normal;\">(Template composition &ndash; partials)</span>",
     "path": "",
     "sections": [
       {
@@ -4609,7 +4740,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvfortag": {
-    "title": "Data-linked template tag: {^{for ...}}",
+    "title": "Data-linked template tag: {^{for ...}} <span style=\"font-weight:normal;\">(Template composition, with iteration over arrays)</span>",
     "path": "",
     "sections": [
       {
@@ -4694,7 +4825,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvpropstag": {
-    "title": "Data-linked template tag: {^{props ...}}",
+    "title": "Data-linked template tag: {^{props ...}} <span style=\"font-weight:normal;\">(Iteration over properties of an object)</span>",
     "path": "",
     "sections": [
       {
@@ -4893,7 +5024,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsviftag": {
-    "title": "Data-linked template tag: {^{if ...}}",
+    "title": "Data-linked template tag: {^{if ...}} <span style=\"font-weight:normal;\">(Conditional inclusion)</span>",
     "path": "",
     "sections": [
       {
@@ -4928,7 +5059,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "{^{if ...}}...{{else}}...{{/if}} with dynamically changing templates (advanced)",
-        "text": "If the `{{if}}` or an associated `{{else}}` tag use template references, rather than inline markup, with `tmpl=expression` (obtaining a template from data or from a helper), then the data-linked `{^{if}}` can be used to drive updates when any of the templates change dynamically:"
+        "text": "If the `{{if}}` or an associated `{{else}}` tag use template references, rather than inline markup, with `tmpl=expression` (obtaining a template from data or from a helper), then the data-linked `{^{if}}` can be used to drive updates when any of the templates change dynamically:",
+        "anchor": "if-else-tmpl"
       },
       {
         "_type": "sample",
@@ -4978,7 +5110,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvelsetag": {
-    "title": "Data-linked template tag: {{else ...}}",
+    "title": "Data-linked template tag: {{else ...}} <span style=\"font-weight:normal;\">(Content blocks separator)</span>",
     "path": "",
     "sections": [
       {
@@ -5006,7 +5138,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"object\"></div>\n\n<script id=\"objectTemplate\" type=\"text/x-jsrender\">\n  <select data-link=\"type\" size=\"3\">\n    <option value=\"\">Choose type</option>\n    <option>book</option>\n    <option>car</option>\n  </select><br/><br/>\n\n  <input data-link=\"type\" /><br/><br/>\n \n  {^{if type==='book'}}\n    The book price is {{>price}} \n  {{else type==='car'}}\n    The car costs {{>price}}\n  {{else}}\n    Nothing chosen\n  {{/if}}\n</script>\n",
         "code": "var object = {\n  type: \"car\",\n  price:\"$25000\"\n};\n\nvar tmpl = $.templates(\"#objectTemplate\");\n\ntmpl.link(\"#object\", object);\n\n",
-        "title": "{^{: ...}}",
+        "title": "{^{if ...}} ... {{else ...}} ... {{else}} ... {{/if}}",
         "height": "160"
       },
       {
@@ -5034,12 +5166,14 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<style>li {list-style: none}</style>\n<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add member</button>\n  <button data-link=\"{on addReserve}\">Add reserve</button>\n  <ul>\n    {^{for members}}\n      <li>\n        Member {^{:#index + 1}}: {{>name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember #index}\"></span>\n      </li>\n    {{else reserves}}\n      <li>\n        Reserve {^{:#index + 1}}: {{>name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeReserve #index}\"></span>\n      </li>\n    {{else}}\n      <li>No members or reserves</li>\n    {{/for}}\n  </ul>\n</script>\n",
         "code": "var team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ],\n  reserves: [\n    {name: \"Xavier\"}\n  ],\n  addMember: function() {\n    $.observable(this.members).insert({name: \"new\" + cnt++});\n  },\n  addReserve: function() {\n    $.observable(this.reserves).insert({name: \"new\" + cnt++});\n  },\n  removeMember: function(index) {\n    $.observable(this.members).remove(index);\n  },\n  removeReserve: function(index) {\n    $.observable(this.reserves).remove(index);\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
-        "height": "130"
+        "height": "130",
+        "title": "{^{for ...}} ... {{else ...}} ... {{else}} ... {{/for}}",
+        "anchor": "for-else-multiple"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "For the case of `{^{if}}...{{else}}...{{/if}}` binding, with external template references, see the last [`{^{if}}` sample](#jsviftag), which uses the pattern:\n\n```jsr\n{^{if ... ^tmpl=...}}\n{{else ^tmpl=...}}\n{{/if}}\n```"
+        "text": "For the case of `{^{if}}...{{else}}...{{/if}}` binding, with external template references, see the last [`{^{if}}` sample](#jsviftag@if-else-tmpl), which uses the pattern:\n\n```jsr\n{^{if ... ^tmpl=...}}\n{{else ^tmpl=...}}\n{{/if}}\n```"
       },
       {
         "_type": "links",
@@ -5072,7 +5206,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "In JsViews the `{^{on ...}}` tag is used:\n\n- For attaching event handlers, as an alternative syntax to `data-link=\"{on ...}\"`\n- For [creating buttons](#link-events@button), to call a *data method/View Model method/helper method*.\n\nIt is used only as a data-bound tag in JsViews, and is not available in JsRender. \n\nSee the *[Event bindings](#link-events)* topic for more information and examples.\n"
+        "text": "The `{^{on ...}}` tag is used:\n\n- for attaching event handlers, as an alternative syntax to `data-link=\"{on ...}\"`\n- for [creating buttons](#link-events@button), to call a *data method/View Model method/helper method*.\n\nIt is used only as a data-bound tag in *JsViews*, and is not available in *JsRender*. \n\nSee the *[Event bindings](#link-events)* topic for more information and examples.\n"
       }
     ]
   },
@@ -5123,6 +5257,212 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "Data-linked paths"
           }
         ]
+      }
+    ]
+  },
+  "jsvradiogrouptag": {
+    "title": "Data-linked template tag: {^{radiogroup ...}} <span style=\"font-weight:normal;\">(Radio button group)</span>",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Alternatives for data-linking radio buttons: direct linking, or {^{radiogroup}}",
+        "text": "- One way to provide two-way data-binding on a group of radio buttons is by directly data-linking each of the `<input>` elements, as described in the *[Data-linked radio buttons](#link-input@radio2waydirect)* topic\n- An alternative and often more convenient approach is to wrap the `<input>`s with a `{^{radiogroup}}` tag, as shown in this section\n"
+      },
+      {
+        "_type": "para",
+        "title": "The {^{radiogroup}} tag",
+        "text": "The `{^{radiogroup ...}}` tag is used to provide two-way data-linking to a group of radio buttons.\n\nIt is used only as a data-bound tag in *JsViews*, and is not available in *JsRender*.\n\nThe set of radio buttons (`<input type=\"radio\">`) are wrapped by the tag (or contained in the external template referenced by `tmpl=...`) -- and are data-linked to the data property specified by the path or expression: `{^{radiogroup pathOrExpr}}`.\n"
+      },
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{^{radiogroup pathOrExpr}}",
+        "name": "name",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "string",
+                "optional": false,
+                "description": "Path or expression for the data-linked property (of type string)"
+              }
+            ],
+            "sections": [],
+            "example": "{{radiogroup selectedCar}}\n  &lt;label&gt;\n    &lt;input type=\"radio\" value=\"vlv\"/&gt; \n    Volvo\n  &lt;/label&gt;\n  ...\n{{/radiogroup}}",
+            "description": "Two-way binding between the current selection of a radio button group and a data property"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  selectedCar: \"frd\",\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  <label><input type=\"radio\" value=\"vlv\"/> Volvo</label>\n  <label><input type=\"radio\" value=\"frd\"/> Ford</label>\n{{/radiogroup}}\n```\n"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{radiogroup selectedCar}}\n    <label><input type=\"radio\" value=\"\"/>\n      None</label><br/>\n    <label><input type=\"radio\" value=\"vlv\"/>\n      Volvo</label><br/>\n    <label><input type=\"radio\" value=\"frd\"/>\n      Ford</label><br/>\n  {{/radiogroup}}\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {selectedCar: \"frd\"};\n\ntmpl.link(\"#result\", data);",
+        "height": "130",
+        "title": "{^{radiogroup}}"
+      },
+      {
+        "_type": "para",
+        "title": "The name property of the radio &lt;input&gt; elements",
+        "text": "If the radio button group is within an HTML `<form>` which will be submitted, then the associated `name` property of the radio button group may be specified on the `{^{radiogroup}}`:\n\n```jsr\n{^{radiogroup selectedCar name=\"cars\"}}\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  ...\n{{/radiogroup}}\n```\n\nAlternatively it can be specified on each `<input>`\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\" name=\"cars\"/> None</label>\n  <label><input type=\"radio\" value=\"vlv\" name=\"cars\"/> Volvo</label>\n  ...\n{{/radiogroup}}\n```\n\nIf it is not specified, then each `{^{radiogroup}}` will provide an auto-generated unique `name`, which will be set on the radio button `<input>` elements."
+      },
+      {
+        "_type": "para",
+        "title": "Using a data-linked element &ndash; with data-link=\"{radiogroup ...}\"",
+        "text": "An alternative to wrapping radio button `<input>` tags in a `{^{radiogroup}}` tag is to wrap them in a data-linked HTML element tag such as a `<div>`, using `data-link=\"{radiogroup ...}\"`.\n\n```jsr\n<div data-link=\"{radiogroup selectedCar}\">\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  ...\n</div>\n```\n\nThis approach can be used within templates, but is particularly useful for [top-level data-linking](#toplink), as in the following sample:\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  selectedCar: \"frd\",\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n<div data-link=\"{radiogroup selectedCar}\">\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  <label><input type=\"radio\" value=\"vlv\"/> Volvo</label>\n  ...\n</div>\n```\n"
+          }
+        ],
+        "html": "<div id=\"top-level-linked\">\n  <div data-link=\"{radiogroup selectedCar}\">\n    <label><input type=\"radio\" value=\"\"/>\n      None</label><br/>\n    <label><input type=\"radio\" value=\"vlv\"/>\n      Volvo</label><br/>\n   <label><input type=\"radio\" value=\"frd\"/>\n      Ford</label>\n  </div>\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</div>",
+        "code": "var data = {selectedCar: \"frd\"};\n\n$.link(true, \"#top-level-linked\", data);\n",
+        "height": "130",
+        "title": "Top-level {radiogroup} binding",
+        "anchor": "top-radiogroup"
+      },
+      {
+        "_type": "para",
+        "title": "{^{radiogroup}} with {{for}}",
+        "text": "A common scenario is when the options in a radio button group come from a data array. The `<input type=\"radio\">` elements wrapped by a `{^{radiogroup}}` can be generated by a `{{for}}` tag, as in the following example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data includes `cars` array:</div>*\n\n```js\nvar data = {\n  selectedCar: \"frd\",\n  cars: [{id: \"vlv\", name: \"Volvo\"}, ...]\n};\n```\n\n*<div class=\"close\">{{radiogroup}} a data-driven array of radio buttons, preceded by an additional 'unselected' radio button:</div>*\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\"/> None</label><br/>\n  {{for cars}}\n    <label><input type=\"radio\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n  {{/for}}\n{{/radiogroup}}\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{radiogroup selectedCar}}\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    {{for cars}}\n      <label><input type=\"radio\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
+        "title": "",
+        "height": "130"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "*__Note:__* The data-driven set of radio buttons can change dynamically, driven by `{^{for}}`, as shown in [this sample](#link-input@radioedit)."
+      },
+      {
+        "_type": "para",
+        "title": "Radio buttons in an external template, using {radiogroup tmpl=...}",
+        "text": "The set of radio buttons wrapped by a `{^{radiogroup}}` can be in an external template, referenced using `{^{radiogroup tmpl=...}}` or `data-link=\"{radiogroup tmpl=...}\"`, as in the following example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Template, containing radio buttons:</div>*\n\n```jsr\n<script id=\"inner\" type=\"text/x-jsrender\">\n  <label><input type=\"radio\" value=\"\"/> None</label><br/>\n  ...\n</script>\n```\n\n*<div class=\"close\">Referencing \"#inner\" template from data-linked tag</div>*\n\n```jsr\n{^{radiogroup selectedCar tmpl=\"#inner\"/}}<br/>\n```\n\n*<div class=\"close\">Referencing \"#inner\" template from data-linked element</div>*\n\n```jsr\n<div data-link=\"{radiogroup selectedCar tmpl='#inner'}\"></div>\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"inner\" type=\"text/x-jsrender\">\n  <label><input type=\"radio\" value=\"\"/> None</label><br/>\n  {{for cars}}\n    <label><input type=\"radio\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n  {{/for}}\n</script>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{radiogroup selectedCar tmpl=\"#inner\"/}}<br/>\n\n  <div data-link=\"{radiogroup selectedCar tmpl='#inner'}\"></div>\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
+        "title": "tmpl",
+        "height": "200"
+      },
+      {
+        "_type": "para",
+        "title": "Data context within block is the same as the outer context",
+        "text": "Note that using either a `{^{radiogroup ...}}` tag or a `<div data-link=\"radiogroup ...}\">` to wrap a content block leaves the data-context unchanged. -- The current data item within the block is the same as the outer data context (including when referenced as an external template, as in the samples above)."
+      },
+      {
+        "_type": "para",
+        "title": "Data-linking a {^{radiogroup}} using converters",
+        "text": "Just like any other tag, `{^{radiogroup}}` can use *convert* and *convertBack* converters, using the syntax:\n\n```jsr\n{^{radiogroup convert=... convertBack=.../}}\n```\n\nas shown in the following sample:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Define converters:</div>*\n\n```js\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.tagCtx.view.data.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.tagCtx.view.data.cars[val].id;\n}});\n```\n  \n*<div class=\"close\">Initialize the data</div>*\n\n```js\nvar data = {\n  selIndex: 1,\n  cars: [...]\n}\n```\n\n*<div class=\"close\">Data-link to `selIndex`, using the converters:</div>*\n\n```jsr\n{^{radiogroup selIndex convert=\"toId\" convertBack=\"fromId\"}}\n```\n\nIf we had used the direct linking to `<input>`s, we would have used:\n\n```jsr\n<input name=\"cars\" type=\"radio\" \n  value=\"{{:id}}\" data-link=\"{toId:~root.selIndex:fromId} value^{:id}\"\n/>\n```\n``` "
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label>\n    <input name=\"cars\" type=\"radio\" value=\"\" data-link=\"{toId:selIndex:fromId}\"/>\n    None\n  </label><br/>\n  {^{radiogroup selIndex convert=\"toId\" convertBack=\"fromId\"}}\n    {^{for cars}}\n      <label><input type=\"radio\" value=\"{{:id}}\"/> {^{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}\n\n  <span class=\"spanbox\" data-link=\"selIndex\"></span> <em>Selected index</em><br/>\n  <span class=\"spanbox\"\n  data-link=\"selIndex === -1 ? 'None' : cars[selIndex].name\"></span>\n  <em>Selected car name</em>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selIndex: 1,\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.tagCtx.view.data.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.tagCtx.view.data.cars[val].id;\n}});\n\ntmpl.link(\"#result\", data);",
+        "height": "190",
+        "title": ""
+      },
+      {
+        "_type": "para",
+        "title": "See also:",
+        "text": "- For additional details and samples see *[Data-linked radio buttons](#link-input@radio)*\n- For examples of `{^{radiogroup}}` tags wrapping *jQuery UI* `{{radio}}` tag controls, see the [Toolbar samples](#samples/tag-controls/toolbar)"
       }
     ]
   }

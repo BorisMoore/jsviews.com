@@ -7,7 +7,7 @@ var currencies = [
   orderDetails = {
     name: "",
     selectedMovie: "none",
-    selectedCurrency: 1,
+    selectedCurrency: "1",
     request: ""
   },
 

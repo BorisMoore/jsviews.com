@@ -60,7 +60,7 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       {
         "_type": "para",
         "title": "<b>Tag controls based on jQuery UI widgets:</b>",
-        "text": "Tag controls based on jQuery UI widgets:\nThe jsviews-jqueryui-widgets.js library integrates jQuery UI widgets (recommended version 1.12.1 or later).\nIt provides the following tag controls:\n\n{{autocomplete/}} – based on jQuery UI autocomplete\n{{accordion/}} – based on jQuery UI accordion\n{{autocomplete/}} – based on jQuery UI autocomplete\n{{button/}} – based on jQuery UI button\n{{checkboxradio/}} – based on jQuery UI checkboxradio (requires jQuery UI version 1.12.1 or later)\n{{controlgroup/}} – based on jQuery UI controlgroup (requires jQuery UI version 1.12.1 or later)\n{{buttonset}} – deprecated and available only if using jQuery UI 1.11.4\n{{datepicker/}} – based on jQuery UI datepicker\n\nused in the simple datepicker,\ndatepicker variants,\ndatepicker with validation\nand datepicker with validation wizard samples\n\n{{draggable/}} – based on jQuery UI draggable\n{{droppable/}} – based on jQuery UI droppable\n{{menu/}} – based on jQuery UI menu\n{{progressbar/}} – based on jQuery UI progressbar\n{{resizable/}} – based on jQuery UI resizable\n{{selectable/}} – based on jQuery UI selectable\n{{selectmenu/}} – based on jQuery UI selectmenu\n{{slider/}} – based on jQueryUI slider\n\nused in the simple slider,\nslider variants,\nslider with validation samples and\nsliders as color picker samples\n\n{{sortable/}} – based on jQuery UI sortable\n{{spinner/}} – based on jQuery UI spinner\n{{tabs/}} – based on jQuery UI tabs\n\n"
+        "text": "Tag controls based on jQuery UI widgets:\nThe jsviews-jqueryui-widgets.js library integrates jQuery UI widgets (recommended version 1.12.1 or later).\nIt provides the following tag controls:\n\n{{autocomplete/}} – based on jQuery UI autocomplete\n{{accordion/}} – based on jQuery UI accordion\n{{autocomplete/}} – based on jQuery UI autocomplete\n{{button/}} – based on jQuery UI button\n\nused in the Toolbar sample\n\n{{checkbox/}} – based on jQuery UI checkboxradio (requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{radio/}} – based on jQuery UI checkboxradio (requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{controlgroup/}} – based on jQuery UI controlgroup (requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{buttonset}} – deprecated and available only if using jQuery UI 1.11.4\n{{datepicker/}} – based on jQuery UI datepicker\n\nused in the simple datepicker,\ndatepicker variants,\ndatepicker with validation\nand datepicker with validation wizard samples\n\n{{draggable/}} – based on jQuery UI draggable\n{{droppable/}} – based on jQuery UI droppable\n{{menu/}} – based on jQuery UI menu\n{{progressbar/}} – based on jQuery UI progressbar\n\nused in the Toolbar sample\n\n{{resizable/}} – based on jQuery UI resizable\n{{selectable/}} – based on jQuery UI selectable\n{{selectmenu/}} – based on jQuery UI selectmenu\n{{slider/}} – based on jQueryUI slider\n\nused in the simple slider,\nslider variants,\nslider with validation,\nsliders as color picker and\nToolbar samples\n\n{{sortable/}} – based on jQuery UI sortable\n{{spinner/}} – based on jQuery UI spinner\n{{tabs/}} – based on jQuery UI tabs\n\n"
       },
       {
         "_type": "para",
@@ -84,13 +84,8 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       },
       {
         "_type": "para",
-        "title": "<b>{{edit/}}</b>:",
-        "text": "{{edit/}}:\n\n  edit.js used in the\n    edit,\n    datepicker,\n    slider\n    and validate samples\n  \n"
-      },
-      {
-        "_type": "para",
         "title": "<b>{{validate/}}</b> and <b>{{validation/}}</b>:",
-        "text": "{{validate/}} and {{validation/}}:\n\n  validate.js used in the\n    datepicker with validation,\n    datepicker with validation wizard,\n    slider with validation,\n    validate simple\n    and validate group samples\n  \n"
+        "text": "{{validate/}} and {{validation/}}:\n\n  validate.js used in the\n    datepicker with validation,\n    datepicker with validation wizard,\n    slider with validation,\n    validate simple\n    and the validate tag control samples\n  \n"
       },
       {
         "_type": "para",

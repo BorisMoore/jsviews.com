@@ -57,14 +57,11 @@
 
     <div class="box" data-link="visible{:~app.chooseCurrency}">
       <div class="subhead">Choose Currency:</div>
-      {{for ~currencies ~details=#data}}
-        <label><input
-          type="radio"
-          name="currencyPicker"
-          value="{{:#index}}"
-          data-link="~details.selectedCurrency"
-        />{{:label}}</label><br/>
-      {{/for}}
+      {^{radiogroup selectedCurrency}}
+        {{for ~currencies}}
+          <label><input type="radio" value="{{:#index}}" /> {{:label}}</label><br/>
+        {{/for}}
+      {{/radiogroup}}
     </div>
 
     <div class="box">

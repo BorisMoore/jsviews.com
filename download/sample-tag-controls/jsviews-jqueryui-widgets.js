@@ -1,4 +1,4 @@
-﻿/*! JsViews jQueryUI widget integration v0.9.81 (Beta)
+﻿/*! JsViews jQueryUI widget integration v0.9.82 (Beta)
 see: http://www.jsviews.com/#download/tag-controls */
 /*
  * Copyright 2016, Boris Moore
@@ -8,7 +8,7 @@ see: http://www.jsviews.com/#download/tag-controls */
 /* Wrap behavior (wrapping HTML content) and default element, for each widget: */
 
 /*         autocomplete button   buttonset  droppable  menu      progressbar  resizable
- * wrap:   -            -        -          wrap       wrap      wrap         wrap     
+ * wrap:   -            wrap     -          wrap       wrap      wrap         wrap     
  * elem:   input        button   -          -          ul        div          div      
  */
 
@@ -17,15 +17,46 @@ see: http://www.jsviews.com/#download/tag-controls */
  * elem:   -            div      input      div        -         -            -
  */
 
+/*         controlgroup checkbox radio      selectmenu datepicker
+ * wrap:   wrap         -        -          wrap       wrap
+ * elem:   span         div      input      selectv    input
+ */
+
 (function (global, $, undefined) {
 "use strict";
 
 function keepParentDataCtx(val) {
-  var tagCtx = this.tagCtx;
-  return tagCtx.render(tagCtx.view, true); // no arg, so renders against parentView.data
+  return this.tagCtx.view; // Return the parent view as data context for rendering block content
 }
 
-$.views.tags({
+function checkboxRadioOnAfterLink(tagCtx, linkCtx) {
+  var tag = this,
+    props = tagCtx.props,
+    elem = tag.linkedElem[0],
+    val = tag.cvtArgs()[0];
+  // Set the value to arg[0] (after applying converter, if there is one)
+
+  if (props.name) {
+    elem.name = props.name;
+  }
+  if (props.value) {
+    elem.value = props.value;
+  }
+  elem.checked = elem.type === "radio"
+    ? (val === elem.value)
+    : val && val !== "false";
+
+  tag.baseApply(arguments);
+
+  tag.displayElem = tag.widget.label;
+
+  if (props.label) {
+    tag.widget.option("label", props.label);
+  }
+}
+
+var tagDefs = {
+
 widget: {
   linkedElement: "*",
   init: function(tagCtx) {
@@ -35,7 +66,7 @@ widget: {
     if (tag._.inline) {
       props = tagCtx.props;
       content = tagCtx.tmpl.markup;
-      if (elemType = props.elem || tag.elem) {
+      if (!tag.template && (elemType = props.elem || tag.elem)) {
         if (content) {
           if (tag.wrap) {
             tag.template = "<" + elemType + ">" + $.trim(content) + "</" + elemType + ">";
@@ -70,7 +101,7 @@ widget: {
     linkedElem = tag.linkedElem;
     if (!linkedElem[0]) {
       // This may be due to using {{myWidget}} No element found here {{/myWidget}} 
-      throw "No element found for widget '" + widgetName +"'";
+      throw "No element found for tag '" + tag.tagName +"'";
     }
     // Instantiate widget
     linkedElem[widgetName](presets);
@@ -136,11 +167,11 @@ button: {
   },
   onAfterLink: function(tagCtx, linkCtx, ctx, event) {
     this.baseApply(arguments);
-		if (event) {
-			this.widget.refresh();
-		}
+    if (event) {
+      this.widget.refresh();
+    }
   },
-  render: keepParentDataCtx
+  contentCtx: keepParentDataCtx
 },
 autocomplete: {
   baseTag: "widget",
@@ -174,31 +205,33 @@ autocomplete: {
     return this.linkedElem.val();
   }
 },
-checkboxradio: {
+checkbox: {
   baseTag: "widget",
   widgetName: "checkboxradio",
+  template: "<label><input type='checkbox'/></label>",
   linkedElement: "input",
-  onAfterLink: function(tagCtx, linkCtx) {
-    var tag = this,
-      elem = tag.linkedElem[0],
-      val = tag.cvtArgs()[0];
-    // Set the value to arg[0] (after applying converter, if there is one)
-
-    tag.baseApply(arguments);
-
-    elem.checked = elem.type === "radio"
-      ? (val === elem.value)
-      : val && val !== "false";
-
-    tag.widget.refresh();
-  }
+  onAfterLink: checkboxRadioOnAfterLink
+},
+radio: {
+  baseTag: "widget",
+  widgetName: "checkboxradio",
+  template: "<label><input type='radio'/></label>",
+  linkedElement: "input",
+  onAfterLink: checkboxRadioOnAfterLink
 },
 controlgroup: {
   baseTag: "widget",
   widgetName: "controlgroup",
   wrap: true,
   elem: "span",
-  render: keepParentDataCtx
+  contentCtx: keepParentDataCtx,
+  onBind: function() {
+    var tag = this;
+    tag.baseApply(arguments);
+    tag.linkedElem.on("jsv-domchange", function() {
+      tag.widget.refresh();
+    });
+	}
 },
 datepicker: {
   baseTag: "widget",
@@ -278,7 +311,7 @@ progressbar: {
       tag.widget.value(false);
     }
   },
-  render: keepParentDataCtx
+  contentCtx: keepParentDataCtx
 },
 resizable: {
   baseTag: "widget",
@@ -311,7 +344,6 @@ selectmenu: {
   getValue: function() {
     return this.linkedElem[0].value;
   },
-  render: keepParentDataCtx,
   onAfterLink: function() {
     var tag = this;
     tag.baseApply(arguments);
@@ -319,10 +351,12 @@ selectmenu: {
       tag.linkedElem.on("jsv-domchange", function() {
         tag.widget.refresh();
       });
+      tag.displayElem = tag.widget.button;
     }
     // Set the value to arg[0] (after applying converter, if there is one)
     tag.setValue(tag.cvtArgs()[0]);
-  }
+  },
+  contentCtx: keepParentDataCtx
 },
 slider: {
   baseTag: "widget",
@@ -377,127 +411,136 @@ tabs: {
   widgetName: "tabs",
   elem: "div",
   setSize: true,
+  onBind: function() {
+    var tag = this;
+    tag.baseApply(arguments);
+    tag.displayElem = tag.widget.element;
+  },
   wrap: true
 }
 
-});
+};
+
+$.views.tags(tagDefs);
 
 if ($.ui.version.slice(0, 4) === "1.11") {
-	// Add backward compatibility for {{buttonset}} and {{button}}
-$.views.tags({
-button: {
-  baseTag: "widget",
-  widgetName: "button",
-  elem: "button",
-  setSize: true,
-  init: function(tagCtx, linkCtx) {
-    var template,
-      tag = this,
-      content = tagCtx.tmpl,
-      props = tagCtx.props,
-      id = props.id,
-      parent = tag.parent;
+  // Add backward compatibility for {{buttonset}} and {{button}}
+  tagDefs.button = {
+    baseTag: "widget",
+    widgetName: "button",
+    elem: "button",
+    setSize: true,
+    init: function(tagCtx, linkCtx) {
+      var template,
+        tag = this,
+        content = tagCtx.tmpl,
+        props = tagCtx.props,
+        id = props.id,
+        parent = tag.parent;
 
-    if (tag._.radio = parent && parent.tagName === "buttonset") {
-      tagCtx = parent.tagCtx;
-    } else {
-      tag._.chkBx = (tag._.inline ? props : linkCtx.elem).type === "checkbox";
-    }
+      if (tag._.radio = parent && parent.tagName === "buttonset") {
+        tagCtx = parent.tagCtx;
+      } else {
+        tag._.chkBx = (tag._.inline ? props : linkCtx.elem).type === "checkbox";
+      }
 
-    var  params = tagCtx.params,
-      paramprops = params.props || {};
+      var  params = tagCtx.params,
+        paramprops = params.props || {};
 
-    tag.baseApply(arguments);
+      tag.baseApply(arguments);
 
-    if (tag._.inline) {
-      content = content && content.markup || "&nbsp;"; // (&nbsp; fixes a jQueryUI button rendering issue)
+      if (tag._.inline) {
+        content = content && content.markup || "&nbsp;"; // (&nbsp; fixes a jQueryUI button rendering issue)
+        if (tag._.radio || tag._.chkBx) {
+          id = id || "jsv" + Math.random();
+          template = '<input id="' + id + '" data-link="' + params.args[0] 
+            + (paramprops.convert ? " convert=" + paramprops.convert : "")
+            + (paramprops.convertBack ? " convertBack=" + paramprops.convertBack : "")
+            + (tag._.radio
+              ? '" name="' + parent.id + '" type="radio" value="' + props.value + 
+                '"/><label for="' + id + '">' + content + '</label>'
+              : '" type="checkbox"/><label for="' + id + '">' + content + '</label>');
+        } else {
+          template = "<button>" + content + "</button>";
+        }
+        tag.template = template;
+      }
+    },
+    onAfterLink: function(tagCtx, linkCtx) {
+      var tag = this,
+        elem = linkCtx.elem,
+        val = tag.cvtArgs()[0];
+
       if (tag._.radio || tag._.chkBx) {
-        id = id || "jsv" + Math.random();
-        template = '<input id="' + id + '" data-link="' + params.args[0] 
-          + (paramprops.convert ? " convert=" + paramprops.convert : "")
-          + (paramprops.convertBack ? " convertBack=" + paramprops.convertBack : "")
-          + (tag._.radio
-            ? '" name="' + parent.id + '" type="radio" value="' + props.value + 
-              '"/><label for="' + id + '">' + content + '</label>'
-            : '" type="checkbox"/><label for="' + id + '">' + content + '</label>');
-      } else {
-        template = "<button>" + content + "</button>";
-      }
-      tag.template = template;
-    }
-  },
-  onAfterLink: function(tagCtx, linkCtx) {
-    var tag = this,
-      elem = linkCtx.elem,
-      val = tag.cvtArgs()[0];
-
-    if (tag._.radio || tag._.chkBx) {
-      if (!tag._.inline) {
-        if (tag._.unlinked && !elem.id) {
-          elem.id = "jsv" + Math.random();
-          $(elem).after('<label for="' + elem.id + '">&nbsp;</label>');
+        if (!tag._.inline) {
+          if (tag._.unlinked && !elem.id) {
+            elem.id = "jsv" + Math.random();
+            $(elem).after('<label for="' + elem.id + '">&nbsp;</label>');
+          }
+          elem.checked = tag._.radio
+            ? (elem.name = tag.parent.id, val === elem.value)
+            : val && val !== "false";
         }
-        elem.checked = tag._.radio
-          ? (elem.name = tag.parent.id, val === elem.value)
-          : val && val !== "false";
+
+        tag.baseApply(arguments);
+
+        elem = tag.linkedElem[0];
+
+        if (tag._.radio) {
+          // Use {^{button value="xxx"}}Label{{/button}}
+          if (elem.value === "undefined") {
+            // Default, for {^{button}}xxx{{/button}} or {^{button _label="xxx"/}}
+            elem.value = tag.widget.option("label"); 
+          }
+          elem.checked = val === elem.value;
+        } else {
+          elem.checked = val && val !== "false";
+        }
+
+        if (tag._.chkBx) {
+          tag.widget.refresh();
+        }
+      } else {
+        if (!tag._.inline) {
+          elem.innerHTML = elem.innerHTML || "&nbsp;"; // Fixes jQuery UI button issue if no label text
+        }
+        tag.baseApply(arguments);
       }
+    },
+    contentCtx: keepParentDataCtx
+  };
+
+  tagDefs.buttonset = {
+    baseTag: "widget",
+    widgetName: "buttonset",
+    setSize: true,
+    init: function(tagCtx) {
+      var id,
+        tag = this;
 
       tag.baseApply(arguments);
 
-      elem = tag.linkedElem[0];
-
-      if (tag._.radio) {
-        // Use {^{button value="xxx"}}Label{{/button}}
-        if (elem.value === "undefined") {
-          // Default, for {^{button}}xxx{{/button}} or {^{button _label="xxx"/}}
-          elem.value = tag.widget.option("label"); 
-        }
+      if (tag._.inline) {
+        tag.id = tagCtx.props.id || "jsv" + Math.random();
+        tag.template = '<span id="' + tag.id + '">' + tagCtx.tmpl.markup + "</span>";
+      }
+    },
+    onAfterLink: function(tagCtx, linkCtx) {
+      var tag = this,
+        elem = linkCtx.elem,
+        val = tag.cvtArgs()[0];
+      tag.baseApply(arguments);
+      tag.widget.buttons.each(function(i, elem) {
         elem.checked = val === elem.value;
-      } else {
-        elem.checked = val && val !== "false";
-      }
-
-      if (tag._.chkBx) {
-        tag.widget.refresh();
-      }
-    } else {
-      if (!tag._.inline) {
-        elem.innerHTML = elem.innerHTML || "&nbsp;"; // Fixes jQuery UI button issue if no label text
-      }
-      tag.baseApply(arguments);
-    }
-  },
-  render: keepParentDataCtx
-},
-buttonset: {
-  baseTag: "widget",
-  widgetName: "buttonset",
-  setSize: true,
-  init: function(tagCtx) {
-    var id,
-      tag = this;
-
-    tag.baseApply(arguments);
-
-    if (tag._.inline) {
-      tag.id = tagCtx.props.id || "jsv" + Math.random();
-      tag.template = '<span id="' + tag.id + '">' + tagCtx.tmpl.markup + "</span>";
-    }
-  },
-  render: keepParentDataCtx,
-  onAfterLink: function(tagCtx, linkCtx) {
-    var tag = this,
-      elem = linkCtx.elem,
-      val = tag.cvtArgs()[0];
-    tag.baseApply(arguments);
-    tag.widget.buttons.each(function(i, elem) {
-      elem.checked = val === elem.value;
-      $(elem).button("refresh");
-    });
-  }
+        $(elem).button("refresh");
+      });
+    },
+    contentCtx: keepParentDataCtx
+  };
 }
-});
-}
+
+// Compile tags
+$.views.tags(tagDefs);
 
 if ($.ui.sortable) {
   $.widget("jsv.sortable", $.ui.sortable, {
@@ -550,6 +593,7 @@ function unlinkedClone() {
 }
 
 if ($.ui.draggable) {
+  // Create derived draggable widget
   $.widget("jsv.draggable", $.ui.draggable, {
     _createHelper: function() {
       if (this.options.helper === "clone") {
@@ -558,9 +602,16 @@ if ($.ui.draggable) {
       return this._super();
     }
   });
+
+  $.views.tags("draggable", {
+    baseTag: "widget",
+    widgetName: "jsv-draggable",
+    wrap: true
+  });
 }
 
 if ($.ui.accordion) {
+  // Create derived accordion widget
   $.widget("jsv.accordion", $.ui.accordion, {
     _create: function() {
       var widget = this;
@@ -571,25 +622,20 @@ if ($.ui.accordion) {
       widget._super();
     }
   });
-}
-
-$.views.tags({
-  accordion: {
+  $.views.tags("accordion", {
     baseTag: "widget",
     widgetName: "jsv-accordion",
     wrap: true,
     initOptions: ["header"] // Options which need to be set on creation, not later
-  },
-  draggable: {
-    baseTag: "widget",
-    widgetName: "jsv-draggable",
-    wrap: true
-  },
-  sortable: {
+  });
+}
+
+if ($.ui.sortable) {
+  $.views.tags("sortable", {
     baseTag: "widget",
     widgetName: "jsv-sortable",
     wrap: true
-  }
-});
+  });
+}
 
 })(this, this.jQuery);

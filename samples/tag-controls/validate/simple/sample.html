@@ -4,7 +4,6 @@
   <script src="//code.jquery.com/jquery-1.12.4.js"></script>
   <script src="../../../../download/jsviews.js"></script>
   <script src="../../../sample-viewer.js"></script>
-  <script src="../../../../download/sample-tag-controls/generic-edit/edit.js"></script>
   <script src="../../../../download/sample-tag-controls/validate/validate.js"></script>
   <link href="../../../../download/sample-tag-controls/validate/validate.css" rel="stylesheet"/>
   <link href="../sample.css" rel="stylesheet"/>
@@ -16,19 +15,19 @@
 <script id="myTmpl" type="text/x-jsrender">
   <label>Prevent invalid data <input type="checkbox" data-link="~page.noInvalidData" /></label><br/>
 
-  name: <input data-link="name"/><br/>
+  Chosen person: <input data-link="person" /><br/>
   <label>Agree <input type="checkbox" data-link="agree"/></label><br/>
 
   <h3>Data-linked tags</h3>
 
-  {^{validate name
+  {^{validate person
     minLength=3
     ^preventInvalidData=~page.noInvalidData
     convert="upper"
     convertBack=~lower
   /}}
 
-  {^{validate name
+  {^{validate person
     minLength=3
     ^preventInvalidData=~page.noInvalidData
     convert="upper"
@@ -45,7 +44,7 @@
     <input type="checkbox"/>
   {{/validate}}</label>
 
-  {^{validate name
+  {^{validate person
     minLength=3
     msg_minLength='Select a name of at least %cond% characters'
     ^preventInvalidData=~page.noInvalidData
@@ -59,20 +58,21 @@
     </select>
   {{/validate}}
 
-  {^{validate name
+  {^{validate person
+    radiogroup=true
     minLength=3
     convert='upper'
     convertBack=~lower
     ^preventInvalidData=~page.noInvalidData
   }}
-    <div class="radiogroup">
-      <label><input type="radio" name="gp2" value="JO"/>Jo</label><br/>
-      <label><input type="radio" name="gp2" value="MARY"/>Mary</label><br/>
-      <label><input type="radio" name="gp2" value="XAVIER"/>Xavier</label><br/>
+    <div>
+      <label><input type="radio" value="JO" /> Jo</label><br/>
+      <label><input type="radio" value="MARY" /> Mary</label><br/>
+      <label><input type="radio" value="XAVIER" /> Xavier</label><br/>
     </div>
   {{/validate}}
 
-  {^{validate name
+  {^{validate person
     minLength=3
     convert="upper"
     convertBack=~lower
@@ -83,7 +83,7 @@
 
   <h3>Data-linked elements</h3>
 
-  <input data-link="{validate name
+  <input data-link="{validate person
     minLength=3
     msg_minLength='The name must have at least %cond% characters'
     ^preventInvalidData=~page.noInvalidData
@@ -97,7 +97,7 @@
     ^preventInvalidData=~page.noInvalidData
   }"/></label>
 
-  <select size="3" data-link="{validate name
+  <select size="3" data-link="{validate person
     minLength=3
     ^preventInvalidData=~page.noInvalidData
     convert='upper'
@@ -108,18 +108,19 @@
     <option value="XAVIER">Xavier</option>
   </select>
 
-  <div data-link="{validate name
+  <div data-link="{validate person
+    radiogroup=true
     minLength=3
     ^preventInvalidData=~page.noInvalidData
     convert='upper'
     convertBack=~lower
-  }" class="radiogroup">
-    <label><input type="radio" name="gp1" value="JO"/>Jo</label><br/>
-    <label><input type="radio" name="gp1" value="MARY"/>Mary</label><br/>
-    <label><input type="radio" name="gp1" value="XAVIER"/>Xavier</label><br/>
+  }">
+    <label><input type="radio" value="JO" /> Jo</label><br/>
+    <label><input type="radio" value="MARY" /> Mary</label><br/>
+    <label><input type="radio" value="XAVIER" /> Xavier</label><br/>
   </div>
 
-  <textarea data-link="{validate name
+  <textarea data-link="{validate person
     minLength=3
     ^preventInvalidData=~page.noInvalidData
     convert='upper'

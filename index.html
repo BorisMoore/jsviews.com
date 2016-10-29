@@ -486,9 +486,11 @@
 	<div>
 		<label>url: <input data-link="url" class="url" type="text"/></label>
 		<label>height: <input data-link="height" class="height" type="text"/></label>
-		<label><input data-link="jsrJsvJqui" value="jsr" name="jsr/jsv" type="radio"/> JsRender</label>
-		<label><input data-link="jsrJsvJqui||''" value="" name="jsr/jsv" type="radio"/> JsViews</label>
-		<label><input data-link="jsrJsvJqui" value="jqui" name="jsr/jsv" type="radio"/> jQueryUI</label>
+		{^{radiogroup jsrJsvJqui||""}}
+			<label><input value="jsr" type="radio"/> JsRender</label>
+			<label><input value="" type="radio"/> JsViews</label>
+			<label><input value="jqui" type="radio"/> jQueryUI</label>
+		{{/radiogroup}}
 		<div class="tabs">
 			<div>Code tabs:</div>
 			{^{for codetabs}}

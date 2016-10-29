@@ -39,18 +39,12 @@
       <option>3</option>
     </select><br/><br/>
 
-    <label><input type="radio" name="amt" value="0"
-      data-link="{intToStr:amount:strToInt}" />
-      0</label><br/>
-    <label><input type="radio" name="amt" value="1"
-      data-link="{intToStr:amount:strToInt}" />
-      1</label><br/>
-    <label><input type="radio" name="amt" value="2"
-      data-link="{intToStr:amount:strToInt}" />
-      2</label><br/>
-    <label><input type="radio" name="amt" value="3"
-      data-link="{intToStr:amount:strToInt}" />
-      3</label><br/><br/>
+    {^{radiogroup amount convert="intToStr" convertBack="strToInt"}}
+      <label><input type="radio" value="0" /> 0</label><br/>
+      <label><input type="radio" value="1" /> 1</label><br/>
+      <label><input type="radio" value="2" /> 2</label><br/>
+      <label><input type="radio" value="3" /> 3</label><br/>
+    {{/radiogroup}}<br/>
 
     <textarea data-link="{intToStr:amount:strToInt}"
       rows="2" cols="10"></textarea><br/><br/>

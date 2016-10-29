@@ -15,8 +15,8 @@ var myTmpl = $.templates("#myTmpl"),
   },
   model = {
     agree: false,
-    name: "Jo",
-    names: [
+    person: "Jo",
+    people: [
       {name: "Jo"},
       {name: "Mary"},
       {name: "Xavier"}

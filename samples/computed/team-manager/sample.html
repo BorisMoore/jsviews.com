@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../download/jsviews.js"></script>
+  <script src="../../sample-viewer.js"></script>
+  <link href="../../samples.css" rel="stylesheet" />
+</head>
+<body>
+<title>Computed observables:- Compiled View Model and two-way binding</title>
+
+<div id="result"></div>
+
+<script id="teamTmpl" type="text/x-jsrender">
+{^{on ~setManager}}No Manager{{/on}}
+{^{on ~setManager 0}}Set Manager 0{{/on}}
+{^{on ~setManager 1}}Set Manager 1{{/on}}
+{^{on ~setManager 2}}Set Manager 2{{/on}}
+<h4>Team members:</h4>
+
+<table>
+  <thead><tr><td>Is&nbsp;Manager</td><td>Name</td><td>Street</td><td>ZIP</td></tr></thead>
+  <tbody>
+    {^{for members() ~manager=manager}}
+      <tr><td><input data-link="isManager()" type="checkbox"/></td>
+      <td><input data-link="name()" /></td>
+      <td><input data-link="address().street()" /></td>
+      <td><input data-link="address().ZIP()" /></td>
+      </tr>
+    {{/for}}
+  </tbody>
+</table>
+
+{^{if manager()}}
+  <h4>Manager:</h4>
+  <table><tbody><tr>
+    <td><input data-link="manager()^name()" /></td>
+    <td><input data-link="manager()^address().street()" /></td>
+    <td><input data-link="manager()^address().ZIP()" /></td>
+  </tr></tbody></table>
+{{else}}
+  <h4>No manager</h4>
+{{/if}}
+</script>
+<!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

@@ -4,10 +4,9 @@ body {
 	padding: 0 0 0 5px;
 }
 
-.main-slider {
+.ui-slider.main-slider {
 	margin: 25px 0 25px;
-	width: 400px;
-	border: 2px solid green;
+	border: 1px solid green;
 	color red;
 }
 
