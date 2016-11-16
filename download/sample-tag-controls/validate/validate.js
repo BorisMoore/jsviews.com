@@ -49,11 +49,15 @@
       while (l--) {
         if (this.childValidates[l] === child) {
           this.childValidates.splice(l, 1);
+          this._checkChildren();
           break;
         }
       }
     },
     onChildValidate: function(child) {
+      this._checkChildren();
+    },
+    _checkChildren: function() {
       var groupIsValid = true,
         l = this.childValidates.length;
       while (l--) {
