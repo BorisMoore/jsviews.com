@@ -49,15 +49,15 @@
       while (l--) {
         if (this.childValidates[l] === child) {
           this.childValidates.splice(l, 1);
-          this._checkChildren();
+          this.updateIsValid();
           break;
         }
       }
     },
     onChildValidate: function(child) {
-      this._checkChildren();
+      this.updateIsValid();
     },
-    _checkChildren: function() {
+    updateIsValid: function() {
       var groupIsValid = true,
         l = this.childValidates.length;
       while (l--) {
@@ -86,7 +86,7 @@
         tag.validationGroup.addChild(this);
       }
     },
-		render: function(val) {
+    render: function(val) {
       var ret,
         tag = this,
         tagCtx = this.tagCtx;
