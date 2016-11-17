@@ -545,14 +545,16 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 						markup: data.markup,
 						html: data.html,
 						code: data.code,
-						jsrJsvJqui: data.jsrJsvJqui
+						jsrJsvJqui: data.jsrJsvJqui,
+						nocss: data.nocss
 					};
 					self.tryItData = {
 						data: data.data,
 						markup: data.markup,
 						html: data.html,
 						code: data.code,
-						jsrJsvJqui: data.jsrJsvJqui
+						jsrJsvJqui: data.jsrJsvJqui,
+						nocss: data.nocss
 					};
 					codetabs && self.loadTabs(codetabs);
 				}
@@ -566,7 +568,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 				}, "text");
 			});
 		},
-		template: "<iframe src=\"{{attr:url||'samples/iframedefault' + (jsrJsvJqui||'')}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}px;\"></iframe>",
+		template: "<iframe src=\"{{attr:url||'samples/iframedefault' + (jsrJsvJqui||'') + (nocss?'_nocss':'')}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}px;\"></iframe>",
 		onBind: function() {
 			var self = this,
 				iframeWnd = self.iframeWnd = $(self.parentElem).find(".sampleframe")[0].contentWindow;
@@ -625,7 +627,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 						: ""
 					)
 					+ "  <base href=\"//www.jsviews.com/samples/\"/>\n"
-					+ "  <link href=\"samples.css\" rel=\"stylesheet\"/>\n"
+					+ (nocss ? "" : "  <link href=\"samples.css\" rel=\"stylesheet\"/>\n")
 					+ "  <script src=\"../download/js" + (jsrJsvJqui === "jsr" ? "render" : "views")
 					+ ".js\"></script>\n"
 					+ (jsrJsvJqui === "jqui"
@@ -688,6 +690,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 			var ret = "",
 				tryItData = this.data,
 				jsrJsvJqui = this.tagCtx.view.data.origData.jsrJsvJqui,
+				nocss = this.tagCtx.view.data.origData.nocss,
 				editable = mode==="edit",
 				url = this.parent.parents.section.data.url;
 

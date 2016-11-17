@@ -182,7 +182,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "url": "samples/tag-controls/multiselect/sample",
-        "text": "A multiselect custom tag control \nThis is a fairly advanced sample: A multiselect control which supports both the inline data-binding syntax:\n{^{multisel items=items selected=selectedItems/}}\n\nand the element-based data-link syntax, using a <select> tag:\n<select data-link=\"{multisel items=items selected=selectedItems}\"></select>\n\nIt provides two array  properties, items and selectedItems. Both use observable arrayChange data-binding, so you can (as in the example) use two-way binding between the selectedItems property of one multiselect and the items of another, following a cascading pattern.\n\n"
+        "text": "A multiselect custom tag control \nThis is a fairly advanced sample: A multiselect control which supports both the inline data-binding syntax:\n{^{multisel items=items selected=selectedItems .../}}\n\nand the element-based data-link syntax, using a <select> tag:\n<select data-link=\"{multisel items=items selected=selectedItems ...}\"></select>\n\nIt provides two array  properties, items and selectedItems. Both use observable arrayChange data-binding, so you can (as in the example) use two-way binding between the selectedItems property of one multiselect and the items of another, following a cascading pattern.\n\n"
       }
     ]
   },
@@ -508,7 +508,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "url": "samples/tag-controls/tree/visible-binding/sample",
-        "text": "The data is a hierarchy of node objects each of which has a name property and an optional folder property containing child data nodes:\nvar rootFolder = {\n  name: \"Categories\", folders: [\n    {name: \"Drama\", folders: [\n      {name: \"Courtroom\"},\n      {name: \"Political\"}\n    ]},\n    {name: \"Classic\", folders: [\n      ...\n    ]}\n  ]};\n\nThe {{tree}} tag is a tag control for a node in the tree. It renders a node in the data hierarchy, and has a boolean expanded property.\n$.views.tags({\n  tree: {\n    onAfterLink: function() {\n      var self = this;\n      self.contents(\"li\").first()\n        .on(\"click\", \".toggle\", function() {\n          self.toggle();\n        })\n        .on(\"click\", \".selectable\", function() {\n          self.select();\n        });\n    },\n    template: \"#treeTemplate\",\n\n    //PROPERTIES\n    expanded: false, // default to unexpanded\n\n    //METHODS\n    toggle: function() {\n      $.observable(this).setProperty(\"expanded\", !this.expanded);\n    },\n    ...\n  }\n});\n\nIt uses a template which recursively renders the child data nodes using the same data-linked tag: {^{tree}}, and data-links to the expanded property of the control (tag instance).\n<li>\n  ...\n  <span>{{>name}}</span>\n</li>\n{{if folders}}\n  <li data-link=\"visible{:~tag.expanded}\">\n    <ul>\n      {{for folders}}\n        {^{tree/}}\n      {{/for}}\n    </ul>\n  </li>\n{{/if}}\n\nThis version of the {{tree}} binds using the data-link visible target  to show or hide the child nodes.\n<li data-link=\"visible{:~tag.expanded}\">\n\n\n"
+        "text": "The data is a hierarchy of node objects each of which has a name property and an optional folder property containing child data nodes:\nvar rootFolder = {\n  name: \"Categories\", folders: [\n    {name: \"Drama\", folders: [\n      {name: \"Courtroom\"},\n      {name: \"Political\"}\n    ]},\n    {name: \"Classic\", folders: [\n      ...\n    ]}\n  ]};\n\nThe {{tree}} tag is a tag control for a node in the tree. It renders a node in the data hierarchy, and has a boolean expanded property.\n$.views.tags({\n  tree: {\n    onBind: function() {\n      var self = this;\n      self.contents(\"li\").first()\n        .on(\"click\", \".toggle\", function() {\n          self.toggle();\n        });\n    },\n    template: \"<li>...\",\n\n    //PROPERTIES\n    expanded: false, // default to unexpanded\n\n    //METHODS\n    toggle: function() {\n      $.observable(this).setProperty(\"expanded\", !this.expanded);\n    },\n    ...\n  }\n});\n\nIt uses a template which recursively renders the child data nodes using the same data-linked tag: {^{tree}}, and data-links to the expanded property of the control (tag instance).\n<li>\n  ...\n  {{>name}}\n</li>\n{{if folders}}\n  <li data-link=\"visible{:~tag.expanded}\">\n    <ul>\n      {{for folders}}\n        {^{tree/}}\n      {{/for}}\n    </ul>\n  </li>\n{{/if}}\n\nThis version of the {{tree}} tag binds using the data-link visible target  to show or hide the child nodes.\n<li data-link=\"visible{:~tag.expanded}\">\n\n\n"
       }
     ]
   },
@@ -522,7 +522,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "url": "samples/tag-controls/tree/if-binding/sample",
-        "text": "The data is a the same hierarchy of node objects used in the previous sample:\nvar rootFolder = {\n  name: \"Categories\", folders: [\n    {name: \"Drama\", folders: [\n      {name: \"Courtroom\"},\n      {name: \"Political\"}\n    ]},\n    {name: \"Classic\", folders: [\n      ...\n    ]}\n  ]};\n\nThe {{tree}} tag is a tag control for a node in the tree. It renders a node in the data hierarchy, and sets a boolean expanded property on the data node.\n$.views.tags({\n  tree: {\n    init: function(tagCtx, linkCtx, ctx) {\n      ...\n    },\n    onAfterLink: function() {\n      ... \n    },\n    template: \"#treeTemplate\",\n\n    //METHODS\n    toggle: function() {\n      $.observable(this.data).setProperty(\"expanded\", !this.data.expanded);\n    },\n    ...\n  }\n});\n\nIt has a template which with a {^{if expanded }} section which renders the child data nodes only if expanded === true, using the same data-linked tag: {^{tree}}.\n<li>\n  ...\n  {{>name}}\n</li>\n{^{if expanded}}\n  <li>\n    <ul>\n      {{for folders}}\n        {^{tree/}}\n      {{/for}}\n    </ul>\n  </li>\n{{/if}}\n\n\n"
+        "text": "The data is a the same hierarchy of node objects used in the previous sample:\nvar rootFolder = {\n  name: \"Categories\", folders: [\n    {name: \"Drama\", folders: [\n      {name: \"Courtroom\"},\n      {name: \"Political\"}\n    ]},\n    {name: \"Classic\", folders: [\n      ...\n    ]}\n  ]};\n\nThe {{tree}} tag is a tag control for a node in the tree. It renders a node in the data hierarchy, and sets a boolean expanded property on the data node.\n$.views.tags({\n  tree: {\n    onBind: function() {\n      var self = this;\n      self.contents(\"li\").first()\n        .on(\"click\", \".toggle\", function() {\n          self.toggle();\n        });\n    },\n    template: \"<li>...\",\n\n    //METHODS\n    toggle: function() {\n      $.observable(this.view.data).setProperty(\"expanded\", !this.view.data.expanded);\n    },\n    ...\n  }\n});\n\nIt has a template which with a {^{if expanded }} section which renders the child data nodes only if expanded === true, using the same data-linked tag: {^{tree}}.\n<li>\n  ...\n  {{>name}}\n</li>\n{^{if expanded}}\n  <li>\n    <ul>\n      {{for folders}}\n        {^{tree/}}\n      {{/for}}\n    </ul>\n  </li>\n{{/if}}\n\n\n"
       }
     ]
   },
@@ -536,7 +536,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "url": "samples/tag-controls/tree/editable/sample",
-        "text": "This version builds on the previous sample, and adds editability:\n$.views.tags({\n  tree: {\n    ...\n    template: \"#treeTemplate\",\n\n    //METHODS\n    toggle: function() {\n      $.observable(this.data).setProperty(\"expanded\", !this.data.expanded);\n    },\n    remove: function() {\n      var parentFolders = this.parent.data.folders,\n        index = this.tagCtx.view.index;\n      $.observable(parentFolders).remove(index);\n    },\n    addFolder: function() {\n      $.observable(this.data.folders).insert({\n        name: \"new folder\",\n        folders: []\n      });\n      $.observable(this.data).setProperty(\"expanded\", true);\n    }\n    ...\n  }\n});\n\n<li>\n  ...\n  <input data-link=\"name\" />\n  <span class=\"add\">add</span>\n  {^{if ~parentTags.tree}}\n    {{!-- Don't allow removing the top-level tree control --}}\n    <span class=\"remove\"><span>\n  {{/if}}\n</li>\n{^{if expanded}}\n  ...\n{{/if}}\n\n\n"
+        "text": "This version builds on the previous sample, and adds editability:\nCode:\n$.views.tags({\n  editableTree: {\n    ...\n    template: \"#editableTreeTemplate\",\n\n    //METHODS\n    ...\n    remove: function() {\n      var parentFolders = this.parent.view.data.folders,\n        index = this.tagCtx.view.index;\n      $.observable(parentFolders).remove(index);\n    },\n    addFolder: function() {\n      $.observable(this.view.data.folders).insert({\n        name: \"new folder\",\n        folders: []\n      });\n      $.observable(this.view.data).setProperty(\"expanded\", true);\n    },    ...\n  }\n});\n\neditableTreeTemplate:\n<li>\n  ...\n  {^{if ~tag.tagCtx.props.editable}}\n    <input data-link=\"name\" />\n    <span data-link=\"{on ~tag.addFolder}\" class=\"add\">add</span>\n    {^{if ~tag.parent && ~tag.parent.tagName==='editableTree'}}\n      {{!-- Don't allow removing the top-level tree control --}}\n      <span data-link=\"{on ~tag.remove}\" class=\"remove\"></span>\n    {{/if}}\n  {{else}}\n    {^{>name}}\n  {{/if}}\n</li>\n{^{if expanded}}\n  ...\n{{/if}}\n\n\n"
       }
     ]
   },
@@ -1161,7 +1161,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "url": "samples/tag-controls/range/sample",
-        "text": "We use the {{range}} custom tag to create a drop-down to select an integer between 1 and 10 as the start integer (…and similarly for the end integer).\n<select data-link=\"{:start:strToInt}\">\n  {^{range start=1 end=10}}\n    <option>{{:#data}}</option>\n  {{/range}}\n</select>\n\nThen we again use the {{range}} tag to show a partial list of team members.\nWe bind to the observable members array, and we also bind to the start and end ‘range’ integers.\n<ul>\n  {^{range members ^start=start-1 ^end=end}}\n    <li>\n      {^{:#index + ~root.start}}. {^{:name}}\n    </li>\n  {{else}}\n    <li>No items</li>\n  {{/range}}\n</ul>\n\nNote the ^ character here:\n^start=start-1\n\nand here:\n^end=end\n\nto specify that the start and end ‘named properties’ on the {{range}} tag are data-linked. By default named properties are not data-linked. (This is made ‘opt-in’ for perf optimization reasons.)\n\n"
+        "text": "We use the {{range}} custom tag to create a drop-down to select an integer between 1 and 10 as the start integer (…and similarly for the end integer):\n<select data-link=\"{:start:strToInt}\">\n  {^{range start=1 end=10}}\n    <option>{{:#data}}</option>\n  {{/range}}\n</select>\n\nThen we again use the {{range}} tag to show a partial list of team members:\n<ul>\n  {^{range members start=start-1 end=end}}\n    <li>\n      {^{:#index + ~root.start}}. {^{:name}}\n    </li>\n  {{else}}\n    <li>No items</li>\n  {{/range}}\n</ul>\n\nNote that by default, named properties like start=start-1 are not data-bound. (This is made ‘opt-in’ for perf optimization reasons.) However in this case, our {{range}} tag implementation has start and end specified as bound properties:\n$.views.tags({\n  range: {\n    boundProps: [\"start\", \"end\"],\n    baseTag: \"for\",\n    ...\n\nSo observable changes to the start and end properties automatically trigger updates.\n(If not declared as boundProps we would have needed to use the syntax: ^start=start-1.)\n\n"
       }
     ]
   },
@@ -1270,9 +1270,29 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
   "jqui": {
     "sections": [
       {
-        "_type": "links",
+        "_type": "para",
         "title": "",
-        "text": ""
+        "text": "The jQuery UI tag controls library is a set of tag controls based on jQuery UI widgets.\nIt provides the following tag controls:\n\n{{autocomplete/}} – based on jQuery UI autocomplete\n(api)\n{{accordion/}} – based on jQuery UI accordion\n(api)\n{{button/}} – based on jQuery UI button\n(api)\n\nused in the Toolbar sample\n\n{{checkbox/}} – based on jQuery UI checkboxradio\n(api)\n(requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{radio/}} – based on jQuery UI checkboxradio\n(api)\n(requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{controlgroup/}} – based on jQuery UI controlgroup\n(api)\n(requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{buttonset}} – deprecated and available only if using jQuery UI 1.11.4\n{{datepicker/}} – based on jQuery UI datepicker\n(api)\n\nused in the simple datepicker,\ndatepicker variants,\ndatepicker with validation\nand datepicker with validation wizard samples\n\n{{draggable/}} – based on jQuery UI draggable\n(api)\n{{droppable/}} – based on jQuery UI droppable\n(api)\n{{menu/}} – based on jQuery UI menu\n(api)\n{{progressbar/}} – based on jQuery UI progressbar\n(api)\n\nused in the Toolbar sample\n\n{{resizable/}} – based on jQuery UI resizable\n(api)\n{{selectable/}} – based on jQuery UI selectable\n(api)\n{{selectmenu/}} – based on jQuery UI selectmenu\n(api)\n{{slider/}} – based on jQueryUI slider\n(api)\n\nused in the simple slider,\nslider variants,\nslider with validation,\nsliders as color picker and\nToolbar samples\n\n{{sortable/}} – based on jQuery UI sortable\n(api)\n{{spinner/}} – based on jQuery UI spinner\n(api)\n{{tabs/}} – based on jQuery UI tabs\n(api)\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "To use the above tag controls, simply include the library after loading jQuery UI and JsViews:\n...\n<script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n<script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n...\n<script src=\"//www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"//www.jsviews.com/download/jsviews-jqueryui-widgets.js\"></script>\n...\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Declarative access to widget options",
+        "text": "Declarative access to widget options\nAny widget options can be initialized or data-linked by using the option name preceded by _, on the tag declaration.\nFor example\n{^{datepicker startDate\n  _showOn= \"button\"\n  _buttonImage=\"https://jqueryui.com/resources/demos/datepicker/images/calendar.gif\"\n  _buttonImageOnly= true\n  _buttonText= \"Select date\"\n/}}\n\n"
+      },
+      {
+        "_type": "sample",
+        "title": "",
+        "text": "\n\n\n<b>Start date:</b>\n\n{^{datepicker startDate\n  ^_maxDate=endDate\n  _changeMonth=true\n  _showOn= \"button\"\n  _buttonImage=\"https://jqueryui.com/resources/demos/datepicker/images/calendar.gif\"\n  _buttonImageOnly= true\n  _buttonText= \"Select start date\"\n/}}<br/><br/>\n\n<b>End date:</b>\n\n{^{datepicker endDate\n  ^_minDate=startDate\n  _showOn= \"button\"\n  _buttonImage=\"https://jqueryui.com/resources/demos/datepicker/images/calendar.gif\"\n  _buttonImageOnly= true\n  _buttonText= \"Select end date\"\n/}}<br/>\n\n<h4>Choose a day:</h4>\n\n{^{datepicker date\n  elem=\"div\"\n  ^_minDate=startDate\n  ^_maxDate=endDate\n/}}<br/><br/>\n\n<div data-link=\"date || 'No date chosen!'\" class=\"chosenday\"></div>\n\n\n\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  pageOptions = {\n    monthsSpan: 2\n  },\n  model = {\n    startDate: \"\",\n    endDate: \"\",\n    date: \"\"\n  };\n\nmyTmpl.link(\"#page\", model, {\n  page: pageOptions\n});\n\nHere we set several options, taken from the jQuery UI datepicker api.\n{^{datepicker startDate\n  ^_maxDate=endDate\n  _changeMonth=true\n  _showOn= \"button\"\n  _buttonImage=\"https://jqueryui.com/.../calendar.gif\"\n  _buttonImageOnly= true\n  _buttonText= \"Select start date\"\n/}}\n\nFor _maxDate we include the ^ character so the it dynamically updates if the endDate changes.\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "See:",
+        "text": "See:\n"
       }
     ]
   },
@@ -1318,6 +1338,20 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "para",
         "title": "",
         "text": "The second version of the sample, above, also shows alternative approaches to setting options on the jQuery UI widgets:\n\nDeclarative setting of options:\n{^{controlgroup _classes=~myUiOverrides}}\n\nProgrammatic approach, using an overridden event handler:\n{^{controlgroup onBind=~onbind}}\n\npageTmpl.link(\"#page\", model, {\n  ...\n  onbind: function(val) {\n    this.baseApply(arguments);\n    this.linkedElem.controlgroup( \"option\", \"classes\", uiOverrides);\n  },\n  ...\n});\n\nProgrammatic approach, using an id and corresponding jQuery selector:\n{^{checkbox reverse id=\"reverseChkBx\"/}}\n\n$(\"#reverseChkBx\").checkboxradio(\"option\", \"classes\", {\"ui-checkboxradio-label\": ...});\n\n$.observe(model, \"reverse\", function() {\n  $(\"#reverseChkBx\").checkboxradio(\"option\", \"label\", model.reverse ? \"Forward\" : \"Reverse\");\n});\n\n\n"
+      }
+    ]
+  },
+  "samples/tag-controls/draggable-droppable": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following sample uses the {{draggable}} and {{droppable}} jQuery UI based JsViews tag controls.\nIt is a declarative data-driven version of the jQuery UI Photo Manager demo.\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqueryui/draggable-droppable/photomanager",
+        "text": "Template:\n{^{droppable _drop=~dropInGallery _accept=... _activeClass=... elem=\"ul\" ...}}\n  {^{for items}}\n    {^{draggable _cancel=... _revert=... _containment=... _helper=... _cursor=... elem=\"li\" ...}}\n      <h5 class=\"ui-widget-header\">{{:title}}</h5>\n      <img src=\"{{:icon}}\" alt=\"{{:description}}\" .../>\n      ...\n    {{/draggable}}\n  {{/for}}\n{{/droppable}}\n\n{^{droppable _drop=~dropInTrash _accept=... _activeClass=... elem=\"ul\" ...}}\n  ...\n  {^{for trash}}\n    {^{draggable _cancel=... _revert=... _containment=... _helper=... _cursor=... elem=\"li\" ...}}\n      <h5 class=\"ui-widget-header\">{{:title}}</h5>\n      <img src=\"{{:icon}}\" alt=\"{{:description}}\" .../>\n      ...\n    {{/draggable}}\n  {{/for}}\n{{/droppable}}\n\nCode:\nvar data = {\n    items: [{title: \"High Tatras\", ...}, ...],\n    trash: [{title: \"High Tatras 4\", ...} ...]\n  },\n  helpers = {\n    dropInTrash: function(...) {...},\n    dropInGallery: function(...) {...},\n    ...\n  },\n  pageTmpl = $.templates(\"#page\");\n\npageTmpl.link(\"#content\", data, helpers);\n\n\n"
       }
     ]
   }

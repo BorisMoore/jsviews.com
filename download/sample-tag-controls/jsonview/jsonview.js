@@ -1,7 +1,6 @@
-﻿/*
- * Sample JsViews tag control: {{jsonview}} control
- * http://www.jsviews.com/download/sample-tag-controls/jsonview/jsonview.js
-
+﻿/*! Sample JsViews tag control: {{jsonview}} control v0.9.83 (Beta)
+see: http://www.jsviews.com/#download/sample-tagcontrols */
+/*
  * Copyright 2016, Boris Moore
  * Released under the MIT License.
 */

@@ -12,14 +12,14 @@
 <h3>JsViews 'editable tree' tag control: The {{editableTree}} tag</h3>
 <div class="subhead">Dynamic content blocks use <em>{^{if}}</em> binding</div>
 
-<div id="pageContent" class="folderView"></div>
+<div class="folderView" id="pageContent"></div>
 
 <script id="pageTemplate" type="text/x-jsrender">
   <div class="left">
     <div class="label">
       <label><input type="checkbox" data-link="editable" /> Editable</label>
     </div>
-    <ul>{^{editableTree/}}</ul>
+    <ul>{^{editableTree ^editable=editable/}}</ul>
   </div>
   <div class="right">
     <br/>
@@ -30,7 +30,7 @@
 <script id="treeTemplate" type="text/x-jsrender">
   <li>
     {^{if folders && folders.length}}
-      <span class="toggle">{^{:expanded ? '-' : '+'}}</span>
+      <span data-link="{on ~tag.toggle}" class="toggle">{^{:expanded ? '-' : '+'}}</span>
     {{else}}
       <span class="spacer">&bull;</span>
     {{/if}}
@@ -47,33 +47,32 @@
   {{/if}}
 </script>
 
-
 <script id="editableTreeTemplate" type="text/x-jsrender">
-  {^{if ~root.editable}}
-    <li>
-      {^{if folders.length}}
-        <span class="toggle">{^{:expanded ? '-' : '+'}}</span>
-      {{else}}
-        <span class="spacer">&bull;</span>
-      {{/if}}
+  <li>
+    {^{if folders && folders.length}}
+      <span data-link="{on ~tag.toggle}" class="toggle">{^{:expanded ? '-' : '+'}}</span>
+    {{else}}
+      <span class="spacer">&bull;</span>
+    {{/if}}
+    {^{if ~tag.tagCtx.props.editable}}
       <input data-link="name" />
-      <span class="add">add</span>
+      <span data-link="{on ~tag.addFolder}" class="add">add</span>
       {^{if ~tag.parent && ~tag.parent.tagName==='editableTree'}}
         {{!-- Don't allow removing the top-level tree control --}}
-        <span class="remove"></span>
+        <span data-link="{on ~tag.remove}" class="remove"></span>
       {{/if}}
-    </li>
-    {^{if expanded}}
-      <li>
-        <ul>
-          {^{for folders}}
-            {^{editableTree/}}
-          {{/for}}
-        </ul>
-      </li>
+    {{else}}
+      {^{>name}}
     {{/if}}
-  {{else}}
-    {^{tree/}}
+  </li>
+  {^{if expanded}}
+    <li>
+      <ul>
+        {^{for folders}}
+          {^{editableTree editable=~tag.tagCtx.props.editable/}}
+        {{/for}}
+      </ul>
+    </li>
   {{/if}}
 </script>
 

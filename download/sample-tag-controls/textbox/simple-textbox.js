@@ -1,7 +1,6 @@
-﻿/*
- * Sample JsViews tag control: Minimalist {{textbox}} control
- * http://www.jsviews.com/download/sample-tag-controls/textbox/simple-textbox.js
- * Used in samples: http://www.jsviews.com/#samples/tag-controls/simple-textbox
+﻿/*! Sample JsViews tag control: {{textbox}} control v0.9.83 (Beta)
+see: http://www.jsviews.com/#download/sample-tagcontrols */
+/*
  * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */

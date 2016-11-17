@@ -1,7 +1,6 @@
-﻿/*
- * Sample JsViews tag control: {{multiselect}} control
- * http://www.jsviews.com/download/sample-tag-controls/multiselect/multiselect.js
- * Used in samples: http://www.jsviews.com/#samples/tag-controls/multiselect
+﻿/*! Sample JsViews tag control: {{multiselect}} control v0.9.83 (Beta)
+see: http://www.jsviews.com/#download/sample-tagcontrols */
+/*
  * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
@@ -10,14 +9,15 @@
 "use strict";
 
 $.views.tags({
-  multisel: {
-    noVal: true, // This tag control does not bind to arg[0] - no default binding to current #data context
-    linkedElement: "select",
+    multisel: {
+    boundProps: ["size"],
     init: function(tagCtx, linkCtx) {
       var tag = this;
-      tag._optionsTmpl = "{^{for ~tag.items}}<option data-link='value{:name}'>{{:name}}</option>{{/for}}";
+      tag.valueProp = tag.tagCtx.props.valueProp || "id",
+      tag.labelProp = tag.tagCtx.props.labelProp || "name";
       tag.items = tagCtx.props.items;
       tag.selectedItems = tagCtx.props.selected || [];
+      tag._optionsTmpl = "{^{for ~tag.items}}<option data-link='value{:" + tag.valueProp + "}'>{{:" + tag.labelProp + "}}</option>{{/for}}";
       if (tag._.inline) {
         if (tagCtx.content) {
           $.views.sub.error("{{multiselect}} must be empty");
@@ -31,8 +31,9 @@ $.views.tags({
     },
     onBind: function(tagCtx, linkCtx) {
       var tag = this;
-      tag.linkedElem.on("change", function(ev, evargs) {
-          var newSelection = tag.linkedElem.find("option").map(function(i) {
+      tag.selectElem = tag._.inline ? tag.contents("select") : $(linkCtx.elem);
+      tag.selectElem.on("change", function(ev, evargs) {
+          var newSelection = tag.selectElem.children().map(function(i) {
             return this.selected && tag.items[i] || null;
           }).get();
 
@@ -46,7 +47,7 @@ $.views.tags({
     },
     onAfterLink: function(tagCtx, linkCtx) {
       if (tagCtx.props.size) {
-        this.linkedElem[0].size = tagCtx.props.size;
+        this.selectElem[0].size = tagCtx.props.size;
       }
     },
     onDispose: function() {
@@ -63,11 +64,12 @@ $.views.tags({
     updateSelection: function() {
       var tag = this;
       if (!tag._selSet) {
-        // Map selectedItems to the corresponding array of strings (the names)
+        // Map selectedItems to the corresponding array of strings
+        // (the names, or other prop specified by valueProp)
         var selection = tag.selectedItems.map(function(val) {
-          return val.name;
+          return val[tag.valueProp];
         });
-        tag.linkedElem.val(selection); // Set selection on the <select> element
+        tag.selectElem.val(selection); // Set selection on the <select> element
       }
     },
     updateItems: function() {

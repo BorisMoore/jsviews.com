@@ -4,6 +4,7 @@
   <script src="//code.jquery.com/jquery-1.12.4.js"></script>
   <script src="../../../../download/jsviews.js"></script>
   <script src="../../../sample-viewer.js"></script>
+  <script src="../../../../download/sample-tag-controls/treeview/tree-visible.js"></script>
   <link href="../../../../download/sample-tag-controls/treeview/tree.css" rel="stylesheet" />
 </head>
 <body>
@@ -15,28 +16,6 @@
 
 <script id="pageTemplate" type="text/x-jsrender">
   <ul>{^{tree/}}</ul>
-</script>
-
-<script id="treeTemplate" type="text/x-jsrender">
-  <li>
-    {{if folders && folders.length}}
-      <span class="toggle">{^{:~tag.expanded ? '-' : '+'}}</span>
-    {{else}}
-      <span class="spacer">&bull;</span>
-    {{/if}}
-    <span class="selectable"
-      data-link="css-background-color{:~tag.selected ? 'yellow' : 'white'}"
-    >{{>name}}</span>
-  </li>
-  {{if folders}}
-    <li data-link="visible{:~tag.expanded}">
-      <ul>
-        {{for folders}}
-          {^{tree/}}
-        {{/for}}
-      </ul>
-    </li>
-  {{/if}}
 </script>
 
 <!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->

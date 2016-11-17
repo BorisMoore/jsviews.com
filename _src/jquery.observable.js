@@ -382,8 +382,8 @@ if (!$.observe) {
 				}
 			}
 
-			var i, p, skip, parts, prop, path, dep, unobserve, callback, cbId, inId, el, data, events, contextCb, items, cbBindings,
-				depth, innerCb, parentObs, allPath, filter, initNsArr, initNsArrLen,
+			var i, p, skip, parts, prop, path, dep, unobserve, callback, cbId, inId, el, data, events, contextCb, innerContextCb,
+				items, cbBindings, depth, innerCb, parentObs, allPath, filter, initNsArr, initNsArrLen,
 				ns = observeStr,
 				paths = this != 1 // Using != for IE<10 bug- see jsviews/issues/237
 					? concat.apply([], arguments) // Flatten the arguments - this is a 'recursive call' with params using the 'wrapped array'
@@ -412,7 +412,7 @@ if (!$.observe) {
 			}
 			callback = lastArg;
 			if (l && $isFunction(paths[l - 1])) {
-				contextCb = callback;
+				innerContextCb = contextCb = callback;
 				callback = paths.pop();
 				l--;
 			}
@@ -465,6 +465,11 @@ if (!$.observe) {
 					if (path === "") {
 						continue;
 					}
+					if (path && path._cp) { // Contextual parameter
+						contextCb = $sub._gccb(path[0]);   // getContextCb: Get context callback for the contextual view (where contextual param evaluated/assigned)
+						origRoot = root = path[0].data;    // Contextual data
+						path = path[1];
+					}
 					object = root;
 					if ("" + path === path) {
 						// Consider support for computed paths: jsviews/issues/292
@@ -483,7 +488,11 @@ if (!$.observe) {
 							depth = path.split(".").length - depth;
 							// if more than one ^ in the path, the first one determines depth
 						}
-						if (contextCb && (items = contextCb(path, root, depth))) {
+						if (contextCb) {
+							items = contextCb(path, root, depth);
+							contextCb = innerContextCb;
+						}
+						if (items) {
 							// If the array of objects and paths returned by contextCb is non empty, insert them
 							// into the sequence, replacing the current item (path). Otherwise simply remove current item (path)
 							l += items.length - 1;
@@ -1028,6 +1037,7 @@ if (!$.observe) {
 	};
 
 	$sub.advSet = function() { // refresh advanced settings
+		$sub._gccb = this._gccb; // getContextCallback method
 		global._jsv = $subSettings.advanced._jsv
 			? { // create global _jsv, for accessing views, etc
 					cbBindings: cbBindingsStore

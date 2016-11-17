@@ -1,14 +1,6 @@
-﻿/*
- * Sample JsViews tag control: {{validate}} control,
- * derived from {{edit}} control, and {{validation}} group control
- * http://www.jsviews.com/download/sample-tag-controls/validate/validate.js
- * Used in samples:
- * http://www.jsviews.com/#samples/tag-controls/validate/simple
- * http://www.jsviews.com/#samples/tag-controls/validate/group
- * http://www.jsviews.com/#samples/tag-controls/validate/array-binding
- * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation
- * http://www.jsviews.com/#samples/tag-controls/datepicker/with-validation-wizard
- * http://www.jsviews.com/#samples/tag-controls/slider/with-validation
+﻿/*! Sample JsViews tag control: {{validate}} control v0.9.83 (Beta)
+see: http://www.jsviews.com/#download/sample-tagcontrols */
+/*
  * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
@@ -54,7 +46,7 @@
         }
       }
     },
-    onChildValidate: function(child) {
+    onChildValidate: function() {
       this.updateIsValid();
     },
     updateIsValid: function() {
@@ -215,7 +207,7 @@
         tag.messageElem.addClass("invalid");
       }
       if (this.validationGroup) {
-        this.validationGroup.onChildValidate(this);
+        this.validationGroup.onChildValidate();
       }
       return this.isValid;
     },

@@ -1,7 +1,6 @@
-﻿/*
- * Sample JsViews tag control: {{tree}} control using visible{...} binding
- * http://www.jsviews.com/download/sample-tag-controls/treeview/tree-visible.js
- * Used in samples: http://www.jsviews.com/#samples/tag-controls/tree/visible-binding
+﻿/*! Sample JsViews tag control: {{tree}} control using visible{...} binding v0.9.83 (Beta)
+see: http://www.jsviews.com/#download/sample-tagcontrols */
+/*
  * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
@@ -11,17 +10,30 @@
 
 $.views.tags({
   tree: {
-    onAfterLink: function() {
+    onBind: function() {
       var self = this;
       self.contents("li").first()
         .on("click", ".toggle", function() {
           self.toggle();
-        })
-        .on("click", ".selectable", function() {
-          self.select();
         });
     },
-    template: "#treeTemplate", // See http://www.jsviews.com/#samples/tag-controls/tree/visible-binding
+    template: '<li>' +
+      '{{if folders && folders.length}}' +
+        '<span class="toggle">{^{:~tag.expanded ? "-" : "+"}}</span>' +
+      '{{else}}' +
+        '<span class="spacer">&bull;</span>' +
+      '{{/if}}' +
+      '{{>name}}' +
+    '</li>' +
+    '{{if folders}}' +
+      '<li data-link="visible{:~tag.expanded}">' +
+        '<ul>' +
+          '{{for folders}}' +
+            '{^{tree/}}' +
+          '{{/for}}' +
+        '</ul>' +
+      '</li>' +
+    '{{/if}}',
 
     //PROPERTIES
     expanded: false, // default to unexpanded
@@ -29,9 +41,6 @@ $.views.tags({
     //METHODS
     toggle: function() {
       $.observable(this).setProperty("expanded", !this.expanded);
-    },
-    select: function() {
-      $.observable(this).setProperty("selected", !this.selected);
     },
     dataBoundOnly: true
   }

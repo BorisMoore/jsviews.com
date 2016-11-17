@@ -1,7 +1,8 @@
-﻿/*! JsViews jQueryUI widget integration v0.9.82 (Beta)
-see: http://www.jsviews.com/#download/tag-controls */
+﻿/*! JsViews jQueryUI widget integration v0.9.83 (Beta)
+see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
- * Copyright 2016, Boris Moore
+* https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
+* Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
 

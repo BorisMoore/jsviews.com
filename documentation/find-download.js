@@ -50,52 +50,12 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       }
     ]
   },
-  "download/tag-controls": {
+  "download/sample-tagcontrols": {
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "Note: If you use these controls in your own applications, it is recommended to download the files, or copy the code, rather than loading directly from this location, since the implementations (and associated APIs) may change over time as new versions of the samples are introduced.\n"
-      },
-      {
-        "_type": "para",
-        "title": "<b>Tag controls based on jQuery UI widgets:</b>",
-        "text": "Tag controls based on jQuery UI widgets:\nThe jsviews-jqueryui-widgets.js library integrates jQuery UI widgets (recommended version 1.12.1 or later).\nIt provides the following tag controls:\n\n{{autocomplete/}} – based on jQuery UI autocomplete\n{{accordion/}} – based on jQuery UI accordion\n{{autocomplete/}} – based on jQuery UI autocomplete\n{{button/}} – based on jQuery UI button\n\nused in the Toolbar sample\n\n{{checkbox/}} – based on jQuery UI checkboxradio (requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{radio/}} – based on jQuery UI checkboxradio (requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{controlgroup/}} – based on jQuery UI controlgroup (requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{buttonset}} – deprecated and available only if using jQuery UI 1.11.4\n{{datepicker/}} – based on jQuery UI datepicker\n\nused in the simple datepicker,\ndatepicker variants,\ndatepicker with validation\nand datepicker with validation wizard samples\n\n{{draggable/}} – based on jQuery UI draggable\n{{droppable/}} – based on jQuery UI droppable\n{{menu/}} – based on jQuery UI menu\n{{progressbar/}} – based on jQuery UI progressbar\n\nused in the Toolbar sample\n\n{{resizable/}} – based on jQuery UI resizable\n{{selectable/}} – based on jQuery UI selectable\n{{selectmenu/}} – based on jQuery UI selectmenu\n{{slider/}} – based on jQueryUI slider\n\nused in the simple slider,\nslider variants,\nslider with validation,\nsliders as color picker and\nToolbar samples\n\n{{sortable/}} – based on jQuery UI sortable\n{{spinner/}} – based on jQuery UI spinner\n{{tabs/}} – based on jQuery UI tabs\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "<b>JsViews tag controls not using jQuery UI widgets:</b>",
-        "text": "JsViews tag controls not using jQuery UI widgets:\nThe following tag controls, used in some of the samples, can be a starting point for your own custom tag controls. Some are very rudimentary, others are more advanced and complete.\n"
-      },
-      {
-        "_type": "para",
-        "title": "<b>{{tabs/}}</b>:",
-        "text": "{{tabs/}}:\n\n  tabs.js used in the\n    tabs sample\n  \n"
-      },
-      {
-        "_type": "para",
-        "title": "<b>{{tree/}}</b>:",
-        "text": "{{tree/}}:\n\n  tree-if.js used in the\n    tree (if-binding) sample\n  \n  tree-if.js used in the\n    tree (visible-binding) sample\n  \n"
-      },
-      {
-        "_type": "para",
-        "title": "<b>{{textbox/}}</b>:",
-        "text": "{{textbox/}}:\n\n  simple-textbox.js used in the\n    simple textbox sample\n  \n"
-      },
-      {
-        "_type": "para",
-        "title": "<b>{{validate/}}</b> and <b>{{validation/}}</b>:",
-        "text": "{{validate/}} and {{validation/}}:\n\n  validate.js used in the\n    datepicker with validation,\n    datepicker with validation wizard,\n    slider with validation,\n    validate simple\n    and the validate tag control samples\n  \n"
-      },
-      {
-        "_type": "para",
-        "title": "<b>{{range/}}</b>:",
-        "text": "{{range/}}:\n\n  range.js used in the\n    extending for JsRender sample and the range JsViews sample\n  \n"
-      },
-      {
-        "_type": "para",
-        "title": "<b>{{jsonview/}}</b>:",
-        "text": "{{jsonview/}}:\n\n  jsonview.js used in the jsonview JsViews sample\n  \n"
+        "text": "The following tag controls, used in some of the samples, can be a starting point for your own custom tag controls. Some are very rudimentary, others are more advanced and complete.\nNote: If you use these controls in your own applications, it is recommended to download the files, or copy the code, rather than loading directly from this location, since the implementations (and associated APIs) may change over time as new versions of the samples are introduced.\n(To download, right-click and select “Save as…” from the menu.)\n\n{^{tabs/}}\n\nDownload: tabs.js\n(Compressed: tabs.min.js. Source map here)\nUsed in the tabs sample\n\n{^{tree/}}\n\nDownload: tree-if.js\n(Compressed: tree-if.min.js. Source map here)\nUsed in the tree (if-binding) sample\nDownload: tree-visible.js\n(Compressed: tree-visible.min.js. Source map here)\nUsed in the tree (visible-binding) sample\n\n{^{textbox/}}\n\nDownload: simple-textbox.js\n(Compressed: simple-textbox.min.js. Source map here)\nUsed in the simple textbox sample\n\n{^{validate/}} and {^{validation/}}\n\nDownload: validate.js\n(Compressed: validate.min.js. Source map here)\nUsed in the\ndatepicker with validation,\ndatepicker with validation wizard,\nslider with validation,\nvalidate simple\nand the validate tag control samples\n\n{^{range/}}\n\nDownload: range.js\n(Compressed: range.min.js. Source map here)\nUsed in the\nextending for JsRender sample and the range JsViews sample\n\n{^{jsonview/}}\n\nDownload: jsonview.js\n(Compressed: jsonview.min.js. Source map here)\nUsed in the jsonview JsViews sample\n\n\nTo use the above tag controls simply include the corresponding libraries for your chosen tags, after loading JsViews:\n...\n<script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n...\n<script src=\"//www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"//www.jsviews.com/download/range.js\"></script>\n<script src=\"//www.jsviews.com/download/validate.js\"></script>\n...\n\n"
       }
     ]
   },
@@ -162,6 +122,58 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
         "_type": "para",
         "title": "Alternatives: replace the three JsViews &lt;script&gt; tags above by one of the following:",
         "text": "Alternatives: replace the three JsViews <script> tags above by one of the following:\nUsing latest version, minified, from www.jsviews.com:*\n<script src=\"//www.jsviews.com/download/jsrender.min.js\"></script>\n<script src=\"//www.jsviews.com/download/jquery.observable.min.js\"></script>\n<script src=\"//www.jsviews.com/download/jquery.views.min.js\"></script>\n\nUsing specific version from CDN:\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.81/jsrender.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.81/jquery.observable.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.81/jquery.views.js\"></script>\n\nUsing specific version, minified, from CDN:*\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.81/jsrender.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.81/jquery.observable.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jsviews/0.9.81/jquery.views.min.js\"></script>\n\nLoading from the file system after Bower install:\n– Install JsViews on local file system, using $ bower install jsviews– then load the correspondins .js or .min.js files from the bower_components/jsviews/ folder, as in:\n<script src=\"bower_components/jsviews/jsrender.js\"></script>\n<script src=\"bower_components/jsviews/jquery.observable.js\"></script>\n<script src=\"bower_components/jsviews/jquery.views.js\"></script>\n\n"
+      }
+    ]
+  },
+  "download/jqueryui-tagcontrols": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Uncompressed (for development): jsviews-jqueryui-widgets.js\nCompressed (for production): jsviews-jqueryui-widgets.min.js. (Source map available here)\n(To download, right-click and select “Save as…” from the menu.)\nThe jsviews-jqueryui-widgets.js library integrates jQuery UI widgets (recommended version 1.12.1 or later).\n\n{{autocomplete/}} – based on jQuery UI autocomplete\n(api)\n{{accordion/}} – based on jQuery UI accordion\n(api)\n{{button/}} – based on jQuery UI button\n(api)\n\nused in the Toolbar sample\n\n{{checkbox/}} – based on jQuery UI checkboxradio\n(api)\n(requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{radio/}} – based on jQuery UI checkboxradio\n(api)\n(requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{controlgroup/}} – based on jQuery UI controlgroup\n(api)\n(requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{buttonset}} – deprecated and available only if using jQuery UI 1.11.4\n{{datepicker/}} – based on jQuery UI datepicker\n(api)\n\nused in the simple datepicker,\ndatepicker variants,\ndatepicker with validation\nand datepicker with validation wizard samples\n\n{{draggable/}} – based on jQuery UI draggable\n(api)\n{{droppable/}} – based on jQuery UI droppable\n(api)\n{{menu/}} – based on jQuery UI menu\n(api)\n{{progressbar/}} – based on jQuery UI progressbar\n(api)\n\nused in the Toolbar sample\n\n{{resizable/}} – based on jQuery UI resizable\n(api)\n{{selectable/}} – based on jQuery UI selectable\n(api)\n{{selectmenu/}} – based on jQuery UI selectmenu\n(api)\n{{slider/}} – based on jQueryUI slider\n(api)\n\nused in the simple slider,\nslider variants,\nslider with validation,\nsliders as color picker and\nToolbar samples\n\n{{sortable/}} – based on jQuery UI sortable\n(api)\n{{spinner/}} – based on jQuery UI spinner\n(api)\n{{tabs/}} – based on jQuery UI tabs\n(api)\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "To use the above tag controls simply include the library after loading jQuery UI and JsViews:\n...\n<script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n<script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n...\n<script src=\"//www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"//www.jsviews.com/download/jsviews-jqueryui-widgets.js\"></script>\n...\n\nSee jQuery UI widget controls samples.\n"
+      }
+    ]
+  },
+  "download/jsrplugins": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender can be extended by including external libraries of custom tags, converters, helpers etc. – such as the range.js library below:\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "...\n<script src=\"//www.jsviews.com/download/jsrender.js\"></script>\n<script src=\"//www.jsviews.com/download/sample-tag-controls/range.js\"></script>\n...\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "<b>{{range/}}</b>:",
+        "text": "{{range/}}:\n\n  range.js used in the\n    extending for JsRender sample and the range JsViews sample\n  \n"
+      }
+    ]
+  },
+  "download/jsvplugins": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsViews can be extended by including external libraries of custom tags, converters, helpers, etc. – such as the jQuery UI tag controls library (jsviews-jqueryui-widgets.js):\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "...\n<script src=\"//www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"//www.jsviews.com/download/jsviews-jqueryui-widgets.js\"></script>\n...\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "",
+        "text": ""
       }
     ]
   }

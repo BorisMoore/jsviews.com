@@ -1,7 +1,6 @@
-﻿/*
- * Sample JsViews tag control: {{tree}} control using {^{if}} binding
- * http://www.jsviews.com/download/sample-tag-controls/treeview/tree-if.js
- * Used in samples: http://www.jsviews.com/#samples/tag-controls/tree/if-binding
+﻿/*! Sample JsViews tag control: {{tree}} control using {^{if}} binding v0.9.83 (Beta)
+see: http://www.jsviews.com/#download/sample-tagcontrols */
+/*
  * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
@@ -11,21 +10,34 @@
 
 $.views.tags({
   tree: {
-    render: function(val) {
-      this.data = val;
-    },
-    onAfterLink: function() {
+    onBind: function() {
       var self = this;
       self.contents("li").first()
         .on("click", ".toggle", function() {
           self.toggle();
         });
     },
-    template: "#treeTemplate", // See http://www.jsviews.com/#samples/tag-controls/tree/if-binding
+    template: '<li>' +
+      '{{if folders && folders.length}}' +
+        '<span class="toggle">{^{:expanded ? "-" : "+"}}</span>' +
+      '{{else}}' +
+        '<span class="spacer">&bull;</span>' +
+      '{{/if}}' +
+      '{{>name}}' +
+    '</li>' +
+    '{^{if expanded}}' +
+      '<li>' +
+        '<ul>' +
+          '{{for folders}}' +
+            '{^{tree/}}' +
+          '{{/for}}' +
+        '</ul>' +
+      '</li>' +
+    '{{/if}}',
 
     //METHODS
     toggle: function() {
-      $.observable(this.data).setProperty("expanded", !this.data.expanded);
+      $.observable(this.view.data).setProperty("expanded", !this.view.data.expanded);
     },
     dataBoundOnly: true
   }

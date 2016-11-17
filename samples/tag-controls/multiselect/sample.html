@@ -20,14 +20,16 @@
 </script>
 
 <script id="myTmpl" type="text/x-jsrender">
-  {{!-- tag syntax--}}
-  {^{multisel items=items selected=selectedItems size=6 /}}
+  {{!-- tag syntax (with default value and label props, "id" and "name" --}}
+  {^{multisel items=items selected=selectedItems size=items.length/}}
+
+  {{!-- Optionally choose different value and label props - e.g. {^{multilsel valueProp="key" ...--}}
 
   {{!-- alternative element-based syntax - allowing you to set styles, etc. --}}
-  <select data-link="{multisel items=items selected=selectedItems size=6 }" class="multisel2"></select>
+  <select data-link="{multisel items=items selected=selectedItems size=items.length}" class="multisel2"></select>
 
   <h4>Selected Items</h4>
-  {^{multisel items=selectedItems selected=selectedSelectedItems ^size=selectedItems.length /}}
+  {^{multisel items=selectedItems selected=selectedSelectedItems size=selectedItems.length /}}
 
   <ul>{^{for selectedItems tmpl="#liTmpl" }}{{else tmpl="#noneTmpl" }}{{/for}}</ul>
 

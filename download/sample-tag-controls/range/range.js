@@ -1,9 +1,6 @@
-﻿/*
- * Sample JsViews tag control: {{range}} control
- * http://www.jsviews.com/download/sample-tag-controls/range/range.js
- * Used in samples:
- * http://www.jsviews.com/#samples/tag-controls/range
- * http://www.jsviews.com/#samples/jsr/tags/extend-for
+﻿/*! Sample JsViews tag control: {{range}} control v0.9.83 (Beta)
+see: http://www.jsviews.com/#download/sample-tagcontrols */
+/*
  * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
@@ -17,6 +14,8 @@
 
 $.views.tags({
   range: {
+    boundProps: ["start", "end"],
+
     // Inherit from {{for}} tag
     baseTag: "for",
 
@@ -30,7 +29,7 @@ $.views.tags({
 
       if (start || end) {
         if (!tagCtx.args.length) { // No array argument passed from tag, so create
-                                        // a computed array of integers from start to end
+                                   // a computed array of integers from start to end
 
           array = [];
           end = end || 0;

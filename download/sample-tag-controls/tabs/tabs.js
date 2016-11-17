@@ -1,7 +1,6 @@
-﻿/*
- * Sample JsViews tag control: {{tabs}} control
- * http://www.jsviews.com/download/sample-tag-controls/tabs/tabs.js
- * Used in samples: http://www.jsviews.com/#samples/tag-controls/tabs
+﻿/*! Sample JsViews tag control: {{tabs}} control v0.9.83 (Beta)
+see: http://www.jsviews.com/#download/sample-tagcontrols */
+/*
  * Copyright 2016, Boris Moore
  * Released under the MIT License.
  */
@@ -19,7 +18,7 @@ $.views.tags({
       var tagCtx = this.tagCtx;
       return this.selectedIndex === tagCtx.index ? tagCtx.render() : "";
     },
-    onAfterLink: function() {
+    onBind: function() {
       var self = this;
       self.contents(true, ".tabstrip").first()
         .on("click", ".header_false", function() {

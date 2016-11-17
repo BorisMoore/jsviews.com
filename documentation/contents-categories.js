@@ -1298,7 +1298,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                   },
                   {
                     "name": "samples/tag-controls/toolbar",
-                    "label": "Toolbar: multiple controls",
+                    "label": "button radio checkbox...",
                     "hidden": false
                   },
                   {
@@ -1350,6 +1350,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                     "name": "samples/tag-controls/droppable",
                     "label": "droppable control",
                     "hidden": true
+                  },
+                  {
+                    "name": "samples/tag-controls/draggable-droppable",
+                    "label": "draggable droppable"
                   }
                 ],
                 "expanded": true
@@ -1459,9 +1463,24 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       },
       {
-        "name": "download/tag-controls",
-        "label": "Sample tag controls",
+        "name": "download/jsrplugins",
+        "label": "JsRender plugins",
         "categories": [],
+        "expanded": true
+      },
+      {
+        "name": "download/jsvplugins",
+        "label": "JsViews plugins",
+        "categories": [
+          {
+            "name": "download/sample-tagcontrols",
+            "label": "Sample tag controls"
+          },
+          {
+            "name": "download/jqueryui-tagcontrols",
+            "label": "jQuery UI tag controls"
+          }
+        ],
         "expanded": true
       }
     ],

@@ -39,16 +39,7 @@ function buildTemplate(template, minify, folder, from, to) {
 		.pipe(plugins.debug({title: "built:"}));
 
 	if (minify) {
-		stream = stream.pipe(plugins.sourcemaps.init())       // Prepare sourcemap
-		.pipe(plugins.uglify({                                // Minify
-			preserveComments: 'some'
-		}))
-		.pipe(plugins.rename(function (path) {                // Rename minified file to min.js
-			path.basename += '.min';
-		}))
-		.pipe(plugins.sourcemaps.write('./'))                 // Output sourcemap file
-		.pipe(plugins.debug({title: "minified:"}))
-		.pipe(gulp.dest(DOWNLOAD + (folder || '')))           // Output min.js file
+		minifyFile(folder, null, stream);
 	}
 	return stream;
 }
@@ -101,8 +92,8 @@ gulp.task('minify', function() {
 	return buildTemplate('*.js', true);
 });
 
-gulp.task('minify2', function() {
-	var stream = gulp.src([DOWNLOAD + 'sample-tag-controls/jsviews-jqueryui-widgets.js']);
+function minifyFile(folder, file, stream) {
+	var stream = stream || gulp.src([DOWNLOAD + folder + (file||"")]);
 		stream = stream.pipe(plugins.sourcemaps.init())       // Prepare sourcemap
 		.pipe(plugins.uglify({                                // Minify
 			preserveComments: 'some'
@@ -112,7 +103,21 @@ gulp.task('minify2', function() {
 		}))
 		.pipe(plugins.sourcemaps.write('./'))                 // Output sourcemap file
 		.pipe(plugins.debug({title: "minified:"}))
-		.pipe(gulp.dest(DOWNLOAD + 'sample-tag-controls/'))   // Output min.js file
+		.pipe(gulp.dest(DOWNLOAD + (folder||"")))   // Output min.js file
+	return stream;
+}
+gulp.task('minifyLibs', function() {
+	minifyFile('sample-tag-controls/', 'jsviews-jqueryui-widgets.js');
+	minifyFile('sample-tag-controls/jsonview/', 'jsonview.js');
+	minifyFile('sample-tag-controls/multiselect/', 'multiselect.js');
+	minifyFile('sample-tag-controls/range/', 'range.js');
+	minifyFile('sample-tag-controls/tabs/', 'tabs.js');
+	minifyFile('sample-tag-controls/textbox/', 'simple-textbox.js');
+	minifyFile('sample-tag-controls/treeview/', 'tree-if.js');
+	minifyFile('sample-tag-controls/treeview/', 'tree-visible.js');
+	minifyFile('sample-tag-controls/validate/', 'validate.js');
+	minifyFile('sample-tag-controls/tabs/', 'tabs.js');
+	minifyFile('sample-tag-controls/tabs/', 'tabs.js');
 });
 
 //================================= TMPLIFY - Build tmplify/index.js =================================//
@@ -123,7 +128,7 @@ gulp.task('tmplify', function() {
 
 //================================= ALL - Build, minify, copy to projects and test =================================//
 
-gulp.task('all', ['minify', 'tmplify', 'copy', 'minify2'], function() {
+gulp.task('all', ['minify', 'tmplify', 'copy', 'minifyLibs'], function() {
 //	qunit('./test/unit-tests-all-jsviews.html');
 //	qunit('./test/unit-tests-all-observable-render-views.html');
 //	qunit('./test/unit-tests-all-render-observable-views.html');

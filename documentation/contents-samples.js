@@ -472,7 +472,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "A multiselect custom tag control ",
-            "text": "This is a fairly advanced sample: A multiselect control which supports both the inline data-binding syntax:\n\n```jsr\n{^{multisel items=items selected=selectedItems/}}\n```\n\nand the element-based data-link syntax, using a `<select>` tag:\n\n```jsr\n<select data-link=\"{multisel items=items selected=selectedItems}\"></select>\n```\n\nIt provides two array  properties, `items` and `selectedItems`. Both use observable arrayChange data-binding, so you can (as in the example) use two-way binding between the `selectedItems` property of one `multiselect` and the `items` of another, following a cascading pattern."
+            "text": "This is a fairly advanced sample: A multiselect control which supports both the inline data-binding syntax:\n\n```jsr\n{^{multisel items=items selected=selectedItems .../}}\n```\n\nand the element-based data-link syntax, using a `<select>` tag:\n\n```jsr\n<select data-link=\"{multisel items=items selected=selectedItems ...}\"></select>\n```\n\nIt provides two array  properties, `items` and `selectedItems`. Both use observable arrayChange data-binding, so you can (as in the example) use two-way binding between the `selectedItems` property of one `multiselect` and the `items` of another, following a cascading pattern."
           }
         ],
         "codetabs": [
@@ -1342,8 +1342,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "codetab",
             "name": "",
-            "url": "download/sample-tag-controls/treeview/tree-if.js",
-            "label": "tree-if.js"
+            "url": "download/sample-tag-controls/treeview/tree-visible.js",
+            "label": "tree-visible.js"
           }
         ],
         "sectionTypes": {
@@ -1357,7 +1357,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "The data is a hierarchy of <em>node objects</em> each of which has a `name` property and an optional `folder` property containing child data nodes:\n\n```js\nvar rootFolder = {\n  name: \"Categories\", folders: [\n    {name: \"Drama\", folders: [\n      {name: \"Courtroom\"},\n      {name: \"Political\"}\n    ]},\n    {name: \"Classic\", folders: [\n      ...\n    ]}\n  ]};\n```\n\nThe `{{tree}}` tag is a tag control for a node in the tree. It renders a node in the data hierarchy, and has a boolean `expanded` property.\n\n```js\n$.views.tags({\n  tree: {\n    onAfterLink: function() {\n      var self = this;\n      self.contents(\"li\").first()\n        .on(\"click\", \".toggle\", function() {\n          self.toggle();\n        })\n        .on(\"click\", \".selectable\", function() {\n          self.select();\n        });\n    },\n    template: \"#treeTemplate\",\n\n    //PROPERTIES\n    expanded: false, // default to unexpanded\n\n    //METHODS\n    toggle: function() {\n      $.observable(this).setProperty(\"expanded\", !this.expanded);\n    },\n    ...\n  }\n});\n```\n\nIt uses a template which recursively renders the child data nodes using the same data-linked tag: `{^{tree}}`, and data-links to the `expanded` property of the control (<em>tag</em> instance).\n\n```jsr\n<li>\n  ...\n  <span>{{>name}}</span>\n</li>\n{{if folders}}\n  <li data-link=\"visible{:~tag.expanded}\">\n    <ul>\n      {{for folders}}\n        {^{tree/}}\n      {{/for}}\n    </ul>\n  </li>\n{{/if}}\n```\n\nThis version of the `{{tree}}` binds using the data-link `visible` target  to show or hide the child nodes. \n\n```jsr\n<li data-link=\"visible{:~tag.expanded}\">\n```"
+            "text": "The data is a hierarchy of <em>node objects</em> each of which has a `name` property and an optional `folder` property containing child data nodes:\n\n```js\nvar rootFolder = {\n  name: \"Categories\", folders: [\n    {name: \"Drama\", folders: [\n      {name: \"Courtroom\"},\n      {name: \"Political\"}\n    ]},\n    {name: \"Classic\", folders: [\n      ...\n    ]}\n  ]};\n```\n\nThe `{{tree}}` tag is a tag control for a node in the tree. It renders a node in the data hierarchy, and has a boolean `expanded` property.\n\n```js\n$.views.tags({\n  tree: {\n    onBind: function() {\n      var self = this;\n      self.contents(\"li\").first()\n        .on(\"click\", \".toggle\", function() {\n          self.toggle();\n        });\n    },\n    template: \"<li>...\",\n\n    //PROPERTIES\n    expanded: false, // default to unexpanded\n\n    //METHODS\n    toggle: function() {\n      $.observable(this).setProperty(\"expanded\", !this.expanded);\n    },\n    ...\n  }\n});\n```\n\nIt uses a template which recursively renders the child data nodes using the same data-linked tag: `{^{tree}}`, and data-links to the `expanded` property of the control (*tag* instance).\n\n```jsr\n<li>\n  ...\n  {{>name}}\n</li>\n{{if folders}}\n  <li data-link=\"visible{:~tag.expanded}\">\n    <ul>\n      {{for folders}}\n        {^{tree/}}\n      {{/for}}\n    </ul>\n  </li>\n{{/if}}\n```\n\nThis version of the `{{tree}}` tag binds using the data-link `visible` target  to show or hide the child nodes. \n\n```jsr\n<li data-link=\"visible{:~tag.expanded}\">\n```"
           }
         ],
         "url": "samples/tag-controls/tree/visible-binding/sample",
@@ -1396,7 +1396,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "The data is a the same hierarchy of <em>node objects</em> used in the <a href=\"#samples/tag-controls/tree/visible-binding\">previous sample</a>:\n\n```js\nvar rootFolder = {\n  name: \"Categories\", folders: [\n    {name: \"Drama\", folders: [\n      {name: \"Courtroom\"},\n      {name: \"Political\"}\n    ]},\n    {name: \"Classic\", folders: [\n      ...\n    ]}\n  ]};\n```\n\nThe `{{tree}}` tag is a tag control for a node in the tree. It renders a node in the data hierarchy, and sets a boolean `expanded` property on the data node.\n\n```js\n$.views.tags({\n  tree: {\n    init: function(tagCtx, linkCtx, ctx) {\n      ...\n    },\n    onAfterLink: function() {\n      ... \n    },\n    template: \"#treeTemplate\",\n\n    //METHODS\n    toggle: function() {\n      $.observable(this.data).setProperty(\"expanded\", !this.data.expanded);\n    },\n    ...\n  }\n});\n```\n\nIt has a template which with a `{^{if expanded }}` section which renders the child data nodes only if `expanded === true`, using the same data-linked tag: `{^{tree}}`.\n\n```jsr\n<li>\n  ...\n  {{>name}}\n</li>\n{^{if expanded}}\n  <li>\n    <ul>\n      {{for folders}}\n        {^{tree/}}\n      {{/for}}\n    </ul>\n  </li>\n{{/if}}\n```"
+            "text": "The data is a the same hierarchy of <em>node objects</em> used in the <a href=\"#samples/tag-controls/tree/visible-binding\">previous sample</a>:\n\n```js\nvar rootFolder = {\n  name: \"Categories\", folders: [\n    {name: \"Drama\", folders: [\n      {name: \"Courtroom\"},\n      {name: \"Political\"}\n    ]},\n    {name: \"Classic\", folders: [\n      ...\n    ]}\n  ]};\n```\n\nThe `{{tree}}` tag is a tag control for a node in the tree. It renders a node in the data hierarchy, and sets a boolean `expanded` property on the data node.\n\n```js\n$.views.tags({\n  tree: {\n    onBind: function() {\n      var self = this;\n      self.contents(\"li\").first()\n        .on(\"click\", \".toggle\", function() {\n          self.toggle();\n        });\n    },\n    template: \"<li>...\",\n\n    //METHODS\n    toggle: function() {\n      $.observable(this.view.data).setProperty(\"expanded\", !this.view.data.expanded);\n    },\n    ...\n  }\n});\n```\n\nIt has a template which with a `{^{if expanded }}` section which renders the child data nodes only if `expanded === true`, using the same data-linked tag: `{^{tree}}`.\n\n```jsr\n<li>\n  ...\n  {{>name}}\n</li>\n{^{if expanded}}\n  <li>\n    <ul>\n      {{for folders}}\n        {^{tree/}}\n      {{/for}}\n    </ul>\n  </li>\n{{/if}}\n```"
           }
         ],
         "height": "290",
@@ -1428,7 +1428,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This version builds on the <a href=\"#samples/tag-controls/tree/if-binding\">previous sample</a>, and adds editability:\n\n```js\n$.views.tags({\n  tree: {\n    ...\n    template: \"#treeTemplate\",\n\n    //METHODS\n    toggle: function() {\n      $.observable(this.data).setProperty(\"expanded\", !this.data.expanded);\n    },\n    remove: function() {\n      var parentFolders = this.parent.data.folders,\n        index = this.tagCtx.view.index;\n      $.observable(parentFolders).remove(index);\n    },\n    addFolder: function() {\n      $.observable(this.data.folders).insert({\n        name: \"new folder\",\n        folders: []\n      });\n      $.observable(this.data).setProperty(\"expanded\", true);\n    }\n    ...\n  }\n});\n```\n\n```jsr\n<li>\n  ...\n  <input data-link=\"name\" />\n  <span class=\"add\">add</span>\n  {^{if ~parentTags.tree}}\n    {{!-- Don't allow removing the top-level tree control --}}\n    <span class=\"remove\"><span>\n  {{/if}}\n</li>\n{^{if expanded}}\n  ...\n{{/if}}\n```"
+            "text": "This version builds on the <a href=\"#samples/tag-controls/tree/if-binding\">previous sample</a>, and adds editability:\n\n*Code:*\n\n```js\n$.views.tags({\n  editableTree: {\n    ...\n    template: \"#editableTreeTemplate\",\n\n    //METHODS\n    ...\n    remove: function() {\n      var parentFolders = this.parent.view.data.folders,\n        index = this.tagCtx.view.index;\n      $.observable(parentFolders).remove(index);\n    },\n    addFolder: function() {\n      $.observable(this.view.data.folders).insert({\n        name: \"new folder\",\n        folders: []\n      });\n      $.observable(this.view.data).setProperty(\"expanded\", true);\n    },    ...\n  }\n});\n```\n\n*editableTreeTemplate:*\n\n```jsr\n<li>\n  ...\n  {^{if ~tag.tagCtx.props.editable}}\n    <input data-link=\"name\" />\n    <span data-link=\"{on ~tag.addFolder}\" class=\"add\">add</span>\n    {^{if ~tag.parent && ~tag.parent.tagName==='editableTree'}}\n      {{!-- Don't allow removing the top-level tree control --}}\n      <span data-link=\"{on ~tag.remove}\" class=\"remove\"></span>\n    {{/if}}\n  {{else}}\n    {^{>name}}\n  {{/if}}\n</li>\n{^{if expanded}}\n  ...\n{{/if}}\n```"
           }
         ],
         "height": "320",
@@ -3048,7 +3048,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "We use the `{{range}}` custom tag to create a drop-down to select an integer between 1 and 10 as the `start` integer (...and similarly for the `end` integer).\n\n```jsr\n<select data-link=\"{:start:strToInt}\">\n  {^{range start=1 end=10}}\n    <option>{{:#data}}</option>\n  {{/range}}\n</select>\n```\n\nThen we again use the `{{range}}` tag to show a partial list of team members.\n\nWe bind to the observable `members` array, and we also bind to the `start` and `end` 'range' integers.\n\n```jsr\n<ul>\n  {^{range members ^start=start-1 ^end=end}}\n    <li>\n      {^{:#index + ~root.start}}. {^{:name}}\n    </li>\n  {{else}}\n    <li>No items</li>\n  {{/range}}\n</ul>\n```\n\nNote the ^ character here:\n\n```jsr\n^start=start-1\n```\n\nand here:\n\n```jsr\n^end=end\n```\n\nto specify that the start and end 'named properties' on the `{{range}}` tag are data-linked. By default named properties are not data-linked. (This is made 'opt-in' for perf optimization reasons.)"
+            "text": "We use the `{{range}}` custom tag to create a drop-down to select an integer between 1 and 10 as the `start` integer (...and similarly for the `end` integer):\n\n```jsr\n<select data-link=\"{:start:strToInt}\">\n  {^{range start=1 end=10}}\n    <option>{{:#data}}</option>\n  {{/range}}\n</select>\n```\n\nThen we again use the `{{range}}` tag to show a partial list of team members:\n\n```jsr\n<ul>\n  {^{range members start=start-1 end=end}}\n    <li>\n      {^{:#index + ~root.start}}. {^{:name}}\n    </li>\n  {{else}}\n    <li>No items</li>\n  {{/range}}\n</ul>\n```\n\nNote that by default, named properties like `start=start-1` are not data-bound. (This is made 'opt-in' for perf optimization reasons.) However in this case, our `{{range}}` tag implementation has `start` and `end` specified as bound properties:\n\n```js\n$.views.tags({\n  range: {\n    boundProps: [\"start\", \"end\"],\n    baseTag: \"for\",\n    ...\n```\n\nSo observable changes to the `start` and `end` properties automatically trigger updates. \n\n(If not declared as `boundProps` we would have needed to use the syntax: `^start=start-1`.)"
           }
         ],
         "url": "samples/tag-controls/range/sample",
@@ -3347,8 +3347,48 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "path": "",
     "sections": [
       {
-        "_type": "links",
+        "_type": "para",
         "title": "",
+        "text": "The [jQuery UI tag controls](#download/jqueryui-tagcontrols) library is a set of tag controls based on jQuery UI widgets.\n\nIt provides the following tag controls:\n\n- *__{{autocomplete/}}__* -- based on [jQuery UI autocomplete](https://jqueryui.com/autocomplete/)\n([api](https://api.jqueryui.com/autocomplete/))\n- *__{{accordion/}}__* -- based on [jQuery UI accordion](https://jqueryui.com/accordion/)\n([api](https://api.jqueryui.com/accordion/))\n- *__{{button/}}__* -- based on [jQuery UI button](https://jqueryui.com/button/)\n([api](https://api.jqueryui.com/button/))\n  - used in the [Toolbar](#samples/tag-controls/toolbar) sample\n- *__{{checkbox/}}__* -- based on [jQuery UI checkboxradio](https://jqueryui.com/checkboxradio/)\n([api](https://api.jqueryui.com/checkboxradio/))\n(requires jQuery UI version 1.12.1 or later)\n  - used in the [Toolbar](#samples/tag-controls/toolbar) sample\n- *__{{radio/}}__* -- based on [jQuery UI checkboxradio](https://jqueryui.com/checkboxradio/)\n([api](https://api.jqueryui.com/checkboxradio/))\n(requires jQuery UI version 1.12.1 or later)\n  - used in the [Toolbar](#samples/tag-controls/toolbar) sample\n- *__{{controlgroup/}}__* -- based on [jQuery UI controlgroup](https://jqueryui.com/controlgroup/)\n([api](https://api.jqueryui.com/controlgroup/))\n(requires jQuery UI version 1.12.1 or later)\n  - used in the [Toolbar](#samples/tag-controls/toolbar) sample\n- *__{{buttonset}}__* -- *deprecated and available only if using jQuery UI 1.11.4*\n- *__{{datepicker/}}__* -- based on [jQuery UI datepicker](https://jqueryui.com/datepicker/)\n([api](https://api.jqueryui.com/datepicker/))\n  - used in the [simple datepicker](#samples/tag-controls/datepicker/simple),\n[datepicker variants](#samples/tag-controls/datepicker/variants),\n[datepicker with validation](#samples/tag-controls/datepicker/with-validation)\nand [datepicker with validation wizard](#samples/tag-controls/datepicker/with-validation-wizard) samples\n- *__{{draggable/}}__* -- based on [jQuery UI draggable](https://jqueryui.com/draggable/)\n([api](https://api.jqueryui.com/draggable/))\n- *__{{droppable/}}__* -- based on [jQuery UI droppable](https://jqueryui.com/droppable/)\n([api](https://api.jqueryui.com/droppable/))\n- *__{{menu/}}__* -- based on [jQuery UI menu](https://jqueryui.com/menu/)\n([api](https://api.jqueryui.com/menu/))\n- *__{{progressbar/}}__* -- based on [jQuery UI progressbar](https://jqueryui.com/progressbar/)\n([api](https://api.jqueryui.com/progressbar/))\n  - used in the [Toolbar](#samples/tag-controls/toolbar) sample\n- *__{{resizable/}}__* -- based on [jQuery UI resizable](https://jqueryui.com/resizable/)\n([api](https://api.jqueryui.com/resizable/))\n- *__{{selectable/}}__* -- based on [jQuery UI selectable](https://jqueryui.com/selectable/)\n([api](https://api.jqueryui.com/selectable/))\n- *__{{selectmenu/}}__* -- based on [jQuery UI selectmenu](https://jqueryui.com/selectmenu/)\n([api](https://api.jqueryui.com/selectmenu/))\n- *__{{slider/}}__* -- based on [jQueryUI slider](https://jqueryui.com/slider/)\n([api](https://api.jqueryui.com/slider/))\n  - used in the [simple slider](#samples/tag-controls/slider/simple),\n[slider variants](#samples/tag-controls/slider/variants),\n[slider with validation](#samples/tag-controls/slider/with-validation),\n[sliders as color picker](#samples/tag-controls/slider/color-picker) and\n[Toolbar](#samples/tag-controls/toolbar) samples\n- *__{{sortable/}}__* -- based on [jQuery UI sortable](https://jqueryui.com/sortable/)\n([api](https://api.jqueryui.com/sortable/))\n- *__{{spinner/}}__* -- based on [jQuery UI spinner](https://jqueryui.com/spinner/)\n([api](https://api.jqueryui.com/spinner/))\n- *__{{tabs/}}__* -- based on [jQuery UI tabs](https://jqueryui.com/tabs/)\n([api](https://api.jqueryui.com/tabs/))\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "To use the above tag controls, simply include the library after loading *jQuery UI* and *JsViews*:\n\n```jsr\n...\n<script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n<script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n...\n<script src=\"//www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"//www.jsviews.com/download/jsviews-jqueryui-widgets.js\"></script>\n...\n```\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Declarative access to widget options",
+        "text": "Any widget options can be initialized or data-linked by using the option name preceded by `_`, on the tag declaration. \n\nFor example\n\n```jsr\n{^{datepicker startDate\n  _showOn= \"button\"\n  _buttonImage=\"https://jqueryui.com/resources/demos/datepicker/images/calendar.gif\"\n  _buttonImageOnly= true\n  _buttonText= \"Select date\"\n/}}\n```"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Here we set several options, taken from the jQuery UI [datepicker api](https://api.jqueryui.com/datepicker/).\n\n```jsr\n{^{datepicker startDate\n  ^_maxDate=endDate\n  _changeMonth=true\n  _showOn= \"button\"\n  _buttonImage=\"https://jqueryui.com/.../calendar.gif\"\n  _buttonImageOnly= true\n  _buttonText= \"Select start date\"\n/}}\n```\n\nFor `_maxDate` we include the `^` character so the it dynamically updates if the `endDate` changes.\n"
+          }
+        ],
+        "jsrJsvJqui": "jqui",
+        "height": "440",
+        "title": "",
+        "html": "<link href=\"../samples/tag-controls/jqueryui/datepicker/sample.css\" rel=\"stylesheet\">\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n<b>Start date:</b>\n\n{^{datepicker startDate\n  ^_maxDate=endDate\n  _changeMonth=true\n  _showOn= \"button\"\n  _buttonImage=\"https://jqueryui.com/resources/demos/datepicker/images/calendar.gif\"\n  _buttonImageOnly= true\n  _buttonText= \"Select start date\"\n/}}<br/><br/>\n\n<b>End date:</b>\n\n{^{datepicker endDate\n  ^_minDate=startDate\n  _showOn= \"button\"\n  _buttonImage=\"https://jqueryui.com/resources/demos/datepicker/images/calendar.gif\"\n  _buttonImageOnly= true\n  _buttonText= \"Select end date\"\n/}}<br/>\n\n<h4>Choose a day:</h4>\n\n{^{datepicker date\n  elem=\"div\"\n  ^_minDate=startDate\n  ^_maxDate=endDate\n/}}<br/><br/>\n\n<div data-link=\"date || 'No date chosen!'\" class=\"chosenday\"></div>\n\n</script>\n\n<div id=\"page\"></div>",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  pageOptions = {\n    monthsSpan: 2\n  },\n  model = {\n    startDate: \"\",\n    endDate: \"\",\n    date: \"\"\n  };\n\nmyTmpl.link(\"#page\", model, {\n  page: pageOptions\n});\n",
+        "nocss": true
+      },
+      {
+        "_type": "links",
+        "title": "See:",
         "links": [],
         "topics": [
           {
@@ -3360,8 +3400,16 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "slider control"
           },
           {
+            "hash": "samples/tag-controls/toolbar",
+            "label": "button radio checkbox..."
+          },
+          {
             "hash": "samples/tag-controls/accordion",
             "label": "accordion control"
+          },
+          {
+            "hash": "samples/tag-controls/draggable-droppable",
+            "label": "draggable droppable"
           }
         ]
       }
@@ -3477,6 +3525,40 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "_type": "para",
         "title": "",
         "text": "The second version of the sample, above, also shows alternative approaches to setting options on the *jQuery UI* widgets:\n\n- *Declarative setting of options:*\n  ```jsr\n  {^{controlgroup _classes=~myUiOverrides}}\n  ```\n- *Programmatic approach, using an overridden event handler:*\n  ```jsr\n  {^{controlgroup onBind=~onbind}}\n  ```\n  ```js\n  pageTmpl.link(\"#page\", model, {\n    ...\n    onbind: function(val) {\n      this.baseApply(arguments);\n      this.linkedElem.controlgroup( \"option\", \"classes\", uiOverrides);\n    },\n    ...\n  });\n  ```\n- *Programmatic approach, using an `id` and corresponding jQuery selector:*\n  ```jsr\n  {^{checkbox reverse id=\"reverseChkBx\"/}}\n  ```\n  ```js\n  $(\"#reverseChkBx\").checkboxradio(\"option\", \"classes\", {\"ui-checkboxradio-label\": ...});\n\n  $.observe(model, \"reverse\", function() {\n    $(\"#reverseChkBx\").checkboxradio(\"option\", \"label\", model.reverse ? \"Forward\" : \"Reverse\");\n  });\n  ```"
+      }
+    ]
+  },
+  "samples/tag-controls/draggable-droppable": {
+    "title": "Samples: Photo Manager &ndash; using {{draggable}} and {{droppable}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following sample uses the `{{draggable}}` and `{{droppable}}` *jQuery UI* based *JsViews* tag controls.\n\nIt is a declarative data-driven version of the jQuery UI *[Photo Manager](https://jqueryui.com/droppable/#photo-manager)* demo."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Template:\n```jsr\n{^{droppable _drop=~dropInGallery _accept=... _activeClass=... elem=\"ul\" ...}}\n  {^{for items}}\n    {^{draggable _cancel=... _revert=... _containment=... _helper=... _cursor=... elem=\"li\" ...}}\n      <h5 class=\"ui-widget-header\">{{:title}}</h5>\n      <img src=\"{{:icon}}\" alt=\"{{:description}}\" .../>\n      ...\n    {{/draggable}}\n  {{/for}}\n{{/droppable}}\n\n{^{droppable _drop=~dropInTrash _accept=... _activeClass=... elem=\"ul\" ...}}\n  ...\n  {^{for trash}}\n    {^{draggable _cancel=... _revert=... _containment=... _helper=... _cursor=... elem=\"li\" ...}}\n      <h5 class=\"ui-widget-header\">{{:title}}</h5>\n      <img src=\"{{:icon}}\" alt=\"{{:description}}\" .../>\n      ...\n    {{/draggable}}\n  {{/for}}\n{{/droppable}}\n```\n\nCode:\n```js\nvar data = {\n    items: [{title: \"High Tatras\", ...}, ...],\n    trash: [{title: \"High Tatras 4\", ...} ...]\n  },\n  helpers = {\n    dropInTrash: function(...) {...},\n    dropInGallery: function(...) {...},\n    ...\n  },\n  pageTmpl = $.templates(\"#page\");\n\npageTmpl.link(\"#content\", data, helpers);\n```"
+          }
+        ],
+        "url": "samples/tag-controls/jqueryui/draggable-droppable/photomanager",
+        "jsrJsvJqui": "jqui",
+        "height": "450",
+        "nocss": false
       }
     ]
   }
