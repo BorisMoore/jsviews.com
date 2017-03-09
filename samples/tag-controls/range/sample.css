@@ -1,55 +1,55 @@
 body {
-	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
-	font-size: 15px;
-	padding: 0 0 0 5px;
+  font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  padding: 0 0 0 5px;
 }
 
 .buttons {
-	margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 li {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 ul {
-	padding-left: 0;
+  padding-left: 0;
 }
 
 ol {
-	padding-left: 22px;
+  padding-left: 22px;
 }
 
 ul li {
-	list-style: none;
-	margin-left: 0;
+  list-style: none;
+  margin-left: 0;
 }
 
 .left {
-	float: left;
-	margin-right: 20px;
-	border: 1px solid grey;
-	padding: 20px;
+  float: left;
+  margin-right: 20px;
+  border: 1px solid grey;
+  padding: 20px;
 }
 
 .remove {
-	margin-right: -7px;
-	display: inline-block;
-	cursor: pointer;
+  margin-right: -7px;
+  display: inline-block;
+  cursor: pointer;
 }
 
 .remove:after {
-	color: #be614c;
-	font-weight: bold;
-	padding: 0 6px 2px;
-	content: 'x';
+  color: #be614c;
+  font-weight: bold;
+  padding: 0 6px 2px;
+  content: 'x';
 }
 
 .remove:hover:after {
-	color: red;
-	background-color: #dbffe0;
+  color: red;
+  background-color: #dbffe0;
 }
 
 select {
-	margin-right: 15px;
+  margin-right: 15px;
 }

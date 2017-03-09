@@ -15,4 +15,4 @@ var rootFolder = {
 
 var pageTmpl = $.templates("#pageTemplate");
 
-$("#pageContent").link(pageTmpl, rootFolder);
+pageTmpl.link("#pageContent", rootFolder);

@@ -12,7 +12,7 @@
 
 <h3>JsViews 'validate' tag control: The {{validate}} tag</h3>
 
-<script id="myTmpl" type="text/x-jsrender">
+<script id="pageTmpl" type="text/x-jsrender">
 {^{validation ^preventInvalidData=~page.noInvalidData}}
   <p>
     <button id="validate">Validate</button>
@@ -52,7 +52,7 @@
     minLength=5
     convert='upper'
     convertBack=~lower
-  /}}<br/>
+  /}}
 
   {^{validate person
     minLength=5
@@ -83,7 +83,7 @@
     minLength=5
     convert='upper'
     convertBack=~lower
-  }"/><br/>
+  }"/>
 
   <select size="5" data-link="{validate person
     minLength=5
@@ -101,9 +101,9 @@
     convert='upper'
     convertBack=~lower
   }">
-      {^{for people}}
-        <label><input type="radio" value="{{upper:name}}" data-link="value^{upper:name}"/> {^{:name}}</label><br/>
-      {{/for}}
+    {^{for people}}
+      <label><input type="radio" value="{{upper:name}}" data-link="value^{upper:name}"/> {^{:name}}</label><br/>
+    {{/for}}
   </div>
 {{/validation}}
 </script>

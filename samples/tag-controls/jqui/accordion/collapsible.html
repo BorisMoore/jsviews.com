@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+</head>
+<body>
+
+<script id="pageTmpl" type="text/x-jsrender">
+
+<b>Selected panel:</b> {^{:selectedPanel}}
+
+<h4>Tag syntax:</h4>
+
+<pre>
+&lcub;^{accordion ...}&rcub;...&lcub;^{/accordion}&rcub;
+</pre>
+
+<!--tag syntax-->
+{^{accordion selectedPanel _collapsible=true elem="div"}}
+  <h3>Section 1</h3>
+  <div>
+    <p><em>Click header again to close panel.</em></p>
+    <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam.</p>
+  </div>
+  <h3>Section 2</h3>
+  <div>
+    <p><em>Click header again to close panel.</em></p>
+    <p>Sed non urna. Donec et ante.</p>
+  </div>
+  <h3>Section 3</h3>
+  <div>
+    <p><em>Click header again to close panel.</em></p>
+    <ul>
+      <li>List item one</li>
+      <li>List item two</li>
+    </ul>
+  </div>
+{{/accordion}}
+
+<h4>Element-based data-link syntax:</h4>
+
+<pre>
+&lt;div data-link="{accordion _collapsible=true}">...&lt;/div>
+</pre>
+
+<!--alternative data-linked element syntax-->
+<div data-link="{accordion selectedPanel _collapsible=true}">
+  <h3>Not latin</h3>
+  <div>
+    <p><em>Click header to close.</em></p>
+    <p>First non-latin text.</p>
+  </div>
+  <h3>Section two</h3>
+  <div>
+    <p><em>Click header to close.</em></p>
+    <p>Second text.</p>
+  </div>
+  <h3>Section three</h3>
+  <div>
+    <p><em>Click header to close.</em></p>
+    <p>Further content.</p>
+  </div>
+</div>
+</script>
+
+<div id="page"></div>
+
+<!--<script src="collapsible.js"></script> <!--uncomment for testing as standalone page-->
+</body>

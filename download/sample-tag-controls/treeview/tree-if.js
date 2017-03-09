@@ -1,7 +1,7 @@
-﻿/*! Sample JsViews tag control: {{tree}} control using {^{if}} binding v0.9.83 (Beta)
+﻿/*! Sample JsViews tag control: {{tree}} control using {^{if}} binding v0.9.84 (Beta)
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
- * Copyright 2016, Boris Moore
+ * Copyright 2017, Boris Moore
  * Released under the MIT License.
  */
 

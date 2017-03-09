@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+</head>
+<body>
+
+<script id="pageTmpl" type="text/x-jsrender">
+
+<b>Selected tab:</b> {^{:selectedTab}}
+
+<h4>Tag syntax:</h4>
+
+<pre>
+&lcub;^{tabs ...}&rcub;...&lcub;^{/tabs}&rcub;
+</pre>
+
+<!--tag syntax-->
+{^{tabs selectedTab _collapsible=true}}
+  <ul>
+    <li><a href="#tabs-1">Nunc tincidunt</a></li>
+    <li><a href="#tabs-2">Proin dolor</a></li>
+    <li><a href="#tabs-3">Aenean lacinia</a></li>
+  </ul>
+  <div id="tabs-1">
+    <p><em>Click tab again to close content pane.</em></p>
+    <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a,
+    risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris.</p>
+  </div>
+  <div id="tabs-2">
+    <p><em>Click tab again to close content pane.</em></p>
+    <p>Morbi tincidunt, dui sit amet facilisis feugiat,
+    odio metus gravida ante, ut pharetra massa metus id nunc.</p>
+  </div>
+  <div id="tabs-3">
+    <p><em>Click tab again to close content pane.</em></p>
+    <p>Duis cursus.</p>
+  </div>
+{{/tabs}}
+
+<h4>Element-based data-link syntax:</h4>
+
+<pre>
+&lt;div data-link="{tabs  _collapsible=true}">...&lt;/div>
+</pre>
+
+<!--alternative data-linked element syntax-->
+<div data-link="{tabs selectedTab _collapsible=true}">
+  <ul>
+    <li><a href="#tabs-1b">Not latin</a></li>
+    <li><a href="#tabs-2b">Tab2</a></li>
+    <li><a href="#tabs-3b">Tab3</a></li>
+  </ul>
+  <div id="tabs-1b">
+    <p><em>Click tab again to close content pane.</em></p>
+    <p>First non-latin text.</p>
+  </div>
+  <div id="tabs-2b">
+    <p><em>Click tab again to close content pane.</em></p>
+    <p>Second text.</p>
+  </div>
+  <div id="tabs-3b">
+    <p><em>Click tab again to close content pane.</em></p>
+    <p>Further content.</p>
+  </div>
+</div>
+</script>
+
+<div id="page"></div>
+
+<!--<script src="collapsible.js"></script> <!--uncomment for testing as standalone page-->
+</body>

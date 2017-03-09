@@ -1,8 +1,8 @@
-﻿/*! JsViews jQueryUI widget integration v0.9.83 (Beta)
+﻿/*! JsViews jQueryUI widget integration v0.9.84 (Beta)
 see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
 * https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
-* Copyright 2016, Boris Moore
+* Copyright 2017, Boris Moore
  * Released under the MIT License.
  */
 
@@ -23,18 +23,19 @@ see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
  * elem:   span         div      input      selectv    input
  */
 
-(function (global, $, undefined) {
+(function(global, $, undefined) {
 "use strict";
 
-function keepParentDataCtx(val) {
-  return this.tagCtx.view; // Return the parent view as data context for rendering block content
+if (!$ || !$.fn || !$.ui || !$.views) {
+  // jQuery is not loaded.
+  throw "jsviews-jqueryui-widgets.js requires jQuery, jQuery UI and JsViews";
 }
 
 function checkboxRadioOnAfterLink(tagCtx, linkCtx) {
   var tag = this,
     props = tagCtx.props,
-    elem = tag.linkedElem[0],
-    val = tag.cvtArgs()[0];
+    elem = tag.mainElem[0],
+    val = tag.bndArgs()[0];
   // Set the value to arg[0] (after applying converter, if there is one)
 
   if (props.name) {
@@ -48,7 +49,6 @@ function checkboxRadioOnAfterLink(tagCtx, linkCtx) {
     : val && val !== "false";
 
   tag.baseApply(arguments);
-
   tag.displayElem = tag.widget.label;
 
   if (props.label) {
@@ -56,10 +56,39 @@ function checkboxRadioOnAfterLink(tagCtx, linkCtx) {
   }
 }
 
+function tabsAccordionOnBind(tagCtx, linkCtx) {
+  var tag = this;
+  tag.baseApply(arguments);
+  tag.displayElem = tag.widget.element;
+
+  tag.mainElem.on("jsv-domchange", function(ev, tagCtx, linkCtx, eventArgs) {
+    var newSelected,
+      selected = tag.widget.option("active");
+
+    tag.widget.refresh();
+    newSelected = tag.widget.option("active")
+
+    if (selected !== newSelected) {
+      tag.update(newSelected);
+    }
+  });
+}
+
+function tabsAccordionOptions() {
+  var tag = this;
+  return {
+    activate: function(evt, ui) {
+      // Raise elemChangeHandler event when selected tab changes - for two-way binding to arg(0)
+      tag.update(tag.widget.option("active"));
+    }
+  };
+}
+
 var tagDefs = {
 
 widget: {
-  linkedElement: "*",
+  argDefault: false, // Do not default missing arg to #data
+  mainElement: "*",
   init: function(tagCtx) {
     var content, elemType, props,
       tag = this;
@@ -70,22 +99,25 @@ widget: {
       if (!tag.template && (elemType = props.elem || tag.elem)) {
         if (content) {
           if (tag.wrap) {
-            tag.template = "<" + elemType + ">" + $.trim(content) + "</" + elemType + ">";
+            tag.template = "<"+elemType+">" + $.trim(content) + "</"+elemType+">";
           }
         } else {
-          tag.template = (elemType === "input") ? "<input/>" : "<"+ elemType +"></"+ elemType +">";
+          tag.template = (elemType === "input") ? "<input/>" : "<"+elemType+"></"+elemType+">";
         }
       }
       tag.attr = "html";
     }
   },
   onBind: function(tagCtx) {
-    var linkedElem, prop, i, optionKey,
+    var mainElem, prop, i, optionKey,
       tag = this,
-      presets = tag.initOptions,
+      presets = tag.initOptions, // initOptions: array of option names that when set declaratively
+                                 // as tag options will be set on creation, not on afterLink
       widgetName = tag.widgetName,
+      options = tag.options,     // hash (or function returning hash) of option settings
       widgetFullName = widgetName;
-      widgetName = widgetName.split("-").pop();
+
+    widgetName = widgetName.split("-").pop();
 
     if (i = presets && presets.length) {
       presets = {};
@@ -99,58 +131,63 @@ widget: {
     if (widgetFullName === widgetName) {
       widgetFullName = "ui-" + widgetName;
     }
-    linkedElem = tag.linkedElem;
-    if (!linkedElem[0]) {
+
+    mainElem = tag.mainElem;
+    if (!mainElem || !mainElem[0]) {
       // This may be due to using {{myWidget}} No element found here {{/myWidget}} 
       throw "No element found for tag '" + tag.tagName +"'";
     }
+
+    if (tagCtx.props.id && !mainElem[0].id) {
+      mainElem[0].id = tagCtx.props.id;
+    }
+
     // Instantiate widget
-    linkedElem[widgetName](presets);
+    mainElem[widgetName](presets);
 
     // Store widget instance
-    tag.widget = linkedElem.data(widgetFullName) || linkedElem.data(widgetName);
+    tag.widget = mainElem.data(widgetFullName) || mainElem.data(widgetName);
 
     if (!tag.widget) {
-      // widget failed to load, or is not a valid widget factory type
+      // Widget failed to load, or is not a valid widget factory type
       throw "widget '" + widgetName + "' failed";
     }
-  },
-  onAfterLink: function(tagCtx) {
-    var linkedElem,
-      tag = this,
-      options = tag.options,
-      props = tagCtx.props,
-      widgetName = tag.widgetName.split("-").pop();
 
-    linkedElem = tag.linkedElem;
     if (options) {
       if ($.isFunction(options)) {
         options = tag.options();
       }
-      tag.linkedElem[widgetName]("option", options);
+      mainElem[widgetName]("option", options); // initialize options
     }
+  },
+  onAfterLink: function(tagCtx) {
+    var mainElem,
+      tag = this,
+      options = tag.options, // hash (or function returning hash) of option settings
+      props = tagCtx.props,
+      widgetName = tag.widgetName.split("-").pop();
+
+    mainElem = tag.mainElem;
     $.each(props, function(key, prop) {
       var option;
       if (key.charAt(0) === "_") {
         key = key.slice(1);
         option = options && options[key];
-        linkedElem[widgetName]("option", key,
-          option && $.isFunction(option)
+        mainElem[widgetName]("option", key,
+          option && $.isFunction(option) && prop && $.isFunction(option)
             ? function() {
-              // if the same event function option is overridden on the tagDef options and
-              // the tagCtx.props, call first the one on the initOptions options, and then
-              // the one declared on the tag properties. 
-              option.apply(linkedElem[0], arguments);
-              return prop.apply(linkedElem[0], arguments);
+              // If the same event function option is overridden on the tagDef options
+              // (or in a _create override) and the tagCtx.props, call first the one on
+              // the initOptions options, and then the one declared on the tag properties.
+              option.apply(mainElem[0], arguments);
+              return prop.apply(mainElem[0], arguments);
             }
             : prop
           );
       }
     });
   },
-  onUpdate: function() {
-    return false;
-  },
+  onUpdate: false, // Don't rerender whole tag on update
   dataBoundOnly: true,
   attr: "none"
 },
@@ -159,10 +196,11 @@ button: {
   baseTag: "widget",
   widgetName: "button",
   elem: "button",
-  setSize: true,
   wrap: true,
+  setSize: true,
+  contentCtx: true,
   onBind: function(tagCtx, linkCtx) {
-    var elem = this.linkedElem[0];
+    var elem = this.mainElem[0];
       elem.innerHTML = elem.innerHTML || "&nbsp;"; // Fixes jQuery UI button issue if no label text
     this.baseApply(arguments);
   },
@@ -171,12 +209,12 @@ button: {
     if (event) {
       this.widget.refresh();
     }
-  },
-  contentCtx: keepParentDataCtx
+  }
 },
 autocomplete: {
   baseTag: "widget",
   widgetName: "autocomplete",
+  linkedElement: "*",
   elem: "input",
   setSize: true,
   options: function() {
@@ -198,75 +236,108 @@ autocomplete: {
         return false;
       }
     };
-  },
-  setValue: function(value) {
-    this.linkedElem.val(value);
-  },
-  getValue: function() {
-    return this.linkedElem.val();
   }
 },
 checkbox: {
   baseTag: "widget",
   widgetName: "checkboxradio",
   template: "<label><input type='checkbox'/></label>",
+  mainElement: "input",
   linkedElement: "input",
+  setSize: true,
   onAfterLink: checkboxRadioOnAfterLink
 },
 radio: {
   baseTag: "widget",
   widgetName: "checkboxradio",
   template: "<label><input type='radio'/></label>",
+  mainElement: "input",
   linkedElement: "input",
-  onAfterLink: checkboxRadioOnAfterLink
+  setSize: true,
+  onBind: function() {
+    var tag = this,
+      radiogroup = tag.parents.radiogroup;
+    tag.baseApply(arguments);
+    if (radiogroup && !radiogroup.onAfterLink) {
+      // If {{radio}} is child of {{radiogroup}}, make radiogroup
+      // notify radio buttons of selection changes
+      radiogroup.onAfterLink = function(tagCtx) {
+        var val = this.bndArgs()[0],
+          radios = this.childTags("radio"),
+          l = radios.length;
+        while (l--) {
+          radios[l].setValue(val);
+        }
+      }
+    }
+  },
+  onAfterLink: checkboxRadioOnAfterLink,
+  setValue: function(val) {
+    this.widget.refresh();
+  }
 },
 controlgroup: {
   baseTag: "widget",
   widgetName: "controlgroup",
-  wrap: true,
   elem: "span",
-  contentCtx: keepParentDataCtx,
+  wrap: true,
+  contentCtx: true,
   onBind: function() {
     var tag = this;
     tag.baseApply(arguments);
-    tag.linkedElem.on("jsv-domchange", function() {
+    tag.mainElem.on("jsv-domchange", function() {
       tag.widget.refresh();
     });
-	}
+  }
 },
 datepicker: {
   baseTag: "widget",
   widgetName: "datepicker",
+  linkedElement: "*",
   elem: "input",
+  setSize: true,
 
   options: function() {
     var tag = this;
     return {
-      onSelect: function(dateText, inst) {
+      onSelect: function(dateText) {
         tag.value = dateText;
+//https://github.com/BorisMoore/jsviews/issues/360#issuecomment-272936627
+//var dateObj = $.datepicker.parseDate(tag._datefrmt, dateText);
+//tag.update(dateObj);
         tag.update(dateText);
       }
     };
   },
+  onBind: function(tagCtx) {
+    var tag = this;
+    tag.baseApply(arguments);
+    if (tag.mainElem[0].tagName !== "INPUT") {
+      // This datepicker is not using an input (e.g. using a div) - so set to inline-
+      tag.mainElem.css("display", "inline-block");
+    } else {
+      tag.tagCtx.props.trigger = false;
+    }
+  },
+//https://github.com/BorisMoore/jsviews/issues/360#issuecomment-272936627
+//  onAfterLink: function(tagCtx) {
+//    var tag = this,
+//      value = tag.bndArgs()[0];
+
+//    tag.baseApply(arguments);
+//    tag._datefrmt = $('input', tag.mainElem).datepicker("option", "dateFormat");
+//    var formatted = $.datepicker.formatDate(tag._datefrmt, new Date(tag.bndArgs()[0]));
+//     tag.setValue(formatted);
+//  },
   setValue: function(value) {
-    if (value !== undefined && value !== this.value) {
-      this.value = value;
-      this.linkedElem.datepicker("setDate", value);
+    var tag = this;
+    if (value !== undefined && value !== tag.value) {
+      tag.value = value;
+      tag.linkedElem.datepicker("setDate", value);
     }
   },
   getValue: function() {
     return this.value;
-  },
-  onAfterLink: function(tagCtx) {
-    var tag = this;
-    tag.baseApply(arguments);
-    tag.setValue(tag.cvtArgs()[0]);
-    if (tag.linkedElem[0].tagName !== "INPUT") {
-      // This datepicker is not using an input (e.g. using a div) - so set to inline-block
-      tag.linkedElem.css("display", "inline-block");
-    } else {
-      tag.tagCtx.props.trigger = false;
-    }
   }
 },
 //dialog: { // Currently not supported. (Support would require overriding _createWrapper code.)
@@ -278,24 +349,41 @@ datepicker: {
 droppable: {
   baseTag: "widget",
   widgetName: "droppable",
-  wrap: true
+  elem: "div",
+  wrap: true,
+  setSize: true,
+  contentCtx: true,
+  setValue: function(value) {
+    if ($.isFunction(value)) {
+      this.widget.option("drop", value); // Set the handler function for the drop action
+    }
+  }
 },
 menu: {
   baseTag: "widget",
   widgetName: "menu",
   elem: "ul",
   wrap: true,
-  initOptions: ["menus", "items"] // Options which need to be set on creation, not later
+  setSize: true,
+  contentCtx: true,
+  initOptions: ["menus", "items", "role"], // Options which need to be set on creation, not later
+  setValue: function(value) {
+    if ($.isFunction(value)) {
+      this.widget.option("select", value); // Set the menu select handler
+    }
+  }
 },
 progressbar: {
   baseTag: "widget",
   widgetName: "progressbar",
+  boundProps: ["busy"],
+  bindTo: 0,
   elem: "div",
   wrap: true,
   setSize: true,
+  contentCtx: true,
   setValue: function(value) {
-    var tag = this;
-    tag.widget.value(value || 0);
+    this.widget.value(parseFloat(value) || 0);
   },
   getValue: function() {
     return this.widget.value();
@@ -303,65 +391,81 @@ progressbar: {
   onAfterLink: function(tagCtx) {
     var tag = this;
     tag.baseApply(arguments);
-    if (tagCtx.args.length) {
-      // Set the value to arg[0] (after applying converter, if there is one)
-      tag.setValue(tag.cvtArgs()[0]);
-    }
     if (tagCtx.props.busy) {
-      // Set the value to arg[0] (after applying converter, if there is one)
       tag.widget.value(false);
     }
-  },
-  contentCtx: keepParentDataCtx
+  }
 },
 resizable: {
   baseTag: "widget",
   widgetName: "resizable",
+  bindTo: ["width", "height"],
+  linkedCtxParam: ["width", "height"],
+  wrapLinkCtxElem: true,
+  elem: "div",
   wrap: true,
-  elem: "div"
-},
-selectable: {
-  baseTag: "widget",
-  widgetName: "selectable",
-  wrap: true
+  contentCtx: true,
+  options: function() {
+    var tag = this;
+    return {
+      resize: function(evt, ui) {
+        setTimeout(function() {
+          tag.update(ui.size.width, ui.size.height);
+        },0);
+      }
+    };
+  },
+  setValue: function(width, height) {
+    var mainElem = this.mainElem;
+    if (width !== undefined) {
+      mainElem.width(width || 0);
+    }
+    if (height !== undefined) {
+      mainElem.height(height || 0);
+    }
+  },
+  getValue: function() {
+    var mainElem = this.mainElem;
+    return [mainElem.width(), mainElem.height()];
+  }
 },
 selectmenu: {
   baseTag: "widget",
   widgetName: "selectmenu",
+  linkedElement: "select",
   elem: "select",
   wrap: true,
+  setSize: true,
+  contentCtx: true,
   options: function() {
     var tag = this;
     return {
       change: function(evt, ui) {
-        tag.update(ui.value);
+        tag.update(ui.item.value);
       }
     };
   },
-  setValue: function(value) {
-    this.linkedElem[0].value = value;
-    this.widget.refresh();
-  },
-  getValue: function() {
-    return this.linkedElem[0].value;
-  },
-  onAfterLink: function() {
+  onBind: function() {
     var tag = this;
     tag.baseApply(arguments);
-    if (tag._.unlinked) {
-      tag.linkedElem.on("jsv-domchange", function() {
-        tag.widget.refresh();
-      });
-      tag.displayElem = tag.widget.button;
-    }
-    // Set the value to arg[0] (after applying converter, if there is one)
-    tag.setValue(tag.cvtArgs()[0]);
+    tag.mainElem.on("jsv-domchange", function() {
+      tag.widget.refresh();
+    });
+    tag.displayElem = tag.widget.button;
   },
-  contentCtx: keepParentDataCtx
+  setValue: function(value) {
+    this.mainElem[0].value = value;
+    this.widget.refresh();
+  },
+  getValue: function() { 
+    return this.mainElem[0].value;
+  }
 },
 slider: {
   baseTag: "widget",
   widgetName: "slider",
+  bindTo: [0, 1],
+  linkedElement: ["*", "~foo"],
   elem: "div",
   setSize: true,
   options: function() {
@@ -374,22 +478,24 @@ slider: {
       }
     };
   },
+  onAfterLink: function(tagCtx) {
+    var tag = this;
+    if (!tag.linkCtx.elem._jsvChg) {
+      // If change not triggered by a the spinner itself changing value
+      tag.baseApply(arguments);
+    }
+  },
   setValue: function(value) {
     this.widget.value(value || 0);
   },
   getValue: function() {
     return this.widget.value();
-  },
-  onAfterLink: function() {
-    var tag = this;
-    tag.baseApply(arguments);
-    // Set the value to arg[0] (after applying converter, if there is one)
-    tag.setValue(tag.cvtArgs()[0]);
   }
 },
 spinner: {
   baseTag: "widget",
   widgetName: "spinner",
+  linkedElement: "input",
   elem: "input",
   setSize: true,
   options: function() {
@@ -399,6 +505,19 @@ spinner: {
         tag.update(ui.value);
       }
     };
+  },
+  onAfterLink: function(tagCtx) {
+    var tag = this;
+    if (!tag.linkCtx.elem._jsvChg) {
+      // If change not triggered by a the spinner itself changing value
+      tag.baseApply(arguments);
+      tag.displayElem = this.linkedElem.parent(); // jQuery UI wraps the input in a span
+      if (tagCtx.props.width) {
+        // In addition to generic setting of width on the
+        // displayElem, need also to set width on the input.
+        this.linkedElem.width(tagCtx.props.width - tag.displayElem.find(".ui-spinner-up").width()-9);
+      }
+    }
   },
   setValue: function(value) {
     this.widget.value(value || 0);
@@ -410,14 +529,20 @@ spinner: {
 tabs: {
   baseTag: "widget",
   widgetName: "tabs",
+  bindTo: 0,
   elem: "div",
+  wrap: true,
   setSize: true,
-  onBind: function() {
-    var tag = this;
-    tag.baseApply(arguments);
-    tag.displayElem = tag.widget.element;
+  contentCtx: true,
+  options: tabsAccordionOptions,
+  onBind: tabsAccordionOnBind,
+  setValue: function(value) {
+    // Select the tab whose index is the currently selected one
+    this.widget.option("active", parseInt(value));
   },
-  wrap: true
+  getValue: function() { // Helper: get the index of the currently selected tab
+    return this.widget.option("active");
+  }
 }
 
 };
@@ -431,6 +556,7 @@ if ($.ui.version.slice(0, 4) === "1.11") {
     widgetName: "button",
     elem: "button",
     setSize: true,
+    contentCtx: true,
     init: function(tagCtx, linkCtx) {
       var template,
         tag = this,
@@ -451,7 +577,8 @@ if ($.ui.version.slice(0, 4) === "1.11") {
       tag.baseApply(arguments);
 
       if (tag._.inline) {
-        content = content && content.markup || "&nbsp;"; // (&nbsp; fixes a jQueryUI button rendering issue)
+        content = content && content.markup || "&nbsp;";
+        // (&nbsp; fixes a jQueryUI button rendering issue)
         if (tag._.radio || tag._.chkBx) {
           id = id || "jsv" + Math.random();
           template = '<input id="' + id + '" data-link="' + params.args[0] 
@@ -470,7 +597,7 @@ if ($.ui.version.slice(0, 4) === "1.11") {
     onAfterLink: function(tagCtx, linkCtx) {
       var tag = this,
         elem = linkCtx.elem,
-        val = tag.cvtArgs()[0];
+        val = tag.bndArgs()[0];
 
       if (tag._.radio || tag._.chkBx) {
         if (!tag._.inline) {
@@ -485,7 +612,7 @@ if ($.ui.version.slice(0, 4) === "1.11") {
 
         tag.baseApply(arguments);
 
-        elem = tag.linkedElem[0];
+        elem = tag.mainElem[0];
 
         if (tag._.radio) {
           // Use {^{button value="xxx"}}Label{{/button}}
@@ -507,14 +634,14 @@ if ($.ui.version.slice(0, 4) === "1.11") {
         }
         tag.baseApply(arguments);
       }
-    },
-    contentCtx: keepParentDataCtx
+    }
   };
 
   tagDefs.buttonset = {
     baseTag: "widget",
     widgetName: "buttonset",
     setSize: true,
+    contentCtx: true,
     init: function(tagCtx) {
       var id,
         tag = this;
@@ -529,19 +656,104 @@ if ($.ui.version.slice(0, 4) === "1.11") {
     onAfterLink: function(tagCtx, linkCtx) {
       var tag = this,
         elem = linkCtx.elem,
-        val = tag.cvtArgs()[0];
+        val = tag.bndArgs()[0];
       tag.baseApply(arguments);
       tag.widget.buttons.each(function(i, elem) {
         elem.checked = val === elem.value;
         $(elem).button("refresh");
       });
-    },
-    contentCtx: keepParentDataCtx
+    }
   };
 }
 
 // Compile tags
 $.views.tags(tagDefs);
+
+function unlinkedClone() {
+  // Ensure that cloned element (and its contents) created by jQuery UI to show dragging
+  // element does not have any data-jsv tokens (since deleting the element would then
+  // remove those views associated with the original element)
+  var clone = $(this).clone();
+  clone.find("*").addBack().removeAttr( "id data-link data-jsv data-jsv-df" );
+  clone.find("script").remove();
+  return clone;
+}
+
+if ($.ui.draggable) {
+  // Create derived draggable widget
+  $.widget("jsv.draggable", $.ui.draggable, {
+    _createHelper: function() {
+      if (this.options.helper === "clone") {
+        this.options.helper = unlinkedClone;
+      }
+      return this._super();
+    }
+  });
+
+  $.views.tags("draggable", {
+    baseTag: "widget",
+    widgetName: "jsv-draggable",
+    bindTo: ["left", "top"],
+    linkedCtxParam: ["left", "top"],
+    elem: "div",
+    wrap: true,
+    setSize: true,
+    contentCtx: true,
+    options: function() {
+      var tag = this;
+      return {
+        drag: function(evt, ui) {
+          setTimeout(function() {
+            tag.update(ui.offset.left, ui.offset.top);
+          },0);
+        }
+      };
+    },
+    setValue: function(left, top) {
+      var mainElem = this.mainElem;
+      if (left !== undefined) {
+        mainElem.offset({left: left});
+      }
+      if (top !== undefined) {
+        mainElem.offset({top: top});
+      }
+    },
+    getValue: function(left, top) {
+      var offset = this.mainElem.offset();
+      return [offset.left, offset.top];
+    }
+  });
+}
+
+if ($.ui.accordion) {
+  // Create derived accordion widget
+  $.widget("jsv.accordion", $.ui.accordion, {
+    _create: function() {
+      var widget = this;
+      widget.options.header = widget.options.header.replace(":not(li):even", ":not(li,script):even");
+      widget._super();
+    }
+  });
+
+  $.views.tags("accordion", {
+    baseTag: "widget",
+    widgetName: "jsv-accordion",
+    bindTo: 0,
+    wrap: true,
+    setSize: true,
+    contentCtx: true,
+    options: tabsAccordionOptions,
+    initOptions: ["header"], // Options which need to be set on creation, not later
+    onBind: tabsAccordionOnBind,
+    setValue: function(value) {
+      // Select the panel whose index is the currently selected one
+      this.widget.option("active", parseInt(value));
+    },
+    getValue: function() { // Helper: get the index of the currently selected panel
+      return this.widget.option("active");
+    }
+  });
+}
 
 if ($.ui.sortable) {
   $.widget("jsv.sortable", $.ui.sortable, {
@@ -555,10 +767,12 @@ if ($.ui.sortable) {
         start: function(event, ui) {
           startOption && startOption.apply(this, arguments);
 
-          innerView = ui.item.view(); // The view of the item that is being dragged
-          if (innerView.type === "item") {
-            // The sortable items are within a {{for}} loop, so this is a data-linked sortable list
-            moveFrom = innerView.index + 1; // 1-based starting index of dragged item
+          if (widget.option("bindArray") !== false) {
+            innerView = ui.item.view(); // The view of the item that is being dragged
+            if (innerView.type === "item") {
+              // The sortable items are within a {{for}} loop, so this is a data-linked sortable list
+              moveFrom = innerView.index + 1; // 1-based starting index of dragged item
+            }
           }
         },
         stop: function(event, ui) {
@@ -581,62 +795,112 @@ if ($.ui.sortable) {
       widget._super();
     }
   });
-}
 
-function unlinkedClone() {
-  // Ensure that cloned element (and its contents) created by jQuery UI to show dragging element does not
-  // have any data-jsv tokens (since deleting the element would them remove those views associated with
-  // the original element)
-  var clone = $(this).clone();
-  clone.find("*").addBack().removeAttr( "id data-link data-jsv data-jsv-df" );
-  clone.find("script").remove();
-  return clone;
-}
-
-if ($.ui.draggable) {
-  // Create derived draggable widget
-  $.widget("jsv.draggable", $.ui.draggable, {
-    _createHelper: function() {
-      if (this.options.helper === "clone") {
-        this.options.helper = unlinkedClone;
-      }
-      return this._super();
-    }
-  });
-
-  $.views.tags("draggable", {
-    baseTag: "widget",
-    widgetName: "jsv-draggable",
-    wrap: true
-  });
-}
-
-if ($.ui.accordion) {
-  // Create derived accordion widget
-  $.widget("jsv.accordion", $.ui.accordion, {
-    _create: function() {
-      var widget = this;
-      widget.options.header = widget.options.header.replace(":not(li):even", ":not(li,script):even");
-      widget.element.on("jsv-domchange", function() {
-        widget.refresh();
-      });
-      widget._super();
-    }
-  });
-  $.views.tags("accordion", {
-    baseTag: "widget",
-    widgetName: "jsv-accordion",
-    wrap: true,
-    initOptions: ["header"] // Options which need to be set on creation, not later
-  });
-}
-
-if ($.ui.sortable) {
   $.views.tags("sortable", {
     baseTag: "widget",
     widgetName: "jsv-sortable",
-    wrap: true
+    wrap: true,
+    contentCtx: true,
   });
 }
 
+if ($.ui.selectable) {
+  $.widget("jsv.selectable", $.ui.selectable, {
+    _create: function() {
+      var widget = this;
+
+      widget.options.filter += ":not(script)";
+      widget._super();
+    }
+  });
+
+  $.views.tags("selectable", {
+    baseTag: "widget",
+    widgetName: "jsv-selectable",
+    bindTo: 0,
+    wrap: true,
+    setSize: true,
+    contentCtx: true,
+    options: function() {
+      var tag = this;
+      if (tag.selected) {
+        return {
+          stop: function(evt, ui) {
+            tag.setSelectedItems();
+          }
+        };
+      }
+    },
+    initOptions: ["filter"], // Options which need to be set on creation, not later
+    onBind: function() {
+      var tag = this;
+      tag.selected = []; // Value of first arg (after applying converter, if there is one)
+
+      function selObs(ev, eventArgs) {
+        if (!eventArgs.refresh) {
+          tag.setSelection();
+        }
+      }
+
+      tag.selObs = selObs; // Store function instance, for disposing of just this binding, in onDispose
+      tag.baseApply(arguments);
+      tag.mainElem.on("jsv-domchange.sel", function() {
+        tag.widget.refresh();
+        tag.selected._domChg = 2;
+        tag.setSelectedItems();
+        tag.selected._domChg = undefined;
+      });
+    },
+    onDispose: function() {
+      $.unobserve(this.selected, this.selObs);  // Remove just this binding to selected array
+    },
+    setValue: function(selected) { // Set the new observed array of selected indices
+      var tag = this;
+      if ($.isArray(selected) && tag.selected !== selected) {
+        $.unobserve(tag.selected, tag.selObs);
+        tag.selected = selected;
+        if (selected !== tag.bndArgs[0]) {
+          tag.update(selected);
+        }
+        $.observe(selected, tag.selObs);
+        tag.setSelection();
+      }
+    },
+    getValue: function() {
+      return this.selected;
+    },
+    setSelection: function() {
+      // Set the class on the new selected elements (based on tag.selected array of indices)
+      var tag = this,
+        l = tag.selected.length;
+      if (!tag.selected._domChg) {
+        // No need to update if during a domchange event - only if a selectable change event
+        // Remove selected class from all selectable elements
+        tag.widget.selectees.removeClass("ui-selected");
+        while (l--) {
+          // Set selected class on elements at indices in tag.selected array
+          tag.widget.selectees.eq(tag.selected[l]).addClass("ui-selected");
+        }
+      }
+    },
+    setSelectedItems: function() {
+      // Set observable selectedItems array based on selected elements managed by widget
+      var tag = this,
+        selected = [];
+      if (tag.selected && tag.selected._domChg !== 1) {
+        if (tag.selected._domChg) {
+          // Avoid race conditions when multiple selectables bind to same selected array
+          tag.selected._domChg--;
+        }
+        tag.widget.selectees.each(function(index, elem) {
+          if ((' ' + elem.className + ' ').indexOf(' ui-selected ') > -1) {
+            selected.push(index); // This is the index of a selected element
+          }
+        });
+        tag.setValue(tag.selected); // Update the tag to bind to the new selected array
+        $.observable(tag.selected).refresh(selected); // Refresh to the new selected indices
+      }
+    }
+  });
+}
 })(this, this.jQuery);

@@ -9,7 +9,7 @@
   }
 });
 
-var myTmpl = $.templates("#myTmpl"),
+var pageTmpl = $.templates("#pageTmpl"),
   count = 0,
   pageOptions = {
     noInvalidData: false
@@ -23,7 +23,7 @@ var myTmpl = $.templates("#myTmpl"),
     ]
   };
 
-myTmpl.link("#page", model, {
+pageTmpl.link("#page", model, {
   page: pageOptions,
   upper: $.views.converters.upper,
   lower: $.views.converters.lower

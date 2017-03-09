@@ -12,27 +12,22 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "links": [],
         "topics": [
           {
-            "filter": "jsr",
             "hash": "jsrplaying",
             "label": "Playing with JsRender"
           },
           {
-            "filter": "jsr",
             "hash": "jsr-quickstart",
             "label": "JsRender Quickstart"
           },
           {
-            "filter": "jsr",
             "hash": "jsr-node-quickstart",
             "label": "JsRender Node.js Quickstart"
           },
           {
-            "filter": "jsv",
             "hash": "jsvplaying",
             "label": "Playing with JsViews"
           },
           {
-            "filter": "jsv",
             "hash": "jsv-quickstart",
             "label": "JsViews Quickstart"
           }

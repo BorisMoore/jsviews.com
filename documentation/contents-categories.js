@@ -911,7 +911,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "name": "other",
-            "label": "And computed observable, {{on}}, DataMap...",
+            "label": "And computed observable, {{on}}, DataMap. lateRender...",
             "hidden": true
           }
         ],
@@ -1236,123 +1236,126 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "label": "Team manager"
               }
             ],
-            "expanded": true
+            "expanded": false
           },
           {
             "name": "samples/tag-controls",
             "label": "Tag controls",
             "categories": [
               {
-                "name": "jqui",
+                "name": "samples/tag-controls/jqui",
                 "label": "jQueryUI widget controls",
                 "categories": [
                   {
-                    "name": "samples/tag-controls/datepicker",
+                    "name": "samples/tag-controls/jqui/api",
+                    "label": "Accessing widget APIs"
+                  },
+                  {
+                    "name": "samples/tag-controls/jqui/datepicker",
                     "label": "datepicker control",
                     "categories": [
                       {
-                        "name": "samples/tag-controls/datepicker/simple",
+                        "name": "samples/tag-controls/jqui/datepicker/simple",
                         "label": "Simple datepicker"
                       },
                       {
-                        "name": "samples/tag-controls/datepicker/variants",
+                        "name": "samples/tag-controls/jqui/datepicker/variants",
                         "label": "datepicker variants"
                       },
                       {
-                        "name": "samples/tag-controls/datepicker/with-validation",
+                        "name": "samples/tag-controls/jqui/datepicker/with-validation",
                         "label": "With validation"
                       },
                       {
-                        "name": "samples/tag-controls/datepicker/with-validation-wizard",
+                        "name": "samples/tag-controls/jqui/datepicker/with-validation-wizard",
                         "label": "With validation wizard"
                       },
                       {
-                        "name": "samples/tag-controls/datepicker/with-converters",
+                        "name": "samples/tag-controls/jqui/datepicker/with-converters",
                         "label": "With converters"
                       }
                     ],
                     "expanded": false
                   },
                   {
-                    "name": "samples/tag-controls/slider",
+                    "name": "samples/tag-controls/jqui/slider",
                     "label": "slider control",
                     "categories": [
                       {
-                        "name": "samples/tag-controls/slider/simple",
+                        "name": "samples/tag-controls/jqui/slider/simple",
                         "label": "Simple slider"
                       },
                       {
-                        "name": "samples/tag-controls/slider/variants",
+                        "name": "samples/tag-controls/jqui/slider/variants",
                         "label": "slider variants"
                       },
                       {
-                        "name": "samples/tag-controls/slider/with-validation",
+                        "name": "samples/tag-controls/jqui/slider/with-validation",
                         "label": "With validation"
                       },
                       {
-                        "name": "samples/tag-controls/slider/color-picker",
+                        "name": "samples/tag-controls/jqui/slider/color-picker",
                         "label": "Color picker"
                       }
                     ],
                     "expanded": false
                   },
                   {
-                    "name": "samples/tag-controls/toolbar",
+                    "name": "samples/tag-controls/jqui/spinner",
+                    "label": "spinner control"
+                  },
+                  {
+                    "name": "samples/tag-controls/jqui/toolbar",
                     "label": "button radio checkbox...",
                     "hidden": false
                   },
                   {
-                    "name": "samples/tag-controls/tabs-jqui",
+                    "name": "samples/tag-controls/jqui/tabs",
                     "label": "tabs control (jQuery UI)",
-                    "hidden": true
+                    "hidden": false
                   },
                   {
-                    "name": "samples/tag-controls/menu",
+                    "name": "samples/tag-controls/jqui/menu",
                     "label": "menu control",
-                    "hidden": true
+                    "hidden": false
                   },
                   {
-                    "name": "samples/tag-controls/selectmenu",
+                    "name": "samples/tag-controls/jqui/selectmenu",
                     "label": "selectmenu control",
-                    "hidden": true
+                    "hidden": false
                   },
                   {
-                    "name": "samples/tag-controls/progressbar",
+                    "name": "samples/tag-controls/jqui/progressbar",
                     "label": "progressbar control",
-                    "hidden": true
+                    "hidden": false
                   },
                   {
-                    "name": "samples/tag-controls/accordion",
+                    "name": "samples/tag-controls/jqui/accordion",
                     "label": "accordion control",
-                    "hidden": true
+                    "hidden": false
                   },
                   {
-                    "name": "samples/tag-controls/autocomplete",
+                    "name": "samples/tag-controls/jqui/autocomplete",
                     "label": "autocomplete control",
-                    "hidden": true
+                    "hidden": false
                   },
                   {
-                    "name": "samples/tag-controls/selectable",
+                    "name": "samples/tag-controls/jqui/selectable",
                     "label": "selectable control",
-                    "hidden": true
+                    "hidden": false
                   },
                   {
-                    "name": "samples/tag-controls/sortable",
+                    "name": "samples/tag-controls/jqui/sortable",
                     "label": "sortable control",
-                    "hidden": true
+                    "hidden": false
                   },
                   {
-                    "name": "samples/tag-controls/resizable",
+                    "name": "samples/tag-controls/jqui/resizable",
                     "label": "resizable control",
-                    "hidden": true
+                    "hidden": false
                   },
                   {
-                    "name": "samples/tag-controls/droppable",
-                    "label": "droppable control",
-                    "hidden": true
-                  },
-                  {
-                    "name": "samples/tag-controls/draggable-droppable",
+                    "name": "samples/tag-controls/jqui/draggable-droppable",
                     "label": "draggable droppable"
                   }
                 ],

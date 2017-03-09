@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+
+<style>
+  fieldset {border: 0; margin-left: 300px;}
+  label {display: block; margin: 20px 0 5px;}
+  select {width: 200px;}
+  .circle {float: left; border-radius: 50%;}
+  .clear {clear: both;}
+</style>
+
+</head>
+<body>
+
+<script id="pageTmpl" type="text/x-jsrender">
+
+<div data-link="
+  css-background{:color}
+  css-width{:radius}
+  css-height{:radius}
+" class="circle"></div>
+
+<fieldset>
+<label for="color">Circle color</label>
+{^{selectmenu color name="color"}}
+  {^{for colors}}
+    <option value="{{:name}}">{{:label}}</option>
+  {{/for}}
+{{/selectmenu}}
+
+<label for="radius">Circle radius</label>
+{^{selectmenu radius name="radius"}}
+  {^{for radii}}
+    <option value="{{:}}">{{:}}px</option>
+  {{/for}}
+{{/selectmenu}}
+</fieldset>
+
+<div class="clear">
+  {^{:color}} {^{:radius}}px
+</div>
+
+</script>
+
+<div id="page"></div>
+
+<!--<script src="product-selection.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

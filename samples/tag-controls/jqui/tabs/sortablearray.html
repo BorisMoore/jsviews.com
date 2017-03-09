@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+<style>
+  ul {margin: 0; padding-left: 0;} 
+  li {list-style: none;}
+  li a {color: red; cursor:pointer; padding: 3px;}
+	li input {width: 200px;}
+</style>
+</head>
+<body>
+
+<script id="pageTmpl" type="text/x-jsrender">
+
+<h4>Drag tabs to sort...</h4>
+
+{^{tabs selectedTab}}
+  {^{sortable elem="ul" _axis="x"}}
+    {^{for tabData}}<li><a href="#{{:id}}">{^{:header}}</a></li>{{/for}}
+  {{/sortable}}
+  {^{for tabData}}
+    <div id="{{:id}}">{^{:content}}</div>
+  {{/for}}
+{{/tabs}}
+
+<h4>Selected tab:</h4>
+
+<input data-link="selectedTab" />
+
+<h4>Tabs data (edit or sort):</h4>
+
+{^{on ~append}}Add tab{{/on}}<br/><br/>
+
+<ul>
+  {^{for tabData}}
+    <li>
+      <a data-link="{on ~remove #index}">x</a>
+      <input data-link="header" /> <input data-link="content" />
+      {^{if ~root.selectedTab===#index}}
+        (selected)
+      {{/if}}
+    </li>
+  {{/for}}
+</ul>
+
+</script>
+
+<div id="page"></div>
+
+<!--<script src="sortablearray.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

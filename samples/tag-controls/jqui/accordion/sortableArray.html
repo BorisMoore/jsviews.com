@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+</head>
+<body>
+<style>
+  ul {margin: 0; padding-left: 0;} 
+  li {list-style: none;}
+  li a {color: red; cursor:pointer; padding: 3px;}
+  li input {width: 200px;}
+</style>
+
+
+<script id="pageTmpl" type="text/x-jsrender">
+<h4>Drag headers to sort...</h4>
+
+{^{accordion selectedPanel _header='>div>h3' _collapsible=true}}
+  {^{sortable elem='div' _axis='y' _handle='h3'}}
+    {^{for panelData}}
+      <div>
+        <h3>{^{:header}}</h3>
+        <div>{^{:content}}</div>
+      </div>
+    {{/for}}
+  {{/sortable}}
+{{/accordion}}
+
+<h4>Selected panel:</h4>
+
+<input data-link="selectedPanel" />
+
+<h4>Panel data (edit or sort):</h4>
+
+{^{on ~append}}Add panel{{/on}}<br/><br/>
+
+{^{sortable elem="ul" _axis="y"}}
+  {^{for panelData}}
+    <li>
+      <a data-link="{on ~remove #index}">x</a>
+      <input data-link="header" /> <input data-link="content" />
+      {^{if ~root.selectedPanel===#index}}
+        (selected)
+      {{/if}}
+  </li>
+  {{/for}}
+{{/sortable}}
+
+</script>
+
+<div id="page"></div>
+
+<!--<script src="sortablearray.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

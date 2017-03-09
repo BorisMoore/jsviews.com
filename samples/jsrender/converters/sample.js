@@ -1,5 +1,3 @@
-$(function() {
-
 var movies = [{
    availability: "Available in 'X&Y' Cinemas",
     title: "Meet Joe Black",
@@ -43,5 +41,3 @@ $.views.converters({
 $("#movieList").html(
   $("#movieTemplate").render(movies)
 );
-
-});

@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../../download/jsviews.js"></script>
+  <script src="../../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../sample.css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>Three JsViews 'slider' tag controls (using jQuery UI slider) as simple RGB color picker</h3>
+
+<style>
+  .ui-slider {float: left; clear: left; width: 300px; margin: 15px;}
+  .swatch {width: 140px; height: 140px; margin-left: 350px;}
+
+  .red .ui-slider-range, .red .ui-slider-handle {background: #ef2929;}
+  .green .ui-slider-range, .green .ui-slider-handle {background: #8ae234;}
+  .blue .ui-slider-range, .blue .ui-slider-handle {background: #729fcf;}
+</style>
+
+<script id="pageTmpl" type="text/x-jsrender">
+  {^{slider red class="red" _range='min' _max=255 /}}
+  {^{slider green class="green" _range='min' _max=255 /}}
+  {^{slider blue class="blue" _range='min' _max=255 /}}
+
+  <div class="swatch" data-link="css-background-color{toHex:red green blue}"></div>
+</script>
+
+<div id="page"></div>
+
+<!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

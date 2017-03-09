@@ -1,6 +1,6 @@
-﻿var myTmpl = $.templates("#myTmpl"),
+﻿var pageTmpl = $.templates("#pageTmpl"),
   model = {
     person: "Jo"
   };
 
-myTmpl.link("#page", model);
+pageTmpl.link("#page", model);

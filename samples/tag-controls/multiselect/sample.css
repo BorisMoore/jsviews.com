@@ -1,19 +1,19 @@
 body {
-	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
-	font-size: 15px;
-	padding: 0 0 0 5px;
+  font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  padding: 0 0 0 5px;
 }
 
 .multisel2 {
-	border: #4800ff solid 2px;
-	color: red;
-	margin-left: 10px;
+  border: #4800ff solid 2px;
+  color: red;
+  margin-left: 10px;
 }
 
 #add {
-	margin-right: 5px;
+  margin-right: 5px;
 }
 
 ul {
-	padding: 0 0 0 18px;
+  padding: 0 0 0 18px;
 }

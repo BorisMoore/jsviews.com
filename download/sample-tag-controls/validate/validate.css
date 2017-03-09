@@ -1,39 +1,31 @@
 .val-msg {
-	margin: 5px;
-	margin-bottom: 10px;
+  margin: 8px;
 }
 
 .invalid.val-msg {
-	border: 2px solid #cf321d;
+  margin-right: 8px;
+  border: 2px solid #cf321d !important;
 }
 
 .radiogroup.val-msg {
-	padding: 3px;
-	display: inline-block;
+  padding: 3px;
+  display: inline-block;
 }
 
 .radiogroup.invalid.val-msg {
-	margin: 5px;
+  margin: 6px;
 }
 
 select.invalid.val-msg {
-	margin: 4px;
-}
-
-select.val-msg {
-	margin: 5px;
-}
-
-input {
-	margin: 3px;
+  margin: 7px;
 }
 
 input[type=radio] {
-	margin: 3px 3px 3px 5px;
-	padding: 0;
+  margin:  3px 5px;
+  padding: 0;
 }
 
 label.error {
-	color: #cf321d;
-	font-style: italic;
+  color: #cf321d;
+  font-style: italic;
 }

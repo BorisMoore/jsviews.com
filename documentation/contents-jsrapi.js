@@ -1605,7 +1605,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "jsrJsvJqui": "jsr",
-        "height": "110",
+        "height": "120",
         "code": "var data = {\n    title: \"My list\",\n    list: [2, 10.3, 77, -44, -5.5]\n  };\n\nvar tmpl = $.templates({\n    markup: \"#myTemplate\",\n    allowCode: true\n  });\n \nvar html = tmpl.render(data);\n\n$(\"#result\").html(html);",
         "html": "<script id=\"myTemplate\" type=\"text/x-jsrender\">\n  Here are the odd numbered items:\n  <ul>\n    {{* for (i=0; i<data.list.length; i+=2) { }}\n      <li>\n        {{*: i+1}}: Amount {{*:data.list[i]}}\n      </li>\n    {{* } }}\n  </ul>\n</script>\n\n<div id=\"result\"></div>",
         "title": "allowCode for template",
@@ -2999,6 +2999,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "sample": "sample",
           "links": "links"
         }
+      },
+      {
+        "_type": "para",
+        "title": "Unregistering tags",
+        "text": "To unregister a previously registered tag, pass `null` to `$.views.tags()`:\n\n```js\n$.views.tags(\"myTag\", null);\n// Tag \"myTag\" is no longer registered\n```"
       },
       {
         "_type": "para",
@@ -5420,6 +5425,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "para",
+        "title": "Unregister a named converter",
+        "text": "To unregister a previously registered <em>converter</em>, pass `null` to `$.views.converters()`:\n\n```js\n$.views.converters(\"myCvt\", null);\n// Named converter \"myCvt\" is no longer registered\n```"
+      },
+      {
+        "_type": "para",
         "title": "Converter functions",
         "text": "In most cases a converter function will return a computed value based on the input parameter `val`:\n\n```js\nfunction myConverter(val) {\n  ... \n  return computedVal; // converted/encoded/formatted value for 'val'\n}\n```\n\nwhere `val` comes from the data value or expression passed to the tag `{{myconverter: someExpression}}`. \n\n(See: [sample](#converters@simple).)"
       },
@@ -5857,7 +5867,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Using converters with other tags",
-        "text": "A converter can be used on any tag, thanks to the syntax\n\n```jsr\n{{someTag ... convert=...}}\n```\n\nwhere `someTag` can be any custom tag, or a built-in tag such as `{{if}}`.\n\nFor example, you could register an `\"inList\"` converter which returns true if `item` is found in `itemList`:\n\n```jsr\n{{if convert='inList' item itemList}}...{{/if}}\n``` \n\nThe following sample shows named converters used with the `{{for ...}}` tag -- to iterate over an array and show only even or odd items:",
+        "text": "A converter can be used on any tag, thanks to the syntax\n\n```jsr\n{{someTag ... convert=...}}\n```\n\nwhere `someTag` can be any custom tag, or a built-in tag such as `{{if}}`.\n\n(*Note:* When using JsViews [two-way binding](#link2way@converters), similar syntax is available for *convertBack*: `convertBack=...`.)\n\n\n\nFor example, you could register an `\"inList\"` converter which returns true if `item` is found in `itemList`:\n\n```jsr\n{{if convert='inList' item itemList}}...{{/if}}\n``` \n\nThe following sample shows named converters used with the `{{for ...}}` tag -- to iterate over an array and show only even or odd items:",
         "anchor": "othertags"
       },
       {

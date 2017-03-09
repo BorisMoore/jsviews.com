@@ -14,30 +14,30 @@ function lower(val) {
 
 QUnit.module("node");
 test("jsrender.renderFile / jsrender.__express", function() {
-	var html = jsrender.renderFile('./test/templates/name-template.html', { name: "Jo" });
+	var html = jsrender.renderFile('./test/templates/name-template.html', {name: "Jo"});
 	equal(html, "Name: Jo (name-template.html)", 'jsrender.renderFile("./file.path.html", data) loads and renders template');
 
-	html = jsrender.__express('./test/templates/name-template.html', { name: "Jo" });
+	html = jsrender.__express('./test/templates/name-template.html', {name: "Jo"});
 	equal(html, "Name: Jo (name-template.html)", 'jsrender.__express("./file.path.html", data) loads and renders template');
 });
 
 test("jsrender.templates", function() {
 	var tmpl = jsrender.templates('./test/templates/name-template.html');
-	var html = tmpl({ name: "Jo" });
+	var html = tmpl({name: "Jo"});
 	equal(html, "Name: Jo (name-template.html)", 'jsrender.templates("./file.path.html") compiles template');
 
 	tmpl = jsrender.templates({markup: 'Some {{:~upper("Markup")}} Name: {{:~upper(name)}} {{lower:name}}', helpers: {upper:upper}, converters: {lower:lower}});
-	html = tmpl({ name: "Jo" });
+	html = tmpl({name: "Jo"});
 	equal(html, "Some MARKUP Name: JO jo", 'jsrender.templates({markup: ..., helpers: ..., ...}) compiles template with options');
 });
 
 test("jsrender.compile", function() {
 	var tmpl = jsrender.compile('./test/templates/name-template.html');
-	var html = tmpl({ name: "Jo" });
+	var html = tmpl({name: "Jo"});
 	equal(html, "Name: Jo (name-template.html)", 'jsrender.compile("./file.path.html") compiles template');
 
 	tmpl = jsrender.compile('Some {{:~upper("Markup")}} Name: {{:~upper(name)}} {{lower:name}}', {helpers: {upper:upper}, converters: {lower:lower}});
-	html = tmpl({ name: "Jo" });
+	html = tmpl({name: "Jo"});
 	equal(html, "Some MARKUP Name: JO jo", 'jsrender.compile("markup", {helpers: ..., ...}) compiles template with options');
 });
 
@@ -51,7 +51,7 @@ test("jsrender.tags.clientTemplate", function() {
 		+ '<script id="clientonly" type="test/x-jsrender">{{include tmpl="./test/templates/outer.html"/}}</script>\n'
 		+ '<div id="result"></div>\n'
 		+ '<script>var tmpl = $.templates("#clientonly"); $("#result").html(tmpl({name: "Jeff"}));</script>');
-	var html = tmpl({ name: "Jo" });
+	var html = tmpl({name: "Jo"});
 	equal(html,
 		'<script src="//code.jquery.com/jquery-1.12.4.js"></script>\n'
 		+ '<script src="//www.jsviews.com/download/jsrender.js"></script>\n'

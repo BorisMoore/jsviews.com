@@ -1,7 +1,7 @@
-﻿/*! Sample JsViews tag control: {{validate}} control v0.9.83 (Beta)
+﻿/*! Sample JsViews tag control: {{validate}} control v0.9.84 (Beta)
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
- * Copyright 2016, Boris Moore
+ * Copyright 2017, Boris Moore
  * Released under the MIT License.
  */
 
@@ -66,6 +66,7 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
   validate: {
     baseTag: "radiogroup",
     linkedElement: "select,textarea,input",
+    boundProps: ["preventInvalidData"],
     init: function(tagCtx, linkCtx) {
       var tag = this;
       if (tag.radiogroup = tagCtx.props.radiogroup) {
@@ -91,33 +92,33 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
       }
     },
     onBind: function(tagCtx, linkCtx) {
-      var arrayView,
+      var targetTag,
         tag = this,
         target = tag.linkedElem && tag.linkedElem[0];
-      if (tag._.inline && target && $.view(target).tag !== tag) {
-        // The target element is contained in another tag - so we will find it
-        tag.linkedElem = undefined;
-      }
-      if (!tag.linkedElem || !tag.linkedElem[0]) {
+
+      if (targetTag = tag.childTags()[0]) {
         // {{validate}} may wrap another tag, such as {{slider}}
         // or {{datepicker}} rather than an element such as <input/>
-        if (tag.targetTag = tag.childTags()[0]) {
-          tag.targetTag.onBeforeChange = function(ev, val) {
-            return tag.onBeforeChange.call(tag, ev, val);
-          };
+        tag.targetTag = targetTag;
+        if (target && $.view(target).tag === targetTag) {
+          tag.linkedElem = undefined;
         }
+        targetTag.onBeforeChange = function(ev, val) {
+          return tag.onBeforeChange.call(tag, ev, val);
+        };
       }
       if (tag.radiogroup) {
         this.baseApply(arguments);
       }
     },
-
     onAfterLink: function(tagCtx, linkCtx) {
       var tag = this,
-        props = tagCtx.props;
+        targetTag = tag.targetTag,
+        props = tagCtx.props,
+        arg0 = tag.cvtArgs()[0];
 
-      if (tag.targetTag) {
-        tag.targetTag.setValue(tagCtx.args[0]);
+      if (targetTag) {
+        targetTag.update(arg0);
       }
 
       if (props.preventInvalidData !== undefined) {
@@ -125,25 +126,26 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
       } else if (tag.parents.validation) {
         tag.preventInvalidData = tag.parents.validation.tagCtx.props.preventInvalidData;
       }
-
       if (!tag.messageElem || !tag.messageElem.parentNode) {
-        if (tag.targetTag) {
-          tag.messageElem = tag.targetTag.linkedElem;
+        if (tag.radiogroup) {
+          // messageElem is the div which wraps the group of radio buttons and/or labels
+          tag.messageElem = $(tag._.inline ? linkCtx.elem.nextSibling : linkCtx.elem);
+          tag.messageElem.addClass("radiogroup");
         } else {
-          tag.messageElem = tag.radiogroup
-            ? tag._.inline ? tag.contents("*").first() : $(linkCtx.elem)
-            : tag.linkedElem;
-          // messageElem is the linkedElem (or, for radio buttons, the wrapping div)
-        }
-        if (!tag.messageElem) {
-          throw "No message element. Set radiogroup=true for radio buttons";
+          if (!tag._.inline && (targetTag = $.views.sub._glt(linkCtx.elem)[0])) {
+            // Scenario with data-link="{targetTag ...}{validate ...}" (both tags data-linked on same linkedElem)
+            tag.targetTag = targetTag;
+          }
+          tag.messageElem = targetTag && (targetTag.displayElem || targetTag.linkedElem)
+            || tag.displayElem || tag.linkedElem;
         }
         tag.messageElem.addClass("val-msg");
       }
+
       if (!tag.label || !tag.label.parentNode) {
         tag.label = $("<label class=\"error\"></label><br/>").insertAfter(tag.messageElem)[0];
       }
-      tag.validate(tagCtx.args[0]); // Validate initial data
+      tag.validate(arg0); // Validate initial data
     },
     onUpdate: function(ev, eventArgs, tagCtxs) {
       this.clearMessage();
@@ -177,7 +179,7 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
         if (linkedElem) {
           val = linkedElem.type === "checkbox" ? linkedElem.checked : linkedElem.value;
         } else if (tag.targetTag) {
-          val = tag.targetTag.getValue();
+          val = tag.targetTag.bndArgs()[0];
         }
         val = val || "";
       }

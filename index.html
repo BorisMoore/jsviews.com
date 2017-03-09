@@ -96,7 +96,7 @@
 			<div class="snfiller"><span></span><span></span></div>
 {^{page classnm="sidenav"}}
 	{^{if topCategory^home}}
-		{^{if ~tag.editable ~mode="edit" }}
+		{^{if ~tag.editable ~mode="edit"}}
 			{^{selectList topCategory^home.leftsections left=true}}
 				{{sectionButtons ~root.sectionTypes /}}
 				{^{section _type ~mode ~sectionTypes=~root.sectionTypes[_type].sectionTypes/}}
@@ -323,10 +323,8 @@
 	<div class="samplesection">
 		{{sectionTitle/}}
 		{{if ~mode !== "edit"}}
-			<div class="tryitButtons">
 				<button class="tryIt" data-link="~tag.sampleFrame.tryIt ? 'How it works' : 'Try it'"></button><button
-						class="revertSample" data-link="visible{:~tag.sampleFrame.ranIt}">Clear Changes</button>
-			</div>
+					class="revertSample" data-link="visible{:~tag.sampleFrame.ranIt}">Clear Changes</button>
 			<div class="sample">
 				{^{sampleFrame /}}
 				{{for ~tag.sampleFrame ~sections=sections tmpl=~tabsTmpl()/}}

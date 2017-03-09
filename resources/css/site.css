@@ -294,6 +294,7 @@ a:visited {
 .divider .about .caption.sub {
   font-style: italic;
   color: #F6F6F6;
+  font-size: 14px;
 }
 
 .divider .about .caption.sub.html {

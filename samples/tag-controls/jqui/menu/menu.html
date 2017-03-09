@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+</head>
+<body>
+
+<script id="pageTmpl" type="text/x-jsrender">
+{^{menu ~menuAction width=150}}
+  <li><div>
+    <span class="ui-icon ui-icon-disk"></span>
+    Save
+  </div></li>
+  <li><div>
+    <span class="ui-icon ui-icon-zoomin"></span>
+    Zoom In
+  </div></li>
+  <li><div>
+    <span class="ui-icon ui-icon-zoomout"></span>
+    Zoom Out
+  </div></li>
+  <li class="ui-state-disabled"><div>
+    <span class="ui-icon ui-icon-print"></span>
+    Print...
+  </div></li>
+  <li>
+    <div>Playback</div>
+    <ul>
+      <li><div>
+        <span class="ui-icon ui-icon-seek-start"></span>
+        Prev
+      </div></li>
+      <li><div>
+        <span class="ui-icon ui-icon-stop"></span>
+        Stop
+      </div></li>
+      <li><div>
+        <span class="ui-icon ui-icon-play"></span>
+        Play
+      </div></li>
+      <li><div>
+        <span class="ui-icon ui-icon-seek-end"></span>
+        Next
+      </div></li>
+    </ul>
+  </li>
+  <li><div>
+    Learn more about this menu
+  </div></li>
+{{/menu}}
+
+<div><p>Some page content.</p></div>
+</script>
+
+<div id="page"></div>
+
+<!--<script src="menu.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

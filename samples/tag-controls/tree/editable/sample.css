@@ -1,15 +1,15 @@
 .left {
-	float: left;
-	width: 50%;
+  float: left;
+  width: 50%;
 }
 
 .right {
-	float: right;
-	width: 50%;
-	padding-top: 15px;
+  float: right;
+  width: 50%;
+  padding-top: 15px;
 }
 
 .label {
-	font-weight: bold;
-	padding: 0 0 10px 10px;
+  font-weight: bold;
+  padding: 0 0 10px 10px;
 }

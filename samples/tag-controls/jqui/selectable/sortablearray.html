@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+</head>
+<body>
+<style>
+  table {margin: 25px 7px;}
+  table, tr {border: 1px solid gray;}
+  .ui-selecting {background: #FECA40;}
+  .ui-selected {background: #F39814; color: white;}
+  td a {color: red; cursor:pointer; padding: 3px;}
+  td.sel, td.sort {width: 12px; border:1px solid #F39814; padding: 0 5px; cursor:pointer}
+  td.sort {cursor:ns-resize}
+  td.name {padding: 5px 20px; border:1px solid #AAA;}
+  .list {padding: 5px; border:1px solid #F39814; width: 300px; margin: 7px;}
+</style>
+
+<script id="itemMarkup" type="text/x-jsrender">
+  <tr>
+    <td class="sel">Select</td>
+    <td class="sort">Sort</td>
+    <td><input data-link="name"/></td>
+    <td><input data-link="lastName"/></td>
+    <td><a data-link="{on ~remove #index context=~root}">x</a></td>
+  </tr>
+</script>
+
+<script id="pageTmpl" type="text/x-jsrender">
+<h4>Tag syntax:</h4>
+
+<pre>
+&lcub;^{sortable ...}} &lcub;^{selectable ...}&rcub; ...
+</pre>
+
+<table>
+  {^{sortable _axis='y' _handle='.sort'}}
+    {^{selectable selectedItems _cancel="td:not(.sel)" _filter=".sel" elem="tbody"}}
+      {^{for people ~remove=remove}}
+        <tr>
+          <td class="sel">Select</td>
+          <td class="sort">Sort</td>
+          <td><input data-link="name"/></td>
+          <td><input data-link="lastName"/></td>
+          <td><a data-link="{on ~remove #index context=~root}">x</a></td>
+        </tr>
+      {{/for}}
+    {{/selectable}}
+  {{/sortable}}
+</table>
+
+<h4>Element-based data-link syntax:</h4>
+
+<pre>
+&lt;tbody data-link="{for ...} {sortable ...} {selectable ...}"> ... &lt;/tbody>
+</pre>
+
+<table>
+  <tbody data-link="
+    {for people ~remove=remove tmpl='#itemMarkup'}
+    {sortable _axis='y' _handle='.sort'}
+    {selectable selectedItems _cancel='td:not(.sel)' _filter='.sel'}
+  "></tbody>
+</table>
+
+<h3>Selected people</h3>
+
+{^{for selectedPeople()}}
+  <div class="list">
+    <div><b>Index:</b> {^{:index}}</div>
+    <div><b>First name:</b> {^{:person.name}}</div>
+    <div><b>Last name:</b> {^{:person.lastName}}</div>
+  </div>
+{{/for}}
+
+{^{on insert}}Add item{{/on}}
+</script>
+
+<div id="page"></div>
+
+<!--<script src="sortablearray.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

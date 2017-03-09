@@ -1,16 +1,16 @@
 .left {
-	border: none;
-	width: 60%;
+  border: none;
+  width: 60%;
 }
 .right {
-	float: right;
-	width: 30%;
-	border: 1px solid grey;
-	padding: 10px;
-	margin: 10px;
+  float: right;
+  width: 30%;
+  border: 1px solid grey;
+  padding: 10px;
+  margin: 10px;
 }
 ul {
-	padding-left: 0;
-	margin-left: 0;
-	list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+  list-style: none;
 }

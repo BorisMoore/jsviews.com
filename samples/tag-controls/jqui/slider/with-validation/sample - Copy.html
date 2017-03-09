@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../../download/jsviews.js"></script>
+  <script src="../../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <script src="../../../../../download/sample-tag-controls/validate/validate.js"></script>
+  <link href="../../../../../download/sample-tag-controls/validate/validate.css" rel="stylesheet"/>
+</head>
+<body>
+<style>
+.ui-widget.ui-widget-content.main-slider {
+  margin: 25px 0 25px;
+  border: 2px solid green;
+  color: red;
+}
+
+
+</style>
+<h3>JsViews 'slider' tag control (using jQuery UI slider) with validation</h3>
+
+<script id="pageTmpl" type="text/x-jsrender">
+  Prevent invalid data:<input type="checkbox" data-link="~page.noInvalidData" /><br/>
+
+  <h4>Size:</h4>
+  <input type="text" data-link="{:size:tonum}" />
+
+  <h4>Data-linked SVG:</h4>
+
+  <h4>Full range</h4>
+  {^{validate size
+    min=50 max=100
+    msg_min="Min size: %cond%"
+    msg_max="Max size: %cond%"
+    preventInvalidData=~page.noInvalidData
+  }}
+	  <div data-link="{slider size
+	width=200
+    _range='min'
+    _min=1
+    _max=200
+  }" class="main-slider"></div>
+  {{/validate}}
+
+  {^{validate size
+    min=50 max=100
+    msg_min="Min size: %cond%"
+    msg_max="Max size: %cond%"
+    preventInvalidData=~page.noInvalidData
+  }}
+	  {^{slider size
+	width=300
+    _range='min'
+    _min=1
+    _max=200
+  class="main-slider"/}}
+  {{/validate}}
+
+  {^{validate size
+    min=50 max=100
+    msg_min="Min size: %cond%"
+    msg_max="Max size: %cond%"
+    preventInvalidData=~page.noInvalidData
+  }}
+	  <input data-link="{spinner size
+	width=500
+  class='main-slider'}" />
+  {{/validate}}
+
+  {^{validate size
+    min=50 max=100
+    msg_min="Min size: %cond%"
+    msg_max="Max size: %cond%"
+    preventInvalidData=~page.noInvalidData
+  }}
+	  {^{spinner size
+	width=100
+    class="main-slider"/}}
+  {{/validate}}
+
+  <input data-link='{spinner size
+	width=300
+    class="main-slider"}{validate size
+    min=50 max=100
+    msg_min="Min size: %cond%"
+    msg_max="Max size: %cond%"
+    preventInvalidData=~page.noInvalidData
+  } ' />
+
+	<div data-link='{slider size
+	width=200
+    _range="min"
+    _min=1
+    _max=200
+		class="main-slider"
+  }{validate size
+    min=50 max=100
+    msg_min="Min size: %cond%"
+    msg_max="Max size: %cond%"
+    preventInvalidData=~page.noInvalidData
+  }'></div>
+
+<h3>asdf</h3>
+</script>
+<script id="pageTmpl" type="text/x-jsrender">
+
+  <input id="t" data-link='
+	{spinner size
+		width=300
+    class="main-slider"}{validate size
+		min=50 max=100
+    msg_min="Min size: %cond%"
+    msg_max="Max size: %cond%"
+    preventInvalidData=~page.noInvalidData
+  }' />
+
+</script>
+
+<div id="page"></div>
+
+<script>
+	$.views.converters({
+  tonum: function(val) {
+    return +val; // Convert string to number
+  }
+});
+
+var pageTmpl = $.templates("#pageTmpl"),
+  pageOptions = {
+    noInvalidData: false
+  },
+  model = {
+		show:true,
+    person: "JO",
+    size: 150
+  };
+
+pageTmpl.link("#page", model, {
+  page: pageOptions
+})
+var test = $.views.sub._glt($("#t")[0]);
+	//debugger;
+</script>
+</body>
+</html>

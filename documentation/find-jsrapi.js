@@ -755,6 +755,11 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "para",
+        "title": "Unregistering tags",
+        "text": "Unregistering tags\nTo unregister a previously registered tag, pass null to $.views.tags():\n$.views.tags(\"myTag\", null);\n// Tag \"myTag\" is no longer registered\n\n"
+      },
+      {
+        "_type": "para",
         "title": "Custom tags and 'tag controls'",
         "text": "Custom tags and 'tag controls'\nIf you use JsViews, your custom tag can be developed into a fully functional tag control, with its own life-cycle, properties and methods, etc. It can be used as a presenter according to the MVP pattern.\n"
       },
@@ -1890,6 +1895,11 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "para",
+        "title": "Unregister a named converter",
+        "text": "Unregister a named converter\nTo unregister a previously registered converter, pass null to $.views.converters():\n$.views.converters(\"myCvt\", null);\n// Named converter \"myCvt\" is no longer registered\n\n"
+      },
+      {
+        "_type": "para",
         "title": "Converter functions",
         "text": "Converter functions\nIn most cases a converter function will return a computed value based on the input parameter val:\nfunction myConverter(val) {\n  ... \n  return computedVal; // converted/encoded/formatted value for 'val'\n}\n\nwhere val comes from the data value or expression passed to the tag {{myconverter: someExpression}}.\n(See: sample.)\n"
       },
@@ -2020,7 +2030,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Using converters with other tags",
-        "text": "Using converters with other tags\nA converter can be used on any tag, thanks to the syntax\n{{someTag ... convert=...}}\n\nwhere someTag can be any custom tag, or a built-in tag such as {{if}}.\nFor example, you could register an \"inList\" converter which returns true if item is found in itemList:\n{{if convert='inList' item itemList}}...{{/if}}\n\nThe following sample shows named converters used with the {{for ...}} tag – to iterate over an array and show only even or odd items:\n"
+        "text": "Using converters with other tags\nA converter can be used on any tag, thanks to the syntax\n{{someTag ... convert=...}}\n\nwhere someTag can be any custom tag, or a built-in tag such as {{if}}.\n(Note: When using JsViews two-way binding, similar syntax is available for convertBack: convertBack=....)\nFor example, you could register an \"inList\" converter which returns true if item is found in itemList:\n{{if convert='inList' item itemList}}...{{/if}}\n\nThe following sample shows named converters used with the {{for ...}} tag – to iterate over an array and show only even or odd items:\n"
       },
       {
         "_type": "sample",

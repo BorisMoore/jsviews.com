@@ -3,7 +3,7 @@ $.views.converters({
     return "" + value;
   },
   strToInt: function(value) {
-    return parseInt(value);
+    return isNaN(value) || value === '' ? null : parseInt(value);
   },
   setBit: function(value) {
     // "Convert Back": If checked, set this bit on the data,

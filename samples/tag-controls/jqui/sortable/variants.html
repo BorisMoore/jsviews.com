@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+
+<style>
+  .ui-sortable li {list-style-type: none}
+  .ui-sortable div, .ui-sortable li, .ui-state-highlight {height: 1.5em; margin: 0 0 5px 0; padding: 5px; font-size: .9em; width: 400px;}
+  div.ui-sortable {margin: 10px 0 20px 0;}
+  li.ui-state-default a {color: red; cursor:pointer; float: right; padding: 3px;}
+  button {margin-right: 15px; height: 21px;}
+</style>
+</head>
+<body>
+
+<script id="pageTmpl" type="text/x-jsrender">
+Using data-linked sortable and for tags
+<ul data-link="
+  {sortable _placeholder='ui-state-highlight'}
+  {for items tmpl=~itemTmpl}{else tmpl=~emptyListTmpl}
+"></ul>
+
+Using data-linked sortable with inline for tag
+<ul data-link="{sortable _placeholder='ui-state-highlight'}">
+  {^{for items}}
+    <li class="ui-state-default">
+      <button data-link="{on ~edit #view}">Edit</button>
+      <a data-link="{on ~remove #index}">x</a>
+      <span data-link="name"></span>
+      (Index: {^{:#index}})
+    </li>
+  {{else tmpl=~emptyListTmpl}}{{/for}}
+</ul>
+
+Using code with data-linked for tag
+<ul class="sortable" data-link="
+  {for items tmpl=~itemTmpl}
+  {else tmpl=~emptyListTmpl}
+"></ul>
+
+Using code with for tag
+<ul class="sortable">
+  {^{for items tmpl=~itemTmpl}}
+  {{else tmpl=~emptyListTmpl}}
+  {{/for}}
+</ul>
+
+Using sortable tag with for tag and element wrapper
+{^{sortable _placeholder='ui-state-highlight'}}
+  <ul>
+    {^{for items tmpl=~itemTmpl}}
+    {{else tmpl=~emptyListTmpl}}
+    {{/for}}
+  </ul>
+{{/sortable}}
+
+Using sortable tag with for tag (element type specified)
+{^{sortable _placeholder='ui-state-highlight' elem='ul'}}
+  {^{for items tmpl=~itemTmpl}}
+  {{else tmpl=~emptyListTmpl}}
+  {{/for}}
+{{/sortable}}
+
+</script>
+
+<script id="item-template" type="text/x-jsrender">
+  <li class="ui-state-default">
+    <button data-link="{on ~edit #view}">Edit</button>
+    <a data-link="{on ~remove #index}">x</a>
+    <span data-link="name"></span>
+    (Index: {^{:#index}})
+  </li>
+</script>
+
+<script id="edit-template" type="text/x-jsrender">
+  <li class="ui-state-default">
+    <button data-link="{on ~save #view}">OK</button>
+    <input type="text" data-link="{:name:} {on 'blur' ~save #view}" />
+  </li>
+</script>
+
+<script id="empty-list-template" type="text/x-jsrender">
+  <li class="ui-state-default">No items left</li>
+</script>
+
+<button id="add" data-link="{on add}">Add</button><br/><br/>
+
+Code on top-level linked data-linked for
+<ul class="linkedUl sortable" data-link="
+  {for items tmpl=~itemTmpl}
+  {else tmpl=~emptyListTmpl}
+"></ul>
+
+Top-level linked data-linked sortable and for
+<ul class="linkedUl" data-link="
+  {for items tmpl=~itemTmpl}{else tmpl=~emptyListTmpl}
+  {sortable _placeholder='ui-state-highlight'}
+"></ul>
+
+<div id="page"></div>
+
+<!--<script src="variants.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

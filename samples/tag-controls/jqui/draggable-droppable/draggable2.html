@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+</head>
+<body>
+
+<style>
+  .orange, .green {padding: 0; width: 34px; height: 34px;
+    z-index: 100;-webkit-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    text-align: center; line-height: 34px; cursor: move;}
+  .orange {border: 1px solid #d55900;
+    background-color: rgba(255, 229, 210, 0.50);}
+  .green {border: 1px solid #00cc1a;
+    background-color: rgba(212, 255, 218, 0.50);}
+  .smalltext {font-size: 12px; line-height: 17px;}
+  .slider .ui-slider {margin: 2px 16px 0 5px; float: left;}
+  .slider {margin-bottom: 20px;}
+  h4 {margin: 12px 0;}
+  body {overflow: auto;}
+  #cont {height: 450px;}
+</style>
+
+<script id="pageTmpl" type="text/x-jsrender">
+<div id="cont">
+<h4>Drag any square:</h4>
+
+<div class="slider">
+  {^{slider expand _min=-2 _max=2 _range="min" _step=.01 width=400/}}
+  <em>expand:</em> {^{rnd2:expand}}
+</div>
+
+<div class="slider">
+  {^{slider rotate _min=-0 _max=360 _range="min" width=400/}}
+  <em>rotate:</em> {^{rnd:rotate}}
+</div>
+
+{^{draggable2 left=cx top=cy
+  _containment="document" class="orange smalltext" 
+}}
+  {^{rnd:~left}}<br/>{^{rnd:~top}}
+{{/draggable2}}
+
+{^{draggable2 left=cx2 top=cy2
+  _containment="document" class="green smalltext"
+}}
+  {^{rnd:~left}}<br/>{^{rnd:~top}}
+{{/draggable2}}
+
+{{for points}}
+  {^{draggable left=~root.expand top=~root.rotate
+    ^cx=~root.cx ^cy=~root.cy
+    shift=angle radius=r
+    convert="polarToXY" convertBack="XYtoPolar"
+    _containment="document" class="orange"
+  }}
+    {{:angle/30}}
+  {{/draggable}}
+
+  {^{draggable2 left=~root.expand top=~root.rotate
+    ^cx=~root.cx2 ^cy=~root.cy2
+    shift=angle radius=r scaleRot=-2
+    convert="polarToXY" convertBack="XYtoPolar"
+    _containment="document" class="green"
+  }}
+    {{:angle/30}}
+  {{/draggable2}}
+{{/for}}
+
+</div>
+</script>
+
+<div id="page"></div>
+
+<!--<script src="draggable2.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

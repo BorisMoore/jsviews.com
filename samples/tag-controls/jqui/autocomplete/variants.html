@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../../../samples.css" rel="stylesheet" />
+</head>
+<body>
+
+<style>
+  input {width: 200px;}
+  .box {border:solid 1px #a14503; height: 40px; width: 200px;}
+</style>
+
+<script id="pageTmpl" type="text/x-jsrender">
+
+<em>Start typing (e.g. 'a') to see autocomplete suggestions</em>
+
+<h4>Tag syntax:</h4>
+
+<pre>
+&lcub;^{autocomplete val _source=... /}&rcub;
+</pre>
+
+{^{autocomplete val _source=~suggestionList/}}
+
+<h4>Tag syntax, wrapping input element:</h4>
+
+<pre>
+&lcub;^{autocomplete val _source=... }&rcub;
+  &lt;input/&gt;
+&lcub;^{/autocomplete}&rcub;
+</pre>
+
+{^{autocomplete val _source=~suggestionList}}
+  <input/>
+{{/autocomplete}}
+
+<h4>Tag syntax, wrapping textarea element:</h4>
+
+<pre>
+&lcub;^{autocomplete val ...}&rcub;
+  &lt;textarea ... &gt;&lt;/textarea&gt;
+&lcub;^{/autocomplete}&rcub;
+</pre>
+
+{^{autocomplete val _source=~suggestionList}}
+  <textarea cols="40" rows="3"></textarea>
+{{/autocomplete}}
+
+<h4>Tag syntax, wrapping contenteditable div element:</h4>
+
+<pre>
+&lcub;^{autocomplete val ...}&rcub;
+  &lt;div contenteditable=true ... &gt;&lt;/div&gt;
+&lcub;^{/autocomplete}&rcub;
+</pre>
+
+{^{autocomplete val _source=~suggestionList}}
+  <div contenteditable="true" class="box"></div>
+{{/autocomplete}}
+
+<h4>Element-based data-link syntax (input)</h4>
+
+<pre>
+&lt;input data-link="{autocomplete val ...}"/&gt;
+</pre>
+
+<input data-link="{autocomplete val _source=~suggestionList}"/>
+
+<h4>Element-based data-link syntax (textarea)</h4>
+
+<pre>
+&lt;textarea ... data-link="{autocomplete val ...}"&gt;&lt;/textarea&gt;
+</pre>
+
+<textarea cols="40" rows="3" data-link="{autocomplete val _source=~suggestionList}"></textarea>
+
+<h4>Element-based data-link syntax (contenteditable div)</h4>
+
+<pre>
+&lt;div contenteditable="true" ... data-link="{autocomplete val ...}"&gt;&lt;/div&gt;
+</pre>
+
+<div contenteditable="true" class="box" data-link="{autocomplete val _source=~suggestionList}"></div>
+
+<h4>Regular input tag without autocomplete</h4>
+
+<pre>
+&lt;input data-link="val ..."/&gt;
+</pre>
+
+<input data-link="val" />
+
+</script>
+
+<div id="page"></div>
+
+<!--<script src="variants.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

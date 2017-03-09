@@ -12,7 +12,7 @@
 
 <h3>JsViews 'validate' tag control: The {{validate}} tag</h3>
 
-<script id="myTmpl" type="text/x-jsrender">
+<script id="pageTmpl" type="text/x-jsrender">
   <label>Prevent invalid data <input type="checkbox" data-link="~page.noInvalidData" /></label><br/>
 
   Chosen person: <input data-link="person" /><br/>
@@ -65,11 +65,9 @@
     convertBack=~lower
     ^preventInvalidData=~page.noInvalidData
   }}
-    <div>
-      <label><input type="radio" value="JO" /> Jo</label><br/>
-      <label><input type="radio" value="MARY" /> Mary</label><br/>
-      <label><input type="radio" value="XAVIER" /> Xavier</label><br/>
-    </div>
+    <label><input type="radio" value="JO" /> Jo</label><br/>
+    <label><input type="radio" value="MARY" /> Mary</label><br/>
+    <label><input type="radio" value="XAVIER" /> Xavier</label><br/>
   {{/validate}}
 
   {^{validate person

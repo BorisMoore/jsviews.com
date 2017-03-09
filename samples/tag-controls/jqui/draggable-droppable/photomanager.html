@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+
+<style>
+  .thegallery {float: left; width: 65%; min-height: 12em;}
+  .gallery.custom-state-active {background: #eee;}
+  .gallery li {float: left; width: 96px; padding: 0.4em; margin: 0 0.4em 0.4em 0; text-align: center;}
+  .gallery li h5 {margin: 0 0 0.4em; cursor: move;}
+  .gallery li a {float: right;}
+  .gallery li a.ui-icon-zoomin {float: left;}
+  .gallery li img {width: 100%; cursor: move;}
+  .trash {float: right; width: 32%; min-height: 18em; padding: 1%;}
+  .trash h4 {line-height: 16px; margin: 0 0 0.4em;}
+  .trash h4 .ui-icon {float: left;}
+  .trash .gallery h5 {display: none;}
+</style>
+</head>
+<body>
+
+<h3>JsViews 'draggable' and 'droppable' tag controls - using jQuery UI widgets</h3>
+<p>
+You can delete an image either by dragging it to the Trash
+or by clicking the trash icon.<br/>
+You can "recycle" an image by dragging it back to the gallery
+or by clicking the recycle icon.<br/>
+You can view a larger image by clicking the zoom icon.
+</p>
+
+<script id="pageTmpl" type="text/x-jsrender">
+{^{droppable ~dropInGallery _accept=".trash li" _activeClass="custom-state-active"
+  elem="ul" class="thegallery gallery ui-helper-reset ui-helper-clearfix"}}
+  {^{for items}}
+    {^{draggable _cancel="a.ui-icon" _revert="invalid" _containment="document"
+      _helper="clone" _cursor="move" elem="li" class="ui-widget-content ui-corner-tr"}}
+      <h5 class="ui-widget-header">{{:title}}</h5>
+      <img src="{{:icon}}" alt="{{:description}}" width="96" height="72" />
+      <a data-link="{on ~showDialog title image}" href="{{:image}}"
+        title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+      <a data-link="{on ~deleteThis}" href="#" title="Delete this image"
+        class="ui-icon ui-icon-trash">Delete image</a>
+    {{/draggable}}
+  {{/for}}
+{{/droppable}}
+
+{^{droppable ~dropInTrash _accept=".thegallery>li" _activeClass="ui-state-highlight"
+  elem="ul" class="trash ui-widget-content ui-state-default gallery ui-helper-reset"}}
+  <h4 class="ui-widget-header"><span class="ui-icon ui-icon-trash">Trash</span> Trash</h4>
+  {^{for trash}}
+    {^{draggable _cancel="a.ui-icon" _revert="invalid" _containment="document"
+      _helper="clone" _cursor="move" elem="li" class="ui-widget-content ui-corner-tr"}}
+      <h5 class="ui-widget-header">{{:title}}</h5>
+      <img src="{{:icon}}" alt="{{:description}}" width="96" height="72" />
+      <a data-link="{on ~showDialog title image}" href="{{:image}}"
+        title="View larger image" class="ui-icon ui-icon-zoomin">View larger</a>
+      <a data-link="{on ~recycleThis}" href="#" title="Delete this image"
+        class="ui-icon ui-icon-refresh">Recycle image</a>
+    {{/draggable}}
+  {{/for}}
+{{/droppable}}
+</script>
+
+<div id="page"></div>
+
+<!--<script src="photomanager.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

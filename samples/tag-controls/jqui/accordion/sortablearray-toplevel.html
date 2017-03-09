@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+<style>
+  ul {margin: 0; padding-left: 0;} 
+  li {list-style: none;}
+  li a {color: red; cursor:pointer; padding: 3px;}
+  li input {width: 200px;}
+</style>
+</head>
+<body>
+
+<script id="panelMarkup" type="text/x-jsrender">
+  <div>
+    <h3>{^{:header}}</h3>
+    <div>{^{:content}}</div>
+  </div>
+</script>
+
+<script id="dataList" type="text/x-jsrender">
+  <li>
+    <a data-link="{on ~remove #index}">x</a>
+    <input data-link="header" /> <input data-link="content" />
+    {^{if ~root.selectedPanel===#index}}
+      (selected)
+    {{/if}}
+  </li>
+</script>
+
+<h4>Drag headers to sort...</h4>
+
+<div class="linkedUI" data-link="
+  {for panelData tmpl='#panelMarkup'}
+  {sortable _axis='y' _handle='h3'}
+  {accordion selectedPanel _header='>div>h3' _collapsible=true}
+"></div>
+
+<h4>Selected panel:</h4>
+
+<input class="linkedUI" data-link="selectedPanel" />
+
+<h4>Panel data (edit or sort):</h4>
+
+<button class="linkedUI" data-link="{on ~append}">Add panel</button><br/><br/>
+
+<ul class="linkedUI" data-link="{for panelData tmpl='#dataList'}"></ul>
+
+<!--<script src="sortablearray-toplevel.js"></script> <!--uncomment for testing as standalone page-->
+
+</body>
+</html>

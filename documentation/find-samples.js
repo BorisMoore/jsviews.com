@@ -98,7 +98,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "url": "samples/jsrender/composition/remote-tmpl/sample",
-        "text": "Asynchronous loading of templates from the server\nThis sample illustrates one approach to loading remote templates: the template file on the server is a javascript file which registers a named template.\n\nTemplate resource on the server: address.js \n\n$.templates(\"address\", \"{{>city}}\");\n\nlazyGetTemplate() helper function\nWe use a helper to “lazily” fetch the template, asynchronously, but only if it has not yet been fetched. Also, we make sure the template only gets compiled from a string once.\n(Note that for optimal performance, it is always best to ensure that the $.template(... markup) method, which compiles a template from a string, is only ever called once for a given string).\nfunction lazyGetTemplate(name) {\n  var deferred = $.Deferred();\n  if ($.templates[name]) {\n    deferred.resolve();\n  } else {\n    $.getScript(...).then(function() {\n      ...  \n      deferred.resolve();\n    });\n  }\n  return deferred.promise();\n}\n\n\nWhen all templates are loaded...\nOnce the requested template (along with any nested templates used as as part of the template composition) is loaded, the render() method can be called (or the link() method if you are using JsViews):\n$.when(\n    lazyGetTemplate(\"people\"),\n    ...  \n  )\n  .done(function() {\n      // Render or link once all templates for template composition are loaded\n      var html = $.templates.people.render(people);\n      ...\n    });\n\n\n"
+        "text": "Asynchronous loading of templates from the server\nThis sample illustrates one approach to loading remote templates: the template file on the server is a javascript file which registers a named template.\n\nTemplate resource on the server: address.js \n\n$.templates(\"address\", \"{{>city}}\");\n\nlazyGetTemplate() helper function\nWe use a helper to “lazily” fetch the template, asynchronously, but only if it has not yet been fetched. Also, we make sure the template only gets compiled from a string once.\n(Note that for optimal performance, it is always best to ensure that the $.template(... markup) method, which compiles a template from a string, is only ever called once for a given string).\nfunction lazyGetTemplate(name) {\n  var deferred = $.Deferred();\n  if ($.templates[name]) {\n    deferred.resolve();\n  } else {\n    $.getScript(...).then(function() {\n      ...  \n      deferred.resolve();\n    });\n  }\n  return deferred.promise();\n}\n\n\nWhen all templates are loaded...\nOnce the requested template (along with any nested templates used in the template composition) is loaded, the render() method can be called (or the link() method if you are using JsViews):\n$.when(\n    lazyGetTemplate(\"people\"),\n    ...  \n  )\n  .done(function() {\n    // Render or link once all templates for template composition are loaded\n    var html = $.templates.people.render(people);\n    ...\n  });\n\n\n"
       }
     ]
   },
@@ -433,12 +433,12 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "samples/tag-controls/datepicker": {
+  "samples/tag-controls/jqui/datepicker": {
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "The {{datepicker}} tag integrates the jQueryUI datepicker widget.\nThis allows data-linking directly to widget properties, as well as using generic tag functionality such as convert and convertBack.\nIn addition, validation support is obtained, simply by wrapping a {{datepicker}} tag with a {{validation}}.\n"
+        "text": "The {{datepicker}} tag integrates the jQuery UI datepicker widget (api).\nThis allows data-linking directly to widget properties, as well as using generic tag functionality such as convert and convertBack.\nIn addition, validation support is obtained, simply by wrapping a {{datepicker}} tag with a {{validate}}.\n"
       },
       {
         "_type": "links",
@@ -447,12 +447,12 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "samples/tag-controls/slider": {
+  "samples/tag-controls/jqui/slider": {
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "The {{slider}} tag derives integrates the jQueryUI slider widget.\nThis allows data-linking directly to widget properties, as well as using generic tag functionality such as convert and convertBack.\nIn addition, validation support is obtained, simply by wrapping a {{slider}} tag with a {{validation}}.\n"
+        "text": "The {{slider}} tag integrates the jQuery UI slider widget (api).\nThis allows data-linking directly to widget properties, as well as using generic tag functionality such as convert and convertBack.\nIn addition, validation support is obtained, simply by wrapping a {{slider}} tag with a {{validate}}.\n"
       },
       {
         "_type": "links",
@@ -461,39 +461,39 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "samples/tag-controls/datepicker/simple": {
+  "samples/tag-controls/jqui/datepicker/simple": {
     "sections": [
       {
         "_type": "sample",
-        "url": "samples/tag-controls/jqueryui/datepicker/simple/sample",
+        "url": "samples/tag-controls/jqui/datepicker/simple/sample",
         "text": "Simple datepicker\n\n{^{datepicker startDate /}}\n\ndatepicker with data-linked properties\n\n{^{datepicker startDate\n  _changeMonth=true\n  ^_maxDate=endDate\n/}}\n\nIn-line datepicker with data-linked properties\n\n{^{datepicker middleDate\n  ^_minDate=startDate\n  ^_maxDate=endDate\n  ^_numberOfMonths=~page.monthsSpan\n}}\n  \n{{/datepicker}}\n\n"
       }
     ]
   },
-  "samples/tag-controls/datepicker/variants": {
+  "samples/tag-controls/jqui/datepicker/variants": {
     "sections": [
       {
         "_type": "sample",
-        "url": "samples/tag-controls/jqueryui/datepicker/variants/sample",
+        "url": "samples/tag-controls/jqui/datepicker/variants/sample",
         "text": "Multiple examples of {{datepicker}} syntax…\n\n"
       }
     ]
   },
-  "samples/tag-controls/datepicker/with-validation": {
+  "samples/tag-controls/jqui/datepicker/with-validation": {
     "sections": [
       {
         "_type": "sample",
-        "url": "samples/tag-controls/jqueryui/datepicker/with-validation/sample",
-        "text": "To add validation to a datepicker, simply wrap with a {{validation}} tag.\n{^{validate startDate\n  required=true\n  ^maxday=endDate\n}}\n  {^{datepicker startDate _numberOfMonths=2 /}}\n{{/validate}}\n\n\n"
+        "url": "samples/tag-controls/jqui/datepicker/with-validation/sample",
+        "text": "To add validation to a datepicker, simply wrap with a {{validate}} tag.\n{^{validate startDate\n  required=true\n  ^maxday=endDate\n}}\n  {^{datepicker startDate _numberOfMonths=2 /}}\n{{/validate}}\n\n\n"
       }
     ]
   },
-  "samples/tag-controls/datepicker/with-validation-wizard": {
+  "samples/tag-controls/jqui/datepicker/with-validation-wizard": {
     "sections": [
       {
         "_type": "sample",
         "title": "",
-        "url": "samples/tag-controls/jqueryui/datepicker/with-validation-wizard/sample",
+        "url": "samples/tag-controls/jqui/datepicker/with-validation-wizard/sample",
         "text": "The sample shows a wizard, using {^{if ...}} ... {{else ...}} ... {{else ...}} ... {{else}} ... {{/if}} to manage displaying the separate wizard steps, one after the other…\nMoving to the next step is not possible until the validate controls on the current step are all valid.\nThis is achieved by wrapping in a validation group {{validation}}.\nThe enabled/disabled state of the Next button is data-linked to the validation.isValid property:\n{^{validation}}\n  ...\n  <button id=\"next\" data-link=\"... disabled{:!~tag.isValid}\">Next</button>\n  ...\n  <h4>Choose a start date:</h4> \n  {^{validate startDate\n    required=true\n    ^maxday=endDate\n  }}\n    {^{datepicker startDate _numberOfMonths=1 /}}\n  {{/validate}}\n  ...\n{{/validation}}\n\n\n"
       }
     ]
@@ -540,7 +540,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "samples/tag-controls/slider/simple": {
+  "samples/tag-controls/jqui/slider/simple": {
     "sections": [
       {
         "_type": "para",
@@ -550,7 +550,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "title": "Slider control",
-        "url": "samples/tag-controls/jqueryui/slider/simple/sample",
+        "url": "samples/tag-controls/jqui/slider/simple/sample",
         "text": "Slider control\nSimple slider\n\n{^{slider size /}}\n\nSlider with initialized properties\n{^{slider size _range='min' _min=1 _max=200 width=400 _orientation='vertical' /}}\n\nor\n<div data-link=\"{slider size _range='min' _min=1 max=200 _orientation='vertical' width=400}\"></div>\n\n\nData-linking to SVG content\n\n\n  \n  ...\n\n\n"
       },
       {
@@ -561,26 +561,26 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "title": "Top-level data-link=\"{slider ...}\"",
-        "url": "samples/tag-controls/jqueryui/slider/simple-toplevel/sample",
+        "url": "samples/tag-controls/jqui/slider/simple-toplevel/sample",
         "text": "Top-level data-link=\"{slider ...}\"\nSlider with initialized properties (top-level data-linking)\n<div data-link=\"{slider size _range='min' _min=1 max=200 _orientation='vertical' width=400}\"></div>\n\n\nData-linking to SVG content\n\n\n  \n  ...\n\n\nActivate data-linking \n\n$.link(true, \"body\", model);\n\n"
       }
     ]
   },
-  "samples/tag-controls/slider/variants": {
+  "samples/tag-controls/jqui/slider/variants": {
     "sections": [
       {
         "_type": "sample",
-        "url": "samples/tag-controls/jqueryui/slider/variants/sample",
+        "url": "samples/tag-controls/jqui/slider/variants/sample",
         "text": "Multiple examples of {{slider}} syntax…\n\n"
       }
     ]
   },
-  "samples/tag-controls/slider/with-validation": {
+  "samples/tag-controls/jqui/slider/with-validation": {
     "sections": [
       {
         "_type": "sample",
-        "url": "samples/tag-controls/jqueryui/slider/with-validation/sample",
-        "text": "To add validation to a slider, simply wrap with a {{validation}} tag.\n{^{validate size\n  min=20\n  max=150\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  {^{slider size _orientation='vertical' ... /}}\n{{/validate}}\n\nor\n{^{validate size\n  min=50 max=100\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  <div data-link=\"{slider size _orientation='vertical' ...}\"></div>\n{{/validate}}\n\n\n"
+        "url": "samples/tag-controls/jqui/slider/with-validation/sample",
+        "text": "To add validation to a slider, simply wrap with a {{validate}} tag.\n{^{validate size\n  min=20\n  max=150\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  {^{slider size _orientation='vertical' ... /}}\n{{/validate}}\n\nor\n{^{validate size\n  min=50 max=100\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  <div data-link=\"{slider size _orientation='vertical' ...}\"></div>\n{{/validate}}\n\n\n"
       }
     ]
   },
@@ -631,7 +631,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "url": "samples/form-els/converters/sample",
-        "text": "Different convert and convertBack converters are registered, and then used in the form element data-binding as follows:\n\nBinding  \"base 0\" data values to \"base 1\" values in UI:\n$.views.converters({\n  minus1: function(val) { return val-1; },\n  plus1: function(val) { return 1+val; },\n  ...\n});\n\n<input data-link=\"{plus1:amount:minus1}\" />\n<span data-link=\"{plus1:amount}\"></span>\n\n\nBinding inverted boolean data values to UI:\nnot: function(val) { return !val; }\n\n<input type=\"checkbox\" data-link=\"{not:listbox:not}\" />\n\n\nBinding number data values to string values in UI:\nintToStr: function(value) { return \"\" + value; },\nstrToInt: function (value) { return parseInt(value); }\n\n<input data-link=\"{intToStr:amount:strToInt}\"/>...\n<select data-link=\"{intToStr:amount:strToInt} ...\">...\n{^{radiogroup amount convert=\"intToStr\" convertBack=\"strToInt\"}}\n<input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"{intToStr:amount:strToInt}\" />...\n<textarea data-link=\"{intToStr:amount:strToInt}\" ...></textarea>...\n\n\nBinding number data values to UI elements using bit-masks:\nsetBit: function(value) {\n  ...\n  // Use the mask to set or unset that bit on the data, and return the modified value\n  return value ? (dataValue | mask) : (dataValue & ~mask);\n},\ngetBit: function (value) {\n  // \"Convert\": Get the bit from the data, and check or uncheck the checkbox\n  return (value >> this.linkCtx.elem.getAttribute(\"data-bit\") & 1) === 1;\n}\n\n<input type=\"checkbox\" data-bit=\"0\" data-link=\"{getBit:amount:setBit}\" />\n\n\n"
+        "text": "Different convert and convertBack converters are registered, and then used in the form element data-binding as follows:\n\nBinding  \"base 0\" data values to \"base 1\" values in UI:\n$.views.converters({\n  minus1: function(val) { return val-1; },\n  plus1: function(val) { return 1+val; },\n  ...\n});\n\n<input data-link=\"{plus1:amount:minus1}\" />\n<span data-link=\"{plus1:amount}\"></span>\n\n\nBinding inverted boolean data values to UI:\nnot: function(val) { return !val; }\n\n<input type=\"checkbox\" data-link=\"{not:listbox:not}\" />\n\n\nBinding number data values to string values in UI:\nintToStr: function(value) { return ... \"\" + value ... },\nstrToInt: function (value) { return ... parseInt(value) ... }\n\n<input data-link=\"{intToStr:amount:strToInt}\"/>...\n<select data-link=\"{intToStr:amount:strToInt} ...\">...\n{^{radiogroup amount convert=\"intToStr\" convertBack=\"strToInt\"}}\n<input type=\"radio\" name=\"amt\" value=\"0\" data-link=\"{intToStr:amount:strToInt}\" />...\n<textarea data-link=\"{intToStr:amount:strToInt}\" ...></textarea>...\n\n\nBinding number data values to UI elements using bit-masks:\nsetBit: function(value) {\n  ...\n  // Use the mask to set or unset that bit on the data, and return the modified value\n  return value ? (dataValue | mask) : (dataValue & ~mask);\n},\ngetBit: function (value) {\n  // \"Convert\": Get the bit from the data, and check or uncheck the checkbox\n  return (value >> this.linkCtx.elem.getAttribute(\"data-bit\") & 1) === 1;\n}\n\n<input type=\"checkbox\" data-bit=\"0\" data-link=\"{getBit:amount:setBit}\" />\n\n\n"
       },
       {
         "_type": "sample",
@@ -1206,7 +1206,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "",
-        "text": "This sample illustrates:\n\nComputed observables (totalAmount() with dependency \"items.**\" – see additional discussion)\nDeclarative events\n\nIt has two versions:\n\nThe first uses Top-level data-linking\nThe second uses the usual linked templates approach\n\n"
+        "text": "This sample illustrates:\n\nComputed observables (totalAmount() with dependency \"items.**\" – see additional discussion)\nDeclarative events\n\nIt has two versions:\n\nThe first uses top-level data-linking\nThe second uses the usual linked templates approach\n\n"
       },
       {
         "_type": "sample",
@@ -1241,7 +1241,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "samples/tag-controls/datepicker/with-converters": {
+  "samples/tag-controls/jqui/datepicker/with-converters": {
     "sections": [
       {
         "_type": "para",
@@ -1250,44 +1250,97 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       },
       {
         "_type": "sample",
-        "url": "samples/tag-controls/jqueryui/datepicker/with-converters/sample",
+        "url": "samples/tag-controls/jqui/datepicker/with-converters/sample",
         "text": "<div data-link=\"{datepicker date\n   _dateFormat='dd/mm/y'\n   convert='toDateString'\n   convertBack='toWcfDate'\n}\"></div>\n\n\n"
       }
     ]
   },
-  "samples/tag-controls/accordion": {
-    "sections": []
+  "samples/tag-controls/jqui/accordion": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The {{accordion}} tag control integrates the jQuery UI accordion widget (api).\nWhen using tag syntax, the tag wraps directly the container element (which wraps the markup for the panels):\n{^{accordion ...}}\n  <div>\n    <h3>Section 1</h3>\n    <div>Panel 1 content</div>\n    ...    ...\n  </div>\n{{/accordion}}\n\nThe tag can also be used wrapping the panel elements directly, and with the elem=... property specifying a container element. (The tag will render the container element):\n{^{accordion ... elem=\"div\"}}\n  <h3>Section 1</h3>\n  <div>Panel 1 content</div>\n  ...    ...\n{{/accordion}}\n\nAlternatively, the accordion tag binding can be used with a data-linked wrapper element:\n<div data-link=\"{accordion ...}\">\n  <h3>Section 1</h3>\n  <div>Panel 1 content</div>\n  ...    ...\n</div>\n\nThe following sample shows two accordions – one using tag syntax, and the other using element syntax, and is a declarative data-driven version of the jQuery UI Accordion – Collapse content demo.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Collapsible accordion",
+        "text": "Collapsible accordion\n\n\n<h4>Tag syntax:</h4>\n\n<pre>\n&lcub;^{accordion ...}&rcub;...&lcub;^{/accordion}&rcub;\n</pre>\n\n<!--tag syntax-->\n{^{accordion _collapsible=true elem=\"div\"}}\n  <h3>Section 1</h3>\n  <div>\n    <p><em>Click header again to close panel.</em></p>\n    <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam.</p>\n  </div>\n  <h3>Section 2</h3>\n  <div>\n    <p><em>Click header again to close panel.</em></p>\n    <p>Sed non urna. Donec et ante.</p>\n  </div>\n  <h3>Section 3</h3>\n  <div>\n    <p><em>Click header again to close panel.</em></p>\n    <ul>\n      <li>List item one</li>\n      <li>List item two</li>\n    </ul>\n  </div>\n{{/accordion}}\n\n<h4>Element-based data-link syntax:</h4>\n\n<pre>\n&lt;div data-link=\"{accordion _collapsible=true}\">...&lt;/div>\n</pre>\n\n<!--alternative data-linked element syntax-->\n<div data-link=\"{accordion _collapsible=true}\">\n  <h3>Not latin</h3>\n  <div>\n    <p><em>Click header to close.</em></p>\n    <p>First non-latin text.</p>\n  </div>\n  <h3>Section two</h3>\n  <div>\n    <p><em>Click header to close.</em></p>\n    <p>Second text.</p>\n  </div>\n  <h3>Section three</h3>\n  <div>\n    <p><em>Click header to close.</em></p>\n    <p>Further content.</p>\n  </div>\n</div>\n\n\n\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {};\n\npageTmpl.link(\"#page\", model);\nTag syntax:\n{^{accordion _collapsible=true elem=\"div\"}}\n  <h3>Section 1</h3>\n  <div>...</div>\n  <h3>Section 2</h3>\n  <div>...</div>\n  ...\n{{/accordion}}\n\nData-linked element syntax:\n<div data-link=\"{accordion _collapsible=true}\">\n  <h3>Not latin</h3>\n  <div>...</div>\n  <h3>Section two</h3>\n  <div>...</div>\n  ...\n</div>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Initializing the selected panel",
+        "text": "Initializing the selected panel\nBy default the first panel is selected initially as open (active) panel.\nTo specify different initial panel selection, pass an integer as argument.\n{^{accordion 2 _collapsible=true}}...\n\nor\n<div data-link=\"{accordion 2 _collapsible=true}\">...\n\nTo initialize with all panels collapsed, pass the argument false.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Data-linking the selected panel",
+        "text": "Data-linking the selected panel\nThe ‘selected panel’ argument can of course be provided by an expression or data path:\n{^{panel selectedPanel _collapsible=true}}...\n\nIn  this case, the {{accordion}} control provides two-way data-binding on the corresponding data property (selectedPanel).\nThis is illustrated in the following sample, which is the same as the sample above except that both accordions are data-linked to the same selectedPanel property. As a result, the two accordions stay in sync: changing (or collapsing) a panel on one will trigger the corresponding change on the other.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Data-linking the selected panel",
+        "url": "samples/tag-controls/jqui/accordion/collapsible",
+        "text": "Data-linking the selected panel\nTag syntax:\n{^{accordion selectedPanel _collapsible=true}}\n  ...\n\nData-linked element syntax:\n<div data-link=\"{accordion selectedPanel _collapsible=true}\">\n  ...\n\nCode:\nvar model = {selectedPanel: 1};\n\npageTmpl.link(\"#page\", model);\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Sortable accordion",
+        "text": "Sortable accordion\nThe {{accordion}} has some similarities to the {{tabs}} control (and widget) – and in both    cases a ‘sortable’ variant is possible. However from a user point of view the idea of dragging accordion panel probably makes less sense.\nSortable accordion panels are obtained by wrapping the panel markup in a {{sortable}} tag, within the {{accordion}} tag. However it is better for the header and panel markup to be contained in a single <div> element, so that the whole div can be dragged during sorting:\nThe following sample is a declarative data-driven version of the jQuery UI Accordion – Sortable demo, using tag syntax.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Sortable accordion",
+        "url": "samples/tag-controls/jqui/accordion/sortable",
+        "text": "Sortable accordion\nTag syntax:\n{^{accordion selectedPanel _header='>div>h3'}}\n  {^{sortable _axis=\"y\" _handle='h3' elem='div' _stop=~stop}}\n    <div>\n      <h3>Section 1</h3>\n      <div>Panel 1 content</div>\n    </div>\n    ...\n  {{/sortable}}\n{{/accordion}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using {{accordion}} with a data-linked array",
+        "text": "Using {{accordion}} with a data-linked array\nA data-driven approach can be used, with the header text and panel contents rendered from a data array:\n{^{accordion ... elem='div'}}\n  {^{for panelData}}\n    <h3>{^{:header}}</h3>\n    <div>{^{:content}}</div>\n  {{/for}}\n{{/accordion}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Sortable accordion with  a data-linked array",
+        "text": "Sortable accordion with  a data-linked array\nIf an {{accordion}} tag control with content coming from a data-driven array is also sortable, then sorting the tabs will sort the underlying data array – and raise corresponding observable events.\nThis is the same behavior as is obtained with the {{sortable}} tag used alone, without {{accordion}}. To opt out of the observable binding on the array, set {^{sortable _bindArray=false ...}}.\nThe following sample shows data-linking to the underlying array, with a sortable {{accordion}} tag control:\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/accordion/sortablearray",
+        "text": "{^{accordion selectedPanel _header='>div>h3' _collapsible=true}}\n  {^{sortable _axis=\"y\" _handle='h3' elem='div'}}\n    {^{for panelData}}\n      <div>\n        <h3>{^{:header}}</h3>\n        <div>{^{:content}}</div>\n      </div>\n    {{/for}}\n  {{/sortable}}\n{{/accordion}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Sortable accordion with  a data-linked array &ndash; top-level data-linking",
+        "text": "Sortable accordion with  a data-linked array – top-level data-linking\nFinally, here is the same sample as above, but achieved entirely through top-level data linking:\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/accordion/sortablearray-toplevel",
+        "text": "<script id=\"panelMarkup\" type=\"text/x-jsrender\">\n  <div>\n    <h3>{^{:header}}</h3>\n    <div>{^{:content}}</div>\n  </div>\n</script>\n\nTop-level data-linked element:\n<div class=\"linkedUI\" data-link=\"\n  {for panelData tmpl='#panelMarkup'}\n  {sortable _axis='y' _handle='h3'}\n  {accordion selectedPanel _header='>div>h3' _collapsible=true}\n\"></div>\n\n\n"
+      }
+    ]
   },
-  "samples/tag-controls/slider/color-picker": {
+  "samples/tag-controls/jqui/slider/color-picker": {
     "sections": [
       {
         "_type": "sample",
-        "url": "samples/tag-controls/jqueryui/slider/colorpicker/sample",
+        "url": "samples/tag-controls/jqui/slider/colorpicker/sample",
         "text": "Three sliders each data-linked to a color variable (red, green, blue):\n{^{slider red class=\"red\" ... /}}\n{^{slider green class=\"green\" ... /}}\n{^{slider blue class=\"blue\" ... /}}\n\nand a <div> data-linked to three color arguments – with a converter producing a single resulting background color:\n<div class=\"swatch\" data-link=\"css-background-color{toHex:red green blue}\"></div>\n\n\n"
       }
     ]
   },
-  "jqui": {
+  "samples/tag-controls/jqui": {
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "The jQuery UI tag controls library is a set of tag controls based on jQuery UI widgets.\nIt provides the following tag controls:\n\n{{autocomplete/}} – based on jQuery UI autocomplete\n(api)\n{{accordion/}} – based on jQuery UI accordion\n(api)\n{{button/}} – based on jQuery UI button\n(api)\n\nused in the Toolbar sample\n\n{{checkbox/}} – based on jQuery UI checkboxradio\n(api)\n(requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{radio/}} – based on jQuery UI checkboxradio\n(api)\n(requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{controlgroup/}} – based on jQuery UI controlgroup\n(api)\n(requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{buttonset}} – deprecated and available only if using jQuery UI 1.11.4\n{{datepicker/}} – based on jQuery UI datepicker\n(api)\n\nused in the simple datepicker,\ndatepicker variants,\ndatepicker with validation\nand datepicker with validation wizard samples\n\n{{draggable/}} – based on jQuery UI draggable\n(api)\n{{droppable/}} – based on jQuery UI droppable\n(api)\n{{menu/}} – based on jQuery UI menu\n(api)\n{{progressbar/}} – based on jQuery UI progressbar\n(api)\n\nused in the Toolbar sample\n\n{{resizable/}} – based on jQuery UI resizable\n(api)\n{{selectable/}} – based on jQuery UI selectable\n(api)\n{{selectmenu/}} – based on jQuery UI selectmenu\n(api)\n{{slider/}} – based on jQueryUI slider\n(api)\n\nused in the simple slider,\nslider variants,\nslider with validation,\nsliders as color picker and\nToolbar samples\n\n{{sortable/}} – based on jQuery UI sortable\n(api)\n{{spinner/}} – based on jQuery UI spinner\n(api)\n{{tabs/}} – based on jQuery UI tabs\n(api)\n\n"
+        "text": "The jQuery UI tag controls library is a set of tag controls based on jQuery UI widgets.\nIt provides the following tag controls:\n\n{{autocomplete/}} – based on jQuery UI autocomplete\n(api)\n\nused in the autocomplete sample\n\n{{accordion/}} – based on jQuery UI accordion\n(api)\n\nused in the accordion samples\n\n{{button/}} – based on jQuery UI button\n(api)\n\nused in the Toolbar\nand progressbar samples\n\n{{checkbox/}} – based on jQuery UI checkboxradio\n(api)\n(requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar\nand Accessing widget APIs samples\n\n{{radio/}} – based on jQuery UI checkboxradio\n(api)\n(requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{controlgroup/}} – based on jQuery UI controlgroup\n(api)\n(requires jQuery UI version 1.12.1 or later)\n\nused in the Toolbar sample\n\n{{buttonset}} – deprecated and available only if using jQuery UI 1.11.4\n{{datepicker/}} – based on jQuery UI datepicker\n(api)\n\nused in the simple datepicker,\ndatepicker variants,\ndatepicker with validation\nand datepicker with validation wizard samples\n\n{{draggable/}} – based on jQuery UI draggable\n(api)\n\nused in the draggable - droppable samples\n\n{{droppable/}} – based on jQuery UI droppable\n(api)\n\nused in the draggable - droppable samples\n\n{{menu/}} – based on jQuery UI menu\n(api)\n\nused in the menu samples\n\n{{progressbar/}} – based on jQuery UI progressbar\n(api)\n\nused in the Toolbar\nand progressbar samples\n\n{{resizable/}} – based on jQuery UI resizable\n(api)\n\nused in the resizable samples\n\n{{selectable/}} – based on jQuery UI selectable\n(api)\n\nused in the selectable samples\n\n{{selectmenu/}} – based on jQuery UI selectmenu\n(api)\n\nused in the selectmenu samples\n\n{{slider/}} – based on jQueryUI slider\n(api)\n\nused in the simple slider,\nslider variants,\nslider with validation,\nsliders as color picker,\nToolbar,\nresizable,\ndraggable - droppable,\nspinner and\nprogressbar samples\n\n{{sortable/}} – based on jQuery UI sortable\n(api)\n\nused in the sortable samples\n\n{{spinner/}} – based on jQuery UI spinner\n(api)\n\nused in the spinner\nand resizable samples\n\n{{tabs/}} – based on jQuery UI tabs\n(api)\n\nused in the tabs samples\n\n\n"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "To use the above tag controls, simply include the library after loading jQuery UI and JsViews:\n...\n<script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n<script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n...\n<script src=\"//www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"//www.jsviews.com/download/jsviews-jqueryui-widgets.js\"></script>\n...\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "Declarative access to widget options",
-        "text": "Declarative access to widget options\nAny widget options can be initialized or data-linked by using the option name preceded by _, on the tag declaration.\nFor example\n{^{datepicker startDate\n  _showOn= \"button\"\n  _buttonImage=\"https://jqueryui.com/resources/demos/datepicker/images/calendar.gif\"\n  _buttonImageOnly= true\n  _buttonText= \"Select date\"\n/}}\n\n"
-      },
-      {
-        "_type": "sample",
-        "title": "",
-        "text": "\n\n\n<b>Start date:</b>\n\n{^{datepicker startDate\n  ^_maxDate=endDate\n  _changeMonth=true\n  _showOn= \"button\"\n  _buttonImage=\"https://jqueryui.com/resources/demos/datepicker/images/calendar.gif\"\n  _buttonImageOnly= true\n  _buttonText= \"Select start date\"\n/}}<br/><br/>\n\n<b>End date:</b>\n\n{^{datepicker endDate\n  ^_minDate=startDate\n  _showOn= \"button\"\n  _buttonImage=\"https://jqueryui.com/resources/demos/datepicker/images/calendar.gif\"\n  _buttonImageOnly= true\n  _buttonText= \"Select end date\"\n/}}<br/>\n\n<h4>Choose a day:</h4>\n\n{^{datepicker date\n  elem=\"div\"\n  ^_minDate=startDate\n  ^_maxDate=endDate\n/}}<br/><br/>\n\n<div data-link=\"date || 'No date chosen!'\" class=\"chosenday\"></div>\n\n\n\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  pageOptions = {\n    monthsSpan: 2\n  },\n  model = {\n    startDate: \"\",\n    endDate: \"\",\n    date: \"\"\n  };\n\nmyTmpl.link(\"#page\", model, {\n  page: pageOptions\n});\n\nHere we set several options, taken from the jQuery UI datepicker api.\n{^{datepicker startDate\n  ^_maxDate=endDate\n  _changeMonth=true\n  _showOn= \"button\"\n  _buttonImage=\"https://jqueryui.com/.../calendar.gif\"\n  _buttonImageOnly= true\n  _buttonText= \"Select start date\"\n/}}\n\nFor _maxDate we include the ^ character so the it dynamically updates if the endDate changes.\n\n"
+        "text": "To use the above tag controls simply include the library after loading  jQuery UI (recommended version 1.12.1 or later) and JsViews:\n...\n<script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n<script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n...\n<script src=\"//www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"//www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js\"></script>\n...\n\nIn addition, include an appropriate an jQuery UI css class library, such as the default theme:\n<link href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\">\n\n"
       },
       {
         "_type": "links",
@@ -1310,17 +1363,17 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "samples/tag-controls/toolbar": {
+  "samples/tag-controls/jqui/toolbar": {
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "The following sample is a more advanced example of using multiple jQuery UI based JsViews tag controls:\n\n{{controlgroup}} - based on the jQuery UI controlgroup widget\n{{button}} - based on the jQuery UI button widget\n{{radio}} - based on the jQuery UI checkboxradio widget\n{{checkbox}} - based on the jQuery UI checkboxradio widget\n{{progressbar}} - based on the jQuery UI progressbar widget\n{{slider}} - based on the jQuery UI slider widget\n\n"
+        "text": "The following sample is a more advanced example of using multiple jQuery UI based JsViews tag controls:\n\n{{controlgroup}} – based on the jQuery UI controlgroup widget (api)\n{{button}} – based on the jQuery UI button widget (api)\n{{radio}} – based on the jQuery UI checkboxradio widget (api)\n{{checkbox}} – based on the jQuery UI checkboxradio widget (api)\n{{progressbar}} – based on the jQuery UI progressbar widget (api)\n{{slider}} – based on the jQuery UI slider widget (api)\n\n"
       },
       {
         "_type": "sample",
         "title": "Toolbar",
-        "url": "samples/tag-controls/jqueryui/toolbar/toolbar",
+        "url": "samples/tag-controls/jqui/toolbar/toolbar",
         "text": "Toolbar\n{^{controlgroup class=...}}\n  {^{on toStart}}\n    {^{button _icon=... .../}}\n  {{/on}}\n  ...\n{{/controlgroup}}\n{^{checkbox reverse label=\"Reverse\" .../}}\n{^{controlgroup _classes=...}}\n  {^{radiogroup mode}}\n    {^{radio label=\"Once\" value=\"once\"/}}\n    ...\n  {{/radiogroup}}\n{{/controlgroup}}\n\n\n"
       },
       {
@@ -1331,27 +1384,464 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "title": "Toolbar with dynamic {{radio}} array",
-        "url": "samples/tag-controls/jqueryui/toolbar/toolbararray",
-        "text": "Toolbar with dynamic {{radio}} array\nThe model includes a model.modes and a model.speeds arrays:\nmodel = {\n  mode: \"return\",\n  speed: \"2\",\n  modes: [\n      {action: \"once\", label: \"Once\"},\n      ...\n    ],\n    speeds: [\n      {speedFactor: \"1\", label: \"Speed 1\"},\n      ...\n    ],\n    ...\n\nThe UI includes data-driven {^{for}} tags within the {^{radiogroup}} tags.\n{^{controlgroup _classes=...}}\n  {^{radiogroup mode}}\n    {^{for modes}}\n      {^{radio label=label value=action/}}\n    {{/for}}\n  {{/radiogroup}}\n{{/controlgroup}}\n  ...\n\n\n"
+        "url": "samples/tag-controls/jqui/toolbar/toolbararray",
+        "text": "Toolbar with dynamic {{radio}} array\nThe model includes a model.modes and a model.speeds array:\nmodel = {\n  mode: \"return\",\n  speed: \"2\",\n  modes: [\n      {action: \"once\", label: \"Once\"},\n      ...\n    ],\n    speeds: [\n      {speedFactor: \"1\", label: \"Speed 1\"},\n      ...\n    ],\n    ...\n\nThe UI includes data-driven {^{for}} tags within the {^{radiogroup}} tags.\n{^{controlgroup _classes=...}}\n  {^{radiogroup mode}}\n    {^{for modes}}\n      {^{radio label=label value=action/}}\n    {{/for}}\n  {{/radiogroup}}\n{{/controlgroup}}\n  ...\n\n\n"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "The second version of the sample, above, also shows alternative approaches to setting options on the jQuery UI widgets:\n\nDeclarative setting of options:\n{^{controlgroup _classes=~myUiOverrides}}\n\nProgrammatic approach, using an overridden event handler:\n{^{controlgroup onBind=~onbind}}\n\npageTmpl.link(\"#page\", model, {\n  ...\n  onbind: function(val) {\n    this.baseApply(arguments);\n    this.linkedElem.controlgroup( \"option\", \"classes\", uiOverrides);\n  },\n  ...\n});\n\nProgrammatic approach, using an id and corresponding jQuery selector:\n{^{checkbox reverse id=\"reverseChkBx\"/}}\n\n$(\"#reverseChkBx\").checkboxradio(\"option\", \"classes\", {\"ui-checkboxradio-label\": ...});\n\n$.observe(model, \"reverse\", function() {\n  $(\"#reverseChkBx\").checkboxradio(\"option\", \"label\", model.reverse ? \"Forward\" : \"Reverse\");\n});\n\n\n"
+        "text": "The second version of the sample, above, also shows alternative approaches to setting options on the jQuery UI widgets:\n\nDeclarative setting of options:\n{^{controlgroup _classes=~myUiOverrides}}\n\nProgrammatic approach, using an overridden ‘onBind’ event handler:\n{^{controlgroup onBind=~onbind}}\n\npageTmpl.link(\"#page\", model, {\n  ...\n  onbind: function(val) {\n    this.baseApply(arguments);\n    this.linkedElem.controlgroup( \"option\", \"classes\", uiOverrides);\n  },\n  ...\n});\n\nProgrammatic approach, using an id and corresponding jQuery selector:\n{^{checkbox reverse id=\"reverseChkBx\"/}}\n\n$(\"#reverseChkBx\").checkboxradio(\"option\", \"classes\", {\"ui-checkboxradio-label\": ...});\n\n$.observe(model, \"reverse\", function() {\n  $(\"#reverseChkBx\").checkboxradio(\"option\", \"label\", model.reverse ? \"Forward\" : \"Reverse\");\n});\n\n\n"
       }
     ]
   },
-  "samples/tag-controls/draggable-droppable": {
+  "samples/tag-controls/jqui/draggable-droppable": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "The {{droppable}} tag control ",
+        "text": "The {{droppable}} tag control \nTag syntax:\n{^{droppable ~dropInGallery ...}}\n  ...\n{{/droppable}}\n\nData-linked element syntax:\n<div data-link=\"{droppable ~dropInGallery ...}\" ...>\n  ...\n</div>\n\nHandler for drop event:\n{{droppable}} accepts a function argument (dropInGallery, in the examples above) which is used as event handler for the jQuery UI Droppable widget drop event.\n"
+      },
+      {
+        "_type": "para",
+        "title": "The {{draggable}} tag control",
+        "text": "The {{draggable}} tag control\nTag syntax:\n{^{draggable ...}}\n  ...\n{{/draggable}}\n\nData-linked element syntax:\n<div data-link=\"{draggable ...}\" ...>\n  ...\n</div>\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Sample: Photo Manager",
+        "text": "Sample: Photo Manager\nThe following sample uses the {{draggable}} and {{droppable}} tag controls – based on the jQuery UI draggable widget (api) and droppable widget (api).\nIt is a declarative data-driven version of the jQuery UI Photo Manager demo.\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/draggable-droppable/photomanager",
+        "text": "Template:\n{^{droppable ~dropInGallery _accept=... _activeClass=... elem=\"ul\" ...}}\n  {^{for items}}\n    {^{draggable _cancel=... _revert=... _containment=... _helper=... _cursor=... elem=\"li\" ...}}\n      <h5 class=\"ui-widget-header\">{{:title}}</h5>\n      <img src=\"{{:icon}}\" alt=\"{{:description}}\" .../>\n      ...\n    {{/draggable}}\n  {{/for}}\n{{/droppable}}\n\n{^{droppable ~dropInTrash _accept=... _activeClass=... elem=\"ul\" ...}}\n  ...\n  {^{for trash}}\n    {^{draggable _cancel=... _revert=... _containment=... _helper=... _cursor=... elem=\"li\" ...}}\n      <h5 class=\"ui-widget-header\">{{:title}}</h5>\n      <img src=\"{{:icon}}\" alt=\"{{:description}}\" .../>\n      ...\n    {{/draggable}}\n  {{/for}}\n{{/droppable}}\n\nCode:\nvar data = {\n    items: [{title: \"High Tatras\", ...}, ...],\n    trash: [{title: \"High Tatras 4\", ...} ...]\n  },\n  helpers = {\n    dropInTrash: function(...) {...},\n    dropInGallery: function(...) {...},\n    ...\n  },\n  pageTmpl = $.templates(\"#pageTmpl\");\n\npageTmpl.link(\"#page\", data, helpers);\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "The {{draggable}} tag control: Two-way data-binding to width and height",
+        "text": "The {{draggable}} tag control: Two-way data-binding to width and height\nIn addition to all the features of the jQuery UI draggable widget, the JsViews {{draggable}} tag control provides two-way data-binding on the left and top properties.\nThis permits many powerful scenarios, illustrated by the following examples.\n"
+      },
+      {
+        "_type": "sample",
+        "text": "\n  .orange {padding: 6px; width: 34px; height: 34px; text-align: center;\n    line-height: 34px; cursor: move; border: 1px solid #d55900;\n    background-color: #ffe5d2; z-index: 100;}\n  .smalltext {font-size: 12px; line-height: 17px;}\n  body {overflow: auto;}\n  .slider .ui-slider {margin: 2px 16px 0 5px; float: left;}\n  .slider {margin-bottom: 20px;}\n\n\n\n<h4>Drag the square:</h4>\n\n<div class=\"slider\">\n  {^{slider cx _min=20 _max=400 _range=\"min\" width=400/}}\n  <em>cx:</em> {^{rnd:cx}}\n</div>\n<div class=\"slider\">\n  {^{slider cy _min=110 _max=210 _range=\"min\" width=400/}}\n  <em>cy:</em> {^{rnd:cy}}\n</div>\n\n{^{draggable left=cx top=cy\n  _containment=\"document\" class=\"orange smalltext\" \n}}\n  Drag me{{/draggable}}\n\n\n\nvar i,\n  pageTmpl = $.templates(\"#pageTmpl\"),\n  data = {cx: 210, cy: 160};\n\n$.views.converters({\n  rnd: function(val) {\n    // To string, rounded to nearest integer\n    return \"\" + Math.round(val);\n  }\n});\n\npageTmpl.link(\"#page\", data);\n\n{^{slider cx ... //}}\n...\n{^{slider cy... //}}\n...\n{^{draggable left=cx top=cy ...}}Drag me{{/draggable}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Tag contextual parameters: ~left, ~top",
+        "text": "Tag contextual parameters: ~left, ~top\nThe {{draggable}} tag control provides two tag contextual parameters – ~left and ~top – which give access to the values of left and top from anywhere within the {{draggable}} tag’s content.\nThe next sample adds display of ~left and ~top to the previous sample:\n"
+      },
+      {
+        "_type": "sample",
+        "text": "\n  .orange {cursor: move; border: 1px solid #d55900;\n    background-color: #ffe5d2; padding: 6px; width: 34px; height: 34px;\n    text-align: center; line-height: 34px; z-index: 100;}\n  .smalltext {font-size: 12px; line-height: 17px;}\n  body {overflow: auto;}\n  .slider .ui-slider {margin: 2px 16px 0 5px; float: left;}\n  .slider {margin-bottom: 20px;}\n\n\n\n<h4>Drag the squares:</h4>\n\n<div class=\"slider\">\n  {^{slider cx _min=20 _max=300 _range=\"min\" width=400/}}\n  <em>cx:</em> {^{rnd:cx}}\n</div>\n<div class=\"slider\">\n  {^{slider cy _min=110 _max=220 _range=\"min\" width=400/}}\n  <em>cy:</em> {^{rnd:cy}}\n</div>\n\n{^{draggable left=cx top=cy\n  _containment=\"document\" class=\"orange smalltext\" \n}}\n  {^{rnd:~left}}<br/>{^{rnd:~top}}\n{{/draggable}}\n\n\nvar i,\n  pageTmpl = $.templates(\"#pageTmpl\"),\n  data = {cx: 150, cy: 165};\n\n$.views.converters({\n  rnd: function(val) {\n    // To string, rounded to nearest integer\n    return \"\" + Math.round(val);\n  }\n});\n\npageTmpl.link(\"#page\", data);\n\n\n{^{draggable left=cx top=cy}}\n  {^{:~left}} {^{:~top}}\n{{/draggable}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Two-way binding to tag contextual parameters",
+        "text": "Two-way binding to tag contextual parameters\nYou can even use two-way data-binding to the tag contextual parameters as in:\n{^{draggable}}\n  <input data-link=\"~left\" />\n  {^{slider ~top ...}}\n{{/draggable}}\n\nIf the {^{draggable}} tag uses converters, then the tag contextual parameters will correspond to the values after conversion (i.e. the actual left and top position values of the {^{draggable}} control).\nThe following sample adds a second {{draggable}} – shifted to the right, and binding to the same data properties: cx and cy. It contains two <input> textboxes with two-way data-binding to the ~left and ~top tag contextual parameters:\n"
+      },
+      {
+        "_type": "sample",
+        "text": "\n  .orange, .inputs {cursor: move; border: 1px solid #d55900;\n    background-color: #ffe5d2; z-index: 100;}\n  .orange {padding: 5px; width: 34px; height: 34px;\n    text-align: center; line-height: 34px;}\n  .smalltext {font-size: 12px; line-height: 17px;}\n  .inputs {display:inline-block; padding: 10px;}\n  .inputs input {width: 40px; margin: 0; font-size: 12px;}\n  body {overflow: auto;}\n  .slider .ui-slider {margin: 2px 16px 0 5px; float: left;}\n  .slider {margin-bottom: 20px;}\n\n\n\n<h4>Drag the squares:</h4>\n\n<div class=\"slider\">\n  {^{slider cx _min=20 _max=300 _range=\"min\" width=400/}}\n  <em>cx:</em> {^{rnd:cx}}\n</div>\n<div class=\"slider\">\n  {^{slider cy _min=110 _max=220 _range=\"min\" width=400/}}\n  <em>cy:</em> {^{rnd:cy}}\n</div>\n\n{^{draggable left=cx top=cy\n  _containment=\"document\" class=\"orange smalltext\" \n}}\n  {^{rnd:~left}}<br/>{^{rnd:~top}}\n{{/draggable}}\n\n\n{^{draggable left=cx top=cy rightshift=100\n  convert=\"shift\" convertBack=\"unshift\"\n  _containment=\"document\" class=\"inputs\" \n}}\n  <input data-link=\"~left\" /><br/>\n  <input data-link=\"~top\" />\n{{/draggable}}\n\n\nvar i,\n  pageTmpl = $.templates(\"#pageTmpl\"),\n  data = {cx: 150, cy: 165};\n\n$.views.converters({\n  rnd: function(val) {\n    // To string, rounded to nearest integer\n    return \"\" + Math.round(val);\n  },\n  shift: function(left, top) {\n    // Shift to the right, by amount rightshift\n    return [\n      (Math.round(left) + this.tagCtx.props.rightshift) || undefined,\n      (Math.round(top) - 6) || undefined\n    ];\n  },\n  unshift: function(left, top) {\n    // Shift to the left, by amount rightshift\n    return [\n      (Math.round(left) - this.tagCtx.props.rightshift) || undefined,\n      (Math.round(top) + 6) || undefined\n    ];\n  }\n});\n\npageTmpl.link(\"#page\", data);\n\n\n{^{draggable left=cx top=cy rightshift=100\n  convert=\"shift\" convertBack=\"unshift\" ...\n}}\n  <input data-link=\"~left\" />\n  <input data-link=\"~top\" />\n{{/draggable}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Initialization of tag contextual parameters",
+        "text": "Initialization of tag contextual parameters\nIf the values of left or top are initialized to a static value, rather than to a data-linked expression, then there will be no external two-way binding, but within the {{draggable}} control the tag contextual parameters will still be data-bound to each other and to the current position of the tag instance as it is dragged:\n{^{draggable left=210 top=70}}\n  {^{:~left}} {^{:~top}}\n{{/draggable}}\n\nIf left and top are not initialized, then the tag contextual parameters will initialize themselves to the current positon of the tag instance:\n{^{draggable}}\n  {^{:~left}} {^{:~top}}\n{{/draggable}}\n\nThe following sample illustrates both situations:\n"
+      },
+      {
+        "_type": "sample",
+        "text": "\n  .orange {padding: 0; width: 34px; height: 34px; text-align: center;\n    line-height: 34px; cursor: move; border: 1px solid #d55900;\n    background-color: rgba(255, 229, 210, 0.50); margin: 8px; z-index: 100;}\n  .smalltext {font-size: 12px; line-height: 17px;}\n  body {overflow: auto;}\n  .ui-slider {margin: 0 5px 10px 5px;}\n\n\n\n<h4>Drag the squares:</h4>\n\n{^{draggable\n  _containment=\"document\" class=\"orange smalltext\"\n}}\n  {^{rnd:~left}}<br/>{^{rnd:~top}}\n{{/draggable}}\n\n{^{draggable\n  _containment=\"document\" class=\"orange smalltext\"\n}}\n  {^{rnd:~left}}<br/>{^{rnd:~top}}\n{{/draggable}}\n\n{^{draggable left=210 top=70\n  _containment=\"document\" class=\"orange smalltext\"\n}}\n  {^{rnd:~left}}<br/>{^{rnd:~top}}\n{{/draggable}}\n\n\n\nvar i,\n  pageTmpl = $.templates(\"#pageTmpl\"),\n  data = {};\n\n$.views.converters({\n  rnd: function(val) {\n    // To string, rounded to nearest integer\n    return \"\" + Math.round(val);\n  }\n});\n\npageTmpl.link(\"#page\", data);\n\n{^{draggable}}\n  {^{:~left}} {^{:~top}}\n{{/draggable}}\n\n{^{draggable}}\n  {^{:~left}} {^{:~top}}\n{{/draggable}}\n\n{^{draggable left=210 top=70\n  {^{:~left}} {^{:~top}}\n{{/draggable}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Converters as parameter transforms",
+        "text": "Converters as parameter transforms\nOur next example uses converters in effect to transform between cartesian parameters left and top, and polar parameters expand (which expands ‘radially’) and rotate:\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/draggable-droppable/draggable",
+        "text": "{^{draggable left=cx top=cy ...}}\n  {^{:~left}} {^{:~top}}\n{{/draggable}}\n\n{^{draggable left=cx2 top=cy2 ...}}\n  {^{:~left}} {^{:~top}}\n{{/draggable}}\n\n{{for points}}\n  {^{draggable left=~root.expand top=~root.rotate\n    ^cx=~root.cx ^cy=~root.cy\n    shift=angle radius=r\n    convert=\"polarToXY\" convertBack=\"XYtoPolar\" ...\n  }}\n    {{:angle/30}}\n  {{/draggable}}\n\n  {^{draggable left=~root.expand top=~root.rotate\n    ^cx=~root.cx2 ^cy=~root.cy2\n    shift=angle radius=r scaleRot=-2\n    convert=\"polarToXY\" convertBack=\"XYtoPolar\" ...\n  }}\n    {{:angle/30}}\n  {{/draggable}}\n{{/for}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Custom {{draggable}} tag (without jQuery UI)",
+        "text": "Custom {{draggable}} tag (without jQuery UI)\nFinally here is the same sample but using a custom tag (which we name {{draggable2}}) instead of the jQueryUI widget-based {{draggable}}. It illustrates how to create a JsViews custom tag using multiple parameter binding, and providing tag contextual paramters:\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/draggable-droppable/draggable2",
+        "text": "$.views.tags(\"draggable2\", {\n  bindTo: [\"left\", \"top\"],\n  linkedCtxParam: [\"left\", \"top\"],\n  mainElement: \"div\",\n  template: \"<div class='mytag'>{{include tmpl=#content/}}</div>\",\n  onBind: function() {\n    var tag = this;\n    tag.mainElem.mousedown(function(ev) {\n      var offset = tag.mainElem.offset(),\n        addedLeft = offset.left - ev.clientX;\n        addedTop = offset.top - ev.clientY;\n      if (document.elementFromPoint(ev.clientX, ev.clientY) === tag.mainElem[0]) {\n        $(document.body).mousemove(function(ev2) {\n          setTimeout(function() {\n            var moveToX = ev2.clientX + addedLeft,\n              moveToY = ev2.clientY + addedTop;\n            tag.update(moveToX, moveToY);\n            tag.setValue(moveToX, moveToY);\n          }, 0);\n        });\n      }\n    });\n    $(document.body).mouseup(function() {\n      $(document.body).off(\"mousemove\");\n    });\n  },\n  setValue: function(left, top) {\n    if (left !== undefined) {\n      this.mainElem.offset({left: left || 0});\n    }\n    if (top !== undefined) {\n      this.mainElem.offset({top: top || 0});\n    }\n  },\n  getValue: function() {\n    var offset = this.mainElem.offset();\n    return [offset.left, offset.top];\n  },\n  onUpdate: false,\n  setSize: true\n})\n\n\n"
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/menu": {
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "The following sample uses the {{draggable}} and {{droppable}} jQuery UI based JsViews tag controls.\nIt is a declarative data-driven version of the jQuery UI Photo Manager demo.\n"
+        "text": "The following sample uses the {{menu}} tag control – based on the jQuery UI menu widget (api).\nThe sample is a declarative data-driven version of the jQuery UI Menu – icons demo.\nThe ~menuAction helper function is assigned as event handler for the jQuery UI Menu widget select event.\n{^{menu ~menuAction}}\n  <li>\n    <div><span class=\"ui-icon ui-icon-disk\"></span>Save</div>\n  </li>\n  ...\n{{/menu}}\n\n"
       },
       {
         "_type": "sample",
-        "url": "samples/tag-controls/jqueryui/draggable-droppable/photomanager",
-        "text": "Template:\n{^{droppable _drop=~dropInGallery _accept=... _activeClass=... elem=\"ul\" ...}}\n  {^{for items}}\n    {^{draggable _cancel=... _revert=... _containment=... _helper=... _cursor=... elem=\"li\" ...}}\n      <h5 class=\"ui-widget-header\">{{:title}}</h5>\n      <img src=\"{{:icon}}\" alt=\"{{:description}}\" .../>\n      ...\n    {{/draggable}}\n  {{/for}}\n{{/droppable}}\n\n{^{droppable _drop=~dropInTrash _accept=... _activeClass=... elem=\"ul\" ...}}\n  ...\n  {^{for trash}}\n    {^{draggable _cancel=... _revert=... _containment=... _helper=... _cursor=... elem=\"li\" ...}}\n      <h5 class=\"ui-widget-header\">{{:title}}</h5>\n      <img src=\"{{:icon}}\" alt=\"{{:description}}\" .../>\n      ...\n    {{/draggable}}\n  {{/for}}\n{{/droppable}}\n\nCode:\nvar data = {\n    items: [{title: \"High Tatras\", ...}, ...],\n    trash: [{title: \"High Tatras 4\", ...} ...]\n  },\n  helpers = {\n    dropInTrash: function(...) {...},\n    dropInGallery: function(...) {...},\n    ...\n  },\n  pageTmpl = $.templates(\"#page\");\n\npageTmpl.link(\"#content\", data, helpers);\n\n\n"
+        "title": "Tag syntax, in a template",
+        "url": "samples/tag-controls/jqui/menu/menu",
+        "text": "Tag syntax, in a template\n{^{menu ~menuAction}}\n  <li>\n    <div><span class=\"ui-icon ui-icon-disk\"></span>Save</div>\n  </li>\n  ...\n{{/menu}}\n\npageTmpl.link(\"#page\", data, {\n  menuAction: function(ev, ui) {\n    ...\n    alert(ui.item.text());\n  }\n});\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The same result can be obtained using element-based data-link markup:\n<ul data-link=\"{menu ~menuAction}\">\n  <li>\n    <div><span class=\"ui-icon ui-icon-disk\"></span>Save</div>\n  </li>\n  ...\n</ul>\n\nHere it is as top-level data-linked content:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Data-link syntax, top-level content",
+        "text": "Data-link syntax, top-level content\n\n\n\n\n  \n    \n    Save\n  \n  \n    \n    Zoom In\n  \n  \n    \n    Zoom Out\n  \n  \n    \n    Print...\n  \n  \n    Playback\n    \n      \n        \n        Prev\n      \n      \n        \n        Stop\n      \n      \n        \n        Play\n      \n      \n        \n        Next\n      \n    \n  \n  \n    Learn more about this menu\n  \n\n\n\nSome page content.\nvar data = {};\n\n$.link(true, \"#linked\", data, {\n  menuAction: function(ev, ui) {\n    if (!ui.item.children(\"ul\").length) {\n      // Leaf menu item\n      alert(ui.item.text());\n    }\n  }\n});\n<div id=\"linked\">\n  ...\n  <ul data-link=\"{menu ~menuAction}\">\n    <li>\n      <div><span class=\"ui-icon ui-icon-disk\"></span>Save</div>\n    </li>\n    ...\n  </ul>\n  ...\n\n$.link(true, \"#linked\", data, {\n  menuAction: function(ev, ui) {\n    ...\n    alert(ui.item.text());\n  }\n});\n\n\n"
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/progressbar": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following sample uses the {{progressbar}}, {{slider}} and {{button}} tag controls – based on the jQuery UI progressbar widget (api), slider widget (api) and button widget (api).\nThe sample is a declarative data-driven version of the jQuery UI Progress Bar – custom label demo.\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/progressbar/variants",
+        "text": "Tag syntax:\n{^{progressbar amount\n  busy=mode===\"Busy\"\n  _max=max\n  _change=~change\n  _complete=~complete\n  width=\"70%\"\n  height=25\n/}}\n\nTag syntax – wrapping a <div>, to provide a custom label:\n{^{progressbar amount\n  busy=mode===\"Busy\"\n  _max=max\n  ...\n}}\n  <div class=\"proglabel\" data-link=\"label||100*amount/max+'%'\"></div>\n{{/progressbar}}\n\nData-linked element syntax (again wrapping a <div>, to provide a custom label):\n<div data-link=\"{progressbar amount\n  busy=mode==='Busy'\n  _max=max\n  ...\n}\">\n  <div class=\"proglabel\" ...></div>\n</div>\n\n\n"
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/api": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Declarative setting of options",
+        "text": "Declarative setting of options\nAny widget options can be initialized by setting a named property on the tag – using the option name preceded by _.\nFor example:\n{^{datepicker startDate\n  _changeMonth=true\n  ...\n/}}\n\nas shown in this sample.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Data-linked option",
+        "text": "Data-linked option\nIf you want the widget option to be not only initialized, but also data-linked (to respond to “observable” changes), prepend a ^ character(see Binding to named properties), as shown in the same sample:\n{^{datepicker endDate\n  ^_minDate=startDate\n/}}\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using jQuery UI widget events",
+        "text": "Using jQuery UI widget events\nNamed tag properties can also be used to set widget event handlers declaratively, as illustrated in this sample:\n{^{progressbar amount\n  ...\n  _change=~change\n  _complete=~complete\n  ...\n/}}\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Programmatic setting of options",
+        "text": "Programmatic setting of options\nA simple way to set widget options using the standard jQuery UI programmatic approach is to declare an id on the tag, and then use the corresponding jQuery selector, as illustrated in this toolbar sample:\n{^{checkbox reverse id=\"myCheckbox\"/}}\n\n// Set the 'classes' option\n$(\"#myCheckbox\").checkboxradio(\"option\", \"classes\", {\"ui-checkbox...\": ...});\n\n$.observe(model, \"reverse\", function() {\n  // Set the 'label' option\n  $(\"#myCheckbox\").checkboxradio(\"option\", \"label\", ...);\n});\n\nAnother approach (not requiring id assignment) is to override the onBind event of the tag, and set options programmatically in the handler. This approach is also used in the same toolbar sample:\n{^{controlgroup onBind=~onbind}}\n\npageTmpl.link(\"#page\", model, {\n  ...\n  onbind: function(val) {\n    this.baseApply(arguments);\n    this.linkedElem.controlgroup(\"option\", \"classes\", ...);\n  },\n  ...\n});\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Getting from a tag instance to the widget APIs",
+        "text": "Getting from a tag instance to the widget APIs\nAlternatively, if you have an instance, myTag, of a jQuery UI widget tag control, you can access the widget API from myTag.linkedElem.widgetName(...) or  from myTag.widget(...):\n// Set the 'label' option\ncheckboxTag.checkboxradio(\"option\", \"label\", ...);\n\nor\n// Set the 'label' option\ncheckboxTag.widget.option(\"label\", ...);\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Calling jQuery UI widget methods",
+        "text": "Calling jQuery UI widget methods\nCalling widget methods, like programmatic setting of options, can be done –\n\nusing the selector approach:\n$(\"#myCheckbox\").checkboxradio(\"disable\");\n\nfrom the tag instance, using tag.linkedElem:\ncheckboxTag.linkedElem.checkboxradio(\"disable\");\n\nfrom the tag instance, using tag.widget:\ncheckboxTag.widget.disable();\n\n\nEach of these approaches is shown in the following sample:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Accessing jQuery UI widget APIs",
+        "text": "Accessing jQuery UI widget APIs\n\n  {^{on enable}}Enable{{/on}}\n  {^{on disable}}Disable{{/on}}<br/><br/>\n  {^{checkbox reverse id=\"myCheckbox\" label=\"Reverse\"/}}\n\n\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {\n    reverse: false,\n    enable: function() {\n      $(\"#myCheckbox\")\n        .checkboxradio(\"enable\")                        // Method call\n        .checkboxradio(\"option\", \"label\", \"New label\"); // Chaining with 'set option' call \n    },\n    disable: function(ev) {\n      // Get parent view\n      var parentView = $.view(ev.target, \"data\");\n      // Find {{checkbox}} tags\n      var checkboxTag = parentView.childTags(true, \"checkbox\")[0];\n      checkboxTag.widget\n        .disable()                                       // Method call\n        .option(\"label\", \"New label2\");                  // Chaining with 'set option' call\n// alternatively\n//    checkboxTag.linkedElem\n//      .checkboxradio(\"disable\")                        // Method call\n//      .checkboxradio(\"option\", \"label\", \"New label2\"); // Chaining with 'set option' call\n    }\n  };\n\npageTmpl.link(\"#page\", model);\n\n\nSelector:\n$(\"#myCheckbox\")\n  .checkboxradio(\"enable\");                       // Method call \n  .checkboxradio(\"option\", \"label\", \"New label\"); // Chaining with 'set option' call \n\ntag.widget:\ncheckboxTag.widget\n  .disable()                                       // Method call\n  .option(\"label\", \"New label2\");                  // Chaining with 'set option' call\n\ntag.linkedElem:\ncheckboxTag.linkedElem\n  .checkboxradio(\"disable\")                        // Method call\n  .checkboxradio(\"option\", \"label\", \"New label2\"); // Chaining with 'set option' call\n\n\n"
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/tabs": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following sample uses the {{tabs}} tag control – based on the jQuery UI tabs widget (api).\nThe sample is a declarative data-driven version of the jQuery UI Tabs – Collapse content demo – shown both using tag syntax and data-linked element syntax.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Collapsible tabs",
+        "text": "Collapsible tabs\n\n\n<h4>Tag syntax:</h4>\n\n<pre>\n&lcub;^{tabs ...}&rcub;...&lcub;^{/tabs}&rcub;\n</pre>\n\n<!--tag syntax-->\n{^{tabs _collapsible=true}}\n  <ul>\n    <li><a href=\"#tabs-1\">Nunc tincidunt</a></li>\n    <li><a href=\"#tabs-2\">Proin dolor</a></li>\n    <li><a href=\"#tabs-3\">Aenean lacinia</a></li>\n  </ul>\n  <div id=\"tabs-1\">\n    <p><em>Click tab again to close content pane.</em></p>\n    <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a,\n    risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris.</p>\n  </div>\n  <div id=\"tabs-2\">\n    <p><em>Click tab again to close content pane.</em></p>\n    <p>Morbi tincidunt, dui sit amet facilisis feugiat,\n    odio metus gravida ante, ut pharetra massa metus id nunc.</p>\n  </div>\n  <div id=\"tabs-3\">\n    <p><em>Click tab again to close content pane.</em></p>\n    <p>Duis cursus.</p>\n  </div>\n{{/tabs}}\n\n<h4>Element-based data-link syntax:</h4>\n\n<pre>\n&lt;div data-link=\"{tabs _collapsible=true}\">...&lt;/div>\n</pre>\n\n<!--alternative data-linked element syntax-->\n<div data-link=\"{tabs _collapsible=true}\">\n  <ul>\n    <li><a href=\"#tabs-1b\">Not latin</a></li>\n    <li><a href=\"#tabs-2b\">Tab2</a></li>\n    <li><a href=\"#tabs-3b\">Tab3</a></li>\n  </ul>\n  <div id=\"tabs-1b\">\n    <p><em>Click tab again to close content pane.</em></p>\n    <p>First non-latin text.</p>\n  </div>\n  <div id=\"tabs-2b\">\n    <p><em>Click tab again to close content pane.</em></p>\n    <p>Second text.</p>\n  </div>\n  <div id=\"tabs-3b\">\n    <p><em>Click tab again to close content pane.</em></p>\n    <p>Further content.</p>\n  </div>\n</div>\n\n\n\n\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {};\n\npageTmpl.link(\"#page\", model);\nTag syntax:\n{^{tabs _collapsible=true}}\n  <ul>\n    <li><a href=\"#tabs-1\">...</a></li>\n    <li><a href=\"#tabs-2\">...</a></li>\n    ...\n  </ul>\n  <div id=\"tabs-1\">...</div>\n  <div id=\"tabs-2\">...</div>\n  ...\n{{/tabs}}\n\nData-linked element syntax:\n<div data-link=\"{tabs _collapsible=true}\">\n  <ul>\n    <li><a href=\"#tabs-1\">...</a></li>\n    <li><a href=\"#tabs-2\">...</a></li>\n    ...\n  </ul>\n  <div id=\"tabs-1\">...</div>\n  <div id=\"tabs-2\">...</div>\n  ...\n</div>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Initializing the selected tab",
+        "text": "Initializing the selected tab\nBy default the first tab is selected initially.\nTo specify different initial tab selection, pass an integer as argument.\n{^{tabs 2 _collapsible=true}}...\n\nor\n<div data-link=\"{tabs 2 _collapsible=true}\">...\n\nTo initialize with collapsed tabs, pass the argument false.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Data-linking the selected tab",
+        "text": "Data-linking the selected tab\nThe ‘selected tab’ argument can of course be provided by an expression or data path:\n{^{tabs selectedTab _collapsible=true}}...\n\nIn  this case, the {{tabs}} control provides two-way data-binding on the corresponding data property (selectedTab).\nThis is illustrated in the following sample, which is the same as the sample above except that both sets of tabs are data-linked to the same selectedTab property. As a result, the two tabs controls stay in sync: changing (or collapsing) the tab on one will trigger the corresponding change on the other.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Data-linking the selected tab",
+        "url": "samples/tag-controls/jqui/tabs/collapsible",
+        "text": "Data-linking the selected tab\nTag syntax:\n{^{tabs selectedTab _collapsible=true}}\n  ...\n\nData-linked element syntax:\n<div data-link=\"{tabs selectedTab _collapsible=true}\">\n  ...\n\nCode:\nvar model = {selectedTab: 1};\n\npageTmpl.link(\"#page\", model);\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Sortable tabs",
+        "text": "Sortable tabs\nSortable tabs are obtained very simply, by wrapping the <li> markup for the tabs in a {{sortable}} tag, within the {{tabs}} tag.\n{^{tabs}}\n  {^{sortable elem=\"ul\"}}\n    <li>...\n\nThe following sample is a declarative data-driven version of the jQuery UI Tabs – Sortable demo, using tag syntax.\nThe sample also shows how (as with any of the jQuery UI based tag controls) you can specify a class or classes on the tag:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "",
+        "url": "samples/tag-controls/jqui/tabs/sortable",
+        "text": "Tag syntax:\n{^{tabs class=\"red\"}}\n  {^{sortable elem=\"ul\"}}\n    <li><a href=\"#tabs-1\">Nunc tincidunt</a></li>\n    <li><a href=\"#tabs-2\">Proin dolor</a></li>\n    ...\n  {{/sortable}}\n  <div id=\"tabs-1\">...</div>\n  <div id=\"tabs-2\">...</div>\n  ...\n{{/tabs}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using {{tabs}} with a data-linked array",
+        "text": "Using {{tabs}} with a data-linked array\nA data-driven approach can be used, with the tab header text and panel contents rendered from a data array:\n{^{tabs}}\n  <ul>\n    {^{for tabPanels}}\n      <li><a href=\"#{{:id}}\">{{:header}}</a></li>\n    {{/for}}\n  </ul>\n  {^{for tabPanels}}\n    <div id=\"{{:id}}\">{{:content}}</div>\n  {{/for}}\n{{/tabs}}\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Sortable tabs with  a data-linked array",
+        "text": "Sortable tabs with  a data-linked array\nIf a {{tabs}} tag control with content coming from a data-driven array is also sortable, then sorting the tabs will sort the underlying data array – and raise corresponding observable events. This is the same behavior as is obtained with the {{sortable}} tag used alone, without {{tabs}}. To opt out of the observable binding on the array, set {^{sortable _bindArray=false ...}}.\nThe following sample shows data-linking to the underlying array, with a sortable {{tabs}} tag control:\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/tabs/sortablearray",
+        "text": "{^{tabs selectedTab}}\n  {^{sortable elem=\"ul\" _axis=\"x\"}}\n    {^{for tabData}}<li><a href=\"#{{:id}}\">{^{:header}}</a></li>{{/for}}\n  {{/sortable}}\n  {^{for tabData}}\n    <div id=\"{{:id}}\">{^{:content}}</div>\n  {{/for}}\n{{/tabs}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Sortable tabs with  a data-linked array &ndash; top-level data-linking",
+        "text": "Sortable tabs with  a data-linked array – top-level data-linking\nFinally, here is the same sample as above, but achieved entirely through top-level data linking:\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/tabs/sortablearray-toplevel",
+        "text": "<script id=\"tabsMarkup\" type=\"text/x-jsrender\">\n  {^{sortable elem=\"ul\" _axis=\"x\"}}\n    {^{for tabData}}<li><a href=\"#{{:id}}\">{^{:header}}</a></li>{{/for}}\n  {{/sortable}}\n  {^{for tabData}}\n    <div id=\"{{:id}}\">{^{:content}}</div>\n  {{/for}}\n</script>\n\nTop-level data-linked element:\n<div class=\"linkedUI\" data-link=\"{include tmpl='#tabsMarkup'}{tabs selectedTab}\"></div>\n\n\n"
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/selectmenu": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The {{selectmenu}} tag control integrates the jQuery UI selectmenu widget (api).\nWhen using tag syntax, the tag wraps directly the <option> elements:\n{^{selectmenu color}}\n  <option value=\"black\">Black</option>\n  <option value=\"red\">Red</option>\n  ...\n{{/selectmenu}}\n\nAlternatively, the selectmenu tag binding can be used with a data-linked <select> element:\n<select data-link=\"{selectmenu color}\">\n  <option value=\"black\">Black</option>\n  <option value=\"red\">Red</option>\n  ...\n</select>\n\nA data-driven approach can be used, with the <option> elements rendered from a data array:\n{^{selectmenu color}}\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n{{/selectmenu}}\n\nThis is shown in the following sample, which is a declarative data-driven version of the jQuery UI Selectmenu – product selection demo:\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/selectmenu/product-selection",
+        "text": "Data:\nvar model = {\n  color: \"yellow\",\n  colors: [\n    {name: \"black\", label: \"Black\"},\n    {name: \"red\", label: \"Red\"},\n    ...\n  ],\n};\n...\n\nTemplate:\n...\n<label for=\"color\">Circle color</label>\n{^{selectmenu color name=\"color\"}}\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n{{/selectmenu}}\n...\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "For a data-driven approach using element-based data-link syntax, the data-linked <select> will have two tag bindings – a {for} binding and a {selectmenu} binding:\n<select data-link=\"html{for colors tmpl=...} {selectmenu color}\"></select>\n\nThis is shown in the following sample, which is functionally the same as the sample above, but uses only top-level data-linked elements, rather than a rendered template:\n"
+      },
+      {
+        "_type": "sample",
+        "text": "\n  fieldset {border:0; margin-left:300px;}\n  label {display:block; margin:20px 0 5px;}\n  select {width:200px;}\n  .circle {float:left; border-radius:50%; width:150px; height:150px;}\n  .clear {clear:both}\n\n\n\n  <option value=\"{{:}}\">{{:}}px</option>\n\n\n\n  \n\n  \n  Circle color\n  \n\n  Circle radius\n  \n  \n\n  \n    {^{:color}} {^{:radius}}px\n  \n\nvar model = {\n  color: \"yellow\",\n  colors: [\n    {name: \"black\", label: \"Black\"},\n    {name: \"red\", label: \"Red\"},\n    {name: \"yellow\", label: \"Yellow\"},\n    {name: \"blue\", label: \"Blue\"},\n    {name: \"green\", label: \"Green\"}\n  ],\n  radius: 100,\n  radii: [50, 100, 150, 200, 250]\n};\n\n// Top-level data linking\n$.link(true, \"#linked\", model, {\n  // For the colorOption template we will pass in the template as\n  // helper, rather than using a template declared in a script element.\n  colorOptionTmpl:\n    $.templates('{{:label}}')\n});\nTop-level elements:\n<div id=\"linked\">\n  ...\n  <select data-link=\"html{for colors tmpl=~colorOptionTmpl} {selectmenu color}\" ...></select>\n  ...\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Note that {{selectmenu}} is an alternative to data-linking directly to a <select> element. Using {{selectmenu}} brings the jQuery UI themable look and feel…\nBoth provide two-way binding to the data-linked expression such as color – as shown in the following example:\n"
+      },
+      {
+        "_type": "sample",
+        "text": "\n  fieldset {border:0; margin-left:300px;}\n  label {display:block; margin:20px 0 5px;}\n  select {width:200px;}\n  .circle {float:left; border-radius:50%; width:150px; height:150px;}\n  .clear {clear:both}\n\n\n\n\n<div data-link=\"\n  css-background{:color}\n  css-width{:radius}\n  css-height{:radius}\n\" class=\"circle\"></div>\n\n<fieldset>\n{^{selectmenu color}}\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n{{/selectmenu}}<br/><br/>\n\n<select data-link=\"{selectmenu color}\">\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n</select><br/><br/>\n\n<select data-link=\"color\">\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n</select><br/><br/>\n\n<select data-link=\"color\" size=\"5\">\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n</select>\n</fieldset>\n\n<div class=\"clear\">\n  {^{:color}}\n</div>\n\n\n\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {\n    color: \"yellow\",\n    colors: [\n      {name: \"black\", label: \"Black\"},\n      {name: \"red\", label: \"Red\"},\n      {name: \"yellow\", label: \"Yellow\"},\n      {name: \"blue\", label: \"Blue\"},\n      {name: \"green\", label: \"Green\"}\n    ]\n  };\n\npageTmpl.link(\"#page\", model);\nAlternative drop-down styles:\n{^{selectmenu color}}\n  {^{for colors}}...{{/for}}\n{{/selectmenu}}\n\n<select data-link=\"{selectmenu color}\">\n  {^{for colors}}...{{/for}}\n</select>\n\n<select data-link=\"color\">\n  {^{for colors}}...{{/for}}\n</select>\n\n<select data-link=\"color\" size=\"5\">\n  {^{for colors}}...{{/for}}\n</select>\n\n\n"
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/autocomplete": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The {{autocomplete}} tag control – based on the jQuery UI autocomplete widget (api) – can be used with <input> or <textarea> elements, or with contenteditable elements.\nThe following sample shows each of these cases, using either tag syntax or element-based data-link syntax.\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/autocomplete/variants",
+        "text": "Each variant has two-way data binding to the val property, and obtains the autocomplete suggestion list locally from a suggestionList helper property (assigned to the _source property, from the jQuery UI API).\nFor example:\nTag syntax:\n{^{autocomplete val _source=~suggestionList/}}\n\nTag syntax wrapping a <textarea> element:\n{^{autocomplete val _source=~suggestionList}}\n  <textarea ...></textarea>\n{{/autocomplete}}\n\nData-linked element syntax (textarea):\n<textarea ... data-link=\"{autocomplete val _source=~suggestionList}\"></textarea>\n\n\n"
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/selectable": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The {{selectable}} tag control integrates the jQuery UI Selectable widget (api).\nWhen using tag syntax, the tag wraps directly the container element (which wraps the markup for the selectable elements):\n{^{selectable ...}}\n  <ol data-link=\"{selectable}\">\n    <li>Jo</li>\n    <li>Pierre</li>\n    ...\n  </ol>\n{{/selectable}}\n\nThe tag can also be used wrapping the selectable elements directly, and with the elem=... property specifying a container element. (The tag will render the container element):\n{^{selectable ... elem=\"ol\"}}\n  <li>Jo</li>\n  <li>Pierre</li>\n  ...\n{{/selectable}}\n\nAlternatively, the selectable tag binding can be used with a data-linked wrapper element:\n<ol data-link=\"{selectable ...}\">\n  <li>Jo</li>\n  <li>Pierre</li>\n  ...\n</ol>\n\nThe following sample shows two selectables – one using tag syntax, and the other using element syntax, and is a declarative data-driven version of the jQuery UI Selectable – Display as grid demo.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Selectable &ndash; Display as grid",
+        "text": "Selectable – Display as grid\n\n  ol.grid {list-style-type: none; margin: 0 0 162px 0; padding: 0; width: 360px;}\n  .grid .ui-selecting {background: #FECA40;}\n  .grid .ui-selected {background: #F39814; color: white;}\n  .grid li {float: left; margin: 3px; padding: 1px; height: 50px; font-size: 18px;\n    line-height: 46px; cursor:pointer; width: 66px; text-align: center;\n    border: 1px solid #c5c5c5; background: #f6f6f6; color: #454545;}\n  h4 {clear:both}\n\n\n\n\n<h4>Tag syntax:</h4>\n\n<pre>\n&lcub;^{selectable ...}&rcub;...&lcub;^{/selectable}&rcub;\n</pre>\n\n{^{selectable class=\"grid\" elem=\"ol\"}}\n  <li>Jo</li>\n  <li>Pierre</li>\n  <li>Rudy</li>\n  <li>Mara</li>\n  <li>Mando</li>\n  <li>Ivor</li>\n  <li>Graca</li>\n  <li>Sabrine</li>\n{{/selectable}}\n\n<h4>Element-based data-link syntax:</h4>\n\n<pre>\n&lt;ol data-link=\"{selectable}\">...&lt;/ol>\n</pre>\n\n<ol class=\"grid\" data-link=\"{selectable}\">\n  <li>Jo</li>\n  <li>Pierre</li>\n  <li>Rudy</li>\n  <li>Mara</li>\n  <li>Mando</li>\n  <li>Ivor</li>\n  <li>Graca</li>\n  <li>Sabrine</li>\n</ol>\n\n\n\nDrag (or ctrl-click) to select one or more elements:\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {};\n\npageTmpl.link(\"#page\", model);\nTag syntax:\n{^{selectable class=\"grid\" elem=\"ol\"}}\n  <li>Jo</li>\n  <li>Pierre</li>\n  ...\n{{/selectable}}\n\nData-linked element syntax:\n<ol class=\"grid\" data-link=\"{selectable}\">\n  <li>Jo</li>\n  <li>Pierre</li>\n  ...\n</ol>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Initializing and data-linking the selection",
+        "text": "Initializing and data-linking the selection\nBy default the none of the elements are initially selected. By providing as argument an array of integers (the indices of the initially selected elements) the initial selection be specified.\nIn addition, the {{selectable}} tag control provides two-way binding, so the array will be observably updated whenever selection changes.\n{^{selectable selection}}...\n\nor\n<div data-link=\"{selectable selection}\">...\n\nThis is illustrated in the following sample, which is the same as the sample above except that both selectable tag controls are data-linked to the same selectedPanel property. As a result, the two stay in sync: changing selection on one will trigger the corresponding change on the other.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Data-linking the selection",
+        "text": "Data-linking the selection\n\n\n\n  ol.grid {list-style-type: none; margin: 0 0 162px 0; padding: 0; width: 360px;}\n  .grid .ui-selecting {background: #FECA40;}\n  .grid .ui-selected {background: #F39814; color: white;}\n  .grid li {float: left; margin: 3px; padding: 1px; height: 50px; font-size: 18px;\n    line-height: 46px; cursor:pointer; width: 66px; text-align: center;\n    border: 1px solid #c5c5c5; background: #f6f6f6; color: #454545;}\n  h4 {clear:both}\n\n\n\n<b>Selected indices:</b> {^{for selected}}{{:}} {{/for}}\n\n<h4>Tag syntax:</h4>\n\n<pre>\n&lcub;^{selectable selected ...}&rcub;...&lcub;^{/selectable}&rcub;\n</pre>\n\n{^{selectable selected class=\"grid\" elem=\"ol\"}}\n  <li>Jo</li>\n  <li>Pierre</li>\n  <li>Rudy</li>\n  <li>Mara</li>\n  <li>Mando</li>\n  <li>Ivor</li>\n  <li>Graca</li>\n  <li>Sabrine</li>\n{{/selectable}}\n\n<h4>Element-based data-link syntax:</h4>\n\n<pre>\n&lt;ol data-link=\"{selectable selected ...}\">...&lt;/ol>\n</pre>\n\n<ol class=\"grid\" data-link=\"{selectable selected}\">\n  <li>Jo</li>\n  <li>Pierre</li>\n  <li>Rudy</li>\n  <li>Mara</li>\n  <li>Mando</li>\n  <li>Ivor</li>\n  <li>Graca</li>\n  <li>Sabrine</li>\n</ol>\n\n\n\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {selected: [3, 6]};\n\npageTmpl.link(\"#page\", model);\nTag syntax:\n{^{selectable selected}}\n  ...\n\nData-linked element syntax:\n<div data-link=\"{selectable selected}\">\n  ...\n\nTracking the selection:\nSelected indices: {^{for selected}}{{:}} {{/for}}\n\nCode:\nvar model = {selected: [3, 6]};\npageTmpl.link(\"#page\", model);\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using {{selectable}} with a data-linked array",
+        "text": "Using {{selectable}} with a data-linked array\nA data-driven approach can be used, with the selectable elements rendered from a data array:\n{^{selectable ... elem='ol'}}\n  {^{for itemData}}\n    <li>{^{:title}}</li>\n  {{/for}}\n{{/selectable}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Sortable selectable elements with  a data-linked array",
+        "text": "Sortable selectable elements with  a data-linked array\nIf a {{selectable}} tag control with content coming from a data-driven array is also sortable, then sorting will sort the underlying data array – and raise corresponding observable events.\nThe following sample shows data-linking to the underlying array, with nested {{sortable}} and {{selectable}} tag control. Two styles of markup are shown, one with the tag syntax and the other with data-linked element syntax:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{{sortable}} and {{selectable}}",
+        "url": "samples/tag-controls/jqui/selectable/sortablearray",
+        "text": "{{sortable}} and {{selectable}}\nTag syntax:\n<table>\n  {^{sortable ... _handle='.sort'}}\n    {^{selectable selectedItems _cancel=\"td:not(.sel)\" _filter=\".sel\" elem=\"tbody\"}}\n      {^{for people ...}}\n        <tr>\n          <td class=\"sel\">Select</td>\n          <td class=\"sort\">Sort</td>\n          ...\n        </tr>\n      {{/for}}\n    {{/selectable}}\n  {{/sortable}}\n</table>\n\nData-linked element syntax:\n<table>\n  <tbody data-link=\"\n    {for people ... tmpl='#itemMarkup'}\n    {sortable ... _handle='.sort'}\n    {selectable selectedItems _cancel='td:not(.sel)' _filter='.sel'}\n  \"></tbody>\n</table>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Sortable selectable elements with  a data-linked array &ndash; top-level data-linking",
+        "text": "Sortable selectable elements with  a data-linked array – top-level data-linking\nFinally, here is the same sample as above, but achieved entirely through top-level data linking:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{{sortable}} and {{selectable}} &ndash; top-level",
+        "url": "samples/tag-controls/jqui/selectable/sortablearray-toplevel",
+        "text": "{{sortable}} and {{selectable}} – top-level\n<script id=\"itemMarkup\" type=\"text/x-jsrender\">\n  <tr>\n    <td class=\"sel\">Select</td>\n    <td class=\"sort\">Sort</td>\n    ...\n  </tr>\n</script>\n\nTop-level data-linked element:\n<tbody class=\"linkedUI\" data-link=\"\n  {for people ... tmpl='#itemMarkup'}\n  {sortable ...}\n  {selectable selectedItems ...}\n\"></tbody>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Advanced scenario: Data-linking directly to the {{selectable}} tag control properties",
+        "text": "Advanced scenario: Data-linking directly to the {{selectable}} tag control properties\nGenerally to track selection it is best to use the two-way data-linking on the argument. If you have two independent {{selectable}} tags, they can each bind to a different data or helper property.\nHowever it is possible to use {{selectable}} without argument (so without binding to model or helper properties), and instead to bind to the selected property of the tag instance  – which will update observable when the selection changes.\nHere is an advanced sample which does that:\n"
+      },
+      {
+        "_type": "sample",
+        "text": "\n\n\n  table {margin: 25px 7px; border-collapse:collapse}\n  table, td {border: 1px solid gray; padding: 8px; cursor:pointer}\n  .ui-selecting {background: #FECA40;}\n  .ui-selected {background: #F39814; color: white;}\n\n\n\n\n<h4>Selection</h4>\n\n{^{for #childTags('selectable') lateRender=true}}\n  List {{:tagCtx.props.list}} [\n    {^{for selected}} {{:}} {{/for}} \n  ]<br/>\n{{/for}}\n\n<h4>List one</h4>\n\n<table>\n  {^{selectable _filter=\"tr\" elem=\"tbody\" list=\"one\"}}\n    {^{for people}}\n      <tr>\n        <td>{{:name}}</td>\n      </tr>\n    {{/for}}\n  {{/selectable}}\n</table>\n\n<h4>List two</h4>\n\n<table>\n  {^{selectable _filter=\"tr\" elem=\"tbody\" list=\"two\"}}\n    {^{for people}}\n      <tr>\n        <td>{{:name}}</td>\n      </tr>\n    {{/for}}\n  {{/selectable}}\n</table>\n\n\n\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {\n    people: [\n      {name: \"Jo\"},\n      {name: \"Pierre\"},\n      {name: \"Radagu\"},\n      {name: \"Mando\"}\n    ]\n  };\n\npageTmpl.link(\"#page\", model);\nBinding to the tag.selected property of any {{selectable}} tags in the page is achieved by first finding all sibling {{selectable}} tags, and iterating through them:\n{^{for #childTags('selectable') lateRender=true}}\n\nHere lateRender=true ensures that the declarative childTags() call only happens after the initial data-linking has been completed.\nThen for each {{selectable}} tag, we iterate through the selected array property:\n{^{for selected}} {{:}} {{/for}}\n\nThe complete markup is:\n{^{for #childTags('selectable') lateRender=true}}\n  List {{:tagCtx.props.list}} [\n    {^{for selected}} {{:}} {{/for}} \n  ]<br/>\n{{/for}}\n...\n{^{selectable ... list=\"One\"}}\n...\n\n\n"
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/sortable": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The {{sortable}} tag control integrates the jQuery UI sortable widget (api).\nWhen using tag syntax, the tag wraps directly the container element:\n{^{sortable ...}}\n  <ul>\n    <li>Drag me</li>\n    ...\n  </ul>\n{{/sortable}}\n\nThe tag can also be used wrapping the sorted elements directly, and with the elem=... property specifying a container element. (The tag will render the container element):\n{^{sortable ... elem='ul'}}\n  <li>Drag me</li>\n  ...\n{{/sortable}}\n\nAlternatively, the sortable tag binding can be used with a data-linked wrapper element:\n<ul data-link=\"{sortable ...}\">\n  <li>Drag me</li>\n  ...\n</ul>\n\nThe following sample shows each of the above alternative syntax styles:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Alternate syntaxes",
+        "text": "Alternate syntaxes\n\n  .ui-sortable li {list-style-type:none;}\n  .ui-sortable li, .ui-state-highlight {\n   height:1.2em; margin:0 0 5px 0; padding:5px;\n   font-size:.9em; width: 200px;}\n\n\n\n\n{^{sortable\n  _placeholder='ui-state-highlight'\n  _axis='y'\n}}\n  <ul>\n    <li class=\"ui-state-default\">Drag me</li>\n    <li class=\"ui-state-default\">up or down</li>\n    <li class=\"ui-state-default\">to sort...</li>\n  </ul>\n{{/sortable}}\n\n<hr/>\n\n{^{sortable\n  _placeholder='ui-state-highlight'\n  _axis='y'\n  elem='ul'\n}}\n  <li class=\"ui-state-default\">Drag me</li>\n  <li class=\"ui-state-default\">up or down</li>\n  <li class=\"ui-state-default\">to sort...</li>\n{{/sortable}}\n\n<hr/>\n\n<ul data-link=\"{sortable\n  _placeholder='ui-state-highlight'\n  _axis='y'\n}\">\n  <li class=\"ui-state-default\">Drag me</li>\n  <li class=\"ui-state-default\">up or down</li>\n  <li class=\"ui-state-default\">to sort...</li>\n</ul>\n\n\n\n\nvar model = {},\n  pageTmpl = $.templates(\"#pageTmpl\");\n\npageTmpl.link(\"#page\", model);\n\nAlternative syntaxes with {{sortable}} or data-link=\"{sortable}\".\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using {{sortable}} with a data-linked array",
+        "text": "Using {{sortable}} with a data-linked array\nA data-driven approach can be used, with the sorted elements rendered from a data array:\n{^{sortable ... elem='ul'}}\n  {^{for items}}\n    <li>{{:name}}</li>\n  {{/for}}\n{{/sortable}}\n\nor\n<ul data-link=\"{sortable ...} {for items tmpl=...}\"/>\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Triggering observable array-change events on the underlying data array, with {{sortable}}",
+        "text": "Triggering observable array-change events on the underlying data array, with {{sortable}}\nWhen {{sortable}} wraps a data-linked {^{for}}array of sorted items, the tag detects the {^{for}} binding and raises observable array-change (move) events, whenever items are dragged to a new position.\nThis is shown in the following sample, where the two {{sortable}} collections remain in sync:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{{sortable}} with an 'items' array, triggering array-change events",
+        "text": "{{sortable}} with an 'items' array, triggering array-change events\n\n  .ui-sortable li {list-style-type:none;}\n  .ui-sortable li, .ui-state-highlight,\n  div.ui-state-default {height:1.2em;\n  margin:0 0 5px 0; padding:5px;\n  font-size:.9em; width: 200px;}\n\n\n\n  <li class=\"ui-state-default\">{{:name}}</li>\n\n\n\n\n{^{sortable\n  _placeholder='ui-state-highlight'\n  _axis='y'\n  elem='ul'\n}}\n  {^{for items}}\n    <li class=\"ui-state-default\">{{:name}}</li>\n  {{/for}}\n{{/sortable}}\n\n<hr/>\n\n<ul data-link=\"{sortable\n  _placeholder='ui-state-highlight'\n  _axis='y'\n} {for items tmpl='#liTmpl'}\"></ul>\n\n<hr/>\n\n<h4>Data:</h4>\n{^{for items}}\n  <div class=\"ui-state-default\">{{:name}}</div>\n{{/for}}\n\n\n\n\nvar model = {\n  items: [{name: \"Drag me\"}, {name: \"up or down\"}, {name: \"to sort...\"}] \n},\n  pageTmpl = $.templates(\"#pageTmpl\");\n\npageTmpl.link(\"#page\", model);\n\n{^{sortable ...}}\n  {^{for items}}\n    <li>...</li>\n  {{/for}}\n{{/sortable}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "You can opt out of triggering array-change events, while still using a data-driven approach for rendering the sorted elements from a data array, by setting the _bindArray option to false:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{{sortable}} with an 'items' array &ndash; without array-change events",
+        "text": "{{sortable}} with an 'items' array – without array-change events\n\n  .ui-sortable li {list-style-type:none;}\n  .ui-sortable li, .ui-state-highlight, div.ui-state-default {height:1.2em;\n   margin:0 0 5px 0; padding:5px; font-size:.9em; width: 200px;}\n\n\n\n  <li class=\"ui-state-default\">{{:name}}</li>\n\n\n\n\n{^{sortable\n  _bindArray=false\n  _placeholder='ui-state-highlight'\n  _axis='y'\n  elem='ul'\n}}\n  {^{for items}}\n    <li class=\"ui-state-default\">{{:name}}</li>\n  {{/for}}\n{{/sortable}}\n\n<hr/>\n\n<ul data-link=\"{sortable\n  _bindArray=false\n  _placeholder='ui-state-highlight'\n  _axis='y'\n} {for items tmpl='#liTmpl'}\"></ul>\n\n<hr/>\n\n<h4>Data:</h4>\n{^{for items}}<div class=\"ui-state-default\">{{:name}}</div>{{/for}}\n\n\n\n\nvar model = {\n  items: [{name: \"Drag me\"}, {name: \"up or down\"}, {name: \"to sort...\"}] \n},\n  pageTmpl = $.templates(\"#pageTmpl\");\n\npageTmpl.link(\"#page\", model);\n\n{^{sortable _bindArray=false ...}}\n  {^{for items}}\n    <li>...</li>\n  {{/for}}\n{{/sortable}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following sample shows many variants of a data-driven {{sortable}} list.\nIt shows full editing of the items array. It also includes top-level data-linking using the data-link=\"{sortable}\" binding.\n"
+      },
+      {
+        "_type": "sample",
+        "title": "{{sortable}} variants",
+        "url": "samples/tag-controls/jqui/sortable/variants",
+        "text": "{{sortable}} variants\nMultiple variants of data-driven editable {{sortable}} lists.\n\n"
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/resizable": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following sample uses the {{resizable}} tag control – based on the jQuery UI resizable widget (api).\nThe sample is a declarative data-driven version of the jQuery UI Resizable – maximum / minimum size demo.\nThe width and height are initialized by setting the width and height properties of the tag control.\n"
+      },
+      {
+        "_type": "sample",
+        "text": "\n  .resize {border: 1px solid #ddd; padding: 10px; margin: 25px 0;}\n  .resize h3 {text-align: center; margin: -10px -10px 10px -10px;\n     border: 1px solid #ddd; background: #e9e9e9; color: #333;}\n\n\n\n<h4>Tag syntax</h4>\n\n<pre>&lcub;^{resizable .../}&rcub;</pre>\n\n{^{resizable width=187 height=70\n  _minWidth=136 _minHeight=40\n  _maxWidth=250 _maxHeight=100\n  class=\"resize\"\n}}\n  <h3>Resize this</h3>\n  <div>Some initial content</div>\n{{/resizable}}\n\n<h4>Element-based data-link syntax:</h4>\n\n<pre>\n&lt;div data-link=\"{resizable ...}\" /&gt;\n</pre>\n\n<div class=\"resize\" data-link=\"{resizable\n   width=187 height=70\n  _minWidth=136 _minHeight=40\n  _maxWidth=250 _maxHeight=100\n}\">\n  <h3>Resize this too</h3>\n  <div>Some more content</div>\n</div>\n\n\n\nvar pageTmpl = $.templates(\"#pageTmpl\");\n\npageTmpl.link(\"#page\");\nTag syntax:\n{^{resizable width=187 height=70 _minWidth=136 ...}}\n  <h3>Resize this</h3>\n  <div>Some initial content</div>\n{{/resizable}}\n\nData-linked element syntax:\n<div data-link=\"{resizable width=187 height=70 _minWidth=136 ...}\">\n  <h3>Resize this too</h3>\n  <div>Some more content</div>\n</div>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Two-way data-binding to width and height",
+        "text": "Two-way data-binding to width and height\nThe JsViews {{resizable}} tag control provides two-way data-binding on the width and height properties. This permits many powerful scenarios, illustrated by the following examples.\nThe next sample data-links the width and height of the resizable element to underlying data properties w1 and h1.\nNeighboring layout elements also have width or height data-linked to the same data, so resizing the target element drives dynamic rendering of the surrounding layout.\nIn addition, the w1 and h1 data values are data-linked to {{slider}} and {{spinner}} controls.\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/resizable/grid",
+        "text": "...\n<div data-link=\"css-height{:100-h1/2}\" ... >top</div>\n<span data-link=\"css-width{:120-w1/2} css-height{:h1}\" ... >left</span>\n<span data-link=\"{resizable width=w1 height=h1 _minWidth=46 ...}\" ... >Resize!</span>\n<span data-link=\"css-width{:120-w1/2} css-height{:h1}\" ... >right</span>\n<div data-link=\"css-height{:100-h1/2}\" ... >bottom</div>\n...\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using converters with multi-parameter two-way data-linking",
+        "text": "Using converters with multi-parameter two-way data-linking\nThe following sample is similar, but adds a second layout using <table> elements, rather than <div>s and <span>s.\nThe second layout is reduced in scale, using converter functions to multiply heights and widths by a scaling factor. The two {{resizable}} tags (one in each layout) are linked to the same underlying data, w1 and  h1, but the second one used converters (convert and convertBack) to apply the appropriate scaling factor in both directions.\nNote the since the {{resizable}} tag control has two data-linked properties, callback functions should have a signature taking two parameters, and returning an array of two converted values.\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/resizable/grid2",
+        "text": "Data-linking with converters:\n...\n<td data-link=\"{resizable width=w1 height=h1 convert='reduce' convertBack='increase' _minWidth=53*scale ...\" ...>\n...\n\nConverters for two-parameter binding:\n$.views.converters({\n  reduce: function(w, h) {\n    return [scale*w, scale*h];\n  },\n  increase: function(w, h) {\n    return [w/scale, h/scale];\n  }\n});\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Converters as parameter transforms",
+        "text": "Converters as parameter transforms\nWith any tag that provides ‘multi-parameter’ two-way data-linking (such as this {{resizable}} tag) it is quite possible to use converters which ‘mix and match’ incoming parameters – so an outgoing parameter is any kind of transform combining values from different incoming parameters.\nA very simple example would be the following converter, which maps width to height and height to width:\nfunction(w, h) {\n return [h, w];\n}\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Tag contextual parameters: ~width, ~height",
+        "text": "Tag contextual parameters: ~width, ~height\nThe {{resizable}} tag control provides two tag contextual parameters – which give access to the values of the width and height from anywhere within the {{resizable}} tag’s content.\nFor example you can write:\n{^{resizable}}\n  {^{int:~width}}\n  {^{int:~height}}\n{{/resizable}}\n\nor you can even use two-way data-binding to the tag contextual parameters as in:\n{^{resizable}}\n  <input data-link=\"~height\" />\n  {^{slider ~width ... /}}\n{{/resizable}}\n\nIf the {^{resizable}} tag uses converters, then the tag contextual parameters will correspond to the values after conversion (i.e. the actual width and height of the {^{resizable}} control.\nThis is illustrated by the next sample, which adds display of ~width and ~height to the previous sample.\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/resizable/grid3",
+        "text": "{^{resizable width=w1 height=h1 convert='reduce' convertBack='increase' ...}}\n  {^{int:~width}} {^{int:~height}}\n{{/resizable}}\n\n\n"
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/spinner": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The {{spinner}} tag integrates the jQuery UI spinner widget (api).\nThis allows data-linking directly to widget properties, as well as using generic tag functionality such as convert and convertBack.\nIn addition, validation support is obtained, simply by wrapping a {{spinner}} tag with a {{validate}}.\nHere is a sample with three {{spinner}} controls, using alternate syntaxes: tag syntax or element-based data-link syntax:\n"
+      },
+      {
+        "_type": "sample",
+        "text": "Variants of the {{spinner}} tag:\n\n\n<h4>Tag syntax</h4>\n\n<pre>&lcub;^{spinner amount .../}&rcub;</pre>\n\n{^{spinner amount/}}\n\n<h4>Tag syntax, wrapping element:</h4>\n\n<pre>\n&lcub;^{spinner amount ...}&rcub;\n    &lt;input .../&gt;\n&lcub;^{/spinner}&rcub;\n</pre>\n\n{^{spinner amount}}\n  <input/>\n{{/spinner}}\n\n<h4>Element-based data-link syntax:</h4>\n\n<pre>\n&lt;input data-link=\"{spinner amount ...}\" /&gt;\n</pre>\n\n<input data-link=\"{spinner amount}\"/>\n\n<h4>Regular input tag without spinner:</h4>\n\n<input type=\"text\" data-link=\"{:amount:tonum}\" />\n\n\n\n\n\n\n\n$.views.converters({\n  tonum: function(val) {\n    return +val; // Convert string to number\n  }\n});\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {\n    amount: 150\n  };\n\npageTmpl.link(\"#page\", model);\nMultiple examples of {{spinner}} syntax…\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following sample is a declarative data-driven version of the jQuery UI Currency spinner demo.\nNote that the page includes the jQuery Globalize.js library. It also includes the jQuery mousewheel plugin (which allows you to use the mousewheel to ‘spin’ the {{spinner}} control).\nThe sample also shows the use of {{validate}} with the {{spinner}} tag. (Uncheck Enforce in-range amount.)\n"
+      },
+      {
+        "_type": "sample",
+        "url": "samples/tag-controls/jqui/spinner/sample",
+        "text": "{^{validate amount messagewrap=true ...}}\n\n  {^{spinner amount\n    ^_culture=currency\n    _numberFormat=\"C\"\n    ...\n  /}}\n\n{{/validate}}\n\n<select data-link=\"currency\" ...>\n  <option value=\"en-US\">US $</option>\n  ...\n</select>\n\n\n"
       }
     ]
   }

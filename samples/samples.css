@@ -134,3 +134,7 @@ li .remove {
   cursor: pointer;
   padding: 0 5px 0 15px;
 }
+
+pre {
+  font-size: 12px;
+}

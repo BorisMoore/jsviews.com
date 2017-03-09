@@ -1,5 +1,5 @@
 ﻿var count = 1,
-  myTmpl = $.templates("#myTmpl"),
+  pageTmpl = $.templates("#pageTmpl"),
 
   // Using the default labelProp="name" valueProp="id".
   // (Or use non-default and set on tag, e.g. valueProp="key")
@@ -14,7 +14,7 @@
     selectedSelectedItems: selectedSelectedItems
   };
 
-myTmpl.link("#page", model);
+pageTmpl.link("#page", model);
 
 $("#add").on("click", function() {
   $.observable(items).insert({id: "n" + count, name: "new" + count++});

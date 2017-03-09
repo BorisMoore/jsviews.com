@@ -511,7 +511,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 			self.getScript = function(loadScript) {
 				self.loadScript = loadScript;
 				if (data.url) {
-					var html = $.trim(self.iframeWnd.document.body.innerHTML),
+					var html = $.trim(self.iframeWnd.document.body.innerHTML).replace(/&#10;/g, "\n"), // IE puts &#10; entities in place of some newlines
 						toremove = html.indexOf("\n<!--<script src=\""),
 						header = self.iframeWnd.document.head || "";
 					if (toremove > 0) {
@@ -622,8 +622,8 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 								: ""))
 						: (
 					(jsrJsvJqui === "jqui"
-						? "  <script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n"
-						+ "  <link href=\"//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css\" rel=\"stylesheet\">\n"
+						? "  <script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.min.js\"></script>\n"
+						+ "  <link href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\">\n"
 						: ""
 					)
 					+ "  <base href=\"//www.jsviews.com/samples/\"/>\n"
@@ -778,7 +778,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 							'{{sampleFields "full"/}}' +
 						'{{else tabCaption="Try it"}}' +
 							'<div class="runButtons">' +
-								'<button class="runSample" data-link="disabled{:!ranIt}">Run code</button>' +
+								'<em>Try it:</em> make changes below, then run... <button class="runSample" data-link="disabled{:!ranIt}">Run code</button>' +
 								'<button class="revertSample" data-link="disabled{:!ranIt}">Clear changes</button>' +
 							'</div>' +
 							'<div class="try">' +
@@ -838,7 +838,7 @@ function treeGroup () {}
 
 treeGroup.prototype = {
 	select: function(section) {
-		if (this.selected !== section) {
+		if (section && this.selected !== section) {
 			location.hash = "search?s=" + encodeURIComponent(content.search) + searchIncludeHash() + "&l=" + section;
 			searchtextElem.addClass("selected");
 		}
@@ -913,9 +913,10 @@ treeGroup.prototype = {
 		searchNavElem.scrollTop(searchNavElem.scrollTop() + ev.originalEvent.deltaY);
 	},
 	click: function(ev, eventArgs) { // Click on overlay: "#hoverText"
+		var leftTarget = searchNavElem.position().left + 10;
 		hoverTextElem.hide();
 		isSearchTreeSelectionChange = true;
-		this.select($.view(document.elementFromPoint(ev.clientX, ev.clientY)).data.section);
+		this.select($.view(document.elementFromPoint(leftTarget, ev.clientY)).data.section);
 	}
 };
 

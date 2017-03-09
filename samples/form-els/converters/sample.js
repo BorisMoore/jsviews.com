@@ -1,9 +1,9 @@
 $.views.converters({
-  minus1: function(val) {
-    return val-1;
+  minus1: function(value) {
+    return isNaN(value) || value === '' ? null : value-1;
   },
-  plus1: function(val) {
-    return 1+val;
+  plus1: function(value) {
+    return 1+value;
   },
   not: function(val) {
     return !val;
@@ -12,13 +12,7 @@ $.views.converters({
     return "" + value;
   },
   strToInt: function(value) {
-    return parseInt(value);
-  },
-  intToStr2: function(value) {
-    return "" + value;
-  },
-  strToInt2: function(value) {
-    return parseInt(value);
+    return isNaN(value) || value === '' ? null : parseInt(value);
   },
   setBit: function(value) {
     // "Convert Back": If checked, set this bit on the data,

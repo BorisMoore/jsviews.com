@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../../download/jsviews.js"></script>
+  <script src="../../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+
+  <script src="../../../../../download/sample-tag-controls/validate/validate.js"></script>
+  <link href="../sample.css" rel="stylesheet"/>
+  <link href="../../../../../download/sample-tag-controls/validate/validate.css" rel="stylesheet"/>
+</head>
+<body>
+
+<h3>JsViews 'datepicker' tag control (using jQuery UI datepicker) with validation</h3>
+
+<script id="pageTmpl" type="text/x-jsrender">
+  <h4>Choose a start date:</h4>
+  {^{validate startDate
+    required=true
+    ^maxday=endDate
+  }}
+    {^{datepicker startDate _numberOfMonths=2 /}}
+  {{/validate}}
+
+  <h4>Choose an end date:</h4>
+
+  {^{validate endDate
+    required=true
+    ^minday=startDate
+  }}
+    {^{datepicker endDate _numberOfMonths=2
+    /}}
+  {{/validate}}
+
+  <h4>Choose a weekday during the chosen period:</h4>
+
+  <p>
+    <label>Number of months:</label>
+    <select data-link="{:~page.monthsSpan:tonum}">
+      <option value="1">1 month</option>
+      <option value="2">2 months</option>
+      <option value="3">3 months</option>
+      <option value="4">4 months</option>
+    </select>
+  </p>
+
+  {^{validate middleDate
+    required=true
+    msg_required='Choose a weekday!'
+    weekday=true
+    msg_weekday='Choose a weekday! %val% is not a weekday...'
+    ^minday=startDate
+    ^maxday=endDate
+  }}
+    {^{datepicker middleDate
+      ^_minDate=~root.startDate
+      ^_maxDate=~root.endDate
+      ^_numberOfMonths=~page.monthsSpan
+    }}
+      <div></div>
+    {{/datepicker}}
+  {{/validate}}
+
+  <h4>Your chosen weekday, between {^{:startDate || '...'}} and {^{:endDate || '...'}}:</h4>
+
+  <div data-link="middleDate|| 'No date chosen!'" class="chosenday"></div>
+
+  <h4>Set the chosen day directly:</h4>
+
+  {^{datepicker middleDate /}}
+</script>
+
+<div id="page"></div>
+
+<!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

@@ -1,7 +1,7 @@
-﻿/*! Sample JsViews tag control: {{multiselect}} control v0.9.83 (Beta)
+﻿/*! Sample JsViews tag control: {{multiselect}} control v0.9.84 (Beta)
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
- * Copyright 2016, Boris Moore
+ * Copyright 2017, Boris Moore
  * Released under the MIT License.
  */
 
@@ -55,9 +55,7 @@ $.views.tags({
       $([tag.selectedItems]).off("arrayChange", tag.updateSelection);
       $([tag.items]).off("arrayChange", tag.updateItems);
     },
-    onUpdate: function(ev, eventArgs, tagCtxs) {
-      return false; // don't rerender
-    },
+    onUpdate: false, // don't rerender
     attr: "html",
 
     //METHODS

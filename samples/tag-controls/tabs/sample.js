@@ -1,9 +1,9 @@
 ﻿var state = {
     innerSelect: 1
   },
-  myTmpl = $.templates("#myTmpl");
+  tabsTmpl = $.templates("#tabsTmpl");
 
-  myTmpl.link("#tabsView",
+  tabsTmpl.link("#tabsView",
     {
       label2: "Inner Tab Label2",
       width: 290

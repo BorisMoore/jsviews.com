@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+</head>
+<body>
+<style>
+  .slider {width: 358px; margin-bottom: 15px;}
+  .sliderpanel {position: absolute; left: 420px; top: 60px;}
+  span.box {display: inline-block;}
+  .box {padding: 14px;}
+  .box.l {border-left: 1px solid #bbb;}
+  .box.t {border-top: 1px solid #bbb; padding: 14px;}
+  .outer {border: 1px solid #bbb; display: inline-block}
+  span.resize {color: #ff6a00; font-style: italic;
+    border: 1px solid #ff6a00 !important; margin: -1px;}
+</style>
+
+<script id="pageTmpl" type="text/x-jsrender">
+
+<h4>Grid with spans</h4>
+
+<div class="outer"><div class="box" data-link="css-height{:100-h1/2}">
+top</div><span class="box t" 
+  data-link="css-width{:120-w1/2} css-height{:h1}">left
+</span><span class="box l t resize"
+  data-link="{resizable width=w1 height=h1 _minWidth=46 _minHeight=17 _maxWidth=188 _maxHeight=162}">
+Resize!</span><span class="box l t"
+  data-link="css-width{:120-w1/2} css-height{:h1}">
+right</span><div class="box t" data-link="css-height{:100-h1/2}">bottom</div></div>
+
+<div class="sliderpanel">
+<h4>Width:</h4>
+{^{slider w1 _range="min" _min=46 _max=188 class="slider"/}}
+{^{spinner w1 _min=46 _max=188 width=90 convert=~rnd convertBack=~toNum class="spinner"/}}
+<h4>Height:</h4>
+{^{slider h1 _range="min" _min=17 _max=162 class="slider"/}}
+{^{spinner h1 _min=17 _max=162 width=90 convert=~rnd convertBack=~toNum class="spinner"/}}<br/>
+</div>
+</script>
+
+<div id="page"></div>
+
+<!--<script src="grid.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

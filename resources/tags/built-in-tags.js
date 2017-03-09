@@ -223,7 +223,7 @@ var treeNodeTmpl = $.templates(
 			// Call baseTag implementation
 			this.baseApply(arguments);
 
-			if (eventArgs.change === "insert" || eventArgs.change === "move") {
+			if (eventArgs.change === "insert") {
 				this.toggleSelect(eventArgs.index);
 			}
 		},

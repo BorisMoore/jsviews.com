@@ -1,0 +1,25 @@
+body {
+  font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+}
+
+table {
+  font-size: 1em;
+}
+
+.demo-description {
+  clear: both;
+  padding: 12px;
+}
+
+.ui-draggable, .ui-droppable {
+  background-position: top;
+}
+
+.ui-widget {
+  font-size: 14px;
+}
+
+pre {
+  font-size: 12px;
+}

@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+</head>
+<body>
+
+<script id="pageTmpl" type="text/x-jsrender">
+
+<h4>Drag headers to sort...</h4>
+
+{^{accordion selectedPanel _header='>div>h3' _collapsible=true}}
+  {^{sortable elem='div' _axis='y' _handle='h3' _stop=~stop}}
+    <div>
+      <h3>Section 1</h3>
+      <div>Panel 1 content</div>
+    </div>
+    <div>
+      <h3>Section 2</h3>
+      <div>Panel 2 content</div>
+    </div>
+    <div>
+      <h3>Section 3</h3>
+      <div>Panel 3 content</div>
+    </div>
+  {{/sortable}}<br/><br/><br/>
+{{/accordion}}
+
+</script>
+
+<div id="page"></div>
+
+<!--<script src="sortable.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

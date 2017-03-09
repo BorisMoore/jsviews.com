@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+
+<style>
+  .ui-progressbar {position: relative; margin: 20px;}
+  .ui-slider, .ui-controlgroup {margin: 20px;}
+  .ui-progressbar .ui-progressbar-value {background: #ade1ad;}
+  .proglabel {position: absolute; left: 50%; top: 4px;}
+  .ui-widget.ui-widget-content, .ui-widget.ui-button {border: 1px solid #9b9b9b;}
+</style>
+
+</head>
+<body>
+
+<script id="pageTmpl" type="text/x-jsrender">
+<h4>Tag syntax:</h4>
+
+<pre>
+&lcub;^{progressbar amount .../}&rcub;
+</pre>
+
+<!--tag syntax-->
+{^{progressbar amount
+  busy=mode==="Busy"
+  _max=max
+  _change=~change
+  _complete=~complete
+  width="70%"
+  height=24
+/}}
+
+<h4>Tag syntax, wrapping element:</h4>
+
+<pre>
+&lcub;^{progressbar amount ...}&rcub;
+    &lt;div ...> ... &lt;/div>
+&lcub;^{/progressbar}&rcub;
+</pre>
+
+<!--tag syntax - with custom label-->
+{^{progressbar amount
+  busy=mode==="Busy"
+  _max=max
+  _change=~change
+  _complete=~complete
+  width="70%"
+  height=24
+}}
+  <div class="proglabel" data-link="label||100*amount/max+'%'"></div>
+{{/progressbar}}
+
+<h4>Element-based data-link syntax:</h4>
+
+<pre>
+&lt;div data-link="{progressbar amount ...}">...&lt;/div>
+</pre>
+
+<!--alternative data-linked element syntax-->
+<div data-link="{progressbar amount
+  busy=mode==='Busy'
+  _max=max
+  _change=~change
+  _complete=~complete
+  width='70%'
+  height=25
+}">
+  <div class="proglabel" data-link="label||100*amount/max+'%'"></div>
+</div>
+
+<h4>Slider:</h4>
+
+{^{slider amount _min=0 _max=max ^_disabled=mode=='Busy' width="70%"/}}
+
+{^{controlgroup mode}}
+  {^{on restart }}
+    {^{button ^_disabled=mode=='Busy' ^_label=mode==='Stop'?'Start':'Stop'}}Start{{/button}}
+  {{/on}}
+  {^{on busy }}
+    {^{button ^_disabled=mode=='Stop' ^_label=mode==='Busy'?'Resume':'Busy'}}Busy{{/button}}
+  {{/on}}
+{{/controlgroup}}
+</script>
+
+<div id="page"></div>
+
+<!--<script src="variants.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

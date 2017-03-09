@@ -948,7 +948,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             ],
             "args": [],
             "sections": [],
-            "example": "var sliders = view.childTags(\"slider\");\nsliders[0].setValue(25);",
+            "example": "var sliders = view.childTags(\"slider\");\nsliders[0].update(25);",
             "description": "Get instances of {{tagName}} in view (not nested in other custom tags)"
           },
           {
@@ -989,7 +989,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Note that `view.childTags()` looks only for custom tags. (In fact it searches for tags which do not have the `flow` property set to `true`. All built in tags such as `{{for}}` and `{{if}}` have the setting `flow: true`, so are ignored by `childTags()`.)\n\nThe following sample looks for `{{textbox}}` tags (in the case `data-link=\"{textbox ...}\"`) and calls a method on each."
+        "text": "Note that `view.childTags()` looks only for custom tags. (In fact it searches for tags which do not have the `flow` property set to `true`. All built-in tags such as `{{for}}` and `{{if}}` have the setting `flow: true`, so are ignored by `childTags()`.)\n\nThe following sample looks for `{{textbox}}` tags (in the case `data-link=\"{textbox ...}\"`) and calls a method on each."
       },
       {
         "_type": "sample",
@@ -1306,7 +1306,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Data-linking expressions using tag controls",
-        "text": "An important case of data-linking is binding and instantiating of custom tag controls, such as:\n\n```jsr\n<div data-link=\"{slider size _range='min' ...}\"></div>\n```\n\nSee the [tag control samples](#samples/tag-controls). Note that this works not only within data-linked templates, but also  when linking to top-level content -- as shown in the second variant of the [slider sample](#samples/tag-controls/slider/simple@toplink). \n\nAnother example might be a *tabs* control where the `{{else}}` blocks are the contents of the different tabs:\n\n```jsr\n<div data-link=\"{tabs ... tmpl='tab1'}{else ... tmpl='tab2'}{else ... tmpl='tab3'}\"></div>\n```\n\n***Example***:\n"
+        "text": "An important case of data-linking is binding and instantiating of custom tag controls, such as:\n\n```jsr\n<div data-link=\"{slider size _range='min' ...}\"></div>\n```\n\nSee the [tag control samples](#samples/tag-controls). Note that this works not only within data-linked templates, but also  when linking to top-level content -- as shown in the second variant of the [slider sample](#samples/tag-controls/jqui/slider/simple@toplink). \n\nAnother example might be a *tabs* control where the `{{else}}` blocks are the contents of the different tabs:\n\n```jsr\n<div data-link=\"{tabs ... tmpl='tab1'}{else ... tmpl='tab2'}{else ... tmpl='tab3'}\"></div>\n```\n\n***Example***:\n"
       },
       {
         "_type": "sample",
@@ -1534,7 +1534,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "And here is another example, taken from the [slider control](#samples/tag-controls/slider/simple@toplink) in the [tag control samples](#samples/tag-controls), which uses top-level data-linking with `data-link=\"{slider ...}\"` to instantiate and data-bind a JsViews `{{slider}}` control. "
+        "text": "And here is another example, taken from the [slider control](#samples/tag-controls/jqui/slider/simple@toplink) in the [tag control samples](#samples/tag-controls), which uses top-level data-linking with `data-link=\"{slider ...}\"` to instantiate and data-bind a JsViews `{{slider}}` control. "
       },
       {
         "_type": "sample",
@@ -1571,7 +1571,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "$.link(true, \"body\", model);"
           }
         ],
-        "url": "samples/tag-controls/jqueryui/slider/simple-toplevel/sample",
+        "url": "samples/tag-controls/jqui/slider/simple-toplevel/sample",
         "height": "370",
         "title": "Top-level data-link=\"{slider ...}\"",
         "anchor": "toplinkslidersample"
@@ -1743,7 +1743,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"group\"> \n  <label><input class=\"ceo\" type=\"checkbox\"/> CEO</label>\n  <span id=\"notCeo\"></span><br/><br/>\n\n  <b>Employees:</b> \n\n  <div id=\"employees\"></div> \n</div>\n",
         "code": "$.templates(\"nameTmpl\", \"<div>Name: {{:first}} {{:last}}</div>\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$.link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  \"#group\", // target\n  person // data\n);\n\n$.link(\n  \"isCEO\", // expression\n  \"input.ceo\", // target\n  person // data\n);\n\n$.link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  \"#employees\", // target\n  person // data\n);\n\n$.link(\n  \"visible{:!isCEO} {:~message}\", // expression\n \"#notCeo\", // target\n  person, // data \n  {message: \"(Not CEO!)\"} // helpers\n);\n",
-        "height": "108",
+        "height": "115",
         "title": "Top-level programmatic data-linking"
       },
       {
@@ -1771,7 +1771,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"group\"> \n  <label><input class=\"ceo\" type=\"checkbox\"/> CEO</label>\n  <span id=\"notCeo\"></span><br/><br/>\n\n  <b>Employees:</b> \n\n  <div id=\"employees\"></div> \n</div>\n",
         "code": "$.templates(\"nameTmpl\", \"<div>Name: {{:first}} {{:last}}</div>\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$(\"#group\").link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  person // data\n);\n\n$(\"input.ceo\").link(\n  \"isCEO\", // expression\n  person // data\n);\n\n$(\"#employees\").link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  person // data\n);\n\n$(\"#notCeo\").link(\n  \"visible{:!isCEO} {:~message}\", // expression\n  person, // data \n  {message: \"(Not CEO!)\"} // helpers\n);\n",
-        "height": "108",
+        "height": "115",
         "title": "Top-level programmatic data-linking <span style=\"font-style:normal;\">(alternative syntax)</span>",
         "markup": ""
       },
@@ -1822,7 +1822,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "html": "<style>\n  [contenteditable] {border:1px solid green; padding:5px;}\n  .block {display: block; margin-bottom: 10px} .green {color: green;}\n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" class=\"block\"/>\n\n  <label class=\"block\"><input data-link=\"{toBool:gender:toString}\" type=\"checkbox\" /> Male</label>\n\n  <div class=\"block\" data-link=\"{radiogroup gender}\">\n    <label><input value=\"male\" type=\"radio\" /> Male</label><br/>\n    <label><input data-link=\"gender\" value=\"female\" type=\"radio\" /> Female</label>\n  </div>\n\n  <select data-link=\"gender\" class=\"block\">\n    <option value=\"male\">Male</option>\n    <option value=\"female\">Female</option>\n  </select>\n\n  <textarea data-link=\"name\" class=\"block\"></textarea>\n\n  <div class=\"block\">\n    <span data-link=\"name\" contenteditable=\"true\"></span>\n  </div>\n\n  <div class=\"block\">\n    {^{textbox name label=\"Name:\"/}}\n  </div>\n\n  <hr/>\n\n  <div class=\"green\"><b>person:</b> {^{>name}} {^{>gender}}</div>\n</script>",
-        "code": "$.views.converters({\n  toString: function(val) {\n   return val ? 'male' : 'female';\n  },\n  toBool: function(val) {\n    return val === 'male';\n }\n});\n\n$.views.tags({\n  textbox: {\n    onAfterLink: function() {\n      // Find input in contents, if not already found\n      this.linkedElem = this.linkedElem || this.contents(\"input\");\n    },\n    onUpdate: function() {\n      // No need to re-render whole tag, when content updates.\n      return false;\n    },\n    template: \"<em>{{:~tag.tagCtx.props.label}}</em> <input/>\"\n  }\n});\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo\", gender: \"male\"};\n\ntmpl.link(\"#result\", person);\n",
+        "code": "$.views.converters({\n  toString: function(val) {\n   return val ? 'male' : 'female';\n  },\n  toBool: function(val) {\n    return val === 'male';\n }\n});\n\n$.views.tags({\n  textbox: {\n    onAfterLink: function() {\n      // Find input in contents, if not already found\n      this.linkedElem = this.linkedElem || this.contents(\"input\");\n    },\n    onUpdate: false, // No need to re-render whole tag, when content updates.\n    template: \"<em>{{:~tag.tagCtx.props.label}}</em> <input/>\"\n  }\n});\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo\", gender: \"male\"};\n\ntmpl.link(\"#result\", person);\n",
         "height": "346",
         "title": "Two way binding"
       },
@@ -2229,7 +2229,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Top-level data-linking of radio buttons",
-        "text": "For top-level data-linking, there are two alternatives:\n\n- Top-level data-linked `<input>` elements (using direct data-linking as in the previous example)\n- Top-level `{radiogroup}` binding (shown also [here](#jsvradiogrouptag@top-radiogroup))\n\nThe following two samples show those two approaches:\n",
+        "text": "For [top-level data-linking](#toplink), there are two alternatives:\n\n- Top-level data-linked `<input>` elements (using direct data-linking as in the previous example)\n- Top-level `{radiogroup}` binding (shown also [here](#jsvradiogrouptag@top-radiogroup))\n\nThe following two samples show those two approaches:\n",
         "anchor": "top"
       },
       {
@@ -2306,7 +2306,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{radiogroup selectedCar}}\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    {{for cars}}\n      <label><input type=\"radio\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
-        "height": "130",
+        "height": "140",
         "title": ""
       },
       {
@@ -2429,7 +2429,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "samples/tag-controls/toolbar",
+            "hash": "samples/tag-controls/jqui/toolbar",
             "label": "jQuery UI toolbar samples"
           }
         ]
@@ -2646,7 +2646,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<style>textarea {margin-bottom: 5px;} .pre {white-space: pre;}</style>\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n\n  <textarea rows=\"3\" cols=\"20\"\n    data-link=\"name\"\n  ></textarea>\n  <em>Two-way</em><br/>\n\n  <textarea rows=\"3\" cols=\"20\"\n    data-link=\"{upper:name:lower}\"\n  ></textarea>\n  <em>Two-way with 'upper' and 'lower' converters (convert/convert back)</em><br/>\n\n  <textarea rows=\"3\" cols=\"20\"\n    data-link=\"{:name}\"\n  ></textarea>\n  <em>One-way</em><br/>\n\n  <textarea rows=\"3\" cols=\"20\"\n    data-link=\"{upper:name}\"\n  ></textarea>\n  <em>One-way with 'upper' converter</em><br/>\n\n  <textarea rows=\"3\" cols=\"20\"\n    data-link=\"{upper:name trigger=false:lower}\"\n  ></textarea>\n  <em>Two-way with convert/convert back (no trigger on keydown - only on blur)</em><br/>\n\n  <span class=\"spanbox pre\" data-link=\"name\"></span>\n  <em>Data-linked span</em><br/>\n\n</script>",
         "code": "$.views.converters({\n  upper: function(val) {\n    return val.toUpperCase();\n  },\n  lower: function(val) {\n    return val.toLowerCase();\n  }\n});\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo\\nBlow\"};\n\ntmpl.link(\"#result\", person);",
-        "height": "380",
+        "height": "450",
         "title": "Two-way binding with &lt;textarea&gt;"
       },
       {
@@ -2780,7 +2780,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The following sample illustrates how any tags can be used within a template with either tag syntax or data-linked element syntax (tag bindings).\n\nThe identical data-linked element syntax can also be used for binding top-level elements.\n\nIn all three situations, the resulting rendering and interactivity are the same.\n\n"
+        "text": "The following sample illustrates how any tags can be used within a template with either tag syntax or data-linked element syntax (tag bindings).\n\nThe identical data-linked element syntax can also be used for binding [top-level data-linking](#toplink) elements.\n\nIn all three situations, the resulting rendering and interactivity are the same.\n\n"
       },
       {
         "_type": "sample",
@@ -2855,7 +2855,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "samples/tag-controls/slider/simple",
+            "hash": "samples/tag-controls/jqui/slider/simple",
             "label": "Sample: slider"
           }
         ]
@@ -3190,7 +3190,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The {^{on}} tag as button",
-        "text": "In the case of an `{^{on ...}}` which wraps only text, the tag generates a `<button>` element with the text as label -- and attaches to that element.\n\n```jsr\n{^{on ~doSomething}}\n  Click me\n{{/on}}\n```\n\nSimilarly, `{^{on ...}}` with a `tmpl='sometext'` property generates a `<button>` with the text as label.\n\n```jsr\n{^{on ~doSomething tmpl=\"Click me\" /}}\n```\n\nFinally, `{^{on ...}}` with no content at all will generate a `<button>`, and use the handler name as label.\n\n```jsr\n{^{on ~doSomething /}}\n```\n\nHere is a working sample with four alternative styles for creating a clickable *button*:",
+        "text": "In the case of an `{^{on ...}}` which wraps only text, the tag generates a `<button>` element with the text as label -- and attaches to that element.\n\n```jsr\n{^{on ~doSomething}}\n  Click me\n{{/on}}\n```\n\nSimilarly, `{^{on ...}}` with a `tmpl='sometext'` property generates a `<button>` with the text as label.\n\n```jsr\n{^{on ~doSomething tmpl=\"Click me\" /}}\n```\n\nFinally, `{^{on ...}}` with no content at all will generate a `<button>`, and use the handler name as label.\n\n```jsr\n{^{on ~doSomething /}}\n```\n\nHere is a working sample with six examples showing alternative styles for creating a clickable *button*.\n\nThe last example also shows that a simple `{^{on ...}}test{{/on}}` -- for which the `<button>` is generated -- still lets you set the button `id`, `width`, `height` and `class` (by setting those properties directly on the tag).",
         "anchor": "button"
       },
       {
@@ -3208,11 +3208,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<button data-link=\"{on ~doSomething}\">Click me</button>\n\n{^{on ~doSomething}}<button>Click me</button>{{/on}}\n\n{^{on ~doSomething}}Click me{{/on}}\n\n{^{on ~doSomething tmpl=\"Click me\" /}}\n\n{^{on ~doSomething /}}\n```\n"
+            "text": "```jsr\n<button data-link=\"{on ~doSomething}\" id=\"btn0\">Click me</button>\n\n{^{on ~doSomething}}<button id=\"btn1\">Click me</button>{{/on}}\n\n{^{on ~doSomething}}Click me{{/on}}\n\n{^{on ~doSomething tmpl=\"Click me\" /}}\n\n{^{on ~doSomething /}}\n\n{^{on ~doSomething height=13 width=75 class=\"red\" id=\"btn5\"}}Click me{{/on}}\n```\n"
           }
         ],
-        "html": "<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on ~doSomething}\">Click me</button>\n\n  {^{on ~doSomething}}<button>Click me</button>{{/on}}\n\n  {^{on ~doSomething}}Click me{{/on}}\n\n  {^{on ~doSomething tmpl=\"Click me\" /}}\n\n  {^{on ~doSomething /}}\n</script>",
-        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function() {\n    alert(\"do something\");\n  }\n}\n\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n",
+        "html": "<style>\n  .red {color: red;}\n</style>\n\n<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on ~doSomething}\" id=\"btn0\">Click me</button>\n\n  {^{on ~doSomething}}<button id=\"btn1\">Click me</button>{{/on}}\n\n  {^{on ~doSomething}}Click me{{/on}}\n\n  {^{on ~doSomething tmpl=\"Click me\" /}}\n\n  {^{on ~doSomething /}}\n\n  {^{on ~doSomething height=13 width=75 class=\"red\" id=\"btn5\"}}Click me{{/on}}\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function(ev) {\n    alert(\"do something. id: \" + ev.target.id);\n  }\n}\n\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n",
         "height": "45"
       },
       {
@@ -3239,7 +3239,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```jsr\n<input type=\"checkbox\" data-link=\"{on 'change' change}\"/> ...\n\n{^{on \"mouseup mousedown\" mouseUpAndDown}} ...\n\n<form data-link=\"{on 'submit' formSubmit}\"> ...\n```\n"
           }
         ],
-        "height": "170",
+        "height": "180",
         "html": "<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label><input type=\"checkbox\" data-link=\"{on 'change' change}\"/> Decrease on change</label>\n\n  {^{on \"mouseup mousedown\" mouseUpAndDown}}Increase on up and down{{/on}} <br/><br/>\n\n  <form data-link=\"{on 'submit' formSubmit}\">\n    Age: {^{>age}} <br/>\n    Name: <input data-link=\"name\" /> <br/>\n    Submitted: {^{>submitted}} <br/><br/>\n\n    <button type=\"submit\">Submit</button>\n  </form> \n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {\n  name: \"Jo\",\n  age: 20,\n  submitted: false,\n  change: function() {\n    $.observable(this).setProperty({\n      age: this.age - 1,\n      submitted: false\n    });\n  },\n  mouseUpAndDown: function() {\n    $.observable(this).setProperty({\n      age: this.age + 1,\n      submitted: false\n    });\n  },\n  formSubmit: function() {\n    $.observable(this).setProperty(\"submitted\", true);\n    return false;\n  }  \n};\n\ntmpl.link(\"#result\", person); // Render and link the template\n"
       },
@@ -3268,7 +3268,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<span id=\"result\"></span>\n\n<div id=\"linkedContent\">\n  <label><input type=\"checkbox\" data-link=\"{on 'change' change}\"/> Decrease on change</label>\n\n  <button data-link=\"{on 'mouseup mousedown' mouseUpAndDown}\">Increase on up and down</button> <br/><br/>\n\n  <form data-link=\"{on 'submit' formSubmit}\">\n    Age: <span data-link=\"age\"></span> <br/>\n    Name: <input data-link=\"name\" /> <br/>\n    Submitted: <span data-link=\"submitted\"></span> <br/><br/>\n\n    <button type=\"submit\" value=\"x\">Submit</button>\n  </form> \n</div>",
         "code": "var person = {\n  name: \"Jo\",\n  age: 20,\n  submitted: false,\n  change: function() {\n    $.observable(this).setProperty({\n      age: this.age - 1,\n      submitted: false\n    });\n  },\n  mouseUpAndDown: function() {\n    $.observable(this).setProperty({\n      age: this.age + 1,\n      submitted: false\n    });\n  },\n  formSubmit: function() {\n    $.observable(this).setProperty(\"submitted\", true);\n    return false;\n  }  \n};\n\n$.link(true, \"#linkedContent\", person); // Data-link top-level content\n",
-        "height": "170"
+        "height": "180"
       },
       {
         "_type": "para",
@@ -3300,7 +3300,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<style>.active {border: 1px solid green; width: 100px; background-color: white; cursor: pointer;}</style>\n\n<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n<ul>\n  {^{on 'click' '.active' select}}\n    <li>one</li>\n    <li class=\"active\">two</li>\n    <li class=\"active\">three</li>\n  {{/on}}\n</ul>\n</script>\n\n<div id=\"linkedContent\">\n  <ul data-link=\"{on 'click' '.active' select}\">\n    <li>one</li>\n    <li class=\"active\">two</li>\n    <li class=\"active\">three</li>\n  </ul>\n</div>\n\n<div id=\"result\"></div>",
         "code": "var data = {\n  select: function(ev, eventArgs) {\n    var targetStyle = ev.target.style;\n    targetStyle.backgroundColor = targetStyle.backgroundColor===\"yellow\" ? \"white\" : \"yellow\";\n  }  \n};\n\n$.link(true, \"#linkedContent\", data); // Data-link top-level content\n\n$.templates(\"#tmpl\").link(\"#result\", data); // Render and link template\n",
-        "height": "160"
+        "height": "170"
       },
       {
         "_type": "para",
@@ -4054,7 +4054,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Top-level data-linking can also be used for `<button>` or `<input>`:\n\n"
+        "text": "[Top-level data-linking](#toplink) can also be used for `<button>` or `<input>`:\n\n"
       },
       {
         "_type": "sample",
@@ -4173,7 +4173,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Templates used in *JsViews* apps are regular *JsRender* templates, defined/registered in the usual way (see *[Using templates](#compiletmpl)*).\n\nHowever they can include data-linked tags (such as `{^{:name}}`) and data-linked elements (such as `<div data-link=\"name\" ...>`). See: *[Data-linked template syntax](#linked-template-syntax)*.\n\nInstead of being simply rendered by [`render()`](#rendertmpl) method, they are rendered and data-linked using the [`link()`](#jsvlinktmpl) method.Templates are rendered and data-linked #jsvlinktmpl"
+        "text": "Templates used in *JsViews* apps are regular *JsRender* templates, defined/registered in the usual way (see *[Using templates](#compiletmpl)*).\n\nHowever they can include data-linked tags (such as `{^{:name}}`) and data-linked elements (such as `<div data-link=\"name\" ...>`). See: *[Data-linked template syntax](#linked-template-syntax)*.\n\nInstead of being simply rendered by [`render()`](#rendertmpl) method, they are rendered and data-linked using the [`link()`](#jsvlinktmpl) method."
       }
     ]
   },
@@ -5462,8 +5462,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "See also:",
-        "text": "- For additional details and samples see *[Data-linked radio buttons](#link-input@radio)*\n- For examples of `{^{radiogroup}}` tags wrapping *jQuery UI* `{{radio}}` tag controls, see the [Toolbar samples](#samples/tag-controls/toolbar)"
+        "text": "- For additional details and samples see *[Data-linked radio buttons](#link-input@radio)*\n- For examples of `{^{radiogroup}}` tags wrapping *jQuery UI* `{{radio}}` tag controls, see the [Toolbar samples](#samples/tag-controls/jqui/toolbar)"
       }
     ]
+  },
+  "other": {
+    "title": "And computed observable, {{on}}, DataMap. lateRender...",
+    "path": "",
+    "sections": []
   }
 };
