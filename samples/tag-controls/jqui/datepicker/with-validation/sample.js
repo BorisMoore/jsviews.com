@@ -1,3 +1,6 @@
+"use strict";
+$.datepicker.setDefaults("dateFormat", "mm/dd/yy"); // Set default date format for jQuery UI Datepicker
+
 $.views.converters({
   tonum: function(val) {
     return +val; // Convert string to number
@@ -36,28 +39,13 @@ $.views.tags.validate.validators({
   }
 });
 
-function formattedDate(date) {
-  var day = date.getDate(),
-    month = date.getMonth() + 1,
-    year = date.getFullYear();
-
-  if (day < 10) {
-    day = '0' + day;
-  }
-
-  if (month < 10) {
-    month = '0' + month;
-  }
-  return month + '/'+ day + '/' + year;
-}
-
 var pageTmpl = $.templates("#pageTmpl"),
   pageOptions = {
     monthsSpan: 3
   },
   today = new Date(),
   model = {
-    startDate: formattedDate(today),
+    startDate: $.datepicker.formatDate("mm/dd/yy", today),
     endDate: "",
     middleDate: ""
   };

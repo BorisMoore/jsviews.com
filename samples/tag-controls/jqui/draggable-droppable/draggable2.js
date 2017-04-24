@@ -1,4 +1,5 @@
-﻿$.views.tags("draggable2", {
+﻿"use strict";
+$.views.tags("draggable2", {
   bindTo: ["left", "top"],
   linkedCtxParam: ["left", "top"],
   mainElement: "div",
@@ -7,7 +8,7 @@
     var tag = this;
     tag.mainElem.mousedown(function(ev) {
       var offset = tag.mainElem.offset(),
-        addedLeft = offset.left - ev.clientX;
+        addedLeft = offset.left - ev.clientX,
         addedTop = offset.top - ev.clientY;
       if (document.elementFromPoint(ev.clientX, ev.clientY) === tag.mainElem[0]) {
         $(document.body).mousemove(function(ev2) {
@@ -71,7 +72,7 @@ $.views.converters({
       scaleRot = props.scaleRot || 1,
       // Calculate new polar coords - [expand, rotate]
       expand = Math.sqrt(Math.pow(props.cx - left, 2)
-        + Math.pow(props.cy - top, 2))/props.radius;
+        + Math.pow(props.cy - top, 2))/props.radius,
       rotate = Math.atan2(props.cx - left, top - props.cy)/radDlta
         + 180 - props.shift;
     return [expand, rotate/scaleRot];

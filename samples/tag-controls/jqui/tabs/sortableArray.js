@@ -1,4 +1,5 @@
-﻿var cnt = 2,
+﻿"use strict";
+var cnt = 2,
   pageTmpl = $.templates("#pageTmpl"),
   model = {
     selectedTab: 1,

@@ -441,13 +441,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "links",
         "title": "See also:",
-        "links": [
-          {
-            "_type": "link",
-            "hash": "hash",
-            "label": ""
-          }
-        ],
+        "links": [],
         "topics": [
           {
             "_type": "topic",
@@ -2752,7 +2746,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The most common data-link expression for a data-linked element is a data path, such as:\n\n```jsr\n<div data-link=\"address.street\"></div>...\n```\n\n-- which is actually abbreviated syntax, and is equivalent to the full syntax:\n\n```jsr\n<div data-link=\"{:address.street}\"></div>...\n```\n\nIn fact this example is using the default target of `innerText`, and is equivalent to the even more explicit syntax:\n\n```jsr\n<div data-link=\"text{:address.street}\"></div>...\n```\n\nFor explanation and examples of the full syntax see the *[Data-linked elements (full syntax)](#linked-elem-syntax@fullsyntax)* topic.\n\nOur example, `data-link=\"{:address.street}\"` corresponds to the JsViews tag `{^{:address.street}}`.\n\nSimilarly we can data-link to ***any*** tag, such as:\n\n```jsr\n{^{:...}}, {^{>...}}, {^{for...}}, {^{if}}, {^{on}}, {^{slider}}, {^{myTag}} etc.\n```\n\nFor example to use `{^{myTag .../}}` as an element binding, you simply remove the initial `{^` and the last `}`, and optionally specify a target, such as `title` (or use the default `innerText` target):\n\n```jsr\ndata-link=\"title{myTag ...}\"\n```\n\nA data-linked element can use multiple bindings, each of which has a target and a link expression, and where the link expression corresponds to a data-linked JsViews/JsRender tag:\n\n```jsr\ndata-link=\"target1{linkExpression1} target2{linkExpression2}\" ...\n```\n\nExamples of tags are:\n\n```jsr\n{^{:age}}\n{^{>name}}\n{^{slider age/}}\n{^{if age < 15}}Child{{else age > 65}}Senior{{else}}Adult{{/if}}\n{^{for phones}}...{{/for}}\n{^{on increaseAge}}Increase Age{{/on}}\n{^{myTag person.name/}} \n```\n\nThe following examples show the same tags used as link expressions for data-linking elements (using in each case the default element data-linking target `innerText`):\n\n```jsr\n<div data-link=\"age\"></div>\n<div data-link=\"name\"></div>\n<div data-link=\"{slider age}\"></div>\n<span data-link=\"{if age < 15 tmpl='Child'}{else age > 65 tmpl='Senior'}{else tmpl='Adult'}\"></span>\n<div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n<button data-link=\"{on increaseAge}\">Increase Age</button>\n<div data-link=\"{myTag person.name}\"></div>\n```\n\nAnd the following example shows two bindings, one using the default target, and binding to a `{^{slider}}` tag and the other targeting the CSS `background` property of the `div`, and binding to an `{^{if ...}}}{{else ...}}{{else}}` tag:\n \n```jsr\n<div data-link=\"{slider age} css-background{if ... tmpl='green'}{else ... tmpl='red'}{else tmpl='blue'}\"></div>\n```\n"
+        "text": "The most common data-link expression for a data-linked element is a data path, such as:\n\n```jsr\n<div data-link=\"address.street\"></div>...\n```\n\n-- which is actually abbreviated syntax, and is equivalent to the full syntax:\n\n```jsr\n<div data-link=\"{:address.street}\"></div>...\n```\n\nIn fact this example is using the default target of `innerText`, and is equivalent to the even more explicit syntax:\n\n```jsr\n<div data-link=\"text{:address.street}\"></div>...\n```\n\nFor explanation and examples of the full syntax see the *[Data-linked elements (full syntax)](#linked-elem-syntax@fullsyntax)* topic.\n\nOur example, `data-link=\"{:address.street}\"` corresponds to the JsViews tag `{^{:address.street}}`.\n\nSimilarly we can data-link to ***any*** tag, such as:\n\n```jsr\n{^{:...}}, {^{>...}}, {^{for...}}, {^{if}}, {^{on}}, {^{slider}}, {^{myTag}} etc.\n```\n\nFor example to use `{^{myTag .../}}` as an element binding, you simply remove the initial `{^` and the last `}`, and optionally specify a target, such as `title` (or use the default `innerText` target):\n\n```jsr\ndata-link=\"title{myTag ...}\"\n```\n\nA data-linked element can use multiple bindings, each of which has a target and a link expression, and where the link expression corresponds to a data-linked JsViews/JsRender tag:\n\n```jsr\ndata-link=\"target1{linkExpression1} target2{linkExpression2}\" ...\n```\n\nExamples of tags are:\n\n```jsr\n{^{:age}}\n{^{>name}}\n{^{slider age/}}\n{^{if age < 15}}Child{{else age > 65}}Senior{{else}}Adult{{/if}}\n{^{for phones}}...{{/for}}\n{^{on increaseAge}}Increase Age{{/on}}\n{^{myTag person.name/}} \n```\n\nThe following examples show the same tags used as link expressions for data-linking elements (using in each case the default element data-linking target `innerText`):\n\n```jsr\n<div data-link=\"age\"></div>\n<div data-link=\"name\"></div>\n<div data-link=\"{slider age}\"></div>\n<span data-link=\"{if age < 15 tmpl='Child'}{else age > 65 tmpl='Senior'}{else tmpl='Adult'}\"></span>\n<div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n<button data-link=\"{on increaseAge}\">Increase Age</button>\n<div data-link=\"{myTag person.name}\"></div>\n```\n\nAnd the following example shows two bindings, one using the default target, and binding to a `{^{slider}}` tag and the other targeting the CSS `background` property of the `div`, and binding to an `{^{if ...}}}{{else ...}}{{else}}` tag:\n \n```jsr\n<div data-link=\"{slider age}\n css-background{if ... tmpl='green'}{else ... tmpl='red'}{else tmpl='blue'}\"></div>\n```\n"
       },
       {
         "_type": "sample",
@@ -3528,7 +3522,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "See also [Setting tag delimiters for JsRender](#settings/delimiters)"
+        "text": "See also *[Setting tag delimiters for JsRender](#settings/delimiters)*"
       },
       {
         "_type": "para",
@@ -3891,7 +3885,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "$.observe()",
-        "text": "Similarly you can use the `observe()` APIs to observe specific properties of *View Model* objects.\n\n```js\n// Observe changes to name, address and phones properties of <em>person</em> object\n$.observe(person, \"name\", \"phones\", \"address\",changeHandler); \n\n// Observe array changes <em>person.phones()</em>\n$.observe(person.phones(), changeHandler);\n\n// Observe changes to street property of <em>person.address()</em> object.\n$.observe(person.address(), \"street\", changeHandler);\n```\n\nor equivalently:\n\n```js\n$.observe(person, \"name\", \"phones\", \"address\", person.phones(), person.address(), \"street\", changeHandler);\n```\n\nHere it is in a sample:"
+        "text": "Similarly you can use the `observe()` APIs to observe specific properties of *View Model* objects.\n\n```js\n// Observe changes to name, address and phones properties of <em>person</em> object\n$.observe(person, \"name\", \"phones\", \"address\",changeHandler); \n\n// Observe array changes <em>person.phones()</em>\n$.observe(person.phones(), changeHandler);\n\n// Observe changes to street property of <em>person.address()</em> object.\n$.observe(person.address(), \"street\", changeHandler);\n```\n\nor equivalently:\n\n```js\n$.observe(person, \"name\", \"phones\", \"address\",\n    person.phones(), person.address(), \"street\", changeHandler);\n```\n\nHere it is in a sample:"
       },
       {
         "_type": "sample",
@@ -3908,7 +3902,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "code",
             "title": "Observe specific properties on specific objects",
-            "code": "$.observe(person, \"name\", \"phones\", \"address\", person.phones(), person.address(), \"street\", changeHandler);"
+            "code": "$.observe(person, \"name\", \"phones\", \"address\",\n    person.phones(), person.address(), \"street\", changeHandler);"
           }
         ],
         "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button>\n  <button id=\"setObjects\">Call setters</button><br/>\n  <button id=\"swapObjects\">Swap address and phones</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <span class=\"floatleft\">{^{:number()}}</span>\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
@@ -4117,14 +4111,16 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "height": "140"
       },
       {
-        "_type": "para",
-        "title": "",
-        "text": "For data-linking to `class` see also ..."
-      },
-      {
         "_type": "links",
         "title": "See also:",
-        "links": [],
+        "links": [
+          {
+            "_type": "link",
+            "hash": "hash",
+            "label": "Data-linking to class",
+            "url": "#link-class"
+          }
+        ],
         "topics": [
           {
             "_type": "topic",
@@ -4314,7 +4310,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Using MyViewModel.map(...) to map a whole object hierarchy to a View Model instance hierarchy",
-        "text": "Similarly, we will convert from JsRender to JsViews the [sample](#viewmodelsapi@mapsample) that took a *'View Model typed hierarchy'*, and created a complete hierarchy of *View Model* instances, by passing a plain data hierarchy to the top-level `map()` method.\n\nAgain the code for compiling *View Model* classes and for  then calling the [`map()`](#viewmodelsapi@map) method to generated the *View Model* hierarchy is unchanged:\n\n*Compile View Model classes (typed hierarchy):* \n\n```js\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // Declare 'name' as being a primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // Declare 'address' as being an Address (View Model) type\n     {getter: \"phones\", type: \"Phone\"}     // Declare 'phones' as being (an array) of Phone (View Model) types\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone: ...\n});\n```\n\n*Person data (plain object hierarchy, or JSON string):*\n\n```js\nvar personData = {\n    name: \"Pete\",\n    address: {street: \"1st Ave\"},\n    phones: [{number: \"111 111 1111\"}, ...]\n  };\n```\n\n*Use map() to convert from `personData` plain object hierarchy (or JSON string) to `person` *View Model* hierarchy:*\n\n```js\nvar person = $.views.viewModels.Person.map(personData);\n```"
+        "text": "Similarly, we will convert from JsRender to JsViews the [sample](#viewmodelsapi@mapsample) that took a *'View Model typed hierarchy'*, and created a complete hierarchy of *View Model* instances, by passing a plain data hierarchy to the top-level `map()` method.\n\nAgain the code for compiling *View Model* classes and for  then calling the [`map()`](#viewmodelsapi@map) method to generated the *View Model* hierarchy is unchanged:\n\n*Compile View Model classes (typed hierarchy):* \n\n```js\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                              // Declare 'name' as primitive type (string)\n     {getter: \"address\", type: \"Address\"}, // Declare 'address' as Address (View Model) type\n     {getter: \"phones\", type: \"Phone\"}     // Declare 'phones' as (array) of Phone (View Model) types\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone: ...\n});\n```\n\n*Person data (plain object hierarchy, or JSON string):*\n\n```js\nvar personData = {\n    name: \"Pete\",\n    address: {street: \"1st Ave\"},\n    phones: [{number: \"111 111 1111\"}, ...]\n  };\n```\n\n*Use map() to convert from `personData` plain object hierarchy (or JSON string) to `person` *View Model* hierarchy:*\n\n```js\nvar person = $.views.viewModels.Person.map(personData);\n```"
       },
       {
         "_type": "sample",
@@ -5458,6 +5454,30 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selIndex: 1,\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.tagCtx.view.data.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.tagCtx.view.data.cars[val].id;\n}});\n\ntmpl.link(\"#result\", data);",
         "height": "190",
         "title": ""
+      },
+      {
+        "_type": "para",
+        "title": "Data-linking radio buttons to integer variables",
+        "text": "Selection of data-linked radio buttons is determined by comparing the current value of the date variable to the `value` of the `<input type=\"radio\" value=\"...\" />` -- which is necessarily of type *string*.\n\nIn order to data-link to a data variable of type *number* (integer), use *intToStr* and *strToInt* converters, as shown in the following samples:\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "",
+        "links": [
+          {
+            "_type": "link",
+            "hash": "hash",
+            "label": "Form elements: Two-way binding and converters",
+            "url": "#samples/form-els/converters"
+          },
+          {
+            "_type": "link",
+            "hash": "hash",
+            "label": "Form elements: Array binding",
+            "url": "#samples/form-els/array-binding"
+          }
+        ],
+        "topics": []
       },
       {
         "_type": "para",

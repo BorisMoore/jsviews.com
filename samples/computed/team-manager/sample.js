@@ -1,3 +1,4 @@
+"use strict";
 // Compile template
 var tmpl = $.templates("#teamTmpl");
 
@@ -59,7 +60,7 @@ myIsManager.depends = function() {
 // myIsManager.depends = "~manager"
 
 // Initial data
-  teamData = {
+var teamData = {
     manager: null,
     members: [{
       name: "Pete",

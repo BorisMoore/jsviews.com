@@ -539,10 +539,13 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 						codetabs && self.loadTabs(codetabs);
 					}, "text");
 				} else {
+					header = data.header ? data.header + "\n" : "";
 					loadScript(data);
 					self.origData = self.sampleData = {
 						data: data.data,
 						markup: data.markup,
+						header: header,
+						action: data.action,
 						html: data.html,
 						code: data.code,
 						jsrJsvJqui: data.jsrJsvJqui,
@@ -551,6 +554,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					self.tryItData = {
 						data: data.data,
 						markup: data.markup,
+						header: header,
 						html: data.html,
 						code: data.code,
 						jsrJsvJqui: data.jsrJsvJqui,
@@ -605,17 +609,24 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 		},
 		render: function(mode, arg1, arg2) {
 			function fullCode() {
-				var code = tryItData.code,
+				var headerInsert,
+					code = tryItData.code,
 					codeInHeader = code && code.indexOf("$(function()") === 0,
-					html = tryItData.html;
+					html = tryItData.html,
+					header = tryItData.header;
+				if (!url) {
+					header = header ? header.replace(/^\S/gm, "  $&") : "";
+					headerInsert = nocss || headerAction === "" ? "" : "  <link href=\"samples.css\" rel=\"stylesheet\" />\n";
+					header = headerAction === "append" ? headerInsert + header : header + headerInsert;
+				}
 				return "<!DOCTYPE html>\n"
 					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
 					+ "  <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n"
 					+ (url
-						? ("  <base href=\"//www.jsviews.com/" + url.slice(0, url.lastIndexOf("/")) + "/\"/>\n"
-							+ tryItData.header
+						? ("  <base href=\"//www.jsviews.com/" + url.slice(0, url.lastIndexOf("/")) + "/\" />\n"
+							+ header
 							+ (codeInHeader
 								? ("<script>\n" + code
 									+ "\n</script>\n")
@@ -623,18 +634,17 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 						: (
 					(jsrJsvJqui === "jqui"
 						? "  <script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.min.js\"></script>\n"
-						+ "  <link href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\">\n"
+							+ (headerAction ? "  <link href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\" />\n" : "")
 						: ""
 					)
-					+ "  <base href=\"//www.jsviews.com/samples/\"/>\n"
-					+ (nocss ? "" : "  <link href=\"samples.css\" rel=\"stylesheet\"/>\n")
+					+ "  <base href=\"//www.jsviews.com/samples/\" />\n"
 					+ "  <script src=\"../download/js" + (jsrJsvJqui === "jsr" ? "render" : "views")
 					+ ".js\"></script>\n"
 					+ (jsrJsvJqui === "jqui"
 						? "  <script src=\"../download/sample-tag-controls/jsviews-jqueryui-widgets.js\"></script>\n"
 						: "")
 					))
-					+ "</head>\n"
+					+ (header || "") + "</head>\n"
 					+ "<body>\n\n"
 					+ (html
 						? (html + (code && !codeInHeader ? "\n\n<script>\n" + code + "\n</script>" : ""))
@@ -689,8 +699,10 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 
 			var ret = "",
 				tryItData = this.data,
-				jsrJsvJqui = this.tagCtx.view.data.origData.jsrJsvJqui,
-				nocss = this.tagCtx.view.data.origData.nocss,
+				origData = this.tagCtx.view.data.origData,
+				jsrJsvJqui = origData.jsrJsvJqui,
+				nocss = origData.nocss,
+				headerAction = origData.action,
 				editable = mode==="edit",
 				url = this.parent.parents.section.data.url;
 
@@ -699,7 +711,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 			} else if (mode === "code") {
 				ret += renderField(arg1, arg2);
 			} else if (tryItData.html) {
-				ret += renderField("html") + renderField("code", "javascript");
+				ret += renderField("html") + renderField("code", "javascript"); // Could do + renderField("header");
 			} else if (tryItData.markup) {
 				ret += renderField("markup", "template markup") + renderField("data");
 			}

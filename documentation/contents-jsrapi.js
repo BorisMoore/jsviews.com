@@ -3912,7 +3912,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "See also [Setting tag delimiters for JsViews](#jsvsettings/delimiters)"
+        "text": "See also *[Setting tag delimiters for JsViews](#jsvsettings/delimiters)*"
       },
       {
         "_type": "para",

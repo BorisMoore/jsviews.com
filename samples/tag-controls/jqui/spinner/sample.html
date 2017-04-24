@@ -14,18 +14,13 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
   <script src="../../../../../download/sample-tag-controls/validate/validate.js"></script>
   <link href="../../../../../download/sample-tag-controls/validate/validate.css" rel="stylesheet">
-
   <link href="../../../samples.css" rel="stylesheet" />
 </head>
 <body>
 
 <style>
-  .spinner {width: 110px;}
-  .slider {margin-left: 60px;width: 450px;}
-	.spinner.invalid {
-		margin: 7px;
-	}
-	}
+  .slider {margin-left: 60px; width: 450px;}
+  .spinner.invalid {margin: 7px;}
 </style>
 
 <script id="pageTmpl" type="text/x-jsrender">
@@ -58,7 +53,10 @@ Enforce in-range amount:
     _min=25
     _max=2000
     _step=25
-    name="amount" class="spinner"
+    _page=4
+    name="amount"
+    class="spinner"
+    width=110
   /}}
 {{/validate}}
 
@@ -73,7 +71,6 @@ Enforce in-range amount:
 </script>
 
 <div id="page"></div>
-
 <!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
 </body>
 </html>

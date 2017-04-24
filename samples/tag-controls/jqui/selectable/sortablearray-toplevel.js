@@ -1,4 +1,5 @@
-﻿var cnt = 5,
+﻿"use strict";
+var cnt = 5,
   pageTmpl = $.templates("#pageTmpl"),
   model = {
     selectedPeople: function() {

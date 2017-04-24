@@ -1,5 +1,8 @@
 ﻿$(function() {
 	window.parent.pagetag && window.parent.pagetag.iframeLoaded(window._tgId, function(sampleData) {
+		if (sampleData.header) {
+			$(document.head)[sampleData.action||"html"](sampleData.header + "\n")
+		}
 		if (sampleData.html) {
 			$(document.body).html(sampleData.html);
 		}

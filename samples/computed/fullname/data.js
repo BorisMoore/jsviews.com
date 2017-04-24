@@ -1,3 +1,4 @@
+"use strict";
 //====================== Data ======================
 var person = {
   firstName: "Jeff",

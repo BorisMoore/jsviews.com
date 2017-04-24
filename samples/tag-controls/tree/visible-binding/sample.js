@@ -1,4 +1,5 @@
-﻿/* Hierarchy of named folders */
+﻿"use strict";
+/* Hierarchy of named folders */
 var rootFolder = {
   name: "Categories", folders: [
     {name: "Drama", folders: [

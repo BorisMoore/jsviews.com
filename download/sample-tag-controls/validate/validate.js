@@ -220,14 +220,18 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
     },
     clearMessage: function() {
       // Clear previous message.
-      this.messageElem.removeClass("invalid");
-        if (this.label.textContent !== undefined) {
-          this.label.textContent = "";
+      var tag = this,
+        label = tag.label;
+      if (tag.messageElem) {
+        tag.messageElem.removeClass("invalid");
+        if (label.textContent !== undefined) {
+          label.textContent = "";
         } else {
-          this.label.innerText = ""; // Older IE does not support textContent
+          label.innerText = ""; // Older IE does not support textContent
         }
+      }
     }
-  }
+}
 });
 
 $.views.tags.validate.validators({

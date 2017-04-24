@@ -1,3 +1,4 @@
+"use strict";
 //====================== Data ======================
 // Constructor
 function Person(first, last) {

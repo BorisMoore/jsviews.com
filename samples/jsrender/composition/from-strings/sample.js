@@ -1,3 +1,4 @@
+"use strict";
 $.templates({
   people: '<div>{{:name}} lives in {{for address tmpl="address" /}}</div>',
   address: '<b>{{>city}}</b>'

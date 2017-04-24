@@ -1,4 +1,5 @@
-﻿$.views.converters("toHex", function(r, g, b) {
+﻿"use strict";
+$.views.converters("toHex", function(r, g, b) {
   var hex = [
     r.toString(16),
     g.toString(16),

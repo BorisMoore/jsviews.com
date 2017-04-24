@@ -1,3 +1,4 @@
+"use strict";
 var data = {
   amount: "3",
   listbox: false

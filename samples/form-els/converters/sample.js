@@ -1,3 +1,4 @@
+"use strict";
 $.views.converters({
   minus1: function(value) {
     return isNaN(value) || value === '' ? null : value-1;

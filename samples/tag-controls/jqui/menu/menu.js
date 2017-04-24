@@ -1,4 +1,5 @@
-﻿var data = {},
+﻿"use strict";
+var data = {},
   pageTmpl = $.templates("#pageTmpl");
 
 pageTmpl.link("#page", data, {

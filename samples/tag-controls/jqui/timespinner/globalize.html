@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/globalize.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.de-DE.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.ja-JP.min.js"></script>
+  <link href="../../../samples.css" rel="stylesheet" />
+</head>
+<body>
+<script id="pageTmpl" type="text/x-jsrender">
+  <h4>Choose culture:</h4>
+  <p>
+    <select data-link="culture" name="culture">
+      <option value="en-US">US</option>
+      <option value="de-DE">Germany</option>
+    </select>
+  </p>
+  <p>
+    Underlying data (date):
+    <em>{^{:date}}</em>
+  </p>
+  <p>
+    {^{timespinner date ^_culture=culture /}}
+  </p>
+</script>
+
+<div id="page"></div>
+<!--<script src="globalize.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

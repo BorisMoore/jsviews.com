@@ -1,3 +1,4 @@
+"use strict";
 var shoppingCart = {
   add: addItem,
   remove: removeItem,

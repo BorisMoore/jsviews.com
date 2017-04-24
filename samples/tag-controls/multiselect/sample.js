@@ -1,4 +1,5 @@
-﻿var count = 1,
+﻿"use strict";
+var count = 1,
   pageTmpl = $.templates("#pageTmpl"),
 
   // Using the default labelProp="name" valueProp="id".

@@ -1,3 +1,4 @@
+"use strict";
 var currencies = [
     { name:"US", label:"US Dollar", rate: 1.0, symbol: "$" },
     { name:"EUR", label:"Euro", rate: 0.95, symbol: "Euros: " },

@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../../download/jsviews.js"></script>
+  <script src="../../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+  <link href="../sample.css" rel="stylesheet"/>
+</head>
+<body>
+<script id="pageTmpl" type="text/x-jsrender">
+  <h4>Using a formatter to bind to a custom "date string" format</h4>
+  <pre>dataFormat=~wcfDate</pre>
+  <p>
+    Underlying data (string):
+    <em>{^{:wcfString}}</em>
+  </p>
+  <p>
+    {^{datepicker wcfString dataFormat=~wcfDate /}}
+    {^{datepicker wcfString dataFormat=~wcfDate dateFormat="DD MM d, yy" /}}
+  </p>
+
+  <h4>Custom datepickers</h4>
+  <pre>&lcub;^{myDatepicker ... /}&rcub;</pre>
+  <p>
+    Underlying data (date):
+    <em>{^{:date}}</em>
+  </p>
+  <p>
+    {^{myDatepicker date /}}
+    {^{myDatepicker date dateFormat="mm-dd-yy (DD)" /}}
+  </p>
+
+  <pre>&lcub;^{myWcfDatepicker ... /}&rcub;</pre>
+  <p>
+    Underlying data (string):
+    <em>{^{:wcfString}}</em>
+  </p>
+  <p>
+    {^{myWcfDatepicker wcfString /}}
+    {^{myWcfDatepicker wcfString dateFormat="DD mm/dd/yy" /}}
+  </p>
+
+  <h4>Using converters</h4>
+  <pre>&lcub;^{datepicker ... convert=... convertBack=... /}&rcub;</pre>
+  <p>
+    Underlying data (string):
+    <em>{^{:wcfString}}</em>
+  </p>
+  <p>
+    {^{datepicker wcfString dateFormat="D M d, yy"
+        convert=~wcfToJqui convertBack=~jquiToWcf /}}
+  </p>
+  <p>
+    Delayed date:
+    {^{myWcfDatepicker wcfString dateFormat="D M d, yy" ^daysToAdd=delay
+        convert=~addDays convertBack=~removeDays /}}
+    Add days:
+    {^{spinner delay width=50 /}}
+  </p>
+</script>
+
+<div id="page"></div>
+
+<!--<script src="custom.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

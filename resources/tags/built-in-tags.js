@@ -1,4 +1,5 @@
 ﻿(function(window, $, undefined) {
+"use strict";
 
 //#region TEMPLATES
 

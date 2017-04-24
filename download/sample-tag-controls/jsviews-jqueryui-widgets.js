@@ -1,4 +1,4 @@
-﻿/*! JsViews jQueryUI widget integration v0.9.84 (Beta)
+﻿/*! JsViews jQueryUI widget integration v0.9.85 (Beta)
 see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
 * https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
@@ -8,19 +8,19 @@ see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 
 /* Wrap behavior (wrapping HTML content) and default element, for each widget: */
 
-/*         autocomplete button   buttonset  droppable  menu      progressbar  resizable
- * wrap:   -            wrap     -          wrap       wrap      wrap         wrap     
- * elem:   input        button   -          -          ul        div          div      
+/*       autocomplete button   buttonset droppable   menu        progressbar  resizable
+ * wrap: -            wrap     -         wrap        wrap        wrap         wrap     
+ * elem: input        button   -         -           ul          div          div      
  */
 
-/*         selectable   slider   spinner    tabs       sortable  draggable    accordion
- * wrap:   wrap         -        -          wrap       wrap      wrap         wrap
- * elem:   -            div      input      div        -         -            -
+/*       selectable   slider   spinner   timespinner  tabs       sortable     draggable
+ * wrap: wrap         -        -         -            wrap       wrap         wrap     
+ * elem: -            div      input     input        -          -            -      
  */
 
-/*         controlgroup checkbox radio      selectmenu datepicker
- * wrap:   wrap         -        -          wrap       wrap
- * elem:   span         div      input      selectv    input
+/*       accordion    checkbox radio     controlgroup selectmenu datepicker
+ * wrap: wrap         -        -         wrap         wrap       wrap
+ * elem: -            div      input     span         selectv    input
  */
 
 (function(global, $, undefined) {
@@ -29,6 +29,10 @@ see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 if (!$ || !$.fn || !$.ui || !$.views) {
   // jQuery is not loaded.
   throw "jsviews-jqueryui-widgets.js requires jQuery, jQuery UI and JsViews";
+}
+
+function getConverter(tag, cvt) {
+  return cvt + "" === cvt ? tag.view.getRsc("converters", cvt) : cvt;
 }
 
 function checkboxRadioOnAfterLink(tagCtx, linkCtx) {
@@ -44,9 +48,6 @@ function checkboxRadioOnAfterLink(tagCtx, linkCtx) {
   if (props.value) {
     elem.value = props.value;
   }
-  elem.checked = elem.type === "radio"
-    ? (val === elem.value)
-    : val && val !== "false";
 
   tag.baseApply(arguments);
   tag.displayElem = tag.widget.label;
@@ -84,19 +85,38 @@ function tabsAccordionOptions() {
   };
 }
 
-var tagDefs = {
+function initFormatter(tag, tagCtx) { // Used by datepicker and spinner
+  var dataFormatter,
+    dataFormat = tagCtx.props.dataFormat;
+  if (dataFormat === undefined) {
+    dataFormat = tag.dataFormat;
+  }
+  dataFormatter = dataFormat && dataFormat.parse
+    ? dataFormat
+    : tag.dataFormatter;
 
+  // Formatter can be provided as tag.dataFormat or tagCtx.props.dataFormat
+  tag.parseData = function(value) {
+    return dataFormatter.parse.call(tag, value, tag.tagCtx.props);
+  };
+  tag.formatData = function(value) {
+    return dataFormatter.format.call(tag, value, tag.tagCtx.props);
+  };
+  return dataFormat;
+}
+
+var tagDefs = {
+// ============================= WIDGET =============================
 widget: {
   argDefault: false, // Do not default missing arg to #data
   mainElement: "*",
   init: function(tagCtx) {
-    var content, elemType, props,
+    var content, elemType,
       tag = this;
 
     if (tag._.inline) {
-      props = tagCtx.props;
       content = tagCtx.tmpl.markup;
-      if (!tag.template && (elemType = props.elem || tag.elem)) {
+      if (!tag.template && (elemType = tagCtx.props.elem || tag.elem)) {
         if (content) {
           if (tag.wrap) {
             tag.template = "<"+elemType+">" + $.trim(content) + "</"+elemType+">";
@@ -191,7 +211,7 @@ widget: {
   dataBoundOnly: true,
   attr: "none"
 },
-
+// ============================= BUTTON =============================
 button: {
   baseTag: "widget",
   widgetName: "button",
@@ -211,6 +231,7 @@ button: {
     }
   }
 },
+// ============================= AUTOCOMPLETE =============================
 autocomplete: {
   baseTag: "widget",
   widgetName: "autocomplete",
@@ -238,6 +259,7 @@ autocomplete: {
     };
   }
 },
+// ============================= CHECKBOX =============================
 checkbox: {
   baseTag: "widget",
   widgetName: "checkboxradio",
@@ -245,8 +267,15 @@ checkbox: {
   mainElement: "input",
   linkedElement: "input",
   setSize: true,
-  onAfterLink: checkboxRadioOnAfterLink
+  onAfterLink: checkboxRadioOnAfterLink,
+  setValue: function(val) {
+    if (val !== undefined) {
+      var elem = this.mainElem[0];
+      elem.checked = val && val !== "false";
+    }
+  }
 },
+// ============================= RADIO =============================
 radio: {
   baseTag: "widget",
   widgetName: "checkboxradio",
@@ -273,9 +302,14 @@ radio: {
   },
   onAfterLink: checkboxRadioOnAfterLink,
   setValue: function(val) {
+    if (val !== undefined) {
+      var elem = this.mainElem[0];
+      elem.checked = val === elem.value;
+    }
     this.widget.refresh();
   }
 },
+// ============================= CONTROLGROUP =============================
 controlgroup: {
   baseTag: "widget",
   widgetName: "controlgroup",
@@ -290,21 +324,58 @@ controlgroup: {
     });
   }
 },
+// ============================= DATEPICKER =============================
 datepicker: {
   baseTag: "widget",
   widgetName: "datepicker",
   linkedElement: "*",
   elem: "input",
   setSize: true,
+  dataFormat: true,
+  dataFormatter: {
+    // Default data formatter uses built-in datepicker formatter as used in display.
+    // Override as tag.dataFormat in tagDef or as tagCtxprops.dataFormat
+    parse: function(value, props) {
+      return $.datepicker.parseDate(this.dataFormat, value);
+    },
+    format: function(value, props) {
+      return $.datepicker.formatDate(this.dataFormat, value);
+    }
+  },
+  init: function(tagCtx) {
+    var tag = this,
+      dateFormat = tag.dateFormat = tagCtx.props.dateFormat
+        || tagCtx.props._dateFormat // Can set as _dateFormat=... or as dateFormat=...
+        || tag.dateFormat // or set as property in tagDef
+        || $.datepicker._defaults.dateFormat, // or use internal date-picker default
+      cvt = getConverter(tag, tag.convert),
+      cvtBk = getConverter(tag, tag.convertBack),
+      dataFormat = initFormatter(tag, tagCtx);
+      tag.dataFormat = dataFormat === true ? tag.dateFormat : dataFormat;
 
+    tag.convert = function(val) {
+      // Wrapped converter calls converter then does widget format
+      val = cvt ? cvt.call(tag, val) : val;
+      if (tag.dataFormat && ("" + val === val)) {
+        val = tag.parseData(val);
+      }
+      return $.datepicker.formatDate(dateFormat, dataFormat === 0 ? new Date(val) : val);
+    };
+    tag.convertBack = function(val) {
+      // Wrapped converter, does widget parse then calls converter
+      val = $.datepicker.parseDate(dateFormat, val);
+      val = dataFormat ? tag.formatData(val) : dataFormat === 0 ? +val : val;
+      return cvtBk ? cvtBk.call(tag, val) : val;
+    };
+    // Prevent onAfterLink replacing wrapped converters with unwrapped ones
+    tag.convert.fix = tag.convertBack.fix = true;
+    tag.baseApply(arguments);
+  },
   options: function() {
     var tag = this;
     return {
       onSelect: function(dateText) {
         tag.value = dateText;
-//https://github.com/BorisMoore/jsviews/issues/360#issuecomment-272936627
-//var dateObj = $.datepicker.parseDate(tag._datefrmt, dateText);
-//tag.update(dateObj);
         tag.update(dateText);
       }
     };
@@ -312,6 +383,7 @@ datepicker: {
   onBind: function(tagCtx) {
     var tag = this;
     tag.baseApply(arguments);
+    tag.mainElem.datepicker("option", "dateFormat", tag.dateFormat);
     if (tag.mainElem[0].tagName !== "INPUT") {
       // This datepicker is not using an input (e.g. using a div) - so set to inline-
       tag.mainElem.css("display", "inline-block");
@@ -319,21 +391,11 @@ datepicker: {
       tag.tagCtx.props.trigger = false;
     }
   },
-//https://github.com/BorisMoore/jsviews/issues/360#issuecomment-272936627
-//  onAfterLink: function(tagCtx) {
-//    var tag = this,
-//      value = tag.bndArgs()[0];
-
-//    tag.baseApply(arguments);
-//    tag._datefrmt = $('input', tag.mainElem).datepicker("option", "dateFormat");
-//    var formatted = $.datepicker.formatDate(tag._datefrmt, new Date(tag.bndArgs()[0]));
-//     tag.setValue(formatted);
-//  },
   setValue: function(value) {
     var tag = this;
     if (value !== undefined && value !== tag.value) {
       tag.value = value;
-      tag.linkedElem.datepicker("setDate", value);
+      tag.mainElem.datepicker("setDate", value);
     }
   },
   getValue: function() {
@@ -346,6 +408,7 @@ datepicker: {
 //  wrap: true,
 //  elem: "div"
 //},
+// ============================= DROPPABLE =============================
 droppable: {
   baseTag: "widget",
   widgetName: "droppable",
@@ -359,6 +422,7 @@ droppable: {
     }
   }
 },
+// ============================= MENU =============================
 menu: {
   baseTag: "widget",
   widgetName: "menu",
@@ -373,6 +437,7 @@ menu: {
     }
   }
 },
+// ============================= PROGRESSBAR =============================
 progressbar: {
   baseTag: "widget",
   widgetName: "progressbar",
@@ -383,7 +448,9 @@ progressbar: {
   setSize: true,
   contentCtx: true,
   setValue: function(value) {
-    this.widget.value(parseFloat(value) || 0);
+    if (!this.tagCtx.props.busy) {
+      this.widget.value(parseFloat(value) || 0);
+    }
   },
   getValue: function() {
     return this.widget.value();
@@ -396,12 +463,12 @@ progressbar: {
     }
   }
 },
+// ============================= RESIZABLE =============================
 resizable: {
   baseTag: "widget",
   widgetName: "resizable",
   bindTo: ["width", "height"],
   linkedCtxParam: ["width", "height"],
-  wrapLinkCtxElem: true,
   elem: "div",
   wrap: true,
   contentCtx: true,
@@ -429,6 +496,7 @@ resizable: {
     return [mainElem.width(), mainElem.height()];
   }
 },
+// ============================= SELECTMENU =============================
 selectmenu: {
   baseTag: "widget",
   widgetName: "selectmenu",
@@ -461,6 +529,7 @@ selectmenu: {
     return this.mainElem[0].value;
   }
 },
+// ============================= SLIDER =============================
 slider: {
   baseTag: "widget",
   widgetName: "slider",
@@ -481,7 +550,7 @@ slider: {
   onAfterLink: function(tagCtx) {
     var tag = this;
     if (!tag.linkCtx.elem._jsvChg) {
-      // If change not triggered by a the spinner itself changing value
+      // If change not triggered by a the slider itself changing value
       tag.baseApply(arguments);
     }
   },
@@ -492,40 +561,171 @@ slider: {
     return this.widget.value();
   }
 },
+// ============================= SPINNER =============================
 spinner: {
   baseTag: "widget",
   widgetName: "spinner",
   linkedElement: "input",
   elem: "input",
   setSize: true,
+  // Default display formatter uses Globalize 0.1.1.
+  // Override as tag.displayFormat in tagDef or as tagCtx.props.displayFormat
+  displayFormat: {
+    parse: function(value, props) {
+      return window.Globalize
+        ? Globalize.parseFloat(value, 10, props._culture)
+        : value;
+    },
+    format: function(value, props) {
+      return window.Globalize
+        ? Globalize.format(value, this.widget.options.numberFormat, props._culture)
+        : value;
+    }
+  },
   options: function() {
     var tag = this;
     return {
       spin: function(evt, ui) {
-        tag.update(ui.value);
+        tag.update(tag.widget._format(ui.value));
       }
+    };
+  },
+  init: function(tagCtx) {
+    var dataFormat,
+      tag = this,
+      displayFormat = tagCtx.props.displayFormat;
+    tag.parse = function(value) {
+      return displayFormat.parse.call(tag, value, tag.tagCtx.props);
+    };
+    tag.format = function(value, props) {
+      return displayFormat.format.call(tag, value, tag.tagCtx.props);
+    };
+    if (displayFormat === undefined) {
+      displayFormat = tag.displayFormat;
+    }
+    tag.dataFormat = dataFormat = initFormatter(tag, tagCtx);
+    tag.baseApply(arguments);
+  },
+  onBind: function(tagCtx) {
+    var tag = this,
+      cvt = getConverter(tag, tag.convert),
+      cvtBk = getConverter(tag, tag.convertBack);
+
+    tag.baseApply(arguments);
+
+    tag.convert = function(val) {
+      // Wrapped converter calls converter then does widget format
+      val = cvt ? cvt.call(tag, val) : val
+      val = tag.dataFormat ? +tag.parseData(val) : val;
+      return tag.widget._format(val);
+    };
+    tag.convertBack = function(val) {
+      // Wrapped converter, does widget parse then calls converter
+      val = tag.widget._parse(val);
+      val = tag.dataFormat ? tag.formatData(val) : val;
+      return cvtBk ? cvtBk.call(tag, val) : val;
+    };
+    // Prevent onAfterLink replacing wrapped converters with unwrapped ones
+    tag.convert.fix = tag.convertBack.fix = true;
+
+    tag.widget._parse = function(value) {
+      return value + "" === value && value
+        ? +tag.parse(value, tagCtx.props)
+        : value;
+    };
+    tag.widget._format = function(value) {
+      return value !== ""
+        ? tag.format(value, tagCtx.props)
+        : value;
     };
   },
   onAfterLink: function(tagCtx) {
     var tag = this;
     if (!tag.linkCtx.elem._jsvChg) {
-      // If change not triggered by a the spinner itself changing value
+      // If change not triggered by the spinner itself changing value
       tag.baseApply(arguments);
-      tag.displayElem = this.linkedElem.parent(); // jQuery UI wraps the input in a span
+      tag.displayElem = this.mainElem.parent(); // jQuery UI wraps the input in a span
       if (tagCtx.props.width) {
         // In addition to generic setting of width on the
         // displayElem, need also to set width on the input.
-        this.linkedElem.width(tagCtx.props.width - tag.displayElem.find(".ui-spinner-up").width()-9);
+        this.mainElem.width(tagCtx.props.width - tag.displayElem.find(".ui-spinner-up").width()-9);
+      }
+    }
+  }
+},
+// ============================= TIMESPINNER =============================
+timespinner: {
+  baseTag: "spinner",
+  dataFormat: {
+    parse: function(value, props) {
+      return +value;
+    },
+    format: function(value, props) {
+      return new Date(value);
+    }
+  },
+  displayFormat: {
+    parse: function(value, props) {
+      var date;
+      if (value) {
+        return window.Globalize
+          ? Globalize.parseDate(value, "t", props._culture)
+          : ((date = new Date()).setHours(value.slice(0, 2), value.slice(3)), date);
+      }
+    },
+    format: function(value, props) {
+      if (value.getDay) {
+        return window.Globalize
+          ? Globalize.format(value, "t", props._culture)
+          : (100 + value.getHours() + "").slice(1) + ":" + (100 + value.getMinutes() + "").slice(1);
       }
     }
   },
-  setValue: function(value) {
-    this.widget.value(value || 0);
+  options: function() {
+    return $.extend(
+      this.baseApply(), // Get options object from base class and extend it
+      {step: 60000, page: 60}
+    );
   },
-  getValue: function() {
-    return this.widget.value();
+  init: function(tagCtx) {
+    this.baseApply(arguments);
+    this.tagCtx.props.width = this.tagCtx.props.width || 80;
+  },
+  onBind: function(tagCtx) {
+    var tag = this;
+    tag.baseApply(arguments);
+    tagCtx.props.trigger = false;
+
+    tag.widget._parse = function(value) {
+      if ("" + value === value && value) {
+        value = tag.parse(value, tagCtx.props);
+        if (value && !tag.keepDay) {
+          // Make return dateNumber (ticks) change the hours and minutes but keep current date (day/month)
+          var returnDate = new Date(tag.value);
+          returnDate.setHours(value.getHours());
+          returnDate.setMinutes(value.getMinutes());
+          value = returnDate;
+        }
+      }
+      return +value;
+    };
+    tag.widget._format = function(value) {
+      if (+value === value) {
+        tag.value = value;
+        return tag.format(new Date(value), tagCtx.props);
+      }
+    };
+  },
+  onAfterLink: function(tagCtx) {
+    var keepDay = tagCtx.props.keepDay;
+
+    if (keepDay !== undefined) {
+      this.keepDay = keepDay;
+    }
+    this.baseApply(arguments);
   }
 },
+// ============================= TABS =============================
 tabs: {
   baseTag: "widget",
   widgetName: "tabs",
@@ -549,6 +749,7 @@ tabs: {
 
 $.views.tags(tagDefs);
 
+// ============================= BUTTON AND BUTTONSET =============================
 if ($.ui.version.slice(0, 4) === "1.11") {
   // Add backward compatibility for {{buttonset}} and {{button}}
   tagDefs.button = {
@@ -679,6 +880,7 @@ function unlinkedClone() {
   return clone;
 }
 
+// ============================= DRAGGABLE =============================
 if ($.ui.draggable) {
   // Create derived draggable widget
   $.widget("jsv.draggable", $.ui.draggable, {
@@ -725,6 +927,7 @@ if ($.ui.draggable) {
   });
 }
 
+// ============================= ACCORDION =============================
 if ($.ui.accordion) {
   // Create derived accordion widget
   $.widget("jsv.accordion", $.ui.accordion, {
@@ -755,6 +958,7 @@ if ($.ui.accordion) {
   });
 }
 
+// ============================= SORTABLE =============================
 if ($.ui.sortable) {
   $.widget("jsv.sortable", $.ui.sortable, {
     _create: function() {
@@ -804,6 +1008,7 @@ if ($.ui.sortable) {
   });
 }
 
+// ============================= SELECTABLE =============================
 if ($.ui.selectable) {
   $.widget("jsv.selectable", $.ui.selectable, {
     _create: function() {

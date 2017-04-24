@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+  <link href="../demos.css" rel="stylesheet" />
+  <style>
+    .ui-spinner input {height:12px;}
+    .hasDatepicker {font-size: 13px; margin-top: 5px}
+    .ui-spinner{font-size: 12px; margin: 5px 0}
+  </style>
+</head>
+<body>
+<script id="pageTmpl" type="text/x-jsrender">
+  <h4>Choose culture:</h4>
+  <select data-link="culture" name="culture">
+    <option value="en-US">US</option>
+    <option value="de-DE">Germany</option>
+  </select>
+
+  <h4>Binding to timestamp number</h4>
+  <em>{^{:dateNumber}}</em>
+
+  <pre>dataFormat=0</pre>
+
+  {^{datepicker dateNumber dataFormat=0 /}}<br/>
+
+  {^{timespinner dateNumber dataFormat=0
+        ^_culture=culture displayFormat=~time /}}
+
+  <h4>Binding to a custom date time string</h4>
+  <em>{^{:dateTimeString}}</em>
+
+  <pre>dataFormat=~fullDate</pre>
+
+  {^{datepicker dateTimeString dataFormat=~fullDate /}}<br/>
+
+  {^{timespinner dateTimeString dataFormat=~fullDate
+        ^_culture=culture displayFormat=~time /}}
+
+  <h4>Binding to a WCF date-time string</h4>
+  <em>{^{:wcfString}}</em>
+
+  <pre>dataFormat=~wcfDate</pre>
+
+  {^{datepicker wcfString dataFormat=~wcfDate /}}<br/>
+
+  {^{timespinner wcfString dataFormat=~wcfDate
+        ^_culture=culture displayFormat=~time /}}
+
+  <h4>Using convert/convertBack to display date-time shifted by a delay</h4>
+
+  <em>Hours delay:</em>
+  {^{spinner delay /}}<br/>
+
+  <pre>dataFormat=~wcfDate convert=~add convertBack=~subtract</pre>
+
+  {^{datepicker wcfString dataFormat=~wcfDate convert=~add convertBack=~subtract ^delay=delay /}}<br/>
+
+  {^{timespinner wcfString dataFormat=~wcfDate convert=~add convertBack=~subtract ^delay=delay
+        ^_culture=culture displayFormat=~time /}}
+</script>
+
+<div id="page"></div>
+<!--<script src="dataformat.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

@@ -1,3 +1,4 @@
+"use strict";
 var counter = 0,
   movies = [
     {

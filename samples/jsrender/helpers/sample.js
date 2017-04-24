@@ -1,3 +1,4 @@
+"use strict";
 $.views.tags({
 
   // Tag to reverse-sort an array

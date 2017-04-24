@@ -1,3 +1,4 @@
+"use strict";
 var movies = [{
    availability: "Available in 'X&Y' Cinemas",
     title: "Meet Joe Black",

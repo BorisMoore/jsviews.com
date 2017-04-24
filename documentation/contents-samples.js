@@ -1114,18 +1114,23 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "datepicker variants"
           },
           {
+            "hash": "samples/tag-controls/jqui/datepicker/formats",
+            "label": "Date formats"
+          },
+          {
             "hash": "samples/tag-controls/jqui/datepicker/with-validation",
             "label": "With validation"
           },
           {
             "hash": "samples/tag-controls/jqui/datepicker/with-validation-wizard",
             "label": "With validation wizard"
-          },
-          {
-            "hash": "samples/tag-controls/jqui/datepicker/with-converters",
-            "label": "With converters"
           }
         ]
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: [`{{timespinner}}`](#samples/tag-controls/jqui/timespinner)"
       }
     ]
   },
@@ -1168,6 +1173,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "path": "",
     "sections": [
       {
+        "_type": "para",
+        "title": "Date picker as pop-up, or displayed inline",
+        "text": "By default the `{{datepicker}}` is associated with an `<input>` - and behaves as a pop-up. Alternatively it can be associated with a `<div>` (either by wrapping a `<div>` element, or by setting `{^{datepicker ... elem=\"div\" ... /}}` -- in which case it will display inline."
+      },
+      {
         "_type": "sample",
         "typeLabel": "Sample:",
         "sectionTypes": {
@@ -1204,7 +1214,8 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "url": "samples/tag-controls/jqui/datepicker/simple/sample",
         "height": "750",
-        "jsrJsvJqui": "jqui"
+        "jsrJsvJqui": "jqui",
+        "title": ""
       }
     ]
   },
@@ -3262,46 +3273,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       }
     ]
   },
-  "samples/tag-controls/jqui/datepicker/with-converters": {
-    "title": "Sample: Datepicker with converters",
-    "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "The JsViews 'datepicker' tag control can be used with converters to convert to and from a chosen underlying data-format. \n\nIn the following example, the chosen data format is the WCF JSON DateTime format. (The *[moment.js](http://momentjs.com/)* library is used to convert to and from the WCF format.)"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [
-          {
-            "_type": "codetab",
-            "name": "",
-            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
-            "label": "jsviews-jqueryui-widgets"
-          }
-        ],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "```jsr\n<div data-link=\"{datepicker date\n   _dateFormat='dd/mm/y'\n   convert='toDateString'\n   convertBack='toWcfDate'\n}\"></div>\n```"
-          }
-        ],
-        "url": "samples/tag-controls/jqui/datepicker/with-converters/sample",
-        "height": "300",
-        "jsrJsvJqui": "jqui"
-      }
-    ]
-  },
   "samples/tag-controls/jqui/accordion": {
     "title": "Samples: {{accordion}} variants",
     "path": "",
@@ -3535,7 +3506,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "The [jQuery UI tag controls library](#download/jqueryui-tagcontrols) is a set of tag controls based on jQuery UI widgets.\n\nIt provides the following tag controls:\n\n- *__{{autocomplete/}}__* -- based on [jQuery UI autocomplete](https://jqueryui.com/autocomplete/)\n([api](https://api.jqueryui.com/autocomplete/))\n  - used in the [autocomplete](#samples/tag-controls/jqui/autocomplete) sample\n- *__{{accordion/}}__* -- based on [jQuery UI accordion](https://jqueryui.com/accordion/)\n([api](https://api.jqueryui.com/accordion/))\n  - used in the [accordion](#samples/tag-controls/jqui/accordion) samples\n- *__{{button/}}__* -- based on [jQuery UI button](https://jqueryui.com/button/)\n([api](https://api.jqueryui.com/button/))\n  - used in the [Toolbar](#samples/tag-controls/jqui/toolbar)\nand [progressbar](#samples/tag-controls/jqui/progressbar) samples\n- *__{{checkbox/}}__* -- based on [jQuery UI checkboxradio](https://jqueryui.com/checkboxradio/)\n([api](https://api.jqueryui.com/checkboxradio/))\n(requires jQuery UI version 1.12.1 or later)\n  - used in the [Toolbar](#samples/tag-controls/jqui/toolbar)\nand [Accessing widget APIs](#samples/tag-controls/jqui/api@widgetapi) samples\n- *__{{radio/}}__* -- based on [jQuery UI checkboxradio](https://jqueryui.com/checkboxradio/)\n([api](https://api.jqueryui.com/checkboxradio/))\n(requires jQuery UI version 1.12.1 or later)\n  - used in the [Toolbar](#samples/tag-controls/jqui/toolbar) sample\n- *__{{controlgroup/}}__* -- based on [jQuery UI controlgroup](https://jqueryui.com/controlgroup/)\n([api](https://api.jqueryui.com/controlgroup/))\n(requires jQuery UI version 1.12.1 or later)\n  - used in the [Toolbar](#samples/tag-controls/jqui/toolbar) sample\n- *__{{buttonset}}__* -- *deprecated and available only if using jQuery UI 1.11.4*\n- *__{{datepicker/}}__* -- based on [jQuery UI datepicker](https://jqueryui.com/datepicker/)\n([api](https://api.jqueryui.com/datepicker/))\n  - used in the [simple datepicker](#samples/tag-controls/jqui/datepicker/simple),\n[datepicker variants](#samples/tag-controls/jqui/datepicker/variants),\n[datepicker with validation](#samples/tag-controls/jqui/datepicker/with-validation)\nand [datepicker with validation wizard](#samples/tag-controls/jqui/datepicker/with-validation-wizard) samples\n- *__{{draggable/}}__* -- based on [jQuery UI draggable](https://jqueryui.com/draggable/)\n([api](https://api.jqueryui.com/draggable/))\n  - used in the [draggable - droppable](#samples/tag-controls/jqui/draggable-droppable) samples\n- *__{{droppable/}}__* -- based on [jQuery UI droppable](https://jqueryui.com/droppable/)\n([api](https://api.jqueryui.com/droppable/))\n  - used in the [draggable - droppable](#samples/tag-controls/jqui/draggable-droppable) samples\n- *__{{menu/}}__* -- based on [jQuery UI menu](https://jqueryui.com/menu/)\n([api](https://api.jqueryui.com/menu/))\n  - used in the [menu](#samples/tag-controls/jqui/menu) samples\n- *__{{progressbar/}}__* -- based on [jQuery UI progressbar](https://jqueryui.com/progressbar/)\n([api](https://api.jqueryui.com/progressbar/))\n  - used in the [Toolbar](#samples/tag-controls/jqui/toolbar)\nand [progressbar](#samples/tag-controls/jqui/progressbar) samples\n- *__{{resizable/}}__* -- based on [jQuery UI resizable](https://jqueryui.com/resizable/)\n([api](https://api.jqueryui.com/resizable/))\n  - used in the [resizable](#samples/tag-controls/jqui/resizable) samples\n- *__{{selectable/}}__* -- based on [jQuery UI selectable](https://jqueryui.com/selectable/)\n([api](https://api.jqueryui.com/selectable/))\n  - used in the [selectable](#samples/tag-controls/jqui/selectable) samples\n- *__{{selectmenu/}}__* -- based on [jQuery UI selectmenu](https://jqueryui.com/selectmenu/)\n([api](https://api.jqueryui.com/selectmenu/))\n  - used in the [selectmenu](#samples/tag-controls/jqui/selectmenu) samples\n- *__{{slider/}}__* -- based on [jQueryUI slider](https://jqueryui.com/slider/)\n([api](https://api.jqueryui.com/slider/))\n  - used in the [simple slider](#samples/tag-controls/jqui/slider/simple),\n[slider variants](#samples/tag-controls/jqui/slider/variants),\n[slider with validation](#samples/tag-controls/jqui/slider/with-validation),\n[sliders as color picker](#samples/tag-controls/jqui/slider/color-picker),\n[Toolbar](#samples/tag-controls/jqui/toolbar),\n[resizable](#samples/tag-controls/jqui/resizable),\n[draggable - droppable](#samples/tag-controls/jqui/draggable-droppable),\n[spinner](#samples/tag-controls/jqui/spinner) and\n[progressbar](#samples/tag-controls/jqui/progressbar) samples\n- *__{{sortable/}}__* -- based on [jQuery UI sortable](https://jqueryui.com/sortable/)\n([api](https://api.jqueryui.com/sortable/))\n  - used in the [sortable](#samples/tag-controls/jqui/sortable) samples\n- *__{{spinner/}}__* -- based on [jQuery UI spinner](https://jqueryui.com/spinner/)\n([api](https://api.jqueryui.com/spinner/))\n  - used in the [spinner](#samples/tag-controls/jqui/spinner)\nand [resizable](#samples/tag-controls/jqui/resizable) samples\n- *__{{tabs/}}__* -- based on [jQuery UI tabs](https://jqueryui.com/tabs/)\n([api](https://api.jqueryui.com/tabs/))\n  - used in the [tabs](#samples/tag-controls/jqui/tabs) samples"
+        "text": "The [jQuery UI tag controls library](#download/jqueryui-tagcontrols) is a set of tag controls based on jQuery UI widgets.\n\nIt provides the following tag controls:\n\n- *__{{autocomplete/}}__* -- based on [jQuery UI autocomplete](https://jqueryui.com/autocomplete/)\n([api](https://api.jqueryui.com/autocomplete/))\n  - used in the [autocomplete](#samples/tag-controls/jqui/autocomplete) sample\n- *__{{accordion/}}__* -- based on [jQuery UI accordion](https://jqueryui.com/accordion/)\n([api](https://api.jqueryui.com/accordion/))\n  - used in the [accordion](#samples/tag-controls/jqui/accordion) samples\n- *__{{button/}}__* -- based on [jQuery UI button](https://jqueryui.com/button/)\n([api](https://api.jqueryui.com/button/))\n  - used in the [Toolbar](#samples/tag-controls/jqui/toolbar)\nand [progressbar](#samples/tag-controls/jqui/progressbar) samples\n- *__{{checkbox/}}__* -- based on [jQuery UI checkboxradio](https://jqueryui.com/checkboxradio/)\n([api](https://api.jqueryui.com/checkboxradio/))\n(requires jQuery UI version 1.12.1 or later)\n  - used in the [Toolbar](#samples/tag-controls/jqui/toolbar)\nand [Accessing widget APIs](#samples/tag-controls/jqui/api@widgetapi) samples\n- *__{{radio/}}__* -- based on [jQuery UI checkboxradio](https://jqueryui.com/checkboxradio/)\n([api](https://api.jqueryui.com/checkboxradio/))\n(requires jQuery UI version 1.12.1 or later)\n  - used in the [Toolbar](#samples/tag-controls/jqui/toolbar) sample\n- *__{{controlgroup/}}__* -- based on [jQuery UI controlgroup](https://jqueryui.com/controlgroup/)\n([api](https://api.jqueryui.com/controlgroup/))\n(requires jQuery UI version 1.12.1 or later)\n  - used in the [Toolbar](#samples/tag-controls/jqui/toolbar) sample\n- *__{{buttonset}}__* -- *deprecated and available only if using jQuery UI 1.11.4*\n- *__{{datepicker/}}__* -- based on [jQuery UI datepicker](https://jqueryui.com/datepicker/)\n([api](https://api.jqueryui.com/datepicker/))\n  - used in the [simple datepicker](#samples/tag-controls/jqui/datepicker/simple),\n[datepicker variants](#samples/tag-controls/jqui/datepicker/variants),\n[datepicker with validation](#samples/tag-controls/jqui/datepicker/with-validation)\nand [datepicker with validation wizard](#samples/tag-controls/jqui/datepicker/with-validation-wizard) samples\n- *__{{draggable/}}__* -- based on [jQuery UI draggable](https://jqueryui.com/draggable/)\n([api](https://api.jqueryui.com/draggable/))\n  - used in the [draggable - droppable](#samples/tag-controls/jqui/draggable-droppable) samples\n- *__{{droppable/}}__* -- based on [jQuery UI droppable](https://jqueryui.com/droppable/)\n([api](https://api.jqueryui.com/droppable/))\n  - used in the [draggable - droppable](#samples/tag-controls/jqui/draggable-droppable) samples\n- *__{{menu/}}__* -- based on [jQuery UI menu](https://jqueryui.com/menu/)\n([api](https://api.jqueryui.com/menu/))\n  - used in the [menu](#samples/tag-controls/jqui/menu) samples\n- *__{{progressbar/}}__* -- based on [jQuery UI progressbar](https://jqueryui.com/progressbar/)\n([api](https://api.jqueryui.com/progressbar/))\n  - used in the [Toolbar](#samples/tag-controls/jqui/toolbar)\nand [progressbar](#samples/tag-controls/jqui/progressbar) samples\n- *__{{resizable/}}__* -- based on [jQuery UI resizable](https://jqueryui.com/resizable/)\n([api](https://api.jqueryui.com/resizable/))\n  - used in the [resizable](#samples/tag-controls/jqui/resizable) samples\n- *__{{selectable/}}__* -- based on [jQuery UI selectable](https://jqueryui.com/selectable/)\n([api](https://api.jqueryui.com/selectable/))\n  - used in the [selectable](#samples/tag-controls/jqui/selectable) samples\n- *__{{selectmenu/}}__* -- based on [jQuery UI selectmenu](https://jqueryui.com/selectmenu/)\n([api](https://api.jqueryui.com/selectmenu/))\n  - used in the [selectmenu](#samples/tag-controls/jqui/selectmenu) samples\n- *__{{slider/}}__* -- based on [jQueryUI slider](https://jqueryui.com/slider/)\n([api](https://api.jqueryui.com/slider/))\n  - used in the [simple slider](#samples/tag-controls/jqui/slider/simple),\n[slider variants](#samples/tag-controls/jqui/slider/variants),\n[slider with validation](#samples/tag-controls/jqui/slider/with-validation),\n[sliders as color picker](#samples/tag-controls/jqui/slider/color-picker),\n[Toolbar](#samples/tag-controls/jqui/toolbar),\n[resizable](#samples/tag-controls/jqui/resizable),\n[draggable - droppable](#samples/tag-controls/jqui/draggable-droppable),\n[spinner](#samples/tag-controls/jqui/spinner) and\n[progressbar](#samples/tag-controls/jqui/progressbar) samples\n- *__{{sortable/}}__* -- based on [jQuery UI sortable](https://jqueryui.com/sortable/)\n([api](https://api.jqueryui.com/sortable/))\n  - used in the [sortable](#samples/tag-controls/jqui/sortable) samples\n- *__{{spinner/}}__* -- based on [jQuery UI spinner](https://jqueryui.com/spinner/)\n([api](https://api.jqueryui.com/spinner/))\n  - used in the [spinner](#samples/tag-controls/jqui/spinner)\nand [resizable](#samples/tag-controls/jqui/resizable) samples\n- *__{{timespinner/}}__* -- also based on [jQuery UI spinner](https://jqueryui.com/spinner/)\n([api](https://api.jqueryui.com/spinner/))\n  - used in the [timespinner](#samples/tag-controls/jqui/timespinner) samples\n- *__{{tabs/}}__* -- based on [jQuery UI tabs](https://jqueryui.com/tabs/)\n([api](https://api.jqueryui.com/tabs/))\n  - used in the [tabs](#samples/tag-controls/jqui/tabs) samples"
       },
       {
         "_type": "para",
@@ -3721,7 +3692,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "The second version of the sample, above, also shows alternative approaches to setting options on the *jQuery UI* widgets:\n\n- *Declarative setting of options:*\n  ```jsr\n  {^{controlgroup _classes=~myUiOverrides}}\n  ```\n- *Programmatic approach, using an overridden 'onBind' event handler:*\n  ```jsr\n  {^{controlgroup onBind=~onbind}}\n  ```\n  ```js\n  pageTmpl.link(\"#page\", model, {\n    ...\n    onbind: function(val) {\n      this.baseApply(arguments);\n      this.linkedElem.controlgroup( \"option\", \"classes\", uiOverrides);\n    },\n    ...\n  });\n  ```\n- *Programmatic approach, using an `id` and corresponding jQuery selector:*\n  ```jsr\n  {^{checkbox reverse id=\"reverseChkBx\"/}}\n  ```\n  ```js\n  $(\"#reverseChkBx\").checkboxradio(\"option\", \"classes\", {\"ui-checkboxradio-label\": ...});\n\n  $.observe(model, \"reverse\", function() {\n    $(\"#reverseChkBx\").checkboxradio(\"option\", \"label\", model.reverse ? \"Forward\" : \"Reverse\");\n  });\n  ```"
+        "text": "The second version of the sample, above, also shows alternative approaches to setting options on the *jQuery UI* widgets:\n\n- *Declarative setting of options:*\n  ```jsr\n  {^{controlgroup _classes=~myUiOverrides}}\n  ```\n- *Programmatic approach, using an overridden 'onBind' event handler:*\n  ```jsr\n  {^{controlgroup onBind=~onbind}}\n  ```\n  ```js\n  pageTmpl.link(\"#page\", model, {\n    ...\n    onbind: function(val) {\n      this.baseApply(arguments);\n      this.mainElem.controlgroup( \"option\", \"classes\", uiOverrides);\n    },\n    ...\n  });\n  ```\n- *Programmatic approach, using an `id` and corresponding jQuery selector:*\n  ```jsr\n  {^{checkbox reverse id=\"reverseChkBx\"/}}\n  ```\n  ```js\n  $(\"#reverseChkBx\").checkboxradio(\"option\", \"classes\", {\"ui-checkboxradio-label\": ...});\n\n  $.observe(model, \"reverse\", function() {\n    $(\"#reverseChkBx\").checkboxradio(\"option\", \"label\", model.reverse ? \"Forward\" : \"Reverse\");\n  });\n  ```"
       }
     ]
   },
@@ -4093,17 +4064,17 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Programmatic setting of options",
-        "text": "A simple way to set widget options using the standard jQuery UI programmatic approach is to declare an `id` on the tag, and then use the corresponding jQuery selector, as illustrated in this [toolbar sample](#samples/tag-controls/jqui/toolbar@dynamic):\n\n```jsr\n{^{checkbox reverse id=\"myCheckbox\"/}}\n```\n\n```js\n// Set the 'classes' option\n$(\"#myCheckbox\").checkboxradio(\"option\", \"classes\", {\"ui-checkbox...\": ...});\n\n$.observe(model, \"reverse\", function() {\n  // Set the 'label' option\n  $(\"#myCheckbox\").checkboxradio(\"option\", \"label\", ...);\n});\n```\n\nAnother approach (not requiring `id` assignment) is to override the `onBind` event of the tag, and set options programmatically in the handler. This approach is also used in the same [toolbar sample](#samples/tag-controls/jqui/toolbar@dynamic):\n\n```jsr\n{^{controlgroup onBind=~onbind}}\n```\n\n```js\npageTmpl.link(\"#page\", model, {\n  ...\n  onbind: function(val) {\n    this.baseApply(arguments);\n    this.linkedElem.controlgroup(\"option\", \"classes\", ...);\n  },\n  ...\n});\n```\n"
+        "text": "A simple way to set widget options using the standard jQuery UI programmatic approach is to declare an `id` on the tag, and then use the corresponding jQuery selector, as illustrated in this [toolbar sample](#samples/tag-controls/jqui/toolbar@dynamic):\n\n```jsr\n{^{checkbox reverse id=\"myCheckbox\"/}}\n```\n\n```js\n// Set the 'classes' option\n$(\"#myCheckbox\").checkboxradio(\"option\", \"classes\", {\"ui-checkbox...\": ...});\n\n$.observe(model, \"reverse\", function() {\n  // Set the 'label' option\n  $(\"#myCheckbox\").checkboxradio(\"option\", \"label\", ...);\n});\n```\n\nAnother approach (not requiring `id` assignment) is to override the `onBind` event of the tag, and set options programmatically in the handler. This approach is also used in the same [toolbar sample](#samples/tag-controls/jqui/toolbar@dynamic):\n\n```jsr\n{^{controlgroup onBind=~onbind}}\n```\n\n```js\npageTmpl.link(\"#page\", model, {\n  ...\n  onbind: function(val) {\n    this.baseApply(arguments);\n    this.mainElem.controlgroup(\"option\", \"classes\", ...);\n  },\n  ...\n});\n```\n"
       },
       {
         "_type": "para",
         "title": "Getting from a tag instance to the widget APIs",
-        "text": "Alternatively, if you have an instance, `myTag`, of a jQuery UI widget tag control, you can access the widget API from `myTag.linkedElem.widgetName(...)` or  from `myTag.widget(...)`:\n\n```js\n// Set the 'label' option\ncheckboxTag.checkboxradio(\"option\", \"label\", ...);\n```\n\nor\n\n```js\n// Set the 'label' option\ncheckboxTag.widget.option(\"label\", ...);\n```"
+        "text": "Alternatively, if you have an instance, `myTag`, of a jQuery UI widget tag control, you can access the widget API from `myTag.mainElem.widgetName(...)` or  from `myTag.widget(...)`:\n\n```js\n// Set the 'label' option\ncheckboxTag.mainElem.checkboxradio(\"option\", \"label\", ...);\n```\n\nor\n\n```js\n// Set the 'label' option\ncheckboxTag.widget.option(\"label\", ...);\n```"
       },
       {
         "_type": "para",
         "title": "Calling jQuery UI widget methods",
-        "text": "Calling widget methods, like programmatic setting of options, can be done --<br/><br/>\n\n- using the selector approach:\n  ```js\n  $(\"#myCheckbox\").checkboxradio(\"disable\");\n  ```\n- from the tag instance, using `tag.linkedElem`:\n  ```js\n  checkboxTag.linkedElem.checkboxradio(\"disable\");\n  ```\n- from the tag instance, using `tag.widget`:\n  ```js\n  checkboxTag.widget.disable();\n  ```\n\nEach of these approaches is shown in the following sample:"
+        "text": "Calling widget methods, like programmatic setting of options, can be done --<br/><br/>\n\n- using the selector approach:\n  ```js\n  $(\"#myCheckbox\").checkboxradio(\"disable\");\n  ```\n- from the tag instance, using `tag.mainElem`:\n  ```js\n  checkboxTag.mainElem.checkboxradio(\"disable\");\n  ```\n- from the tag instance, using `tag.widget`:\n  ```js\n  checkboxTag.widget.disable();\n  ```\n\nEach of these approaches is shown in the following sample:"
       },
       {
         "_type": "sample",
@@ -4120,11 +4091,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "Selector:\n\n```js\n$(\"#myCheckbox\")\n  .checkboxradio(\"enable\");                       // Method call \n  .checkboxradio(\"option\", \"label\", \"New label\"); // Chaining with 'set option' call \n```\n\n`tag.widget`:\n\n```js\ncheckboxTag.widget\n  .disable()                                       // Method call\n  .option(\"label\", \"New label2\");                  // Chaining with 'set option' call\n```\n\n`tag.linkedElem`:\n\n```js\ncheckboxTag.linkedElem\n  .checkboxradio(\"disable\")                        // Method call\n  .checkboxradio(\"option\", \"label\", \"New label2\"); // Chaining with 'set option' call\n```\n"
+            "text": "Selector:\n\n```js\n$(\"#myCheckbox\")\n  .checkboxradio(\"enable\");                       // Method call \n  .checkboxradio(\"option\", \"label\", \"New label\"); // Chaining with 'set option' call \n```\n\n`tag.widget`:\n\n```js\ncheckboxTag.widget\n  .disable()                                       // Method call\n  .option(\"label\", \"New label2\");                  // Chaining with 'set option' call\n```\n\n`tag.mainElem`:\n\n```js\ncheckboxTag.mainElem\n  .checkboxradio(\"disable\")                        // Method call\n  .checkboxradio(\"option\", \"label\", \"New label2\"); // Chaining with 'set option' call\n```\n"
           }
         ],
         "html": "<script id=\"pageTmpl\" type=\"text/x-jsrender\">\n  {^{on enable}}Enable{{/on}}\n  {^{on disable}}Disable{{/on}}<br/><br/>\n  {^{checkbox reverse id=\"myCheckbox\" label=\"Reverse\"/}}\n</script>\n\n<div id=\"page\"></div>",
-        "code": "var pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {\n    reverse: false,\n    enable: function() {\n      $(\"#myCheckbox\")\n        .checkboxradio(\"enable\")                        // Method call\n        .checkboxradio(\"option\", \"label\", \"New label\"); // Chaining with 'set option' call \n    },\n    disable: function(ev) {\n      // Get parent view\n      var parentView = $.view(ev.target, \"data\");\n      // Find {{checkbox}} tags\n      var checkboxTag = parentView.childTags(true, \"checkbox\")[0];\n      checkboxTag.widget\n        .disable()                                       // Method call\n        .option(\"label\", \"New label2\");                  // Chaining with 'set option' call\n// alternatively\n//    checkboxTag.linkedElem\n//      .checkboxradio(\"disable\")                        // Method call\n//      .checkboxradio(\"option\", \"label\", \"New label2\"); // Chaining with 'set option' call\n    }\n  };\n\npageTmpl.link(\"#page\", model);\n\n",
+        "code": "var pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {\n    reverse: false,\n    enable: function() {\n      $(\"#myCheckbox\")\n        .checkboxradio(\"enable\")                        // Method call\n        .checkboxradio(\"option\", \"label\", \"New label\"); // Chaining with 'set option' call \n    },\n    disable: function(ev) {\n      // Get parent view\n      var parentView = $.view(ev.target, \"data\");\n      // Find {{checkbox}} tags\n      var checkboxTag = parentView.childTags(true, \"checkbox\")[0];\n      checkboxTag.widget\n        .disable()                                       // Method call\n        .option(\"label\", \"New label2\");                  // Chaining with 'set option' call\n// alternatively\n//    checkboxTag.mainElem\n//      .checkboxradio(\"disable\")                        // Method call\n//      .checkboxradio(\"option\", \"label\", \"New label2\"); // Chaining with 'set option' call\n    }\n  };\n\npageTmpl.link(\"#page\", model);\n\n",
         "jsrJsvJqui": "jqui",
         "height": "110",
         "title": "Accessing jQuery UI widget APIs",
@@ -4932,6 +4903,448 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     ]
   },
   "samples/tag-controls/jqui/spinner": {
+    "title": "Samples: {{spinner}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The `{{spinner}}` tag integrates the *[jQuery UI spinner widget](https://jqueryui.com/spinner/) ([api](https://api.jqueryui.com/spinner/))*.\n\n\nThis allows data-linking directly to widget properties, as well as using generic tag functionality such as *convert* and *convertBack*.\n\nIn addition, validation support is obtained, simply by wrapping a `{{spinner}}` tag with a `{{validate}}`."
+      },
+      {
+        "_type": "links",
+        "title": "",
+        "links": [],
+        "topics": [
+          {
+            "hash": "samples/tag-controls/jqui/spinner/variants",
+            "label": "spinner variants"
+          },
+          {
+            "hash": "samples/tag-controls/jqui/spinner/formats",
+            "label": "Formats and cultures"
+          },
+          {
+            "hash": "samples/tag-controls/jqui/timespinner",
+            "label": "timespinner control"
+          }
+        ]
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/datepicker/formats": {
+    "title": "Datepicker: specifying the date format",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Display format",
+        "text": "The `{{datepicker}}` tag control lets you specify the date format displayed in the textbox (when used with an `<input>`, rather than as inline datepicker with a `<div>`) -- by setting the `dateFormat` property, using jQuery UI datepicker [date formats](http://api.jqueryui.com/datepicker/#utility-formatDate).\n\nFor example: \n\n```jsr\n{^{datepicker date dateFormat=\"DD MM d, yy\"/}}\n```\n\nwill show the date in the format *'Monday September 22, 2017'*.\n\n(Note: you can also, equivalently, use `_dateFormat`, since `dateFormat` is a widget option.)\n\nIf the `dateFormat` is not specified, then the current default date format of the datepicker widget, will be used (as returned by `$(element).datepicker(\"option\", \"dateFormat\")`).\n\nA different default date can be set using the [*setDefaults* API](http://api.jqueryui.com/datepicker/#utility-setDefaults): `$.datepicker.setDefaults(\"dateFormat\", ...)`"
+      },
+      {
+        "_type": "para",
+        "title": "Data format",
+        "text": "The underlying data format used by `{{datepicker}}` will by default be a string value with the same format as the display format. So setting a different value or the `dateFormat` property (`dateFormat=...`) will also change the persistence/serialization format of the underlying data.\n\nHowever you can specify a different data format by setting the `dataFormat` property.\n\nFor example:\n\n```jsr\n{^{datepicker date dataFormat=\"mm/dd/yy\" dateFormat=\"DD MM d, yy\"/}}\n```\n\nwill show the date in the format *'Monday September 22, 2017'*, but the underlying data-bound `date` will have the value `\"09/22/2017\"`.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using the JavaScript Date() type for the underlying data-linked data ",
+        "text": "If `dataFormat` is set to `false` (or `null` or `\"\"`), then `{{datepicker}}` will use JavaScript `Date()` objects as the underlying `date` type:\n\n```jsr\n{^{datepicker date dataFormat=false dateFormat=\"D M d yy\"/}}\n```\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using a number (number of ticks - JavaScript Date timestamp) for the underlying data-linked data ",
+        "text": "If `dataFormat` is set to `0`, then `{{datepicker}}` will use the timestamp of the JavaScript `Date` object (milliseconds since Jan 01 1970) as the underlying `date` type:\n\n```jsr\n{^{datepicker date dataFormat=0 dateFormat=\"D M d yy\"/}}\n```\n The above alternative `dataFormat` options are shown in the following example:\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Default \"date string\" format:\n\n```jsr\n{^{datepicker dateString /}}\n```\n\nBinding to a chosen \"date string\" format:\n\n```jsr\n{^{datepicker dateString2 dateFormat=\"mm-dd-yy\" /}}\n{^{datepicker dateString2 dataFormat=\"mm-dd-yy\" dateFormat=\"DD MM d, yy\" /}}\n```\n\nBinding to Date object:\n\n```jsr\n{^{datepicker date dataFormat=false /}}\n{^{datepicker date dataFormat='' dateFormat=\"DD MM d, yy\" /}}\n```\n\nBinding to a Date number\n\n```jsr\n{^{datepicker dateNumber dataFormat=0 /}}\n{^{datepicker dateNumber dataFormat=0 dateFormat=\"DD MM d, yy\" /}}\n```"
+          }
+        ],
+        "jsrJsvJqui": "jqui",
+        "url": "samples/tag-controls/jqui/datepicker/date-formats/basic",
+        "height": "590",
+        "title": "Alternative data formats"
+      },
+      {
+        "_type": "para",
+        "title": "Using a data formatter to bind to a custom underlying data format",
+        "text": "Any underlying data format can be used (for example a string format such as the WCF Date serialization) by providing a corresponding *\"data formatter\"* (an object with a `parse()` method and a `format()` method) -- and setting the `dataFormat` to that formatter:\n\n```js\nvar wcfDateFormatter = {\n  parse: function(wcfString) {\n    // Use moment.js to parse WCF date string\n    return moment(wcfString, \"/\\\\D\\\\at\\\\e(xZZ)/\").toDate();\n  },\n  format: function(date) {\n    // Use moment.js to format WCF date string\n    return moment(date).format(\"/\\\\D\\\\at\\\\e(xZZ)/\");\n  }\n};\n\n// Provide wcfDateFormatter as a helper:\n$.views.helpers(\"wcfDate\", wcfDateFormatter);\n```\n\nUsage:\n\n```jsr\n{^{datepicker wcfDateString dataFormat=~wcfDate /}}\n```\n\nNote that the `this` pointer within `parse` or `format` is the datepicker tag instance, so it can be used to access tag properties etc. (e.g. `this.tagCtx.props.someprop` or `this.widget.options.someoption`).",
+        "anchor": "formatter"
+      },
+      {
+        "_type": "para",
+        "title": "Custom datepicker tags",
+        "text": "You can create your own flavor of datepicker which defaults to chosen `dateFormat` and `dataFormat` (for display format and underlying data format):\n\n```js\n$.views.tags({\n  myDatepicker: {\n    baseTag: \"datepicker\",\n    dataFormat: false, // Any falsy value\n    dateFormat: \"DD MM d, yy\"\n  },\n  myWcfDatepicker: {\n    baseTag: \"datepicker\",\n    dataFormat: wcfDateFormatter,\n    dateFormat: 'm-d-yy'\n  }\n);\n```\n\nUsage:\n\n```jsr\n{^{myDatepicker date /}}\n{^{myWcfDatepicker wcfString/}}\n```\n\nTo override the default settings for the regular `{{datepicker}}` tag, use:\n\n```\n$.views.tags(\"datepicker\", {\n  baseTag: \"datepicker\",\n  dataFormat: ...\n  dateFormat: ...\n})\n```\n\nUsage:\n\n```jsr\n{^{datepicker date /}}\n```\n"
+      },
+      {
+        "_type": "para",
+        "title": "Using converters with {{datepicker}}",
+        "text": "Converters can be useful with the `{{datepicker}}` tag. For example, they can be used as an alternative to the \"data formatter\" pattern, to convert to and from a custom underlying data format. Or they can be used for adding a date or time shift to the displayed date. (This can be done in conjunction with any `dataFormat` including when using a \"data formatter\"):\n\n```jsrf\n{^{datepicker wcfString ... convert=~wcfToJqui convertBack=~jquiToWcf /}}\n\n{^{myWcfDatepicker ... wcfString daysToAdd=delay convert=~addDays convertBack=~removeDays /}}\n```\n\n```js\n// Converters for shifting date\nfunction addDays(val) {\n  var dt = this.dataFormat.parse(val); // 'this' is the tag instance\n  dt.setDate(dt.getDate() + this.tagCtx.props.daysToAdd);\n  return this.dataFormat.format(dt);\n}\n\nfunction removeDays(val) {\n  var dt = this.dataFormat.parse(val); // 'this' is the tag instance\n  dt.setDate(dt.getDate() - this.tagCtx.props.daysToAdd);\n  return this.dataFormat.format(dt);\n}\n```\n\nThe following sample shows examples using data formatters and converters, and examples of custom datepicker tags:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Using a formatter to bind to a custom \"date string\" format:\n```jsr\n{^{datepicker wcfString dataFormat=~wcfDate /}}\n{^{datepicker wcfString dataFormat=~wcfDate dateFormat=\"DD MM d, yy\" /}}\n```\n\nCustom datepickers:\n```jsr\n{^{myDatepicker date/}}\n{^{myDatepicker date dateFormat=\"mm-dd-yy (DD)\" /}}\n\n{^{myWcfDatepicker wcfString /}}\n{^{myWcfDatepicker wcfString dateFormat=\"DD mm/dd/yy\" /}}\n```\n\nUsing converters\n```jsr\n{^{datepicker wcfString dateFormat=\"D M d, yy\"\n    convert=~fromWcfDate convertBack=~toWcfDate /}}\n\n{^{myWcfDatepicker wcfString dateFormat=\"D M d, yy\" ^daysToAdd=delay\n    convert=~addDays convertBack=~removeDays /}}\n```"
+          }
+        ],
+        "url": "samples/tag-controls/jqui/datepicker/date-formats/custom",
+        "height": "590",
+        "jsrJsvJqui": "jqui",
+        "title": "Data formatters, converters and custom tag examples"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "**_See also:_** [`{{timespinner}}`](#samples/tag-controls/jqui/timespinner)"
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/timespinner": {
+    "title": "Samples: {{timespinner}}",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The `{{timespinner}}` is a derived [`{{spinner}}`](#samples/tag-controls/jqui/spinner) tag for showing time (hours and minutes).\n\nBy default it binds to underlying data of type *Date*. The default display shows time using the 24 hour clock (e.g. *13:30*).\n\nIt can be used in conjunction with the `{{datepicker}}`:\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\nTime: {^{timespinner date /}}\n\nDate: {^{datepicker date elem=\"div\" dataFormat=false /}}\n\nUnderlying data (date):{^{:date}}\n```"
+          }
+        ],
+        "html": "<script id=\"pageTmpl\" type=\"text/x-jsrender\">\n  Time: {^{timespinner date /}}<br/><br/>\n  Date: {^{datepicker date elem=\"div\" dataFormat=false /}}<br/><br/>\n  <b>Underlying data (date):</b><br/><br/> <em>{^{:date}}</em>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "\"use strict\";\nvar pageTmpl = $.templates(\"#pageTmpl\");\nvar nextWeek = new Date();\nnextWeek.setDate(nextWeek.getDate()+7);\n\nvar model = {\n    date: nextWeek\n  };\n\npageTmpl.link(\"#page\", model);",
+        "jsrJsvJqui": "jqui",
+        "height": "390",
+        "nocss": true,
+        "header": "  <link href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\">\n  <link href=\"tag-controls/jqui/demos.css\" rel=\"stylesheet\" />"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Note that if the `{{timespinner}}` moves past *23:59* to *00:00*, the `{{datepicker}}` moves to the next day... To make the `{{timespinner}}` stay on the same day, set:\n\n```jsr\n{{timespinner ... keepDay=true /}}\n```"
+      },
+      {
+        "_type": "para",
+        "title": "Locale-specific time formatting: displayFormatter",
+        "text": "A built-in displayFormatter provides locale-specific formatting (by setting [_culture](//api.jqueryui.com/spinner/#option-culture) to the desired locale), but for this to work, the 0.1.1 version of jQuery [Globalize](//github.com/jquery/globalize) must be included:\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/globalize.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.de-DE.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.ja-JP.min.js\"></script>\n```\n\n```jsr\n{^{timespinner date ^_culture=culture /}}\n```\n"
+          }
+        ],
+        "jsrJsvJqui": "jqui",
+        "height": "180",
+        "url": "samples/tag-controls/jqui/timespinner/globalize",
+        "title": "Time formatting using globalize.js 0.1.1"
+      },
+      {
+        "_type": "para",
+        "title": "Custom display formatters",
+        "text": "The `{{timespinner}}` tag control lets you provide your own *\"[display formatter](#samples/tag-controls/jqui/spinner/formats@display)\"* (an object with a `parse` and a `format()` method) -- to provide conversion between `Date` and any string display you wish.\n\nIn particular, you can use your own display formatter to provide formatting based on culture, without depending on the Globalize 0.1.1 library.\n\nThe following sample uses [moment.js](//momentjs.com) for time formatting based on culture:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n  <script src=\"//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js\"></script>\n```\n\n```js\n// Time formatter using moment.js\nvar timeFormatter = {\n  parse: function(value, props) {\n    // Note that the 'this' pointer is the tag instance, so it can be used to access any tag properties\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(value, format).toDate();\n  },\n  format: function(value, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(value).format(format);\n  }\n};\n```\n\nUsage:\n```js\n$.views.helpers({time: timeFormatter, ...});\n```\n\n```jsr\n{^{timespinner date ^_culture=culture displayFormat=~time /}}\n```\n"
+          }
+        ],
+        "title": "Custom display formatter using moment.js for culture/locale support",
+        "url": "samples/tag-controls/jqui/timespinner/moment",
+        "height": "180",
+        "jsrJsvJqui": "jqui"
+      },
+      {
+        "_type": "para",
+        "title": "Alternative data formats: binding to timestamp number",
+        "text": "To bind to a timestamp (tick count) number, simply set `dataFormat=0`:\n\n```jsr\n{^{timespinner dateNumber ^_culture=culture dataFormat=0 /}}\n```\n\nor if using a different display formatter:\n\n```jsr\n{^{timespinner dateNumber ^_culture=culture displayFormat=~time dataFormat=0 /}}\n```\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Alternative data formats: binding to a custom string",
+        "text": "To bind to a custom string format for the underlying date, provide a *\"[data formatter](#samples/tag-controls/jqui/datepicker/formats@formatter)\"* (object with a `parse()` and a `format()` method), or provide converters, to convert between `Date` and the chosen string format.\n\nThe next sample shows the use of both a *\"data formatters\"* to create a timespinner bindng to underlying data of type number or string. It also shows the use of converters to shift the displayed date-time relative to the underlying data:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Binding to number:\n\n```jsr\n{^{datepicker dateNumber dataFormat=0 /}}\n{^{timespinner dateNumber dataFormat=0 ... /}}\n```\n\nBinding to custom string\n\n```jsr\n{^{datepicker dateTimeString dataFormat=~fullDate /}}\n{^{timespinner dateTimeString dataFormat=~fullDate ... /}}\n```\n\nBinding to a WCF date-time string\n\n```jsr\n{^{datepicker wcfString dataFormat=~wcfDate /}}\n{^{timespinner wcfString dataFormat=~wcfDate ... /}}\n```\n\nUsing convert/convertBack to display date-time shifted by a delay\n\n```jsr\n{^{datepicker wcfString dataFormat=~wcfDate\n      convert=~add convertBack=~subtract ^delay=delay /}}\n{^{timespinner wcfString dataFormat=~wcfDate\n      convert=~add convertBack=~subtract ^delay=delay ... /}}\n```"
+          }
+        ],
+        "url": "samples/tag-controls/jqui/timespinner/dataformat",
+        "height": "810",
+        "jsrJsvJqui": "jqui"
+      },
+      {
+        "_type": "para",
+        "title": "Custom timespinner tags",
+        "text": "You can create your own flavor of timespinner which defaults to a chosen `displayFormat` and/or `dataFormat` and/or default converters:\n\n```js\n$.views.tags({\n  myTimespinner: {\n    baseTag: \"timespinner\",\n    displayFormat: momentTimeFormatter,\n    dataFormat: momentCustomDateTime,\n    convert: addDays,\n    convertBack: subtractDays\n  }\n);\n```\n\nUsage:\n\n```jsr\n{^{myTimespinner dateTimeString culture=\"en-US\" delay=48 /}}\n```\n\n**_See also:_** [*Datepicker date formats*](#samples/tag-controls/jqui/datepicker/formats)\n"
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/spinner/formats": {
+    "title": "{{spinner}}: number formats and cultures",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The jQuery UI spinner includes support for displaying number using number or currency [formats](//api.jqueryui.com/spinner/#option-numberFormat) based on [culture](//api.jqueryui.com/spinner/#option-culture) or locale. However this support depends on including the 0.1.1 version of jQuery [Globalize](//github.com/jquery/globalize).\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/globalize.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.de-DE.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.ja-JP.min.js\"></script>\n```\n\n```jsr\n{^{spinner amount ^_culture=culture _numberFormat=\"C\" /}}\n\n{^{spinner amount ^_culture=culture _numberFormat=\"n\" /}}\n```\n"
+          }
+        ],
+        "jsrJsvJqui": "jqui",
+        "height": "290",
+        "url": "samples/tag-controls/jqui/spinner/globalize",
+        "title": "Number and currency formats using globalize.js 0.1.1"
+      },
+      {
+        "_type": "para",
+        "title": "Custom display formatters",
+        "text": "The `{{spinner}}` tag control lets you specify a *\"display formatter\"* (an object with a `parse()` and a `format()` method) -- to provide conversion between the underlying `number` and any string display you wish.\n\nIn particular, you can use your own formatter to provide formatting based on culture, without depending on the Globalize 0.1.1 library.\n\n(Note that the `this` pointer within `parse` or `format` is the tag instance (in this case the spinner instance) so it can be used to access any tag properties.)\n\nThe following formatter uses [accounting.js](//openexchangerates.github.io/accounting.js/) to provide culture-based number formatting:\n\n```js\nvar accountingCulture = {\n  \"de-DE\": {symbol: \"€\", thousand: \".\", decimal: \",\", format: \"%v %s\"},\n  \"en-US\": {symbol: \"$\", thousand: \",\", decimal: \".\"}\n};\n\nvar numberFormatter = {\n  format: function(value, props) {\n    return accounting.formatNumber(\n      value,\n      accountingCulture[props._culture]\n    );\n  },\n  parse: function(value, props) {\n    return accounting.unformat(\n      value,\n      accountingCulture[props._culture].precision\n    );\n  }\n};\n```\n\nUsage:\n```js\n$.views.helpers({number: numberFormatter, ...});\n```\n\n```jsr\n{^{spinner amount ^_culture=culture displayFormat=~number /}}\n```\n\nThe following sample uses accounting.js for currency and number formatting based on culture:",
+        "anchor": "display"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.js\"></script>\n```\n\n```jsr\n{^{spinner amount ^_culture=culture displayFormat=~currency /}}\n\n{^{spinner amount ^_culture=culture displayFormat=~number /}}\n```\n\n"
+          }
+        ],
+        "title": "Custom display formatters using accounting.js for culture/locale support",
+        "url": "samples/tag-controls/jqui/spinner/accounting",
+        "height": "290",
+        "jsrJsvJqui": "jqui"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The same approach can be used for a time spinner with localized display format. The following sample uses [moment.js](//momentjs.com) for time formatting based on culture (but note that it is simpler and better to use the specific [`{{timespinner}}`](#samples/tag-controls/jqui/timespinner)) tag): "
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js\"></script>\n```\n\n```js\ntime: {\n  parse: function(value, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(value, format).toDate();\n  },\n  format: function(value, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(value).format(format);\n  }\n}\n```\n\n```jsr\n{^{spinner dateNumber ^_culture=culture ... displayFormat=~time /}}\n```\n"
+          }
+        ],
+        "url": "samples/tag-controls/jqui/spinner/moment",
+        "height": "214",
+        "jsrJsvJqui": "jqui"
+      },
+      {
+        "_type": "para",
+        "title": "Using a data formatter, or converters, to bind to a custom underlying data format",
+        "text": "By default the underlying data format used by `{{spinner}}` is a number. However any underlying data format can be used by providing a corresponding *\"data formatter\"* (object with a `parse()` and a `format()` method), and setting the `dataFormat` to that formatter.\n\nThe next sample shows the use of both a *\"data formatter\"*, and converters, to create a timespinner bindng to underlying data of type `Date` (though this is can be done more simply using the [`{{timespinner}}`](#samples/tag-controls/jqui/timespinner)) tag):"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\n// Date to number formatter\ndateToNumber: {\n  parse: function(value, props) {\n    return +value;\n  },\n  format: function(value, props) {\n    return new Date(value);\n  }\n}\n```\n\n```jsr\n{^{spinner date ^_culture=culture ... displayFormat=~time dataFormat=~dateToNumber /}}\n\n{^{spinner date ^_culture=culture ... displayFormat=~time convert=~toNumber convertBack=~toDate /}}\n```\n"
+          }
+        ],
+        "url": "samples/tag-controls/jqui/spinner/dataformat",
+        "height": "290",
+        "jsrJsvJqui": "jqui"
+      },
+      {
+        "_type": "para",
+        "title": "Custom spinner tags",
+        "text": "You can create your own flavor of spinner which defaults to a chosen `displayFormat` and `dataFormat`:\n\n```js\n$.views.tags({\n  myCurrencySpinner: {\n    baseTag: \"spinner\",\n    displayFormat: currencyFormatter\n  }\n);\n```\n\nUsage:\n\n```jsr\n{^{myCurrencySpinner amount culture=culture /}}\n```\n"
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/spinner/variants": {
     "title": "Samples: {{spinner}} variants",
     "path": "",
     "sections": [
@@ -4973,7 +5386,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "The following sample is a declarative data-driven version of the jQuery UI [*Currency* spinner demo](https://jqueryui.com/spinner/#currency).\n\nNote that the page includes the jQuery Globalize.js library. It also includes the jQuery *mousewheel* plugin (which allows you to use the mousewheel to 'spin' the `{{spinner}}` control).\n\nThe sample also shows the use of `{{validate}}` with the `{{spinner}}` tag. (Uncheck *Enforce in-range amount*.)"
+        "text": "The following sample is a declarative data-driven version of the jQuery UI [*Currency* spinner demo](https://jqueryui.com/spinner/#currency).\n\nThe sample also shows the use of `{{validate}}` with the `{{spinner}}` tag. (Uncheck *Enforce in-range amount, and move the slider left or right*.)\n\nNote that the page includes the jQuery [Globalize.js](//cdnjs.com/libraries/globalize/0.1.1) library version 0.1.1. It also includes the jQuery *mousewheel* plugin (which allows you to use the mousewheel to 'spin' the `{{spinner}}` control).\n\n"
       },
       {
         "_type": "sample",

@@ -1,4 +1,5 @@
-﻿$.views.converters({
+﻿"use strict";
+$.views.converters({
   upper:function(val) {
     val = "" + val;
     return val && val.toUpperCase();

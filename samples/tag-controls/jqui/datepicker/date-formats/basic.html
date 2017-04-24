@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../../download/jsviews.js"></script>
+  <script src="../../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+  <link href="../sample.css" rel="stylesheet"/>
+</head>
+<body>
+<script id="pageTmpl" type="text/x-jsrender">
+  <h4>Default "date string" format</h4>
+  <pre>Default format "mm/dd/yy" ($.datepicker.setDefaults("dateFormat", ...)</pre>
+  <p>
+    Underlying data (string):
+    <em>{^{:dateString}}</em>
+  </p>
+  <p>
+    {^{datepicker dateString /}}
+  </p>
+
+  <h4>Using a jQuery UI date patterns to bind to a chosen "date string" format</h4>
+  <pre>dataFormat="mm-dd-yy"</pre>
+  <p>
+    Underlying data (string):
+    <em>{^{:dateString2}}</em>
+  </p>
+  <p>
+    {^{datepicker dateString2 dateFormat="mm-dd-yy" /}}
+    {^{datepicker dateString2 dataFormat="mm-dd-yy" dateFormat="DD MM d, yy" /}}
+  </p>
+
+  <h4>Binding to Date object</h4>
+  <pre>dataFormat=false</pre>
+  <p>
+    Underlying data (date):
+    <em>{^{:date}}</em>
+  </p>
+  <p>
+    {^{datepicker date dataFormat=false /}}
+    {^{datepicker date dataFormat='' dateFormat="DD MM d, yy" /}}
+  </p>
+
+  <h4>Binding to a Date number</h4>
+  <pre>dataFormat=0</pre>
+  <p>
+    Underlying data (number):
+    <em>{^{:dateNumber}}</em>
+  </p>
+  <p>
+    {^{datepicker dateNumber dataFormat=0 /}}
+    {^{datepicker dateNumber dataFormat=0 dateFormat="DD MM d, yy" /}}
+  </p>
+</script>
+
+<div id="page"></div>
+<!--<script src="basic.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

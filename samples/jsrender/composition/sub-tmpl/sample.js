@@ -1,3 +1,4 @@
+"use strict";
 var movies = [
   {
     title: "Meet Joe Black",

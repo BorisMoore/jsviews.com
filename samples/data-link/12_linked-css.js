@@ -1,3 +1,4 @@
+"use strict";
 var data = {
   color: "yellow",
   border: "blue",

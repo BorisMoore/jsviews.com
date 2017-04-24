@@ -79,7 +79,9 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             ],
             "markup": "<div>\n   <em>Name:</em> {{:name}}\n   {{if showNickname && nickname}}\n      (Goes by <em>{{:nickname}}</em>)\n   {{/if}}\n</div>",
             "jsrJsvJqui": "jsr",
-            "height": "85"
+            "height": "85",
+            "header": "",
+            "action": ""
           }
         ],
         "title": ""
@@ -130,18 +132,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "_type": "para",
                 "title": "",
                 "text": "```jsr\n{^{name}} ... {^{if showNickname && nickname}}...\n```\n\nThese are data-bound tags. When the underlying data changes the data-value within the rendered template automatically updates too.\n\nChanging `{{if ...}}` to `{^{if ...}}` makes it data-bound. Now, when the underlying data value or expression changes the whole rendered block content is automatically removed or reinserted.\n\n```jsr\n<em data-link=\"nickname\">\n```\n\nYou can use element-based data-linking too. Here, the inner-text of the `<em>` element is data-bound to the `nickname` data value.\n\n```jsr\n<input data-link=\"name\"/>\n```\n\nAnd here, the input is automatically two-way data-bound to the `name` property of the underlying data. Change the value in the text box, and the underlying data automatically updates. Any other parts of the template that are data-linked to the same data property will then immediately update too."
-              }
-            ],
-            "data": [
-              {
-                "name": "Robert",
-                "nickname": "Bob",
-                "showNickname": true
-              },
-              {
-                "name": "Susan",
-                "nickname": "Sue",
-                "showNickname": false
               }
             ],
             "markup": "",
@@ -209,7 +199,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "text": "```js\n$.observable(object).setProperty(...);\n```\n\n`$.observable(dataItem)` makes `dataItem` *\"observable\"*, by providing a `setProperty(...)` method. Use `setProperty` to change a value, and the change will be *\"observed\"* by the declarative data-binding in the template.\n\n`$.observable(people)` makes the `people` array *\"observable\"*, by providing methods like `insert(...)` and `remove(...)`. Use them to make changes to arrays, and the changes will be *\"observed\"* by data-bound elements and tags in the template - such as the `{^{for people}}` tag. Here the rendered block content of the tag will be incrementally added/removed for each added/removed array item - in response to your change.\n\n```js\n$.observable(array).insert(...);\n```\n\n`$.view(elem)` allows you to get from any DOM element to the *view* object for that part of the rendered content, and hence to the underlying data, index, etc."
               }
             ],
-            "data": {},
             "markup": "",
             "height": "175",
             "html": "<table><tbody id=\"result\"></tbody></table>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n  <tr><td>\n    <button id=\"addBtn\">Add</button>\n  </td></tr>\n  {^{for people}}\n    <tr><td>\n      <button class=\"change\">Change</button>\n      <button class=\"remove\"></button>\n      {^{:name}} \n    </td></tr>\n  {{/for}}\n</script>",
@@ -1263,16 +1252,16 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                         "label": "datepicker variants"
                       },
                       {
+                        "name": "samples/tag-controls/jqui/datepicker/formats",
+                        "label": "Date formats"
+                      },
+                      {
                         "name": "samples/tag-controls/jqui/datepicker/with-validation",
                         "label": "With validation"
                       },
                       {
                         "name": "samples/tag-controls/jqui/datepicker/with-validation-wizard",
                         "label": "With validation wizard"
-                      },
-                      {
-                        "name": "samples/tag-controls/jqui/datepicker/with-converters",
-                        "label": "With converters"
                       }
                     ],
                     "expanded": false
@@ -1302,7 +1291,24 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                   },
                   {
                     "name": "samples/tag-controls/jqui/spinner",
-                    "label": "spinner control"
+                    "label": "spinner control",
+                    "categories": [
+                      {
+                        "name": "samples/tag-controls/jqui/spinner/variants",
+                        "label": "spinner variants",
+                        "categories": [],
+                        "expanded": true
+                      },
+                      {
+                        "name": "samples/tag-controls/jqui/spinner/formats",
+                        "label": "Formats and cultures"
+                      },
+                      {
+                        "name": "samples/tag-controls/jqui/timespinner",
+                        "label": "timespinner control"
+                      }
+                    ],
+                    "expanded": false
                   },
                   {
                     "name": "samples/tag-controls/jqui/toolbar",

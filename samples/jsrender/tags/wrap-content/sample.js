@@ -1,3 +1,4 @@
+"use strict";
 $.views.tags({
 
   // Tag with a render method to return HTML content,

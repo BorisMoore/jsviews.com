@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="../../../../download/jsviews.js"></script>
+  <script src="../../../sample-viewer.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.min.js"></script>
+  <link href="../../../samples.css" rel="stylesheet" />
+</head>
+<body>
+<script id="pageTmpl" type="text/x-jsrender">
+  <h4>Choose culture:</h4>
+  <p>
+    <select data-link="culture" name="culture">
+      <option value="en-US">US</option>
+      <option value="de-DE">Germany</option>
+    </select>
+  </p>
+  <p>
+    Underlying data (number):
+    <em>{^{:amount}}</em>
+  </p>
+  <p>
+    <pre>displayFormat=~currency</pre>
+    {^{spinner amount ^_culture=culture displayFormat=~currency width=100 /}}
+  </p>
+  <p>
+    <pre>displayFormat=~number</pre>
+    {^{spinner amount ^_culture=culture displayFormat=~number width=100 /}}
+  </p>
+</script>
+
+<div id="page"></div>
+<!--<script src="accounting.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

@@ -1,4 +1,5 @@
-﻿var pageTmpl = $.templates("#pageTmpl"),
+﻿"use strict";
+var pageTmpl = $.templates("#pageTmpl"),
   model = {selectedTab: 1};
 
 pageTmpl.link("#page", model);

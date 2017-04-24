@@ -1,4 +1,5 @@
-﻿var data = {
+﻿"use strict";
+var data = {
     items: [
       {
         title: "High Tatras",

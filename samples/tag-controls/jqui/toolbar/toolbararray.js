@@ -1,4 +1,5 @@
-﻿$.views.converters({
+﻿"use strict";
+$.views.converters({
   tonum: function(val) {
     return +val; // Convert string to number
   }

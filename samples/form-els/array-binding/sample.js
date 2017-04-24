@@ -1,3 +1,4 @@
+"use strict";
 $.views.converters({
   intToStr: function(value) {
     return "" + value;

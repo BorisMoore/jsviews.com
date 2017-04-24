@@ -1,4 +1,5 @@
-﻿var model = {
+﻿"use strict";
+var model = {
     items: [
       { name: 'Drag me' },
       { name: 'up or down' },

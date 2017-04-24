@@ -1,4 +1,5 @@
-﻿$.views.tags({
+﻿"use strict";
+$.views.tags({
   tree: {
     template: "#treeTemplate",
 

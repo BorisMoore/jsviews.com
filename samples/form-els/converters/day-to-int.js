@@ -1,3 +1,4 @@
+"use strict";
 var days = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ],
   myWeek = {
     dayOff: 1

@@ -1,4 +1,5 @@
-﻿var data = {
+﻿"use strict";
+var data = {
     mode: "Stop",
     label: "",
     amount: 0,

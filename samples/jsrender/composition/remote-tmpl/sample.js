@@ -1,3 +1,4 @@
+"use strict";
 function lazyGetTemplate(name) {
   // If the named remote template is not yet loaded and compiled
   // as a named template, fetch it. In either case, return a promise

@@ -1,4 +1,5 @@
-﻿var pageTmpl = $.templates("#pageTmpl"),
+﻿"use strict";
+var pageTmpl = $.templates("#pageTmpl"),
   data = {
     val: "",
   };

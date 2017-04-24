@@ -1,3 +1,4 @@
+"use strict";
 var team = {
   members: {
     m1: {name: "Robert"},

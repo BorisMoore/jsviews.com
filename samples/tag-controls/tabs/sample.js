@@ -1,4 +1,5 @@
-﻿var state = {
+﻿"use strict";
+var state = {
     innerSelect: 1
   },
   tabsTmpl = $.templates("#tabsTmpl");

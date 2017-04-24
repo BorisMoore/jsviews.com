@@ -21,7 +21,7 @@
 	<link href="resources/css/contents.css" rel="stylesheet"/>
 	<link href="resources/css/highlight.css" rel="stylesheet" /> <!--xcode vs brown_paper googlecode magula mono-blue-->
 	<script src="//code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
 	<script src="lib/highlight.js"></script>
 	<script src="download/jsviews.js"></script>
 	<script src="datatypes.js"></script>
@@ -504,6 +504,12 @@
 
 		<label>markup<textarea class="low" data-link="markup" rows="5"></textarea></label>
 		<label>data<textarea class="low" data-link="{stringify:data:parse}" rows="5"></textarea></label>
+		<label>header: {^{radiogroup action||""}}
+			<label><input value="prepend" type="radio"/> before</label>
+			<label><input value="append" type="radio"/> after</label>
+			<label><input value="" type="radio"/> replace</label>
+		{{/radiogroup}}
+		<textarea class="low" data-link="header" rows="5"></textarea></label>
 		<label>html<textarea data-link="html" rows="5"></textarea></label>
 		<label>code<textarea data-link="code" rows="5"></textarea></label>
 		<label>How it works:</label>

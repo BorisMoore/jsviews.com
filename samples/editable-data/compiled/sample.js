@@ -1,3 +1,4 @@
+"use strict";
 var VMs = $.views.viewModels,
   counter = 0,
 

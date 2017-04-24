@@ -1,3 +1,4 @@
+"use strict";
 $.views.converters({
     strToInt: function(value) {
       return parseInt(value);
