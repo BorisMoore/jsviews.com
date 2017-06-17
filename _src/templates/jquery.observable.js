@@ -44,6 +44,7 @@ if (!$ || !$.fn) {
 }
 
 var versionNumber = "v@@include("templates/-version.txt")",
+	_ocp = "_ocp", // Observable contextual parameter
 	$observe, $observable,
 
 	$views = $.views =

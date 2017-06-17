@@ -118,7 +118,7 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
         arg0 = tag.cvtArgs()[0];
 
       if (targetTag) {
-        targetTag.update(arg0);
+        targetTag.updateValue(arg0);
       }
 
       if (props.preventInvalidData !== undefined) {
@@ -129,7 +129,7 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
       if (!tag.messageElem || !tag.messageElem.parentNode) {
         if (tag.radiogroup) {
           // messageElem is the div which wraps the group of radio buttons and/or labels
-          tag.messageElem = $(tag._.inline ? linkCtx.elem.nextSibling : linkCtx.elem);
+          tag.messageElem = tag._.inline ? tagCtx.contents("div") : $(linkCtx.elem);
           tag.messageElem.addClass("radiogroup");
         } else {
           if (!tag._.inline && (targetTag = $.views.sub._glt(linkCtx.elem)[0])) {

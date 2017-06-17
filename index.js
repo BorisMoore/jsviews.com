@@ -410,7 +410,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 		},
 		onAfterLink: function() {
 			var self = this;
-			if ($.views.getCtx(self.ctx.mode) === "edit") {
+			if (self.ctxPrm("mode") === "edit") {
 				self.contents(".cmdbtn").on("click", function(ev) {
 					ev.stopPropagation();
 					ev.stopImmediatePropagation();
@@ -473,7 +473,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 	sectionButtonsTag = {
 		render: function(sectionTypes) {
 			var ret = "<div class=\"buttons\">",
-				nestedSectionType = $.views.getCtx(this.ctx.sectionType);
+				nestedSectionType = this.ctxPrm("sectionType");
 			for (var type in sectionTypes) {
 				ret += "<button class=\""
 							+ (this.tagCtx.props.append ? "append " : "")
@@ -616,7 +616,10 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					header = tryItData.header;
 				if (!url) {
 					header = header ? header.replace(/^\S/gm, "  $&") : "";
-					headerInsert = nocss || headerAction === "" ? "" : "  <link href=\"samples.css\" rel=\"stylesheet\" />\n";
+					headerInsert =
+						nocss || header && !headerAction
+							? "" // If nocss specified, or if headerAction is replace ("") and there is header content provided, don't insert samples.css
+							: "  <link href=\"samples.css\" rel=\"stylesheet\" />\n";
 					header = headerAction === "append" ? headerInsert + header : header + headerInsert;
 				}
 				return "<!DOCTYPE html>\n"
@@ -626,7 +629,6 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					+ "  <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n"
 					+ (url
 						? ("  <base href=\"//www.jsviews.com/" + url.slice(0, url.lastIndexOf("/")) + "/\" />\n"
-							+ header
 							+ (codeInHeader
 								? ("<script>\n" + code
 									+ "\n</script>\n")
@@ -634,7 +636,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 						: (
 					(jsrJsvJqui === "jqui"
 						? "  <script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.min.js\"></script>\n"
-							+ (headerAction ? "  <link href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\" />\n" : "")
+							+ "  <link href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\" />\n"
 						: ""
 					)
 					+ "  <base href=\"//www.jsviews.com/samples/\" />\n"

@@ -23,6 +23,7 @@ var versionNumber = "v@@include("templates/-version.txt")",
 	// global var is the this object, which is window when running in the usual browser environment
 
 	$, jsvStoreName, rTag, rTmplString, topView, $views,
+	_ocp = "_ocp", // Observable contextual parameter
 
 @@include('jsrender.js', { "isNode": true })
 // NODE.JS-SPECIFIC CODE:

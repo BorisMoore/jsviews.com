@@ -6,32 +6,29 @@ $.views.tags("draggable2", {
   template: "<div class='mytag'>{{include tmpl=#content/}}</div>",
   onBind: function() {
     var tag = this;
-    tag.mainElem.mousedown(function(ev) {
+    tag.mainElem.on("mousedown touchstart", function(ev) {
       var offset = tag.mainElem.offset(),
         addedLeft = offset.left - ev.clientX,
         addedTop = offset.top - ev.clientY;
       if (document.elementFromPoint(ev.clientX, ev.clientY) === tag.mainElem[0]) {
-        $(document.body).mousemove(function(ev2) {
+        $(document).on("mousemove touchmove", function(ev2) {
           setTimeout(function() {
             var moveToX = ev2.clientX + addedLeft,
               moveToY = ev2.clientY + addedTop;
-            tag.update(moveToX, moveToY);
-            tag.setValue(moveToX, moveToY);
+            tag.updateValues(moveToX, moveToY);
+            tag.setValues(moveToX, moveToY);
           }, 0);
+          ev.preventDefault();
         });
       }
+      ev.preventDefault();
     });
-    $(document.body).mouseup(function() {
-      $(document.body).off("mousemove");
+    $(document).on("mouseup touchend", function() {
+      $(document).off("mousemove touchmove");
     });
   },
-  setValue: function(left, top) {
-    if (left !== undefined) {
-      this.mainElem.offset({left: left || 0});
-    }
-    if (top !== undefined) {
-      this.mainElem.offset({top: top || 0});
-    }
+  setValue: function(value, index) {
+    this.mainElem.offset(index ? {top: value || 0} : {left: value || 0});
   },
   getValue: function() {
     var offset = this.mainElem.offset();
@@ -39,7 +36,7 @@ $.views.tags("draggable2", {
   },
   onUpdate: false,
   setSize: true
-})
+});
 
 var i,
   pageTmpl = $.templates("#pageTmpl"),

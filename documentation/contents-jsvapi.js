@@ -942,7 +942,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             ],
             "args": [],
             "sections": [],
-            "example": "var sliders = view.childTags(\"slider\");\nsliders[0].update(25);",
+            "example": "var sliders = view.childTags(\"slider\");\nsliders[0].updateValue(25);",
             "description": "Get instances of {{tagName}} in view (not nested in other custom tags)"
           },
           {
@@ -1816,7 +1816,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "html": "<style>\n  [contenteditable] {border:1px solid green; padding:5px;}\n  .block {display: block; margin-bottom: 10px} .green {color: green;}\n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" class=\"block\"/>\n\n  <label class=\"block\"><input data-link=\"{toBool:gender:toString}\" type=\"checkbox\" /> Male</label>\n\n  <div class=\"block\" data-link=\"{radiogroup gender}\">\n    <label><input value=\"male\" type=\"radio\" /> Male</label><br/>\n    <label><input data-link=\"gender\" value=\"female\" type=\"radio\" /> Female</label>\n  </div>\n\n  <select data-link=\"gender\" class=\"block\">\n    <option value=\"male\">Male</option>\n    <option value=\"female\">Female</option>\n  </select>\n\n  <textarea data-link=\"name\" class=\"block\"></textarea>\n\n  <div class=\"block\">\n    <span data-link=\"name\" contenteditable=\"true\"></span>\n  </div>\n\n  <div class=\"block\">\n    {^{textbox name label=\"Name:\"/}}\n  </div>\n\n  <hr/>\n\n  <div class=\"green\"><b>person:</b> {^{>name}} {^{>gender}}</div>\n</script>",
-        "code": "$.views.converters({\n  toString: function(val) {\n   return val ? 'male' : 'female';\n  },\n  toBool: function(val) {\n    return val === 'male';\n }\n});\n\n$.views.tags({\n  textbox: {\n    onAfterLink: function() {\n      // Find input in contents, if not already found\n      this.linkedElem = this.linkedElem || this.contents(\"input\");\n    },\n    onUpdate: false, // No need to re-render whole tag, when content updates.\n    template: \"<em>{{:~tag.tagCtx.props.label}}</em> <input/>\"\n  }\n});\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo\", gender: \"male\"};\n\ntmpl.link(\"#result\", person);\n",
+        "code": "$.views.converters({\n  toString: function(val) {\n   return val ? 'male' : 'female';\n  },\n  toBool: function(val) {\n    return val === 'male';\n }\n});\n\n$.views.tags({\n  textbox: {\n    onBind: function() {\n      // Find input in contents\n      this.linkedElem = this.contents(\"input\");\n    },\n    onUpdate: false, // No need to re-render whole tag, when content updates.\n    template: \"<em>{{:~tag.tagCtx.props.label}}</em> <input/>\"\n  }\n});\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo\", gender: \"male\"};\n\ntmpl.link(\"#result\", person);\n",
         "height": "346",
         "title": "Two way binding"
       },

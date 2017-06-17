@@ -97,9 +97,9 @@ var treeNodeTmpl = $.templates(
 // {{tree}}
 
 	treeTag = {
-		init: function(tagCtx) {
+		init: function() {
 			this.parent.setTree(this);
-			tagCtx.ctx.tree = this; // Set contextual property ~tree
+			this.ctx.tree = this; // Set contextual property ~tree
 		},
 		onAfterLink: function() {
 			var self = this;
@@ -154,7 +154,7 @@ var treeNodeTmpl = $.templates(
 	treeNodeTag = {
 		init: function(tagCtx) {
 			this.data = tagCtx.view.data;
-			this.tree = tagCtx.ctx.tree;
+			this.tree = this.ctxPrm("tree");
 		},
 		template: treeNodeTmpl,
 

@@ -1,4 +1,4 @@
-﻿/*! JsViews jQueryUI widget integration v0.9.85 (Beta)
+﻿/*! JsViews jQueryUI widget integration v0.9.85X (Beta)
 see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
 * https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
@@ -32,10 +32,10 @@ if (!$ || !$.fn || !$.ui || !$.views) {
 }
 
 function getConverter(tag, cvt) {
-  return cvt + "" === cvt ? tag.view.getRsc("converters", cvt) : cvt;
+  return cvt + "" === cvt ? tag.tagCtx.contentView.getRsc("converters", cvt) : cvt;
 }
 
-function checkboxRadioOnAfterLink(tagCtx, linkCtx) {
+function checkboxRadioBeforeBind(tagCtx, linkCtx) {
   var tag = this,
     props = tagCtx.props,
     elem = tag.mainElem[0],
@@ -60,7 +60,6 @@ function checkboxRadioOnAfterLink(tagCtx, linkCtx) {
 function tabsAccordionOnBind(tagCtx, linkCtx) {
   var tag = this;
   tag.baseApply(arguments);
-  tag.displayElem = tag.widget.element;
 
   tag.mainElem.on("jsv-domchange", function(ev, tagCtx, linkCtx, eventArgs) {
     var newSelected,
@@ -70,7 +69,7 @@ function tabsAccordionOnBind(tagCtx, linkCtx) {
     newSelected = tag.widget.option("active")
 
     if (selected !== newSelected) {
-      tag.update(newSelected);
+      tag.updateValue(newSelected);
     }
   });
 }
@@ -80,7 +79,7 @@ function tabsAccordionOptions() {
   return {
     activate: function(evt, ui) {
       // Raise elemChangeHandler event when selected tab changes - for two-way binding to arg(0)
-      tag.update(tag.widget.option("active"));
+			tag.updateValue(tag.widget.option("active"));
     }
   };
 }
@@ -128,7 +127,7 @@ widget: {
       tag.attr = "html";
     }
   },
-  onBind: function(tagCtx) {
+  onBeforeBind: function(tagCtx) {
     var mainElem, prop, i, optionKey,
       tag = this,
       presets = tag.initOptions, // initOptions: array of option names that when set declaratively
@@ -243,14 +242,14 @@ autocomplete: {
     return {
       change: function(evt, ui) {
         if (ui.item) {
-          tag.update(ui.item.value);
+          tag.updateValue(ui.item.value);
           // If there is a selected item, update bound value on keydown.
           // (Alternatively can set trigger=false to update on change)
         }
       },
       select: function(evt, ui) {
         if (ui.item) {
-          tag.update(ui.item.value);
+          tag.updateValue(ui.item.value);
         }
       },
       focus: function(evt, ui) {
@@ -267,7 +266,7 @@ checkbox: {
   mainElement: "input",
   linkedElement: "input",
   setSize: true,
-  onAfterLink: checkboxRadioOnAfterLink,
+  onBeforeBind: checkboxRadioBeforeBind,
   setValue: function(val) {
     if (val !== undefined) {
       var elem = this.mainElem[0];
@@ -283,6 +282,7 @@ radio: {
   mainElement: "input",
   linkedElement: "input",
   setSize: true,
+  onBeforeBind: checkboxRadioBeforeBind,
   onBind: function() {
     var tag = this,
       radiogroup = tag.parents.radiogroup;
@@ -300,7 +300,6 @@ radio: {
       }
     }
   },
-  onAfterLink: checkboxRadioOnAfterLink,
   setValue: function(val) {
     if (val !== undefined) {
       var elem = this.mainElem[0];
@@ -376,7 +375,7 @@ datepicker: {
     return {
       onSelect: function(dateText) {
         tag.value = dateText;
-        tag.update(dateText);
+        tag.updateValue(dateText);
       }
     };
   },
@@ -477,19 +476,14 @@ resizable: {
     return {
       resize: function(evt, ui) {
         setTimeout(function() {
-          tag.update(ui.size.width, ui.size.height);
+          tag.updateValues(ui.size.width, ui.size.height);
         },0);
       }
     };
   },
-  setValue: function(width, height) {
+  setValue: function(value, index) {
     var mainElem = this.mainElem;
-    if (width !== undefined) {
-      mainElem.width(width || 0);
-    }
-    if (height !== undefined) {
-      mainElem.height(height || 0);
-    }
+    mainElem[index ? "height" : "width"](value || 0);
   },
   getValue: function() {
     var mainElem = this.mainElem;
@@ -509,9 +503,14 @@ selectmenu: {
     var tag = this;
     return {
       change: function(evt, ui) {
-        tag.update(ui.item.value);
+        tag.updateValue(ui.item.value);
       }
     };
+  },
+  onBeforeBind: function() {
+    var tag = this;
+    tag.baseApply(arguments);
+    tag.displayElem = tag.widget.button;
   },
   onBind: function() {
     var tag = this;
@@ -519,7 +518,6 @@ selectmenu: {
     tag.mainElem.on("jsv-domchange", function() {
       tag.widget.refresh();
     });
-    tag.displayElem = tag.widget.button;
   },
   setValue: function(value) {
     this.mainElem[0].value = value;
@@ -542,7 +540,7 @@ slider: {
     return {
       slide: function(evt, ui) {
         setTimeout(function() {
-          tag.update(ui.value);
+          tag.updateValue(ui.value);
         }, 0);
       }
     };
@@ -565,6 +563,7 @@ slider: {
 spinner: {
   baseTag: "widget",
   widgetName: "spinner",
+  mainElement: "input",
   linkedElement: "input",
   elem: "input",
   setSize: true,
@@ -586,7 +585,7 @@ spinner: {
     var tag = this;
     return {
       spin: function(evt, ui) {
-        tag.update(tag.widget._format(ui.value));
+        tag.updateValue(tag.widget._format(ui.value));
       }
     };
   },
@@ -605,6 +604,19 @@ spinner: {
     }
     tag.dataFormat = dataFormat = initFormatter(tag, tagCtx);
     tag.baseApply(arguments);
+  },
+  onBeforeBind: function(tagCtx) {
+    var tag = this;
+    if (!tag.linkCtx.elem._jsvChg) {
+      // If change not triggered by the spinner itself changing value
+      tag.baseApply(arguments);
+      tag.displayElem = tag.mainElem.parent(); // jQuery UI wraps the input in a span
+      if (tagCtx.props.width) {
+        // In addition to generic setting of width on the
+        // displayElem, need also to set width on the input.
+        tag.mainElem.width(tagCtx.props.width - tag.displayElem.find(".ui-spinner-up").width()-9);
+      }
+    }
   },
   onBind: function(tagCtx) {
     var tag = this,
@@ -638,19 +650,6 @@ spinner: {
         ? tag.format(value, tagCtx.props)
         : value;
     };
-  },
-  onAfterLink: function(tagCtx) {
-    var tag = this;
-    if (!tag.linkCtx.elem._jsvChg) {
-      // If change not triggered by the spinner itself changing value
-      tag.baseApply(arguments);
-      tag.displayElem = this.mainElem.parent(); // jQuery UI wraps the input in a span
-      if (tagCtx.props.width) {
-        // In addition to generic setting of width on the
-        // displayElem, need also to set width on the input.
-        this.mainElem.width(tagCtx.props.width - tag.displayElem.find(".ui-spinner-up").width()-9);
-      }
-    }
   }
 },
 // ============================= TIMESPINNER =============================
@@ -906,19 +905,13 @@ if ($.ui.draggable) {
       return {
         drag: function(evt, ui) {
           setTimeout(function() {
-            tag.update(ui.offset.left, ui.offset.top);
+            tag.updateValues(ui.offset.left, ui.offset.top);
           },0);
         }
       };
     },
-    setValue: function(left, top) {
-      var mainElem = this.mainElem;
-      if (left !== undefined) {
-        mainElem.offset({left: left});
-      }
-      if (top !== undefined) {
-        mainElem.offset({top: top});
-      }
+    setValue: function(value, index) {
+      this.mainElem.offset(index ? {top: value} : {left: value});
     },
     getValue: function(left, top) {
       var offset = this.mainElem.offset();
@@ -1028,13 +1021,11 @@ if ($.ui.selectable) {
     contentCtx: true,
     options: function() {
       var tag = this;
-      if (tag.selected) {
-        return {
-          stop: function(evt, ui) {
-            tag.setSelectedItems();
-          }
-        };
-      }
+      return {
+        stop: function(evt, ui) {
+          tag.setSelectedItems();
+        }
+      };
     },
     initOptions: ["filter"], // Options which need to be set on creation, not later
     onBind: function() {
@@ -1065,7 +1056,7 @@ if ($.ui.selectable) {
         $.unobserve(tag.selected, tag.selObs);
         tag.selected = selected;
         if (selected !== tag.bndArgs[0]) {
-          tag.update(selected);
+          tag.updateValue(selected);
         }
         $.observe(selected, tag.selObs);
         tag.setSelection();

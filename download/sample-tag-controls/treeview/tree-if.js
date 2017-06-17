@@ -37,7 +37,8 @@ $.views.tags({
 
     //METHODS
     toggle: function() {
-      $.observable(this.view.data).setProperty("expanded", !this.view.data.expanded);
+      var data = this.tagCtx.contentView.data;
+      $.observable(data).setProperty("expanded", !data.expanded);
     },
     dataBoundOnly: true
   }

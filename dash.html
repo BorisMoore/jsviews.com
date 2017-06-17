@@ -37,6 +37,7 @@
 		}
 
 		function normalize(categoryName) {
+			// Used to combine sections as paragraphs under one section. (No longer needs to be used...?)
 			$.getScript("documentation/contents-" + categoryName + ".js")
 			.done(function() {
 				var topic,

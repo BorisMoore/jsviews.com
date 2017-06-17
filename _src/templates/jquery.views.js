@@ -80,6 +80,7 @@ var document = global.document,
 	arrayChangeStr = $sub.arrChng = $sub.arrChng || "arrayChange",
 
 	HTML = "html",
+	_ocp = "_ocp", // Observable contextual parameter
 	syntaxError = $sub.syntaxErr,
 	rFirstElem = /<(?!script)(\w+)[>\s]/,
 	error = $sub._er,

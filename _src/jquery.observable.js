@@ -49,16 +49,18 @@ if (!$.observe) {
 				: [paths]
 			: [];
 
-		var i, path,
-			object = root,
-			nextObj = object,
+		var i, path, object, rt,
+			nextObj = object = root,
 			l = paths && paths.length,
 			out = [];
 
 		for (i = 0; i < l; i++) {
 			path = paths[i];
 			if ($isFunction(path)) {
-				out = out.concat(dependsPaths(path.call(root, root, callback), root, callback));
+				rt = root._ocp
+					? root.view.data // observable contextual parameter
+					: root;
+				out = out.concat(dependsPaths(path.call(rt, rt, callback), root, callback));
 				continue;
 			} else if ("" + path !== path) {
 				root = nextObj = path;
@@ -322,6 +324,7 @@ if (!$.observe) {
 						};
 					}
 					$(boundObOrArr).on(namespace, null, evData, onDataChange);
+
 					if (cbBindings) {
 						// Add object to cbBindings
 						cbBindings[$data(object).obId || $data(object, "obId", observeObjKey++)] = object;
@@ -336,7 +339,7 @@ if (!$.observe) {
 				// Uses the contextCb callback to execute the compiled exprOb template in the context of the view/data etc. to get the returned value, typically an object or array.
 				// If it is an array, registers array binding
 				var origRt = root;
-				// Note: For jsviews/issues/292 ctxCb will need var ctxCb = contextCb || function(exprOb, origRt) {return exprOb._jsv(origRt);};
+				// Note: For jsviews/issues/292 ctxCb will need var ctxCb = contextCb || function(exprOb, origRt) {return exprOb._cpfn(origRt);};
 
 				exprOb.ob = contextCb(exprOb, origRt); // Initialize object
 
@@ -356,8 +359,7 @@ if (!$.observe) {
 						// Put the updated object instance onto the exprOb in the paths array, so subsequent string paths are relative to this object
 						if (typeof newObj === OBJECT) {
 							bindArray(newObj);
-							if (sub || allowArray && $isArray(newObj)) {
-								// Register array binding
+							if (sub || allowArray && $isArray(newObj)) { // observe on new object
 								innerObserve([newObj], sub, callback, contextCb);
 							}
 						}
@@ -391,7 +393,7 @@ if (!$.observe) {
 			}
 
 			var i, p, skip, parts, prop, path, dep, unobserve, callback, cbId, inId, el, data, events, contextCb, innerContextCb,
-				items, cbBindings, depth, innerCb, parentObs, allPath, filter, initNsArr, initNsArrLen,
+				items, cbBindings, depth, innerCb, parentObs, allPath, filter, initNsArr, initNsArrLen, view,
 				ns = observeStr,
 				paths = this != 1 // Using != for IE<10 bug- see jsviews/issues/237
 					? concat.apply([], arguments) // Flatten the arguments - this is a 'recursive call' with params using the 'wrapped array'
@@ -402,6 +404,7 @@ if (!$.observe) {
 				object = root,
 				l = paths.length;
 
+			origRoots.unshift(root);
 			if (lastArg + "" === lastArg) { // If last arg is a string then this observe call is part of an observeAll call,
 				allPath = lastArg;          // and the last three args are the parentObs array, the filter, and the allPath string.
 				parentObs = paths.pop();
@@ -426,6 +429,7 @@ if (!$.observe) {
 			}
 
 			if (unobserve && callback && !callback._cId) {
+				origRoots.shift();
 				return;
 			}
 
@@ -469,17 +473,12 @@ if (!$.observe) {
 				depth = 0;
 				for (i = 0; i < l; i++) {
 					path = paths[i];
-					if (path === "") {
+					if (path === "" || path === root) {
 						continue;
 					}
 					if (path && path._ar) {
 						allowArray += path._ar; // Switch on allowArray for depends paths, and off, afterwards.
 						continue;
-					}
-					if (path && path._cp) { // Contextual parameter
-						contextCb = $sub._gccb(path[0]); // getContextCb: Get context callback for the contextual view (where contextual param evaluated/assigned)
-						origRoot = root = path[0].data;  // Contextual data
-						path = path[1];
 					}
 					object = root;
 					if ("" + path === path) {
@@ -501,20 +500,24 @@ if (!$.observe) {
 						}
 						if (contextCb) {
 							items = contextCb(path, root, depth);
-							contextCb = innerContextCb;
 						}
-						if (items) {
-							// If the array of objects and paths returned by contextCb is non empty, insert them
-							// into the sequence, replacing the current item (path). Otherwise simply remove current item (path)
-							l += items.length - 1;
-							splice.apply(paths, [i--, 1].concat(items));
-							continue;
-						}
+						contextCb = innerContextCb;
 						parts = path.split(".");
+					} else if (path && path._cxp) { // contextual parameter
+						view = path.shift();  // Contextual data
+						if (_ocp in view) {
+							root = view;
+							contextCb = 0;
+						} else {
+							contextCb = $sub._gccb(view); // getContextCb: Get context callback for the contextual view (where contextual param evaluated/assigned)
+							root = view.data;
+						}
+						items = path;
+						items.push(origRoot);
 					} else {
 						if (!$isFunction(path)) {
-							if (path && path._jsv) {
-								// This is a compiled function for binding to an object returned by a helper/data function.
+							if (path && path._cpfn) {
+								// Path is an exprOb returned by a computed property - helper/data function (compiled expr function).
 								// Set current object on exprOb.ob, and get innerCb for updating the object
 								innerCb = unobserve ? path.cb : getInnerCb(path);
 								// innerCb._ctx = callback._ctx; Could pass context (e.g. linkCtx) for use in a depends = function() {} call, so depends is different for different linkCtx's
@@ -524,9 +527,12 @@ if (!$.observe) {
 								if (path.bnd || path.prm && path.prm.length || !path.sb) {
 									// If the exprOb is bound e.g. foo()^sub.path, or has parameters e.g. foo(bar) or is a leaf object (so no sub path) e.g. foo()
 									// then observe changes on the object, or its parameters and sub-path
-									innerObserve([object], path.path, [origRoot], path.prm, innerCb, contextCb, unobserve);
+									innerObserve([object], path.path, [path.root||root], path.prm, innerCb, contextCb, unobserve);
 								}
 								if (path.sb) { // subPath
+									if (path.sb.prm) {
+										path.sb.root = root;
+									}
 									innerObserve([path.ob], path.sb, callback, contextCb, unobserve);
 								}
 								path = origRoot;
@@ -534,6 +540,14 @@ if (!$.observe) {
 							}
 						}
 						parts = [root = path];
+					}
+					if (items) {
+						// If the array of objects and paths returned by contextCb is non empty, insert them
+						// into the sequence, replacing the current item (path). Otherwise simply remove current item (path)
+						l += items.length - 1;
+						splice.apply(paths, [i--, 1].concat(items));
+						items = undefined;
+						continue;
 					}
 					while (object && (prop = parts.shift()) !== undefined) {
 						if (typeof object === OBJECT) {
@@ -601,7 +615,7 @@ if (!$.observe) {
 								if (dep = prop.depends) {
 									// This is a computed observable. We will observe any declared dependencies.
 									// Pass {_ar: ...} objects to switch on allowArray, for depends paths, then return to contextual allowArray value
-									innerObserve([object], dependsPaths(dep, object, callback), callback, contextCb, unobserve);
+									innerObserve([object._ocp ? object.view.data : object], dependsPaths(dep, object, callback), callback, contextCb, unobserve);
 								}
 								break;
 							}
@@ -615,6 +629,7 @@ if (!$.observe) {
 			}
 
 			// Return the cbBindings to the top-level caller, along with the cbId
+			origRoots.shift();
 			return {cbId: cbId, bnd: cbBindings@@if (context.isJqObservable) {, s: cbBindingsStore}};
 		}
 
@@ -623,14 +638,14 @@ if (!$.observe) {
 			// arrayChange events in this scenario. Instead, {^{for}} and similar do specific arrayChange binding to the tagCtx.args[0] value, in onAfterLink.
 			// Note deliberately using this == 1, rather than this === 1 because of IE<10 bug- see jsviews/issues/237
 			paths = slice.call(arguments),
-			origRoot = paths[0];
+			origRoot = paths[0],
+			origRoots = [origRoot];
 
 		if (origRoot + "" === origRoot && allowArray) {
 			initialNs = origRoot; // The first arg is a namespace, since it is a string, and this call is not from observeAndBind
 			paths.shift();
 			origRoot = paths[0];
 		}
-
 		return innerObserve.apply(1, paths);
 	};
 
@@ -678,7 +693,7 @@ if (!$.observe) {
 		setProperty: function(path, value, nonStrict) {
 			path = path || "";
 			var key, pair, parts,
-				multi = path + "" !== path,
+				multi = path + "" !== path && !path._is, // Hash of paths, not view object
 				self = this,
 				object = self._data;
 
@@ -701,9 +716,13 @@ if (!$.observe) {
 					}
 				} else if (path !== $expando) {
 					// Simple single property case.
-					parts = path.split(/[.^]/);
-					while (object && parts.length > 1) {
-						object = object[parts.shift()];
+					if (path._is) {
+						parts = [path];
+					} else {
+						parts = path.split(/[.^]/);
+						while (object && parts.length > 1) {
+							object = object[parts.shift()];
+						}
 					}
 					if (object) {
 						self._setProperty(object, parts[0], value, nonStrict);
@@ -725,9 +744,9 @@ if (!$.observe) {
 			if ($isFunction(property)) {
 				if (property.set) {
 					// Case of property setter/getter - with convention that property is getter and property.set is setter
-					leaf = leaf._wrp  // Case of JsViews 2-way data-linking to a helper function as getter, with a setter.
+					leaf = leaf._vw // Case of JsViews 2-way data-linking to an observable context parameter, with a setter.
 						// The view will be the this pointer for getter and setter. Note: this is the one scenario where path is "".
-						|| leaf;
+					 || leaf;
 					getter = property;
 					setter = getter.set === true ? getter : getter.set;
 					property = getter.call(leaf); // get - only treated as getter if also a setter. Otherwise it is simply a property of type function. See unit tests 'Can observe properties of type function'.

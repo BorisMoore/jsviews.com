@@ -49,6 +49,7 @@ if (!$ || !$.fn) {
 var versionNumber = "v@@include("templates/-version.txt")",
 
 	jsvStoreName, rTag, rTmplString, topView, $views, $observe, $observable, $expando,
+	_ocp = "_ocp", // Observable contextual parameter
 
 @@include('jsrender.js')
 

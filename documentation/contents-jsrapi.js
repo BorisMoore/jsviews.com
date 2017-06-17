@@ -4115,10 +4115,10 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "In this sample, if a `member` object has no `address` property, the `address.street` expression will lead to a JavaScript error, and the `{{:address.street onError=\"Address unavailable\"}}` will render the fallback string:  `\"Address unavailable\"`.\n\nSimilarly, `{{for phones() onError=\"...\"}}`, if `phones()` produces an error... \n\n*Template:*\n\n```jsr\n{{for phones() onError=\"<em>No phones</em>\"}} ...\n{{:address.street onError=\"Address unavailable\"}}\n```\n\n*Code:*\n\n```js\nfunction phones() { if (!this._phones) { throw new Error(\"phones() error\"); } ... }\n```\n\n*Data:*\n\n```js\nmembers: [\n  {address: {street: \"1st Ave\"}, _phones: [\"888\", \"456\"], ...\n  {address: undefined, _phones: [\"987\", \"111\"], ...             // No address\n  {address: {street: \"Main St\"}, _phones: undefined, ...        // _No phones\n]\n```\n"
+            "text": "In this sample, if a `member` object has no `address` property, the `address.street` expression will lead to a JavaScript error, and the `{{:address.street onError=\"Address unavailable\"}}` will render the fallback string:  `\"Address unavailable\"`.\n\nSimilarly, `{{for phones() onError=\"...\"}}`, if `phones()` produces an error... \n\n*Template:*\n\n```jsr\n{{for phones() onError=\"No phones\"}} ...\n{{:address.street onError=\"Address unavailable\"}}\n```\n\n*Code:*\n\n```js\nfunction phones() { if (!this._phones) { throw new Error(\"phones() error\"); } ... }\n```\n\n*Data:*\n\n```js\nmembers: [\n  {address: {street: \"1st Ave\"}, _phones: [\"888\", \"456\"], ...\n  {address: undefined, _phones: [\"987\", \"111\"], ...             // No address\n  {address: {street: \"Main St\"}, _phones: undefined, ...        // _No phones\n]\n```\n"
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  Phones:\n  {{for phones() onError=\"<em>No phones</em>\"}}\n    {{:}}\n  {{/for}}\n  <br/>\n  <b>{{:address.street onError=\"Address unavailable\"}}</b>\n  <hr/>\n{{/for}}\n</script>\n",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  Phones:\n  {{for phones() onError=\"No phones\"}}\n    {{:}}\n  {{/for}}\n  <br/>\n  <b>{{:address.street onError=\"Address unavailable\"}}</b>\n  <hr/>\n{{/for}}\n</script>\n",
         "markup": "",
         "jsrJsvJqui": "jsr",
         "data": [],
@@ -4332,11 +4332,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n{{:address.street onError='address'}}\n```\n\n```js\nfunction onErrorHandler(e, fallback, view) {\n  console.log(e.message);\n  if (fallback === \"address\") {\n    return '<b>Address error</b> for ' + this.name + '. <em>(\"' + e.message + '\")</em>';\n  }\n}\n```\n\n```js\n$.views.settings.debugMode(onErrorHandler);\n```\n"
+            "text": "```jsr\n{{:address.street onError='address'}}\n```\n\n```js\nfunction onErrorHandler(e, fallback, view) {\n  console.log(e.message);\n  if (fallback === \"address\") {\n    return 'Address error for ' + this.name + '. (\"' + e.message + '\")';\n  }\n}\n```\n\n```js\n$.views.settings.debugMode(onErrorHandler);\n```\n"
           }
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>Name: {{:name}}<br/>\n    {{:address.street onError='address'}}\n    <hr/>\n  </div>\n{{/for}}\n</script>\n",
-        "code": "var team = {\n  members: [\n    {name: \"Bill\", address: {street: \"1st Ave\"}},\n    {name: \"Jane\", address: undefined}           // No address\n  ]\n};\n\nfunction onErrorHandler(e, fallback, view) {\n  console.log(e.message);\n  if (fallback === \"address\") {\n    return '<b>Address error</b> for ' + this.name + '. <em>(\"' + e.message + '\")</em>';\n  }\n}\n\n$.views.settings.debugMode(onErrorHandler);\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);\n",
+        "code": "var team = {\n  members: [\n    {name: \"Bill\", address: {street: \"1st Ave\"}},\n    {name: \"Jane\", address: undefined}           // No address\n  ]\n};\n\nfunction onErrorHandler(e, fallback, view) {\n  console.log(e.message);\n  if (fallback === \"address\") {\n    return 'Address error for ' + this.name + '. (\"' + e.message + '\")';\n  }\n}\n\n$.views.settings.debugMode(onErrorHandler);\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);\n",
         "title": "Debug mode &ndash; onError handler",
         "jsrJsvJqui": "jsr"
       },
