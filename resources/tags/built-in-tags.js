@@ -76,7 +76,7 @@ var treeNodeTmpl = $.templates(
 			var tagCtx = this.tagCtx;
 			return this.selectedIndex === tagCtx.index ? tagCtx.render() : "";
 		},
-		onAfterLink: function() {
+		activateTabs: function() {
 			var self = this;
 			self.contents(true, ".tabstrip").first()
 				.on("click", ".header_false", function() {

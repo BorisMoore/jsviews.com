@@ -481,12 +481,12 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               },
               {
                 "name": "viewcontextobject",
-                "label": "view context object",
+                "label": "View context object (ctx)",
                 "hidden": true
               },
               {
                 "name": "tagcontextobject",
-                "label": "tag context object",
+                "label": "Tag context object (tagCtx)",
                 "hidden": true
               }
             ],
@@ -808,10 +808,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "unlink()",
         "categories": [
           {
-            "name": "jsvtmplunlink",
-            "label": "template.unlink()"
-          },
-          {
             "name": "jsv.d.unlink",
             "label": "$.unlink()"
           },
@@ -873,7 +869,9 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               },
               {
                 "name": "jsvviewobject",
-                "label": "view object"
+                "label": "view object",
+                "categories": [],
+                "expanded": true
               },
               {
                 "name": "jsvtagobject",
@@ -882,17 +880,22 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               },
               {
                 "name": "jsvviewcontextobject",
-                "label": "View context object",
+                "label": "View context object (ctx)",
                 "hidden": true
               },
               {
                 "name": "jsvtagcontextobject",
-                "label": "Tag context object",
+                "label": "Tag context object (tagCtx)",
                 "hidden": true
               },
               {
                 "name": "jsvlinkcontextobject",
-                "label": "Link context object",
+                "label": "Link context object (linkCtx)",
+                "hidden": true
+              },
+              {
+                "name": "eventArgs",
+                "label": "eventArgs object",
                 "hidden": true
               }
             ],
@@ -901,6 +904,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "other",
             "label": "And computed observable, {{on}}, DataMap. lateRender...",
+            "hidden": true
+          },
+          {
+            "name": "jsvlifecycle",
+            "label": "Life-cycle events",
             "hidden": true
           }
         ],

@@ -108,6 +108,7 @@ updown.depends = function() {
 var cancelChange = false,
 	noRenderOnUpdate = true,
 	renders = false,
+	cancelUpdate = false,
 	eventData = "";
 
 $.views
@@ -184,6 +185,10 @@ $.views
 				eventData += "onAfterLink ";
 				this.value = tagCtx.args[0];
 			},
+			onBeforeUpdateVal: function(ev, eventArgs) {
+				eventData += "onBeforeUpdateVal ";
+				return !cancelUpdate;
+			},
 			onUpdate: function(ev, eventArgs, newTagCtxs) {
 				eventData += "onUpdate ";
 				return !noRenderOnUpdate;
@@ -202,7 +207,6 @@ $.views
 			},
 			onAfterChange: function(ev, eventArgs) {
 				eventData += "onAfterChange ";
-				return !cancelChange;
 			},
 			onDispose: function() {
 				eventData += "onDispose ";
@@ -2020,7 +2024,7 @@ var done = assert.async();
 
 setTimeout(function() {
 	// ............................... Assert .................................
-	equal(res, "globalBeforeChange|change|INPUT globalBeforeChange|set|INPUT globalBeforeChange|set|: globalAfterChange|set|: globalAfterChange|change|INPUT ",
+	equal(res, "globalBeforeChange|set|INPUT globalAfterChange|set|INPUT globalBeforeChange|set|: globalAfterChange|set|: ",
 		'Global onAfterCreate, onBeforeChange, onAfterChange - elemChange');
 
 	res = '';
@@ -2050,7 +2054,7 @@ setTimeout(function() {
 
 setTimeout(function() {
 	// ............................... Assert .................................
-	equal(res, "optionsBeforeChange|change|INPUT optionsBeforeChange|set|INPUT optionsBeforeChange|set|: optionsAfterChange|set|: optionsAfterChange|change|INPUT ",
+	equal(res, "optionsBeforeChange|set|INPUT optionsAfterChange|set|INPUT optionsBeforeChange|set|: optionsAfterChange|set|: ",
 		'options helper overrides global helper');
 
 	res = '';
@@ -2095,8 +2099,8 @@ setTimeout(function() {
 
 setTimeout(function() {
 	// ............................... Assert .................................
- equal(res, "templateBeforeChange|change|INPUT templateBeforeChange|set|INPUT"
-		+ " templateBeforeChange|set|: templateAfterChange|set|: templateAfterChange|change|INPUT ",
+ equal(res, "templateBeforeChange|set|INPUT templateAfterChange|set|INPUT"
+		+ " templateBeforeChange|set|: templateAfterChange|set|: ",
 		'template helper overrides options helper');
 
 	res = '';
@@ -15275,7 +15279,7 @@ $.views.settings.trigger(false);
 	after = tag.value + linkedEl.value;
 
 	// ............................... Assert .................................
-	equal(eventData, "onUpdate onAfterLink ",
+	equal(eventData, "onBeforeChange onUpdate onAfterLink onAfterChange ",
 	'Data link using: <input data-link="{twoWayTag name}"/> - event order for onUpdate (returning false) - render not called');
 	eventData = "";
 
@@ -15292,8 +15296,8 @@ $.views.settings.trigger(false);
 	after = tag.value + linkedEl.value;
 
 	// ............................... Assert .................................
-	equal(eventData, "onUpdate onUnbind render onBind onAfterLink ",
-	'Data link using: <input data-link="{twoWayTag name}"/> - event order for onUpdate (returning true) - render is called');
+	equal(eventData, "onBeforeChange onUpdate onUnbind render onBind onAfterLink onAfterChange ",
+	'Data link using: <input data-link="{twoWayTag name}"/> - event order for onUpdate (returning true) - render is called, but no render');
 	eventData = "";
 
 	// ............................... Assert .................................
@@ -15310,7 +15314,7 @@ $.views.settings.trigger(false);
 	after = tag.value + linkedEl.value;
 
 	// ............................... Assert .................................
-	equal(eventData, "onUpdate onUnbind render onBind onAfterLink ",
+	equal(eventData, "onBeforeChange onUpdate onUnbind render onBind onAfterLink onAfterChange ",
 	'Data link using: <input data-link="{twoWayTag name}"/> - event order for onUpdate (returning true) - render is called');
 	eventData = "";
 
@@ -15330,7 +15334,7 @@ $.views.settings.trigger(false);
 	after = tag.value + person.name;
 
 	// ............................... Assert .................................
-	equal(eventData, "onBeforeChange onUpdate onAfterLink onAfterChange ",
+	equal(eventData, "onBeforeUpdateVal onBeforeChange onUpdate onAfterLink onAfterChange ",
 	'Data link using: <input data-link="{twoWayTag name}"/> - event order for onChange');
 	eventData = "";
 
@@ -15347,17 +15351,37 @@ $.views.settings.trigger(false);
 	after = tag.value + person.name;
 
 	// ............................... Assert .................................
-	equal(eventData, "onBeforeChange ",
+	equal(eventData, "onBeforeUpdateVal onBeforeChange ",
 	'Data link using: <input data-link="{twoWayTag name}"/> - event order for cancelled onBeforeChange');
 	eventData = "";
 
 	// ............................... Assert .................................
 	equal(before + "|" + after,
-	"newValnewVal|newValnewVal",
-	'Data link using: <input data-link="{twoWayTag name}"/> - if onBeforeChange returns false -> no change to data');
+	"newValnewVal|newVal2ndNewVal",
+	'Data link using: <input data-link="{twoWayTag name}"/> - if onBeforeChange returns false -> data changes but no relinking of tag');
 
 	// ................................ Reset ..................................
 	cancelChange = false;
+	cancelUpdate = true;
+
+	// ................................ Act ..................................
+	before = tag.value + person.name;
+	linkedEl.value = "3rdNewVal";
+	$(linkedEl).change();
+	after = tag.value + person.name;
+
+	// ............................... Assert .................................
+	equal(eventData, "onBeforeUpdateVal ",
+	'Data link using: <input data-link="{twoWayTag name}"/> - event order for cancelled onBeforeUpdateVal');
+	eventData = "";
+
+	// ............................... Assert .................................
+	equal(before + "|" + after,
+	"newVal2ndNewVal|newVal2ndNewVal",
+	'Data link using: <input data-link="{twoWayTag name}"/> - if onBeforeUpdateVal returns false -> data does not change, and no relinking of tag');
+
+	// ................................ Reset ..................................
+	cancelUpdate = false;
 	noRenderOnUpdate = true;
 	renders = false;
 
@@ -15435,6 +15459,7 @@ $.views.settings.trigger(false);
 	$("#result").empty();
 	person.name = "Jo";
 	cancelChange = false;
+	cancelUpdate = false;
 	noRenderOnUpdate = true;
 	renders = false;
 	eventData = "";
@@ -15513,7 +15538,7 @@ $.views.settings.trigger(false);
 	after = tag.value + linkedEl.value;
 
 	// ............................... Assert .................................
-	equal(eventData + !!linkedEl.parentNode, "onUpdate onAfterLink true",
+	equal(eventData + !!linkedEl.parentNode, "onBeforeChange onUpdate onAfterLink onAfterChange true",
 	'Data link using: {^{twoWayTag name}} - event order for onUpdate (returning false) - render not called; linkedElem not replaced');
 	eventData = "";
 
@@ -15529,7 +15554,7 @@ $.views.settings.trigger(false);
 	$.observable(person).setProperty({name: "newName2"});
 
 	// ............................... Assert .................................
-	equal(eventData + !!linkedEl.parentNode, "onUpdate onUnbind render onBind onAfterLink false",
+	equal(eventData + !!linkedEl.parentNode, "onBeforeChange onUpdate onUnbind render onBind onAfterLink onAfterChange false",
 	'Data link using: {^{twoWayTag name}} - event order for onUpdate (returning true) - render is called; linkedElem is replaced');
 	eventData = "";
 
@@ -15549,7 +15574,7 @@ $.views.settings.trigger(false);
 	after = tag.value + linkedEl.value;
 
 	// ............................... Assert .................................
-	equal(eventData + !!linkedEl.parentNode, "onUpdate onUnbind render onBind onAfterLink false",
+	equal(eventData + !!linkedEl.parentNode, "onBeforeChange onUpdate onUnbind render onBind onAfterLink onAfterChange false",
 	'Data link using: {^{twoWayTag name}} - event order for onUpdate (returning true) - render is called; linkedElem is replaced');
 	eventData = "";
 
@@ -15572,7 +15597,7 @@ $.views.settings.trigger(false);
 	after = tag.value + person.name;
 
 	// ............................... Assert .................................
-	equal(eventData, "onBeforeChange onUpdate onAfterLink onAfterChange ",
+	equal(eventData, "onBeforeUpdateVal onBeforeChange onUpdate onAfterLink onAfterChange ",
 	'Data link using: {^{twoWayTag name}} - event order for onChange');
 	eventData = "";
 
@@ -15589,14 +15614,14 @@ $.views.settings.trigger(false);
 	after = tag.value + person.name;
 
 	// ............................... Assert .................................
-	equal(eventData, "onBeforeChange ",
+	equal(eventData, "onBeforeUpdateVal onBeforeChange ",
 	'Data link using: {^{twoWayTag name}} - event order for cancelled onBeforeChange');
 	eventData = "";
 
 	// ............................... Assert .................................
 	equal(before + "|" + after,
-	"newValnewVal|newValnewVal",
-	'Data link using: {^{twoWayTag name}} - if onBeforeChange returns false -> no change to data');
+	"newValnewVal|newVal2ndNewVal",
+	'Data link using: {^{twoWayTag name}} - if onBeforeChange returns false -> data changes but no relinking of tag');
 
 	// ................................ Reset ..................................
 	cancelChange = false;
@@ -15702,7 +15727,7 @@ $.views.settings.trigger(false);
 	after = tag.value + tag.linkedElem[0].value;
 
 	// ............................... Assert .................................
-	equal(eventData + !!linkedEl.parentNode, "onUpdate onAfterLink true",
+	equal(eventData + !!linkedEl.parentNode, "onBeforeChange onUpdate onAfterLink onAfterChange true",
 	'Data link using: {^{twoWayTag name/}} - event order for onUpdate (returning false) - render not called; linkedElem not replaced');
 	eventData = "";
 
@@ -15720,7 +15745,7 @@ $.views.settings.trigger(false);
 	after = tag.value + tag.linkedElem[0].value;
 
 	// ............................... Assert .................................
-	equal(eventData + !!linkedEl.parentNode, "onUpdate onUnbind render onBind onAfterLink false",
+	equal(eventData + !!linkedEl.parentNode, "onBeforeChange onUpdate onUnbind render onBind onAfterLink onAfterChange false",
 	'Data link using: {^{twoWayTag name/}} - event order for onUpdate (returning true) - render is called; linkedElem is replaced');
 	eventData = "";
 
@@ -15739,7 +15764,7 @@ $.views.settings.trigger(false);
 	after = tag.value + tag.linkedElem[0].value;
 
 	// ............................... Assert .................................
-	equal(eventData + !!linkedEl.parentNode, "onUpdate onUnbind render onBind onAfterLink false",
+	equal(eventData + !!linkedEl.parentNode, "onBeforeChange onUpdate onUnbind render onBind onAfterLink onAfterChange false",
 	'Data link using: {^{twoWayTag name/}} - event order for onUpdate (returning true) - render is called; linkedElem is replaced');
 	eventData = "";
 
@@ -15759,7 +15784,7 @@ $.views.settings.trigger(false);
 	after = tag.value + person.name;
 
 	// ............................... Assert .................................
-	equal(eventData, "onBeforeChange onUpdate onAfterLink onAfterChange ",
+	equal(eventData, "onBeforeUpdateVal onBeforeChange onUpdate onAfterLink onAfterChange ",
 	'Data link using: {^{twoWayTag name/}} - event order for onChange');
 	eventData = "";
 
@@ -15776,14 +15801,14 @@ $.views.settings.trigger(false);
 	after = tag.value + person.name;
 
 	// ............................... Assert .................................
-	equal(eventData, "onBeforeChange ",
+	equal(eventData, "onBeforeUpdateVal onBeforeChange ",
 	'Data link using: {^{twoWayTag name/}} - event order for cancelled onBeforeChange');
 	eventData = "";
 
 	// ............................... Assert .................................
 	equal(before + "|" + after,
-	"newValnewVal|newValnewVal",
-	'Data link using: {^{twoWayTag name/}} - if onBeforeChange returns false -> no change to data');
+	"newValnewVal|newVal2ndNewVal",
+	'Data link using: {^{twoWayTag name/}} - if onBeforeChange returns false -> data changes but no relinking of tag');
 
 	// ................................ Reset ..................................
 	cancelChange = false;
@@ -16653,6 +16678,9 @@ $.views.settings.trigger(false);
 				this.value = tagCtx.args[0];
 				this.linkedElem = this.linkedElem || (this._.inline ? this.contents("input,div") : $(linkCtx.elem));
 			},
+			onBeforeUpdateVal: function(ev, eventArgs) {
+				eventData += "onBeforeUpdateVal ";
+			},
 			onUpdate: function(ev, eventArgs, newTagCtxs) {
 				eventData += "onUpdate ";
 				return false;
@@ -16819,7 +16847,7 @@ $.views.settings.trigger(false);
 	after = tag.value + linkedEl.value;
 
 	// ............................... Assert .................................
-	equal(eventData, "onUpdate onAfterLink ",
+	equal(eventData, "onBeforeChange onUpdate onAfterLink onAfterChange ",
 	'Data link using: <input data-link="{twoWayTag name linkTo=name2}"/> - event order for onUpdate');
 	eventData = "";
 
@@ -16835,7 +16863,7 @@ $.views.settings.trigger(false);
 	after = "value:" + tag.value + " name:" + person.name + " name2:" + person.name2;
 
 	// ............................... Assert .................................
-	equal(eventData, "onBeforeChange onAfterChange ",
+	equal(eventData, "onBeforeUpdateVal ",
 	'Data link using: <input data-link="{twoWayTag name linkTo=name2}"/> - event order for onChange');
 	eventData = "";
 
@@ -16843,23 +16871,7 @@ $.views.settings.trigger(false);
 	equal(before + "|" + after,
 	"value:newName name:newName name2:Jo2|value:newName name:newName name2:newVal",
 	'Data link using: <input data-link="{twoWayTag name linkTo=name2}"/> - binds linkedElem back to "linkTo" target dataonChange');
-
-	// ................................ Act ..................................
-	before = "value:" + tag.value + " name:" + person.name + " name2:" + person.name2;
-	cancelChange = true;
-	linkedEl.value = "2ndNewVal";
-	$(linkedEl).change();
-	after = "value:" + tag.value + " name:" + person.name + " name2:" + person.name2;
-
-	// ............................... Assert .................................
-	equal(eventData, "onBeforeChange ",
-	'Data link using: <input data-link="{twoWayTag name linkTo=name2}"/> - event order for cancelled onBeforeChange');
 	eventData = "";
-
-	// ............................... Assert .................................
-	equal(before + "|" + after,
-	"value:newName name:newName name2:newVal|value:newName name:newName name2:newVal",
-	'Data link using: <input data-link="{twoWayTag name linkTo=name2}"/> - if onBeforeChange returns false -> no change to data');
 
 	// ................................ Reset ..................................
 	cancelChange = false;
@@ -16934,7 +16946,7 @@ $.views.settings.trigger(false);
 	after = tag.value + linkedEl.value;
 
 	// ............................... Assert .................................
-	equal(eventData, "onUpdate onAfterLink ",
+	equal(eventData, "onBeforeChange onUpdate onAfterLink onAfterChange ",
 	'Data link using: {^{twoWayTag name linkTo=name2}} - event order for onUpdate');
 	eventData = "";
 
@@ -16950,7 +16962,7 @@ $.views.settings.trigger(false);
 	after = "value:" + tag.value + " name:" + person.name + " name2:" + person.name2;
 
 	// ............................... Assert .................................
-	equal(eventData, "onBeforeChange onAfterChange ",
+	equal(eventData, "onBeforeUpdateVal ",
 	'Data link using: {^{twoWayTag name linkTo=name2}} - event order for onChange');
 	eventData = "";
 
@@ -16959,25 +16971,7 @@ $.views.settings.trigger(false);
 	"value:newName name:newName name2:Jo2|value:newName name:newName name2:newVal",
 	'Data link using: {^{twoWayTag name linkTo=name2}} - binds linkedElem back to "linkTo" target data');
 
-	// ................................ Act ..................................
-	before = "value:" + tag.value + " name:" + person.name + " name2:" + person.name2;
-	cancelChange = true;
-	linkedEl.value = "2ndNewVal";
-	$(linkedEl).change();
-	after = "value:" + tag.value + " name:" + person.name + " name2:" + person.name2;
-
-	// ............................... Assert .................................
-	equal(eventData, "onBeforeChange ",
-	'Data link using: {^{twoWayTag name linkTo=name2}} - event order for cancelled onBeforeChange');
-	eventData = "";
-
-	// ............................... Assert .................................
-	equal(before + "|" + after,
-	"value:newName name:newName name2:newVal|value:newName name:newName name2:newVal",
-	'Data link using: {^{twoWayTag name linkTo=name2}} - if onBeforeChange returns false -> no change to data');
-
 	// ................................ Reset ..................................
-	cancelChange = false;
 	person.name = "Jo";
 	person.name2 = "Jo2";
 
@@ -18563,6 +18557,9 @@ test('Custom Tag Controls - two-way binding (multiple targets)', function() {
 					eventData += "render ";
 					return "<span>" + name + "</span> <span>" + things.length + "</span> <span>" + this.getType() + "</span>";
 				},
+				onBeforeUpdateVal: function(ev, eventArgs) {
+					eventData += "onBeforeUpdateVal ";
+				},
 				onUpdate: function(ev, eventArgs, newTagCtxs) {
 					eventData += "update ";
 				},
@@ -18618,19 +18615,19 @@ test('Custom Tag Controls - two-way binding (multiple targets)', function() {
 	$.observable(person1).setProperty("lastName", "Two");
 
 	// ............................... Assert .................................
-	equal($("#result").text() + "|" + eventData, "Two 1 special|init render getType onBind after update onUnbind render getType onBind after ", '{^{myWidget/}} - Events fire in order during update: update, render and onAfterLink');
+	equal($("#result").text() + "|" + eventData, "Two 1 special|init render getType onBind after onBeforeChange update onUnbind render getType onBind after onAfterChange ", '{^{myWidget/}} - Events fire in order during update: update, render and onAfterLink');
 
 	// ................................ Act ..................................
 	$.observable(model.things).insert(0, {thing: "tree"});
 
 	// ............................... Assert .................................
-	equal($("#result").text() + "|" + eventData, "Two 1 special|init render getType onBind after update onUnbind render getType onBind after onArrayChange ", '{^{myWidget/}} - Events fire in order during update: update, render and onAfterLink');
+	equal($("#result").text() + "|" + eventData, "Two 1 special|init render getType onBind after onBeforeChange update onUnbind render getType onBind after onAfterChange onArrayChange ", '{^{myWidget/}} - Events fire in order during update: update, render and onAfterLink');
 
 	// ................................ Act ..................................
 	$("#result").empty();
 
 	// ............................... Assert .................................
-	equal($("#result").text() + "|" + eventData, "|init render getType onBind after update onUnbind render getType onBind after onArrayChange onUnbind dispose ", '{^{myWidget/}} - onDispose fires when container element is emptied or removed');
+	equal($("#result").text() + "|" + eventData, "|init render getType onBind after onBeforeChange update onUnbind render getType onBind after onAfterChange onArrayChange onUnbind dispose ", '{^{myWidget/}} - onDispose fires when container element is emptied or removed');
 
 	// ................................ Reset ................................
 	person1.lastName = "One";

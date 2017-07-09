@@ -209,7 +209,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					sections = [];
 					$.observable(topic).setProperty("sections", sections);
 				}
-				index = append ? sections.length :view.index;
+				index = append ? sections.length : view.getIndex();
 				if (type === "links") {
 					getLinks(category);
 				}
@@ -221,8 +221,9 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					sections: [newSection]
 				};
 				view.refresh();
-				selectList = view.childTags(true, "selectList")[0];
-				selectList.toggleSelect(0);
+				if (selectList = view.childTags(true, "selectList")[0]) {
+					selectList.toggleSelect(0);
+				}
 			}
 			save();
 		},
@@ -323,7 +324,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 								});
 							}
 						}
-					}, 0);
+					});
 				} else {
 					navTreeNode = !isLeftNavSelectionChange && navTreeNode;
 					scrollTargetElem = isSearchTreeSelectionChange = isLeftNavSelectionChange = false;
@@ -334,7 +335,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 						if (navTreeNode) {
 							sideNavElem.animate({scrollTop: navTreeNode.offsetTop - sideNavElem.height()/2}, 150);
 						}
-					}, 0);
+					});
 				}
 				prevLochash = lochash;
 			}
@@ -562,6 +563,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					};
 					codetabs && self.loadTabs(codetabs);
 				}
+				this.parent.tabs.activateTabs(); // Do this now sample is loaded
 			};
 		},
 		loadTabs: function(codetabs) {
@@ -572,7 +574,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 				}, "text");
 			});
 		},
-		template: "<iframe src=\"{{attr:url||'samples/iframedefault' + (jsrJsvJqui||'') + (nocss?'_nocss':'')}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}px;\"></iframe>",
+		template: "<div class=\"nosearch\" style=\"height: {{attr:height}}px;\"><div style=\"padding: 10px;\">Loading...</div></div><iframe src=\"{{attr:url||'samples/iframedefault' + (jsrJsvJqui||'') + (nocss?'_nocss':'')}}.html\" class=\"sampleframe\" name=\"result\" style=\"height: {{attr:height}}px;\"></iframe>",
 		onBind: function() {
 			var self = this,
 				iframeWnd = self.iframeWnd = $(self.parentElem).find(".sampleframe")[0].contentWindow;
@@ -584,7 +586,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 			};
 		},
 		onDispose: function() {
-			if (this.iframeWnd.$.observe) {
+			if (this.iframeWnd.$ && this.iframeWnd.$.observe) {
 				this.iframeWnd.$.unobserve();
 			}
 			this.iframeWnd = this.parent.sampleFrame = this.parentElem = undefined;
@@ -626,7 +628,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "  <script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n"
+					+ "  <script src=\"//code.jquery.com/jquery-1.12.4.min.js\"></script>\n"
 					+ (url
 						? ("  <base href=\"//www.jsviews.com/" + url.slice(0, url.lastIndexOf("/")) + "/\" />\n"
 							+ (codeInHeader
@@ -641,9 +643,9 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					)
 					+ "  <base href=\"//www.jsviews.com/samples/\" />\n"
 					+ "  <script src=\"../download/js" + (jsrJsvJqui === "jsr" ? "render" : "views")
-					+ ".js\"></script>\n"
+					+ ".min.js\"></script>\n"
 					+ (jsrJsvJqui === "jqui"
-						? "  <script src=\"../download/sample-tag-controls/jsviews-jqueryui-widgets.js\"></script>\n"
+						? "  <script src=\"../download/sample-tag-controls/jsviews-jqueryui-widgets.min.js\"></script>\n"
 						: "")
 					))
 					+ (header || "") + "</head>\n"
@@ -871,7 +873,7 @@ treeGroup.prototype = {
 				searchTerm = "#search?s=" + encodeURIComponent(searchTerm) + searchIncludeHash();
 				if (location.hash !== searchTerm) {
 					location.hash = searchTerm;
-					$.observable(content).setProperty("noSearch", newSearch ? "Loading" : "");
+					$.observable(content).setProperty("noSearch", newSearch ? "Loading..." : "");
 				}
 				return; // Set content.search to value in text box.
 			}
@@ -905,7 +907,8 @@ treeGroup.prototype = {
 		}
 	},
 	close: function() {
-		location.hash = searchRegex.exec(location.hash)[7] || topCategoryName;
+		var catName = searchRegex.exec(location.hash);
+		location.hash = catName && catName[7] || topCategoryName;
 	},
 	mouseenter: function(topicName, ev, eventArgs) { // Hover over a search target section
 		var section = eventArgs.linkCtx.data;
@@ -1156,12 +1159,14 @@ function getCategory(catName, searchTerm, searchExclude) {
 				.then(function() {
 					loadAllContent("find")
 						.then(function() {
-							searchContent(searchTerm);
-							$.observable(content).setProperty("searched", searchTerm);
-							content.searchExclude = searchExclude;
-							loadedPromise.resolve();
+							setTimeout(function() {
+								searchContent(searchTerm);
+								$.observable(content).setProperty("searched", searchTerm);
+								content.searchExclude = searchExclude;
+								loadedPromise.resolve();
+							});
 						});
-				});
+					});
 		} else {
 			loadedPromise.resolve();
 		}
@@ -1170,18 +1175,12 @@ function getCategory(catName, searchTerm, searchExclude) {
 			topCategory.loading = " "; // true, but render blank until after timeout
 			topCat = topCategory; // Specific to this getCategory() call. (Global topCategory var may change before then() returns)
 
-			$.getScript("documentation/contents-" + topCategory.name + ".js")
+			$.getScript("documentation/contents-" + topCategory.name + ".min.js")
 				.then(function() {
 					$.observable(topCat).setProperty("loaded", true);
 					loadedPromise.resolve();
 				});
-
-			setTimeout(function() {
-				if (!topCat.loaded) {
-					$.observable(topCat).setProperty("loading", "Loading...");
-				}
-			}, 300);
-		} else {
+		} else if (topCategory.loaded) {
 			if (content.searched) {
 				setTimeout(function() {
 					clearSearch(); // lazy clear search annotations from content
@@ -1190,7 +1189,7 @@ function getCategory(catName, searchTerm, searchExclude) {
 						filterlen: 0
 					});
 					content.searched = undefined;
-				}, 0);
+				});
 			}
 			loadedPromise.resolve();
 		}
@@ -1427,6 +1426,9 @@ $.views.converters({
 });
 
 topSearchTree = content.searchTree = new treeGroup();
+	setTimeout(function() {
+		$("#initial-load").html("Loading...");
+	}, 2000);
 
 fetchCategory()
 	.then(function() {
@@ -1476,7 +1478,7 @@ fetchCategory()
 		if (!loadedAll) {
 			setTimeout(function() {
 				loadAllContent(); // lazy load other content in the background
-			}, 0);
+			});
 		}
 	});
 
@@ -1495,7 +1497,7 @@ function loadAllContent(prefix) {
 			if (!category.hidden && !(prefix==="contents" ? content : content[prefix])[category.name]) {
 				notLoaded++;
 				category[loadingLabel] = " ";
-				$.getScript("documentation/" + prefix + "-" + category.name + ".js")
+				$.getScript("documentation/" + prefix + "-" + category.name + ".min.js")
 					.then(function() {
 						$.observable(category).setProperty(loadedLabel, true);
 						category.loading = "";

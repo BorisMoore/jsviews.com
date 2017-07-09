@@ -118,6 +118,30 @@ gulp.task('minifyLibs', function() {
 	minifyFile('sample-tag-controls/validate/', 'validate.js');
 	minifyFile('sample-tag-controls/tabs/', 'tabs.js');
 	minifyFile('sample-tag-controls/tabs/', 'tabs.js');
+
+	minifyFile('../', 'index.js');
+	minifyFile('../resources/tags/', 'built-in-tags.js');
+	minifyFile('../', 'datatypes.js');
+	minifyFile('../documentation/', 'contents-categories.js');
+	minifyFile('../documentation/', 'contents-download.js');
+	minifyFile('../documentation/', 'contents-community.js');
+	minifyFile('../documentation/', 'contents-getstarted.js');
+	minifyFile('../documentation/', 'contents-jsoapi.js');
+	minifyFile('../documentation/', 'contents-jsrapi.js');
+	minifyFile('../documentation/', 'contents-jsvapi.js');
+	minifyFile('../documentation/', 'contents-samples.js');
+	minifyFile('../documentation/', 'find-download.js');
+	minifyFile('../documentation/', 'find-community.js');
+	minifyFile('../documentation/', 'find-getstarted.js');
+	minifyFile('../documentation/', 'find-jsoapi.js');
+	minifyFile('../documentation/', 'find-jsrapi.js');
+	minifyFile('../documentation/', 'find-jsvapi.js');
+	minifyFile('../documentation/', 'find-samples.js');
+	minifyFile('../samples/', 'sample-viewer.js');
+});
+
+gulp.task('minifyOther', function() {
+	minifyFile('../lib/', 'highlight.js');
 });
 
 //================================= TMPLIFY - Build tmplify/index.js =================================//

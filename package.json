@@ -1,6 +1,6 @@
 {
   "name": "jsviews.com",
-  "version": "v0.9.86",
+  "version": "v0.9.87",
   "description": "Documentation for JsRender and JsViews",
   "repository": {
     "type": "git",
@@ -32,8 +32,8 @@
     "jquery": "^2.1.4",
     "jshint-stylish": "^2.0.1",
     "jshint-summary": "^0.4.0",
-    "jsrender": "^0.9.86",
-    "jsviews": "^0.9.86",
+    "jsrender": "^0.9.87",
+    "jsviews": "^0.9.87",
     "node-qunit-phantomjs": "^1.2.1",
     "qunit": "^0.7.6",
     "qunitjs": "^1.18.0",
@@ -52,7 +52,7 @@
     "elision": true,
     "debug": true,
     "loopfunc": true,
-    "multistr": true
+    "multistr":  true
   },
   "jscsConfig": {
     "disallowTrailingWhitespace": true,

@@ -1,4 +1,4 @@
-﻿/*! JsViews jQueryUI widget integration v0.9.85X (Beta)
+﻿/*! JsViews jQueryUI widget integration v0.9.87 (Beta)
 see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
 * https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
@@ -739,12 +739,23 @@ tabs: {
     // Select the tab whose index is the currently selected one
     this.widget.option("active", parseInt(value));
   },
+  onBeforeBind: function(value) {
+    var anchor,
+      base = window.location.href.replace(/#.*$/, '');
+    $('ul>li>a[href^="#"]', this.mainElem).each(function () {
+      anchor = $(this);
+      anchor.attr('href', base + anchor.attr('href'));
+    });
+    this.baseApply(arguments);
+  },
   getValue: function() { // Helper: get the index of the currently selected tab
     return this.widget.option("active");
   }
 }
 
 };
+
+
 
 $.views.tags(tagDefs);
 

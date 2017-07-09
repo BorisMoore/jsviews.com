@@ -20,13 +20,13 @@
 	<link href="resources/css/dataurls.css" rel="stylesheet"/>
 	<link href="resources/css/contents.css" rel="stylesheet"/>
 	<link href="resources/css/highlight.css" rel="stylesheet" /> <!--xcode vs brown_paper googlecode magula mono-blue-->
-	<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
-	<script src="lib/highlight.js"></script>
-	<script src="download/jsviews.js"></script>
-	<script src="datatypes.js"></script>
-	<script src="documentation/contents-categories.js"></script>
-	<script src="resources/tags/built-in-tags.js"></script>
+	<script src="lib/highlight.min.js"></script>
+	<script src="download/jsviews.min.js"></script>
+	<script src="datatypes.min.js"></script>
+	<script src="documentation/contents-categories.min.js"></script>
+	<script src="resources/tags/built-in-tags.min.js"></script>
 
 <!--======================= Page Controls =======================-->
 
@@ -54,7 +54,7 @@
 				<button id="prev" class="btn" data-link="{on searchTree.prev} class{merge: searchTree.sectionIndex===0 toggle='disabled'}" title="Previous (Ctrl+&#8592;)">&lt;</button>
 				<label class="searchbox">
 					<span style="display:none;">Search jsviews.com</span>
-					<input id="id-searchbox" data-link="{:search onBeforeChange=searchTree.changing:newsearch}" placeholder="Search... (Ctrl+/)" title="Search... (Ctrl+/)"/>
+					<input id="id-searchbox" data-link="{:search onBeforeUpdateVal=searchTree.changing:newsearch}" placeholder="Search... (Ctrl+/)" title="Search... (Ctrl+/)"/>
 				</label>
 				<button id="next" class="btn" data-link="{on searchTree.next} class{merge: searchTree.sectionIndex>=filterlen-1 toggle='disabled'}" title="Next (Ctrl+&#8594;)">&gt;</button>
 				<button class="close btn" data-link="{on searchTree.close}" title="Quit search (Esc)">X</button>
@@ -146,7 +146,7 @@
 					{{/for}}
 				{{/if}}
 			{{else}}
-				<div class="loading">{^{:topCategory.loading}}</div>
+				<div class="loading">Loading...</div>
 			{{/if}}
 		</div>
 	</div>
@@ -157,6 +157,7 @@
 		</div>
 	{{/if}}
 {{else classnm="searchnav"}}
+{{!--
 	{^{if noSearch}}
 		<div class="nosearch" data-link="html{:noSearch}"></div>
 	{{else}}
@@ -164,6 +165,13 @@
 			{^{if filtered}}{^{searchTree filter=filtered/}}{{/if}}
 		{{/for}}
 	{{/if}}
+--}}
+	<div class="nosearch" data-link="html{:noSearch} visible{:noSearch}"></div>
+	<div data-link="visible{:!noSearch}">
+		{^{for showSearch && searched && categories}}
+			{^{if filtered}}{^{searchTree filter=filtered/}}{{/if}}
+		{{/for}}
+	</div>
 {{/page}}
 			<div class="footers">
 				<div class="footer"><div>JsViews in the industry:
@@ -549,22 +557,24 @@
 </head>
 
 <body>
-<div id="testHtml" style="display:none;"></div>
-	<div id="wrapper">
-		<div class="menus top">
-			<a href="#home" id="id-home" class="unselected">Home</a>
-			<a href="#getstarted" id="id-getstarted" class="unselected">Get Started</a>
-			<a href="#jsrapi" id="id-jsrapi" class="unselected">JsRender API</a>
-			<a href="#jsvapi" id="id-jsvapi" class="unselected">JsViews API</a>
-			<a href="#jsoapi" id="id-jsoapi" class="unselected">JsObservable API</a>
-			<a href="#samples" id="id-samples" class="unselected">Samples</a>
-			<a href="#download" id="id-download" class="unselected">Download</a>
-			<a href="#community" id="id-community" class="unselected">Community</a>
-			<!--<a href="#links" id="id-links" class="unselected">Links</a>-->
-			<div class="gradient2"></div>
-		</div>
-	<div id="id-content" class="container"></div>
+<div id="wrapper">
+	<div class="menus top">
+		<a href="#home" id="id-home" class="unselected">Home</a>
+		<a href="#getstarted" id="id-getstarted" class="unselected">Get Started</a>
+		<a href="#jsrapi" id="id-jsrapi" class="unselected">JsRender API</a>
+		<a href="#jsvapi" id="id-jsvapi" class="unselected">JsViews API</a>
+		<a href="#jsoapi" id="id-jsoapi" class="unselected">JsObservable API</a>
+		<a href="#samples" id="id-samples" class="unselected">Samples</a>
+		<a href="#download" id="id-download" class="unselected">Download</a>
+		<a href="#community" id="id-community" class="unselected">Community</a>
+		<!--<a href="#links" id="id-links" class="unselected">Links</a>-->
+		<div class="gradient2"></div>
+	</div>
+	<div id="id-content" class="container">
+		<div class="nothome nosearch" id="initial-load" style="padding: 50px 0 0 50px;"></div>
+	</div>
 </div>
-<script src="index.js"></script>
+
+<script src="index.min.js"></script>
 </body>
 </html>

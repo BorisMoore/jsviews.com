@@ -1,5 +1,7 @@
 ﻿$(function() {
 	window.parent.pagetag && window.parent.pagetag.iframeLoaded(window._tgId, function(sampleData) {
+		window.frameElement.style.display = "block";
+		window.frameElement.previousSibling.style.display = "none";
 		if (sampleData.header) {
 			$(document.head)[sampleData.action||"html"](sampleData.header + "\n")
 		}

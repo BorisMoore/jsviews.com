@@ -78,7 +78,8 @@ for (key in sectionTypes) {
 
 $.views.documentation = {
   content: {
-    noSearch: " ",
+    noSearch: "Loading...",
+    showSearch: true,
     find: {},
     include: {
         jsr: true,

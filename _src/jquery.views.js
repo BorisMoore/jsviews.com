@@ -68,8 +68,8 @@ function updateValues(sourceValues, tagElse, bindId, ev) {
 // Observably update data values targeted by bindTo
 // Called when linkedElem changes: called as updateValues(sourceValues, tagElse, bindId, ev) - this: undefined
 // Called directly as tag.updateValues(val1, val2, val3, ...) - this: tag
-	var cancel, linkCtx, cvtBack, cnvtName, target, view, binding, sourceValue, origVals, sourceElem, sourceEl,
-		oldLinkCtx, onBeforeChange, onAfterChange, tos, to, tcpTag, eventArgs, exprOb, contextCb, l, srcVals, tag;
+	var linkCtx, cvtBack, cnvtName, target, view, binding, sourceValue, origVals, sourceElem, sourceEl,
+		oldLinkCtx, tos, to, tcpTag, exprOb, contextCb, l, tag;
 
 	if (bindId && bindId._tgId) {
 		tag = bindId;
@@ -82,6 +82,7 @@ function updateValues(sourceValues, tagElse, bindId, ev) {
 			// The binding has a 'to' field, which is of the form [tosForElse0, tosForElse1, ...]
 			// where tosForElseX is of the form [[[targetObject, toPath], [targetObject, toPath], ...], cvtBack]
 			linkCtx = binding.linkCtx;
+			linkCtx.ev = ev;
 			sourceElem = linkCtx.elem;
 			view = linkCtx.view;
 			tag = linkCtx.tag;
@@ -91,8 +92,6 @@ function updateValues(sourceValues, tagElse, bindId, ev) {
 				sourceValues = [];
 				sourceValues[tos._cxp.ind] = sourceValue;
 			}
-			onBeforeChange = changeHandler(view, onBeforeChangeStr);
-			onAfterChange = changeHandler(view, onAfterChangeStr);
 
 			if (cnvtName = tag && tag.convertBack) {
 				if ($isFunction(cnvtName)) {
@@ -112,7 +111,7 @@ function updateValues(sourceValues, tagElse, bindId, ev) {
 			origVals = sourceValues;
 			if (cvtBack) {
 				sourceValues = cvtBack.apply(tag, sourceValues);
-				sourceValues = tos.length>1 ? sourceValues : [sourceValues];
+				sourceValues = tos.length>1 ? sourceValues || []: [sourceValues];
 			}
 
 			// Set linkCtx on view, dynamically, just during this handler call
@@ -130,17 +129,16 @@ function updateValues(sourceValues, tagElse, bindId, ev) {
 						// binding to tag.ctx.foo._ocp - and we use original values, without applying cvtBack converter
 						: sourceValues // Otherwise use the converted value
 					)[l];
-					eventArgs = {
-						change: "change",
-						data: tcpTag || target, // For tag contextual parameter, this is the tag
-						path: to[1] || to.ind, // For tag contextual parameter, this is the index of the parameter in tag.bindTo
-						value: sourceValue
-					};
-					if ((!onBeforeChange || !(cancel = onBeforeChange.call(linkCtx, ev, eventArgs) === false)) &&
-							(!tag || !tag.onBeforeChange || !(cancel = tag.onBeforeChange(ev, eventArgs) === false))) {
-
-						if (tcpTag) {
-							tcpTag.updateValue(sourceValue, to.ind, to.tagElse);
+					if (sourceValue !== undefined && (!ev || !tag || !tag.onBeforeUpdateVal || tag.onBeforeUpdateVal(ev, {
+							change: "change",
+							data: target,
+							path: to[1],
+							index: l,
+							tagElse: tagElse,
+							value: sourceValue
+						}) !== false)) {
+						if (tcpTag) { // We are modifying a tag contextual parameter ~foo (e.g. from within block) so update 'owner' tag: tcpTag
+							tcpTag.updateValue(sourceValue, to.ind, to.tagElse, undefined, ev);
 							if (tcpTag.setValue) {
 								tcpTag.setValue(sourceValue, to.ind, to.tagElse);
 							}
@@ -163,17 +161,11 @@ function updateValues(sourceValues, tagElse, bindId, ev) {
 								}
 							}
 							$observable(target).setProperty(to[1], sourceValue); // 2way binding change event - observably updating bound object
-							if (onAfterChange) {
-								onAfterChange.call(linkCtx, ev, eventArgs);
-							}
-						}
-						if (tag && tag.onAfterChange) {
-							tag.onAfterChange(ev, eventArgs);
 						}
 					}
 				}
 			}
-			sourceElem._jsvChg = undefined; // Clear marker
+			sourceElem._jsvChg = linkCtx.ev = undefined; // Clear marker
 			view.linkCtx = oldLinkCtx;
 		}
 	}
@@ -263,11 +255,11 @@ function onDataLinkedTagChange(ev, eventArgs) {
 		parentElem = target.parentNode,
 		view = linkCtx.view,
 		oldLinkCtx = view.linkCtx,
-		onEvent = changeHandler(view, onBeforeChangeStr);
+		onEvent = eventArgs && changeHandler(view, onBeforeChangeStr, tag);
 
 	// Set linkCtx on view, dynamically, just during this handler call
 	view.linkCtx = linkCtx;
-	if (parentElem && (!onEvent || !(eventArgs && onEvent.call(linkCtx, ev, eventArgs) === false))
+	if (parentElem && (!onEvent || onEvent.call(linkCtx, ev, eventArgs) !== false)
 			// If data changed, the ev.data is set to be the path. Use that to filter the handler action...
 			&& (!eventArgs || ev.data.prop === "*" || ev.data.prop === eventArgs.path)) {
 
@@ -319,6 +311,9 @@ function onDataLinkedTagChange(ev, eventArgs) {
 						observeAndBind(linkCtx, source, target);
 					}
 					view.linkCtx = oldLinkCtx;
+					if (eventArgs && (onEvent = changeHandler(view, onAfterChangeStr, tag))) {
+						onEvent.call(linkCtx, ev, eventArgs);
+					}
 					return;
 				}
 
@@ -346,9 +341,7 @@ function onDataLinkedTagChange(ev, eventArgs) {
 				// will trigger the parent tags before the child tags.
 				observeAndBind(linkCtx, source, target);
 			}
-			if (updateContent(sourceValue, linkCtx, attr, tag) && eventArgs && (onEvent = changeHandler(view, onAfterChangeStr))) {
-				onEvent.call(linkCtx, ev, eventArgs);
-			}
+			updateContent(sourceValue, linkCtx, attr, tag);
 			linkCtx._noUpd = 0; // For data-link="^{...}" remove _noUpd flag so updates on subsequent calls
 
 			if (tag) {
@@ -363,6 +356,9 @@ function onDataLinkedTagChange(ev, eventArgs) {
 			observeAndBind(linkCtx, source, target);
 		}
 
+		if (eventArgs && (onEvent = changeHandler(view, onAfterChangeStr, tag))) {
+			onEvent.call(linkCtx, ev, eventArgs);
+		}
 		// Remove dynamically added linkCtx from view
 		view.linkCtx = oldLinkCtx;
 	}
@@ -549,8 +545,8 @@ function updateContent(sourceValue, linkCtx, attr, tag) {
 
 function arrayChangeHandler(ev, eventArgs) {
 	var self = this,
-		onBeforeChange = changeHandler(self, onBeforeChangeStr),
-		onAfterChange = changeHandler(self, onAfterChangeStr);
+		onBeforeChange = changeHandler(self, onBeforeChangeStr, self.tag),
+		onAfterChange = changeHandler(self, onAfterChangeStr, self.tag);
 	if (!onBeforeChange || onBeforeChange.call(self, ev, eventArgs) !== false) {
 		if (eventArgs) {
 			// This is an observable action (not a trigger/handler call from pushValues, or similar, for which eventArgs will be null)
@@ -1999,9 +1995,7 @@ function resolveDataTargetPath(targetPath, source, contextCb) {
 		targetPath = to[1];
 	}
 	to = to || [source, path];
-	if (obsCtxPrm) {
-		to._cxp = obsCtxPrm;
-	}
+	to._cxp = topCp;
 	return to;
 }
 
@@ -2180,9 +2174,9 @@ function inputAttrib(elem) {
 	return elem.type === CHECKBOX ? elem[CHECKED] : elem.value;
 }
 
-function changeHandler(view, name) {
+function changeHandler(view, name, tag) {
 	// Get onBeforeChange, onAfterChange, onAfterCreate handler - if there is one;
-	return view.ctx[name] || $views.helpers[name];
+	return tag && tag[name] || view.ctx[name] && view.ctxPrm(name) || $views.helpers[name];
 }
 
 //========================== Initialize ==========================
@@ -3365,7 +3359,7 @@ $sub._gccb = function(view) { // Return a callback for accessing the context of 
 	return function(path, object, depth) {
 		// TODO consider only calling the contextCb on the initial token in path '~a.b.c' and not calling again on
 		// the individual tokens, 'a', 'b', 'c'... Currently it is called multiple times
-		var tokens, tag, items, helper, last, nextPath, l, obsCtxPrm, addedTagCpDep, key;
+		var tokens, tag, items, helper, last, nextPath, l, obsCtxPrm, addedTagCpDep, key, bindTo;
 		if (view && path) {
 			if (path._cpfn) {
 				return path._cpfn.call(view.tmpl, object, view, $sub); // exprOb for computed property
@@ -3404,10 +3398,11 @@ $sub._gccb = function(view) { // Return a callback for accessing the context of 
 						items = [helper]; // Contextual parameter
 						if ((tag = obsCtxPrm.tag) && tag.convert) {
 							// If there is a converter, it might mix inputs, so tag contextual param needs to depends on all bound args/props.
-							l = tag.bindTo.length;
+							bindTo = tag.bindTo || [0];
+							l = bindTo.length;
 							while (l--) {
 								if (depth !== undefined && l !== obsCtxPrm.ind) {
-									key = tag.bindTo[l];
+									key = bindTo[l];
 									addedTagCpDep = [helper[0], tag.tagCtx.params[+key === key ? "args" : "props"]];
 									addedTagCpDep._cxp = obsCtxPrm;
 									items.push(addedTagCpDep); // Added dependency for tag contextual parameter

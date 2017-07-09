@@ -435,16 +435,21 @@ input.title {
   width: 100%;
 }
 
-.sampleframe {
+.sampleframe, .sample .nosearch {
   width: 100%;
-  border: none;
   border: 2px solid #670404;
   margin: 2px 0 15px -2px;
   border-radius: 6px;
   background-color: #f8f8f5;
 }
 
-.sample {
+.sample .nosearch {
+  padding: 0;
+  margin: 2px -2px 15px -2px;
+  width: unset;
+}
+
+ .sample {
   position: relative;
   padding: 2px;
 }
@@ -559,11 +564,7 @@ a {
   margin: 10px 10px 10px 0;
 }
 
-.anchor {
-  display: none;
-}
-
-a.anchortitle:after {
+.anchor, .sampleframe, a.anchortitle:after {
   display: none;
 }
 

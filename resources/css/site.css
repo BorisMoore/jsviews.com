@@ -691,7 +691,7 @@ button {
   width: 1240px;
 }
 
-.nosearch {
+.nosearch, .loading {
   padding: 21px 15px;
   font-style: italic;
   color: #2881AF;

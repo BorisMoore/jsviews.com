@@ -749,7 +749,8 @@ if (!$.observe) {
 					 || leaf;
 					getter = property;
 					setter = getter.set === true ? getter : getter.set;
-					property = getter.call(leaf); // get - only treated as getter if also a setter. Otherwise it is simply a property of type function. See unit tests 'Can observe properties of type function'.
+					property = getter.call(leaf); // get - only treated as getter if also a setter. Otherwise it is simply a property of type function.
+					// See unit tests 'Can observe properties of type function'.
 				}
 			}
 

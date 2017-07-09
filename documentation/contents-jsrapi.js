@@ -3120,7 +3120,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "A <b>view object</b> has the following properties and methods:",
-        "text": "- [type property](#viewobject@type)\n- [data property](#viewobject@data)\n- [parent property](#viewobject@parent)\n- [index property](#viewobject@index)\n- [getIndex() method](#viewobject@getIndex)\n- [get(type) method](#viewobject@get)\n- [content property](#viewobject@content)\n- [other properties (tmpl, views, ctx, tag)](#viewobject@other)\n\n"
+        "text": "- [type property](#viewobject@type)\n- [data property](#viewobject@data)\n- [parent property](#viewobject@parent)\n- [index property](#viewobject@index)\n- [getIndex() method](#viewobject@getindex)\n- [get(type) method](#viewobject@get)\n- [content property](#viewobject@content)\n- [root property](#viewobject@root)\n- [other properties (tmpl, views, ctx, tag)](#viewobject@other)\n\n"
       },
       {
         "_type": "para",
@@ -3131,11 +3131,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "Accessing view objects",
         "text": "The properties of the current view are accessed *declaratively* in a template using *[view paths](#paths)* -- such as `#parent` for the `view.parent` property.\n\nAccessing `view` objects *programmatically* is less common in JsRender, but can be useful for example:\n\n- in a helper function, `~myHelper()`, where the `this` pointer is the current view\n- in the render() method of a custom tag -- using `this.tagCtx.view`\n\n*Note:* In JsViews, accessing `view` objects programmatically is very common, thanks to the [`$.view()`](#jsv.d.view) method. For example in a click handler, `$.view(this);` returns the corresponding `view` object.<br/><br/>\n\n\n### Properties and methods:\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": ""
       },
       {
         "_type": "para",
@@ -3165,7 +3160,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "The getIndex() method:",
         "text": "***view.getIndex()**: get the index of current \"item\" view* (steps up to nearest [item view](#views@itemview), and returns the index).\n\n```js\nvar index = view.getIndex(); // The index of the view\n```\n\nAccessed declaratively as `#getIndex()`:\n\n```jsr\n{{for teams}}\n  {{for members}}\n    {{if #getIndex() > 0}} {{!-- index of member (- this view is an \"item\" view for member) --}}\n      {{:#getIndex()}} {{!-- index of member --}}\n    {{/if}}\n\n    {{:#parent.getIndex()}}... {{!-- index of team (-nearest \"item\" view of parent is team \"item\" view) --}}\n  {{/for}}\n{{/for}}\n```\n",
-        "anchor": "getIndex"
+        "anchor": "getindex"
       },
       {
         "_type": "sample",
@@ -3248,6 +3243,12 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "jsrJsvJqui": "jsr",
         "title": "view.content &ndash; wrapping content",
         "height": "214"
+      },
+      {
+        "_type": "para",
+        "title": "The root property:",
+        "text": "***view.root**: the root view (top-level ancestor view for this view)* -- as in:\n\n```js\nvar topLevelData = view.root.data; // Get the top-level data (obtained from the root view)\n```",
+        "anchor": "root"
       },
       {
         "_type": "para",
@@ -6477,6 +6478,17 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "",
         "text": "paragraph"
+      }
+    ]
+  },
+  "globals": {
+    "title": "globals",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender\n\n- render()\n- templates()\n- views\n\nJsViews\n\n- link()\n- observe()\n- observable()\n- unlink()\n- unobserved()\n- view()\n\n"
       }
     ]
   }

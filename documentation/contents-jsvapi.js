@@ -462,10 +462,6 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "links": [],
         "topics": [
           {
-            "hash": "jsvtmplunlink",
-            "label": "template.unlink()"
-          },
-          {
             "hash": "jsv.d.unlink",
             "label": "$.unlink()"
           },
@@ -729,15 +725,19 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "hash": "jsvviewcontextobject",
-            "label": "View context object"
+            "label": "View context object (ctx)"
           },
           {
             "hash": "jsvtagcontextobject",
-            "label": "Tag context object"
+            "label": "Tag context object (tagCtx)"
           },
           {
             "hash": "jsvlinkcontextobject",
-            "label": "Link context object"
+            "label": "Link context object (linkCtx)"
+          },
+          {
+            "hash": "eventArgs",
+            "label": "eventArgs object"
           }
         ]
       }
@@ -746,12 +746,24 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
   "jsvviewsobject": {
     "title": "$.views object",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "- templates\n- tags\n- converters\n- helpers\n- viewModels\n- map\n- settings\n- sub\n- jsviews"
+      }
+    ]
   },
   "jsvtemplateobject": {
     "title": "template object",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "- markup\n- render\n- templates\n- tags\n- helpers\n- converters\n- tmplName\n\n- fn, htmlTag, links, tmpls, useViews, bnds\n\nWith JsViews:\n\n- link"
+      }
+    ]
   },
   "jsvviewobject": {
     "title": "The <em>view</em> object",
@@ -765,7 +777,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "A <b>view object</b> has the following properties and methods:",
-        "text": "**JsViews -- programmatic access only**\n\nThe following methods are available only for programmatic access when using JsViews:\n\n- [refresh() method](#jsvviewobject@refresh)\n- [contents() method](#jsvviewobject@contents)\n- [childTags() method](#jsvviewobject@childtags)\n- [nodes() method](#jsvviewobject@nodes)\n\n**Both JsRender and JsViews** (see [JsRender `view` object](#viewobject))\n\n*The following properties and methods are available when using either JsRender or JsViews:*\n\n- [type property](#viewobject@type)\n- [data property](#viewobject@data)\n- [parent property](#viewobject@parent)\n- [index property](#viewobject@index)\n- [getIndex() method](#viewobject@getIndex)\n- [get(type) method](#viewobject@get)\n- [content property](#viewobject@content)\n- [other properties (tmpl, views, ctx, tag)](#viewobject@other)\n"
+        "text": "**JsViews -- programmatic access only**\n\nThe following methods are available only for programmatic access when using JsViews:\n\n- [refresh() method](#jsvviewobject@refresh)\n- [contents() method](#jsvviewobject@contents)\n- [childTags() method](#jsvviewobject@childtags)\n- [nodes() method](#jsvviewobject@nodes)\n- [ctxPrm() get/set method](#jsvviewobject@ctxprm)\n\n**Both JsRender and JsViews** (see [JsRender `view` object](#viewobject))\n\n*The following properties and methods are available when using either JsRender or JsViews:*\n\n- [type property](#viewobject@type)\n- [data property](#viewobject@data)\n- [parent property](#viewobject@parent)\n- [index property](#viewobject@index)\n- [getIndex() method](#viewobject@getindex)\n- [get(type) method](#viewobject@get)\n- [content property](#viewobject@content)\n- [root property](#viewobject@root)\n- [other properties (tmpl, views, ctx, tag)](#viewobject@other)\n"
       },
       {
         "_type": "para",
@@ -983,7 +995,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Note that `view.childTags()` looks only for custom tags. (In fact it searches for tags which do not have the `flow` property set to `true`. All built-in tags such as `{{for}}` and `{{if}}` have the setting `flow: true`, so are ignored by `childTags()`.)\n\nThe following sample looks for `{{textbox}}` tags (in the case `data-link=\"{textbox ...}\"`) and calls a method on each."
+        "text": "Note that `view.childTags()` looks only for custom tags. (In fact it searches for tags which do not have the `flow` property set to `true`. All built-in tags such as `{{for}}` and `{{if}}` have the setting `flow: true`, so are ignored by `childTags()`. However even 'flow tags' will be returned if searched for my name, as in: `view.childTags(\"if\")`.)\n\nThe following sample looks for `{{textbox}}` tags (in the case `data-link=\"{textbox ...}\"`) and calls a method on each."
       },
       {
         "_type": "sample",
@@ -1038,6 +1050,60 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "title": "view.nodes()"
       },
       {
+        "_type": "para",
+        "title": "The ctxPrm() get/set method:",
+        "text": "***view.ctxPrm(name)***: returns the value of the named contextual parameter, within the context of that view.\n\n```js\nvar value = view.ctxPrm(\"color\"));\n// Get value of current contextual parameter \"color\"\n```\n\n***view.ctxPrm(name, newValue)***: observably modifies the value of the named contextual parameter, within the context of that view.\n\n```js\nview.ctxPrm(\"color\", \"green\"));\n// Set value of current contextual parameter \"color\" to \"green\"\n```",
+        "anchor": "ctxprm"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Template:\n\n```jsr\n<span data-link=\"css-color{:~color}\">TEXT</span>\n<input data-link=\"~color\" />\n({^{:~color}})\n```\n\nCode:\n\n```js\nset: function(newColor, ev, eventArgs) {\n  eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor \n},\nget: function(ev, eventArgs) {\n  alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n}\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~set \"green\"}}set ~color to green{{/on}}\n  {^{on ~set \"red\"}}set ~color to red{{/on}}\n  {^{on ~get}}get ~color{{/on}}\n  <span data-link=\"css-color{:~color} {:~color}\"></span>\n  <input data-link=\"~color\" />\n  ({^{:~color}})\n</script>\n",
+        "code": "var tmpl = $.templates(\"#tmpl\"),\n\n  model = {},\n\n  helpers = {\n    color: \"blue\",\n    set: function(newColor, ev, eventArgs) {\n      eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor\n    },\n    get: function(ev, eventArgs) {\n      alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n    }\n  };\n\ntmpl.link(\"#result\", model, helpers);",
+        "height": "50"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "`view.ctxPrm()` can be used to modify any contextual parameter or helper (`~foo`). In the above example, `~color` is initialized as [helper](#helpers) passed in the with the `link()` call.\n\nIn the case of a [contextual parameter]() defined by a path expression, such as `~color=clr`, using the setter `view.ctxPrm(\"color\", \"newValue\")` will update not only the contextual parameter but also the data value `clr` that it is bound to. (The path expression `~color=expr` constitutes a two-way binding).\n\nThis is illustrated by the following sample:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\nmodel = {clr: \"orange\", person: {name: \"Jo\"}};\n```\n\n```jsr\n...\n<input data-link=\"clr\" />\n\n...\n{{for person ~color=clr}}\n  ...\n  {^{on ~set \"red\"}}set ~color to red{{/on}}...\n  <input data-link=\"~color\" />...\n{{/for}}\n```"
+          }
+        ],
+        "html": "<style>div {margin: 10px 0;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label>clr:</label>\n  <div>\n    <span data-link=\"css-color{:clr} {:clr}\"></span>\n    <input data-link=\"clr\" />\n  </div>\n\n  {{for person ~color=clr}}\n    <label>~color:</label>\n    <div>\n      {^{on ~set \"green\"}}set ~color to green{{/on}}\n      {^{on ~set \"red\"}}set ~color to red{{/on}}\n      {^{on ~get}}get ~color{{/on}}\n      <span data-link=\"css-color{:~color} {:~color}\"></span>\n      <input data-link=\"~color\" />\n    </div>\n  {{/for}}\n</script>\n",
+        "code": "var tmpl = $.templates(\"#tmpl\"),\n\n  model = {clr: \"orange\", person: {name: \"Jo\"}},\n\n  helpers = {\n    set: function(newColor, ev, eventArgs) {\n      eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor\n    },\n    get: function(ev, eventArgs) {\n      alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n    }\n  };\n\ntmpl.link(\"#result\", model, helpers);"
+      },
+      {
         "_type": "links",
         "title": "See also:",
         "links": [],
@@ -1063,7 +1129,353 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "tag hierarchy"
+        "text": "JsRender\n\nDeclare\n\n- tag.template\n- tag.flow\n- tag.baseTag\n- tag.contentCtx\n- tag.argDefault\n- tag.bindTo\n\nEvent handlers\n\n- tag.init()\n- tag.render()\n- tag.convert()\n\nProps/Methods\n\n- tag.ctxPrm()\n- tag.cvt()\n- tag.cvtArgs()\n- tag.bndArgs() \n- tag.ctx\n- tag.parent\n- tag.parents\n- tag.tagCtx\n- tag.tagCtxs\n- tag.tagName\n- tag.base\n- rendering\n\nJsViews\n\nDeclare\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr\n- tag.dataBoundOnly\n- dateMap\n- lateRender (feature)\n\nEvent handlers\n\n- tag.convertBack()\n- tag.domChange()\n- tag.depends()\n- tag.onBeforeBind()\n- tag.onBind()\n- tag.onAfterLink()\n- tag.onUpdate()\n- tag.onDispose()\n- tag.onArrayChange()\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\nEvents\n\n\nAlso onBeforeChange onAfterChange onAfterCreate\n"
+      },
+      {
+        "_type": "para",
+        "title": "A <b>view object</b> has the following properties and methods:",
+        "text": "**JsViews -- programmatic access only**\n\nThe following methods are available only for programmatic access when using JsViews:\n\n- [refresh() method](#jsvviewobject@refresh)\n- [contents() method](#jsvviewobject@contents)\n- [childTags() method](#jsvviewobject@childtags)\n- [nodes() method](#jsvviewobject@nodes)\n- [ctxPrm() get/set method](#jsvviewobject@ctxprm)\n\n**Both JsRender and JsViews** (see [JsRender `view` object](#viewobject))\n\n*The following properties and methods are available when using either JsRender or JsViews:*\n\n- [type property](#viewobject@type)\n- [data property](#viewobject@data)\n- [parent property](#viewobject@parent)\n- [index property](#viewobject@index)\n- [getIndex() method](#viewobject@getindex)\n- [get(type) method](#viewobject@get)\n- [content property](#viewobject@content)\n- [root property](#viewobject@root)\n- [other properties (tmpl, views, ctx, tag)](#viewobject@other)\n"
+      },
+      {
+        "_type": "para",
+        "title": "Accessing view objects",
+        "text": "The `view` object can be accessed *programmatically* in many contexts, such as:\n\n- in a click handler (with JsViews) -- using [`$.view(this)`](#jsv.d.view) to return the `view` for a given HTML element (`this`)\n- in a helper function, `~myHelper()` -- where the `this` pointer is the current view\n- in any method of a custom tag -- using `this.tagCtx.view`\n\nIn addition, properties and methods that are available to both JsRender and JsViews (second list above) can also be accessed *declaratively* in a template using *[view paths](#paths)* -- such as `#parent` for the `view.parent` property.\n<br/><br/>\n\n### Properties and methods:\n"
+      },
+      {
+        "_type": "para",
+        "title": "The refresh() method",
+        "text": "***tag.refresh()***: refreshes the tag, by re-rendering its content.\n\nThis can be used to update a tag using modified data, helpers or tag parameters. See also the similar [`view.refresh()`](jsviewobject@refresh) method.\n\n\n```js\ntag.refresh(); // Refresh the tag, using current data values, helpers and tag parameters.\n```\n\nThe following example has a custom tag that uses a template rendering data without data-linking. (Even it had data-linking, it will also allow picking up data changes which were modified *'non-observably'*, as in: `model.year++;`).\n\nThe sample is similar to the sample provided with the [`view.refresh()`](jsviewobject@refresh)  documentation.\n",
+        "anchor": "refresh"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Tag template:* (No data-linking except `<input data-link=\"name\" />`)\n\n```jsr\n...\n<input data-link=\"name\" />\n...\n{{:name}} ... {{:~root.year}} ... {{:age + ~root.year - 2016}}\n...\n{^{on ~tag.callRefresh}}Refresh{{/on}}\n```\n\n*Tag code:*\n\n```js\n$.views.tags(\"personRow\", {\n  template: \"#personRowTmpl\",\n  callRefresh: function() {\n    // tag.refresh() will re-render tag, and take in to account modified data\n    this.refresh();\n  }\n});\n```\n\n*Template:*\n```jsr\n<button id=\"incrBtn\">Increment year</button>\n...\n{{for people}}\n  {^{personRow/}}\n{{/for}}\n```"
+          }
+        ],
+        "html": "<style>table td {padding: 5px;} table {margin-top: 6px;} #incrBtn {margin-bottom: 10px;}</style>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"personRowTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td><input data-link=\"name\" /></td>\n    <td>Name: {{dbg:name}}</td>  {{!-- no data-linking --}}\n    <td>Age in {{:~root.year}}: {{:age + ~root.year - 2016}} </td>\n    <td>{^{on ~tag.callRefresh}}Refresh{{/on}}</td>\n  </tr>\n</script>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"incrBtn\">Increment year</button>\n  <button id=\"incrObsBtn\">Increment observably</button>\n  <button id=\"incrRefreshBtn\">Increment and refresh</button>\n  <button class=\"refreshBtn\">Refresh All</button><br/>\n  Year: {^{:year}}<br/>\n\n  <table><tbody>\n    {{for people}}\n      {^{personRow/}}\n    {{/for}}\n  </tbody></table>\n</script>",
+        "code": "$.views.tags(\"personRow\", {\n  template: \"#personRowTmpl\",\n  callRefresh: function() {\n    // tag.refresh() will re-render tag, and take in to account modified data\n    this.refresh();\n  }\n}\n);\nvar tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  year: 2016,\n  people: [{name: \"Adriana\", age: 4}, {name: \"Robert\", age: 34}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#incrBtn\", function() {\n    model.year++; // non-observable change\n  })\n  .on(\"click\", \"#incrObsBtn\", function() {\n    $.observable(model).setProperty(\"year\", model.year + 1);\n  })\n  .on(\"click\", \"#incrRefreshBtn\", function() {\n    model.year++; // non-observable change\n    $.view(this).refresh();\n  });",
+        "height": "160",
+        "title": "tag.refresh()"
+      },
+      {
+        "_type": "para",
+        "title": "The contents() method",
+        "text": "***view.contents(...)***: returns a jQuery object of view content nodes -- optionally filtered by a jQuery selector.\n\n```js\nvar jqMyClassElem = view.contents(true, \".myClass\"); // jQuery object for element with 'myClass'at any depth within view\n```",
+        "anchor": "contents"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "view.contents(...)",
+        "name": "contents",
+        "object": "view",
+        "method": true,
+        "returns": "jQuery object",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [],
+            "args": [],
+            "sections": [],
+            "example": "var jqContents = view.contents();\njqContents.css(\"color\", \"red\");",
+            "description": "Get a jQuery object for the contents of the view (top-level child nodes &ndash; including text nodes)"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "selector",
+                "type": "string",
+                "optional": true,
+                "description": "jQuery selector, to filter content elements"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "var jqContents = view.contents(\".toRed\");\njqContents.css(\"color\", \"red\");",
+            "description": "Get a jQuery object for the top-level contents of the view, filtered by the jQuery selector"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "deep",
+                "type": "boolean",
+                "optional": true,
+                "description": "If true, search both children and descendants"
+              },
+              {
+                "_type": "param",
+                "name": "selector",
+                "type": "string",
+                "optional": true,
+                "description": "jQuery selector, to filter content elements"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "var jqContents = view.contents(true, \".toRed\");\njqContents.css(\"color\", \"red\");",
+            "description": "Get a jQuery object for the contents of the view: child and descendant nodes, filtered by the selector"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following example uses `view.contents()` to find the `\".nameId\"` within the view, and set its background color:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\n// Get jQuery object for \".nameTd\" in this view:\nvar jqNameTd = view.contents(true, \".nameTd\");\n\n// Set background color\njqNameTd.css(\"backgroundColor\", this.className);\n```"
+          }
+        ],
+        "html": "<style>.nameTd {width: 60px; padding: 0 6px;} table {width: 230px;} button {margin: 4px;}</style>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"addBtn\">Add</button>\n  <table><tbody>\n    {^{for people}}\n      <tr>\n        <td class=\"nameTd\">{^{:name}}</td>\n        <td>\n          <button class=\"orange\">orange</button>\n          <button class=\"yellow\">yellow</button>\n        </td>\n      </tr>\n    {{/for}}\n  </tbody></table>\n</script>",
+        "code": "var tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#addBtn\", function() {\n    var view = $.view(this);           // \"data\" view\n    var data = view.data;              // model\n    $.observable(data.people).insert({name: \"name\"});\n  })\n  .on(\"click\", \".orange, .yellow\", function() {\n    var view = $.view(this);           // \"item\" view\n\n    // Get jQuery object for \".nameTd\" in this view:\n    var jqNameTd = view.contents(true, \".nameTd\");\n\n    // Set background color\n    jqNameTd.css(\"backgroundColor\", this.className);\n  });",
+        "title": "view.contents()"
+      },
+      {
+        "_type": "para",
+        "title": "The childTags() method",
+        "text": "***view.childTags(...)***: returns an array of custom tag instances within the view -- optionally filtered by tag name.\n\n```js\nvar myTagsArray = view.childTags(true, \"myTag\"); // {{myTag}} instances within view (at any depth)\n```\n",
+        "anchor": "childtags"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "view.childTags(...)",
+        "name": "childTags",
+        "object": "view",
+        "method": true,
+        "returns": "jQuery object",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [],
+            "args": [],
+            "sections": [],
+            "example": "var tagsArray = view.childTags();\nvar firstTagName = tagsArray[0].tagName;",
+            "description": "Get top-level custom tag instances within the view"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "tagName",
+                "type": "string",
+                "optional": true,
+                "description": "Filter returned tag instances by tag name"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "var sliders = view.childTags(\"slider\");\nsliders[0].updateValue(25);",
+            "description": "Get instances of {{tagName}} in view (not nested in other custom tags)"
+          },
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "deep",
+                "type": "boolean",
+                "optional": true,
+                "description": "If true, search at any depth of nested tags"
+              },
+              {
+                "_type": "param",
+                "name": "tagName",
+                "type": "string",
+                "optional": true,
+                "description": "Filter returned tag instances by tag name"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "var jqContents = view.childTags(true, \".toRed\");\njqContents.css(\"color\", \"red\");",
+            "description": "Get instances of {{tagName}} in view (including those nested in other custom tags)"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Note that `view.childTags()` looks only for custom tags. (In fact it searches for tags which do not have the `flow` property set to `true`. All built-in tags such as `{{for}}` and `{{if}}` have the setting `flow: true`, so are ignored by `childTags()`. However even 'flow tags' will be returned if searched for my name, as in: `view.childTags(\"if\")`.)\n\nThe following sample looks for `{{textbox}}` tags (in the case `data-link=\"{textbox ...}\"`) and calls a method on each."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{for people}}\n  {{!--data-link to {{textbox}} tag --}}\n  <div class=\"person\" data-link=\"{textbox path=name/}\"></div> \n{{/for}}\n```\n\n```js\n.on(\"click\", \"#toggleBtn\", function() {\n  var textBoxes = $.view(this).childTags(\"textbox\"); // Find all the {{textbox}} tags in the view\n  for (var i=0; i<textBoxes.length; i++) {\n    textBoxes[i].toggleEdit();                       // Toggle the edit mode for each of them\n  }\n});\n```"
+          }
+        ],
+        "html": "<style>#toggleBtn {margin-bottom: 14px;} .person {line-height: 26px;}</style>\n<div id=\"peopleList\"></div>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"toggleBtn\">Toggle Edit</button>\n\n  {^{for people}}\n    {{!--data-link to {{textbox}} tag --}}\n    <div class=\"person\" data-link=\"{textbox path=name/}\"></div> \n  {{/for}}\n</script>",
+        "code": "// Define a {{textbox}} tag - which allows editing, and has a toggleEdit() method\n$.views.tags({\n  textbox: {\n    init: function() {\n      var path = this.tagCtx.params.props.path;\n\n      this.template = \"<input data-link='~tag.edit' type='checkbox'/> \"   // Checkbox to toggle edit\n      + \"<input data-link='visible{:~tag.edit} {:\" + path + \":}'/>\"       // <input> for editing\n      + \"<span data-link='visible{:!~tag.edit} {:\" + path + \"}'></span>\"; // <span> for rendering\n    },\n    toggleEdit: function() {\n      $.observable(this).setProperty(\"edit\", !this.edit);\n    }\n  }\n});\n\nvar tmpl = $.templates(\"#peopleTmpl\");\nvar model = {\n    people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n  };\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#toggleBtn\", function() {\n    var textBoxes = $.view(this).childTags(\"textbox\"); // Find all the {{textbox}} tags in the view\n    for (var i=0; i<textBoxes.length; i++) {\n      textBoxes[i].toggleEdit();                       // Toggle the edit mode for each of them\n    }\n  });",
+        "height": "120",
+        "title": "view.childTags()"
+      },
+      {
+        "_type": "para",
+        "title": "The nodes() method",
+        "text": "***view.nodes()***: returns an array of top-level nodes within the view (including text nodes).\n\n```js\nvar nodesArray = view.nodes();\n```",
+        "anchor": "nodes"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\n.on(\"click\", \".orange, .yellow\", function() {\n  var view = $.view(this);           // \"item\" view\n\n  // Get top-level nodes in this view - two <tr> nodes:\n  var nodes = view.nodes();\n\n  // Set colors\n  nodes[0].style.color = this.className;\n  nodes[0].style.backgroundColor = \"darkblue\";\n  nodes[1].style.backgroundColor = this.className;\n});\n```"
+          }
+        ],
+        "html": "<style>.nameTd {width: 60px; padding: 0 6px;} table {width: 156px;} button {margin: 4px;}</style>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"addBtn\">Add</button>\n  <table><tbody>\n    {^{for people}}\n      <tr>\n        <td class=\"nameTd\">{^{:name}}</td>\n      </tr>\n      <tr>\n        <td>\n          <button class=\"orange\">orange</button>\n          <button class=\"yellow\">yellow</button>\n        </td>\n      </tr>\n    {{/for}}\n  </tbody></table>\n</script>",
+        "code": "var tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#addBtn\", function() {\n    var view = $.view(this);           // \"data\" view\n    var data = view.data;              // model\n    $.observable(data.people).insert({name: \"name\"});\n  })\n  .on(\"click\", \".orange, .yellow\", function() {\n    var view = $.view(this);           // \"item\" view\n\n    // Get top-level nodes in this view - two <tr> nodes:\n    var nodes = view.nodes();\n\n    // Set colors\n    nodes[0].style.color = this.className;\n    nodes[0].style.backgroundColor = \"darkblue\";\n    nodes[1].style.backgroundColor = this.className;\n  });",
+        "height": "230",
+        "title": "view.nodes()"
+      },
+      {
+        "_type": "para",
+        "title": "The ctxPrm() get/set method:",
+        "text": "***view.ctxPrm(name)***: returns the value of the named contextual parameter, within the context of that view.\n\n```js\nvar value = view.ctxPrm(\"color\"));\n// Get value of current contextual parameter \"color\"\n```\n\n***view.ctxPrm(name, newValue)***: observably modifies the value of the named contextual parameter, within the context of that view.\n\n```js\nview.ctxPrm(\"color\", \"green\"));\n// Set value of current contextual parameter \"color\" to \"green\"\n```",
+        "anchor": "ctxprm"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Template:\n\n```jsr\n<span data-link=\"css-color{:~color}\">TEXT</span>\n<input data-link=\"~color\" />\n({^{:~color}})\n```\n\nCode:\n\n```js\nset: function(newColor, ev, eventArgs) {\n  eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor \n},\nget: function(ev, eventArgs) {\n  alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n}\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~set \"green\"}}set ~color to green{{/on}}\n  {^{on ~set \"red\"}}set ~color to red{{/on}}\n  {^{on ~get}}get ~color{{/on}}\n  <span data-link=\"css-color{:~color} {:~color}\"></span>\n  <input data-link=\"~color\" />\n  ({^{:~color}})\n</script>\n",
+        "code": "var tmpl = $.templates(\"#tmpl\"),\n\n  model = {},\n\n  helpers = {\n    color: \"blue\",\n    set: function(newColor, ev, eventArgs) {\n      eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor\n    },\n    get: function(ev, eventArgs) {\n      alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n    }\n  };\n\ntmpl.link(\"#result\", model, helpers);",
+        "height": "50"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "`view.ctxPrm()` can be used to modify any contextual parameter or helper (`~foo`). In the above example, `~color` is initialized as [helper](#helpers) passed in the with the `link()` call.\n\nIn the case of a [contextual parameter]() defined by a path expression, such as `~color=clr`, using the setter `view.ctxPrm(\"color\", \"newValue\")` will update not only the contextual parameter but also the data value `clr` that it is bound to. (The path expression `~color=expr` constitutes a two-way binding).\n\nThis is illustrated by the following sample:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\nmodel = {clr: \"orange\", person: {name: \"Jo\"}};\n```\n\n```jsr\n...\n<input data-link=\"clr\" />\n\n...\n{{for person ~color=clr}}\n  ...\n  {^{on ~set \"red\"}}set ~color to red{{/on}}...\n  <input data-link=\"~color\" />...\n{{/for}}\n```"
+          }
+        ],
+        "html": "<style>div {margin: 10px 0;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label>clr:</label>\n  <div>\n    <span data-link=\"css-color{:clr} {:clr}\"></span>\n    <input data-link=\"clr\" />\n  </div>\n\n  {{for person ~color=clr}}\n    <label>~color:</label>\n    <div>\n      {^{on ~set \"green\"}}set ~color to green{{/on}}\n      {^{on ~set \"red\"}}set ~color to red{{/on}}\n      {^{on ~get}}get ~color{{/on}}\n      <span data-link=\"css-color{:~color} {:~color}\"></span>\n      <input data-link=\"~color\" />\n    </div>\n  {{/for}}\n</script>\n",
+        "code": "var tmpl = $.templates(\"#tmpl\"),\n\n  model = {clr: \"orange\", person: {name: \"Jo\"}},\n\n  helpers = {\n    set: function(newColor, ev, eventArgs) {\n      eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor\n    },\n    get: function(ev, eventArgs) {\n      alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n    }\n  };\n\ntmpl.link(\"#result\", model, helpers);"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "viewobject",
+            "label": "JsRender view object"
+          },
+          {
+            "_type": "topic",
+            "hash": "views",
+            "label": "View hierarchy"
+          }
+        ]
       }
     ]
   },
@@ -1075,12 +1487,24 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
   "jsvtagcontextobject": {
     "title": "Tag context object",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "- tagCtx.contentView\n- tagCtx.contents()\n- tagCtx.nodes()\n- tagCtx.childTags()\n- tagCtx.cvtArgs()\n- tagCtx.bndArgs()\n- tagCtx.setValues()\n- tagCtx.render()\n- tagCtx.args\n- tagCtx.props\n- tagCtx.params\n- tagCtx.tag\n- tagCtx.ctx\n- tagCtx.tmpl\n- tagCtx.view\n- tagCtx.contentView\n- tagCtx.index"
+      }
+    ]
   },
   "jsvlinkcontextobject": {
     "title": "Link context object",
     "path": "",
-    "sections": []
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
   },
   "linked-template-syntax": {
     "title": "Data-linked template syntax",
@@ -5490,5 +5914,27 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "title": "And computed observable, {{on}}, DataMap. lateRender...",
     "path": "",
     "sections": []
+  },
+  "eventArgs": {
+    "title": "eventArgs object",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "paragraph"
+      }
+    ]
+  },
+  "jsvglobals": {
+    "title": "globals",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "JsRender\n\n- render()\n- templates()\n- views\n\nJsViews\n\n- link()\n- observe()\n- observable()\n- unlink()\n- unobserved()\n- view()\n\n"
+      }
+    ]
   }
 };
