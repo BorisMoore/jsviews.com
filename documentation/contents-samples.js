@@ -437,7 +437,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "code",
             "title": "Derive from <b>{{for}}</b> tag",
-            "code": "$.views.tags({\n  range: {\n    // Inherit from {{for}} tag\n    baseTag: \"for\",\n\n    // Override the render method of {{for}}\n    render: function(val) {\n\n      ...\n\n      // Call the baseTag render method\n      return this.baseTag.render.apply(this, val ? [val] : arguments);\n    },\n\n    ...\n  }\n});\n"
+            "code": "$.views.tags({\n  range: {\n    // Inherit from {{for}} tag\n    baseTag: \"for\",\n\n    // Override the render method of {{for}}\n    render: function(val) {\n\n      ...\n\n      // Call the baseTag render method\n      return ... ? this.base(array) : this.base();\n    },\n\n    ...\n  }\n});\n"
           }
         ],
         "codetabs": [
@@ -771,7 +771,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "This is the first of <a href=\"#samples/editable\">four samples</a> exploring alternative patterns for creating two-way binding and providing UI for editing data."
+        "text": "This is the first of <a href=\"#samples/editable\">seven samples</a> exploring alternative patterns for creating two-way binding and providing UI for editing data."
       },
       {
         "_type": "sample",
@@ -960,7 +960,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     ]
   },
   "samples/editable/submit": {
-    "title": "Editable data: Using submit",
+    "title": "Editable data: Providing save/undo/submit functionality",
     "path": "",
     "sections": [
       {
@@ -988,6 +988,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "codetabs": [],
         "height": "320",
         "url": "samples/editable-data/submit/sample"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In the <a href=\"#samples/editable/hash\">next sample</a> the movies collection will be a hash/dictionary, rather than an array -- and we will use `{{props}}` to iterate over the collection. "
       }
     ]
   },
@@ -1003,13 +1008,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "links",
         "title": "",
-        "links": [
-          {
-            "_type": "link",
-            "hash": "hash",
-            "label": ""
-          }
-        ],
+        "links": [],
         "topics": [
           {
             "hash": "samples/editable/tags",
@@ -1026,6 +1025,18 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "hash": "samples/editable/observe",
             "label": "Using $.observe() to bind to data changes"
+          },
+          {
+            "hash": "samples/editable/compiled",
+            "label": "Using compiled View Models"
+          },
+          {
+            "hash": "samples/editable/submit",
+            "label": "Providing Save/Undo/Submit functionality"
+          },
+          {
+            "hash": "samples/editable/hash",
+            "label": "Loading data (movies collection) as hash/dictionary"
           }
         ]
       }
@@ -4069,7 +4080,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Getting from a tag instance to the widget APIs",
-        "text": "Alternatively, if you have an instance, `myTag`, of a jQuery UI widget tag control, you can access the widget API from `myTag.mainElem.widgetName(...)` or  from `myTag.widget(...)`:\n\n```js\n// Set the 'label' option\ncheckboxTag.mainElem.checkboxradio(\"option\", \"label\", ...);\n```\n\nor\n\n```js\n// Set the 'label' option\ncheckboxTag.widget.option(\"label\", ...);\n```"
+        "text": "Alternatively, if you have an instance, `mytag`, of a jQuery UI widget tag control, you can access the widget API from `mytag.mainElem.widgetName(...)` or  from `mytag.widget(...)`:\n\n```js\n// Set the 'label' option\ncheckboxTag.mainElem.checkboxradio(\"option\", \"label\", ...);\n```\n\nor\n\n```js\n// Set the 'label' option\ncheckboxTag.widget.option(\"label\", ...);\n```"
       },
       {
         "_type": "para",
@@ -5422,6 +5433,38 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "url": "samples/tag-controls/jqui/spinner/sample",
         "height": "210",
         "jsrJsvJqui": "jqui"
+      }
+    ]
+  },
+  "samples/editable/hash": {
+    "title": "Editable data: Movies collection as hash/dictionary, rather than array",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This sample returns to the [Data-linked tags sample](#samples/editable/tags), but uses a different data design, with the movies collection as a hash/dictionary, rather than an array.\n\nWe will use [`{{props}}`](#jsvpropstag) to iterate over the collection.\n\nIn this version of the sample, we will also replace all button jQuery-based event binding with the declarative [`{on}` data-link binding](#link-events@datalink-on) (both for top-level buttons, and within the template)."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*__Data: Movies collection as a hash/dictionary, rather than an array__*\n\n```js\nmovies = { // Hash/dictionary of movies\n  movJb: {\n    title:\"Meet Joe Black\",\n    ...\n  },\n  movEws: {\n    title:\"Eyes Wide Shut\",\n    ...\n  },\n```\n\n*Iterate:*\n\n```jsr\n<table>\n  ...\n  <tbody class=\"movies\">\n    {^{props}}\n      <tr...>\n        ...\n      </tr>\n    {{/props}}\n  </tbody>\n</table>\n```\n\n*Dynamic display of details based on key selection (rather than index selection):*\n\n```jsr\n<div class=\"detail\">\n  {^{for #data[~selectedKey]}}\n    ...\n  {{/for}}\n</div>\n```\n\n*Editing and selection actions for hash-based collection:*\n\n```js\nhelpers: {\n  ...\n  select: function select(key, ev, eventArgs) {\n    eventArgs.view.ctxPrm(\"selectedKey\", key);\n  },\n  addMovie: function(ev, eventArgs) {\n    var newKey = \"mov\" + counter;\n    $.observable(movies).setProperty(\n      newKey,\n      {\n        title: \"NewTitle\" + counter,\n        ...\n      }\n    );\n    eventArgs.view.ctxPrm(\"selectedKey\", newKey);\n  },\n  removeMovie: function(key, ev, eventArgs) {\n    eventArgs.view.ctxPrm(\"selectedKey\", null);\n    $.observable(movies).removeProperty(key);\n    return false;\n  },\n  ...\n```\n\n*__Button event binding using the [`{on}` data-link binding](#link-events@datalink-on):__*\n\n```jsr\n<table>\n  ...\n  <th ... data-link=\"{on ~addMovie}\">Add</th>\n  ...\n  <tbody class=\"movies\">\n    {^{props}}\n      <tr data-link=\"...{on ~select key}\">\n        ...\n        <td><span ... data-link=\"{on ~removeMovie key}\"></span></td>\n      </tr>\n    {{/props}}\n  </tbody>\n</table>\n\n<div class=\"detail\">\n  {^{for #data[~selectedKey]}}\n    ...\n  {{/for}}\n</div>\n```\n\n*Top-level button event binding* \n\n```jsr\n<div class=\"buttons\">\n  <button data-link=\"{on showData}\">show data</button>\n  <button data-link=\"{on deleteLast}\">delete last language</button>\n</div>\n```\n\n```js\n// Data-link top-level buttons\n$.link(true, \".buttons\", helpers);\n```\n\n"
+          }
+        ],
+        "codetabs": [],
+        "url": "samples/editable-data/hash-dictionary/sample",
+        "height": "320"
       }
     ]
   }

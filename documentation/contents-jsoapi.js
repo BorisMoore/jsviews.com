@@ -1011,7 +1011,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "JsViews and JsObservable raise a jQuery event: <em>\"arrayChange\"</em>, whenever an array changes observably.\n\nTo handle the <em>arrayChange</em> changes you have two alternatives:\n<ul class=\"textbefore\">\n<li>use jQuery <code>.on()</code> to attach an event handler to the array</li>\n<li>use <a href=\"#observe\"><code>$.observe()</code></a> to associate a handler with the array, or with a <em>path</em> including the array</li>\n</ul>"
+        "text": "JsViews and JsObservable raise a jQuery event: *\"arrayChange\"*, whenever an array changes observably.\n\nTo handle the *arrayChange* changes you have two alternatives:\n\n- use jQuery `.on()` to attach an event handler to the array\n- use [`$.observe()`](#observe) to associate a handler with the array, or with a *path* including the array\n"
       },
       {
         "_type": "para",
@@ -1076,7 +1076,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Samples for the <b>handling array change events</b>:",
-        "text": "Each of the following API topics includes samples showing the <em>arrayChange</em> event handler for the corresponding type of array change:\n\n<ul class=\"textbefore\">\n<li><a href=\"#insert\">$.observable(array).insert()</a></li>\n<li><a href=\"#remove\">$.observable(array).remove()</a></li>\n<li><a href=\"#move\">$.observable(array).move()</a></li>\n<li><a href=\"#refresh\">$.observable(array).refresh()</a></li>\n</ul>"
+        "text": "Each of the following API topics includes samples showing the *arrayChange* event handler for the corresponding type of array change:\n\n- [$.observable(array).insert()](#insert)\n- [$.observable(array).remove()](#remove)\n- [$.observable(array).move()](#move)\n- [$.observable(array).refresh()](#refresh)\n"
       }
     ]
   },
@@ -1087,7 +1087,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Whenever objects or arrays are changed observably, JsViews raises the corresponding <a href=\"#onpropchange\">propertyChange</a> or <a href=\"#onarrchange\">arrayChange</a> jQuery event.\n\nData-linked templates respond to those events automatically, but if you want to run code in response to data-change events you have two alternatives:\n<ul class=\"textbefore\">\n<li>use jQuery <code>.on()</code> to attach the <a href=\"#onpropchange\">propertyChange</a> or <a href=\"#onarrchange\">arrayChange</a> event handler to any object or array you want to 'listen to'</li>\n<li>use <code>$.observe()</code> to associate a handler with one or more objects, arrays, or <em>paths</em></li>\n</ul>"
+        "text": "Whenever objects or arrays are changed observably, JsViews raises the corresponding [propertyChange](#onpropchange) or [arrayChange](#onarrchange) jQuery event.\n\nData-linked templates respond to those events automatically, but if you want to run code in response to data-change events you have two alternatives:\n\n- use jQuery `.on()` to attach the [propertyChange](#onpropchange) or [arrayChange](#onarrchange) event handler to any object or array you want to 'listen to'\n- use `$.observe()` to associate a handler with one or more objects, arrays, or *paths*\n"
       },
       {
         "_type": "para",

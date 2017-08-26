@@ -56,7 +56,7 @@ VMs({
       },
       addMovie: function() {
         $.observable(this.movies()).insert(VMs.Movie(
-          "NewTitle" + counter ,
+          "NewTitle" + counter,
           [VMs.Language("NewLanguage" + counter++)]
         ));
         // Set selection on the added item

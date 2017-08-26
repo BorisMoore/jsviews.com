@@ -363,7 +363,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "categories": [
               {
                 "name": "viewmodelsapi",
-                "label": "$.views.viewModels"
+                "label": "$.views.viewModels()"
               }
             ],
             "expanded": false
@@ -391,6 +391,22 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "expanded": false
           },
           {
+            "name": "tags",
+            "label": "Custom tags",
+            "categories": [
+              {
+                "name": "tagsapi",
+                "label": "$.views.tags()"
+              }
+            ],
+            "expanded": false
+          },
+          {
+            "name": "tagsOld",
+            "label": "OldCustom tags",
+            "hidden": true
+          },
+          {
             "name": "converters",
             "label": "Converters",
             "categories": [
@@ -400,10 +416,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               }
             ],
             "expanded": false
-          },
-          {
-            "name": "tags",
-            "label": "Custom tags"
           }
         ],
         "expanded": true
@@ -452,23 +464,14 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "viewsobject",
                 "label": "$.views object",
-                "categories": [
-                  {
-                    "name": "settingsobject",
-                    "label": "$.views.settings object"
-                  },
-                  {
-                    "name": "subobject",
-                    "label": "$.views.sub object"
-                  }
-                ],
+                "categories": [],
                 "expanded": true,
-                "hidden": true
+                "hidden": false
               },
               {
                 "name": "templateobject",
                 "label": "template object",
-                "hidden": true
+                "hidden": false
               },
               {
                 "name": "viewobject",
@@ -674,7 +677,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "categories": [
               {
                 "name": "jsvviewmodelsapi",
-                "label": "$.views.viewModels"
+                "label": "$.views.viewModels()"
               }
             ],
             "expanded": false
@@ -686,6 +689,18 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "jsvtagcontrols",
             "label": "Custom tag controls"
+          },
+          {
+            "name": "jsvtagcontrolsNew",
+            "label": "Custom tag controls New",
+            "categories": [
+              {
+                "name": "colorpicker",
+                "label": "Sample: {{colorPicker}}"
+              }
+            ],
+            "expanded": true,
+            "hidden": true
           },
           {
             "name": "jsvhelpers-converters",
@@ -860,12 +875,12 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "name": "jsvviewsobject",
                 "label": "$.views object",
                 "expanded": true,
-                "hidden": true
+                "hidden": false
               },
               {
                 "name": "jsvtemplateobject",
                 "label": "template object",
-                "hidden": true
+                "hidden": false
               },
               {
                 "name": "jsvviewobject",
@@ -1173,6 +1188,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "samples/editable/submit",
                 "label": "Submit changes"
+              },
+              {
+                "name": "samples/editable/hash",
+                "label": "hash/dictionary"
               }
             ],
             "expanded": true

@@ -72,6 +72,14 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 				.on("click", ".addcodetab", function() {
 					page.addCodeTab($.view(this));
 				})
+				.on("click", ".defaultsample", function() {
+					var data = $.view(this).data,
+						isJsr = data.jsrJsvJqui === "jsr";
+					$.observable(data).setProperty({
+						html: '<script id="myTmpl" type="text/x-jsrender">\n  {{:name}}\n</script>\n\n<div id="page"></div>',
+						code: 'var myTmpl = $.templates("#myTmpl"),\n  data = { name: "Jo" }' + (isJsr ? ',\n  html = myTmpl.render(data);\n\n$("#page").html(html);' : ';\n\nmyTmpl.link("#page", data);')
+					});
+				})
 				.on("click", ".removesection", function() {
 					var view = $.view(this);
 					page.removeSection(view.get("array").data, view.getIndex());
@@ -421,7 +429,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					if ($(ev.target).is("cmdbtn,a,input,textarea,button,img,.removesection")) {
 						return;
 					}
-					self.toggleSelect();
+					self.toggleSelect(); 
 				});
 				self.contents(true, ".toggleselect:first").on("click", function() {
 					self.toggleSelect();
@@ -584,6 +592,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 			self.parent.tabs.onSelectionChange = function() {
 				self.onTabChange.apply(self, arguments);
 			};
+			var data = self.linkCtx.data;
 		},
 		onDispose: function() {
 			if (this.iframeWnd.$ && this.iframeWnd.$.observe) {

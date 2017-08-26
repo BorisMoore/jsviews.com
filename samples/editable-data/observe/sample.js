@@ -60,7 +60,7 @@ bgColor.depends = ["#index", app, "selectedIndex"];
 $.link(true, "#movieList", app)
   .on("click", ".addMovie", function() {
     $.observable(movies).insert({
-      title: "NewTitle" + counter ,
+      title: "NewTitle" + counter,
       languages: [
         {name: "NewLanguage" + counter++}
       ]}

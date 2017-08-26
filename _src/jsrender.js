@@ -1538,7 +1538,7 @@ function renderWithViews(tmpl, data, context, noIteration, view, key, onRender, 
 			result += newView._.onRender ? newView._.onRender(itemResult, childView) : itemResult;
 		}
 	} else {
-		// Create a view for singleton data object. The type of the view will be the tag name, e.g. "if" or "myTag" except for
+		// Create a view for singleton data object. The type of the view will be the tag name, e.g. "if" or "mytag" except for
 		// "item", "array" and "data" views. A "data" view is from programmatic render(object) against a 'singleton'.
 		if (itemVar) {
 			setItemVar(data);

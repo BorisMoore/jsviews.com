@@ -77,7 +77,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "JsRender tags (with data-linking)",
-        "text": "The following topics give examples and details for data-linking each of the [built-in JsRender template tags](#jsrtags):\n\n*Tags without content:*\n\n- [`{^{: ...}}`](#jsvassigntag) (Evaluate)\n- [`{^{> ...}}`](#jsvhtmltag) (HTML encode)\n\n*Block tags:*\n\n- [`{^{include ...}}`](#jsvincludetag) (Template composition -- partials)\n- [`{^{for ...}}`](#jsvfortag) (Template composition, with iteration over arrays)\n- [`{^{props ...}}`](#jsvpropstag) (Iteration over properties of an object)\n- [`{^{if ...}}`](#jsviftag) (Conditional inclusion)\n- [`{^{myTag ...}}`](#jsvtagcontrols) (Custom tag controls)\n\n*Block tags (JsViews only):*\n\n- [`{^{radiogroup ...}}`](#jsvradiogrouptag) (Radio button group)\n- [`{^{on ...}}`](#jsvontag) (Button, or event binding)\n\n*Alternative content blocks:*\n\n- [`{{else ...}}`](#jsvelsetag) (Content block separator)\n\n*Creating your own tags (custom tag controls):*\n\n- [Custom tags](#jsvtagcontrols)\n"
+        "text": "The following topics give examples and details for data-linking each of the [built-in JsRender template tags](#jsrtags):\n\n*Tags without content:*\n\n- [`{^{: ...}}`](#jsvassigntag) (Evaluate)\n- [`{^{> ...}}`](#jsvhtmltag) (HTML encode)\n\n*Block tags:*\n\n- [`{^{include ...}}`](#jsvincludetag) (Template composition -- partials)\n- [`{^{for ...}}`](#jsvfortag) (Template composition, with iteration over arrays)\n- [`{^{props ...}}`](#jsvpropstag) (Iteration over properties of an object)\n- [`{^{if ...}}`](#jsviftag) (Conditional inclusion)\n- [`{^{mytag ...}}`](#jsvtagcontrols) (Custom tag controls)\n\n*Block tags (JsViews only):*\n\n- [`{^{radiogroup ...}}`](#jsvradiogrouptag) (Radio button group)\n- [`{^{on ...}}`](#jsvontag) (Button, or event binding)\n\n*Alternative content blocks:*\n\n- [`{{else ...}}`](#jsvelsetag) (Content block separator)\n\n*Creating your own tags (custom tag controls):*\n\n- [Custom tags](#jsvtagcontrols)\n"
       },
       {
         "_type": "para",
@@ -336,6 +336,194 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "function toUpper(val) { return val.toUpperCase(); }\n\nvar myTmpl = $.templates(\"#personTmpl\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar myHelpers = {color: \"red\", format: toUpper};\n\nmyTmpl.link(\"#person\", person, myHelpers);",
         "title": "template.link(object, myHelpers):",
         "height": "60"
+      },
+      {
+        "_type": "para",
+        "title": "Passing an array to link(), but without iteration.",
+        "text": "When rendering and linking an array, an additional optional boolean parameter, `true`, can be passed to the `link()` method, in order to prevent iteration.\n"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "template.link(container, data, helpersOrContext, noIteration)",
+        "name": "link",
+        "object": "template",
+        "method": true,
+        "returns": "jQuery object for container",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "container",
+                "type": "HTML element or jQuery selector",
+                "optional": false,
+                "description": "The target element, under which to render and data-link the content"
+              },
+              {
+                "_type": "param",
+                "name": "data",
+                "type": "object or array",
+                "optional": true,
+                "description": "The data to render. This can be any JavaScript type, including Array or Object."
+              },
+              {
+                "_type": "param",
+                "name": "helpersOrContext",
+                "type": "object",
+                "optional": true,
+                "description": "Contextual helper methods or properties - available to template as <code>~keyName</code>"
+              },
+              {
+                "_type": "param",
+                "name": "noIteration",
+                "type": "boolean",
+                "optional": true,
+                "description": "Pass in parameter <code>true</code>, to prevent iteration on array data"
+              }
+            ],
+            "args": [],
+            "sections": [],
+            "example": "myTmpl.link(\"#container\", data, helpers, true);",
+            "description": "Render and link template against data (as content of container element) and pass in helpers. Determine iteration behavior for arrays"
+          }
+        ],
+        "description": "Render and link template against data, under a container element, along with helpers/context. Determine iteration behavior for arrays",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        },
+        "anchor": "noiteration"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "By passing in `true` as the fourth *'noIteration'* parameter, the template renders just once, with the array itself as current data, rather than rendering once for each item in the array.\n\nWithin the template, `{^{for}}` (or equivalently `{^{for #data}}`) can be used to iterate over the array, as in the following example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Code:\n\n```js\nmyTmpl.link(\"#peopleList\", people, null, true);\n```\n\nTemplate:\n\n```jsr\n<table>\n  <thead><tr><th colspan=\"2\">\n    {^{:#data.length}} people\n  </th></tr></thead>\n  <tbody>\n    {^{for}}\n      <tr>\n        <td>{^{:name}}</td><td><input data-link=\"name\" /></td>\n      </tr>\n    {{/for}}\n  </tbody>\n</table>\n```"
+          }
+        ],
+        "jsrJsvJqui": "",
+        "height": "190",
+        "html": "<button id=\"add\">Add person</button>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table>\n    <thead><tr><th colspan=\"2\">\n      {^{:#data.length}} people\n    </th></tr></thead>\n    <tbody>\n      {^{for}}\n        <tr>\n          <td>{^{:name}}</td><td><input data-link=\"name\" /></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table>\n</script>",
+        "code": "var myTmpl = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nmyTmpl.link(\"#peopleList\", people, null, true);\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(people).insert({\n    name: \"name\"\n  });\n});\n",
+        "title": "template.link(container, array, helpers, noIteration):"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "rendertmpl",
+            "label": "Render a template"
+          }
+        ]
+      }
+    ]
+  },
+  "d.render": {
+    "title": "Render a named template without needing the template object",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "$.render.myTmpl()",
+        "text": "If a template has been [registered](#d.templates) as a named template:\n\n```js\n$.templates(\"myTmpl\", \"#personTmpl\");\n```\n\nor\n\n```js\n$.templates(\"myTmpl\", \"some markup string\");\n```\n\n...then you can call the <a href=\"#tmplrender\">`render()`</a> method of the template without needing to hold on to the compiled template object returned from <a href=\"#d.templates\">`$.templates(...)`</a>.\n\nJust call `$.render.myTmpl(...)`, or `$.render[\"myTmpl\"](...)`\n\n(**Note:** there is also an alternative syntax for rendering a named template: `$.templates.myTmpl(...);`)\n"
+      },
+      {
+        "_type": "api",
+        "typeLabel": "API:",
+        "title": "$.render.myTmpl(data, helpersOrContext)",
+        "name": "myTmpl",
+        "object": "$.render",
+        "method": true,
+        "tag": false,
+        "returns": "string",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [
+              {
+                "_type": "param",
+                "name": "data",
+                "type": "object or array",
+                "optional": true,
+                "description": "The data to render. This can be any JavaScript type, including Array or Object."
+              },
+              {
+                "_type": "param",
+                "name": "helpersOrContext",
+                "type": "object",
+                "optional": true,
+                "description": "Contextual helper methods or properties - available to template as <code>~keyName</code>"
+              }
+            ],
+            "sections": [],
+            "example": "var html = $.render.myTmpl(myData, myHelpers);",
+            "description": "Render template against data, and pass in helpers"
+          }
+        ],
+        "description": "Render a named template against data, along with helper objects or context, and return a string",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Here is an example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "code",
+            "title": "",
+            "code": "$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar html = $.render.personTmpl(person);"
+          }
+        ],
+        "html": "<table><tbody id=\"person\"></tbody></table>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <tr>\n    <td style=\"color:{{:~color}};\">\n      {{:~format(name)}}\n    </td>\n  </tr>\n</script>",
+        "code": "function toUpper(val) { return val.toUpperCase(); }\n\n$.templates(\"personTmpl\", \"#personTemplate\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar myHelpers = {color: \"red\", format: toUpper};\n\nvar html = $.render.personTmpl(person, myHelpers);\n\n$(\"#person\").html(html);",
+        "title": "$.render.personTmpl(...):",
+        "height": "60",
+        "jsrJsvJqui": "jsr"
       },
       {
         "_type": "links",
@@ -694,7 +882,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, defined/registered in the usual way (see *[Registering custom tags](#tags)*).\n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self contained encapsulated components, with a life-cycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal...\n\n"
+        "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, defined/registered in the usual way (see *[Using custom tags](#tags)*).\n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self contained encapsulated components, with a life-cycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal..."
       }
     ]
   },
@@ -744,13 +932,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvviewsobject": {
-    "title": "$.views object",
+    "title": "The $.views object",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "- templates\n- tags\n- converters\n- helpers\n- viewModels\n- map\n- settings\n- sub\n- jsviews"
+        "text": "The `$.views` object provides access to APIs for creating templates, tags, helpers etc.<br/><br/>\n\n\n- `$.views.templates(...)` -- available also as `$.templates(...)`\n<br/>Used for defining templates -- see: [Registering templates](#d.templates)\n- `$.views.tags(...)`\n<br/>Used for defining custom tags -- see: [Registering custom tags](#tagsapi) and [JsViews: Custom Tags - Tag Controls](#jsvtagcontrols)\n- `$.views.converters(...)`\n<br/>Used for defining converters -- see: [Registering converters](#convertersapi) and [JsViews: Helpers and converters](#jsvhelpers-converters)\n- `$.views.helpers(...)`\n<br/>Used for defining helpers -- see: [Registering helpers](#helpersapi) and [JsViews: Helpers and converters](#jsvhelpers-converters)\n- `$.views.viewModels(...)`\n<br/>Used for defining View Models -- see: [Compiled View Models](#viewmodelsapi) and  [JsViews: Compiled View Models](#jsvviewmodelsapi)\n\nIt also provides access to:<br/><br/>\n- `$.views.settings`\n<br/>Used for modifying JsViews settings and options -- see: [Settings](#jsvsettings)\n- `$.views.map(...)`\n<br/>Used for defining custom maps (advanced) \n- `$.views.jsviews`\n<br/>Provides the version number of the currently loaded JsViews or JsRender library\n\n"
       }
     ]
   },
@@ -761,7 +949,22 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "- markup\n- render\n- templates\n- tags\n- helpers\n- converters\n- tmplName\n\n- fn, htmlTag, links, tmpls, useViews, bnds\n\nWith JsViews:\n\n- link"
+        "text": "The [`$.templates()`](#d.templates) API can be used to obtain a compiled template object:\n\n```js\nvar myTmpl = $.templates(\"#personTmpl\");\n```\n\nThe compiled template object (`myTmpl`, in the example) provides a number of properties and methods, in particular:\n"
+      },
+      {
+        "_type": "para",
+        "title": "The render() method",
+        "text": "```js\nvar html = myTmpl.render(person);\n```\n\nSee [Render a template against data objects or arrays](#tmplrender)"
+      },
+      {
+        "_type": "para",
+        "title": "The link() method",
+        "text": "```js\nmyTmpl.link(\"#peopleList\", people);\n```\n\nSee [Render and data-link a template against data objects or arrays](#jsvtmpllink)"
+      },
+      {
+        "_type": "para",
+        "title": "The markup property",
+        "text": "The declarative markup string for the template (available whether the template was registered by providing a markup string, or by a script block reference).\n\n```js\nvar test = myTmpl.markup; // \"...{^{:name}} ... <input data-link='name'/>...\"\n```"
       }
     ]
   },
@@ -919,7 +1122,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The childTags() method",
-        "text": "***view.childTags(...)***: returns an array of custom tag instances within the view -- optionally filtered by tag name.\n\n```js\nvar myTagsArray = view.childTags(true, \"myTag\"); // {{myTag}} instances within view (at any depth)\n```\n",
+        "text": "***view.childTags(...)***: returns an array of custom tag instances within the view -- optionally filtered by tag name.\n\n```js\nvar mytagsArray = view.childTags(true, \"mytag\"); // {{mytag}} instances within view (at any depth)\n```\n",
         "anchor": "childtags"
       },
       {
@@ -1129,7 +1332,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender\n\nDeclare\n\n- tag.template\n- tag.flow\n- tag.baseTag\n- tag.contentCtx\n- tag.argDefault\n- tag.bindTo\n\nEvent handlers\n\n- tag.init()\n- tag.render()\n- tag.convert()\n\nProps/Methods\n\n- tag.ctxPrm()\n- tag.cvt()\n- tag.cvtArgs()\n- tag.bndArgs() \n- tag.ctx\n- tag.parent\n- tag.parents\n- tag.tagCtx\n- tag.tagCtxs\n- tag.tagName\n- tag.base\n- rendering\n\nJsViews\n\nDeclare\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr\n- tag.dataBoundOnly\n- dateMap\n- lateRender (feature)\n\nEvent handlers\n\n- tag.convertBack()\n- tag.domChange()\n- tag.depends()\n- tag.onBeforeBind()\n- tag.onBind()\n- tag.onAfterLink()\n- tag.onUpdate()\n- tag.onDispose()\n- tag.onArrayChange()\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\nEvents\n\n\nAlso onBeforeChange onAfterChange onAfterCreate\n"
+        "text": "JsRender\n\nDeclare\n\n- tag.template\n- tag.flow\n- tag.baseTag\n- tag.contentCtx\n- tag.argDefault\n- tag.bindTo\n\nEvent handlers\n\n- tag.init()\n- tag.render()\n- tag.convert()\n\nProps/Methods\n\n- tag.ctxPrm()\n- tag.cvt()\n- tag.cvtArgs()\n- tag.bndArgs() \n- tag.ctx\n- tag.parent\n- tag.parents\n- tag.tagCtx\n- tag.tagCtxs\n- tag.tagName\n- tag.base\n- tag.baseApply\n- rendering\n\nJsViews\n\nDeclare\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- dateMap\n- lateRender (feature)\n\nEvent handlers\n\n- tag.convertBack()\n- tag.domChange()\n- tag.depends()\n- tag.onBeforeBind()\n- tag.onBind()\n- tag.BeforeLink()\n- tag.onAfterLink()\n- tag.onUpdate()\n- tag.onBeforeUpdateVal()\n- tag.onDispose()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem"
       },
       {
         "_type": "para",
@@ -1276,7 +1479,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The childTags() method",
-        "text": "***view.childTags(...)***: returns an array of custom tag instances within the view -- optionally filtered by tag name.\n\n```js\nvar myTagsArray = view.childTags(true, \"myTag\"); // {{myTag}} instances within view (at any depth)\n```\n",
+        "text": "***view.childTags(...)***: returns an array of custom tag instances within the view -- optionally filtered by tag name.\n\n```js\nvar mytagsArray = view.childTags(true, \"mytag\"); // {{mytag}} instances within view (at any depth)\n```\n",
         "anchor": "childtags"
       },
       {
@@ -1685,7 +1888,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Full syntax &ndash; multiple targets, multiple tags, multiple bindings...",
-        "text": "The full syntax allows you to bind multiple expressions each to a different target, and is written like this: `data-link=\"target1{linkExpression1} target2{linkExpression2} ...\"`.\n\nPossible targets include the following:\n- an HTML attribute (such as <code>title{...}</code>, <code>class{...}</code>, <code>id{...}</code>, <code>disabled{...}</code> or <code>data-foo{...}</code>)\n- a CSS property (such as <code>css-background-color{...}</code>)\n- innerHTML (as in <code>html{...}</code>)\n- innerText (as in <code>text{...}</code>)\n- special targets like <code>visible{...}</code>\n- or can be missing altogether (as in <code>{...}</code>) in which case it stands for the default target for the element.\n\nThe default target for most elements is `innerText`, but for `input` and `select` elements it is `value`.\n\nThe linkExpression `{...}` is actually a *template tag*, such as `{^{:a.b.c}}` or `{^{myCustomTag .../}}`. *The difference from regular JsRender tag syntax is that with data-link expressions, **you only put a single curly brace to delimit, and you don't put the self-closing `/`**, which is assumed*.\n\nIn fact as long as the tag is self-closing, you can use any JsRender tag you want -- including custom tags.\n\nFor example, if you have a JsRender tag as content of an element: \n\n```jsr\n<div>{{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- then you can make it into a data-linked tag, using:\n\n```jsr\n<div>{^{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- or into a data-linked element, using:\n\n```jsr\n<div data-link=\"{for some.path tmpl='myForTmpl'}\" ></div>\n```\n\nSo examples would be: \n\n- `<div data-link=\"{:name}\"></div>` (one-way binding to `innerText` -- default target attrib -- so automatically HTML encodes).\n- `<div data-link=\"html{:name}\"></div>` (one-way binding to `innerHTML`)\n- `<div data-link=\"text{:name}\"></div>` (one-way binding to `innerText` -- equivalent to default above)\n- `<div data-link=\"html{>name}\"></div>` (one-way binding to `innerHTML` but with HTML encoding)\n- `<input data-link=\"{:name}\" >` (one-way binding to `value` -- default target attrib)\n- `<input data-link=\"value{:name}\" />` (one-way binding to `value`)\n- `<input data-link=\"title{:name}\" />` (one-way binding to the `title` attribute)\n- `<input data-link=\"{:name trigger=false:}\" />` (two-way binding to `value`, trigger only on blur) <br/>-- equivalent to abbreviated syntax: `<input data-link=\"name trigger=false\" />`\n- `<input data-link=\"{cvt:name:cvtBack}\" />` (two-way binding to `value`, with converters)\n- `<input data-link=\"{cvt:name trigger=false:cvtBack}\" />` (two-way binding to `value`, with converters, and trigger only on blur)\n- `<input data-link=\"{cvt:name:cvtBack} title{:info.description}\" />` (two-way binding to `value`, with converters and one-way binding to `title`)\n- `<img data-link=\"src{:'/myImagesFolder/' + fileName + '.png'}\" />` (one-way binding to `src` -- using an expression to build full path)\n- `<div data-link=\"{myCustomTag name}\"></div>` (data-linking -- and instantiating -- a JsViews custom tag control. Renders as `innerHTML` -- default target attrib for tags other than {: ...} -- so the control can insert HTML markup)\n- `<div data-link=\"text{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control -- rendering as `innerText` -- so automatically HTML encodes)\n- `<svg><ellipse data-link=\"cx{:x} fill{:color}\"></ellipse>` (data-linking to attributes of an SVG element)\n\nSee: [Targets for data-linking](#link-targets) for additional details and samples.",
+        "text": "The full syntax allows you to bind multiple expressions each to a different target, and is written like this: `data-link=\"target1{linkExpression1} target2{linkExpression2} ...\"`.\n\nPossible targets include the following:\n- an HTML attribute (such as <code>title{...}</code>, <code>class{...}</code>, <code>id{...}</code>, <code>disabled{...}</code> or <code>data-foo{...}</code>)\n- a CSS property (such as <code>css-background-color{...}</code>)\n- innerHTML (as in <code>html{...}</code>)\n- innerText (as in <code>text{...}</code>)\n- special targets like <code>visible{...}</code>\n- or can be missing altogether (as in <code>{...}</code>) in which case it stands for the default target for the element.\n\nThe default target for most elements is `innerText`, but for `input` and `select` elements it is `value`.\n\nThe linkExpression `{...}` is actually a *template tag*, such as `{^{:a.b.c}}` or `{^{myCustomTag .../}}`. *The difference from regular JsRender tag syntax is that with data-link expressions, **you only put a single curly brace to delimit, and you don't put the self-closing `/`**, which is assumed*.\n\nIn fact as long as the tag is self-closing, you can use any JsRender tag you want -- including custom tags.\n\nFor example, if you have a JsRender tag as content of an element: \n\n```jsr\n<div>{{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- then you can make it into a data-linked tag, using:\n\n```jsr\n<div>{^{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- or into a data-linked element, using:\n\n```jsr\n<div data-link=\"{for some.path tmpl='myForTmpl'}\" ></div>\n```\n\nSo examples would be: \n\n- `<div data-link=\"{:name}\"></div>` (one-way binding to `innerText` -- default target attrib -- so automatically HTML encodes)<br/>-- equivalent to abbreviated syntax: `<input data-link=\"name\" />`\n- `<div data-link=\"html{:name}\"></div>` (one-way binding to `innerHTML`)\n- `<div data-link=\"text{:name}\"></div>` (one-way binding to `innerText` -- equivalent to default above)\n- `<div data-link=\"html{>name}\"></div>` (one-way binding to `innerHTML` but with HTML encoding)\n- `<input data-link=\"{:name}\" >` (one-way binding to `value` -- default target attrib)\n- `<input data-link=\"value{:name}\" />` (one-way binding to `value`)\n- `<input data-link=\"title{upr:name}\" />` (one-way binding to the `title` attribute, using a registered converter: `upr`)\n- `<input data-link=\"{:name trigger=false:}\" />` (two-way binding to `value`, trigger only on blur) <br/>-- equivalent to abbreviated syntax: `<input data-link=\"name trigger=false\" />`\n- `<input data-link=\"{cvt:name:cvtBack}\" />` (two-way binding to `value`, with converters)\n- `<input data-link=\"{cvt:name trigger=false:cvtBack}\" />` (two-way binding to `value`, with converters, and trigger only on blur)\n- `<input data-link=\"{cvt:name:cvtBack} title{:info.description}\" />` (two-way binding to `value`, with converters and one-way binding to `title`)\n- `<img data-link=\"src{:'/myImagesFolder/' + fileName + '.png'}\" />` (one-way binding to `src` -- using an expression to build full path)\n- `<div data-link=\"{myCustomTag name}\"></div>` (data-linking -- and instantiating -- a JsViews custom tag control. Renders as `innerHTML` -- default target attrib for tags other than {: ...} -- so the control can insert HTML markup)\n- `<div data-link=\"text{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control -- rendering as `innerText` -- so automatically HTML encodes)\n- `<svg><ellipse data-link=\"cx{:x} fill{:color}\"></ellipse>` (data-linking to attributes of an SVG element)\n\nSee: [Targets for data-linking](#link-targets) for additional details and samples.",
         "anchor": "fullsyntax"
       },
       {
@@ -3170,7 +3373,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The most common data-link expression for a data-linked element is a data path, such as:\n\n```jsr\n<div data-link=\"address.street\"></div>...\n```\n\n-- which is actually abbreviated syntax, and is equivalent to the full syntax:\n\n```jsr\n<div data-link=\"{:address.street}\"></div>...\n```\n\nIn fact this example is using the default target of `innerText`, and is equivalent to the even more explicit syntax:\n\n```jsr\n<div data-link=\"text{:address.street}\"></div>...\n```\n\nFor explanation and examples of the full syntax see the *[Data-linked elements (full syntax)](#linked-elem-syntax@fullsyntax)* topic.\n\nOur example, `data-link=\"{:address.street}\"` corresponds to the JsViews tag `{^{:address.street}}`.\n\nSimilarly we can data-link to ***any*** tag, such as:\n\n```jsr\n{^{:...}}, {^{>...}}, {^{for...}}, {^{if}}, {^{on}}, {^{slider}}, {^{myTag}} etc.\n```\n\nFor example to use `{^{myTag .../}}` as an element binding, you simply remove the initial `{^` and the last `}`, and optionally specify a target, such as `title` (or use the default `innerText` target):\n\n```jsr\ndata-link=\"title{myTag ...}\"\n```\n\nA data-linked element can use multiple bindings, each of which has a target and a link expression, and where the link expression corresponds to a data-linked JsViews/JsRender tag:\n\n```jsr\ndata-link=\"target1{linkExpression1} target2{linkExpression2}\" ...\n```\n\nExamples of tags are:\n\n```jsr\n{^{:age}}\n{^{>name}}\n{^{slider age/}}\n{^{if age < 15}}Child{{else age > 65}}Senior{{else}}Adult{{/if}}\n{^{for phones}}...{{/for}}\n{^{on increaseAge}}Increase Age{{/on}}\n{^{myTag person.name/}} \n```\n\nThe following examples show the same tags used as link expressions for data-linking elements (using in each case the default element data-linking target `innerText`):\n\n```jsr\n<div data-link=\"age\"></div>\n<div data-link=\"name\"></div>\n<div data-link=\"{slider age}\"></div>\n<span data-link=\"{if age < 15 tmpl='Child'}{else age > 65 tmpl='Senior'}{else tmpl='Adult'}\"></span>\n<div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n<button data-link=\"{on increaseAge}\">Increase Age</button>\n<div data-link=\"{myTag person.name}\"></div>\n```\n\nAnd the following example shows two bindings, one using the default target, and binding to a `{^{slider}}` tag and the other targeting the CSS `background` property of the `div`, and binding to an `{^{if ...}}}{{else ...}}{{else}}` tag:\n \n```jsr\n<div data-link=\"{slider age}\n css-background{if ... tmpl='green'}{else ... tmpl='red'}{else tmpl='blue'}\"></div>\n```\n"
+        "text": "The most common data-link expression for a data-linked element is a data path, such as:\n\n```jsr\n<div data-link=\"address.street\"></div>...\n```\n\n-- which is actually abbreviated syntax, and is equivalent to the full syntax:\n\n```jsr\n<div data-link=\"{:address.street}\"></div>...\n```\n\nIn fact this example is using the default target of `innerText`, and is equivalent to the even more explicit syntax:\n\n```jsr\n<div data-link=\"text{:address.street}\"></div>...\n```\n\nFor explanation and examples of the full syntax see the *[Data-linked elements (full syntax)](#linked-elem-syntax@fullsyntax)* topic.\n\nOur example, `data-link=\"{:address.street}\"` corresponds to the JsViews tag `{^{:address.street}}`.\n\nSimilarly we can data-link to ***any*** tag, such as:\n\n```jsr\n{^{:...}}, {^{>...}}, {^{for...}}, {^{if}}, {^{on}}, {^{slider}}, {^{mytag}} etc.\n```\n\nFor example to use `{^{mytag .../}}` as an element binding, you simply remove the initial `{^` and the last `}`, and optionally specify a target, such as `title` (or use the default `innerText` target):\n\n```jsr\ndata-link=\"title{mytag ...}\"\n```\n\nA data-linked element can use multiple bindings, each of which has a target and a link expression, and where the link expression corresponds to a data-linked JsViews/JsRender tag:\n\n```jsr\ndata-link=\"target1{linkExpression1} target2{linkExpression2}\" ...\n```\n\nExamples of tags are:\n\n```jsr\n{^{:age}}\n{^{>name}}\n{^{slider age/}}\n{^{if age < 15}}Child{{else age > 65}}Senior{{else}}Adult{{/if}}\n{^{for phones}}...{{/for}}\n{^{on increaseAge}}Increase Age{{/on}}\n{^{mytag person.name/}} \n```\n\nThe following examples show the same tags used as link expressions for data-linking elements (using in each case the default element data-linking target `innerText`):\n\n```jsr\n<div data-link=\"age\"></div>\n<div data-link=\"name\"></div>\n<div data-link=\"{slider age}\"></div>\n<span data-link=\"{if age < 15 tmpl='Child'}{else age > 65 tmpl='Senior'}{else tmpl='Adult'}\"></span>\n<div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n<button data-link=\"{on increaseAge}\">Increase Age</button>\n<div data-link=\"{mytag person.name}\"></div>\n```\n\nAnd the following example shows two bindings, one using the default target, and binding to a `{^{slider}}` tag and the other targeting the CSS `background` property of the `div`, and binding to an `{^{if ...}}}{{else ...}}{{else}}` tag:\n \n```jsr\n<div data-link=\"{slider age}\n css-background{if ... tmpl='green'}{else ... tmpl='red'}{else tmpl='blue'}\"></div>\n```\n"
       },
       {
         "_type": "sample",
@@ -3506,12 +3709,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "JsViews provides alternative ways of attaching handlers for events such as the *click* event:<br/><br/>\n\n- Using jQuery event binding to attach a handler function to elements (either at top level or rendered by templates):\n  ```js\n  $(selector).on(\"click\", handlerFn);\n  ```\n- Using the `{on}` data-link binding (either on top-level data-linked elements or on elements rendered by \ntemplates):\n  ```jsr\n  <button data-link=\"{on handlerFn}\">...</button>\n  ```\n- Using the `{^{on}}` tag, within templates:\n  ```jsr\n  {^{on handlerFn/}}\n  ```\n\nHere are working examples of each approach:"
+        "text": "JsViews provides alternative ways of attaching handlers for events such as the *click* event:<br/><br/>\n\n- Using [jQuery event binding](#link-events@jquery) to attach a handler function to elements (either at top level or rendered by templates):\n  ```js\n  $(selector).on(\"click\", handlerFn);\n  ```\n- Using the [`{on}` data-link binding](#link-events@datalink-on) (either on top-level data-linked elements or on elements rendered by \ntemplates):\n  ```jsr\n  <button data-link=\"{on handlerFn}\">...</button>\n  ```\n- Using the [`{^{on}}` tag](#link-events@tag-on), within templates:\n  ```jsr\n  {^{on handlerFn/}}\n  ```\n\nHere are working examples of each approach:"
       },
       {
         "_type": "para",
         "title": "Using jQuery event binding",
-        "text": "```js\n$(selector).on(\"click\", handler);\n```\n\njQuery event binding can be used to attach a handler to elements either at top level or rendered by templates.\n\nHere is an example showing both a top-level button element and an element within a template:"
+        "text": "```js\n$(selector).on(\"click\", handler);\n```\n\njQuery event binding can be used to attach a handler to elements either at top level or rendered by templates.\n\nHere is an example showing both a top-level button element and an element within a template:",
+        "anchor": "jquery"
       },
       {
         "_type": "sample",
@@ -3539,7 +3743,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Using the {on} data-link binding",
-        "text": "```jsr\n<button data-link=\"{on ~doSomething}\">...</button>\n```\n\nThe `{on}` data-link binding provides a declarative approach to attaching handlers to elements. The `handlerFn` argument is passed along with other optional arguments and properties (details below): `{on ... handlerFn ...}`. (The first argument of type 'function' will be treated as `handler` argument).\n\nIt can be used either on top-level elements (provided they are data-linked -- see *[top-level data linking](#toplink)*), or on elements rendered by templates. Here is an example of each:\n"
+        "text": "```jsr\n<button data-link=\"{on ~doSomething}\">...</button>\n```\n\nThe `{on}` data-link binding provides a declarative approach to attaching handlers to elements. The `handlerFn` argument is passed along with other optional arguments and properties (details below): `{on ... handlerFn ...}`. (The first argument of type 'function' will be treated as `handler` argument).\n\nIt can be used either on top-level elements (provided they are data-linked -- see *[top-level data linking](#toplink)*), or on elements rendered by templates. Here is an example of each:\n",
+        "anchor": "datalink-on"
       },
       {
         "_type": "sample",
@@ -3565,8 +3770,14 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "para",
+        "title": "",
+        "text": "See the [Editable data: hash/dictionary](#samples/editable/hash) sample for an example of use of the `{on}` data-link binding, both in a template and at top-level"
+      },
+      {
+        "_type": "para",
         "title": "Using the {^{on}} tag, within templates",
-        "text": "Within templates, the *tag* form `{^{on ...}}` of the JsViews 'on' event binding can be convenient, as an alternative to `data-link={on ...}`:"
+        "text": "Within templates, the *tag* form `{^{on ...}}` of the JsViews 'on' event binding can be convenient, as an alternative to `data-link={on ...}`:",
+        "anchor": "tag-on"
       },
       {
         "_type": "sample",
@@ -4381,7 +4592,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Helpers and converters used in *JsViews* apps are the same as regular *JsRender* helpers or converters -- defined/registered in the usual way (see *[Using helpers](#helpers)* and *[Using converters](#converters)*). \n\nThey can be used in template expressions, including data-linked expressions (see: *[Data-linked template syntax](#linked-template-syntax)*) such as:\n\n- `{^{: ~myFormatter(name)}}`\n- `{^{myCvt:name}}`\n- `<div data-link=\"~myFormatter(name)\" ...>`)\n\nIn addition to global helpers (registered using [`$.views.helpers(myHelpers);`](#helpersapi)), JsViews lets you pass helpers in on a specific link call, as in:\n- `tmpl.link(\"#container\", data, myHelpers);` (*[Linked template](#jsvtmpllink@apihelpers)*)\n- `$.link(true, \"#target\", data, myHelpers);` (*[Top-level declarative linking](#jsv.toplink-true)*)\n- `$.link(expression, \"#target\", data, myHelpers);` (*[Top-level programmatic linking](#jsv.toplink-expr)*)\n"
+        "text": "Helpers and converters used in *JsViews* apps are the same as regular *JsRender* helpers or converters -- defined/registered in the usual way (see *[Using helpers](#helpers)* and *[Using converters](#converters)*). \n\nThey can be used in template expressions, including data-linked expressions (see: *[Data-linked template syntax](#linked-template-syntax)*) such as:\n\n- `{^{: ~myFormatter(name)}}`\n- `{^{myCvt:name}}`\n- `<div data-link=\"~myFormatter(name)\" ...>`)\n- `<input data-link=\"{intToStr:amount:strToInt}\"/>`\n\nThe last of these examples illustrates the use of two-way data-binding in JsViews using converters (see *[Converters: convert and convert back](#link2way@converters)*).\n\nIn addition to global helpers (registered using [`$.views.helpers(myHelpers);`](#helpersapi)), JsViews lets you pass helpers in on a specific link call, as in:\n- `tmpl.link(\"#container\", data, myHelpers);` (*[Linked template](#jsvtmpllink@apihelpers)*)\n- `$.link(true, \"#target\", data, myHelpers);` (*[Top-level declarative linking](#jsv.toplink-true)*)\n- `$.link(expression, \"#target\", data, myHelpers);` (*[Top-level programmatic linking](#jsv.toplink-expr)*)\n"
       }
     ]
   },
@@ -4527,10 +4738,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<button data-link=\"\n  disabled{:disableButton}\n  title{:theTitle}\n  data-myvalue{:myVal}\n  class{:disableButton ? 'class2' : 'class1'}\n\">\n```\n"
+            "text": "```jsr\n<button data-link=\"\n  disabled{:disableButton}\n  title{:'Message: &quot;' + theTitle + '&quot;'}\n  data-myvalue{:myVal}\n  class{:disableButton ? 'class2' : 'class1'}\n\">\n```\n"
           }
         ],
-        "html": "<style>\n.class1 {color:green;}\n.class2 {color:red;}\n</style>\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"\n    disabled{:disableButton}\n    title{:theTitle}\n    data-myvalue{:myVal}\n    class{:disableButton ? 'class2' : 'class1'}\n  \">\n    I am {^{:disableButton?'disabled':'enabled'}}\n  </button><br/><br/>\n\n  <label><input data-link=\"disableButton\" type=\"checkbox\" /> Disable</label><br/>\n  <label>Set button title: <input data-link=\"theTitle\" /></label> (To see it, hover over the button...)<br/>\n  <label>data-myvalue property: <input data-link=\"myVal\" /></label> (To see it, click on the button...)\n</script>\n\n",
+        "html": "<style>\n.class1 {color:green;}\n.class2 {color:red;}\n</style>\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"\n    disabled{:disableButton}\n    title{:'Message: &quot;' + theTitle + '&quot;'}\n    data-myvalue{:myVal}\n    class{:disableButton ? 'class2' : 'class1'}\n  \">\n    I am {^{:disableButton?'disabled':'enabled'}}\n  </button><br/><br/>\n\n  <label><input data-link=\"disableButton\" type=\"checkbox\" /> Disable</label><br/>\n  <label>Set button title: <input data-link=\"theTitle\" /></label> (To see it, hover over the button...)<br/>\n  <label>data-myvalue property: <input data-link=\"myVal\" /></label> (To see it, click on the button...)\n</script>\n\n",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  theTitle: \"the title\",\n  disableButton: false,\n  myVal: \"My value\"\n}\n\ntmpl.link(\"#result\", data);\n\n$(\"button\").on('click', function() {\n  alert(\n    $(this).data(\"myvalue\") // Can use 'this.dataset.myvalue' for HTML 5 browsers\n  );\n})\n",
         "height": "140"
       },
@@ -5362,6 +5573,33 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "para",
+        "title": "Loading and editing a dictionary/hash collection",
+        "text": "The following sample is a copy of the last of the [Editable data](#samples/editable) set of samples, and illustrates providing completed editability of a data collection using a dictionary/hash :",
+        "anchor": "load-hash"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Hash/dictionary of movies:*\n\n```js\nmovies = {\n  movJb: {\n    title:\"Meet Joe Black\",\n    ...\n  },\n  movEws: {\n    title:\"Eyes Wide Shut\",\n    ...\n  },\n```\n\n*Iterate:*\n\n```jsr\n<table>\n  ...\n  <tbody class=\"movies\">\n    {^{props}}\n      <tr...>\n        ...\n      </tr>\n    {{/props}}\n  </tbody>\n</table>\n```\n\n*Dynamic display of details based on key selection (rather than index selection):*\n\n```jsr\n<div class=\"detail\">\n  {^{for #data[~selectedKey]}}\n    ...\n  {{/for}}\n</div>\n```\n\n*Editing and selection actions for hash-based collection:*\n\n```js\nhelpers: {\n  ...\n  select: function select(key, ev, eventArgs) {\n    eventArgs.view.ctxPrm(\"selectedKey\", key);\n  },\n  addMovie: function(ev, eventArgs) {\n    var newKey = \"mov\" + counter;\n    $.observable(movies).setProperty(\n      newKey,\n      {\n        title: \"NewTitle\" + counter,\n        ...\n      }\n    );\n    eventArgs.view.ctxPrm(\"selectedKey\", newKey);\n  },\n  removeMovie: function(key, ev, eventArgs) {\n    eventArgs.view.ctxPrm(\"selectedKey\", null);\n    $.observable(movies).removeProperty(key);\n    return false;\n  },\n  ...\n```\n"
+          }
+        ],
+        "codetabs": [],
+        "url": "samples/editable-data/hash-dictionary/sample",
+        "height": "320"
+      },
+      {
+        "_type": "para",
         "title": "More advanced use of {{props}} &ndash; {{jsonview/}}",
         "text": "An example of more advanced use of `{{props}}` is the sample custom tag control `{{jsonview}}`, available from [downloads/tag-controls](#download/tag-controls). That tag control uses `{^{props}}`, and recursively calls itself:\n\n```jsr\n{^{props}}\n  <li>\n    ...\n    {^{jsonview prop/}}...\n  </li>\n{{/props}}\n```\n\nThe `{{jsonview}}` tag control can be included in any JsViews page, to show the contextual data at that place in the page, or to show given data returned by an expression `{^{jsonview someExpression /}}`. Changes to the data will then update dynamically.\n\nIn the next sample we update the previous one, to include:\n\n- a data-linked `{^{jsonview/}}` control to show current data\n- allow the user to modify the key values in the members object, using `<input data-link=\"key\" />`\n- `{^{props}}...{{else}}...{{/props}}` to show a message if the members object is 'empty'\n\nThis sample is also available at [samples/tag-controls/jsonview](#samples/tag-controls/jsonview).",
         "anchor": "jsonview"
@@ -5934,6 +6172,37 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "",
         "text": "JsRender\n\n- render()\n- templates()\n- views\n\nJsViews\n\n- link()\n- observe()\n- observable()\n- unlink()\n- unobserved()\n- view()\n\n"
+      }
+    ]
+  },
+  "jsvtagcontrolsNew": {
+    "title": "Custom tag controls New",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, defined/registered in the usual way (see *[Using custom tags](#tags)*).\n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self contained encapsulated components, with a life-cycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal...\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Specifying tag options for a custom tag",
+        "text": "A custom tag can be used simply for rendering, without data-binding, as in\n\n```jsr\n{{mytag ...}}\n```\n\nor it can be used (with JsViews) as a data-linked tag (so it becomes a dynamic data-bound *tag control*), as in:\n\n```jsr\n{^{mytag ...}}\n```\n\nThe following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function."
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "### _Tag options available in both JsRender and JsViews:_\n\nThe following tag options are documented in the JsRender [*Registering custom tags*](#tagsapi) topic -- and concern primarily the *rendering* behavior of the custom tag, rather than its dynamic interactive data-bound behavior when using data-linking:\n\n- The [init()](#tagsapi@init) method: `init: tagInitFn`\n- The [render()](#tagsapi@render) method: `render: tagRenderFn`\n- The [template](#tagsapi@template) property: `template: tagTemplate`\n- The [baseTag](#tagsapi@basetag) property, specifying tag inheritance: `baseTag: ...`\n\nThe following more advanced options are also available with or without data-linking, (and are documented in the JsRender *Registering custom tags* topic):\n\n- [`contentCtx: ...`](#tagsapi@contentctx)\n- [`convert: ...`](#tagsapi@convert)\n- [`argDefault: ...`](#tagsapi@argdefault)\n- [`bindTo: ...`](#tagsapi@bindto)\n- [`flow: ...`](#tagsapi@flow)\n\n### _Tag options available only to JsViews custom tag controls:_\n"
+      },
+      {
+        "_type": "para",
+        "title": "Life-cycle event handlers:",
+        "text": "The tag options can include event handlers for the following life-cycle events:\n\n- `init()` \n- `render()` \n- `onBeforeBind()` \n- `onBind()` \n- `onBeforeLink()` \n- `onAfterLink()` \n- `onUpdate()` \n- `onDispose()` \n\nSpecifying data-binding behavior (one-way and two-way)\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- tag.depends()\n- tag.convertBack()\n- tag.onBeforeUpdateVal()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n- tag.domChange()\n\n\nAdvanced\n\n- lateRender (feature)\n- dataMap\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Tag options available only to JsViews custom tag controls ",
+        "text": "The \n\nDeclare\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- dateMap\n- lateRender (feature)\n\nEvent handlers\n\n- tag.convertBack()\n- tag.domChange()\n- tag.depends()\n- tag.onBeforeBind()\n- tag.onBind()\n- tag.BeforeLink()\n- tag.onAfterLink()\n- tag.onUpdate()\n- tag.onBeforeUpdateVal()\n- tag.onDispose()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\nJsRender\n\nDeclare\n\n- tag.template\n- tag.flow\n- tag.baseTag\n- tag.contentCtx\n- tag.argDefault\n- tag.bindTo\n\nEvent handlers\n\n- tag.init()\n- tag.render()\n- tag.convert()\n\nProps/Methods\n\n- tag.ctxPrm()\n- tag.cvt()\n- tag.cvtArgs()\n- tag.bndArgs() \n- tag.ctx\n- tag.parent\n- tag.parents\n- tag.tagCtx\n- tag.tagCtxs\n- tag.tagName\n- tag.base\n- tag.baseApply\n- rendering\n\n"
       }
     ]
   }

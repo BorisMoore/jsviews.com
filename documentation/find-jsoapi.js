@@ -327,7 +327,7 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "JsViews and JsObservable raise a jQuery event: “arrayChange”, whenever an array changes observably.\nTo handle the arrayChange changes you have two alternatives:\n\nuse jQuery .on() to attach an event handler to the array\nuse $.observe() to associate a handler with the array, or with a path including the array\n"
+        "text": "JsViews and JsObservable raise a jQuery event: “arrayChange”, whenever an array changes observably.\nTo handle the arrayChange changes you have two alternatives:\n\nuse jQuery .on() to attach an event handler to the array\nuse $.observe() to associate a handler with the array, or with a path including the array\n\n"
       },
       {
         "_type": "para",
@@ -352,7 +352,7 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Samples for the <b>handling array change events</b>:",
-        "text": "Samples for the handling array change events:\nEach of the following API topics includes samples showing the arrayChange event handler for the corresponding type of array change:\n\n$.observable(array).insert()\n$.observable(array).remove()\n$.observable(array).move()\n$.observable(array).refresh()\n"
+        "text": "Samples for the handling array change events:\nEach of the following API topics includes samples showing the arrayChange event handler for the corresponding type of array change:\n\n$.observable(array).insert()\n$.observable(array).remove()\n$.observable(array).move()\n$.observable(array).refresh()\n\n"
       }
     ]
   },
@@ -361,7 +361,7 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "Whenever objects or arrays are changed observably, JsViews raises the corresponding propertyChange or arrayChange jQuery event.\nData-linked templates respond to those events automatically, but if you want to run code in response to data-change events you have two alternatives:\n\nuse jQuery .on() to attach the propertyChange or arrayChange event handler to any object or array you want to 'listen to'\nuse $.observe() to associate a handler with one or more objects, arrays, or paths\n"
+        "text": "Whenever objects or arrays are changed observably, JsViews raises the corresponding propertyChange or arrayChange jQuery event.\nData-linked templates respond to those events automatically, but if you want to run code in response to data-change events you have two alternatives:\n\nuse jQuery .on() to attach the propertyChange or arrayChange event handler to any object or array you want to ‘listen to’\nuse $.observe() to associate a handler with one or more objects, arrays, or paths\n\n"
       },
       {
         "_type": "para",
