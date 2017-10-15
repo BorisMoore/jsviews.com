@@ -25,7 +25,7 @@
 		} catch(e) {
 			(sampleData.markup ? $('#result') : $('body')).html(
 				"Error in sample. <button onclick='$(\"#details\").toggle()'>details</button> <div style='display:none;' id=details><em>"
-				+ (e.message||e) + "</em><div>"
+				+ $.views.converters.html(e.message||e) + "</em><div>"
 			);
 		}
 	});

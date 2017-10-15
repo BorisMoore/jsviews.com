@@ -18,7 +18,7 @@ $.views.tags({
       tag.items = tagCtx.props.items;
       tag.selectedItems = tagCtx.props.selected || [];
       tag._optionsTmpl = "{^{for ~tag.items}}<option data-link='value{:" + tag.valueProp + "}'>{{:" + tag.labelProp + "}}</option>{{/for}}";
-      if (tag._.inline) {
+      if (tag.inline) {
         if (tagCtx.content) {
           $.views.sub.error("{{multiselect}} must be empty");
         } else {
@@ -31,7 +31,7 @@ $.views.tags({
     },
     onBind: function(tagCtx, linkCtx) {
       var tag = this;
-      tag.selectElem = tag._.inline ? tag.contents("select") : $(linkCtx.elem);
+      tag.selectElem = tag.inline ? tag.contents("select") : $(linkCtx.elem);
       tag.selectElem.on("change", function(ev, evargs) {
           var newSelection = tag.selectElem.children().map(function(i) {
             return this.selected && tag.items[i] || null;

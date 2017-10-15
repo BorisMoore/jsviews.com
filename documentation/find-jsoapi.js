@@ -610,6 +610,11 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "para",
+        "title": "",
+        "text": "Note that when data-linking computed observables to multiple targets, the full data-linking syntax is used. The following example shows two-way data-linking to name() and data-linking of the placeholder target to namePlaceholder()):\n<input data-link=\"{:name():} placeholder{:namePlaceholder()}\" />\n\n"
+      },
+      {
+        "_type": "para",
         "title": "Get/set properties on a View Model",
         "text": "Get/set properties on a View Model\nRather than using plain JavaScript objects with getter functions, as above, a more common pattern (providing better encapsulation) would be to define a ‘View Model’ class, and to instantiate that class to provide data instances.\nSee Plain objects or View Model for a full discussion of using View Models with JsRender and JsViews.\nHere is a modified version of the above sample, using a View Model Person class, rather than plain objects:\n"
       },

@@ -589,7 +589,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "label": "Accessing parent data"
               }
             ],
-            "expanded": false,
+            "expanded": true,
             "hidden": true
           }
         ],
@@ -688,17 +688,14 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "name": "jsvtagcontrols",
-            "label": "Custom tag controls"
+            "label": "Custom tag controls",
+            "categories": [],
+            "expanded": true
           },
           {
-            "name": "jsvtagcontrolsNew",
-            "label": "Custom tag controls New",
-            "categories": [
-              {
-                "name": "colorpicker",
-                "label": "Sample: {{colorPicker}}"
-              }
-            ],
+            "name": "jsvtagcontrolsPrevNew",
+            "label": "Custom tag controls Prev New",
+            "categories": [],
             "expanded": true,
             "hidden": true
           },
@@ -792,7 +789,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "name": "link-elemattribs",
-            "label": "Element attributes",
+            "label": "Element attributes/properties",
             "hidden": false
           },
           {

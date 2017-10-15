@@ -71,7 +71,7 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
       var tag = this;
       if (tag.radiogroup = tagCtx.props.radiogroup) {
         tag.baseApply(arguments);
-      } else if (tag._.inline && !tagCtx.content) {
+      } else if (tag.inline && !tagCtx.content) {
         tag.template = "<input/>";
       }
       tag.validationGroup = this.parents.validation;
@@ -83,7 +83,7 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
       var ret,
         tag = this,
         tagCtx = this.tagCtx;
-      if (tag._.inline) {
+      if (tag.inline) {
          // Keep same data context for content
         ret = tagCtx.render(tagCtx.view, true);
         // For radio buttons provide wrapper for validation messages
@@ -129,10 +129,10 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
       if (!tag.messageElem || !tag.messageElem.parentNode) {
         if (tag.radiogroup) {
           // messageElem is the div which wraps the group of radio buttons and/or labels
-          tag.messageElem = tag._.inline ? tagCtx.contents("div") : $(linkCtx.elem);
+          tag.messageElem = tag.inline ? tagCtx.contents("div") : $(linkCtx.elem);
           tag.messageElem.addClass("radiogroup");
         } else {
-          if (!tag._.inline && (targetTag = $.views.sub._glt(linkCtx.elem)[0])) {
+          if (!tag.inline && (targetTag = $.views.sub._glt(linkCtx.elem)[0])) {
             // Scenario with data-link="{targetTag ...}{validate ...}" (both tags data-linked on same linkedElem)
             tag.targetTag = targetTag;
           }

@@ -320,8 +320,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 
 								$.observable(content).setProperty("loc", lochash);
 
-								$(navigator.userAgent.toLowerCase().indexOf('webkit') > 0 ? 'body' : 'html')
-									.delay(150).animate({scrollTop: offset}, searchTreeNode ? 100 : 625, function() {
+								$('html').delay(150).animate({scrollTop: offset}, searchTreeNode ? 100 : 625, function() {
 									if (!isSearchTreeSelectionChange && lochash === location.hash) { // If a new request has started, skip this one.
 										if (searchTreeNode = document.getElementById(searchTreeNode + "$")) {
 											searchNavElem.animate({scrollTop: searchNavElem.scrollTop() - searchNavElem.height()/2
@@ -864,38 +863,41 @@ function treeGroup () {}
 treeGroup.prototype = {
 	select: function(section) {
 		if (section && this.selected !== section) {
-			location.hash = "search?s=" + encodeURIComponent(content.search) + searchIncludeHash() + "&l=" + section;
+			location.hash = "search?s=" + lowerCaseEncodeURI(content.search) + searchIncludeHash() + "&l=" + section;
 			searchtextElem.addClass("selected");
 		}
 	},
 	unselect: function() {
-		location.hash = "search?s=" + encodeURIComponent(content.search) + searchIncludeHash();
+		location.hash = "search?s=" + lowerCaseEncodeURI(content.search) + searchIncludeHash();
 		searchtextElem.removeClass("selected");
 	},
 	changing: function(ev, eventArgs) {
-		var searchTerm, newSearch,
-			noSearch = " ";
-		if (eventArgs.value || eventArgs.oldValue) {
+		var newSearch,
+			noSearch = " ",
 			searchTerm = eventArgs.value;
-			if (ev.keyCode === 13 && searchTerm && !content.editable) {
-				newSearch = content.search !== searchTerm;
-				searchTerm = "#search?s=" + encodeURIComponent(searchTerm) + searchIncludeHash();
-				if (location.hash !== searchTerm) {
-					location.hash = searchTerm;
-					$.observable(content).setProperty("noSearch", newSearch ? "Loading..." : "");
-				}
-				return; // Set content.search to value in text box.
-			}
+		if (searchTerm) {
 			if (searchTerm !== content.search) {
-				if (searchTerm) {
-					noSearch = "<b>Enter</b>: Search...<br/><b>Escape</b>: Quit<br/><b>Ctrl+Left/Right Arrow</b>: Prev/Next result";
-				}
+				noSearch = "<b>Enter</b>: Search...<br/><b>Escape</b>: Quit<br/><b>Ctrl+Left/Right Arrow</b>: Prev/Next result";
 			} else {
 				noSearch = "";
 			}
 		}
 		$.observable(content).setProperty("noSearch", noSearch);
 		return false;
+	},
+	onEnter: function(ev, eventArgs) {
+		var newSearch,
+			noSearch = " ",
+			searchTerm = ev.target.value;
+		if (ev.keyCode === 13 && searchTerm && !content.editable) {
+			newSearch = content.search !== searchTerm;
+			searchTerm = "#search?s=" + lowerCaseEncodeURI(searchTerm) + searchIncludeHash();
+			if (location.hash !== searchTerm) {
+				location.hash = searchTerm;
+				$.observable(content).setProperty("noSearch", newSearch ? "Loading..." : "");
+			}
+			return; // Set content.search to value in text box.
+		}
 	},
 	prev: function() {
 		$("#prev").focus();
@@ -945,6 +947,10 @@ treeGroup.prototype = {
 		this.select($.view(document.elementFromPoint(leftTarget, ev.clientY)).data.section);
 	}
 };
+
+function lowerCaseEncodeURI(val) {
+	return encodeURIComponent(val).toLowerCase();
+}
 
 function searchIncludeHash() {
 	var hash = "";
@@ -1033,9 +1039,9 @@ function searchTopic(topicName, text, topCatContent, topCatFindContent) {
 							postText = postText.slice(0, ind - 1);
 						}
 						sectionId = topicName + "@" + content.filter.length;
-						searchAnchor = "#search?s=" + encodeURIComponent(text) + searchIncludeHash() + "&l=" + sectionId;
+						searchAnchor = "#search?s=" + lowerCaseEncodeURI(text) + searchIncludeHash() + "&l=" + sectionId;
 				
-						$.observable(section).setProperty("searchAnchor", "#search?s=" + encodeURIComponent(text) + searchIncludeHash() + "&l=" + sectionId);
+						$.observable(section).setProperty("searchAnchor", "#search?s=" + lowerCaseEncodeURI(text) + searchIncludeHash() + "&l=" + sectionId);
 						searchItem = {
 							section: sectionId,
 							searchTerm: htmlConverter(displayText.substr(index, text.length)), 
@@ -1249,7 +1255,7 @@ function fetchCategory() {
 			smp: !categoryName[5],
 			txt: !categoryName[6]
 		});
-		$.observable(content).setProperty("search", searchTerm = decodeURIComponent(categoryName[1]));
+		$.observable(content).setProperty("search", searchTerm = decodeURIComponent(categoryName[1]).toLowerCase());
 	}
 
 	sectionIndex = categoryName[8];

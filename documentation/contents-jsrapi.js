@@ -1188,7 +1188,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "variant": "{{if pathOrExpr tmpl=nameOrExpr /}}"
           }
         ],
-        "description": "<em>Conditional inclusion</em>: &ndash; Render the block content of the <code>{{if}}</code> tag (or the referenced external template) only if the data-path or expression evaluates to true ('or truthy')",
+        "description": "<em>Conditional inclusion</em>: &ndash; Render the block content of the <code>{{if}}</code> tag (or the referenced external template) only if the data-path or expression evaluates to true (or a 'truthy' value)",
         "sectionTypes": {}
       },
       {
@@ -3031,6 +3031,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "samples/tag-controls",
             "label": "Samples: JsViews tag controls"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsvtagcontrols",
+            "label": "JsViews tag controls"
           }
         ]
       }
@@ -3331,13 +3336,23 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "JsRender as a Browserify module",
-        "text": "After installing JsRender on the server (using `$ npm install jsrender`) it can then be included in the Browserify client-script bundle, and loaded in the browser.\n\nThere are three options for loading JsRender in the browser as a Browserify module:\n\n- Load jQuery globally (as a script tag -- so `window.jQuery` is defined), then load JsRender as a module in the Browserify client script bundle:\n  ```js\n  require('jsrender'); // Load JsRender as jQuery plugin (attached to global jQuery)\n  ```\n- Load both jQuery and JsRender as modules in the Browserify client script bundle:\n  ```js\n  var $ = require('jquery'); // Load jQuery as a module\n  require('jsrender')($);    // Load JsRender as jQuery plugin (Query instance as parameter)\n  ```\n- Load JsRender as a module in the Browserify client script bundle, without loading jQuery at all:\n  ```js\n  var jsrender = require('jsrender')(); // Load JsRender without jQuery (function call, no parameter)\n  ```\n\n***Note:*** In fact if jQuery is not defined globally, `require('jsrender')` returns a ***function***. \n\nCalling that function without a parameter then loads JsRender without jQuery (and returns the JsRender namespace). \n\nAlternatively, calling that function with a reference to a jQuery instance as parameter loads JsRender as a plugin (attached to that jQuery instance) -- and returns the jQuery instance.\n",
+        "text": "After installing JsRender on the server (using `$ npm install jsrender`) it can then be included in the Browserify client script bundle, and loaded in the browser.\n\nThere are three options for loading JsRender in the browser as a Browserify module:\n\n- Load jQuery globally (as a script tag -- so `window.jQuery` is defined), then load JsRender as a module in the Browserify client script bundle:\n  ```js\n  require('jsrender'); // Load JsRender as jQuery plugin (attached to global jQuery)\n  ```\n- Load both jQuery and JsRender as modules in the Browserify client script bundle:\n  ```js\n  var $ = require('jquery'); // Load jQuery as a module\n  require('jsrender')($);    // Load JsRender as jQuery plugin (jQuery instance as parameter)\n  ```\n- Load JsRender as a module in the Browserify client script bundle, without loading jQuery at all:\n  ```js\n  var jsrender = require('jsrender')(); // Load JsRender without jQuery (function call, no parameter)\n  ```\n\n***Note:*** In fact if jQuery is not defined globally, `require('jsrender')` returns a ***function***. \n\nCalling that function without a parameter then loads JsRender without jQuery (and returns the JsRender namespace). \n\nAlternatively, calling that function with a reference to a jQuery instance as parameter loads JsRender as a plugin (attached to that jQuery instance) -- and returns the jQuery instance.\n",
         "anchor": "jsrender"
       },
       {
         "_type": "para",
-        "title": "Example:",
+        "title": "Example &ndash; jQuery loaded globally:",
         "text": "**index.html:**\n\n```jsr\n<html><head>\n  <script src=\".../jquery-xxx.js\"></script> <!-- Load jQuery as global -->\n</head><body>\n  <div id=\"container\"></div>\n  <script src=\"bundle.js\"></script>\n</body></html>\n```\n\n**source.js:**\n\n```js\nrequire('jsrender'); // Load JsRender (jQuery is loaded as global)\nvar tmpl = $.templates('Name: {{:name}}');\nvar data = {name: 'Jo'};\nvar html = tmpl.render(data);\n$('#container').html(html);\n```\n\n**command line:**\n\n```bash\nbrowserify ./source.js > ./bundle.js\n```"
+      },
+      {
+        "_type": "para",
+        "title": "Example &ndash; jQuery loaded as module:",
+        "text": "**index.html:**\n\n```jsr\n<html><body>\n  <div id=\"container\"></div>\n  <script src=\"bundle.js\"></script>\n</body></html>\n```\n\n**source.js:**\n\n```js\nvar $ = require('jquery'); // Load jQuery as a module\nrequire('jsrender')($);    // Load JsRender as jQuery plugin (jQuery instance as parameter)\nvar tmpl = $.templates('Name: {{:name}}');\nvar data = {name: 'Jo'};\nvar html = tmpl.render(data);\n$('#container').html(html);\n```\n\n**command line:**\n\n```bash\nbrowserify ./source.js > ./bundle.js\n```"
+      },
+      {
+        "_type": "para",
+        "title": "Example &ndash; JsRender without jQuery:",
+        "text": "**index.html:**\n\n```jsr\n<html><body>\n  <div id=\"container\"></div>\n  <script src=\"bundle.js\"></script>\n</body></html>\n```\n\n**source.js:**\n\n```js\nvar jsrender = require('jsrender')(); // Load JsRender without jQuery\nvar tmpl = jsrender.templates('Name: {{:name}}');\nvar data = {name: 'Jo'};\nvar html = tmpl.render(data);\ndocument.querySelector('#container').innerHTML = html;\n```\n\n**command line:**\n\n```bash\nbrowserify ./source.js > ./bundle.js\n```"
       },
       {
         "_type": "para",
@@ -3737,7 +3752,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The default argument for a tag is the current data &ndash; #data",
-        "text": "For all built-in tags (and custom tags if you don't use the [argDefault](#tagsapi@argdefault) option), you can pass the current data to the tag by writing it without an argument.\n\nSo the following:\n\n```jsr\n{{:}}                       {{!--Render value of current data (string)--}}\n{{>}}                       {{!--Render value of current data (string)--}}\n{{for}}...{{/for}}          {{!--Move to current data (object) or iterate over current data (array)--}}\n{{if}}...{{/if}}            {{!--Render block if current data is truey--}}\n{{props}}...{{/props}}      {{!--Iterate over properties of current data (object)--}}\n```\n\nare equivalent to:\n\n```jsr\n{{:#data}}                   {{!--Render value of current data (string)--}}\n{{>#data}}                   {{!--Render value of current data (string)--}}\n{{for #data}}...{{/for}}     {{!--Move to current data (object) or iterate over current data (array)--}}\n{{if #data}}...{{/if}}       {{!--Render block if current data is truey--}}\n{{props #data}}...{{/props}} {{!--Iterate over properties of current data (object)--}}\n```"
+        "text": "For all built-in tags (and custom tags if you don't use the [argDefault](#tagsapi@argdefault) option), you can pass the current data to the tag by writing it without an argument.\n\nSo the following:\n\n```jsr\n{{:}}                       {{!--Render value of current data (string)--}}\n{{>}}                       {{!--Render value of current data (string)--}}\n{{for}}...{{/for}}          {{!--Move to current data (object) or iterate over current data (array)--}}\n{{if}}...{{/if}}            {{!--Render block if current data is truthy--}}\n{{props}}...{{/props}}      {{!--Iterate over properties of current data (object)--}}\n```\n\nare equivalent to:\n\n```jsr\n{{:#data}}                   {{!--Render value of current data (string)--}}\n{{>#data}}                   {{!--Render value of current data (string)--}}\n{{for #data}}...{{/for}}     {{!--Move to current data (object) or iterate over current data (array)--}}\n{{if #data}}...{{/if}}       {{!--Render block if current data is truey--}}\n{{props #data}}...{{/props}} {{!--Iterate over properties of current data (object)--}}\n```"
       },
       {
         "_type": "para",
@@ -4116,7 +4131,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Sometimes when rendering a JsRender template, a JavaScript error is encountered. For example `{{:address.street}}` in a template will render without error provided there is an `address` property on the current data object. But if there is no `address` property, then *there will be an error*: ***\"Cannot read property 'street' of undefined\"***.\n\nJsRender provides two features which provide powerful control over rendering behavior when errors are encountered.\n\n- The optional [`onError=...` property](#onerror@onerror) that can be set on any tag -- for controlling error handling behavior on that specific tag\n- The [`$.views.settings.dbgMode(...)` setting](#onerror@debugmode) -- which provides global control over error handling during rendering\n\nIn addition, for advanced debugging of compiled templates, see:\n\n- *[Using debugging helpers](#onerror@dbg)*\n\n<br/>\n## Specifying onError fallback behavior on a tag"
+        "text": "Sometimes when rendering a JsRender template, a JavaScript error is encountered. For example `{{:address.street}}` in a template will render without error provided there is an `address` property on the current data object. But if there is no `address` property, then *there will be an error*: ***\"Cannot read property 'street' of undefined\"***.\n\nJsRender provides two features which provide powerful control over rendering behavior when errors are encountered.\n\n- The optional [`onError=...` property](#onerror@onerror) that can be set on any tag -- for controlling error handling behavior on that specific tag\n- The [`$.views.settings.debugMode(...)` setting](#onerror@debugmode) -- which provides global control over error handling during rendering\n\nIn addition, for advanced debugging of compiled templates, see:\n\n- *[Using debugging helpers](#onerror@dbg)*\n\n<br/>\n## Specifying onError fallback behavior on a tag"
       },
       {
         "_type": "para",
@@ -4182,7 +4197,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Setting onError to a function",
-        "text": "If `onError=myOnErrorHandler` is set to a function, then the function will be called when there is an error.\n\n- If the function returns a string, then that string will be rendered, replacing the template block\n- If the function has no return value, then the error message will be rendered\n\nFor example, you can provide a `person.error()` error handler method on a person object, and set `onError=error`. Or you can use global helper (or a helper passed to the render function), and set `onError=~myErrorHandler`, such as the following to log the error and display just the empty string:\n\n```js\nfunction myErrorHandler(e, view) {\n  console.log(...); // Log the error \n  return \"\";        // Display the empty string \n}\n```\n\nThe parameters of the onError handler function -- `myHandler(e, view)` -- will be:\n\n- `e` -- the `error` object\n- `view` -- the current `view` object\n- The `this` pointer will be the current data item, `view.data`"
+        "text": "If `onError=myOnErrorHandler` is set to a function, then the function will be called when there is an error.\n\n- If the function returns a string, then that string will be rendered, replacing the output of the tag\n- If the function has no return value, then the error message will be rendered\n\nFor example, you can provide a `person.error()` error handler method on a person object, and set `onError=error`. Or you can use global helper (or a helper passed to the render function), and set `onError=~myErrorHandler`, such as the following to log the error and display just the empty string:\n\n```js\nfunction myErrorHandler(e, view) {\n  console.log(...); // Log the error \n  return \"\";        // Display the empty string \n}\n```\n\nThe parameters of the onError handler function -- `myHandler(e, view)` -- will be:\n\n- `e` -- the `error` object\n- `view` -- the current `view` object\n- The `this` pointer will be the current data item, `view.data`"
       },
       {
         "_type": "sample",
@@ -4217,12 +4232,12 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The `$.views.settings.dbgMode(...)` setting provides control of error handling during rendering, similar to the `onError` feature [above](#onerror@onerror), but operating at a global level rather than on individual tags.\n\nThese two approaches are complementary and can be used together.  "
+        "text": "The `$.views.settings.debugMode(...)` setting provides control of error handling during rendering, similar to the `onError` feature [above](#onerror@onerror), but operating at a global level rather than on individual tags.\n\nThese two approaches are complementary and can be used together.  "
       },
       {
         "_type": "para",
         "title": "Setting debug mode to true",
-        "text": "- By default *debug mode* is **false** -- and *an exception will be thrown if a JavaScript error is encountered while rendering a template block*\n- If *debug mode* is set to **true** -- error messages encountered while rendering a template block *will replace the rendered content of that block*\n\n***To set debug mode to true:***\n\n```js\n$.views.settings.debugMode(true);\n```\n\n***To set debug mode back to false:***\n\n```js\n$.views.settings.debugMode(false);\n```\n\n***To get current debug mode:***\n\n```js\nvar isDebugMode = $.views.settings.debugMode(); // false by default\n```\n\nIn the following example *debug mode* is set to `true`. The error message is rendered, replacing the template block.\n\n(Choose *Try it* and change *debug mode* to `false`, to see the difference.)\n",
+        "text": "- By default *debug mode* is **false** -- and *an exception will be thrown if a JavaScript error is encountered while rendering a tag or template*\n- If *debug mode* is set to **true** -- any error message encountered while rendering a tag *will replace the rendered content of that tag*\n\n***To set debug mode to true:***\n\n```js\n$.views.settings.debugMode(true);\n```\n\n***To set debug mode back to false:***\n\n```js\n$.views.settings.debugMode(false);\n```\n\n***To get current debug mode:***\n\n```js\nvar isDebugMode = $.views.settings.debugMode(); // false by default\n```\n\nIn the following example *debug mode* is set to `true`. The error message is rendered, replacing the rendered tag.\n\n(Choose *Try it* and change *debug mode* to `false`, to see the difference.)\n",
         "anchor": "debugmode"
       },
       {
@@ -4240,7 +4255,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*Code:*\n\n```js\n$.views.settings.debugMode(true);\n```\n\nThe template block for Bill (who has no address) is replaced by the error message.\n\n```js\nvar team = {members: [\n {name:\"Jo\", address: {street: \"1st Ave\"}},\n {name:\"Bill\"}, // Bill does not have an address!!\n {name:\"Ava\", address: {street: \"Main St\"}}\n]};\n...\n```\n\n*Template:*\n\n```jsr\n{{for members}}\n  <div>{{:name}} - <b>{{:address.street}}</b></div>\n{{/for}}\n```"
+            "text": "*Code:*\n\n```js\n$.views.settings.debugMode(true);\n```\n\nThe `{{:address.street}}` tag for Bill (who has no address) is replaced by the error message.\n\n```js\nvar team = {members: [\n {name:\"Jo\", address: {street: \"1st Ave\"}},\n {name:\"Bill\"}, // Bill does not have an address!!\n {name:\"Ava\", address: {street: \"Main St\"}}\n]};\n...\n```\n\n*Template:*\n\n```jsr\n{{for members}}\n  <div>{{:name}} - <b>{{:address.street}}</b></div>\n{{/for}}\n```"
           }
         ],
         "code": "$.views.settings.debugMode(true); \n// Change to $.views.settings.debugMode(false); - The error\n// will not be displayed, but an exception will be thrown.\n\nvar team = {members: [\n {name:\"Jo\", address: {street: \"1st Ave\"}},\n {name:\"Bill\"},  // Bill does not have an address!!\n {name:\"Ava\", address: {street: \"Main St\"}}\n]};\n\nvar html = $(\"#teamTmpl\").render(team);\n\n$(\"#result\").html(html);\n",
@@ -4269,7 +4284,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*Template:*\n\n```jsr\nTeam:<div>\n  {{if owner}}\n    Owner: {^{:manager.name}}\n  {{/if}}\n</div>\nEdit: <input data-link='manager.name' />\n```\n\n*Code:*\n\n```js\n$.views.settings.debugMode(true);\n// Debug mode is set to true, so error messages are rendered as content of corresponding template block.\n\nvar team = {owner:\n {name:\"Jo\"}\n}; // team.manager is undefined...\n...\ntmpl.link(\"#result\", team); // Error...\n```\n\nIf you choose *Try it* and change to `$.views.settings.debugMode(false);`, the error will instead be thrown as an exception.\n"
+            "text": "*Template:*\n\n```jsr\nTeam:<div>\n  {{if owner}}\n    Owner: {^{:manager.name}}\n  {{/if}}\n</div>\nEdit: <input data-link='manager.name' />\n```\n\n*Code:*\n\n```js\n$.views.settings.debugMode(true);\n// Debug mode is set to true, so error messages are rendered in place of the corresponding tag or data-link expression.\n\nvar team = {owner:\n {name:\"Jo\"}\n}; // team.manager is undefined...\n...\ntmpl.link(\"#result\", team); // Error...\n```\n\nIf you choose *Try it* and change to `$.views.settings.debugMode(false);`, the error will instead be thrown as an exception.\n"
           }
         ],
         "html": "<style>input {width: 350px;}</style>\n<div id=\"result\"></div>\n\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  Team:<div> \n    {{for team}}\n      Owner: {^{:manager.name}}\n    {{/for}}\n  </div>\n  Edit: <input data-link='manager.name' />\n</script>\n",
@@ -4281,7 +4296,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Setting debug mode to a string",
-        "text": "By setting debug mode to a string rather than to `true`, no exception will be thrown, and the chosen string will be rendered, replacing the template block. \n\n```js\n$.views.settings.debugMode(\"Error!\");\n``` "
+        "text": "By setting debug mode to a string rather than to `true`, no exception will be thrown, and the chosen string will be rendered, replacing the rendered tag. \n\n```js\n$.views.settings.debugMode(\"Error!\");\n``` "
       },
       {
         "_type": "sample",
@@ -4298,7 +4313,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```js\n$.views.settings.debugMode(\"Error!\"); \n```\n\nThe template block for *Bill* (who has no address) is replaced by `\"Error!\"`."
+            "text": "```js\n$.views.settings.debugMode(\"Error!\"); \n```\n\nThe `{{:address.street}}` tag for Bill (who has no address) is replaced by `\"Error!\"`."
           }
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n{{for members}}\n  <div>{{:name}} - <b>{{:address.street}}</b></div>\n{{/for}}\n</script>\n",
@@ -4310,7 +4325,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "In some scenarios the desired behavior may be to ignore errors during rendering, by skipping any template block with an error, rendering it as an empty string. This is achieved very easily, by simply writing:\n\n```js\n$.views.settings.debugMode(\"\");\n``` "
+        "text": "In some scenarios the desired behavior may be to ignore errors during rendering, by skipping any tag with an error, rendering it as an empty string. This is achieved very easily, by simply writing:\n\n```js\n$.views.settings.debugMode(\"\");\n``` "
       },
       {
         "_type": "sample",
@@ -4327,7 +4342,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n$.views.settings.debugMode(\"\");\n```\n\nThe template block for *Bill* (who has no address) is skipped."
+            "text": "```jsr\n$.views.settings.debugMode(\"\");\n```\n\nThe `{{:address.street}}` tag for Bill (who has no address) is skipped."
           }
         ],
         "title": "Debug mode set to empty string",
@@ -4339,7 +4354,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Providing a debug mode handler (function)",
-        "text": "If debug mode is set to a function, the function will be called each time an error is encountered during rendering. \n\n- If the function returns a string, then that string will be rendered, replacing the template block\n- If the function has no return value, then the error message will be rendered\n\n```js\n$.views.settings.debugMode(myOnErrorHandler);\n\nfunction myOnErrorHandler(e, fallback, view) {\n  // This handler will log the error, and then display the empty string\n  console.log(...);\n  return \"\"; \n}\n```\n\nThe parameters of the debug mode error handler function -- `myHandler(e, fallback, view)` -- will be:\n\n- `e` -- the error object\n- `fallback` -- the fallback error string, provided by the *[onError fallback](#onerror@onerror)* specified on the tag, if there is one\n- `view` -- the current view object\n- The `this` pointer will be the current data item, `view.data`\n"
+        "text": "If debug mode is set to a function, the function will be called each time an error is encountered during rendering. \n\n- If the function returns a string, then that string will be rendered, replacing the rendered tag\n- If the function has no return value, then the error message will be rendered\n\n```js\n$.views.settings.debugMode(myOnErrorHandler);\n\nfunction myOnErrorHandler(e, fallback, view) {\n  // This handler will log the error, and then display the empty string\n  console.log(...);\n  return \"\"; \n}\n```\n\nThe parameters of the debug mode error handler function -- `myHandler(e, fallback, view)` -- will be:\n\n- `e` -- the error object\n- `fallback` -- the fallback error string, provided by the *[onError fallback](#onerror@onerror)* specified on the tag, if there is one\n- `view` -- the current view object\n- The `this` pointer will be the current data item, `view.data`\n"
       },
       {
         "_type": "sample",
@@ -5832,7 +5847,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Registering a converter",
-        "text": "You can register your own custom converters, using [`$.views.converters()`](#convertersapi) as in:\n\n```js\n$.views.converters(\"upper\", function(val) {\n  // Convert data-value or expression to upper case\n  return val.toUpperCase();\n});\n```\n\nTo use the `\"upper\"` converter with the `{{:...}}` tag, you write:\n\n```jsr\n{{upper:...}}\n```\n\nHere it is in a sample:"
+        "text": "You can register your own custom converters, using [`$.views.converters()`](#convertersapi) as in:\n\n```js\n$.views.converters(\"upper\", function(val) {\n  // Convert data-value or expression to upper case\n  return val.toUpperCase();\n});\n```\n\nTo use the `\"upper\"` converter with the [`{{:...}}`](#assigntag) tag, you write:\n\n```jsr\n{{upper:...}}\n```\n\nHere it is in a sample:"
       },
       {
         "_type": "sample",
@@ -5993,13 +6008,23 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "JsRender as a webpack module",
-        "text": "After installing JsRender on the server (using `$ npm install jsrender`) it can then be included in the webpack client-script bundle, and loaded in the browser.\n\nIf using JsRender without jQuery, or with jQuery loaded globally (as a script tag) this is done by calling:\n\n```js\nvar $ = require('jsrender'); // Without jQuery, or if jQuery is loaded globally\n```\n(Here, if jQuery is loaded then `$` is the global jQuery namespace object. Otherwise it is the JsRender global namespace object. Either way, you can now make calls like `var myTmpl = $.templates(...);`)\n\nAlternatively, if jQuery is being loaded also as a webpack module rather than globally, *you need to use a different syntax* -- to tell JsRender to attach as a plugin to the local copy of jQuery:\n\n```js\nvar $ = require('jquery');\nrequire('jsrender')($);      // Passing local jQuery instance as parameter\n```",
+        "text": "After installing JsRender on the server (using `$ npm install jsrender`) it can then be included in the webpack client script bundle, and loaded in the browser.\n\nThere are three options for loading JsRender in the browser as a webpack module:\n\n- Load jQuery globally (as a script tag -- so `window.jQuery` is defined), then load JsRender as a module in the webpack client script bundle:\n  ```js\n  require('jsrender'); // Load JsRender as jQuery plugin (attached to global jQuery)\n  ```\n- Load both jQuery and JsRender as modules in the webpack client script bundle:\n  ```js\n  var $ = require('jquery'); // Load jQuery as a module\n  require('jsrender')($);    // Load JsRender as jQuery plugin (jQuery instance as parameter)\n  ```\n- Load JsRender as a module in the webpack client script bundle, without loading jQuery at all:\n  ```js\n  var jsrender = require('jsrender')(); // Load JsRender without jQuery (function call, no parameter)\n  ```\n\n***Note:*** In fact if jQuery is not defined globally, `require('jsrender')` returns a ***function***. \n\nCalling that function without a parameter then loads JsRender without jQuery (and returns the JsRender namespace). \n\nAlternatively, calling that function with a reference to a jQuery instance as parameter loads JsRender as a plugin (attached to that jQuery instance) -- and returns the jQuery instance.",
         "anchor": "jsrender"
       },
       {
         "_type": "para",
-        "title": "Example",
+        "title": "Example &ndash; jQuery loaded globally:",
         "text": "**index.html:**\n\n```jsr\n<html><head>\n  <script src=\".../jquery...js\"></script> <!-- Load jQuery as global -->\n</head><body>\n  <div id=\"container\"></div>\n  <script src=\"bundle.js\"></script>\n</body></html>\n```\n\n**source.js:**\n\n```js\nrequire('jsrender'); // Load JsRender (jQuery is loaded as global)\nvar tmpl = $.templates('Name: {{:name}}');\nvar data = {name: 'Jo'};\nvar html = tmpl.render(data);\n$('#container').html(html);\n```\n\n**command line:**\n\n```bash\nwebpack ./source.js bundle.js\n```"
+      },
+      {
+        "_type": "para",
+        "title": "Example &ndash; jQuery loaded as module:",
+        "text": "**index.html:**\n\n```jsr\n<html><body>\n  <div id=\"container\"></div>\n  <script src=\"bundle.js\"></script>\n</body></html>\n```\n\n**source.js:**\n\n```js\nvar $ = require('jquery'); // Load jQuery as a module\nrequire('jsrender')($);    // Load JsRender as jQuery plugin (jQuery instance as parameter)\nvar tmpl = $.templates('Name: {{:name}}');\nvar data = {name: 'Jo'};\nvar html = tmpl.render(data);\n$('#container').html(html);\n```\n\n**command line:**\n\n```bash\nwebpack ./source.js bundle.js\n```"
+      },
+      {
+        "_type": "para",
+        "title": "Example &ndash; JsRender without jQuery:",
+        "text": "**index.html:**\n\n```jsr\n<html><body>\n  <div id=\"container\"></div>\n  <script src=\"bundle.js\"></script>\n</body></html>\n```\n\n**source.js:**\n\n```js\nvar jsrender = require('jsrender')(); // Load JsRender without jQuery\nvar tmpl = jsrender.templates('Name: {{:name}}');\nvar data = {name: 'Jo'};\nvar html = tmpl.render(data);\ndocument.querySelector('#container').innerHTML = html;\n```\n\n**command line:**\n\n```bash\nwebpack ./source.js bundle.js\n```"
       },
       {
         "_type": "para",
@@ -7416,7 +7441,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Specifying bound arguments and properties: the bindTo option",
-        "text": "The `bindTo` option is designed primarily for use with data binding, with JsViews, and allows specifying which arguments/properties are data-bound for two-way binding.\n\nIn JsRender, the `bindTo` option can be used in conjunction with converters. Set the `bindTo` option to an array, such as `[0, 1, 2]`, or `[\"title\", 1]` -- where integers refer to arguments and strings to named properties -- to determine what values are passed to the converter. (If `bindTo` is not set, then the values of all the arguments will be passed to the converter.) The value returned by the converter will then be passed as first argument to the *render()* method.\n",
+        "text": "The `bindTo` option is designed primarily for use with data binding, with JsViews, and allows specifying which arguments/properties are data-bound for two-way binding.\n\nIn JsRender, the `bindTo` option can be used in conjunction with converters. Set the `bindTo` option to an array, such as `[0, 1, 2]`, or `[\"title\", 1]` -- where integers refer to arguments and strings to named properties -- to determine what values are passed to the converter. (If `bindTo` is not set, then the values of all the arguments will be passed to the converter.)\n\nBy default the value returned by the converter will be passed as first argument to the *render()* method. However, if the converter returns an array, then the values will be used to convert each of the targeted argument or properties specified in `bindTo`.\n",
         "anchor": "bindto"
       },
       {
@@ -7496,7 +7521,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "topics": [
           {
             "_type": "topic",
-            "hash": "#tags",
+            "hash": "tags",
             "label": "Using custom tags"
           },
           {
@@ -7508,6 +7533,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "samples/tag-controls",
             "label": "Samples: JsViews tag controls"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsvtagcontrols",
+            "label": "JsViews tag controls"
           }
         ]
       }

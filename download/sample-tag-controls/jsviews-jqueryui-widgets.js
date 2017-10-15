@@ -113,7 +113,7 @@ widget: {
     var content, elemType,
       tag = this;
 
-    if (tag._.inline) {
+    if (tag.inline) {
       content = tagCtx.tmpl.markup;
       if (!tag.template && (elemType = tagCtx.props.elem || tag.elem)) {
         if (content) {
@@ -185,7 +185,9 @@ widget: {
       options = tag.options, // hash (or function returning hash) of option settings
       props = tagCtx.props,
       widgetName = tag.widgetName.split("-").pop();
-
+    if ($.isFunction(options)) {
+      options = tag.options();
+    }
     mainElem = tag.mainElem;
     $.each(props, function(key, prop) {
       var option;
@@ -193,11 +195,11 @@ widget: {
         key = key.slice(1);
         option = options && options[key];
         mainElem[widgetName]("option", key,
-          option && $.isFunction(option) && prop && $.isFunction(option)
+          option && $.isFunction(option) && prop && $.isFunction(prop)
             ? function() {
               // If the same event function option is overridden on the tagDef options
               // (or in a _create override) and the tagCtx.props, call first the one on
-              // the initOptions options, and then the one declared on the tag properties.
+              // the tagDef options, and then the one declared on the tag properties.
               option.apply(mainElem[0], arguments);
               return prop.apply(mainElem[0], arguments);
             }
@@ -779,7 +781,7 @@ if ($.ui.version.slice(0, 4) === "1.11") {
       if (tag._.radio = parent && parent.tagName === "buttonset") {
         tagCtx = parent.tagCtx;
       } else {
-        tag._.chkBx = (tag._.inline ? props : linkCtx.elem).type === "checkbox";
+        tag._.chkBx = (tag.inline ? props : linkCtx.elem).type === "checkbox";
       }
 
       var  params = tagCtx.params,
@@ -787,7 +789,7 @@ if ($.ui.version.slice(0, 4) === "1.11") {
 
       tag.baseApply(arguments);
 
-      if (tag._.inline) {
+      if (tag.inline) {
         content = content && content.markup || "&nbsp;";
         // (&nbsp; fixes a jQueryUI button rendering issue)
         if (tag._.radio || tag._.chkBx) {
@@ -811,7 +813,7 @@ if ($.ui.version.slice(0, 4) === "1.11") {
         val = tag.bndArgs()[0];
 
       if (tag._.radio || tag._.chkBx) {
-        if (!tag._.inline) {
+        if (!tag.inline) {
           if (tag._.unlinked && !elem.id) {
             elem.id = "jsv" + Math.random();
             $(elem).after('<label for="' + elem.id + '">&nbsp;</label>');
@@ -840,7 +842,7 @@ if ($.ui.version.slice(0, 4) === "1.11") {
           tag.widget.refresh();
         }
       } else {
-        if (!tag._.inline) {
+        if (!tag.inline) {
           elem.innerHTML = elem.innerHTML || "&nbsp;"; // Fixes jQuery UI button issue if no label text
         }
         tag.baseApply(arguments);
@@ -859,7 +861,7 @@ if ($.ui.version.slice(0, 4) === "1.11") {
 
       tag.baseApply(arguments);
 
-      if (tag._.inline) {
+      if (tag.inline) {
         tag.id = tagCtx.props.id || "jsv" + Math.random();
         tag.template = '<span id="' + tag.id + '">' + tagCtx.tmpl.markup + "</span>";
       }

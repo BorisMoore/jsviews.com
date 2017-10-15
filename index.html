@@ -54,7 +54,7 @@
 				<button id="prev" class="btn" data-link="{on searchTree.prev} class{merge: searchTree.sectionIndex===0 toggle='disabled'}" title="Previous (Ctrl+&#8592;)">&lt;</button>
 				<label class="searchbox">
 					<span style="display:none;">Search jsviews.com</span>
-					<input id="id-searchbox" data-link="{:search onBeforeUpdateVal=searchTree.changing:newsearch}" placeholder="Search... (Ctrl+/)" title="Search... (Ctrl+/)"/>
+					<input id="id-searchbox" data-link="{:search onBeforeUpdateVal=searchTree.changing:newsearch} {on 'keydown.jsv' searchTree.onEnter}" placeholder="Search... (Ctrl+/)" title="Search... (Ctrl+/)"/>
 				</label>
 				<button id="next" class="btn" data-link="{on searchTree.next} class{merge: searchTree.sectionIndex>=filterlen-1 toggle='disabled'}" title="Next (Ctrl+&#8594;)">&gt;</button>
 				<button class="close btn" data-link="{on searchTree.close}" title="Quit search (Esc)">X</button>

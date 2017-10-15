@@ -875,17 +875,6 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "path": "",
     "sections": []
   },
-  "jsvtagcontrols": {
-    "title": "JsViews: Custom Tags - Tag Controls",
-    "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, defined/registered in the usual way (see *[Using custom tags](#tags)*).\n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self contained encapsulated components, with a life-cycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal..."
-      }
-    ]
-  },
   "jsvobjects": {
     "title": "JsViews objects",
     "path": "",
@@ -1888,7 +1877,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Full syntax &ndash; multiple targets, multiple tags, multiple bindings...",
-        "text": "The full syntax allows you to bind multiple expressions each to a different target, and is written like this: `data-link=\"target1{linkExpression1} target2{linkExpression2} ...\"`.\n\nPossible targets include the following:\n- an HTML attribute (such as <code>title{...}</code>, <code>class{...}</code>, <code>id{...}</code>, <code>disabled{...}</code> or <code>data-foo{...}</code>)\n- a CSS property (such as <code>css-background-color{...}</code>)\n- innerHTML (as in <code>html{...}</code>)\n- innerText (as in <code>text{...}</code>)\n- special targets like <code>visible{...}</code>\n- or can be missing altogether (as in <code>{...}</code>) in which case it stands for the default target for the element.\n\nThe default target for most elements is `innerText`, but for `input` and `select` elements it is `value`.\n\nThe linkExpression `{...}` is actually a *template tag*, such as `{^{:a.b.c}}` or `{^{myCustomTag .../}}`. *The difference from regular JsRender tag syntax is that with data-link expressions, **you only put a single curly brace to delimit, and you don't put the self-closing `/`**, which is assumed*.\n\nIn fact as long as the tag is self-closing, you can use any JsRender tag you want -- including custom tags.\n\nFor example, if you have a JsRender tag as content of an element: \n\n```jsr\n<div>{{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- then you can make it into a data-linked tag, using:\n\n```jsr\n<div>{^{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- or into a data-linked element, using:\n\n```jsr\n<div data-link=\"{for some.path tmpl='myForTmpl'}\" ></div>\n```\n\nSo examples would be: \n\n- `<div data-link=\"{:name}\"></div>` (one-way binding to `innerText` -- default target attrib -- so automatically HTML encodes)<br/>-- equivalent to abbreviated syntax: `<input data-link=\"name\" />`\n- `<div data-link=\"html{:name}\"></div>` (one-way binding to `innerHTML`)\n- `<div data-link=\"text{:name}\"></div>` (one-way binding to `innerText` -- equivalent to default above)\n- `<div data-link=\"html{>name}\"></div>` (one-way binding to `innerHTML` but with HTML encoding)\n- `<input data-link=\"{:name}\" >` (one-way binding to `value` -- default target attrib)\n- `<input data-link=\"value{:name}\" />` (one-way binding to `value`)\n- `<input data-link=\"title{upr:name}\" />` (one-way binding to the `title` attribute, using a registered converter: `upr`)\n- `<input data-link=\"{:name trigger=false:}\" />` (two-way binding to `value`, trigger only on blur) <br/>-- equivalent to abbreviated syntax: `<input data-link=\"name trigger=false\" />`\n- `<input data-link=\"{cvt:name:cvtBack}\" />` (two-way binding to `value`, with converters)\n- `<input data-link=\"{cvt:name trigger=false:cvtBack}\" />` (two-way binding to `value`, with converters, and trigger only on blur)\n- `<input data-link=\"{cvt:name:cvtBack} title{:info.description}\" />` (two-way binding to `value`, with converters and one-way binding to `title`)\n- `<img data-link=\"src{:'/myImagesFolder/' + fileName + '.png'}\" />` (one-way binding to `src` -- using an expression to build full path)\n- `<div data-link=\"{myCustomTag name}\"></div>` (data-linking -- and instantiating -- a JsViews custom tag control. Renders as `innerHTML` -- default target attrib for tags other than {: ...} -- so the control can insert HTML markup)\n- `<div data-link=\"text{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control -- rendering as `innerText` -- so automatically HTML encodes)\n- `<svg><ellipse data-link=\"cx{:x} fill{:color}\"></ellipse>` (data-linking to attributes of an SVG element)\n\nSee: [Targets for data-linking](#link-targets) for additional details and samples.",
+        "text": "The full syntax allows you to bind multiple expressions each to a different target, and is written like this: `data-link=\"target1{linkExpression1} target2{linkExpression2} ...\"`.\n\nPossible targets include the following:\n- an HTML attribute (such as `title{...}`, `class{...}`, `id{...}`, `disabled{...}` or `data-foo{...}`\n)\n- an HTML element property (such as `prop-muted{...}` for a `<video>` element)\n- a CSS property (such as `css-background-color{...}`)\n- innerHTML (as in `html{...}`)\n- innerText (as in `text{...}`)\n- special targets like `visible{...}`\n- or can be missing altogether (as in `{...}`) in which case it stands for the default target for the element.\n\nThe default target for most elements is `innerText`, but for `input` and `select` elements it is `value`.\n\nThe linkExpression `{...}` is actually a *template tag*, such as `{^{:a.b.c}}` or `{^{myCustomTag .../}}`. *The difference from regular JsRender tag syntax is that with data-link expressions, **you only put a single curly brace to delimit, and you don't put the self-closing `/`**, which is assumed*.\n\nIn fact as long as the tag is self-closing, you can use any JsRender tag you want -- including custom tags.\n\nFor example, if you have a JsRender tag as content of an element: \n\n```jsr\n<div>{{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- then you can make it into a data-linked tag, using:\n\n```jsr\n<div>{^{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- or into a data-linked element, using:\n\n```jsr\n<div data-link=\"{for some.path tmpl='myForTmpl'}\" ></div>\n```\n\nSo examples would be: \n\n- `<div data-link=\"{:name}\"></div>` (one-way binding to `innerText` -- default target attrib -- so automatically HTML encodes)<br/>-- equivalent to abbreviated syntax: `<input data-link=\"name\" />`\n- `<div data-link=\"html{:name}\"></div>` (one-way binding to `innerHTML`)\n- `<div data-link=\"text{:name}\"></div>` (one-way binding to `innerText` -- equivalent to default above)\n- `<div data-link=\"html{>name}\"></div>` (one-way binding to `innerHTML` but with HTML encoding)\n- `<input data-link=\"{:name}\" >` (one-way binding to `value` -- default target attrib)\n- `<input data-link=\"value{:name}\" />` (one-way binding to `value`)\n- `<input data-link=\"title{upr:name}\" />` (one-way binding to the `title` attribute, using a registered converter: `upr`)\n- `<input data-link=\"{:name trigger=false:}\" />` (two-way binding to `value`, trigger only on blur) <br/>-- equivalent to abbreviated syntax: `<input data-link=\"name trigger=false\" />`\n- `<input data-link=\"{cvt:name:cvtBack}\" />` (two-way binding to `value`, with converters)\n- `<input data-link=\"{cvt:name trigger=false:cvtBack}\" />` (two-way binding to `value`, with converters, and trigger only on blur)\n- `<input data-link=\"{cvt:name:cvtBack} title{:info.description}\" />` (two-way binding to `value`, with converters and one-way binding to `title`)\n- `<img data-link=\"src{:'/myImagesFolder/' + fileName + '.png'}\" />` (one-way binding to `src` -- using an expression to build full path)\n- `<div data-link=\"{myCustomTag name}\"></div>` (data-linking -- and instantiating -- a JsViews custom tag control. Renders as `innerHTML` -- default target attrib for tags other than {: ...} -- so the control can insert HTML markup)\n- `<div data-link=\"text{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control -- rendering as `innerText` -- so automatically HTML encodes)\n- `<svg><ellipse data-link=\"cx{:x} fill{:color}\"></ellipse>` (data-linking to attributes of an SVG element)\n- `<input data-link=\"{:name():} placeholder{:namePlaceholder()}\" />` (two-way data-linking to `name()` plus data-linking the placeholder target to `namePlaceholder()`)\n\nSee: [Targets for data-linking](#link-targets) for additional details and samples.",
         "anchor": "fullsyntax"
       },
       {
@@ -2444,7 +2433,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<style>\n  [contenteditable] {border:1px solid green; padding:5px;}\n  .block {display: block; margin-bottom: 10px} .green {color: green;}\n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" class=\"block\"/>\n\n  <label class=\"block\"><input data-link=\"{toBool:gender:toString}\" type=\"checkbox\" /> Male</label>\n\n  <div class=\"block\" data-link=\"{radiogroup gender}\">\n    <label><input value=\"male\" type=\"radio\" /> Male</label><br/>\n    <label><input data-link=\"gender\" value=\"female\" type=\"radio\" /> Female</label>\n  </div>\n\n  <select data-link=\"gender\" class=\"block\">\n    <option value=\"male\">Male</option>\n    <option value=\"female\">Female</option>\n  </select>\n\n  <textarea data-link=\"name\" class=\"block\"></textarea>\n\n  <div class=\"block\">\n    <span data-link=\"name\" contenteditable=\"true\"></span>\n  </div>\n\n  <div class=\"block\">\n    {^{textbox name label=\"Name:\"/}}\n  </div>\n\n  <hr/>\n\n  <div class=\"green\"><b>person:</b> {^{>name}} {^{>gender}}</div>\n</script>",
         "code": "$.views.converters({\n  toString: function(val) {\n   return val ? 'male' : 'female';\n  },\n  toBool: function(val) {\n    return val === 'male';\n }\n});\n\n$.views.tags({\n  textbox: {\n    onBind: function() {\n      // Find input in contents\n      this.linkedElem = this.contents(\"input\");\n    },\n    onUpdate: false, // No need to re-render whole tag, when content updates.\n    template: \"<em>{{:~tag.tagCtx.props.label}}</em> <input/>\"\n  }\n});\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo\", gender: \"male\"};\n\ntmpl.link(\"#result\", person);\n",
-        "height": "346",
+        "height": "320",
         "title": "Two way binding"
       },
       {
@@ -2479,12 +2468,17 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<style>.block {display: block; margin-bottom: 10px} .green {color: green;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label class=\"block\">\n  <input data-link=\"gender convert=~toBool convertBack=~toString\" type=\"checkbox\" />\n  Male</label>\n\n  <div class=\"block\" data-link=\"{radiogroup gender}\">\n    <label><input value=\"male\" type=\"radio\" /> Male</label><br/>\n    <label><input value=\"female\" type=\"radio\" /> Female</label>\n  </div>\n\n  <hr/>\n\n  <div class=\"green\">{^{>gender}}</div>\n</script>",
         "code": "var helpers = {\n  toString: function(val) {\n   return val ? 'male' : 'female';\n  },\n  toBool: function(val) {\n    return val === 'male';\n }\n};\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {gender: \"male\"};\n\ntmpl.link(\"#result\", person, helpers);\n",
         "title": "Two-way binding &ndash; using helpers as converters",
-        "height": "140"
+        "height": "130"
+      },
+      {
+        "_type": "para",
+        "title": "<b>Additional advanced two-way  binding scenarios:</b>",
+        "text": ""
       },
       {
         "_type": "para",
         "title": "Triggering the two-way binding on <b>blur</b>, rather than on <b>keydown</b>",
-        "text": "In the case of *[text boxes](#link-input@textbox)* (or any other two-way data-linked element that takes character entry such as the *[textarea](#link-textarea)*, *[contenteditable](#link-contenteditable)* and some *custom tags* like as the `{^{textbox}}` example above), you can choose when the *to* binding updates the underlying data:\n\n- With `trigger=true` (default setting), changes to the underlying data are triggered as you type (on character entry -- the *keydown* event)\n- With `trigger=false`, changes to the underlying data are made on leaving the text box (the *change* or *blur* event)\n\nThe *trigger* setting can be modified:\n\n- globally, by using: [$.views.settings.trigger(...)](#jsvsettings/trigger):\n  ```jsr\n  $.views.settings.trigger(false); \n  ```\n- on each tag or element by writing:\n  ```jsr\n  <input data-link=\"name trigger=false\"/> \n  {^{textbox name trigger=false}}\n  ```\n\nIn fact you can also set `trigger` to a string with one or more white-space separated event names, such as: \n\n```jsr\n<input data-link=\"name trigger='keyup mouseup'\"/>`\n```\n\n-- but generally only the values ***true*** (actually equivalent to `trigger='keydown'`) and ***false*** are useful.",
+        "text": "In the case of *[text boxes](#link-input@textbox)* (or any other two-way data-linked element that takes character entry such as the *[textarea](#link-textarea)*, *[contenteditable](#link-contenteditable)* and some *custom tags* like as the `{^{textbox}}` example above), you can choose when the *to* binding updates the underlying data:\n\n- With `trigger=true` (default setting), changes to the underlying data are triggered as you type (on character entry -- the *keydown* event, or for compatible browsers, the *input* event)\n- With `trigger=false`, changes to the underlying data are made on leaving the text box (the *change* or *blur* event)\n\nThe *trigger* setting can be modified:\n\n- globally, by using: [$.views.settings.trigger(...)](#jsvsettings/trigger):\n  ```jsr\n  $.views.settings.trigger(false); \n  ```\n- on each tag or element by writing:\n  ```jsr\n  <input data-link=\"name trigger=false\"/> \n  {^{textbox name trigger=false}}\n  ```\n\nIn fact you can also set `trigger` to a string with one or more white-space separated event names, such as: \n\n```jsr\n<input data-link=\"name trigger='keyup mouseup'\"/>`\n```\n\n-- but generally only the values ***true*** (actually equivalent to `trigger='keydown'`) and ***false*** are useful.",
         "anchor": "trigger"
       },
       {
@@ -2513,8 +2507,36 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<script src=\"../download/sample-tag-controls/jsonview/jsonview.js\"></script>\n<link href=\"../download/sample-tag-controls/jsonview/jsonview.css\" rel=\"stylesheet\"></link>\n<style>\n.title {display: inline-block; border:1px solid; padding:5px; margin-bottom: 15px}\nform {border: 1px solid gray; display: inline-block; padding: 5px; margin-bottom: 15px;}\ninput, button, select {margin: 5px;} \n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n<b>Current settings:</b>\n<span class=\"title\" data-link=\"\n  css-border-color{:current.color}\n  css-color{:current.color}\n  {:current.title}\n\"></span><br/>\n\n<form data-link=\"{on 'submit' apply}\">\n  <em>Modify settings:</em><br/><br/>\n  Color:\n  <select data-link=\"current.color linkTo=modified.color\">\n    <option>red</option>\n    <option>green</option>\n  </select><br/>\n  Name:\n  <input data-link=\"current.title linkTo=modified.title\" />\n  <hr />\n  Modified settings:\n  <span class=\"title\" data-link=\"\n    css-border-color{:modified.color}\n    css-color{:modified.color}\n    {:modified.title}\n  \"></span><br/>\n  <button type=\"submit\">Apply</button>\n  <button data-link=\"{on cancel}\">Cancel</button><br/>\n</form><br/>\n\n<em>Underlying data:</em><br/>{^{jsonview/}}\n\n</script>",
         "code": "var settings = {\n  current: {title: \"My title\", color:\"green\"},\n  modified: {title: \"My title\", color:\"green\"},\n  apply: function() {\n    $.observable(this.current).setProperty(this.modified);\n    return false;\n  },\n  cancel: function() {\n    $.observable(this.modified).setProperty(this.current);\n\n    $.observable(this.current).setProperty({name: \"\", color: \"\"});\n    $.observable(this.current).setProperty(this.modified);\n  }\n}\n\nvar myTmpl = $.templates(\"#myTmpl\");\n\nmyTmpl.link(\"#result\", settings);",
-        "height": "526",
+        "height": "500",
         "title": "linkTo"
+      },
+      {
+        "_type": "para",
+        "title": "Data-linking to/from multiple arguments, using convert and convertBack",
+        "text": "When data-linking binds from more than one argument (using a *convert* converter to combine values), then two-way binding can be made to bind back not just to the first argument, but to all of the arguments. This is achieved by providing a *convert back* converter which returns an array of values, one for each argument, and is shown in the following example: ",
+        "anchor": "multipleargs"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Data-link to two arguments, `first ` and `last`:\n\n```jsr\n<input data-link=\"{toFull:first last:fromFull}\"/>\n```\n\n*Convert back* converter `fromFull` returns an array:\n\n```js\n$.views.converters({\n  toFull: function(first, last) {\n    return first + \" \" + last;\n  },\n  fromFull: function(fullname) {\n    ...\n    return [first, last]; // Return array for binding back to the two arguments\n  }\n});\n```"
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"{toFull:first last:fromFull}\"/><br/><br/>\n\n  First: <em>{^{:first}}</em><br/>\n  Last: <b>{^{:last}}</b>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { first: \"Jo\", last: \"Blow\" };\n\n$.views.converters({\n  toFull: function(first, last) {\n    return first + \" \" + last;\n  },\n  fromFull: function(fullname) {\n    var names = fullname.split(\" \");\n    var last = names.pop();\n    var first = names.join(\" \"); \n    return [first, last]; // Return array for binding back to the two arguments\n  }\n});\n\nmyTmpl.link(\"#page\", data);",
+        "height": "120"
       }
     ]
   },
@@ -2655,7 +2677,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Data-linking to computed observables can include:\n\n- data-linking to a computed value (as in [this sample](#computed@getsetdepends)): \n  ```jsr\n  <span data-link=\"person.fullName()\"></span>\n  ```\n- two-way data-linking to a get/set property (as in [this sample](#computed@getset)):\n  ```jsr\n  <input data-link=\"person.firstName()\" />`\n  ```\n- data-linking to a deep path that includes one or more computed values (as in [this sample](#jsvviewmodelsapi@ismanagersample) -- where the displayed `ZIP` updates correctly when `team.manager()` changes):\n  ```jsr\n  <span data-link=\"manager()^address().ZIP()\"></span>`\n  ```\n\nSee:\n\n- [Data / View Model](#jsvmodel)\n- [Computed properties and computed observables](#computed)\n- [Samples: fullName() – variants](#samples/computed/fullname)\n- [Samples: Shopping cart - totalAmount()](#samples/computed/shopping-cart)\n- [Compiled VMs - Team manager sample](#jsvviewmodelsapi@ismanagersample)"
+        "text": "Data-linking to computed observables can include:\n\n- data-linking to a computed value (as in [this sample](#computed@getsetdepends)): \n  ```jsr\n  <span data-link=\"person.fullName()\"></span>\n  ```\n- two-way data-linking to a get/set property (as in [this sample](#computed@getset)):\n  ```jsr\n  <input data-link=\"person.firstName()\" />\n  ```\n- data-linking to a deep path that includes one or more computed values (as in [this sample](#jsvviewmodelsapi@ismanagersample) -- where the displayed `ZIP` updates correctly when `team.manager()` changes):\n  ```jsr\n  <span data-link=\"manager()^address().ZIP()\"></span>\n  ```\n- data-linking to multiple targets as in:\n  ```jsr\n  <input data-link=\"{:name():} placeholder{:namePlaceholder()}\" />\n  ```\n  -- which has two-way data-linking to `name()` and data-linking of the placeholder target to `namePlaceholder()`\n\nSee:\n\n- [Data / View Model](#jsvmodel)\n- [Computed properties and computed observables](#computed)\n- [Samples: fullName() – variants](#samples/computed/fullname)\n- [Samples: Shopping cart - totalAmount()](#samples/computed/shopping-cart)\n- [Compiled VMs - Team manager sample](#jsvviewmodelsapi@ismanagersample)"
       }
     ]
   },
@@ -2690,7 +2712,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "hash": "link-elemattribs",
-            "label": "Element attributes"
+            "label": "Element attributes/properties"
           },
           {
             "hash": "link-tags",
@@ -4715,13 +4737,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "link-elemattribs": {
-    "title": "Data-linking to element attributes",
+    "title": "Data-linking to element attributes/properties",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "To data-link to an HTML element attribute, simply use the attribute name as data-link target.\n\nFor example to data-link to the `disabled` attribute (and thus to the underlying `disabled` property of the HTMLElement object) use:\n\n```jsr\ndata-link=\"disabled{:dataPathOrExpression}\"\n```\n\nThis approach can be used for any HTML attributes, including `class`, `data-*` attributes etc., as shown in the following example:"
+        "text": "To data-link to an HTML element attribute, simply use the attribute name as data-link target.\n\nFor example to data-link to the `title` attribute use:\n\n```jsr\ndata-link=\"title{:dataPathOrExpression}\"\n```\n\nThis approach can be used for any HTML attribute, including `class`, `data-*` attributes etc., as shown in the following example:"
       },
       {
         "_type": "sample",
@@ -4744,6 +4766,45 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<style>\n.class1 {color:green;}\n.class2 {color:red;}\n</style>\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"\n    disabled{:disableButton}\n    title{:'Message: &quot;' + theTitle + '&quot;'}\n    data-myvalue{:myVal}\n    class{:disableButton ? 'class2' : 'class1'}\n  \">\n    I am {^{:disableButton?'disabled':'enabled'}}\n  </button><br/><br/>\n\n  <label><input data-link=\"disableButton\" type=\"checkbox\" /> Disable</label><br/>\n  <label>Set button title: <input data-link=\"theTitle\" /></label> (To see it, hover over the button...)<br/>\n  <label>data-myvalue property: <input data-link=\"myVal\" /></label> (To see it, click on the button...)\n</script>\n\n",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  theTitle: \"the title\",\n  disableButton: false,\n  myVal: \"My value\"\n}\n\ntmpl.link(\"#result\", data);\n\n$(\"button\").on('click', function() {\n  alert(\n    $(this).data(\"myvalue\") // Can use 'this.dataset.myvalue' for HTML 5 browsers\n  );\n})\n",
         "height": "140"
+      },
+      {
+        "_type": "para",
+        "title": "Removing HTML attributes, by returning null",
+        "text": "When data-linking to an attribute, if the value of the attribute is set to `null` then the attribute will be removed. For example, setting `data-link=\"title{:myTitle||null}\"` will lead to the `title` attribute being removed from the element whenever `myTitle` returns a *falsy* value such as `\"\"`, `false` or `0`.\n\n*Special cases:* Setting `selected`, `disabled`, `multiple` or `readonly` to any *falsy* value will remove the corresponding attributes. Setting to any *truthy* value will set the attribute to a standard value such as `multiple=\"multiple\"`",
+        "anchor": "remove"
+      },
+      {
+        "_type": "para",
+        "title": "Element attributes &ndash; and corresponding element properties",
+        "text": "For attributes that are part of the HTML schema there is generally a corresponding property on the underlying HTML Element object, and data-linking to the attribute will also drive changes the corresponding property. For example, setting the `title` attribute will also set the underlying `elem.title` property. However, data-linking to an unknown attribute, such as `foo{:...}` will add a `foo=\"...\"` attribute, but will not set an `elem.foo` property.\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Data-linking directly to element properties",
+        "text": "To data link directly to HTML Element properties, use `prop-propertyname` as data-link target.\n\nFor example to data-link to the `muted` property of a `<video>` element use `prop-muted`:\n\n```jsr\n<video ... data-link=\"prop-muted{:dataPathOrExpression}\" ...>\n```\n\nas in the following example:\n",
+        "anchor": "props"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<video ... data-link=\"prop-muted{:muted} prop-loop{:loop}\">\n  <source data-link=\"src{:src}\" ...>\n</video>\n```"
+          }
+        ],
+        "html": "<style>video {width:400px; height:200px; margin-bottom:20px; display:block}</style>\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <video autobuffer controls data-link=\"prop-muted{:muted} prop-loop{:loop}\">\n    <source data-link=\"src{:src}\" type=\"video/mp4\">\n  </video>\n  <label>Muted: <input type=\"checkbox\" data-link=\"muted\"/></label>\n  <label>Loop: <input type=\"checkbox\" data-link=\"loop\"/></label>\n</script>\n",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  src: \"https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4\",\n  muted: true,\n  loop: true\n};\n\ntmpl.link(\"#result\", data);\n\n$(\"video\").on(\"volumechange\", function(ev) {\n  $.observable(data).setProperty(\"muted\", ev.target.muted);\n});\n",
+        "height": "270"
       },
       {
         "_type": "links",
@@ -4815,7 +4876,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Using merge() and unmap() for Save/Undo behavior, in an MVVM application",
-        "text": "MVVM applications (including single page apps -- SPAs) generally work with data on the server, considered as the *Model*, and client data, in the browser -- which is a hierarchy of *View Models*. Client *View Models* are initialized from the server *Model*. \n\nThe user may be able to interact with *Views* in the browser, and drive changes to the *View Model*. There will then typically be a process of saving data (from the modified *View Model* in the browser) back to the server, to update the *Model*.\n\nThe following sample (available also at [samples/editable/submit](#samples/editable/submit)) illustrates this, and provides a *Submit Changes* button (which makes a 'snapshot' of current *View Model* data, and which would in a 'real app' save that data back to the server), and an *Undo* button (which reverts current *View Model* data back to the last 'snapshot').\n\nSpecifically:\n\n- *Submit Changes* is bound to the submit action of an HTML form -- so will be triggered also by *Enter*\n- It uses the *compiled View Model* [`unmap()`](#viewmodelsapi@unmap) feature to make a `snapshot` of data for sending to the server\n- *Undo* uses the *compiled View Model* [`merge()`](#viewmodelsapi@merge) feature to revert changes\n"
+        "text": "MVVM (*Model/View/View-Model*) applications (including single page apps -- SPAs) generally work with data on the server, considered as the *Model*, and client data, in the browser -- which is a hierarchy of *View Models*. Client *View Models* are initialized from the server *Model*. \n\nThe user may be able to interact with *Views* in the browser, and drive changes to the *View Model*. There will then typically be a process of saving data (from the modified *View Model* in the browser) back to the server, to update the *Model*.\n\nThe following sample (available also at [samples/editable/submit](#samples/editable/submit)) illustrates this, and provides a *Submit Changes* button (which makes a 'snapshot' of current *View Model* data, and which would in a 'real app' save that data back to the server), and an *Undo* button (which reverts current *View Model* data back to the last 'snapshot').\n\nSpecifically:\n\n- *Submit Changes* is bound to the submit action of an HTML form -- so will be triggered also by *Enter*\n- It uses the *compiled View Model* [`unmap()`](#viewmodelsapi@unmap) feature to make a `snapshot` of data for sending to the server\n- *Undo* uses the *compiled View Model* [`merge()`](#viewmodelsapi@merge) feature to revert changes\n"
       },
       {
         "_type": "sample",
@@ -6175,34 +6236,167 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       }
     ]
   },
-  "jsvtagcontrolsNew": {
-    "title": "Custom tag controls New",
+  "jsvtagcontrols": {
+    "title": "Custom tag controls",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, defined/registered in the usual way (see *[Using custom tags](#tags)*).\n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self contained encapsulated components, with a life-cycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal...\n\n"
+        "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, defined/registered in the usual way (see *[Using custom tags](#tags)*).\n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self-contained encapsulated components, with a life-cycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal...\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Custom tags with or without data-linking",
+        "text": "A custom tag can be used simply for rendering, without data-binding, as in\n\n```jsr\n{{mytag ...}}\n```\n\nor it can be used (with JsViews) as a data-linked tag (so it becomes a dynamic data-bound *tag control*), as in:\n\n```jsr\n{^{mytag ...}}\n```\n\nIt can also be used as a [tag binding](#link-tags) on a [data-linked element](#linked-elem-syntax):\n\n```jsr\n<div data-link=\"{mytag ...}\">...</div>\n```\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Simple tag:\n\n```js\n$.views.tags(\"mytag\", \"<b>{{:}}</b>\");\n```\n\nUse with or without data-linking:\n\n```jsr\n<input data-link=\"name\" />\nNo data binding: {{mytag name/}}\nData-linked tag: {^{mytag name/}}\nData-linked element with tag binding: <span data-link=\"{mytag name}\"></span>\n```"
+          }
+        ],
+        "jsrJsvJqui": "",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" /><br/>\n\n  No data binding: {{mytag name/}}<br/>\n  Data-linked tag: {^{mytag name/}}<br/>\n  Data-linked element with tag binding: <span data-link=\"{mytag name}\"></span><br/>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { name: \"Jo\" };\n\n$.views.tags(\"mytag\", \"<b>{{:}}</b>\");\n\nmyTmpl.link(\"#page\", data);",
+        "height": "110"
       },
       {
         "_type": "para",
         "title": "Specifying tag options for a custom tag",
-        "text": "A custom tag can be used simply for rendering, without data-binding, as in\n\n```jsr\n{{mytag ...}}\n```\n\nor it can be used (with JsViews) as a data-linked tag (so it becomes a dynamic data-bound *tag control*), as in:\n\n```jsr\n{^{mytag ...}}\n```\n\nThe following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function."
+        "text": "The following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function.\n\n(See: *[Registering a custom tag](#tags@register)*.)"
+      },
+      {
+        "_type": "para",
+        "title": "<b>The life-cycle of a JsViews tag control</b>",
+        "text": "The tag options can include event handlers for the following life-cycle events:\n\n- `init()` \n- `render()` \n- `onBeforeBind()` tag.mainElem, tag.linkedElem and tag.displayElem can be set in tag.onBeforeBind\n- `onBind()` \n- `onUnbind()` \n- `onAfterLink()` \n- `onUpdate()` \n- `onDispose()`\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Custom tag life-cycle without data-linking: init() and render() events only",
+        "text": "When a custom tag is rendered without data-linking:\n\n```jsr\n{{myTag .../}}\n```\n\nthen it will be instantiated during rendering, and immediately disposed, and only the [`init()`](#tagsapi@init) and [`render()`](#tagsapi@render) life-cycle events will be triggered.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Custom tag life-cycle with data-linking (tag control): full life-cycle",
+        "text": "When a custom tag is rendered with data-linking:\n\n```jsr\n{^{myTag .../}}\n```\n\nthen it will behave as a *tag control*. It will be instantiated during rendering, and the instance will remain as long as the parent HTML element (and JsViews `View`) are not removed or disposed. \n\n**_Initialization_**:\n\nDuring the initial rendering and data-linking, life-cycle events will be triggered in the following sequence:\n\n- `init()` -- initialization\n- `render()` -- rendering\n- `onBeforeBind()` -- prior to initial data-linking\n- `onBind()` -- during initial data-linking\n- `onAfterLink()` -- after initial data-linking\n\n**_Data-linking update (observable change)_**:\n\nIf the tag control has arguments (`{^{myTag arg1 .../}}`)then whenever any of the arguments changes observably, data-linking will be refreshed, with the following sequence of events:\n\n- `onBeforeChange` -- cancellable event, before change\n- `onUpdate` -- update data-linking\n- `onAfterLink` -- after updating data-linking\n- `onAfterChange` -- after completing change\n\n-- and similarly if the tag has data-bound properties (`{^{myTag ^prop1=... .../}}`), or declared dependencies which change... \n\n**_Disposal_**:\n\nIf the containing HTML/`View` is removed, then the tag control instance will be disposed, with the following sequence of events:\n\n- `onUnbind()` -- remove data-link bindings\n- `onDispose()` -- dispose of instance\n\n**_Refresh_**:\n\nIf the tag control instance is refreshed (by calling the `tag.refresh()` method, for example) then the instance will be replaced by a newly rendered and data-linked instance -- with the following sequence of events:\n\n- `onUnbind` -- remove data-link bindings\n- `render` -- refresh rendering\n- `onBind` -- establish new data-link bindings\n- `onAfterLink` -- after data-linking refreshed instance"
+      }
+    ]
+  },
+  "jsvtagcontrolsPrevNew": {
+    "title": "Custom tag controls",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, defined/registered in the usual way (see *[Using custom tags](#tags)*).\n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self-contained encapsulated components, with a life-cycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal...\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Custom tags with or without data-linking",
+        "text": "A custom tag can be used simply for rendering, without data-binding, as in\n\n```jsr\n{{mytag ...}}\n```\n\nor it can be used (with JsViews) as a data-linked tag (so it becomes a dynamic data-bound *tag control*), as in:\n\n```jsr\n{^{mytag ...}}\n```\n\nIt can also be used as a [tag binding](#link-tags) on a [data-linked element](#linked-elem-syntax):\n\n```jsr\n<div data-link=\"{mytag ...}\">...</div>\n```\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Simple tag:\n\n```js\n$.views.tags(\"mytag\", \"<b>{{:}}</b>\");\n```\n\nUse with or without data-linking:\n\n```jsr\n<input data-link=\"name\" />\nNo data binding: {{mytag name/}}\nData-linked tag: {^{mytag name/}}\nData-linked element with tag binding: <span data-link=\"{mytag name}\"></span>\n```"
+          }
+        ],
+        "jsrJsvJqui": "",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" /><br/>\n\n  No data binding: {{mytag name/}}<br/>\n  Data-linked tag: {^{mytag name/}}<br/>\n  Data-linked element with tag binding: <span data-link=\"{mytag name}\"></span><br/>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { name: \"Jo\" };\n\n$.views.tags(\"mytag\", \"<b>{{:}}</b>\");\n\nmyTmpl.link(\"#page\", data);",
+        "height": "110"
+      },
+      {
+        "_type": "para",
+        "title": "Specifying tag options for a custom tag",
+        "text": "The following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function.\n\n(See: *[Registering a custom tag](#tags@register)*.)"
+      },
+      {
+        "_type": "para",
+        "title": "<b>The life-cycle of a JsViews tag control</b>",
+        "text": "The tag options can include event handlers for the following life-cycle events:\n\n- `init()` \n- `render()` \n- `onBeforeBind()` tag.mainElem, tag.linkedElem and tag.displayElem can be set in tag.onBeforeBind\n- `onBind()` \n- `onUnbind()` \n- `onAfterLink()` \n- `onUpdate()` \n- `onDispose()`\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Custom tag life-cycle without data-linking: init() and render() events only",
+        "text": "When a custom tag is rendered without data-linking:\n\n```jsr\n{{myTag .../}}\n```\n\nthen it will be instantiated during rendering, and immediately disposed, and only the [`init()`](#tagsapi@init) and [`render()`](#tagsapi@render) life-cycle events will be triggered.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "Custom tag life-cycle with data-linking (tag control): full life-cycle",
+        "text": "When a custom tag is rendered with data-linking:\n\n```jsr\n{^{myTag .../}}\n```\n\nthen it will behave as a *tag control*. It will be instantiated during rendering, and the instance will remain as long as the parent HTML element (and JsViews `View`) are not removed or disposed. \n\n**_Initialization_**:\n\nDuring the initial rendering and data-linking, life-cycle events will be triggered in the following sequence:\n\n- `init()` -- initialization\n- `render()` -- rendering\n- `onBeforeBind()` -- prior to initial data-linking\n- `onBind()` -- during initial data-linking\n- `onAfterLink()` -- after initial data-linking\n\n**_Data-linking update (observable change)_**:\n\nIf the tag control has arguments (`{^{myTag arg1 .../}}`)then whenever any of the arguments changes observably, data-linking will be refreshed, with the following sequence of events:\n\n- `onBeforeChange` -- cancellable event, before change\n- `onUpdate` -- update data-linking\n- `onAfterLink` -- after updating data-linking\n- `onAfterChange` -- after completing change\n\n-- and similarly if the tag has data-bound properties (`{^{myTag ^prop1=... .../}}`), or declared dependencies which change... \n\n**_Disposal_**:\n\nIf the containing HTML/`View` is removed, then the tag control instance will be disposed, with the following sequence of events:\n\n- `onUnbind()` -- remove data-link bindings\n- `onDispose()` -- dispose of instance\n\n**_Refresh_**:\n\nIf the tag control instance is refreshed (by calling the `tag.refresh()` method, for example) then the instance will be replaced by a newly rendered and data-linked instance -- with the following sequence of events:\n\n- `onUnbind` -- remove data-link bindings\n- `render` -- refresh rendering\n- `onBind` -- establish new data-link bindings\n- `onAfterLink` -- after data-linking refreshed instance"
+      },
+      {
+        "_type": "para",
+        "title": "Tag control design patterns",
+        "text": "**_Rendered template_**:\n\ntemplate\n\n**_Programmatic rendering (render method)_**:\n\nrender\n\n**_Dynamic template_**:\n\ninit\n\n**_Wrapping content_**:\n\nchooseBlock\n\n**_User action events_**:\n\n{{on}}\nspinbox\n\n**_Inheritance -- derived controls_**:\n\nrange\nbase\n\n**_Two-way binding_**:\n\nSimple text box\nlinkedElem\nminislider\nlinkedCtxParam\nsetValue\n\n**_Default converters_**:\n\nconvert\nconvertBack\n\n**_Multiple two-way bindings_**:\n\nareaslider\nbindTo\n\n**_Composite controls_**:\n\npicker"
+      },
+      {
+        "_type": "para",
+        "title": "AND",
+        "text": "Consider the following simple custom tag control, rendered by a JsRender template:\n\nSample with init and render, {{}}\n\nIn JsRender - init and render\n\nNow add onBind, onAfterLink onDispose and use {^{}}\n\nExample needing onBind and onAfterLink\n\nUsing dispose\n\n(Add convert ?)\n\nBinding - linkedElem simple textbox\n\nspinbox\nUser action events\nWrapping content\n\nInheritance - range\n\nSpecifying data-binding behavior (one-way and two-way)\n\nminislider\nlinkedCtxParam\nsetValue\n\nareaslider\nbindTo\n\ncomposition: picker\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- tag.depends()\n- tag.convertBack()\n- tag.onBeforeUpdateVal()\n- tag.onBeforeChange()\n- tag.onArrayChange()\n- tag.onAfterChange()\n- tag.domChange()\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [],
+        "jsrJsvJqui": "jsr",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {{name firstName lastName prefix=title/}}\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags(\"myTag\", {\n  init: function(tagCtx) {\n    this.prefix = tagCtx.props.prefix;\n  },\n  render: function(first, second) {\n    return this.prefix + \" \" + first + \" \" + second\n  }\n})\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = { firstName: \"Jo\", lastName: \"Blow\", title: \"Mr\" },\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "### _Tag options available in both JsRender and JsViews:_\n\nThe following tag options are documented in the JsRender [*Registering custom tags*](#tagsapi) topic -- and concern primarily the *rendering* behavior of the custom tag, rather than its dynamic interactive data-bound behavior when using data-linking:\n\n- The [init()](#tagsapi@init) method: `init: tagInitFn`\n- The [render()](#tagsapi@render) method: `render: tagRenderFn`\n- The [template](#tagsapi@template) property: `template: tagTemplate`\n- The [baseTag](#tagsapi@basetag) property, specifying tag inheritance: `baseTag: ...`\n\nThe following more advanced options are also available with or without data-linking, (and are documented in the JsRender *Registering custom tags* topic):\n\n- [`contentCtx: ...`](#tagsapi@contentctx)\n- [`convert: ...`](#tagsapi@convert)\n- [`argDefault: ...`](#tagsapi@argdefault)\n- [`bindTo: ...`](#tagsapi@bindto)\n- [`flow: ...`](#tagsapi@flow)\n\n### _Tag options available only to JsViews custom tag controls:_\n"
+        "text": "### _Tag options available in both JsRender and JsViews:_\n\nThe following tag options are documented in the JsRender [*Registering custom tags*](#tagsapi) topic -- and concern primarily the *rendering* behavior of the custom tag, rather than its dynamic interactive data-bound behavior when using data-linking:\n\n- The [init()](#tagsapi@init) method: `init: tagInitFn`\n- The [render()](#tagsapi@render) method: `render: tagRenderFn`\n- The [template](#tagsapi@template) property: `template: tagTemplate`\n- The [baseTag](#tagsapi@basetag) property, specifying tag inheritance: `baseTag: ...`\n\nThe following more advanced options (also documented in the JsRender [*Registering custom tags*](#tagsapi) topic) are also available with or without data-linking:\n\n- [`contentCtx: ...`](#tagsapi@contentctx)\n- [`convert: ...`](#tagsapi@convert)\n- [`argDefault: ...`](#tagsapi@argdefault)\n- [`bindTo: ...`](#tagsapi@bindto)\n- [`flow: ...`](#tagsapi@flow)"
       },
       {
         "_type": "para",
-        "title": "Life-cycle event handlers:",
-        "text": "The tag options can include event handlers for the following life-cycle events:\n\n- `init()` \n- `render()` \n- `onBeforeBind()` \n- `onBind()` \n- `onBeforeLink()` \n- `onAfterLink()` \n- `onUpdate()` \n- `onDispose()` \n\nSpecifying data-binding behavior (one-way and two-way)\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- tag.depends()\n- tag.convertBack()\n- tag.onBeforeUpdateVal()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n- tag.domChange()\n\n\nAdvanced\n\n- lateRender (feature)\n- dataMap\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\n\n"
+        "title": "OTHER",
+        "text": "\nSpecifying data-binding behavior (one-way and two-way)\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- tag.depends()\n- tag.convertBack()\n- tag.onBeforeUpdateVal()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n- tag.domChange()\n\n\nAdvanced\n\n- lateRender (feature)\n- dataMap\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "### _Tag options available only to JsViews custom tag controls:_"
       },
       {
         "_type": "para",
         "title": "Tag options available only to JsViews custom tag controls ",
-        "text": "The \n\nDeclare\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- dateMap\n- lateRender (feature)\n\nEvent handlers\n\n- tag.convertBack()\n- tag.domChange()\n- tag.depends()\n- tag.onBeforeBind()\n- tag.onBind()\n- tag.BeforeLink()\n- tag.onAfterLink()\n- tag.onUpdate()\n- tag.onBeforeUpdateVal()\n- tag.onDispose()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\nJsRender\n\nDeclare\n\n- tag.template\n- tag.flow\n- tag.baseTag\n- tag.contentCtx\n- tag.argDefault\n- tag.bindTo\n\nEvent handlers\n\n- tag.init()\n- tag.render()\n- tag.convert()\n\nProps/Methods\n\n- tag.ctxPrm()\n- tag.cvt()\n- tag.cvtArgs()\n- tag.bndArgs() \n- tag.ctx\n- tag.parent\n- tag.parents\n- tag.tagCtx\n- tag.tagCtxs\n- tag.tagName\n- tag.base\n- tag.baseApply\n- rendering\n\n"
+        "text": "The \n\nDeclare\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- dateMap\n- lateRender (feature)\n\nEvent handlers\n\n- tag.convertBack()\n- tag.domChange()\n- tag.depends()\n- tag.onBeforeBind()\n- tag.onBind()\n- tag.onAfterLink()\n- tag.onUpdate()\n- tag.onBeforeUpdateVal()\n- tag.onDispose()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\nJsRender\n\nDeclare\n\n- tag.template\n- tag.flow\n- tag.baseTag\n- tag.contentCtx\n- tag.argDefault\n- tag.bindTo\n\nEvent handlers\n\n- tag.init()\n- tag.render()\n- tag.convert()\n\nProps/Methods\n\n- tag.ctxPrm()\n- tag.cvt()\n- tag.cvtArgs()\n- tag.bndArgs() \n- tag.ctx\n- tag.parent\n- tag.parents\n- tag.tagCtx\n- tag.tagCtxs\n- tag.tagName\n- tag.base\n- tag.baseApply\n- rendering\n\n"
       }
     ]
   }

@@ -5006,7 +5006,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Custom datepicker tags",
-        "text": "You can create your own flavor of datepicker which defaults to chosen `dateFormat` and `dataFormat` (for display format and underlying data format):\n\n```js\n$.views.tags({\n  myDatepicker: {\n    baseTag: \"datepicker\",\n    dataFormat: false, // Any falsy value\n    dateFormat: \"DD MM d, yy\"\n  },\n  myWcfDatepicker: {\n    baseTag: \"datepicker\",\n    dataFormat: wcfDateFormatter,\n    dateFormat: 'm-d-yy'\n  }\n);\n```\n\nUsage:\n\n```jsr\n{^{myDatepicker date /}}\n{^{myWcfDatepicker wcfString/}}\n```\n\nTo override the default settings for the regular `{{datepicker}}` tag, use:\n\n```\n$.views.tags(\"datepicker\", {\n  baseTag: \"datepicker\",\n  dataFormat: ...\n  dateFormat: ...\n})\n```\n\nUsage:\n\n```jsr\n{^{datepicker date /}}\n```\n"
+        "text": "You can create your own flavor of datepicker which defaults to chosen `dateFormat` and `dataFormat` (for display format and underlying data format):\n\n```js\n$.views.tags({\n  myDatepicker: {\n    baseTag: \"datepicker\",\n    dataFormat: false, // Any falsey value\n    dateFormat: \"DD MM d, yy\"\n  },\n  myWcfDatepicker: {\n    baseTag: \"datepicker\",\n    dataFormat: wcfDateFormatter,\n    dateFormat: 'm-d-yy'\n  }\n);\n```\n\nUsage:\n\n```jsr\n{^{myDatepicker date /}}\n{^{myWcfDatepicker wcfString/}}\n```\n\nTo override the default settings for the regular `{{datepicker}}` tag, use:\n\n```\n$.views.tags(\"datepicker\", {\n  baseTag: \"datepicker\",\n  dataFormat: ...\n  dateFormat: ...\n})\n```\n\nUsage:\n\n```jsr\n{^{datepicker date /}}\n```\n"
       },
       {
         "_type": "para",
