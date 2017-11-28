@@ -1,8 +1,8 @@
-﻿/*! JsViews jQueryUI widget integration v0.9.87 (Beta)
+﻿/*! JsViews jQueryUI widget integration v0.9.90 (Beta)
 see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
-* https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
-* Copyright 2017, Boris Moore
+ * https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
+ * Copyright 2017, Boris Moore
  * Released under the MIT License.
  */
 
@@ -35,9 +35,9 @@ function getConverter(tag, cvt) {
   return cvt + "" === cvt ? tag.tagCtx.contentView.getRsc("converters", cvt) : cvt;
 }
 
-function checkboxRadioBeforeBind(tagCtx, linkCtx) {
+function checkboxRadioOnBind() {
   var tag = this,
-    props = tagCtx.props,
+    props = tag.tagCtx.props,
     elem = tag.mainElem[0],
     val = tag.bndArgs()[0];
   // Set the value to arg[0] (after applying converter, if there is one)
@@ -49,7 +49,6 @@ function checkboxRadioBeforeBind(tagCtx, linkCtx) {
     elem.value = props.value;
   }
 
-  tag.baseApply(arguments);
   tag.displayElem = tag.widget.label;
 
   if (props.label) {
@@ -57,10 +56,8 @@ function checkboxRadioBeforeBind(tagCtx, linkCtx) {
   }
 }
 
-function tabsAccordionOnBind(tagCtx, linkCtx) {
+function tabsAccordionOnBind() {
   var tag = this;
-  tag.baseApply(arguments);
-
   tag.mainElem.on("jsv-domchange", function(ev, tagCtx, linkCtx, eventArgs) {
     var newSelected,
       selected = tag.widget.option("active");
@@ -79,7 +76,7 @@ function tabsAccordionOptions() {
   return {
     activate: function(evt, ui) {
       // Raise elemChangeHandler event when selected tab changes - for two-way binding to arg(0)
-			tag.updateValue(tag.widget.option("active"));
+      tag.updateValue(tag.widget.option("active"));
     }
   };
 }
@@ -127,7 +124,7 @@ widget: {
       tag.attr = "html";
     }
   },
-  onBeforeBind: function(tagCtx) {
+  onBind: function(tagCtx) {
     var mainElem, prop, i, optionKey,
       tag = this,
       presets = tag.initOptions, // initOptions: array of option names that when set declaratively
@@ -194,17 +191,19 @@ widget: {
       if (key.charAt(0) === "_") {
         key = key.slice(1);
         option = options && options[key];
-        mainElem[widgetName]("option", key,
-          option && $.isFunction(option) && prop && $.isFunction(prop)
-            ? function() {
-              // If the same event function option is overridden on the tagDef options
-              // (or in a _create override) and the tagCtx.props, call first the one on
-              // the tagDef options, and then the one declared on the tag properties.
-              option.apply(mainElem[0], arguments);
-              return prop.apply(mainElem[0], arguments);
-            }
-            : prop
-          );
+        if (mainElem[widgetName]("option", key) !== prop) {
+          mainElem[widgetName]("option", key,
+            option && $.isFunction(option) && prop && $.isFunction(prop)
+              ? function() {
+                // If the same event function option is overridden on the tagDef options
+                // (or in a _create override) and the tagCtx.props, call first the one on
+                // the tagDef options, and then the one declared on the tag properties.
+                option.apply(mainElem[0], arguments);
+                return prop.apply(mainElem[0], arguments);
+              }
+              : prop
+            );
+        }
       }
     });
   },
@@ -268,7 +267,10 @@ checkbox: {
   mainElement: "input",
   linkedElement: "input",
   setSize: true,
-  onBeforeBind: checkboxRadioBeforeBind,
+  onBind: function() {
+    this.baseApply(arguments);
+    checkboxRadioOnBind.call(this);
+  },
   setValue: function(val) {
     if (val !== undefined) {
       var elem = this.mainElem[0];
@@ -284,11 +286,11 @@ radio: {
   mainElement: "input",
   linkedElement: "input",
   setSize: true,
-  onBeforeBind: checkboxRadioBeforeBind,
   onBind: function() {
     var tag = this,
       radiogroup = tag.parents.radiogroup;
     tag.baseApply(arguments);
+    checkboxRadioOnBind.call(tag);
     if (radiogroup && !radiogroup.onAfterLink) {
       // If {{radio}} is child of {{radiogroup}}, make radiogroup
       // notify radio buttons of selection changes
@@ -509,14 +511,10 @@ selectmenu: {
       }
     };
   },
-  onBeforeBind: function() {
-    var tag = this;
-    tag.baseApply(arguments);
-    tag.displayElem = tag.widget.button;
-  },
   onBind: function() {
     var tag = this;
     tag.baseApply(arguments);
+    tag.displayElem = tag.widget.button;
     tag.mainElem.on("jsv-domchange", function() {
       tag.widget.refresh();
     });
@@ -533,8 +531,7 @@ selectmenu: {
 slider: {
   baseTag: "widget",
   widgetName: "slider",
-  bindTo: [0, 1],
-  linkedElement: ["*", "~foo"],
+  linkedElement: "*",
   elem: "div",
   setSize: true,
   options: function() {
@@ -607,11 +604,15 @@ spinner: {
     tag.dataFormat = dataFormat = initFormatter(tag, tagCtx);
     tag.baseApply(arguments);
   },
-  onBeforeBind: function(tagCtx) {
-    var tag = this;
+  onBind: function(tagCtx) {
+    var tag = this,
+      cvt = getConverter(tag, tag.convert),
+      cvtBk = getConverter(tag, tag.convertBack);
+
+    tag.baseApply(arguments);
+
     if (!tag.linkCtx.elem._jsvChg) {
       // If change not triggered by the spinner itself changing value
-      tag.baseApply(arguments);
       tag.displayElem = tag.mainElem.parent(); // jQuery UI wraps the input in a span
       if (tagCtx.props.width) {
         // In addition to generic setting of width on the
@@ -619,13 +620,6 @@ spinner: {
         tag.mainElem.width(tagCtx.props.width - tag.displayElem.find(".ui-spinner-up").width()-9);
       }
     }
-  },
-  onBind: function(tagCtx) {
-    var tag = this,
-      cvt = getConverter(tag, tag.convert),
-      cvtBk = getConverter(tag, tag.convertBack);
-
-    tag.baseApply(arguments);
 
     tag.convert = function(val) {
       // Wrapped converter calls converter then does widget format
@@ -695,7 +689,6 @@ timespinner: {
   onBind: function(tagCtx) {
     var tag = this;
     tag.baseApply(arguments);
-    tagCtx.props.trigger = false;
 
     tag.widget._parse = function(value) {
       if ("" + value === value && value) {
@@ -724,7 +717,8 @@ timespinner: {
       this.keepDay = keepDay;
     }
     this.baseApply(arguments);
-  }
+  },
+  trigger: false
 },
 // ============================= TABS =============================
 tabs: {
@@ -736,19 +730,19 @@ tabs: {
   setSize: true,
   contentCtx: true,
   options: tabsAccordionOptions,
-  onBind: tabsAccordionOnBind,
   setValue: function(value) {
     // Select the tab whose index is the currently selected one
     this.widget.option("active", parseInt(value));
   },
-  onBeforeBind: function(value) {
+  onBind: function(value) {
+    this.baseApply(arguments);
     var anchor,
       base = window.location.href.replace(/#.*$/, '');
     $('ul>li>a[href^="#"]', this.mainElem).each(function () {
       anchor = $(this);
       anchor.attr('href', base + anchor.attr('href'));
     });
-    this.baseApply(arguments);
+    tabsAccordionOnBind.call(this);
   },
   getValue: function() { // Helper: get the index of the currently selected tab
     return this.widget.option("active");
@@ -756,8 +750,6 @@ tabs: {
 }
 
 };
-
-
 
 $.views.tags(tagDefs);
 
@@ -953,7 +945,10 @@ if ($.ui.accordion) {
     contentCtx: true,
     options: tabsAccordionOptions,
     initOptions: ["header"], // Options which need to be set on creation, not later
-    onBind: tabsAccordionOnBind,
+    onBind: function(value) {
+      this.baseApply(arguments);
+      tabsAccordionOnBind.call(this);
+    },
     setValue: function(value) {
       // Select the panel whose index is the currently selected one
       this.widget.option("active", parseInt(value));

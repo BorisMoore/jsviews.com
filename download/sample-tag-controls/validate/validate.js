@@ -1,4 +1,4 @@
-﻿/*! Sample JsViews tag control: {{validate}} control v0.9.84 (Beta)
+﻿/*! Sample JsViews tag control: {{validate}} control v0.9.90 (Beta)
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
  * Copyright 2017, Boris Moore
@@ -103,8 +103,8 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
         if (target && $.view(target).tag === targetTag) {
           tag.linkedElem = undefined;
         }
-        targetTag.onBeforeChange = function(ev, val) {
-          return tag.onBeforeChange.call(tag, ev, val);
+        targetTag.onBeforeUpdateVal = function(ev, val) {
+          return tag.onBeforeUpdateVal.call(tag, ev, val);
         };
       }
       if (tag.radiogroup) {
@@ -116,10 +116,6 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
         targetTag = tag.targetTag,
         props = tagCtx.props,
         arg0 = tag.cvtArgs()[0];
-
-      if (targetTag) {
-        targetTag.updateValue(arg0);
-      }
 
       if (props.preventInvalidData !== undefined) {
         tag.preventInvalidData = props.preventInvalidData;
@@ -151,7 +147,7 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
       this.clearMessage();
       return false; // don't rerender
     },
-    onBeforeChange: function(ev, eventArgs) {
+    onBeforeUpdateVal: function(ev, eventArgs) {
       if (this.preventInvalidData) {
         this.validate(eventArgs.value);
         return this.isValid;

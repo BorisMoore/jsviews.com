@@ -1187,7 +1187,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Note that `view.childTags()` looks only for custom tags. (In fact it searches for tags which do not have the `flow` property set to `true`. All built-in tags such as `{{for}}` and `{{if}}` have the setting `flow: true`, so are ignored by `childTags()`. However even 'flow tags' will be returned if searched for my name, as in: `view.childTags(\"if\")`.)\n\nThe following sample looks for `{{textbox}}` tags (in the case `data-link=\"{textbox ...}\"`) and calls a method on each."
+        "text": "Note that `view.childTags()` looks only for custom tags. (In fact it searches for tags which do not have the `flow` property set to `true`. All built-in tags such as `{{for}}` and `{{if}}` have the setting `flow: true`, so are ignored by `childTags()`. However even 'flow tags' will be returned if searched for by name, as in: `view.childTags(\"if\")`.)\n\nThe following sample looks for `{{textbox}}` tags (in the case `data-link=\"{textbox ...}\"`) and calls a method on each."
       },
       {
         "_type": "sample",
@@ -3196,10 +3196,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Define converters:</div>*\n\n```js\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.ctx.root.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.ctx.root.cars[val].id;\n  }\n});\n```\n\n*<div class=\"close\">Initialize the data</div>*\n\n```js\nvar data = {\n  selIndex: 1,\n  cars: [...]\n}\n```\n\n*<div class=\"close\">Data-link to `selIndex`, using the converters:</div>*\n\n```jsr\n<input name=\"cars\" type=\"radio\" value=\"{{:id}}\" data-link=\"{toId:~root.selIndex:fromId} value^{:id}\"/>\n``` "
+            "text": "*<div class=\"close\">Define converters:</div>*\n\n```js\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.ctx.root.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.ctx.root.cars[val].id;\n  }\n});\n```\n\n*<div class=\"close\">Initialize the data</div>*\n\n```js\nvar data = {\n  selIndex: 1,\n  cars: [...]\n}\n```\n\n*<div class=\"close\">Data-link to `selIndex`, using the converters:</div>*\n\n```jsr\n<select data-link=\"{toId:selIndex:fromId}\" size=\"4\">\n  <option value=\"\">Choose a car</option>\n  {^{for cars}}\n    <option data-link=\"value{:id} {:name}\"></option>\n  {{/for}}\n</select>\n``` "
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <select data-link=\"{toId:selIndex:fromId}\" size=\"4\">\n    <option value=\"\">Choose a car</option>\n    {^{for cars}}\n      <option data-link=\" value{:id} {:name}\"></option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\" data-link=\"selIndex\"></span><br/>\n  <span class=\"spanbox\" data-link=\"selIndex === -1 ? 'None' : cars[selIndex].name\"></span>\n</script>",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <select data-link=\"{toId:selIndex:fromId}\" size=\"4\">\n    <option value=\"\">Choose a car</option>\n    {^{for cars}}\n      <option data-link=\"value{:id} {:name}\"></option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\" data-link=\"selIndex\"></span><br/>\n  <span class=\"spanbox\" data-link=\"selIndex === -1 ? 'None' : cars[selIndex].name\"></span>\n</script>",
         "height": "170",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selIndex: 1,\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\n$.views.converters({\n  fromId: function(val) {\n    var index = 1;\n    this.ctx.root.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {\n    return val === -1 ? \"\" : this.ctx.root.cars[val].id;\n  }\n});\n\ntmpl.link(\"#result\", data);",
         "title": ""
@@ -3224,10 +3224,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Initialize the data (with `selectedCar` property as an array of strings):</div>*\n\n```js\nvar data = {\n  selectedCar: [\"rnl\", \"frr\"],\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    ...\n  ]\n}\n```\n\n*<div class=\"close\">Data-link to `selectedCar` array):</div>*\n\n```jsr\n<select data-link=\"selectedCar\" multiple ...>\n  {^{for cars}}\n    <option data-link=\" value{:id} {:name}\"></option>\n  {{/for}}\n</select>\n```"
+            "text": "*<div class=\"close\">Initialize the data (with `selectedCar` property as an array of strings):</div>*\n\n```js\nvar data = {\n  selectedCar: [\"rnl\", \"frr\"],\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    ...\n  ]\n}\n```\n\n*<div class=\"close\">Data-link to `selectedCar` array):</div>*\n\n```jsr\n<select data-link=\"selectedCar\" multiple ...>\n  {^{for cars}}\n    <option data-link=\"value{:id} {:name}\"></option>\n  {{/for}}\n</select>\n```"
           }
         ],
-        "html": "<style>select {margin: 10px 0;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <em>Choose one or more cars:</em><br/>\n\n  <select data-link=\"selectedCar\" size=\"5\" multiple>\n    {^{for cars}}\n      <option data-link=\" value{:id} {:name}\"></option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\">\n    {^{for selectedCar}}{{:}} {{else}}<em>None</em>{{/for}}\n  </span>\n</script>",
+        "html": "<style>select {margin: 10px 0;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <em>Choose one or more cars:</em><br/>\n\n  <select data-link=\"selectedCar\" size=\"5\" multiple>\n    {^{for cars}}\n      <option data-link=\"value{:id} {:name}\"></option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\">\n    {^{for selectedCar}}{{:}} {{else}}<em>None</em>{{/for}}\n  </span>\n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selectedCar: [\"rnl\", \"frr\"],\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"rnl\", name: \"Renault\"},\n    {id: \"frr\", name: \"Ferrari\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
         "height": "186"
       },
@@ -6243,6 +6243,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
+        "text": "(**Note:** This documentation topic is work in progress. More to follow...)"
+      },
+      {
+        "_type": "para",
+        "title": "",
         "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, defined/registered in the usual way (see *[Using custom tags](#tags)*).\n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self-contained encapsulated components, with a life-cycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal...\n\n"
       },
       {
@@ -6265,23 +6270,29 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "Simple tag:\n\n```js\n$.views.tags(\"mytag\", \"<b>{{:}}</b>\");\n```\n\nUse with or without data-linking:\n\n```jsr\n<input data-link=\"name\" />\nNo data binding: {{mytag name/}}\nData-linked tag: {^{mytag name/}}\nData-linked element with tag binding: <span data-link=\"{mytag name}\"></span>\n```"
+            "text": "Simple tag:\n\n```js\n$.views.tags(\"mytag\", {\n  template: \"<b>{{:}}</b>\" // template (wrap the data value in a <b> tag)\n});\n```\n\nUse with or without data-linking:\n\n```jsr\n<input data-link=\"name\" />\nNo data binding: {{mytag name/}}\nData-linked tag: {^{mytag name/}}\nData-linked element with tag binding: <span data-link=\"{mytag name}\"></span>\n```"
           }
         ],
         "jsrJsvJqui": "",
         "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" /><br/>\n\n  No data binding: {{mytag name/}}<br/>\n  Data-linked tag: {^{mytag name/}}<br/>\n  Data-linked element with tag binding: <span data-link=\"{mytag name}\"></span><br/>\n</script>\n\n<div id=\"page\"></div>",
-        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { name: \"Jo\" };\n\n$.views.tags(\"mytag\", \"<b>{{:}}</b>\");\n\nmyTmpl.link(\"#page\", data);",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { name: \"Jo\" };\n\n$.views.tags(\"mytag\", {\n  template: \"<b>{{:}}</b>\" // template (wrap the data value in a <b> tag)\n});\n\nmyTmpl.link(\"#page\", data);",
         "height": "110"
       },
       {
         "_type": "para",
         "title": "Specifying tag options for a custom tag",
-        "text": "The following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function.\n\n(See: *[Registering a custom tag](#tags@register)*.)"
+        "text": "The following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function.\n\n"
       },
       {
         "_type": "para",
-        "title": "<b>The life-cycle of a JsViews tag control</b>",
-        "text": "The tag options can include event handlers for the following life-cycle events:\n\n- `init()` \n- `render()` \n- `onBeforeBind()` tag.mainElem, tag.linkedElem and tag.displayElem can be set in tag.onBeforeBind\n- `onBind()` \n- `onUnbind()` \n- `onAfterLink()` \n- `onUpdate()` \n- `onDispose()`\n\n"
+        "title": "<span class=\"strong\">JsRender custom tag documentation topics</span>",
+        "text": "The JsRender custom tag overview topic *[Using custom tags](#tags)* and the more detailed api topic: *[Registering custom tags](#tagsapi)* api topic explain many important custom tag features and scenarios.\n\n**_These documentation topics apply equally to data-linked JsViews custom tag controls_**.\n\nThey include sections covering:\n\n- *[Registering custom tags](#tagsapi@register)* -- the `$.views.tags(...)` api\n- *[Custom tag options](#tagsapi@options)* -- specifying `init()`, `render()`, `template`, `baseTag`\n- *[Tag context](#tagsapi@context)* -- accessing the tag instance, `tagCtx`, tag args and params, parent views etc.\n- *[Custom tag child views](#tagsapi@childviews)* -- and rendering wrapped block content, etc.\n- *[Rendering else blocks](#tagsapi@elseblocks)* -- and using the `tagCtxs` array\n- *[Custom tag hierarchy](#tagsapi@parents)* -- and accessing parent tags\n- *[Accessing contextual parameters and helpers](#tagsapi@ctxparams)*\n\nThey also provide details on the following option settings:\n\n- The [init()](#tagsapi@init) method: `init: tagInitFn`\n- The [render()](#tagsapi@render) method: `render: tagRenderFn`\n- The [template](#tagsapi@template) option: `template: tagTemplate`\n\nas well as the `baseTag` option, for specifying tag inheritance:\n\n- [`baseTag: someTag`](#tagsapi@basetag) -- the custom tag derives from a chosen tag: `someTag`\n\nThey also give details for the following more advanced options and scenarios:\n\n- [`contentCtx: ...`](#tagsapi@contentctx) -- specifying data context within tag content\n- [`convert: ...`](#tagsapi@convert) -- providing a default converter\n- [`argDefault: ...`](#tagsapi@argdefault) -- specifying the default tag argument\n- [`bindTo: ...`](#tagsapi@bindto) -- specifying bound arguments and properties\n- [`flow: ...`](#tagsapi@flow) -- specifying 'flow' behavior\n- [Tags as private template resources](#tagsapi@privatetags)\n- [Unregistering tags](#tagsapi@privatetags)\n"
+      },
+      {
+        "_type": "para",
+        "title": "<span class=\"strong\">The life-cycle of a JsViews tag control</span>",
+        "text": "The tag options can include event handlers for the following life-cycle events:\n\n- `init()` \n- `render()` \n- `onBind()` \n- `onUnbind()` \n- `onAfterLink()` \n- `onUpdate()` \n- `onDispose()`\n\n",
+        "anchor": "lifecycle"
       },
       {
         "_type": "para",
@@ -6291,113 +6302,149 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Custom tag life-cycle with data-linking (tag control): full life-cycle",
-        "text": "When a custom tag is rendered with data-linking:\n\n```jsr\n{^{myTag .../}}\n```\n\nthen it will behave as a *tag control*. It will be instantiated during rendering, and the instance will remain as long as the parent HTML element (and JsViews `View`) are not removed or disposed. \n\n**_Initialization_**:\n\nDuring the initial rendering and data-linking, life-cycle events will be triggered in the following sequence:\n\n- `init()` -- initialization\n- `render()` -- rendering\n- `onBeforeBind()` -- prior to initial data-linking\n- `onBind()` -- during initial data-linking\n- `onAfterLink()` -- after initial data-linking\n\n**_Data-linking update (observable change)_**:\n\nIf the tag control has arguments (`{^{myTag arg1 .../}}`)then whenever any of the arguments changes observably, data-linking will be refreshed, with the following sequence of events:\n\n- `onBeforeChange` -- cancellable event, before change\n- `onUpdate` -- update data-linking\n- `onAfterLink` -- after updating data-linking\n- `onAfterChange` -- after completing change\n\n-- and similarly if the tag has data-bound properties (`{^{myTag ^prop1=... .../}}`), or declared dependencies which change... \n\n**_Disposal_**:\n\nIf the containing HTML/`View` is removed, then the tag control instance will be disposed, with the following sequence of events:\n\n- `onUnbind()` -- remove data-link bindings\n- `onDispose()` -- dispose of instance\n\n**_Refresh_**:\n\nIf the tag control instance is refreshed (by calling the `tag.refresh()` method, for example) then the instance will be replaced by a newly rendered and data-linked instance -- with the following sequence of events:\n\n- `onUnbind` -- remove data-link bindings\n- `render` -- refresh rendering\n- `onBind` -- establish new data-link bindings\n- `onAfterLink` -- after data-linking refreshed instance"
+        "text": "When a custom tag is rendered with data-linking:\n\n```jsr\n{^{myTag .../}}\n```\n\nthen it will behave as a *tag control*. It will be instantiated during rendering, and the instance will remain as long as the parent HTML element (and JsViews `View`) are not removed or disposed. \n\n**_Initialization_**:\n\nDuring the initial rendering and data-linking, life-cycle events will be triggered in the following sequence:\n\n- `init()` -- initialization\n- `render()` -- rendering\n- `onBind()` -- during initial data-linking\n- `onAfterLink()` -- after initial data-linking\n\n**_Data-linking update (observable change)_**:\n\nIf the tag control has arguments (`{^{myTag arg1 .../}}`) then whenever any of the arguments changes observably, data-linking will be refreshed, with the following sequence of events:\n\n- `onBeforeChange` -- cancellable event, before change\n- `onUpdate` -- update data-linking\n- `onUnbind` -- remove data-link bindings\n- `render` -- refresh rendering\n- `onBind` -- establish new data-link bindings\n- `onAfterLink` -- after updating data-linking\n- `onAfterChange` -- after completing change\n\n-- and similarly if the tag has data-bound properties (`{^{myTag ^prop1=... .../}}`), or declared dependencies which change... \n\n**_Data-linking update with onUpdate set to false_**:\n\nOften a custom tag control does not need to completely re-render itself when responding to an observable changes in arguments, bound properties or dependencies. In that case, performance can be optimized by setting `onUpdate: false` (or setting to a handler which returns `false`). The *observable change* life-cycle is then reduced to:\n\n- `onBeforeChange` -- cancellable event, before change\n- `onUpdate` -- update data-linking\n- `onAfterLink` -- after updating data-linking\n- `onAfterChange` -- after completing change\n\n-- Note that it is still possible to force a complete re-rendering, by calling `tag.refresh()`.\n\n**_Disposal_**:\n\nIf the containing HTML/`View` is removed, then the tag control instance will be disposed, with the following sequence of events:\n\n- `onUnbind()` -- remove data-link bindings\n- `onDispose()` -- dispose of instance\n\n**_Refresh_**:\n\nIf the tag control instance is refreshed (by calling the `tag.refresh()` method, for example) then the instance will be replaced by a newly rendered and data-linked instance -- with the following sequence of events:\n\n- `onUnbind` -- remove data-link bindings\n- `render` -- refresh rendering\n- `onBind` -- establish new data-link bindings\n- `onAfterLink` -- after data-linking refreshed instance"
+      },
+      {
+        "_type": "para",
+        "title": "Structure of a custom tag control",
+        "text": "The `options` object used to register a tag control is in effect a prototype for constructing the instances of the tag control.\n\nThe specified options will fall into the following categories:\n\n- JsViews handlers and methods\n- JsViews tag settings\n- tag properties/state\n- tag methods\n\nA tag declaration might typically be structured in sections corresponding to the above categories, as in this example (see [below]()):\n\n```js\n$.views.tags(\"spinbox\", {\n  // JsViews handlers and methods\n  onUpdate: false, // No need to re-render on update\n\n  // JsViews tag settings\n  template: \"#spinboxTmpl\",\n  dataBoundOnly: true,\n\n  // tag properties/state\n  selectedIndex: 1,  // initial selectedIndex\n\n  // tag methods\n  cycleSelection: cycleSelFn // method to cycle/increment selectedIndex\n});\n```\n\nThe sections are: \n\n**JsViews handlers and methods**\n\nAny of the following:\n\n- init\n- render\n- onBind\n- onAfterLink\n- onUpdate\n- onDispose\n- convert\n- convertBack\n- onUnbind\n- onBeforeUpdateVal\n- onBeforeChange\n- onAfterChange\n- onArrayChange\n- setValue\n- domChange\n\n**JsViews tag settings**\n\nAny of the following:\n\n- baseTag\n- flow\n- dataBoundOnly\n- template\n- boundProps\n- depends\n- bindTo\n- attr\n- setSize\n- height\n- width\n- className\n- linkedCtxParam\n- mainElement\n- linkedElement\n- displayElement\n- contentCtx\n- argDefault\n- dataMap\n- lateRender\n- trigger\n\n**tag properties/state**\n\nInitialization of tag-specific 'user' properties (such as those used for instance state)\n\n**tag methods**\n\nTag-specific 'user' methods (such as methods called in response to click events on the tag control)"
+      },
+      {
+        "_type": "para",
+        "title": "Sections to follow...",
+        "text": "**Note:** This documentation topic is work in progress. More to follow..."
       }
+      //},
+      //{
+      //  "_type": "para",
+      //  "title": "Tag control design patterns",
+      //  "text": "The following are some common design patterns used for different categories of JsViews custom tag controls:\n\n**_Rendered template_**:\n\nAs shown in the JsRender *[Using custom tags](#tags)* topic, a simple tag control can be obtained just by assigning a template to the `template` option:\n\n```js\n$.views.tags(\"mytag\", {\n  template: tagTemplate; // Provide just a template (string, selector, or compiled template object)\n});\n```\n\nSee [this example](#tags@template-sample) and [this example](#tags@tmplcontext-sample).\n\n**_Programmatic rendering (render method)_**:\n\nSimilarly, a tag control can be defined just by assigning a function to the `render` option:\n\n```js\n$.views.tags(\"mytag\", {\n  render: tagRenderFn); // Provide just a render method\n});\n```\n\nThis is also shown in the JsRender *[Using custom tags](#tags)* topic. See [this example](#tags@render-sample) and [this example](#tags@context-sample).\n\n**_Dynamic template_**:\n\nSometimes a tag control is conveniently defined using a template (rather than a render method) -- but the desired template depends on state, or data, or other settings such as tag properties, and so cannot be 'statically' defined. An appropriate 'dynamic' template can easily be achieved by setting the `template` property 'dynamically' within the `init` method, as in [this example](#tagsapi@initsample).\n\n**_Wrapping content_**:\n\nchooseBlock\n\n**_User action events_**:\n\n{{on}}\nspinbox"
+      //},
+      //{
+      //  "_type": "sample",
+      //  "typeLabel": "Sample:",
+      //  "codetabs": [],
+      //  "sectionTypes": {
+      //    "para": "para",
+      //    "data": "data",
+      //    "template": "template",
+      //    "code": "code",
+      //    "links": "links"
+      //  },
+      //  "sections": [],
+      //  "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {{:name}}\n</script>\n\n<div id=\"page\"></div>",
+      //  "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { name: \"Jo\" };\n\nmyTmpl.link(\"#page\", data);"
+      //},
+      //{
+      //  "_type": "para",
+      //  "title": "",
+      //  "text": "**_Tag control state_**:\n\n\n**_Tag hierarchy and recursive tags_**:\n\n\n**_Inheritance -- derived controls_**:\n\nrange\nbase\n\n**_Two-way binding_**:\n\nSimple text box\nlinkedElem\nminislider\nlinkedCtxParam\nsetValue\n\n**_Default converters_**:\n\nconvert\nconvertBack\n\n**_Multiple two-way bindings_**:\n\nareaslider\nbindTo\n\n**_Composite controls_**:\n\npicker\n\n**_??_**\n\nSortable grid\nDataMap\n"
+      //}
     ]
   },
-  "jsvtagcontrolsPrevNew": {
-    "title": "Custom tag controls",
-    "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, defined/registered in the usual way (see *[Using custom tags](#tags)*).\n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self-contained encapsulated components, with a life-cycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal...\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "Custom tags with or without data-linking",
-        "text": "A custom tag can be used simply for rendering, without data-binding, as in\n\n```jsr\n{{mytag ...}}\n```\n\nor it can be used (with JsViews) as a data-linked tag (so it becomes a dynamic data-bound *tag control*), as in:\n\n```jsr\n{^{mytag ...}}\n```\n\nIt can also be used as a [tag binding](#link-tags) on a [data-linked element](#linked-elem-syntax):\n\n```jsr\n<div data-link=\"{mytag ...}\">...</div>\n```\n"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "Simple tag:\n\n```js\n$.views.tags(\"mytag\", \"<b>{{:}}</b>\");\n```\n\nUse with or without data-linking:\n\n```jsr\n<input data-link=\"name\" />\nNo data binding: {{mytag name/}}\nData-linked tag: {^{mytag name/}}\nData-linked element with tag binding: <span data-link=\"{mytag name}\"></span>\n```"
-          }
-        ],
-        "jsrJsvJqui": "",
-        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" /><br/>\n\n  No data binding: {{mytag name/}}<br/>\n  Data-linked tag: {^{mytag name/}}<br/>\n  Data-linked element with tag binding: <span data-link=\"{mytag name}\"></span><br/>\n</script>\n\n<div id=\"page\"></div>",
-        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { name: \"Jo\" };\n\n$.views.tags(\"mytag\", \"<b>{{:}}</b>\");\n\nmyTmpl.link(\"#page\", data);",
-        "height": "110"
-      },
-      {
-        "_type": "para",
-        "title": "Specifying tag options for a custom tag",
-        "text": "The following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function.\n\n(See: *[Registering a custom tag](#tags@register)*.)"
-      },
-      {
-        "_type": "para",
-        "title": "<b>The life-cycle of a JsViews tag control</b>",
-        "text": "The tag options can include event handlers for the following life-cycle events:\n\n- `init()` \n- `render()` \n- `onBeforeBind()` tag.mainElem, tag.linkedElem and tag.displayElem can be set in tag.onBeforeBind\n- `onBind()` \n- `onUnbind()` \n- `onAfterLink()` \n- `onUpdate()` \n- `onDispose()`\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "Custom tag life-cycle without data-linking: init() and render() events only",
-        "text": "When a custom tag is rendered without data-linking:\n\n```jsr\n{{myTag .../}}\n```\n\nthen it will be instantiated during rendering, and immediately disposed, and only the [`init()`](#tagsapi@init) and [`render()`](#tagsapi@render) life-cycle events will be triggered.\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "Custom tag life-cycle with data-linking (tag control): full life-cycle",
-        "text": "When a custom tag is rendered with data-linking:\n\n```jsr\n{^{myTag .../}}\n```\n\nthen it will behave as a *tag control*. It will be instantiated during rendering, and the instance will remain as long as the parent HTML element (and JsViews `View`) are not removed or disposed. \n\n**_Initialization_**:\n\nDuring the initial rendering and data-linking, life-cycle events will be triggered in the following sequence:\n\n- `init()` -- initialization\n- `render()` -- rendering\n- `onBeforeBind()` -- prior to initial data-linking\n- `onBind()` -- during initial data-linking\n- `onAfterLink()` -- after initial data-linking\n\n**_Data-linking update (observable change)_**:\n\nIf the tag control has arguments (`{^{myTag arg1 .../}}`)then whenever any of the arguments changes observably, data-linking will be refreshed, with the following sequence of events:\n\n- `onBeforeChange` -- cancellable event, before change\n- `onUpdate` -- update data-linking\n- `onAfterLink` -- after updating data-linking\n- `onAfterChange` -- after completing change\n\n-- and similarly if the tag has data-bound properties (`{^{myTag ^prop1=... .../}}`), or declared dependencies which change... \n\n**_Disposal_**:\n\nIf the containing HTML/`View` is removed, then the tag control instance will be disposed, with the following sequence of events:\n\n- `onUnbind()` -- remove data-link bindings\n- `onDispose()` -- dispose of instance\n\n**_Refresh_**:\n\nIf the tag control instance is refreshed (by calling the `tag.refresh()` method, for example) then the instance will be replaced by a newly rendered and data-linked instance -- with the following sequence of events:\n\n- `onUnbind` -- remove data-link bindings\n- `render` -- refresh rendering\n- `onBind` -- establish new data-link bindings\n- `onAfterLink` -- after data-linking refreshed instance"
-      },
-      {
-        "_type": "para",
-        "title": "Tag control design patterns",
-        "text": "**_Rendered template_**:\n\ntemplate\n\n**_Programmatic rendering (render method)_**:\n\nrender\n\n**_Dynamic template_**:\n\ninit\n\n**_Wrapping content_**:\n\nchooseBlock\n\n**_User action events_**:\n\n{{on}}\nspinbox\n\n**_Inheritance -- derived controls_**:\n\nrange\nbase\n\n**_Two-way binding_**:\n\nSimple text box\nlinkedElem\nminislider\nlinkedCtxParam\nsetValue\n\n**_Default converters_**:\n\nconvert\nconvertBack\n\n**_Multiple two-way bindings_**:\n\nareaslider\nbindTo\n\n**_Composite controls_**:\n\npicker"
-      },
-      {
-        "_type": "para",
-        "title": "AND",
-        "text": "Consider the following simple custom tag control, rendered by a JsRender template:\n\nSample with init and render, {{}}\n\nIn JsRender - init and render\n\nNow add onBind, onAfterLink onDispose and use {^{}}\n\nExample needing onBind and onAfterLink\n\nUsing dispose\n\n(Add convert ?)\n\nBinding - linkedElem simple textbox\n\nspinbox\nUser action events\nWrapping content\n\nInheritance - range\n\nSpecifying data-binding behavior (one-way and two-way)\n\nminislider\nlinkedCtxParam\nsetValue\n\nareaslider\nbindTo\n\ncomposition: picker\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- tag.depends()\n- tag.convertBack()\n- tag.onBeforeUpdateVal()\n- tag.onBeforeChange()\n- tag.onArrayChange()\n- tag.onAfterChange()\n- tag.domChange()\n"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [],
-        "jsrJsvJqui": "jsr",
-        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {{name firstName lastName prefix=title/}}\n</script>\n\n<div id=\"page\"></div>",
-        "code": "$.views.tags(\"myTag\", {\n  init: function(tagCtx) {\n    this.prefix = tagCtx.props.prefix;\n  },\n  render: function(first, second) {\n    return this.prefix + \" \" + first + \" \" + second\n  }\n})\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = { firstName: \"Jo\", lastName: \"Blow\", title: \"Mr\" },\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "### _Tag options available in both JsRender and JsViews:_\n\nThe following tag options are documented in the JsRender [*Registering custom tags*](#tagsapi) topic -- and concern primarily the *rendering* behavior of the custom tag, rather than its dynamic interactive data-bound behavior when using data-linking:\n\n- The [init()](#tagsapi@init) method: `init: tagInitFn`\n- The [render()](#tagsapi@render) method: `render: tagRenderFn`\n- The [template](#tagsapi@template) property: `template: tagTemplate`\n- The [baseTag](#tagsapi@basetag) property, specifying tag inheritance: `baseTag: ...`\n\nThe following more advanced options (also documented in the JsRender [*Registering custom tags*](#tagsapi) topic) are also available with or without data-linking:\n\n- [`contentCtx: ...`](#tagsapi@contentctx)\n- [`convert: ...`](#tagsapi@convert)\n- [`argDefault: ...`](#tagsapi@argdefault)\n- [`bindTo: ...`](#tagsapi@bindto)\n- [`flow: ...`](#tagsapi@flow)"
-      },
-      {
-        "_type": "para",
-        "title": "OTHER",
-        "text": "\nSpecifying data-binding behavior (one-way and two-way)\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- tag.depends()\n- tag.convertBack()\n- tag.onBeforeUpdateVal()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n- tag.domChange()\n\n\nAdvanced\n\n- lateRender (feature)\n- dataMap\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\n\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "### _Tag options available only to JsViews custom tag controls:_"
-      },
-      {
-        "_type": "para",
-        "title": "Tag options available only to JsViews custom tag controls ",
-        "text": "The \n\nDeclare\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- dateMap\n- lateRender (feature)\n\nEvent handlers\n\n- tag.convertBack()\n- tag.domChange()\n- tag.depends()\n- tag.onBeforeBind()\n- tag.onBind()\n- tag.onAfterLink()\n- tag.onUpdate()\n- tag.onBeforeUpdateVal()\n- tag.onDispose()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\nJsRender\n\nDeclare\n\n- tag.template\n- tag.flow\n- tag.baseTag\n- tag.contentCtx\n- tag.argDefault\n- tag.bindTo\n\nEvent handlers\n\n- tag.init()\n- tag.render()\n- tag.convert()\n\nProps/Methods\n\n- tag.ctxPrm()\n- tag.cvt()\n- tag.cvtArgs()\n- tag.bndArgs() \n- tag.ctx\n- tag.parent\n- tag.parents\n- tag.tagCtx\n- tag.tagCtxs\n- tag.tagName\n- tag.base\n- tag.baseApply\n- rendering\n\n"
-      }
-    ]
-  }
+  //"jsvtagcontrolsPrevNew": {
+  //  "title": "Custom tag controls",
+  //  "path": "",
+  //  "sections": [
+  //    {
+  //      "_type": "para",
+  //      "title": "",
+  //      "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, defined/registered in the usual way (see *[Using custom tags](#tags)*).\n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self-contained encapsulated components, with a life-cycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal...\n\n"
+  //    },
+  //    {
+  //      "_type": "para",
+  //      "title": "Custom tags with or without data-linking",
+  //      "text": "A custom tag can be used simply for rendering, without data-binding, as in\n\n```jsr\n{{mytag ...}}\n```\n\nor it can be used (with JsViews) as a data-linked tag (so it becomes a dynamic data-bound *tag control*), as in:\n\n```jsr\n{^{mytag ...}}\n```\n\nIt can also be used as a [tag binding](#link-tags) on a [data-linked element](#linked-elem-syntax):\n\n```jsr\n<div data-link=\"{mytag ...}\">...</div>\n```\n"
+  //    },
+  //    {
+  //      "_type": "sample",
+  //      "typeLabel": "Sample:",
+  //      "codetabs": [],
+  //      "sectionTypes": {
+  //        "para": "para",
+  //        "data": "data",
+  //        "template": "template",
+  //        "code": "code",
+  //        "links": "links"
+  //      },
+  //      "sections": [
+  //        {
+  //          "_type": "para",
+  //          "title": "",
+  //          "text": "Simple tag:\n\n```js\n$.views.tags(\"mytag\", \"<b>{{:}}</b>\");\n```\n\nUse with or without data-linking:\n\n```jsr\n<input data-link=\"name\" />\nNo data binding: {{mytag name/}}\nData-linked tag: {^{mytag name/}}\nData-linked element with tag binding: <span data-link=\"{mytag name}\"></span>\n```"
+  //        }
+  //      ],
+  //      "jsrJsvJqui": "",
+  //      "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" /><br/>\n\n  No data binding: {{mytag name/}}<br/>\n  Data-linked tag: {^{mytag name/}}<br/>\n  Data-linked element with tag binding: <span data-link=\"{mytag name}\"></span><br/>\n</script>\n\n<div id=\"page\"></div>",
+  //      "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { name: \"Jo\" };\n\n$.views.tags(\"mytag\", \"<b>{{:}}</b>\");\n\nmyTmpl.link(\"#page\", data);",
+  //      "height": "110"
+  //    },
+  //    {
+  //      "_type": "para",
+  //      "title": "Specifying tag options for a custom tag",
+  //      "text": "The following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function.\n\n(See: *[Registering a custom tag](#tags@register)*.)"
+  //    },
+  //    {
+  //      "_type": "para",
+  //      "title": "<b>The life-cycle of a JsViews tag control</b>",
+  //      "text": "The tag options can include event handlers for the following life-cycle events:\n\n- `init()` \n- `render()` \n- `onBeforeBind()` tag.mainElem, tag.linkedElem and tag.displayElem can be set in tag.onBeforeBind\n- `onBind()` \n- `onUnbind()` \n- `onAfterLink()` \n- `onUpdate()` \n- `onDispose()`\n\n"
+  //    },
+  //    {
+  //      "_type": "para",
+  //      "title": "Custom tag life-cycle without data-linking: init() and render() events only",
+  //      "text": "When a custom tag is rendered without data-linking:\n\n```jsr\n{{myTag .../}}\n```\n\nthen it will be instantiated during rendering, and immediately disposed, and only the [`init()`](#tagsapi@init) and [`render()`](#tagsapi@render) life-cycle events will be triggered.\n\n"
+  //    },
+  //    {
+  //      "_type": "para",
+  //      "title": "Custom tag life-cycle with data-linking (tag control): full life-cycle",
+  //      "text": "When a custom tag is rendered with data-linking:\n\n```jsr\n{^{myTag .../}}\n```\n\nthen it will behave as a *tag control*. It will be instantiated during rendering, and the instance will remain as long as the parent HTML element (and JsViews `View`) are not removed or disposed. \n\n**_Initialization_**:\n\nDuring the initial rendering and data-linking, life-cycle events will be triggered in the following sequence:\n\n- `init()` -- initialization\n- `render()` -- rendering\n- `onBeforeBind()` -- prior to initial data-linking\n- `onBind()` -- during initial data-linking\n- `onAfterLink()` -- after initial data-linking\n\n**_Data-linking update (observable change)_**:\n\nIf the tag control has arguments (`{^{myTag arg1 .../}}`)then whenever any of the arguments changes observably, data-linking will be refreshed, with the following sequence of events:\n\n- `onBeforeChange` -- cancellable event, before change\n- `onUpdate` -- update data-linking\n- `onAfterLink` -- after updating data-linking\n- `onAfterChange` -- after completing change\n\n-- and similarly if the tag has data-bound properties (`{^{myTag ^prop1=... .../}}`), or declared dependencies which change... \n\n**_Disposal_**:\n\nIf the containing HTML/`View` is removed, then the tag control instance will be disposed, with the following sequence of events:\n\n- `onUnbind()` -- remove data-link bindings\n- `onDispose()` -- dispose of instance\n\n**_Refresh_**:\n\nIf the tag control instance is refreshed (by calling the `tag.refresh()` method, for example) then the instance will be replaced by a newly rendered and data-linked instance -- with the following sequence of events:\n\n- `onUnbind` -- remove data-link bindings\n- `render` -- refresh rendering\n- `onBind` -- establish new data-link bindings\n- `onAfterLink` -- after data-linking refreshed instance"
+  //    },
+  //    {
+  //      "_type": "para",
+  //      "title": "Tag control design patterns",
+  //      "text": "**_Rendered template_**:\n\nAs shown in the *JsRender* *[Using custom tags](#tags)* topic, a simple tag control can be obtained just by assigning a template to the `template` option:\n\n```js\n$.views.tags(\"mytag\", {\n  template: tagTemplate; // Provide just a template (string, selector, or compiled template object)\n});\n```\n\nSee [this example](#tags@template-sample) and [this example](#tags@context-sample).\n\n**_Programmatic rendering (render method)_**:\n\nSimilarly, a tag control can be defined just by assigning a function to the `render: ...` option. This is also shown in the JsRender *[Using custom tags](#tags)* topic -- in [this example](#tags@render-sample) and [this example](#tags@tmplcontext-sample).\n\n**_Dynamic template_**:\n\ninit\n\n**_Wrapping content_**:\n\nchooseBlock\n\n**_User action events_**:\n\n{{on}}\nspinbox\n\n**_Inheritance -- derived controls_**:\n\nrange\nbase\n\n**_Two-way binding_**:\n\nSimple text box\nlinkedElem\nminislider\nlinkedCtxParam\nsetValue\n\n**_Default converters_**:\n\nconvert\nconvertBack\n\n**_Multiple two-way bindings_**:\n\nareaslider\nbindTo\n\n**_Composite controls_**:\n\npicker"
+  //    },
+  //    {
+  //      "_type": "para",
+  //      "title": "AND",
+  //      "text": "Consider the following simple custom tag control, rendered by a JsRender template:\n\nSample with init and render, {{}}\n\nIn JsRender - init and render\n\nNow add onBind, onAfterLink onDispose and use {^{}}\n\nExample needing onBind and onAfterLink\n\nUsing dispose\n\n(Add convert ?)\n\nBinding - linkedElem simple textbox\n\nspinbox\nUser action events\nWrapping content\n\nInheritance - range\n\nSpecifying data-binding behavior (one-way and two-way)\n\nminislider\nlinkedCtxParam\nsetValue\n\nareaslider\nbindTo\n\ncomposition: picker\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- tag.depends()\n- tag.convertBack()\n- tag.onBeforeUpdateVal()\n- tag.onBeforeChange()\n- tag.onArrayChange()\n- tag.onAfterChange()\n- tag.domChange()\n"
+  //    },
+  //    {
+  //      "_type": "sample",
+  //      "typeLabel": "Sample:",
+  //      "codetabs": [],
+  //      "sectionTypes": {
+  //        "para": "para",
+  //        "data": "data",
+  //        "template": "template",
+  //        "code": "code",
+  //        "links": "links"
+  //      },
+  //      "sections": [],
+  //      "jsrJsvJqui": "jsr",
+  //      "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {{name firstName lastName prefix=title/}}\n</script>\n\n<div id=\"page\"></div>",
+  //      "code": "$.views.tags(\"myTag\", {\n  init: function(tagCtx) {\n    this.prefix = tagCtx.props.prefix;\n  },\n  render: function(first, second) {\n    return this.prefix + \" \" + first + \" \" + second\n  }\n})\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = { firstName: \"Jo\", lastName: \"Blow\", title: \"Mr\" },\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);"
+  //    },
+  //    {
+  //      "_type": "para",
+  //      "title": "",
+  //      "text": "### _Tag options available in both JsRender and JsViews:_\n\nThe following tag options are documented in the JsRender [*Registering custom tags*](#tagsapi) topic -- and concern primarily the *rendering* behavior of the custom tag, rather than its dynamic interactive data-bound behavior when using data-linking:\n\n- The [init()](#tagsapi@init) method: `init: tagInitFn`\n- The [render()](#tagsapi@render) method: `render: tagRenderFn`\n- The [template](#tagsapi@template) property: `template: tagTemplate`\n- The [baseTag](#tagsapi@basetag) property, specifying tag inheritance: `baseTag: ...`\n\nThe following more advanced options (also documented in the JsRender [*Registering custom tags*](#tagsapi) topic) are also available with or without data-linking:\n\n- [`contentCtx: ...`](#tagsapi@contentctx)\n- [`convert: ...`](#tagsapi@convert)\n- [`argDefault: ...`](#tagsapi@argdefault)\n- [`bindTo: ...`](#tagsapi@bindto)\n- [`flow: ...`](#tagsapi@flow)"
+  //    },
+  //    {
+  //      "_type": "para",
+  //      "title": "OTHER",
+  //      "text": "\nSpecifying data-binding behavior (one-way and two-way)\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- tag.depends()\n- tag.convertBack()\n- tag.onBeforeUpdateVal()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n- tag.domChange()\n\n\nAdvanced\n\n- lateRender (feature)\n- dataMap\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\n\n"
+  //    },
+  //    {
+  //      "_type": "para",
+  //      "title": "",
+  //      "text": "### _Tag options available only to JsViews custom tag controls:_"
+  //    },
+  //    {
+  //      "_type": "para",
+  //      "title": "Tag options available only to JsViews custom tag controls ",
+  //      "text": "The \n\nDeclare\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- dateMap\n- lateRender (feature)\n\nEvent handlers\n\n- tag.convertBack()\n- tag.domChange()\n- tag.depends()\n- tag.onBeforeBind()\n- tag.onBind()\n- tag.onAfterLink()\n- tag.onUpdate()\n- tag.onBeforeUpdateVal()\n- tag.onDispose()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\nJsRender\n\nDeclare\n\n- tag.template\n- tag.flow\n- tag.baseTag\n- tag.contentCtx\n- tag.argDefault\n- tag.bindTo\n\nEvent handlers\n\n- tag.init()\n- tag.render()\n- tag.convert()\n\nProps/Methods\n\n- tag.ctxPrm()\n- tag.cvt()\n- tag.cvtArgs()\n- tag.bndArgs() \n- tag.ctx\n- tag.parent\n- tag.parents\n- tag.tagCtx\n- tag.tagCtxs\n- tag.tagName\n- tag.base\n- tag.baseApply\n- rendering\n\n"
+  //    }
+  //  ]
+  //}
 };

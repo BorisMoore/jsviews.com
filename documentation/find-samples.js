@@ -1718,7 +1718,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "Advanced scenario: Data-linking directly to the {{selectable}} tag control properties",
-        "text": "Advanced scenario: Data-linking directly to the {{selectable}} tag control properties\nGenerally to track selection it is best to use the two-way data-linking on the argument. If you have two independent {{selectable}} tags, they can each bind to a different data or helper property.\nHowever it is possible to use {{selectable}} without argument (so without binding to model or helper properties), and instead to bind to the selected property of the tag instance  – which will update observable when the selection changes.\nHere is an advanced sample which does that:\n"
+        "text": "Advanced scenario: Data-linking directly to the {{selectable}} tag control properties\nGenerally to track selection it is best to use the two-way data-linking on the argument. If you have two independent {{selectable}} tags, they can each bind to a different data or helper property.\nHowever it is possible to use {{selectable}} without argument (so without binding to model or helper properties), and instead to bind to the selected property of the tag instance  – which will update observably when the selection changes.\nHere is an advanced sample which does that:\n"
       },
       {
         "_type": "sample",

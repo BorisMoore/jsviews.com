@@ -31,15 +31,19 @@ var data = {
   },
   helpers = {
     dropInTrash: function( event, ui ) {
+      event.preventDefault();
       deleteImage( $.view( ui.draggable ) );
     },
     dropInGallery: function( event, ui ) {
+      event.preventDefault();
       recycleImage( $.view( ui.draggable ) );
     },
     deleteThis: function( event, evtArgs ) {
+      event.preventDefault();
       deleteImage( evtArgs.view );
     },
     recycleThis: function( event, evtArgs ) {
+      event.preventDefault();
       recycleImage( evtArgs.view );
     },
     showDialog: viewLargerImage
@@ -61,7 +65,8 @@ function recycleImage(view) {
 }
 
 // image preview function, demonstrating ui.dialog used as modal window
-function viewLargerImage(title, image) {
+function viewLargerImage(title, image, event) {
+  event.preventDefault();
   $("<img alt='" + title + "' src='" + image
     + "' width='384' height='288' style='display: none; padding: 8px;'/>")
     .appendTo("body")

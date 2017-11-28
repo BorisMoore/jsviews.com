@@ -488,6 +488,12 @@ input.title {
   font-weight: bold;
 }
 
+.title span .strong {
+  font-size: 19px;
+  font-style: normal;
+  font-weight: bold;
+}
+
 .title span {
   font-weight: normal;
   font-style: italic;
@@ -499,12 +505,12 @@ input.title {
 }
 
   .para > ul.textbefore, .para > p + ul {
-    margin: -11px 0 15px 0;
+    margin: -8px 0 15px 0;
   }
 
 .currenttopic {
   background-color: #f8f8f5;
-  padding: 8px 14px;
+  padding: 7px 14px;
 }
 
   .currenttopic.edit {

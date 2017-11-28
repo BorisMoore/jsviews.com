@@ -1,4 +1,4 @@
-﻿/*! Sample JsViews tag control: {{range}} control v0.9.84 (Beta)
+﻿/*! Sample JsViews tag control: {{range}} control v0.9.90 (Beta)
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
  * Copyright 2017, Boris Moore
@@ -18,6 +18,9 @@ $.views.tags({
 
     // Inherit from {{for}} tag
     baseTag: "for",
+
+    // Don't default first arg to the current data
+    argDefault: false,
 
     // Override the render method of {{for}}
     render: function(val) {

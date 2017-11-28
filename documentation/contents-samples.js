@@ -394,7 +394,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "codetabs": [],
         "url": "samples/jsrender/tags/wrap-content/sample",
-        "height": "224",
+        "height": "240",
         "jsrJsvJqui": "jsr"
       }
     ]
@@ -2777,10 +2777,10 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "We'll provide a boolean property in our data:\n\n```js\nvar data = {\n  isSpecial: false\n};\n```\n\n```jsr\n<input type=\"checkbox\" data-link=\"isSpecial\" />\n```\n\nNow we provide a `<div>`, and bind the `innerText`:\n\n```jsr\n<div data-link=\"{:isSpecial?'special':'regular'}\"></div>\n```\n\nThen we add a second data-link expression to bind to <em>class</em>:\n\n```jsr\n<div data-link=\"\n  {:isSpecial?'special':'regular'}\n  class{:isSpecial?'special':'regular'}\n\"></div>\n```"
+            "text": "We'll provide a boolean property in our data:\n\n```js\nvar data = {\n  isSpecial: false\n};\n```\n\n```jsr\n<input type=\"checkbox\" data-link=\"isSpecial\" />\n```\n\nNow we provide a `<label>`, and bind the `innerText`:\n\n```jsr\n<label data-link=\"{:isSpecial?'special':'regular'}\" ...></label>\n```\n\nThen we add a second data-link expression to bind to <em>class</em>:\n\n```jsr\n<label data-link=\"\n  {:isSpecial?'special':'regular'}\n  class{:isSpecial?'special':'regular'}\n\" ...></label>\n```"
           }
         ],
-        "html": "<style>\n  .regular { padding 5px; margin: 5px; display: inline-block; }\n  .special { color: green; display: inline-block; border: 2px solid red; padding 15px; margin: 5px; }\n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"myTemplate\" type=\"text/x-jsrender\">\n  <input type=\"checkbox\" data-link=\"isSpecial\" />\n  <div data-link=\"\n      {:isSpecial?'special':'regular'}\n      class{:isSpecial?'special':'regular'}\n    \"></div>\n</script>",
+        "html": "<style>\n  .regular { padding 5px; margin: 5px; display: inline-block; }\n  .special { color: green; display: inline-block; border: 2px solid red; padding 15px; margin: 5px; }\n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"myTemplate\" type=\"text/x-jsrender\">\n  <input type=\"checkbox\" data-link=\"isSpecial\" id=\"myChkbx\"/>\n  <label data-link=\"\n      {:isSpecial?'special':'regular'}\n      class{:isSpecial?'special':'regular'}\n    \" for=\"myChkbx\"></label>\n</script>",
         "code": "var data = {\n  isSpecial: false\n};\n\nvar myTmpl = $.templates(\"#myTemplate\");\n\nmyTmpl.link(\"#result\", data);",
         "height": "60"
       },
@@ -4600,7 +4600,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "Advanced scenario: Data-linking directly to the {{selectable}} tag control properties",
-        "text": "Generally to track selection it is best to use the two-way data-linking on the argument. If you have two independent `{{selectable}}` tags, they can each bind to a different data or helper property. \n\nHowever it is possible to use `{{selectable}}` without argument (so without binding to model or helper properties), and instead to bind to the `selected` property of the tag instance  -- which will update observable when the selection changes.\n\nHere is an advanced sample which does that:",
+        "text": "Generally to track selection it is best to use the two-way data-linking on the argument. If you have two independent `{{selectable}}` tags, they can each bind to a different data or helper property. \n\nHowever it is possible to use `{{selectable}}` without argument (so without binding to model or helper properties), and instead to bind to the `selected` property of the tag instance  -- which will update observably when the selection changes.\n\nHere is an advanced sample which does that:",
         "anchor": "late-render"
       },
       {

@@ -1,7 +1,7 @@
 ﻿(function(window, $, undefined) {
 "use strict";
 var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTargetElem, skipLoad, searchbox, initPageParams, prevLochash,
-	isSearchTreeSelectionChange, isLeftNavSelectionChange, topSearchTree, loadedAll, searchtextElem, searchNavElem, sideNavElem, hoverTextElem,
+	isSearchTreeSelectionChange, isLeftNavSelectionChange, topSearchTree, loadedAll, searchtextElem, searchNavElem, sideNavElem, hoverTextElem, useBodyToScroll,
 
 	content = $.views.documentation.content,
 	searchInclude = content.include,
@@ -319,8 +319,20 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 											: 120);
 
 								$.observable(content).setProperty("loc", lochash);
-
-								$('html').delay(150).animate({scrollTop: offset}, searchTreeNode ? 100 : 625, function() {
+								// Detect whether to use documentElement or body for scrolling;
+								var el = document.documentElement;
+								if (useBodyToScroll === undefined) { // Not set yet
+									if (useBodyToScroll = !el.scrollTop) { // false if documentElement has scrollTop value
+										if (!(useBodyToScroll = (el = document.body).scrollTop)) { // true if body has scrollTop value
+											el.scrollTop = 1;
+											if (useBodyToScroll = el.scrollTop) { // true if moving to scrollTop 1 actually worked. Otherwise false (0)
+												el.scrollTop = 0; // reset to zero
+											}
+										}
+									}
+								}
+								$(useBodyToScroll ? 'body' : 'html').delay(150).animate({scrollTop: offset}, searchTreeNode ? 100 : 625, function() {
+									// Need 'body' for Safari and 'html' for the other browsers
 									if (!isSearchTreeSelectionChange && lochash === location.hash) { // If a new request has started, skip this one.
 										if (searchTreeNode = document.getElementById(searchTreeNode + "$")) {
 											searchNavElem.animate({scrollTop: searchNavElem.scrollTop() - searchNavElem.height()/2

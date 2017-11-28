@@ -56,11 +56,11 @@ if (!$.observe) {
 
 		for (i = 0; i < l; i++) {
 			path = paths[i];
-			if ($isFunction(path)) {
-				rt = root._ocp
-					? root.view.data // observable contextual parameter
-					: root;
-				out = out.concat(dependsPaths(path.call(rt, rt, callback), root, callback));
+			if ($isFunction(path)) { // path is a depends function, returning [path1, ...]
+				rt = root.tagName
+						? root.linkCtx.data // root is tag instance. rt is current data context of tag
+						: root; // rt = root = current data context of computed prop
+				out = out.concat(dependsPaths(path.call(root, rt, callback), rt, callback));
 				continue;
 			} else if ("" + path !== path) {
 				root = nextObj = path;
@@ -371,7 +371,7 @@ if (!$.observe) {
 
 			function bindArray(arr, unbind, isArray, relPath) {
 				if (allowArray) {
-					// allowArray is 1 if this is a call to observe that does not come from observeAndBind (tag binding), or is from a `depends` path,
+					// allowArray is 1 if this is a call to observe that does not come from observeAndBind (tag binding), or is from a 'depends' path,
 					// so we allow arrayChange binding. Otherwise allowArray is zero.
 					var prevObj = object,
 						prevAllPath = allPath;
@@ -404,7 +404,6 @@ if (!$.observe) {
 				object = root,
 				l = paths.length;
 
-			origRoots.unshift(root);
 			if (lastArg + "" === lastArg) { // If last arg is a string then this observe call is part of an observeAll call,
 				allPath = lastArg;          // and the last three args are the parentObs array, the filter, and the allPath string.
 				parentObs = paths.pop();
@@ -429,7 +428,6 @@ if (!$.observe) {
 			}
 
 			if (unobserve && callback && !callback._cId) {
-				origRoots.shift();
 				return;
 			}
 
@@ -623,7 +621,7 @@ if (!$.observe) {
 								if (dep = prop.depends) {
 									// This is a computed observable. We will observe any declared dependencies.
 									// Pass {_ar: ...} objects to switch on allowArray, for depends paths, then return to contextual allowArray value
-									innerObserve([object._ocp ? object.view.data : object], dependsPaths(dep, object, callback), callback, contextCb, unobserve);
+									innerObserve([object], dependsPaths(dep, object, callback), callback, contextCb, unobserve);
 								}
 								break;
 							}
@@ -637,7 +635,6 @@ if (!$.observe) {
 			}
 
 			// Return the cbBindings to the top-level caller, along with the cbId
-			origRoots.shift();
 			return {cbId: cbId, bnd: cbBindings@@if (context.isJqObservable) {, s: cbBindingsStore}};
 		}
 
@@ -646,8 +643,7 @@ if (!$.observe) {
 			// arrayChange events in this scenario. Instead, {^{for}} and similar do specific arrayChange binding to the tagCtx.args[0] value, in onAfterLink.
 			// Note deliberately using this == 1, rather than this === 1 because of IE<10 bug- see jsviews/issues/237
 			paths = slice.call(arguments),
-			origRoot = paths[0],
-			origRoots = [origRoot];
+			origRoot = paths[0];
 
 		if (origRoot + "" === origRoot && allowArray) {
 			initialNs = origRoot; // The first arg is a namespace, since it is a string, and this call is not from observeAndBind

@@ -745,7 +745,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Accessing and rendering wrapped block content, in a custom tag",
-        "text": "Accessing and rendering wrapped block content, in a custom tag\nA common requirement is to define a custom tag to be used as a block tag, which renders itself by wrapping the rendered block content with other markup.\nFor example, a boldp tag which wraps its content as: <b><p>...</p></b>:\n{{boldp}}\n  This is inside our block content:<br/>\n  <em>{{:title}}</em>\n{{/boldp}}\n\nIn a render() method, the block content can be included in the rendered output using:\n... this.tagCtx.render() ...\n\n(For advanced scenarios the block content is also available as a compiled template object: tagCtx.content, so can be rendered using tagCtx.content.render(). See template as fallback sample below)\n"
+        "text": "Accessing and rendering wrapped block content, in a custom tag\nA common requirement is to define a custom tag to be used as a block tag, which renders itself by wrapping the rendered block content with other markup.\nFor example, a boldp tag which wraps its content as: <b><p>...</p></b>:\n{{boldp}}\n  This is inside our block content:<br/>\n  <em>{{:title}}</em>\n{{/boldp}}\n\nBlock content, using a render() method:\nIn a render() method, the block content can be included in the rendered output using:\n... this.tagCtx.render() ...\n\n(For advanced scenarios the block content is also available as a compiled template object: tagCtx.content, so can be rendered using tagCtx.content.render(). See template as fallback sample below)\n"
       },
       {
         "_type": "sample",
@@ -755,7 +755,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "To render block content declaratively within a custom tag template, use:\n{{include tmpl=#content/}}\n\nor equivalently:\n{{include tmpl=~tag.tagCtx.content/}}\n\n"
+        "text": "By default the data context within the block content is the same as the outer data context. However by passing an argument to tagCtx.render(myData) the inner data context can be moved to the chosen data.\nBlock content, using a template:\nTo render block content declaratively within a custom tag template, use:\n{{include tmpl=#content/}}\n\nor equivalently:\n{{include tmpl=~tag.tagCtx.content/}}\n\n"
       },
       {
         "_type": "sample",
@@ -765,7 +765,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "By default the data context within the block content is the same as the outer data context. However by passing an argument to tagCtx.render(myData) or to {{include myData tmpl=#content/}}, the inner data context can be moved to the chosen data.\nThe following sample shows a custom {{range}} tag which combines the above techniques. It uses a render() method, accesses arguments and named parameters, and iterates over an array (passed in as argument), rendering block content for each item in the array (with the item as data context).\nIt also allows you to set named parameters start and end, to determine the range of iteration. (See also the range sample, for a more advanced implementation of a similar custom tag.)\n"
+        "text": "Again as with the render() method approach, by default the data context within the block content is the same as the outer data context. However by providing an argument to the {{include...}}, as in {{include myData tmpl=#content/}}, the inner data context can be moved to the chosen data.\nThe following sample shows a custom {{range}} tag which uses a render() method, accesses arguments and named parameters, and iterates over an array (passed in as argument), rendering block content for each item in the array (with the item as data context).\nIt also allows you to set named parameters start and end, to determine the range of iteration. (See also the range sample, for a more advanced implementation of a similar custom tag.)\n"
       },
       {
         "_type": "sample",
@@ -2481,7 +2481,12 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "",
-        "text": "For simple samples showing the above alternative $.views.tags(...) signatures, see the Using custom tags overview topic:\n\nA custom tag using just a render() method\nA custom tag using just a template\nAccessing context within the render() method\nAccessing context from the tag template\n\nThe Using custom tags overview also provides samples of custom tags which render block content – {{mytag}}...{{/mytag}}:\n\nRendering block content from a custom tag render() method\nRendering block content from a custom tag template\nA {{range}} custom tag, using a render() method\nA {{range}} custom tag, with render() method and a template as “fallback”\n\nCustom tag options: Specifying init(), render(), template, baseTag:\nA custom tag in JsRender has a very simple ‘life-cyle’ consisting of two events for which you can optionally provide event handlers: the init() event, followed by the render() event. (If the custom tag is used in the context of JsViews, additional life-cycle events will also come into play, for data-binding, disposal, etc.)\n"
+        "text": "For simple samples showing the above alternative $.views.tags(...) signatures, see the Using custom tags overview topic:\n\nA custom tag using just a render() method\nA custom tag using just a template\nAccessing context within the render() method\nAccessing context from the tag template\n\nThe Using custom tags overview also provides samples of custom tags which render block content – {{mytag}}...{{/mytag}}:\n\nRendering block content from a custom tag render() method\nRendering block content from a custom tag template\nA {{range}} custom tag, using a render() method\nA {{range}} custom tag, with render() method and a template as “fallback”\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "<span class=\"strong\">Custom tag options: Specifying <i>init()</i>, <i>render()</i>, <i>template</i>, <i>baseTag</i>:</span>",
+        "text": "Custom tag options: Specifying init(), render(), template, baseTag:\nA custom tag in JsRender has a very simple ‘life-cyle’ consisting of two events for which you can optionally provide event handlers: the init() event, followed by the render() event. (If the custom tag is used in the context of JsViews, additional life-cycle events will also come into play, for data-binding, disposal, etc.)\n"
       },
       {
         "_type": "para",
@@ -2520,13 +2525,8 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "para",
-        "title": "",
-        "text": "Tag context\n"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "When a custom tag is used in a template then the rendered template instance will be part of the view hierarchy.\nThe instance of the tag is an object with properties and methods:\n\ntag object\n\nAssociated with the tag instance is a tag context object, tagCtx, providing most of the useful context for a tag, in particular:\n\ncontext passed down through the view hierarchy:\n\ncurrent view\ncurrent data\nparent tags\ncontextual parameters\n\nadditional context coming from the tag itself, or its markup:\n\narguments (args) and named parameters (props)\nrendered tag template\nblock content\ncontent of else blocks\n\n\n"
+        "title": "<span class=\"strong\">Tag context</span>",
+        "text": "Tag context\nWhen a custom tag is used in a template then the rendered template instance will be part of the view hierarchy.\nThe instance of the tag is an object with properties and methods:\n\ntag object\n\nAssociated with the tag instance is a tag context object, tagCtx, providing most of the useful context for a tag, in particular:\n\ncontext passed down through the view hierarchy:\n\ncurrent view\ncurrent data\nparent tags\ncontextual parameters\n\nadditional context coming from the tag itself, or its markup:\n\narguments (args) and named parameters (props)\nrendered tag template\nblock content\ncontent of else blocks\n\n\n"
       },
       {
         "_type": "para",
@@ -2546,7 +2546,12 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Accessing the parent view and the current data",
-        "text": "Accessing the parent view and the current data\nThe contextual (parent) view for the tag instance is accessed as tagCtx.view. The corresponding (parent) data context is tagCtx.view.data.\nCustom tag child views\n"
+        "text": "Accessing the parent view and the current data\nThe contextual (parent) view for the tag instance is accessed as tagCtx.view. The corresponding (parent) data context is tagCtx.view.data.\n"
+      },
+      {
+        "_type": "para",
+        "title": "<span class=\"strong\">Custom tag child views</span>",
+        "text": "Custom tag child views\n"
       },
       {
         "_type": "para",
@@ -2575,7 +2580,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "para",
-        "title": "Rendering else blocks",
+        "title": "<span class=\"strong\">Rendering else blocks</span>",
         "text": "Rendering else blocks\nAny tag can use {{else}} blocks. We might for example create a custom tag for rendering lists:\n{{list}}\n  First item\n{{else}}\n  Second item\n{{else}}\n  Last item\n{{/list}}\n\nA custom tag can provide specific behavior/rendering for {{else}} blocks:\n\nFor a tag with a render method, render() will be called once for the initial block and once for each {{else}} block.\nSimilarly, for a custom tag with a tag template, the template will be rendered once for the initial block and once for each {{else}} block.\nDuring rendering a custom tag can detect which block is being rendered, using tagCtx.index (see below), and can then output the content corresponding to the desired functionality.\n\n"
       },
       {
@@ -2610,7 +2615,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "para",
-        "title": "Custom tag hierarchy &ndash; Accessing parent tags",
+        "title": "<span class=\"strong\">Custom tag hierarchy &ndash; Accessing parent tags</span>",
         "text": "Custom tag hierarchy – Accessing parent tags\nNested custom tags can determine parent tags, and can be designed with functionality or rendering that is based on parent or child tags, as in the following example where a {{layout}} tag determines the layout for child {{cell}} tags:\n"
       },
       {
@@ -2624,7 +2629,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "para",
-        "title": "Accessing contextual parameters and helpers",
+        "title": "<span class=\"strong\">Accessing contextual parameters and helpers</span>",
         "text": "Accessing contextual parameters and helpers\n\nFrom a tag template:\n\nContextual parameters and helpers can be accessed using ~myParamOrHelper\n\nFrom a tag method:\n\nContextual parameters and helpers can be accessed using this.ctxPrm(\"myParamOrHelper\")\n(Note: contextual parameters can also be accessed using this.ctx.myParamOrHelper, and global helpers can be accessed using $views.helpers(\"myHelper\"))\n\n\nAs an advanced example of custom tag rendering based on contextual parameters, here is a modified version of the above layout sample, where instead of wrapping {{cell}} tags in a {{layout}} tag, we instead wrap in a simple {{include}} on which we set a contextual parameter specifying layout: layout='vertical':\n"
       },
       {
@@ -2654,7 +2659,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Specifying bound arguments and properties: the bindTo option",
-        "text": "Specifying bound arguments and properties: the bindTo option\nThe bindTo option is designed primarily for use with data binding, with JsViews, and allows specifying which arguments/properties are data-bound for two-way binding.\nIn JsRender, the bindTo option can be used in conjunction with converters. Set the bindTo option to an array, such as [0, 1, 2], or [\"title\", 1] – where integers refer to arguments and strings to named properties – to determine what values are passed to the converter. (If bindTo is not set, then the values of all the arguments will be passed to the converter.)\nBy default the value returned by the converter will be passed as first argument to the render() method. However, if the converter returns an array, then the values will be used to convert each of the targeted argument or properties specified in bindTo.\n"
+        "text": "Specifying bound arguments and properties: the bindTo option\nThe bindTo option is designed primarily for use with data binding, with JsViews, and allows specifying which arguments/properties are data-bound for two-way binding.\nIn JsRender, the bindTo option can be used in conjunction with converters. Set the bindTo option to an array, such as [0, 1, 2], or [\"title\", 1] – where integers refer to arguments and strings to named properties – to determine what values are passed to the converter. (If bindTo is not set, then the values of all the arguments will be passed to the converter.)\nBy default the value returned by the converter will be passed as first argument to the render() method. However, if the converter returns an array, then the values will be used to convert each of the targeted arguments or properties specified in bindTo.\n"
       },
       {
         "_type": "para",
