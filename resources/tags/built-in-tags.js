@@ -44,21 +44,18 @@ var treeNodeTmpl = $.templates(
 		"</ul>"),
 
 	tabsTmpl  = $.templates(
-
-		"<table class=\"tabsview\"><tbody>" +
-			"<tr class=\"tabstrip\">" +
-				"{{for ~tag.tagCtxs }}" +
-					"<th data-link=\"class{:'header_' + (#index === ~tag.selectedIndex)}\">" +
-						"{{>props.tabCaption}}" +
-					"</th>" +
-				"{{/for}}" +
-			"</tr>" +
-			"<tr class=\"tabscontent\">" +
-				"<td colspan=\"{{:~tag.tagCtxs.length}}\">" +
-					"{^{for ^tmpl=~tag.tagCtxs[~tag.selectedIndex].content /}}" +
-				"</td>" +
-			"</tr>" +
-		"</tbody></table>"),
+		'<table class="tabsview"><tbody>' +
+			// Tab strip UI with 'click' handler calling tag.setTab() method
+			'<tr class="tabstrip">' +
+				'{{for ~tag.tagCtxs}}' +
+					'<th data-link="class{:\'header_\' + (#index === ~tag.pane)} {on ~tag.setTab #index} {:props.tabCaption}"></th>' +
+				'{{/for}}' +
+			'</tr>' +
+			// Tab content with wrapped content of selected {{else}} block
+			'<tr class="tabscontent">' +
+				'<td colspan="{{:~tag.tagCtxs.length}}" data-link="{include ^tmpl=~tag.tagCtxs[~tag.pane].content}"></td>' +
+			'</tr>' +
+		'</tbody></table>'),
 
 //#endregion
 
@@ -68,26 +65,19 @@ var treeNodeTmpl = $.templates(
 
 	tabsTag = {
 		init: function(tagCtx) {
-			this.selectedIndex = tagCtx.props.selectedTab || 0;
+			this.pane = tagCtx.props.selectedTab || 0;
 			this.tabCount = this.tagCtxs.length;
 			(this.parents.section || this.parents.page).tabs = this;
 		},
 		render: function() {
 			var tagCtx = this.tagCtx;
-			return this.selectedIndex === tagCtx.index ? tagCtx.render() : "";
-		},
-		activateTabs: function() {
-			var self = this;
-			self.contents(true, ".tabstrip").first()
-				.on("click", ".header_false", function() {
-					self.setTab($.view(this).index);
-				});
+			return this.pane === tagCtx.index ? tagCtx.render() : "";
 		},
 		template: tabsTmpl,
 
 	// methods
 		setTab: function(index) {
-			$.observable(this).setProperty("selectedIndex", index);
+			$.observable(this).setProperty("pane", index);
 			if (this.onSelectionChange) {
 				this.onSelectionChange(index, this);
 			}

@@ -1,5 +1,40 @@
 body {
   font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   padding: 0 0 0 5px;
+  color: #172e40;
+}
+
+table tr {
+  color: #2b587a;
+  height: 25px;
+}
+
+table {
+  border-collapse: collapse;
+  border: 2px solid #7c94a5;
+  padding: 2px;
+  background-color: #fbfdfe;
+  width: 500px;
+  margin: 10px 0;
+}
+
+
+table.nowidth, table.nowidth input {
+  width: auto;
+}
+
+th {
+  padding: 3px 6px;
+  border: 1px solid #7c94a5;
+  background-color: #edf0f3;
+}
+
+table td {
+  padding: 3px 6px;
+  border: solid #93a0a9 1px;
+}
+
+.total {
+  background-color: #f2f7f7;
 }

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="../../../../download/jsviews.min.js"></script>
   <script src="../../../sample-viewer.min.js"></script>
   <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -60,7 +60,7 @@
 &lcub;^{/autocomplete}&rcub;
 </pre>
 
-{^{autocomplete val _source=~suggestionList}}
+{^{autocomplete val _source=~suggestionList convert='encode' convertBack='unencode'}}
   <div contenteditable="true" class="box"></div>
 {{/autocomplete}}
 
@@ -86,7 +86,8 @@
 &lt;div contenteditable="true" ... data-link="{autocomplete val ...}"&gt;&lt;/div&gt;
 </pre>
 
-<div contenteditable="true" class="box" data-link="{autocomplete val _source=~suggestionList}"></div>
+<div contenteditable="true" class="box"
+  data-link="{autocomplete val _source=~suggestionList convert='encode' convertBack='unencode'}"></div>
 
 <h4>Regular input tag without autocomplete</h4>
 

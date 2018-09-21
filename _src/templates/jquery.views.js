@@ -59,9 +59,9 @@ var $observe, $observable,
 	$isArray = $.isArray,
 	$views = $.views;
 
-if (!$views || !$views.map) {
+if (!$views || !$views.map || $views.jsviews !== versionNumber) {
 		// JsRender is not loaded.
-	throw requiresStr + "JsRender"; // jsrender.js must be loaded before JsViews and after jQuery
+	throw requiresStr + "JsRender " + versionNumber; // jsrender.js must be loaded before JsViews and after jQuery
 }
 
 var document = global.document,

@@ -1,55 +1,70 @@
-﻿/*! Sample JsViews tag control: {{jsonview}} control v0.9.84 (Beta)
+﻿/*! Sample JsViews tag control: {{jsonview}} control v0.9.91 (Beta)
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
- * Copyright 2017, Boris Moore
- * Released under the MIT License.
+	* Copyright 2018, Boris Moore
+	* Released under the MIT License.
 */
 
 (function($) {
-  "use strict";
+	"use strict";
+	$.views.tags("jsonview", {
+		template: {
+			markup: '{{if ~tag.isArray(#data)}}'
+			+ '<span class="jsonview"><span class="brace">[</span>{^{if length}}'
+				+ '<ul class="jsonview">'
+					+ '{^{for}}'
+						+ '<li {{:~tag.isFn(#data) ? "class=\'function\'" : ""}}>{^{jsonview/}}{^{if #index < #parent.data.length-1}},{{/if}}</li>'
+					+ '{{/for}}'
+				+ '</ul>'
+			+ '{{/if}}<span class="brace">]</span></span>'
+		+ '{{else ~tag.isObject(#data)}}'
+			+ '<span class="jsonview"><span class="brace">{</span>{^{if ~tag.notEmpty(#data)}}'
+				+ '<ul class="jsonview">'
+					+ '{^{props noFunctions=~noFunctions}}'
+						+ '<li {{:~tag.isFn(prop) ? "class=\'function\'" : ""}}>'
+							+ '<label>"{^{encode: key}}": </label>'
+							+ '{^{jsonview prop /}}{^{if #index < #parent.data.length-1}},{{/if}}'
+						+ '</li>'
+					+ '{{/props}}'
+				+ '</ul>'
+			+ '{{/if}}<span class="brace">}</span></span>'
+		+ '{{else #data+""===#data}}'
+			+ '"{^{str:#data}}"'
+		+ '{{else}}'
+			+ '{^{cvt:#data}}'
+		+ '{{/if}}',
+			converters: {
+				str: function convertValue(val) {
+					return $.views.converters.encode(val+"").replace(/"/g, '\\"');
+				},
+				cvt: function convertValue(val) {
+					if ($.isFunction(val)) {
+						return (this.ctx.noFunctions
+							? "<em>[function...]</em>"
+							: $.views.converters.encode(val+""));
+					} else {
+						return val + ""; // TODO dates
+					}
+				}
+			}
+		},
+		notEmpty: function notEmpty(val) {
+			for (var key in val) {
+				if (key !== $.expando && val.hasOwnProperty(key) && (!this.ctx.noFunctions || !$.isFunction(val[key]))) {
+					return true;
+				}
+			}
+		},
+		init: function() {
+			this.notEmpty.depends = "*";
+			this.ctx.noFunctions = this.ctx.noFunctions || this.tagCtx.props.noFunctions;
+		},
+		isFn: $.isFunction,
+		isArray: $.isArray,
+		isObject: function isObject(val) {
+			return val && typeof val === "object" && !(val instanceof Date);
+		},
 
-  function isObject(val) {
-    return val && typeof val === "object";
-  }
+	});
 
-  function notEmpty(val) {
-    return $.views.tags.props.dataMap.getTgt(val).length;
-  }
-
-  notEmpty.depends = "*";
-
-  $.views.tags("jsonview", {
-    template: {
-      markup:
-        '{{if ~isArray(#data)}}'
-        + '<span class="jsonview"><span class="brace">[</span>{^{if length}}'
-          + '<ul class="jsonview">'
-            + '{^{for}}'
-              + '<li>{^{jsonview/}}{^{if #index < #parent.data.length-1}},{{/if}}</li>'
-            + '{{/for}}'
-          + '</ul>'
-        + '{{/if}}<span class="brace">]</span></span>'
-      + '{{else ~isObject(#data)}}'
-        + '<span class="jsonview"><span class="brace">{</span>{^{if ~notEmpty(#data)}}'
-          + '<ul class="jsonview">'
-            + '{^{props}}'
-              + '<li>'
-                + '<label>{^{>key}}: </label>'
-                + '{^{jsonview prop/}}{^{if #index < #parent.data.length-1}},{{/if}}'
-              + '</li>'
-            + '{{/props}}'
-          + '</ul>'
-        + '{{/if}}<span class="brace">}</span></span>'
-      + '{{else #data+""===#data}}'
-        + '"{^{>#data}}"'
-      + '{{else}}'
-        + '{^{>#data+""}}'
-      + '{{/if}}',
-      helpers: {
-        isObject: isObject,
-        notEmpty: notEmpty,
-        isArray: $.isArray
-      }
-    }
-  });
 })(this.jQuery);

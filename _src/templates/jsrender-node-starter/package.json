@@ -19,7 +19,7 @@
     "express": "^4.13.3",
     "hapi": "^9.0.3",
     "inert": "^3.0.1",
-    "jquery": "^2.1.4",
+    "jquery": "^3.0.0",
     "jsrender": "^@@include("templates/-version.txt")",
     "jsviews": "^@@include("templates/-version.txt")",
     "serve-favicon": "^2.3.0",

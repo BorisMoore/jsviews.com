@@ -3,17 +3,22 @@ var movies = [{
    availability: "Available in 'X&Y' Cinemas",
     title: "Meet Joe Black",
     synopsis: "The <span class='role'>grim reaper</span> visits"
-    + "<span class='role'>Bill Parrish</span>..."
+    + "<span class='role'>Bill Parrish</span>...",
+    ticketPrice: 23.4
   },
   {
     availability: "Available at < 20kms from London",
     title: "Eyes Wide Shut",
     synopsis: "Director <span class='director'>Stanley Kubrick's</span> final film:"
-    + "<br/><br/><img src='http://cdn-4.nflximg.com/US/boxshots/large/5670434.jpg'/>"
+    + "<br/><br/><img src='http://cdn-4.nflximg.com/US/boxshots/large/5670434.jpg'/>",
+    ticketPrice: 18
   }
 ];
 
 $.views.converters({
+  dec: function(value) {
+    return value.toFixed(2);
+  },
   loc: function(value) {
     var language = this.tagCtx.props.lang;
     var result = "";

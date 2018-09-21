@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="../../../../download/jsviews.min.js"></script>
   <script src="../../../sample-viewer.min.js"></script>
   <script src="../../../../download/sample-tag-controls/validate/validate.min.js"></script>
@@ -73,7 +73,7 @@
     convertBack=~lower
   }}
     {^{for people}}
-      <label><input type="radio" data-link="value{upper:name}"/> {^{:name}}</label><br/>
+      <label><input type="radio" data-link="value{upper:name}"/> {^{>name}}</label><br/>
     {{/for}}
   {{/validate}}
 
@@ -102,7 +102,7 @@
     convertBack=~lower
   }">
     {^{for people}}
-      <label><input type="radio" value="{{upper:name}}" data-link="value^{upper:name}"/> {^{:name}}</label><br/>
+      <label><input type="radio" value="{{upper:name}}" data-link="value^{upper:name}"/> {^{>name}}</label><br/>
     {{/for}}
   </div>
 {{/validation}}

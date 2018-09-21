@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="../../../download/jsviews.min.js"></script>
+  <script src="../../sample-viewer.min.js"></script>
+  <script src="../../../download/sample-tag-controls/areaslider/areaslider.min.js"></script>
+<style>
+  input {width: 154px; margin-top: 10px;}
+  .slider1 {width: 154px; height: 50px; border-radius: 2px; background: #eee; border: #999 solid 1px; margin: 10px; float: left;}
+  .slider1 .dragger {cursor: pointer; width: 11px; height: 11px; border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 11px; background: #fafafa; box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2); }
+</style>
+</head>
+<body>
+
+<script id="myTmpl" type="text/x-jsrender">
+  {^{areaslider x y xMin=0 xMax=100 yMin=0 yMax=50 class="slider1"/}}
+  {^{areaslider x y xMin=100 xMax=0 yMin=0 yMax=50 class="slider1"/}}
+  <input data-link="x"/><br/>
+  <input data-link="y"/>
+</script>
+
+<div id="page"></div>
+<!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

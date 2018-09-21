@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="../../../../download/jsviews.min.js"></script>
   <script src="../../../sample-viewer.min.js"></script>
   <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -19,10 +19,10 @@
 
 <script id="tabsMarkup" type="text/x-jsrender">
   {^{sortable elem="ul" _axis="x"}}
-    {^{for tabData}}<li><a href="#{{:id}}">{^{:header}}</a></li>{{/for}}
+    {^{for tabData}}<li><a href="#{{:id}}">{^{>header}}</a></li>{{/for}}
   {{/sortable}}
   {^{for tabData}}
-    <div id="{{:id}}">{^{:content}}</div>
+    <div id="{{:id}}">{^{>content}}</div>
   {{/for}}
 </script>
 

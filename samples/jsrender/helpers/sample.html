@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="../../../download/jsrender.min.js"></script>
   <script src="../../sample-viewer.min.js"></script>
   <link href="sample.css" rel="stylesheet"/>
@@ -18,19 +18,19 @@
       </th>
       <th>
         <button id="sortBtn">
-          {{>~buttonCaption('sort')}}
+          {{>~buttonCaption('direction')}}
         </button>
       </th>
     </tr>
   </thead>
   <tbody>
-    {{for #data}}
+    {{for}} {{!-- iterate over movies --}}
       <tr>
         <td>{{>~format(title)}}</td>
         <td>
-          {{sort languages reverse=~reverseSort}}
+          {{for languages reverse=~reverse}}
             <div><b>{{>name}}</b></div>
-          {{/sort}}
+          {{/for}}
         </td>
       </tr>
     {{/for}}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="../../../download/jsrender.min.js"></script>
+  <script src="../../sample-viewer.min.js"></script>
+  <link href="../../../download/sample-tag-controls/grid/grid.css" rel="stylesheet" />
+</head>
+<body>
+
+<div id="purchases"></div>
+
+<script id="myTmpl" type="text/x-jsrender">
+<em>Unsorted</em>
+
+<table class="grid" style="width:600px;"><thead><tr>
+  <th>Category</th><th>Quantity</th>
+  <th>Total quantity</th><th>Price</th>
+  <th>Amount</th><th>Total cost</th></tr></thead><tbody>
+  {{purchases lineItems}} 
+    <tr>
+      <td>{{:category}}</td>
+      <td>{{:quantity}}</td>
+      <td class="total">{{:~total("quantity")}}</td>
+      <td>{{dec2:price}}</td>
+      <td>{{dec2:quantity*price}}</td>
+      <td class="total">{{dec2:~total("quantity*price")}}</td>
+    </tr>
+  {{else}}
+    <tr><td colspan="6">No items</td></tr>
+  {{/purchases}}
+</tbody></table>
+
+<em>Sorted by category</em>
+
+<table class="grid" style="width:600px;"><thead><tr>
+  <th>Category</th><th>Quantity</th>
+  <th>Total quantity</th><th>Price</th>
+  <th>Amount</th><th>Total cost</th></tr></thead><tbody>
+  {{purchases lineItems sort="category"}} 
+    <tr>
+      <td>{{:category}}</td>
+      <td>{{:quantity}}</td>
+      <td class="total">{{:~total("quantity")}}</td>
+      <td>{{dec2:price}}</td>
+      <td>{{dec2:quantity*price}}</td>
+      <td class="total">{{dec2:~total("quantity*price")}}</td>
+    </tr>
+  {{else}}
+    <tr><td colspan="6">No items</td></tr>
+  {{/purchases}}
+</tbody></table>
+
+<em>Filtered on "grocery" category, sorted on decreasing "price"</em>
+
+<table class="grid" style="width:600px;"><thead><tr>
+  <th>Category</th><th>Quantity</th>
+  <th>Total quantity</th><th>Price</th>
+  <th>Amount</th><th>Total cost</th></tr></thead><tbody>
+  {{purchases lineItems sort="price" reverse=true filter=~category category="grocery"}} 
+    <tr>
+      <td>{{:category}}</td>
+      <td>{{:quantity}}</td>
+      <td class="total">{{:~total("quantity")}}</td>
+      <td>{{dec2:price}}</td>
+      <td>{{dec2:quantity*price}}</td>
+      <td class="total">{{dec2:~total("quantity*price")}}</td>
+    </tr>
+  {{else}}
+    <tr><td colspan="6">No items</td></tr>
+  {{/purchases}}
+</tbody></table>
+
+<em>Filtered on "restaurant" category</em>
+
+<table class="grid" style="width:600px;"><thead><tr>
+  <th>Category</th><th>Quantity</th>
+  <th>Total quantity</th><th>Price</th>
+  <th>Amount</th><th>Total cost</th></tr></thead><tbody>
+  {{purchases lineItems filter=~category category="restaurant"}} 
+    <tr>
+      <td>{{:category}}</td>
+      <td>{{:quantity}}</td>
+      <td class="total">{{:~total("quantity")}}</td>
+      <td>{{dec2:price}}</td>
+      <td>{{dec2:quantity*price}}</td>
+      <td class="total">{{dec2:~total("quantity*price")}}</td>
+    </tr>
+  {{else}}
+    <tr><td colspan="6">No items</td></tr>
+  {{/purchases}}
+</tbody></table>
+</script>
+
+<!--<script src="sample-jsr.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

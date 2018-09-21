@@ -77,6 +77,11 @@ var versionNumber = "v@@include("templates/-version.txt")",
 	$isArray = $.isArray,
 	OBJECT = "object";
 
+if ($views.jsviews !== versionNumber) {
+	// Different version of jsRender was loaded
+	throw "JsObservable requires JsRender " + versionNumber;
+}
+
 @@include("jquery.observable.js", { "isJqObservable": true })
 return $;
 }, window));

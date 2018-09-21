@@ -108,7 +108,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "_type": "template",
             "title": "and a data-bound template:",
-            "markup": "<div>\n  <em>Name:</em> {^{:name}}\n  {^{if showNickname && nickname}}\n    (Goes by <em data-link=\"nickname\"></em>)\n  {{/if}}\n</div>\n"
+            "markup": "<div>\n  <em>Name:</em> {^{>name}}\n  {^{if showNickname && nickname}}\n    (Goes by <em data-link=\"nickname\"></em>)\n  {{/if}}\n</div>\n"
           },
           {
             "_type": "template",
@@ -131,13 +131,16 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "_type": "para",
                 "title": "",
-                "text": "```jsr\n{^{name}} ... {^{if showNickname && nickname}}...\n```\n\nThese are data-bound tags. When the underlying data changes the data-value within the rendered template automatically updates too.\n\nChanging `{{if ...}}` to `{^{if ...}}` makes it data-bound. Now, when the underlying data value or expression changes the whole rendered block content is automatically removed or reinserted.\n\n```jsr\n<em data-link=\"nickname\">\n```\n\nYou can use element-based data-linking too. Here, the inner-text of the `<em>` element is data-bound to the `nickname` data value.\n\n```jsr\n<input data-link=\"name\"/>\n```\n\nAnd here, the input is automatically two-way data-bound to the `name` property of the underlying data. Change the value in the text box, and the underlying data automatically updates. Any other parts of the template that are data-linked to the same data property will then immediately update too."
+                "text": "```jsr\n{^{>name}} ... {^{if showNickname && nickname}}...\n```\n\nThese are data-bound tags. When the underlying data changes the data-value within the rendered template automatically updates too.\n\nChanging `{{if ...}}` to `{^{if ...}}` makes it data-bound. Now, when the underlying data value or expression changes the whole rendered block content is automatically removed or reinserted.\n\n```jsr\n<em data-link=\"nickname\">\n```\n\nYou can use element-based data-linking too. Here, the inner-text of the `<em>` element is data-bound to the `nickname` data value.\n\n```jsr\n<input data-link=\"name\"/>\n```\n\nAnd here, the input is automatically two-way data-bound to the `name` property of the underlying data. Change the value in the text box, and the underlying data automatically updates. Any other parts of the template that are data-linked to the same data property will then immediately update too."
               }
             ],
             "markup": "",
-            "height": "106",
-            "html": "<div id=\"result\"></div>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n<div>\n  Edit: <input type=\"checkbox\" data-link=\"editable\"/>\n  <em>Name:</em> {^{:name}}\n  {^{if showNickname && nickname}}\n    (Goes by <em data-link=\"nickname\"></em>)\n  {{/if}}\n  {^{if editable}}\n    <div>\n      <input data-link=\"name\"/>\n      <input data-link=\"nickname\"/>\n      Show nickname: <input type=\"checkbox\" data-link=\"showNickname\"/>\n    </div>\n  {{/if}}\n</div>\n</script>",
-            "code": "var data = [\n  {\n    \"name\": \"Robert\",\n    \"nickname\": \"Bob\",\n    \"showNickname\": true\n  },\n  {\n    \"name\": \"Susan\",\n    \"nickname\": \"Sue\",\n    \"showNickname\": false\n  }\n];\n\nvar template = $.templates(\"#theTmpl\");\n\ntemplate.link(\"#result\", data);"
+            "height": "115",
+            "html": "<div id=\"result\"></div>\n\n<script id=\"theTmpl\" type=\"text/x-jsrender\">\n<div>\n  <label>Edit: <input type=\"checkbox\" data-link=\"editable\"/></label>\n  <em>Name:</em> {^{>name}}\n  {^{if showNickname && nickname}}\n    (Goes by <em data-link=\"nickname\"></em>)\n  {{/if}}\n  {^{if editable}}\n    <div>\n      <input data-link=\"name\"/>\n      <input data-link=\"nickname\"/>\n      Show nickname: <input type=\"checkbox\" data-link=\"showNickname\"/>\n    </div>\n  {{/if}}\n</div>\n</script>",
+            "code": "var data = [\n  {\n    \"name\": \"Robert\",\n    \"nickname\": \"Bob\",\n    \"showNickname\": true\n  },\n  {\n    \"name\": \"Susan\",\n    \"nickname\": \"Sue\",\n    \"showNickname\": false\n  }\n];\n\nvar template = $.templates(\"#theTmpl\");\n\ntemplate.link(\"#result\", data);",
+            "nocss": false,
+            "action": "append",
+            "header": "<style>\nlabel {display: inline-block; margin: 6px 15px 2px 0px;}\n</style>"
           }
         ]
       },
@@ -222,7 +225,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "name": "jsr-quickstart",
         "label": "JsRender Quickstart",
-        "categories": [],
         "expanded": true
       },
       {
@@ -464,7 +466,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "viewsobject",
                 "label": "$.views object",
-                "categories": [],
                 "expanded": true,
                 "hidden": false
               },
@@ -480,7 +481,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "tagobject",
                 "label": "tag object",
-                "hidden": true
+                "hidden": false
               },
               {
                 "name": "viewcontextobject",
@@ -490,7 +491,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "tagcontextobject",
                 "label": "Tag context object (tagCtx)",
-                "hidden": true
+                "hidden": false
               }
             ],
             "expanded": true
@@ -526,7 +527,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "node/browserify",
             "label": "Browserify support",
-            "categories": [],
             "expanded": true
           },
           {
@@ -689,15 +689,47 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "jsvtagcontrols",
             "label": "Custom tag controls",
-            "categories": [],
+            "categories": [
+              {
+                "name": "tagoptions",
+                "label": "Tag control options"
+              },
+              {
+                "name": "tagstructure",
+                "label": "Tag control structure",
+                "expanded": true
+              },
+              {
+                "name": "taglifecycle",
+                "label": "Tag control life-cycle"
+              },
+              {
+                "name": "tagpatterns",
+                "label": "Tag design patterns",
+                "categories": [
+                  {
+                    "name": "renderingpatterns",
+                    "label": "Layout and rendering"
+                  },
+                  {
+                    "name": "bindingpatterns",
+                    "label": "Data binding",
+                    "expanded": true
+                  },
+                  {
+                    "name": "hierarchypatterns",
+                    "label": "Tag hierarchy"
+                  },
+                  {
+                    "name": "todo",
+                    "label": "TODO",
+                    "hidden": true
+                  }
+                ],
+                "expanded": false
+              }
+            ],
             "expanded": true
-          },
-          {
-            "name": "jsvtagcontrolsPrevNew",
-            "label": "Custom tag controls Prev New",
-            "categories": [],
-            "expanded": true,
-            "hidden": true
           },
           {
             "name": "jsvhelpers-converters",
@@ -882,13 +914,12 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "jsvviewobject",
                 "label": "view object",
-                "categories": [],
                 "expanded": true
               },
               {
                 "name": "jsvtagobject",
                 "label": "tag object",
-                "hidden": true
+                "hidden": false
               },
               {
                 "name": "jsvviewcontextobject",
@@ -921,6 +952,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "jsvlifecycle",
             "label": "Life-cycle events",
+            "hidden": true
+          },
+          {
+            "name": "replace-target",
+            "label": "Replace placeholder target",
             "hidden": true
           }
         ],
@@ -1292,7 +1328,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                   },
                   {
                     "name": "samples/tag-controls/jqui/slider",
-                    "label": "slider control",
+                    "label": "slider control (jQuery UI)",
                     "categories": [
                       {
                         "name": "samples/tag-controls/jqui/slider/simple",
@@ -1320,7 +1356,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                       {
                         "name": "samples/tag-controls/jqui/spinner/variants",
                         "label": "spinner variants",
-                        "categories": [],
                         "expanded": true
                       },
                       {
@@ -1440,12 +1475,27 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "samples/tag-controls/simple-textbox",
                 "label": "simple textbox control",
-                "categories": [],
                 "expanded": true
               },
               {
-                "name": "samples/tag-controls/range",
-                "label": "range control"
+                "name": "samples/tag-controls/purchases",
+                "label": "purchases control"
+              },
+              {
+                "name": "samples/tag-controls/slider",
+                "label": "slider control"
+              },
+              {
+                "name": "samples/tag-controls/areaslider",
+                "label": "areaslider control"
+              },
+              {
+                "name": "samples/tag-controls/spinblock",
+                "label": "spinblock control"
+              },
+              {
+                "name": "samples/tag-controls/colorpicker",
+                "label": "colorpicker control"
               },
               {
                 "name": "samples/tag-controls/jsonview",
@@ -1498,7 +1548,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "name": "download/jsrplugins",
         "label": "JsRender plugins",
-        "categories": [],
         "expanded": true
       },
       {

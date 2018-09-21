@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="../../../../download/jsviews.min.js"></script>
   <script src="../../../sample-viewer.min.js"></script>
   <link href="../../../../download/sample-tag-controls/treeview/tree.css" rel="stylesheet" />
@@ -54,7 +54,7 @@
     {{else}}
       <span class="spacer">&bull;</span>
     {{/if}}
-    {^{if ~tag.tagCtx.props.editable}}
+    {^{if ~tagCtx.props.editable}}
       <input data-link="name" />
       <span data-link="{on ~tag.addFolder}" class="add">add</span>
       {^{if ~tag.parent && ~tag.parent.tagName==='editableTree'}}
@@ -69,7 +69,7 @@
     <li>
       <ul>
         {^{for folders}}
-          {^{editableTree editable=~tag.tagCtx.props.editable/}}
+          {^{editableTree editable=~tagCtx.props.editable/}}
         {{/for}}
       </ul>
     </li>

@@ -1,7 +1,7 @@
 ﻿/*! Sample JsViews tag control: {{validate}} control v0.9.90 (Beta)
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
- * Copyright 2017, Boris Moore
+ * Copyright 2018, Boris Moore
  * Released under the MIT License.
  */
 
@@ -132,7 +132,7 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
             // Scenario with data-link="{targetTag ...}{validate ...}" (both tags data-linked on same linkedElem)
             tag.targetTag = targetTag;
           }
-          tag.messageElem = targetTag && (targetTag.displayElem || targetTag.linkedElem)
+          tag.messageElem = targetTag && (targetTag.displayElem || targetTag.linkedElem || targetTag.mainElem)
             || tag.displayElem || tag.linkedElem;
         }
         tag.messageElem.addClass("val-msg");

@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="../../../download/jsviews.js"></script>
+  <script src="../../sample-viewer.min.js"></script>
+  <script src="../../../download/sample-tag-controls/colorpicker/tinycolor.min.js"></script>
+  <script src="../../../download/sample-tag-controls/slider/slider.min.js"></script>
+  <script src="../../../download/sample-tag-controls/areaslider/areaslider.min.js"></script>
+  <script src="../../../download/sample-tag-controls/spinblock/spinblock.min.js"></script>
+  <script src="../../../download/sample-tag-controls/colorpicker/colorpicker-multiformat.min.js"></script>
+  <link href="../../../download/sample-tag-controls/colorpicker/colorpicker.css" rel="stylesheet" />
+<style>
+  body {font-family: Verdana; font-size: 12px;}
+
+  .picker1 { left: 20px; top: 15px; position: absolute;}
+  .box1 { position: absolute; border: 1px solid blue; top: 274px; left: 48px; width: 164px; padding: 5px;}
+  .inputs1 { position: absolute; border: 1px solid blue; top: 326px; left: 48px; width: 162px; padding: 6px; height: 109px;}
+    .inputs1 input { width: 120px; margin: 3px;}
+
+  .picker2 { left: 306px; top: 15px; position: absolute;}
+  .box2 { position: absolute; border: 1px solid blue; top: 274px; left: 334px; width: 164px; padding: 5px;}
+  .inputs2 { position: absolute; border: 1px solid blue; top: 326px; left: 334px; width: 162px; padding: 6px; height: 109px;}
+    .inputs2 input { width: 120px; margin: 3px;}
+
+  .picker3 { left: 592px; top: 15px; position: absolute;}
+  .box3 { position: absolute; border: 1px solid blue; top: 274px; left: 620px; width: 164px; padding: 5px;}
+  .inputs3 { position: absolute; border: 1px solid blue; top: 326px; left: 620px; width: 162px; padding: 6px; height: 27px;}
+    .inputs3 input { width: 120px; margin: 3px;}
+</style>
+</head>
+<body>
+
+<script id="myTmpl" type="text/x-jsrender">
+{^{picker color1.h color1.s color1.v color1.a class="picker1"/}}
+
+<div class="inputs1">
+  h: <input data-link="color1.h"/><br/>
+  s: <input data-link="color1.s"/><br/>
+  v: <input data-link="color1.v"/><br/>
+  a: <input data-link="color1.a"/>
+</div>
+<div class="box1" data-link="css-background-color{rgba:color1.h color1.s color1.v color1.a}">
+  {^{rgba:color1.h color1.s color1.v color1.a}}<br/>{^{hex:color1.h color1.s color1.v color1.a}}
+</div>
+
+{^{picker color2.r color2.g color2.b color2.a mode="rgba" class="picker2"/}}
+
+<div class="inputs2">
+  r: <input data-link="color2.r"/><br/>
+  g: <input data-link="color2.g"/><br/>
+  b: <input data-link="color2.b"/><br/>
+  a: <input data-link="color2.a"/>
+</div>
+<div class="box2" data-link="css-background-color{rgbafromrgb:color2.r color2.g color2.b color2.a}">
+  {^{rgbafromrgb:color2.r color2.g color2.b color2.a}}<br/>{^{hexfromrgb:
+  color2.r color2.g color2.b color2.a}}
+</div>
+
+{^{picker color3.hex mode="hex" class="picker3"/}}
+
+<div class="inputs3">
+  hex: <input data-link="color3.hex"/><br/>
+</div>
+<div class="box3" data-link="css-background-color{rgbafromhex:color3.hex}">
+  {^{rgbafromhex:color3.hex}}<br/>{^{:color3.hex}}
+</div>
+</script>
+
+<div id="page"></div>
+<!--<script src="colorpicker-multiformat.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

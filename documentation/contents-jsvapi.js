@@ -218,10 +218,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<td>{^{:name}}</td>\n<td><input data-link=\"name\" /></td>\n```\n\n```js\nvar myTmpl = $.templates(\"#personTmpl\");\n\nmyTmpl.link(\"#person\", person);\n```"
+            "text": "```jsr\n<td>{^{>name}}</td>\n<td><input data-link=\"name\" /></td>\n```\n\n```js\nvar myTmpl = $.templates(\"#personTmpl\");\n\nmyTmpl.link(\"#person\", person);\n```"
           }
         ],
-        "html": "<table><tbody id=\"person\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>{^{:name}}</td>\n    <td><input data-link=\"name\" /></td>\n  </tr>\n</script>",
+        "html": "<table><tbody id=\"person\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>{^{>name}}</td>\n    <td><input data-link=\"name\" /></td>\n  </tr>\n</script>",
         "code": "var myTmpl = $.templates(\"#personTmpl\");\n\nvar person = {\n    name: \"Adriana\"\n  };\n\nvar html = myTmpl.link(\"#person\", person);\n",
         "title": "template.link(object):",
         "height": "60"
@@ -248,7 +248,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```js\nmyTmpl.link(\"#peopleList\", people);\n```"
           }
         ],
-        "html": "<button id=\"add\">Add person</button>\n\n<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>{^{:name}}</td>\n    <td><input data-link=\"name\" /></td>\n  </tr>\n</script>",
+        "html": "<button id=\"add\">Add person</button>\n\n<table><tbody id=\"peopleList\"></tbody></table>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td>{^{>name}}</td>\n    <td><input data-link=\"name\" /></td>\n  </tr>\n</script>",
         "code": "var myTmpl = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nmyTmpl.link(\"#peopleList\", people);\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(people).insert({\n    name: \"name\"\n  });\n});\n",
         "title": "template.link(array):",
         "height": "160"
@@ -421,12 +421,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "Code:\n\n```js\nmyTmpl.link(\"#peopleList\", people, null, true);\n```\n\nTemplate:\n\n```jsr\n<table>\n  <thead><tr><th colspan=\"2\">\n    {^{:#data.length}} people\n  </th></tr></thead>\n  <tbody>\n    {^{for}}\n      <tr>\n        <td>{^{:name}}</td><td><input data-link=\"name\" /></td>\n      </tr>\n    {{/for}}\n  </tbody>\n</table>\n```"
+            "text": "Code:\n\n```js\nmyTmpl.link(\"#peopleList\", people, null, true);\n```\n\nTemplate:\n\n```jsr\n<table>\n  <thead><tr><th colspan=\"2\">\n    {^{:#data.length}} people\n  </th></tr></thead>\n  <tbody>\n    {^{for}}\n      <tr>\n        <td>{^{>name}}</td><td><input data-link=\"name\" /></td>\n      </tr>\n    {{/for}}\n  </tbody>\n</table>\n```"
           }
         ],
         "jsrJsvJqui": "",
         "height": "190",
-        "html": "<button id=\"add\">Add person</button>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table>\n    <thead><tr><th colspan=\"2\">\n      {^{:#data.length}} people\n    </th></tr></thead>\n    <tbody>\n      {^{for}}\n        <tr>\n          <td>{^{:name}}</td><td><input data-link=\"name\" /></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table>\n</script>",
+        "html": "<button id=\"add\">Add person</button>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table>\n    <thead><tr><th colspan=\"2\">\n      {^{:#data.length}} people\n    </th></tr></thead>\n    <tbody>\n      {^{for}}\n        <tr>\n          <td>{^{>name}}</td><td><input data-link=\"name\" /></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table>\n</script>",
         "code": "var myTmpl = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nmyTmpl.link(\"#peopleList\", people, null, true);\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(people).insert({\n    name: \"name\"\n  });\n});\n",
         "title": "template.link(container, array, helpers, noIteration):"
       },
@@ -551,7 +551,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "api",
         "typeLabel": "API:",
-        "title": "$.link.myTmpl(container, data, helpersOrContext)",
+        "title": "$.link.myTmpl(container, data, helpersOrContext, noIteration)",
         "name": "myTmpl",
         "object": "$.link",
         "method": true,
@@ -582,14 +582,21 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
                 "type": "object",
                 "optional": true,
                 "description": "Contextual helper methods or properties -- available to template as <code>~keyName</code>"
+              },
+              {
+                "_type": "param",
+                "name": "noIteration",
+                "type": "boolean",
+                "optional": true,
+                "description": "Pass in parameter <code>true</code>, to prevent iteration on array data"
               }
             ],
             "sections": [],
-            "example": "$.link.myTmpl(\"#container\", myData, myHelpers);",
-            "description": "Render and link template against data (as content of a container element) and pass in helpers"
+            "example": "$.link.myTmpl(\"#container\", myData, myHelpers, true);",
+            "description": "Render and link template against data as content of a container element. Optionally pass in helpers and specify iteration behavior for arrays"
           }
         ],
-        "description": "Render and link a named template against data, along with helper objects or context",
+        "description": "Render and link a named template against data, under a container element. (Optionally provide helpers/context and specify iteration behavior for arrays)",
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -683,28 +690,35 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Each instance of a rendered template or a template block tag is associated with a JsViews *\"view\"* object.\n\nUse `$.view()` to get from the rendered HTML back to the data."
+        "text": "Each instance of a rendered template or a template block tag is associated with a JsViews *\"view\"* object.\n\nOne of the features provided by JsViews data-linking (when you use the JsViews [`.link()`](#jsvlinktmpl) method rather than JsRender's [`.render()`](#rendertmpl) method) is the [`$.view(elem)`](#$view) method. This method provides a *reverse mapping* and lets you get from a rendered DOM element back to the corresponding view object in the view hierarchy. From the view you can get to the underlying data, the index, etc.\n\nSo in effect in JsViews, *the mapping from the view hierarchy to the UI becomes a two-way mapping...*"
       },
       {
         "_type": "links",
-        "title": "",
+        "title": "See:",
         "links": [],
         "topics": [
           {
-            "hash": "views",
-            "label": "View hierarchy"
+            "_type": "topic",
+            "hash": "jsv.d.view",
+            "label": "Using $.view() to get from the rendered UI back to the data"
           },
           {
             "_type": "topic",
-            "hash": "jsv.d.view",
-            "label": "$.view()"
+            "hash": "views",
+            "label": "View hierarchy"
           }
         ]
+      },
+      {
+        "_type": "para",
+        "title": "Technical note on how JsViews establishes two-way data binding:",
+        "text": "JsViews data-linking means that observable changes to the bound data automatically trigger dynamic updates to the rendered HTML.\n\nSuppose for example we have this template:\n\n```jsr\n<ul>\n  {^{for people}}\n    <li><input data-link=\"name\"/> Name: {^{:name}}</li>\n  {{/for}}\n</ul>\n```\n\nIf `name` changes observably, then the name value in both the `<input/>` and the text content (*Name: XXX*) will update to the new value. Similarly, adding or removing a person item from the people array will cause an `<li>` element to be added or removed.\n\nTo achieve this, JsViews `link()` method includes meta-data tokens in the rendered HTML, which it then uses as locators to ensure that content is updated at the correct places in the HTML.\n\nThe meta-data does not affect visual rendering in any way, and consists essentially of `data-jsv` attributes on some HTML elements, as well as some inserted script tags of type: `jsv...` when locators are needed within text content.\n\nIn the case of the above template, the HTML markup will be similar to the following:\n\n```jsr\n<ul>\n  <li data-jsv=\"...\">\n    <input data-link=\"name\"> Name: <script type=\"jsv...\"></script>Jo Blow<script type=\"jsv...\"></script>\n  </li>\n</ul>\n```",
+        "anchor": "metadata"
       }
     ]
   },
   "jsv.d.view": {
-    "title": "Getting from the rendered UI back to the data",
+    "title": "Using $.view() to get from the rendered UI back to the data",
     "path": "",
     "sections": [
       {
@@ -921,7 +935,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvviewsobject": {
-    "title": "The $.views object",
+    "title": "The <em>$.views</em> object",
     "path": "",
     "sections": [
       {
@@ -932,7 +946,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvtemplateobject": {
-    "title": "template object",
+    "title": "The <em>template</em> object",
     "path": "",
     "sections": [
       {
@@ -969,7 +983,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "A <b>view object</b> has the following properties and methods:",
-        "text": "**JsViews -- programmatic access only**\n\nThe following methods are available only for programmatic access when using JsViews:\n\n- [refresh() method](#jsvviewobject@refresh)\n- [contents() method](#jsvviewobject@contents)\n- [childTags() method](#jsvviewobject@childtags)\n- [nodes() method](#jsvviewobject@nodes)\n- [ctxPrm() get/set method](#jsvviewobject@ctxprm)\n\n**Both JsRender and JsViews** (see [JsRender `view` object](#viewobject))\n\n*The following properties and methods are available when using either JsRender or JsViews:*\n\n- [type property](#viewobject@type)\n- [data property](#viewobject@data)\n- [parent property](#viewobject@parent)\n- [index property](#viewobject@index)\n- [getIndex() method](#viewobject@getindex)\n- [get(type) method](#viewobject@get)\n- [content property](#viewobject@content)\n- [root property](#viewobject@root)\n- [other properties (tmpl, views, ctx, tag)](#viewobject@other)\n"
+        "text": "**JsViews -- programmatic access only**\n\nThe following methods are available only for programmatic access when using JsViews:\n\n- [refresh() method](#jsvviewobject@refresh)\n- [contents() method](#jsvviewobject@contents)\n- [childTags() method](#jsvviewobject@childtags)\n- [nodes() method](#jsvviewobject@nodes)\n- [ctxPrm() get/set method](#jsvviewobject@ctxprm)\n\n**Both JsRender and JsViews** (see [JsRender `view` object](#viewobject))\n\n*The following properties and methods are available when using either JsRender or JsViews (both for programmatic access and declaratively in templates):*\n\n- [type property](#viewobject@type)\n- [data property](#viewobject@data)\n- [parent property](#viewobject@parent)\n- [index property](#viewobject@index)\n- [getIndex() method](#viewobject@getindex)\n- [get(type) method](#viewobject@get)\n- [content property](#viewobject@content)\n- [root property](#viewobject@root)\n- [other properties (tmpl, views, ctx, tag)](#viewobject@other)\n"
       },
       {
         "_type": "para",
@@ -997,10 +1011,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*Template:* (No data-linking except `<input data-link=\"name\" />`)\n\n```jsr\n{{for people}}\n  ...\n  <input data-link=\"name\" />\n  ...\n  {{:name}} ... {{:~root.year}} ... {{:age + ~root.year - 2016}}\n  ...\n  <button class=\"refreshBtn\">Refresh</button>\n{{/for}}\n```\n\n*Code:*\n\n```js\n.on(\"click\", \"#incrBtn\", function() {\n  model.year++; // non-observable change\n})\n.on(\"click\", \".refreshBtn\", function() {\n  $.view(this).refresh(); // Refresh view, with updated values...\n});\n```"
+            "text": "*Template:* (No data-linking except `<input data-link=\"name\" />`)\n\n```jsr\n{{for people}}\n  ...\n  <input data-link=\"name\" />\n  ...\n  {{>name}} ... {{>~root.year}} ... {{>age + ~root.year - 2016}}\n  ...\n  <button class=\"refreshBtn\">Refresh</button>\n{{/for}}\n```\n\n*Code:*\n\n```js\n.on(\"click\", \"#incrBtn\", function() {\n  model.year++; // non-observable change\n})\n.on(\"click\", \".refreshBtn\", function() {\n  $.view(this).refresh(); // Refresh view, with updated values...\n});\n```"
           }
         ],
-        "html": "<style>table td {padding: 5px;} table {margin-top: 6px;} #incrBtn {margin-bottom: 10px;}</style>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"incrBtn\">Increment year</button>\n  <button id=\"incrObsBtn\">Increment observably</button>\n  <button id=\"incrRefreshBtn\">Increment and refresh</button>\n  <button class=\"refreshBtn\">Refresh All</button><br/>\n  Year: {^{:year}}<br/>\n\n  <table><tbody>\n    {{for people}}\n      <tr>\n        <td><input data-link=\"name\" /></td>\n        <td>Name: {{:name}}</td>  {{!-- no data-linking --}}\n        <td>Age in {{:~root.year}}: {{:age + ~root.year - 2016}} </td>\n        <td><button class=\"refreshBtn\">Refresh</button></td>\n      </tr>\n    {{/for}}\n  </tbody></table>\n</script>",
+        "html": "<style>table td {padding: 5px;} table {margin-top: 6px;} #incrBtn {margin-bottom: 10px;}</style>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"incrBtn\">Increment year</button>\n  <button id=\"incrObsBtn\">Increment observably</button>\n  <button id=\"incrRefreshBtn\">Increment and refresh</button>\n  <button class=\"refreshBtn\">Refresh All</button><br/>\n  Year: {^{>year}}<br/>\n\n  <table><tbody>\n    {{for people}}\n      <tr>\n        <td><input data-link=\"name\" /></td>\n        <td>Name: {{>name}}</td>  {{!-- no data-linking --}}\n        <td>Age in {{>~root.year}}: {{>age + ~root.year - 2016}} </td>\n        <td><button class=\"refreshBtn\">Refresh</button></td>\n      </tr>\n    {{/for}}\n  </tbody></table>\n</script>",
         "code": "var tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  year: 2016,\n  people: [{name: \"Adriana\", age: 4}, {name: \"Robert\", age: 34}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#incrBtn\", function() {\n    model.year++; // non-observable change\n  })\n  .on(\"click\", \"#incrObsBtn\", function() {\n    $.observable(model).setProperty(\"year\", model.year + 1);\n  })\n  .on(\"click\", \"#incrRefreshBtn\", function() {\n    model.year++; // non-observable change\n    $.view(this).refresh();\n  })\n  .on(\"click\", \".refreshBtn\", function() {\n    $.view(this).refresh();\n  });",
         "height": "160",
         "title": "view.refresh()"
@@ -1008,7 +1022,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The contents() method",
-        "text": "***view.contents(...)***: returns a jQuery object of view content nodes -- optionally filtered by a jQuery selector.\n\n```js\nvar jqMyClassElem = view.contents(true, \".myClass\"); // jQuery object for element with 'myClass'at any depth within view\n```",
+        "text": "***view.contents(...)***: returns a jQuery object of view content nodes -- optionally filtered by a jQuery selector.\n\n```js\nvar jqMyClassElem = view.contents(true, \".myClass\");\n// jQuery object for element with 'myClass'at any depth within view\n```",
         "anchor": "contents"
       },
       {
@@ -1106,7 +1120,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<style>.nameTd {width: 60px; padding: 0 6px;} table {width: 230px;} button {margin: 4px;}</style>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"addBtn\">Add</button>\n  <table><tbody>\n    {^{for people}}\n      <tr>\n        <td class=\"nameTd\">{^{:name}}</td>\n        <td>\n          <button class=\"orange\">orange</button>\n          <button class=\"yellow\">yellow</button>\n        </td>\n      </tr>\n    {{/for}}\n  </tbody></table>\n</script>",
         "code": "var tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#addBtn\", function() {\n    var view = $.view(this);           // \"data\" view\n    var data = view.data;              // model\n    $.observable(data.people).insert({name: \"name\"});\n  })\n  .on(\"click\", \".orange, .yellow\", function() {\n    var view = $.view(this);           // \"item\" view\n\n    // Get jQuery object for \".nameTd\" in this view:\n    var jqNameTd = view.contents(true, \".nameTd\");\n\n    // Set background color\n    jqNameTd.css(\"backgroundColor\", this.className);\n  });",
-        "title": "view.contents()"
+        "title": "view.contents()",
+        "height": "160"
       },
       {
         "_type": "para",
@@ -1262,10 +1277,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "Template:\n\n```jsr\n<span data-link=\"css-color{:~color}\">TEXT</span>\n<input data-link=\"~color\" />\n({^{:~color}})\n```\n\nCode:\n\n```js\nset: function(newColor, ev, eventArgs) {\n  eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor \n},\nget: function(ev, eventArgs) {\n  alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n}\n```"
+            "text": "Template:\n\n```jsr\n<span data-link=\"css-color{:~color}\">TEXT</span>\n<input data-link=\"~color\" />\n({^{>~color}})\n```\n\nCode:\n\n```js\nset: function(newColor, ev, eventArgs) {\n  eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor \n},\nget: function(ev, eventArgs) {\n  alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n}\n```"
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~set \"green\"}}set ~color to green{{/on}}\n  {^{on ~set \"red\"}}set ~color to red{{/on}}\n  {^{on ~get}}get ~color{{/on}}\n  <span data-link=\"css-color{:~color} {:~color}\"></span>\n  <input data-link=\"~color\" />\n  ({^{:~color}})\n</script>\n",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~set \"green\"}}set ~color to green{{/on}}\n  {^{on ~set \"red\"}}set ~color to red{{/on}}\n  {^{on ~get}}get ~color{{/on}}\n  <span data-link=\"css-color{:~color} {:~color}\"></span>\n  <input data-link=\"~color\" />\n  ({^{>~color}})\n</script>\n",
         "code": "var tmpl = $.templates(\"#tmpl\"),\n\n  model = {},\n\n  helpers = {\n    color: \"blue\",\n    set: function(newColor, ev, eventArgs) {\n      eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor\n    },\n    get: function(ev, eventArgs) {\n      alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n    }\n  };\n\ntmpl.link(\"#result\", model, helpers);",
         "height": "50"
       },
@@ -1293,7 +1308,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "html": "<style>div {margin: 10px 0;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label>clr:</label>\n  <div>\n    <span data-link=\"css-color{:clr} {:clr}\"></span>\n    <input data-link=\"clr\" />\n  </div>\n\n  {{for person ~color=clr}}\n    <label>~color:</label>\n    <div>\n      {^{on ~set \"green\"}}set ~color to green{{/on}}\n      {^{on ~set \"red\"}}set ~color to red{{/on}}\n      {^{on ~get}}get ~color{{/on}}\n      <span data-link=\"css-color{:~color} {:~color}\"></span>\n      <input data-link=\"~color\" />\n    </div>\n  {{/for}}\n</script>\n",
-        "code": "var tmpl = $.templates(\"#tmpl\"),\n\n  model = {clr: \"orange\", person: {name: \"Jo\"}},\n\n  helpers = {\n    set: function(newColor, ev, eventArgs) {\n      eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor\n    },\n    get: function(ev, eventArgs) {\n      alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n    }\n  };\n\ntmpl.link(\"#result\", model, helpers);"
+        "code": "var tmpl = $.templates(\"#tmpl\"),\n\n  model = {clr: \"orange\", person: {name: \"Jo\"}},\n\n  helpers = {\n    set: function(newColor, ev, eventArgs) {\n      eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor\n    },\n    get: function(ev, eventArgs) {\n      alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n    }\n  };\n\ntmpl.link(\"#result\", model, helpers);",
+        "height": "140"
       },
       {
         "_type": "links",
@@ -1315,294 +1331,76 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvtagobject": {
-    "title": "tag object",
+    "title": "The <em>tag</em> object",
     "path": "",
     "sections": [
       {
         "_type": "para",
-        "title": "",
-        "text": "JsRender\n\nDeclare\n\n- tag.template\n- tag.flow\n- tag.baseTag\n- tag.contentCtx\n- tag.argDefault\n- tag.bindTo\n\nEvent handlers\n\n- tag.init()\n- tag.render()\n- tag.convert()\n\nProps/Methods\n\n- tag.ctxPrm()\n- tag.cvt()\n- tag.cvtArgs()\n- tag.bndArgs() \n- tag.ctx\n- tag.parent\n- tag.parents\n- tag.tagCtx\n- tag.tagCtxs\n- tag.tagName\n- tag.base\n- tag.baseApply\n- rendering\n\nJsViews\n\nDeclare\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- dateMap\n- lateRender (feature)\n\nEvent handlers\n\n- tag.convertBack()\n- tag.domChange()\n- tag.depends()\n- tag.onBeforeBind()\n- tag.onBind()\n- tag.BeforeLink()\n- tag.onAfterLink()\n- tag.onUpdate()\n- tag.onBeforeUpdateVal()\n- tag.onDispose()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem"
+        "title": "<b>Tag object</b> properties and event handlers provided as tag options",
+        "text": "The following tag properties and event handlers can be specified as tag options when registering a custom tag:\n\n*Tag properties (both in JsRender and JsViews -- see [`$.views.tags()`](#tagsapi))*:\n\n- [`baseTag`](#tagsapi@basetag)\n- [`flow`](#tagsapi@flow)\n- [`template`](#tagsapi@template)\n- [`bindTo`](#tagsapi@bindto)\n- [`ctx`](#tagsapi@ctx)\n- [`contentCtx`](#tagsapi@contentctx)\n- [`argDefault`](#tagsapi@argdefault)\n\n*Tag properties (only in JsViews -- see [tag control options](#tagoptions))*:\n\n- [`dataBoundOnly`](#tagoptions@databoundonly)\n- [`boundProps`](#tagoptions@boundprops)\n- [`depends`](#tagoptions@depends)\n- [`attr`](#tagoptions@attr)\n- [`setSize`](#tagoptions@setsize)\n- [`height`](#tagoptions@height)\n- [`width`](#tagoptions@width)\n- [`className`](#tagoptions@classname)\n- [`linkedElement`](#tagoptions@linkedelement)\n- [`mainElement`](#tagoptions@mainelement)\n- [`displayElement`](#tagoptions@displayelement)\n- [`linkedCtxParam`](#tagoptions@linkedctxparam)\n- [`dataMap`](#tagoptions@datamap)\n- [`lateRender`](#tagoptions@laterender)\n- [`trigger`](#tagoptions@trigger)\n\n*Event handlers (both in JsRender and JsViews -- see [`$.views.tags()`](#tagsapi))*:\n\n- [`init()`](#tagsapi@init)\n- [`render()`](#tagsapi@render)\n- [`convert`](#tagsapi@convert)\n\n*Event handlers (only in JsViews -- see [tag control options](#tagoptions))*:\n\n- [`onBind()`](#tagoptions@onbind)\n- [`onAfterLink()`](#tagoptions@onafterlink)\n- [`onUpdate()`](#tagoptions@onupdate)\n- [`onDispose()`](#tagoptions@ondispose)\n- [`convertBack`](#tagoptions@convertback)\n- [`onUnbind()`](#tagoptions@onunbind)\n- [`onBeforeUpdateVal()`](#tagoptions@onbeforeupdateval)\n- [`onBeforeChange()`](#tagoptions@onbeforechange)\n- [`onAfterChange()`](#tagoptions@onafterchange)\n- [`onArrayChange()`](#tagoptions@onarraychange)\n- [`setValue()`](#tagoptions@setvalue)\n- [`domChange()`](#tagoptions@domchange)"
       },
       {
         "_type": "para",
-        "title": "A <b>view object</b> has the following properties and methods:",
-        "text": "**JsViews -- programmatic access only**\n\nThe following methods are available only for programmatic access when using JsViews:\n\n- [refresh() method](#jsvviewobject@refresh)\n- [contents() method](#jsvviewobject@contents)\n- [childTags() method](#jsvviewobject@childtags)\n- [nodes() method](#jsvviewobject@nodes)\n- [ctxPrm() get/set method](#jsvviewobject@ctxprm)\n\n**Both JsRender and JsViews** (see [JsRender `view` object](#viewobject))\n\n*The following properties and methods are available when using either JsRender or JsViews:*\n\n- [type property](#viewobject@type)\n- [data property](#viewobject@data)\n- [parent property](#viewobject@parent)\n- [index property](#viewobject@index)\n- [getIndex() method](#viewobject@getindex)\n- [get(type) method](#viewobject@get)\n- [content property](#viewobject@content)\n- [root property](#viewobject@root)\n- [other properties (tmpl, views, ctx, tag)](#viewobject@other)\n"
+        "title": "Additional <b>tag object</b> properties and methods",
+        "text": "In addition to the above properties and handlers set as tag options, the tag object has the following properties and methods:\n\n*Tag properties (both in JsRender and JsViews)*\n\n- [parent](#tagobject@parent)\n- [parents](#tagobject@parents)\n- [tagCtx](#tagobject@tagctx)\n- [tagCtxs](#tagobject@tagctxs)\n- [tagName](#tagobject@tagname)\n- [rendering](#tagobject@rendering)\n\n*Tag properties (only in JsViews)*\n\n- [linkCtx](#jsvtagobject@parent)\n- [parentElem](#jsvtagobject@parent)\n\n*Tag methods (both in JsRender and JsViews)*\n\n- [ctxPrm()](#tagobject@ctxprm)\n- [cvt()](#tagobject@cvt)\n- [cvtArgs()](#tagobject@cvtargs)\n- [bndArgs()](#tagobject@bndargs)\n- [base()](#tagobject@base)\n- [baseApply()](#tagobject@baseapply)\n\n*Tag methods (only in JsViews)*\n\n- [refresh()](#jsvtagobject@refresh)\n- [contents()](#jsvtagobject@contents)\n- [childTags()](#jsvtagobject@childtags)\n- [nodes()](#jsvtagobject@nodes)\n- [setValue()](#jsvtagobject@setvalue)\n- [setValues()](#jsvtagobject@setvalues)\n- [updateValue()](#jsvtagobject@updatevalue)\n- [updateValues()](#jsvtagobject@updatevalues)"
       },
       {
         "_type": "para",
-        "title": "Accessing view objects",
-        "text": "The `view` object can be accessed *programmatically* in many contexts, such as:\n\n- in a click handler (with JsViews) -- using [`$.view(this)`](#jsv.d.view) to return the `view` for a given HTML element (`this`)\n- in a helper function, `~myHelper()` -- where the `this` pointer is the current view\n- in any method of a custom tag -- using `this.tagCtx.view`\n\nIn addition, properties and methods that are available to both JsRender and JsViews (second list above) can also be accessed *declaratively* in a template using *[view paths](#paths)* -- such as `#parent` for the `view.parent` property.\n<br/><br/>\n\n### Properties and methods:\n"
+        "title": "Accessing tag objects",
+        "text": "The `tag` object can be accessed *programmatically*, for example in event handlers of custom tags, using the `this` pointer.\n\nThe current tag can also be accessed *declaratively* (in a custom tag template,  or in wrapped block content) using `~tag`, as in:\n\n```jsr\n{{:~tag.parent.tagName}}`\n```\n\nIn addition, `tag.tagCtx` can be accessed declaratively using `~tagCtx`, as in:\n\n```jsr\n{{:~tagCtx.props.mode}}`\n```\n\n### Tag properties and methods (JsViews only):\n\n(Additional details to follow.)"
+      },
+      {
+        "_type": "para",
+        "title": "The linkCtx property",
+        "text": " ",
+        "anchor": "linkctx"
+      },
+      {
+        "_type": "para",
+        "title": "The parentElem property",
+        "text": " ",
+        "anchor": "parentelem"
       },
       {
         "_type": "para",
         "title": "The refresh() method",
-        "text": "***tag.refresh()***: refreshes the tag, by re-rendering its content.\n\nThis can be used to update a tag using modified data, helpers or tag parameters. See also the similar [`view.refresh()`](jsviewobject@refresh) method.\n\n\n```js\ntag.refresh(); // Refresh the tag, using current data values, helpers and tag parameters.\n```\n\nThe following example has a custom tag that uses a template rendering data without data-linking. (Even it had data-linking, it will also allow picking up data changes which were modified *'non-observably'*, as in: `model.year++;`).\n\nThe sample is similar to the sample provided with the [`view.refresh()`](jsviewobject@refresh)  documentation.\n",
+        "text": " ",
         "anchor": "refresh"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "*Tag template:* (No data-linking except `<input data-link=\"name\" />`)\n\n```jsr\n...\n<input data-link=\"name\" />\n...\n{{:name}} ... {{:~root.year}} ... {{:age + ~root.year - 2016}}\n...\n{^{on ~tag.callRefresh}}Refresh{{/on}}\n```\n\n*Tag code:*\n\n```js\n$.views.tags(\"personRow\", {\n  template: \"#personRowTmpl\",\n  callRefresh: function() {\n    // tag.refresh() will re-render tag, and take in to account modified data\n    this.refresh();\n  }\n});\n```\n\n*Template:*\n```jsr\n<button id=\"incrBtn\">Increment year</button>\n...\n{{for people}}\n  {^{personRow/}}\n{{/for}}\n```"
-          }
-        ],
-        "html": "<style>table td {padding: 5px;} table {margin-top: 6px;} #incrBtn {margin-bottom: 10px;}</style>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"personRowTmpl\" type=\"text/x-jsrender\">\n  <tr>\n    <td><input data-link=\"name\" /></td>\n    <td>Name: {{dbg:name}}</td>  {{!-- no data-linking --}}\n    <td>Age in {{:~root.year}}: {{:age + ~root.year - 2016}} </td>\n    <td>{^{on ~tag.callRefresh}}Refresh{{/on}}</td>\n  </tr>\n</script>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"incrBtn\">Increment year</button>\n  <button id=\"incrObsBtn\">Increment observably</button>\n  <button id=\"incrRefreshBtn\">Increment and refresh</button>\n  <button class=\"refreshBtn\">Refresh All</button><br/>\n  Year: {^{:year}}<br/>\n\n  <table><tbody>\n    {{for people}}\n      {^{personRow/}}\n    {{/for}}\n  </tbody></table>\n</script>",
-        "code": "$.views.tags(\"personRow\", {\n  template: \"#personRowTmpl\",\n  callRefresh: function() {\n    // tag.refresh() will re-render tag, and take in to account modified data\n    this.refresh();\n  }\n}\n);\nvar tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  year: 2016,\n  people: [{name: \"Adriana\", age: 4}, {name: \"Robert\", age: 34}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#incrBtn\", function() {\n    model.year++; // non-observable change\n  })\n  .on(\"click\", \"#incrObsBtn\", function() {\n    $.observable(model).setProperty(\"year\", model.year + 1);\n  })\n  .on(\"click\", \"#incrRefreshBtn\", function() {\n    model.year++; // non-observable change\n    $.view(this).refresh();\n  });",
-        "height": "160",
-        "title": "tag.refresh()"
       },
       {
         "_type": "para",
         "title": "The contents() method",
-        "text": "***view.contents(...)***: returns a jQuery object of view content nodes -- optionally filtered by a jQuery selector.\n\n```js\nvar jqMyClassElem = view.contents(true, \".myClass\"); // jQuery object for element with 'myClass'at any depth within view\n```",
+        "text": " ",
         "anchor": "contents"
-      },
-      {
-        "_type": "api",
-        "typeLabel": "API:",
-        "title": "view.contents(...)",
-        "name": "contents",
-        "object": "view",
-        "method": true,
-        "returns": "jQuery object",
-        "signatures": [
-          {
-            "_type": "signature",
-            "title": "",
-            "params": [],
-            "args": [],
-            "sections": [],
-            "example": "var jqContents = view.contents();\njqContents.css(\"color\", \"red\");",
-            "description": "Get a jQuery object for the contents of the view (top-level child nodes &ndash; including text nodes)"
-          },
-          {
-            "_type": "signature",
-            "title": "",
-            "params": [
-              {
-                "_type": "param",
-                "name": "selector",
-                "type": "string",
-                "optional": true,
-                "description": "jQuery selector, to filter content elements"
-              }
-            ],
-            "args": [],
-            "sections": [],
-            "example": "var jqContents = view.contents(\".toRed\");\njqContents.css(\"color\", \"red\");",
-            "description": "Get a jQuery object for the top-level contents of the view, filtered by the jQuery selector"
-          },
-          {
-            "_type": "signature",
-            "title": "",
-            "params": [
-              {
-                "_type": "param",
-                "name": "deep",
-                "type": "boolean",
-                "optional": true,
-                "description": "If true, search both children and descendants"
-              },
-              {
-                "_type": "param",
-                "name": "selector",
-                "type": "string",
-                "optional": true,
-                "description": "jQuery selector, to filter content elements"
-              }
-            ],
-            "args": [],
-            "sections": [],
-            "example": "var jqContents = view.contents(true, \".toRed\");\njqContents.css(\"color\", \"red\");",
-            "description": "Get a jQuery object for the contents of the view: child and descendant nodes, filtered by the selector"
-          }
-        ],
-        "description": "",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "sample": "sample",
-          "links": "links"
-        }
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "The following example uses `view.contents()` to find the `\".nameId\"` within the view, and set its background color:"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "```js\n// Get jQuery object for \".nameTd\" in this view:\nvar jqNameTd = view.contents(true, \".nameTd\");\n\n// Set background color\njqNameTd.css(\"backgroundColor\", this.className);\n```"
-          }
-        ],
-        "html": "<style>.nameTd {width: 60px; padding: 0 6px;} table {width: 230px;} button {margin: 4px;}</style>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"addBtn\">Add</button>\n  <table><tbody>\n    {^{for people}}\n      <tr>\n        <td class=\"nameTd\">{^{:name}}</td>\n        <td>\n          <button class=\"orange\">orange</button>\n          <button class=\"yellow\">yellow</button>\n        </td>\n      </tr>\n    {{/for}}\n  </tbody></table>\n</script>",
-        "code": "var tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#addBtn\", function() {\n    var view = $.view(this);           // \"data\" view\n    var data = view.data;              // model\n    $.observable(data.people).insert({name: \"name\"});\n  })\n  .on(\"click\", \".orange, .yellow\", function() {\n    var view = $.view(this);           // \"item\" view\n\n    // Get jQuery object for \".nameTd\" in this view:\n    var jqNameTd = view.contents(true, \".nameTd\");\n\n    // Set background color\n    jqNameTd.css(\"backgroundColor\", this.className);\n  });",
-        "title": "view.contents()"
       },
       {
         "_type": "para",
         "title": "The childTags() method",
-        "text": "***view.childTags(...)***: returns an array of custom tag instances within the view -- optionally filtered by tag name.\n\n```js\nvar mytagsArray = view.childTags(true, \"mytag\"); // {{mytag}} instances within view (at any depth)\n```\n",
+        "text": " ",
         "anchor": "childtags"
-      },
-      {
-        "_type": "api",
-        "typeLabel": "API:",
-        "title": "view.childTags(...)",
-        "name": "childTags",
-        "object": "view",
-        "method": true,
-        "returns": "jQuery object",
-        "signatures": [
-          {
-            "_type": "signature",
-            "title": "",
-            "params": [],
-            "args": [],
-            "sections": [],
-            "example": "var tagsArray = view.childTags();\nvar firstTagName = tagsArray[0].tagName;",
-            "description": "Get top-level custom tag instances within the view"
-          },
-          {
-            "_type": "signature",
-            "title": "",
-            "params": [
-              {
-                "_type": "param",
-                "name": "tagName",
-                "type": "string",
-                "optional": true,
-                "description": "Filter returned tag instances by tag name"
-              }
-            ],
-            "args": [],
-            "sections": [],
-            "example": "var sliders = view.childTags(\"slider\");\nsliders[0].updateValue(25);",
-            "description": "Get instances of {{tagName}} in view (not nested in other custom tags)"
-          },
-          {
-            "_type": "signature",
-            "title": "",
-            "params": [
-              {
-                "_type": "param",
-                "name": "deep",
-                "type": "boolean",
-                "optional": true,
-                "description": "If true, search at any depth of nested tags"
-              },
-              {
-                "_type": "param",
-                "name": "tagName",
-                "type": "string",
-                "optional": true,
-                "description": "Filter returned tag instances by tag name"
-              }
-            ],
-            "args": [],
-            "sections": [],
-            "example": "var jqContents = view.childTags(true, \".toRed\");\njqContents.css(\"color\", \"red\");",
-            "description": "Get instances of {{tagName}} in view (including those nested in other custom tags)"
-          }
-        ],
-        "description": "",
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "sample": "sample",
-          "links": "links"
-        }
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "Note that `view.childTags()` looks only for custom tags. (In fact it searches for tags which do not have the `flow` property set to `true`. All built-in tags such as `{{for}}` and `{{if}}` have the setting `flow: true`, so are ignored by `childTags()`. However even 'flow tags' will be returned if searched for my name, as in: `view.childTags(\"if\")`.)\n\nThe following sample looks for `{{textbox}}` tags (in the case `data-link=\"{textbox ...}\"`) and calls a method on each."
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "```jsr\n{^{for people}}\n  {{!--data-link to {{textbox}} tag --}}\n  <div class=\"person\" data-link=\"{textbox path=name/}\"></div> \n{{/for}}\n```\n\n```js\n.on(\"click\", \"#toggleBtn\", function() {\n  var textBoxes = $.view(this).childTags(\"textbox\"); // Find all the {{textbox}} tags in the view\n  for (var i=0; i<textBoxes.length; i++) {\n    textBoxes[i].toggleEdit();                       // Toggle the edit mode for each of them\n  }\n});\n```"
-          }
-        ],
-        "html": "<style>#toggleBtn {margin-bottom: 14px;} .person {line-height: 26px;}</style>\n<div id=\"peopleList\"></div>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"toggleBtn\">Toggle Edit</button>\n\n  {^{for people}}\n    {{!--data-link to {{textbox}} tag --}}\n    <div class=\"person\" data-link=\"{textbox path=name/}\"></div> \n  {{/for}}\n</script>",
-        "code": "// Define a {{textbox}} tag - which allows editing, and has a toggleEdit() method\n$.views.tags({\n  textbox: {\n    init: function() {\n      var path = this.tagCtx.params.props.path;\n\n      this.template = \"<input data-link='~tag.edit' type='checkbox'/> \"   // Checkbox to toggle edit\n      + \"<input data-link='visible{:~tag.edit} {:\" + path + \":}'/>\"       // <input> for editing\n      + \"<span data-link='visible{:!~tag.edit} {:\" + path + \"}'></span>\"; // <span> for rendering\n    },\n    toggleEdit: function() {\n      $.observable(this).setProperty(\"edit\", !this.edit);\n    }\n  }\n});\n\nvar tmpl = $.templates(\"#peopleTmpl\");\nvar model = {\n    people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n  };\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#toggleBtn\", function() {\n    var textBoxes = $.view(this).childTags(\"textbox\"); // Find all the {{textbox}} tags in the view\n    for (var i=0; i<textBoxes.length; i++) {\n      textBoxes[i].toggleEdit();                       // Toggle the edit mode for each of them\n    }\n  });",
-        "height": "120",
-        "title": "view.childTags()"
       },
       {
         "_type": "para",
         "title": "The nodes() method",
-        "text": "***view.nodes()***: returns an array of top-level nodes within the view (including text nodes).\n\n```js\nvar nodesArray = view.nodes();\n```",
+        "text": " ",
         "anchor": "nodes"
       },
       {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "```js\n.on(\"click\", \".orange, .yellow\", function() {\n  var view = $.view(this);           // \"item\" view\n\n  // Get top-level nodes in this view - two <tr> nodes:\n  var nodes = view.nodes();\n\n  // Set colors\n  nodes[0].style.color = this.className;\n  nodes[0].style.backgroundColor = \"darkblue\";\n  nodes[1].style.backgroundColor = this.className;\n});\n```"
-          }
-        ],
-        "html": "<style>.nameTd {width: 60px; padding: 0 6px;} table {width: 156px;} button {margin: 4px;}</style>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <button id=\"addBtn\">Add</button>\n  <table><tbody>\n    {^{for people}}\n      <tr>\n        <td class=\"nameTd\">{^{:name}}</td>\n      </tr>\n      <tr>\n        <td>\n          <button class=\"orange\">orange</button>\n          <button class=\"yellow\">yellow</button>\n        </td>\n      </tr>\n    {{/for}}\n  </tbody></table>\n</script>",
-        "code": "var tmpl = $.templates(\"#peopleTmpl\");\n\nvar model = {\n  people: [{name: \"Adriana\"}, {name: \"Robert\"}]\n};\n\ntmpl.link(\"#peopleList\", model)\n  .on(\"click\", \"#addBtn\", function() {\n    var view = $.view(this);           // \"data\" view\n    var data = view.data;              // model\n    $.observable(data.people).insert({name: \"name\"});\n  })\n  .on(\"click\", \".orange, .yellow\", function() {\n    var view = $.view(this);           // \"item\" view\n\n    // Get top-level nodes in this view - two <tr> nodes:\n    var nodes = view.nodes();\n\n    // Set colors\n    nodes[0].style.color = this.className;\n    nodes[0].style.backgroundColor = \"darkblue\";\n    nodes[1].style.backgroundColor = this.className;\n  });",
-        "height": "230",
-        "title": "view.nodes()"
+        "_type": "para",
+        "title": "The setValue() method",
+        "text": "If a custom tag control uses [`linked elements`]() then calling `tag.setValue(newValue, index)` will set the value of the corresponding linked element. In addition, if the tag control has a [`setValue()`](@tagoptions@setvalue) event handler, then that event handler will be called.\n\nFor block tags, with multiple `{{else}}` blocks, a third parameter can be passed specifying the index of the `{{else}}` block whose linked element is to be updated:\n\n```js\ntag.setValue(newValue, index, elseBlock);\n```\n\nSee the [Programmatic two-way data-binding](#bindingpatterns@setvalue-updatevalue) design patterns topic for additional discussion and examples.\n\nSee also [`setValues()`](#jsvtagobject@setvalues) below."
       },
       {
         "_type": "para",
-        "title": "The ctxPrm() get/set method:",
-        "text": "***view.ctxPrm(name)***: returns the value of the named contextual parameter, within the context of that view.\n\n```js\nvar value = view.ctxPrm(\"color\"));\n// Get value of current contextual parameter \"color\"\n```\n\n***view.ctxPrm(name, newValue)***: observably modifies the value of the named contextual parameter, within the context of that view.\n\n```js\nview.ctxPrm(\"color\", \"green\"));\n// Set value of current contextual parameter \"color\" to \"green\"\n```",
-        "anchor": "ctxprm"
+        "title": "The setValues() method",
+        "text": "If a custom tag control uses [`linked elements`]() then calling `tag.setValues()` will set the values of the linked elements. In addition, if the tag control has a [`setValue()`](@tagoptions@setvalue) event handler, then that event handler will be called prior to updating each targeted linked element.\n\nFor block tags with multiple `{{else}}` blocks, `setValues()` will set values on the linked elements on the initial tag (the first block). To set values on the linked elements in additional `{{else}}` blocks, use [`setValue()`](#jsvtagobject@updatevalue).\n\nSee the [Multiple two-way binding](#bindingpatterns@multiple-twoway) design patterns topic for additional discussion and examples.",
+        "anchor": "setvalues"
+      },
+      {
+        "_type": "para",
+        "title": "The updateValue() method",
+        "text": "Calling `tag.updateValue(newValue, index)` will observably update the bound argument or property corresponding to the specified `index` of the [`bindTo`](#tagoptions@bindto) array.\n\nFor block tags, with multiple `{{else}}` blocks, a third parameter can be passed specifying the index of the `{{else}}` block whose bound argument or property is being updated:\n\n```js\ntag.updateValue(value, index, elseBlock);\n```\n\nThe call will use two-way data-binding to update the underlying data specified in the data-link expression.",
+        "anchor": "updatevalue"
       },
       {
         "_type": "sample",
@@ -1619,38 +1417,26 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "Template:\n\n```jsr\n<span data-link=\"css-color{:~color}\">TEXT</span>\n<input data-link=\"~color\" />\n({^{:~color}})\n```\n\nCode:\n\n```js\nset: function(newColor, ev, eventArgs) {\n  eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor \n},\nget: function(ev, eventArgs) {\n  alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n}\n```"
+            "text": "```jsr\n{^{mytag one two mode=three}}{{else four five mode=six}}{{/mytag}} \n<input data-link=\"one\" />...<input data-link=\"six\" />\n```\n\n*mytag options*\n\n```js\nmytag: {\n  template: '<button data-link=\"{on ~tag.doUpdate ~tagCtx.index}\">...</button>',\n  bindTo: [0, 1, \"mode\"],\n  doUpdate: function(block) {\n    this.updateValue(\"A\" + block);\n    ...\n    this.updateValue(\"F\" + block, 2, 1);\n  },\n  ...\n```"
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~set \"green\"}}set ~color to green{{/on}}\n  {^{on ~set \"red\"}}set ~color to red{{/on}}\n  {^{on ~get}}get ~color{{/on}}\n  <span data-link=\"css-color{:~color} {:~color}\"></span>\n  <input data-link=\"~color\" />\n  ({^{:~color}})\n</script>\n",
-        "code": "var tmpl = $.templates(\"#tmpl\"),\n\n  model = {},\n\n  helpers = {\n    color: \"blue\",\n    set: function(newColor, ev, eventArgs) {\n      eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor\n    },\n    get: function(ev, eventArgs) {\n      alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n    }\n  };\n\ntmpl.link(\"#result\", model, helpers);",
-        "height": "50"
+        "nocss": true,
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <div>\n    {^{mytag one two mode=three}}{{else four five mode=six}}{{/mytag}} \n  </div>\n  <input data-link=\"one\" /><input data-link=\"two\" /><input data-link=\"three\" />\n  <input data-link=\"four\" /><input data-link=\"five\" /><input data-link=\"six\" />\n</script>\n\n<div id=\"page\"></div>\n",
+        "code": "$.views.tags({\nmytag: {\n  template: '<button data-link=\"{on ~tag.doUpdate ~tagCtx.index}\">update{{:~tagCtx.index}}</button>',\n  bindTo: [0, 1, \"mode\"],\n  doUpdate: function(block) {\n    this.updateValue(\"A\" + block);\n    this.updateValue(\"B\" + block, 1);\n    this.updateValue(\"C\" + block, 2);\n    this.updateValue(\"D\" + block, 0, 1);\n    this.updateValue(\"E\" + block, 1, 1);\n    this.updateValue(\"F\" + block, 2, 1);\n  }\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {one: \"a\", two: \"b\", three: \"c\", four: \"d\",  five: \"e\", six: \"f\"};\n\nmyTmpl.link(\"#page\", data);",
+        "markup": "",
+        "header": "<style>\nbody {font-family: sans-serif;}\ninput, button {width: 80px; margin: 5px;}\n</style>",
+        "height": "86"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "`view.ctxPrm()` can be used to modify any contextual parameter or helper (`~foo`). In the above example, `~color` is initialized as [helper](#helpers) passed in the with the `link()` call.\n\nIn the case of a [contextual parameter]() defined by a path expression, such as `~color=clr`, using the setter `view.ctxPrm(\"color\", \"newValue\")` will update not only the contextual parameter but also the data value `clr` that it is bound to. (The path expression `~color=expr` constitutes a two-way binding).\n\nThis is illustrated by the following sample:"
+        "text": "See the [Programmatic two-way data-binding](#bindingpatterns@setvalue-updatevalue) design patterns topic for additional discussion and examples.\n\nSee also [`updateValues()`](#jsvtagobject@updatevalues) below."
       },
       {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "```js\nmodel = {clr: \"orange\", person: {name: \"Jo\"}};\n```\n\n```jsr\n...\n<input data-link=\"clr\" />\n\n...\n{{for person ~color=clr}}\n  ...\n  {^{on ~set \"red\"}}set ~color to red{{/on}}...\n  <input data-link=\"~color\" />...\n{{/for}}\n```"
-          }
-        ],
-        "html": "<style>div {margin: 10px 0;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label>clr:</label>\n  <div>\n    <span data-link=\"css-color{:clr} {:clr}\"></span>\n    <input data-link=\"clr\" />\n  </div>\n\n  {{for person ~color=clr}}\n    <label>~color:</label>\n    <div>\n      {^{on ~set \"green\"}}set ~color to green{{/on}}\n      {^{on ~set \"red\"}}set ~color to red{{/on}}\n      {^{on ~get}}get ~color{{/on}}\n      <span data-link=\"css-color{:~color} {:~color}\"></span>\n      <input data-link=\"~color\" />\n    </div>\n  {{/for}}\n</script>\n",
-        "code": "var tmpl = $.templates(\"#tmpl\"),\n\n  model = {clr: \"orange\", person: {name: \"Jo\"}},\n\n  helpers = {\n    set: function(newColor, ev, eventArgs) {\n      eventArgs.view.ctxPrm(\"color\", newColor); // Set contextual parameter: \"color\" to newColor\n    },\n    get: function(ev, eventArgs) {\n      alert(eventArgs.view.ctxPrm(\"color\")); // Get current contextual parameter \"color\"\n    }\n  };\n\ntmpl.link(\"#result\", model, helpers);"
+        "_type": "para",
+        "title": "The updateValues() method",
+        "text": "Calling `tag.updateValues()` will observably update the bound arguments or properties specified in the [`bindTo`](#tagoptions@bindto) option array:\n\n```js\ntag.updateValues(newValue1, newValue2, ...);\n```\n\nThe call will use two-way data-binding to update the underlying data specified in the data-link expressions.\n\nFor block tags with multiple `{{else}}` blocks, `updateValues()` will update the bound data-link expressions on the initial tag (the first block). To drive updates on the additional `{{else}}` block bindings, use [`updateValue()`](#jsvtagobject@updatevalue).\n\nThe `bindTo` option defaults to `[0]`, so if there is no `bindTo` setting, `updateValues(value)` will observably update the first argument data path, and will be equivalent to `updateValue(value)`.\n\nSee the [Multiple two-way binding](#bindingpatterns@multiple-twoway) design patterns topic for additional discussion and examples.",
+        "anchor": "updatevalues"
       },
       {
         "_type": "links",
@@ -1659,25 +1445,20 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "topics": [
           {
             "_type": "topic",
-            "hash": "viewobject",
-            "label": "JsRender view object"
-          },
-          {
-            "_type": "topic",
-            "hash": "views",
-            "label": "View hierarchy"
+            "hash": "tagobject",
+            "label": "JsRender tag object"
           }
         ]
       }
     ]
   },
   "jsvviewcontextobject": {
-    "title": "View context object",
+    "title": "The <em>view context</em> object",
     "path": "",
     "sections": []
   },
   "jsvtagcontextobject": {
-    "title": "Tag context object",
+    "title": "The <em>tag context</em> object",
     "path": "",
     "sections": [
       {
@@ -1688,7 +1469,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvlinkcontextobject": {
-    "title": "Link context object",
+    "title": "The <em>link context</em> object",
     "path": "",
     "sections": [
       {
@@ -1750,7 +1531,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "JsViews data-linked tags",
-        "text": "A data-linked tag is like a regular JsRender tag (whether a built-in tag, or a custom tag) but has an additional `^` character to show that is data-linked. Let's illustrate that by an example based on the *[Extending the `{{for}}` tag](#samples/jsr/tags/extend-for)* sample:\n\n```jsr\n<ul>\n  {{for members}}\n    <li>\n      {{:name}}\n    </li>\n  {{/for}}\n</ul>\n\n<ul>\n  {{range members start=1 end=3}}\n    <li>\n      {{:name}}\n    </li>\n  {{/range}}\n</ul>\n```\n\nWe can data-link to the `members` -- whether on the built-in `{{for}}`, or the custom `{{range}}` tag -- like this:\n\n```jsr\n<ul>\n  {^{for members}}\n    <li>\n      {^{:name}}\n    </li>\n  {{/for}}\n</ul>\n```\n\n```jsr\n<ul>\n  {^{range members start=1 end=3}}\n    <li>\n      {^{:name}}\n    </li>\n  {{/range}}\n</ul>\n```\n\nNow if the `members` array changes, our rendered template content will automatically update to show the additional inserted (or removed) members in the list.\n\nHere is a live sample of the data-linked `{^{for}}` tag:"
+        "text": "A data-linked tag is like a regular JsRender tag (whether a built-in tag, or a custom tag) but has an additional `^` character to show that is data-linked. Let's illustrate that by an example based on the *[Extending the `{{for}}` tag](#samples/jsr/tags/extend-for)* sample:\n\n```jsr\n<ul>\n  {{for lineItems start=1 end=3}}\n    <li>\n      {{:price}}\n    </li>\n  {{/for}}\n</ul>\n\n<ul>\n  {{purchases lineItems start=1 end=3}}\n    <li>\n      {{:price}}\n    </li>\n  {{/purchases}}\n</ul>\n```\n\nWe can data-link to the `lineItems` -- whether on the built-in `{{for}}`, or the custom `{{purchases}}` tag -- like this:\n\n```jsr\n<ul>\n  {^{for lineItems}}\n    <li>\n      {^{:price}}\n    </li>\n  {{/for}}\n</ul>\n```\n\n```jsr\n<ul>\n  {^{purchases lineItems start=1 end=3}}\n    <li>\n      {^{:price}}\n    </li>\n  {{/purchases}}\n</ul>\n```\n\nNow if the `lineItems` array changes, our rendered template content will automatically update to show the additional inserted (or removed) members in the list.\n\nHere is a live sample of the data-linked `{^{for}}` tag:"
       },
       {
         "_type": "sample",
@@ -1772,17 +1553,19 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button id=\"add\">Add</button>\n  <ol>\n    {^{for members}}\n      <li>\n        {^{:name}} \n        <span class=\"remove\"></span>\n      </li>\n    {{/for}}\n  </ol>\n</script>\n",
         "code": "var team = {\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"}\n  ]\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team)\n  .on(\"click\", \".remove\", function() {\n    var view = $.view(this);\n    $.observable(team.members).remove(view.index);\n  })\n  .on(\"click\", \"#add\", function() {\n    $.observable(team.members).insert(0, {name: \"new\" + cnt++})\n  });",
-        "height": "120"
+        "height": "120",
+        "header": "<style>\nol {margin: 0}\n</style>",
+        "action": "append"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "Notice that we also added a `^` to the `{^{:name}}` tag. That means that if the value of the name field is changed ('observably') then the value will update automatically within the rendered template.\n\nAnd here is <a href=\"#samples/tag-controls/range\">a link to a complete sample</a> showing a data-linked `{^{range}}` tag. It lets you modify both the `members` list and the `name` properties, and see how they automatically trigger updates in other parts of the page which bind to the same data.\n\nJsViews is smart about how it updates the HTML. Generally it does so incrementally -- only modifying the affected part of the HTML by inserting or removing elements, or replacing values."
+        "text": "Notice that we also added a `^` to the `{^{:name}}` tag. That means that if the value of the name field is changed ('observably') then the value will update automatically within the rendered template.\n\nAnd here is <a href=\"#jsvfortag@jsvsortfilterrange\">a link to a complete sample</a> showing a data-linked `{^{for}}` tag. It lets you modify both the `members` list and the `name` properties, and see how they automatically trigger updates in other parts of the page which bind to the same data.\n\nJsViews is smart about how it updates the HTML. Generally it does so incrementally -- only modifying the affected part of the HTML by inserting or removing elements, or replacing values."
       },
       {
         "_type": "para",
         "title": "Binding to named properties of tags",
-        "text": "In the sample we went one step further than shown above. We added data-linking to the `start` and `end` <em>named properties</em> of the `{{range}}` tag:\n\n```jsr\n{^{range members ^start=start-1 ^end=end}}\n```\n\nThe prefixed `^` on the name: `^start=...` is used to specify that the `start` 'named property' is to be data-linked (so the whole tag will render if the `start` value changes). Change the value (using the drop-down in the sample) and you see that the displayed range updates automatically.\n\nBy default named properties are not data-linked. (This is made 'opt-in' for perf optimization reasons.)",
+        "text": "See also [this sample](#jsvfortag@chgtmpl), which again uses a data-linked `{^{for}}` tag, but which also has data-linking to the `tmpl` <em>named property</em> of the tag:\n\n```jsr\n{^{for members ^tmpl=isEditable? ... : ... \" /}}\n```\n\nThe prefixed `^` on the name: `^tmpl=...` is used to specify that the `tmpl` 'named property' is to be data-linked (so the whole tag will re-render if the `isEditable` value changes). Change the value (using the 'Editable' checkbox) and you see that the displayed `{^{for}}` updates automatically.\n\nBy default, named properties are not data-linked. This is made 'opt-in' for perf optimization reasons.\n\n(Note, however, that custom tags can use the [boundProps](#tagoptions@boundprops) tag option to make specific named properties be data-linked by default. For example on the `{^{for}}` tag the `filter`, `sort`, `reverse`, `start` and `end` properties are all data-linked by default.) ",
         "anchor": "linkedproperties"
       },
       {
@@ -1831,7 +1614,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "template",
             "title": "A data-linked tag (renders as a text node, not an element...)",
-            "markup": "{^{:name}}"
+            "markup": "{^{>name}}"
           },
           {
             "_type": "code",
@@ -1839,7 +1622,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "...\nvar template = $.templates(\"#theTmpl\");\ntemplate.link(\"#result\", data);\n"
           }
         ],
-        "markup": "<input data-link=\"name\"/> <i>(Update on keydown)</i><br/>\n<input data-link=\"name trigger=false\"/> <i>(Update on blur)</i><br/>\n<span data-link=\"name\" class=\"spanbox\"></span>\n{^{:name}}\n",
+        "markup": "<input data-link=\"name\"/> <i>(Update on keydown)</i><br/>\n<input data-link=\"name trigger=false\"/> <i>(Update on blur)</i><br/>\n<span data-link=\"name\" class=\"spanbox\"></span>\n{^{>name}}\n",
         "data": {
           "name": "Jeff"
         },
@@ -1877,7 +1660,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Full syntax &ndash; multiple targets, multiple tags, multiple bindings...",
-        "text": "The full syntax allows you to bind multiple expressions each to a different target, and is written like this: `data-link=\"target1{linkExpression1} target2{linkExpression2} ...\"`.\n\nPossible targets include the following:\n- an HTML attribute (such as `title{...}`, `class{...}`, `id{...}`, `disabled{...}` or `data-foo{...}`\n)\n- an HTML element property (such as `prop-muted{...}` for a `<video>` element)\n- a CSS property (such as `css-background-color{...}`)\n- innerHTML (as in `html{...}`)\n- innerText (as in `text{...}`)\n- special targets like `visible{...}`\n- or can be missing altogether (as in `{...}`) in which case it stands for the default target for the element.\n\nThe default target for most elements is `innerText`, but for `input` and `select` elements it is `value`.\n\nThe linkExpression `{...}` is actually a *template tag*, such as `{^{:a.b.c}}` or `{^{myCustomTag .../}}`. *The difference from regular JsRender tag syntax is that with data-link expressions, **you only put a single curly brace to delimit, and you don't put the self-closing `/`**, which is assumed*.\n\nIn fact as long as the tag is self-closing, you can use any JsRender tag you want -- including custom tags.\n\nFor example, if you have a JsRender tag as content of an element: \n\n```jsr\n<div>{{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- then you can make it into a data-linked tag, using:\n\n```jsr\n<div>{^{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- or into a data-linked element, using:\n\n```jsr\n<div data-link=\"{for some.path tmpl='myForTmpl'}\" ></div>\n```\n\nSo examples would be: \n\n- `<div data-link=\"{:name}\"></div>` (one-way binding to `innerText` -- default target attrib -- so automatically HTML encodes)<br/>-- equivalent to abbreviated syntax: `<input data-link=\"name\" />`\n- `<div data-link=\"html{:name}\"></div>` (one-way binding to `innerHTML`)\n- `<div data-link=\"text{:name}\"></div>` (one-way binding to `innerText` -- equivalent to default above)\n- `<div data-link=\"html{>name}\"></div>` (one-way binding to `innerHTML` but with HTML encoding)\n- `<input data-link=\"{:name}\" >` (one-way binding to `value` -- default target attrib)\n- `<input data-link=\"value{:name}\" />` (one-way binding to `value`)\n- `<input data-link=\"title{upr:name}\" />` (one-way binding to the `title` attribute, using a registered converter: `upr`)\n- `<input data-link=\"{:name trigger=false:}\" />` (two-way binding to `value`, trigger only on blur) <br/>-- equivalent to abbreviated syntax: `<input data-link=\"name trigger=false\" />`\n- `<input data-link=\"{cvt:name:cvtBack}\" />` (two-way binding to `value`, with converters)\n- `<input data-link=\"{cvt:name trigger=false:cvtBack}\" />` (two-way binding to `value`, with converters, and trigger only on blur)\n- `<input data-link=\"{cvt:name:cvtBack} title{:info.description}\" />` (two-way binding to `value`, with converters and one-way binding to `title`)\n- `<img data-link=\"src{:'/myImagesFolder/' + fileName + '.png'}\" />` (one-way binding to `src` -- using an expression to build full path)\n- `<div data-link=\"{myCustomTag name}\"></div>` (data-linking -- and instantiating -- a JsViews custom tag control. Renders as `innerHTML` -- default target attrib for tags other than {: ...} -- so the control can insert HTML markup)\n- `<div data-link=\"text{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control -- rendering as `innerText` -- so automatically HTML encodes)\n- `<svg><ellipse data-link=\"cx{:x} fill{:color}\"></ellipse>` (data-linking to attributes of an SVG element)\n- `<input data-link=\"{:name():} placeholder{:namePlaceholder()}\" />` (two-way data-linking to `name()` plus data-linking the placeholder target to `namePlaceholder()`)\n\nSee: [Targets for data-linking](#link-targets) for additional details and samples.",
+        "text": "The full syntax allows you to bind multiple expressions each to a different target, and is written like this: `data-link=\"target1{linkExpression1} target2{linkExpression2} ...\"`.\n\nPossible targets include the following:\n- an HTML attribute (such as `title{...}`, `class{...}`, `id{...}`, `disabled{...}` or `data-foo{...}`\n)\n- an HTML element property (such as `prop-muted{...}` for a `<video>` element)\n- a CSS property (such as `css-background-color{...}`)\n- innerHTML (as in `html{...}`)\n- innerText (as in `text{...}`)\n- special targets like `visible{...}`\n- or can be missing altogether (as in `{...}`) in which case it stands for the default target for the element.\n\nThe default target for most elements is `innerText`, but for `input` and `select` elements it is `value`.\n\nThe linkExpression `{...}` is actually a *template tag*, such as `{^{:a.b.c}}` or `{^{myCustomTag .../}}`. *The difference from regular JsRender tag syntax is that with data-link expressions, **you only put a single curly brace to delimit, and you don't put the self-closing `/`**, which is assumed*.\n\nIn fact as long as the tag is self-closing, you can use any JsRender tag you want -- including custom tags. See [*Tag bindings*](#link-tags).\n\nFor example, if you have a JsRender tag as content of an element: \n\n```jsr\n<div>{{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- then you can make it into a data-linked tag, using:\n\n```jsr\n<div>{^{for some.path tmpl='myForTmpl'}}</div>\n```\n\n-- or into a data-linked element, using:\n\n```jsr\n<div data-link=\"{for some.path tmpl='myForTmpl'}\" ></div>\n```\n\nSo examples would be: \n\n- `<div data-link=\"{:name}\"></div>` (one-way binding to `innerText` -- default target attrib -- so automatically HTML encodes)<br/>-- equivalent to abbreviated syntax: `<input data-link=\"name\" />`\n- `<div data-link=\"html{:name}\"></div>` (one-way binding to `innerHTML`)\n- `<div data-link=\"text{:name}\"></div>` (one-way binding to `innerText` -- equivalent to default above)\n- `<div data-link=\"html{>name}\"></div>` (one-way binding to `innerHTML` but with HTML encoding)\n- `<input data-link=\"{:name}\" >` (one-way binding to `value` -- default target attrib)\n- `<input data-link=\"value{:name}\" />` (one-way binding to `value`)\n- `<input data-link=\"title{upr:name}\" />` (one-way binding to the `title` attribute, using a registered converter: `upr`)\n- `<input data-link=\"{:name trigger=false:}\" />` (two-way binding to `value`, trigger only on blur) <br/>-- equivalent to abbreviated syntax: `<input data-link=\"name trigger=false\" />`\n- `<input data-link=\"{cvt:name:cvtBack}\" />` (two-way binding to `value`, with converters)\n- `<input data-link=\"{cvt:name trigger=false:cvtBack}\" />` (two-way binding to `value`, with converters, and trigger only on blur)\n- `<input data-link=\"{cvt:name:cvtBack} title{:info.description}\" />` (two-way binding to `value`, with converters and one-way binding to `title`)\n- `<img data-link=\"src{:'/myImagesFolder/' + fileName + '.png'}\" />` (one-way binding to `src` -- using an expression to build full path)\n- `<div data-link=\"{myCustomTag name}\"></div>` (data-linking -- and instantiating -- a JsViews custom tag control. Renders as `innerHTML` -- default target attrib for tags other than {: ...} -- so the control can insert HTML markup)\n- `<div data-link=\"text{myCustomTag name}\"></div>` (data-linking a JsViews custom tag control -- rendering as `innerText` -- so automatically HTML encodes)\n- `<svg><ellipse data-link=\"cx{:x} fill{:color}\"></ellipse>` (data-linking to attributes of an SVG element)\n- `<input data-link=\"{:name():} placeholder{:namePlaceholder()}\" />` (two-way data-linking to `name()` plus data-linking the placeholder target to `namePlaceholder()`)\n\nSee: [Targets for data-linking](#link-targets) for additional details and samples.",
         "anchor": "fullsyntax"
       },
       {
@@ -1911,7 +1694,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<label><input data-link=\"show\" type=\"checkbox\"/> Show</label>\n<div data-link=\"{if show tmpl='show this'}{else tmpl='no show'}\"></div>\n",
         "code": "$.link(true, \"body\", {show: true});\n\n",
         "height": "70",
-        "title": ""
+        "title": "",
+        "nocss": false
       },
       {
         "_type": "para",
@@ -1940,19 +1724,55 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "Using data-linking to instantiate a *tabs* control on a top-level page element: \n\n```jsr\n<div id=\"tabsView\" data-link=\"\n  {tabs tabCaption='days' tmpl='tab1' selectedIndex=2}\n  {else tabCaption='months' tmpl='tab2'}\n  {else tabCaption='name' tmpl='tab3'}\n\"></div>\n```\n\n```js\n$.templates({\n  tab1: \"365 days per year\",\n  ...\n  tab3: \"Name: {{:name}}\"\n});\n\n$(\"#tabsView\").link(true, {name: \"Jeff\"});\n```"
+            "text": "Using data-linking to instantiate a *tabs* control on a top-level page element: \n\n```jsr\n<div id=\"tabsView\" data-link=\"\n  {tabs caption='days' tmpl='tab1' pane=2 ...}\n  {else caption='months' tmpl='tab2'}\n  {else caption='name' tmpl='tab3'}\n\"></div>\n```\n\n```js\n$.templates({\n  tab1: \"365 days per year\",\n  ...\n  tab3: \"Name: {{:name}}\"\n});\n\n$(\"#tabsView\").link(true, {name: \"Jeff\"});\n```"
           }
         ],
         "markup": "",
-        "html": "<link href=\"../download/sample-tag-controls/tabs/tabs.css\" rel=\"stylesheet\">\n<script src=\"../download/sample-tag-controls/tabs/tabs.js\"></script>\n\n<div id=\"tabsView\" data-link=\"\n{tabs tabCaption='days' tmpl='tab1' selectedIndex=2}\n{else tabCaption='months' tmpl='tab2'}\n{else tabCaption='name' tmpl='tab3'}\n\"></div>",
+        "html": "<link href=\"../download/sample-tag-controls/tabs/tabs.css\" rel=\"stylesheet\">\n<script src=\"../download/sample-tag-controls/tabs/tabs.js\"></script>\n\n<div id=\"tabsView\" data-link=\"\n{tabs caption='days' tmpl='tab1' pane=2 height=20 width=350}\n{else caption='months' tmpl='tab2'}\n{else caption='name' tmpl='tab3'}\n\"></div>",
         "code": "$.templates({\n  tab1: \"365 days per year\",\n  tab2: \"12 months per year\",\n  tab3: \"Name: {{:name}}\"\n});\n\n$(\"#tabsView\").link(true, {name: \"Jeff\"});\n",
-        "height": "90",
-        "title": "A top-level data-linked tabs control"
+        "height": "96",
+        "title": "A top-level data-linked tabs control",
+        "nocss": true
       },
       {
         "_type": "para",
         "title": "",
-        "text": "See also [Tag bindings](#link-tags)."
+        "text": "See also [*Tag bindings*](#link-tags)."
+      },
+      {
+        "_type": "para",
+        "title": "Data-link syntax for updating only, without initial rendering",
+        "text": "Any of the full syntax data-link expressions above can be modified by adding a `^` before the initial `{`. With this modified syntax, the data-link expression will only be used for updating of content when the data changes, but *not* for the initial rendering:\n\n```jsr\n<... data-link=\"target^{expression}\" ...>\n```\n\nSee for example the following sample:",
+        "anchor": "no-initial-render"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<div data-link=\"^{:name}\">Your name will go here</div>\n\n<input data-link=\"^{:name:}\" value=\"Your name...\"/>\n```"
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <div data-link=\"^{:name}\">Your name will go here</div>\n  <input data-link=\"^{:name:}\" value=\"Your name...\"/><br/>\n  Name: {^{>name}}\n</script>\n\n<div id=\"page\"></div>",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { name: \"\" };\n\nmyTmpl.link(\"#page\", data);",
+        "header": "<style>\ninput {margin: 10px 0;} \n<style>",
+        "action": "append",
+        "height": "100"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also [this sample](#link-input@radioeditid) with radio buttons, which uses the syntax:\n\n```jsr\n<input ... type=\"radio\" value=\"{{:id}}\" data-link=\"value^{:id}\" />\n```"
       },
       {
         "_type": "para",
@@ -2428,13 +2248,15 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<input data-link=\"name\"/>\n```\n\n```jsr\n<label><input data-link=\"{toBool:gender:toString}\" type=\"checkbox\" /> Male</label>\n```\n\n```jsr\n<div data-link=\"{radiogroup gender}\">\n  <label><input value=\"male\" type=\"radio\" /> Male</label>\n  <label><input value=\"female\" type=\"radio\" /> Female</label>\n</div>\n```\n\n```jsr\n<select data-link=\"gender\">\n  <option value=\"male\">Male</option>\n  <option value=\"female\">Female</option>\n</select>\n```\n\n```jsr\n<textarea data-link=\"name\"></textarea>\n```\n\n```jsr\n<span data-link=\"name\" contenteditable=\"true\"></span>\n```\n\n```jsr\n{^{textbox name/}}\n```"
+            "text": "```jsr\n<input data-link=\"name\"/>\n```\n\n```jsr\n<label><input data-link=\"{toBool:gender:toString}\" type=\"checkbox\" /> Male</label>\n```\n\n```jsr\n<div data-link=\"{radiogroup gender}\">\n  <label><input value=\"male\" type=\"radio\" /> Male</label>\n  <label><input value=\"female\" type=\"radio\" /> Female</label>\n</div>\n```\n\n```jsr\n<select data-link=\"gender\">\n  <option value=\"male\">Male</option>\n  <option value=\"female\">Female</option>\n</select>\n```\n\n```jsr\n<textarea data-link=\"name\"></textarea>\n```\n\n```jsr\n<span data-link=\"{encode:name:unencode}\" contenteditable=\"true\"></span>\n```\n\n```jsr\n{^{textbox name/}}\n```"
           }
         ],
-        "html": "<style>\n  [contenteditable] {border:1px solid green; padding:5px;}\n  .block {display: block; margin-bottom: 10px} .green {color: green;}\n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" class=\"block\"/>\n\n  <label class=\"block\"><input data-link=\"{toBool:gender:toString}\" type=\"checkbox\" /> Male</label>\n\n  <div class=\"block\" data-link=\"{radiogroup gender}\">\n    <label><input value=\"male\" type=\"radio\" /> Male</label><br/>\n    <label><input data-link=\"gender\" value=\"female\" type=\"radio\" /> Female</label>\n  </div>\n\n  <select data-link=\"gender\" class=\"block\">\n    <option value=\"male\">Male</option>\n    <option value=\"female\">Female</option>\n  </select>\n\n  <textarea data-link=\"name\" class=\"block\"></textarea>\n\n  <div class=\"block\">\n    <span data-link=\"name\" contenteditable=\"true\"></span>\n  </div>\n\n  <div class=\"block\">\n    {^{textbox name label=\"Name:\"/}}\n  </div>\n\n  <hr/>\n\n  <div class=\"green\"><b>person:</b> {^{>name}} {^{>gender}}</div>\n</script>",
-        "code": "$.views.converters({\n  toString: function(val) {\n   return val ? 'male' : 'female';\n  },\n  toBool: function(val) {\n    return val === 'male';\n }\n});\n\n$.views.tags({\n  textbox: {\n    onBind: function() {\n      // Find input in contents\n      this.linkedElem = this.contents(\"input\");\n    },\n    onUpdate: false, // No need to re-render whole tag, when content updates.\n    template: \"<em>{{:~tag.tagCtx.props.label}}</em> <input/>\"\n  }\n});\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo\", gender: \"male\"};\n\ntmpl.link(\"#result\", person);\n",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" class=\"block\"/>\n\n  <label class=\"block\"><input data-link=\"{toBool:gender:toString}\" type=\"checkbox\" /> Male</label>\n\n  <div class=\"block\" data-link=\"{radiogroup gender}\">\n    <label><input value=\"male\" type=\"radio\" /> Male</label><br/>\n    <label><input data-link=\"gender\" value=\"female\" type=\"radio\" /> Female</label>\n  </div>\n\n  <select data-link=\"gender\" class=\"block\">\n    <option value=\"male\">Male</option>\n    <option value=\"female\">Female</option>\n  </select>\n\n  <textarea data-link=\"name\" class=\"block\"></textarea>\n\n  <div class=\"block\">\n    <span data-link=\"{encode:name:unencode}\" contenteditable=\"true\"></span>\n  </div>\n\n  <div class=\"block\">\n    {^{textbox name label=\"Name:\"/}}\n  </div>\n\n  <hr/>\n\n  <div class=\"green\"><b>person:</b> {^{>name}} {^{>gender}}</div>\n</script>",
+        "code": "$.views.converters({\n  toString: function(val) {\n   return val ? 'male' : 'female';\n  },\n  toBool: function(val) {\n    return val === 'male';\n }\n});\n\n$.views.tags({\n  textbox: {\n    onBind: function() {\n      // Find input in contents\n      this.linkedElem = this.contents(\"input\");\n    },\n    onUpdate: false, // No need to re-render whole tag, when content updates.\n    template: \"<em>{{:~tagCtx.props.label}}</em> <input/>\"\n  }\n});\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo\", gender: \"male\"};\n\ntmpl.link(\"#result\", person);\n",
         "height": "320",
-        "title": "Two way binding"
+        "title": "Two way binding",
+        "header": "<style>\n  [contenteditable] {border:1px solid green; padding:5px;}\n  .block {display: block; margin-bottom: 10px} .green {color: green;}\n</style>",
+        "action": "append"
       },
       {
         "_type": "para",
@@ -2472,19 +2294,25 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "para",
+        "title": "Converter function signature",
+        "text": "Both the convert and the convertBack converter functions are invoked with the tag instance as `this` pointer -– as described in this JsRender topic: [*Converter function signature*](#convertersapi@signature). So within a converter function you can access this.tagCtx, this.linkCtx, etc. and from there reach many useful properties and objects.",
+        "anchor": "signature"
+      },
+      {
+        "_type": "para",
         "title": "<b>Additional advanced two-way  binding scenarios:</b>",
         "text": ""
       },
       {
         "_type": "para",
         "title": "Triggering the two-way binding on <b>blur</b>, rather than on <b>keydown</b>",
-        "text": "In the case of *[text boxes](#link-input@textbox)* (or any other two-way data-linked element that takes character entry such as the *[textarea](#link-textarea)*, *[contenteditable](#link-contenteditable)* and some *custom tags* like as the `{^{textbox}}` example above), you can choose when the *to* binding updates the underlying data:\n\n- With `trigger=true` (default setting), changes to the underlying data are triggered as you type (on character entry -- the *keydown* event, or for compatible browsers, the *input* event)\n- With `trigger=false`, changes to the underlying data are made on leaving the text box (the *change* or *blur* event)\n\nThe *trigger* setting can be modified:\n\n- globally, by using: [$.views.settings.trigger(...)](#jsvsettings/trigger):\n  ```jsr\n  $.views.settings.trigger(false); \n  ```\n- on each tag or element by writing:\n  ```jsr\n  <input data-link=\"name trigger=false\"/> \n  {^{textbox name trigger=false}}\n  ```\n\nIn fact you can also set `trigger` to a string with one or more white-space separated event names, such as: \n\n```jsr\n<input data-link=\"name trigger='keyup mouseup'\"/>`\n```\n\n-- but generally only the values ***true*** (actually equivalent to `trigger='keydown'`) and ***false*** are useful.",
+        "text": "In the case of *[textboxes](#link-input@textbox)* (or any other two-way data-linked element that takes character entry such as the *[textarea](#link-textarea)*, *[contenteditable](#link-contenteditable)* and some *custom tags* like as the `{^{textbox}}` example above), you can choose when the *to* binding updates the underlying data:\n\n- With `trigger=true` (default setting), changes to the underlying data are triggered as you type (on character entry -- the *keydown* event, or for compatible browsers, the *input* event)\n- With `trigger=false`, changes to the underlying data are made on leaving the textbox (the *change* or *blur* event)\n\nThe *trigger* setting can be modified:\n\n- globally, by using: [$.views.settings.trigger(...)](#jsvsettings/trigger):\n  ```jsr\n  $.views.settings.trigger(false); \n  ```\n- on each tag or element by writing:\n  ```jsr\n  <input data-link=\"name trigger=false\"/> \n  {^{textbox name trigger=false}}\n  ```\n\nIn fact you can also set `trigger` to a string with one or more white-space separated event names, such as: \n\n```jsr\n<input data-link=\"name trigger='keyup mouseup'\"/>`\n```\n\n-- but generally only the values ***true*** (actually equivalent to `trigger='keydown'`) and ***false*** are useful.",
         "anchor": "trigger"
       },
       {
         "_type": "para",
         "title": "linkTo: Linking from/to different underlying data",
-        "text": "It can sometimes be useful to be able to choose different targets for the *from* and *to* bindings of a two-way bound element such as a textbox. This is possible by setting the `linkTo` attribute to the desired target data for the *to* binding.\n\nIn the following sample an `<input/>` and a `<select>` are bound to `settings.current` (*from* binding) and to `settings.modified` (*to* binding, using `linkTo`):\n\n```jsr\n<input data-link=\"current.title linkTo=modified.title\" />\n```\n\nThe user can choose the *Apply* button (or hit *Enter*, for the submit action of the form) to copy values over from `modified` to `current`. *Cancel* reverts the input/select back to the current data:",
+        "text": "It can sometimes be useful to be able to choose different targets for the *from* and *to* bindings of a two-way bound element such as a textbox. This is possible by setting the `linkTo` attribute to the desired target data for the *to* binding.\n\nIn the following sample an `<input/>` and a `<select>` are bound to `settings.current` (*from* binding) and to `settings.modified` (*to* binding, using `linkTo`):\n\n```jsr\n<input data-link=\"current.title linkTo=modified.title\" />\n```\n\nNote that `linkTo` can also be used with the full syntax, and optionally with converters as in:\n\n```jsr\n<input data-link=\"{cvt:current.title linkTo=modified.title:cvtBk\" />\n```\n\nThe user can choose the *Apply* button (or hit *Enter*, for the submit action of the form) to copy values over from `modified` to `current`. *Cancel* reverts the input/select back to the current data:",
         "anchor": "linkto"
       },
       {
@@ -2505,8 +2333,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```jsr\nColor: \n<select data-link=\"current.color linkTo=modified.color\">\n  ...\n</select>\n\nName:\n<input data-link=\"current.title linkTo=modified.title\" />\n```\n"
           }
         ],
-        "html": "<script src=\"../download/sample-tag-controls/jsonview/jsonview.js\"></script>\n<link href=\"../download/sample-tag-controls/jsonview/jsonview.css\" rel=\"stylesheet\"></link>\n<style>\n.title {display: inline-block; border:1px solid; padding:5px; margin-bottom: 15px}\nform {border: 1px solid gray; display: inline-block; padding: 5px; margin-bottom: 15px;}\ninput, button, select {margin: 5px;} \n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n<b>Current settings:</b>\n<span class=\"title\" data-link=\"\n  css-border-color{:current.color}\n  css-color{:current.color}\n  {:current.title}\n\"></span><br/>\n\n<form data-link=\"{on 'submit' apply}\">\n  <em>Modify settings:</em><br/><br/>\n  Color:\n  <select data-link=\"current.color linkTo=modified.color\">\n    <option>red</option>\n    <option>green</option>\n  </select><br/>\n  Name:\n  <input data-link=\"current.title linkTo=modified.title\" />\n  <hr />\n  Modified settings:\n  <span class=\"title\" data-link=\"\n    css-border-color{:modified.color}\n    css-color{:modified.color}\n    {:modified.title}\n  \"></span><br/>\n  <button type=\"submit\">Apply</button>\n  <button data-link=\"{on cancel}\">Cancel</button><br/>\n</form><br/>\n\n<em>Underlying data:</em><br/>{^{jsonview/}}\n\n</script>",
-        "code": "var settings = {\n  current: {title: \"My title\", color:\"green\"},\n  modified: {title: \"My title\", color:\"green\"},\n  apply: function() {\n    $.observable(this.current).setProperty(this.modified);\n    return false;\n  },\n  cancel: function() {\n    $.observable(this.modified).setProperty(this.current);\n\n    $.observable(this.current).setProperty({name: \"\", color: \"\"});\n    $.observable(this.current).setProperty(this.modified);\n  }\n}\n\nvar myTmpl = $.templates(\"#myTmpl\");\n\nmyTmpl.link(\"#result\", settings);",
+        "html": "<script src=\"../download/sample-tag-controls/jsonview/jsonview.js\"></script>\n<link href=\"../download/sample-tag-controls/jsonview/jsonview.css\" rel=\"stylesheet\"></link>\n<style>\n.title {display: inline-block; border:1px solid; padding:5px; margin-bottom: 15px}\nform {border: 1px solid gray; display: inline-block; padding: 5px; margin-bottom: 15px;}\ninput, button, select {margin: 5px;} \n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n<b>Current settings:</b>\n<span class=\"title\" data-link=\"\n  css-border-color{:current.color}\n  css-color{:current.color}\n  {:current.title}\n\"></span><br/>\n\n<form data-link=\"{on 'submit' apply}\">\n  <em>Modify settings:</em><br/><br/>\n  Color:\n  <select data-link=\"current.color linkTo=modified.color\">\n    <option>red</option>\n    <option>green</option>\n  </select><br/>\n  Name:\n  <input data-link=\"current.title linkTo=modified.title\" />\n  <hr />\n  Modified settings:\n  <span class=\"title\" data-link=\"\n    css-border-color{:modified.color}\n    css-color{:modified.color}\n    {:modified.title}\n  \"></span><br/>\n  <button type=\"submit\">Apply</button>\n  <button data-link=\"{on cancel}\">Cancel</button><br/>\n</form><br/>\n\n<em>Underlying data:</em><br/>{^{jsonview noFunctions=true/}}\n\n</script>",
+        "code": "var settings = {\n  current: {title: \"My title\", color:\"green\"},\n  modified: {title: \"My title\", color:\"green\"},\n  apply: function() {\n    $.observable(this.current).setProperty(this.modified);\n    return false;\n  },\n  cancel: function() {\n    $.observable(this.modified).setProperty(this.current);\n    $.observable(this.current).setProperty({title: \"\", color: \"\"});\n    $.observable(this.current).setProperty(this.modified);  }\n}\n\nvar myTmpl = $.templates(\"#myTmpl\");\n\nmyTmpl.link(\"#result\", settings);",
         "height": "500",
         "title": "linkTo"
       },
@@ -2534,9 +2362,40 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "Data-link to two arguments, `first ` and `last`:\n\n```jsr\n<input data-link=\"{toFull:first last:fromFull}\"/>\n```\n\n*Convert back* converter `fromFull` returns an array:\n\n```js\n$.views.converters({\n  toFull: function(first, last) {\n    return first + \" \" + last;\n  },\n  fromFull: function(fullname) {\n    ...\n    return [first, last]; // Return array for binding back to the two arguments\n  }\n});\n```"
           }
         ],
-        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"{toFull:first last:fromFull}\"/><br/><br/>\n\n  First: <em>{^{:first}}</em><br/>\n  Last: <b>{^{:last}}</b>\n</script>\n\n<div id=\"page\"></div>",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"{toFull:first last:fromFull}\"/><br/><br/>\n\n  First: <em>{^{>first}}</em><br/>\n  Last: <b>{^{>last}}</b>\n</script>\n\n<div id=\"page\"></div>",
         "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { first: \"Jo\", last: \"Blow\" };\n\n$.views.converters({\n  toFull: function(first, last) {\n    return first + \" \" + last;\n  },\n  fromFull: function(fullname) {\n    var names = fullname.split(\" \");\n    var last = names.pop();\n    var first = names.join(\" \"); \n    return [first, last]; // Return array for binding back to the two arguments\n  }\n});\n\nmyTmpl.link(\"#page\", data);",
         "height": "120"
+      },
+      {
+        "_type": "para",
+        "title": "Encoding to avoid XSS",
+        "text": "Whenever the user has access to the two-way editing feature, it is important to avoid any associated security risk that might arise from HTML injection, or XSS (cross-site-scripting) attacks.\n\nFor example, if UI such as `<input data-link=\"someValue\" />` allows the user to edit `someValue`, then `someValue` should not be inserted directly into the HTML without encoding. In this scenario, the use of [`{^{:someValue}}`](#jsvassigntag) is therefore to be avoided, and should be replaced with either [`{^{>someValue}}`](#jsvhtmltag) or [`{^{encode:someValue}}`](#convertersapi@encode).\n\nWhen using content-editable elements with two-way binding, they should generally be associated with encode/unencode converters: [`data-link=\"{encode:someValue:unencode}\"`](#convertersapi@encode):\n\nSimilarly if the initial data from the server is untrusted, then direct rendering of unencoded values by the template should be avoided, and in particular [`{{:someValue}}`](#assigntag) should not be used, and should be replaced by [`{{>someValue}}`](#htmltag) or `[{{encode:someValue}}](#convertersapi@encode)`\n\nThese scenarios are illustrated in the following sample, which starts with some 'dangerous' data, and also allows the user to modify or insert HTML markup in the `person.name` property. However the correct use of encoding prevents the HTML markup from being inserted 'as is' into the DOM.",
+        "anchor": "encode"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Editable UI elements:*\n\n```jsr\n<input data-link=\"name\"/>\n\n<div contenteditable=\"true\" data-link=\"{encode:name:unencode}\"></div>\n```\n\n*'Safe' rendering:*\n\n```jsr\n{^{>name}}\n\n{^{encode:name}}\n\n<div data-link=\"name\"></div>\n```"
+          }
+        ],
+        "header": "<style>\ninput {width: 300px;}\n[contenteditable] {display: inline-block;}\n.box {display: inline-block; border:1px solid green;}\ninput, [contenteditable] {border: 1px solid #c31f1f;}\ninput, [contenteditable], .box {margin: 0 0 23px 15px; padding: 5px;}\ncode {display: block; margin-bottom: 10px; font-style: italic; }\n</style>",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <code>&lt;input data-link=\"name\"/&gt;:</code>\n  <input data-link=\"name\" class=\"block\"/>\n\n  <code>&lt;div contenteditable=\"true\" data-link=\"{encode:name:unencode}\"&gt;:</code>\n  <div contenteditable=\"true\" data-link=\"{encode:name:unencode}\"></div>\n\n  <code>&lcub;^{>name}&rcub;:</code>\n  <span class=\"box\"> \n    {^{>name}}\n  </span>\n\n  <code>&lcub;^{encode:name}&rcub;:</code>\n  <span class=\"box\">\n    {^{encode:name}}\n  </span>\n\n  <code>&lt;div data-link=\"name\"&gt;:</code>\n  <span class=\"box\">\n    <div data-link=\"name\"></div>\n  </span>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: 'Jo <img src=\"dangerous\" onerror=\"alert()\"/>'};\n\ntmpl.link(\"#result\", person);\n",
+        "height": "418",
+        "nocss": false,
+        "action": "append"
       }
     ]
   },
@@ -2570,10 +2429,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<input data-link=\"manager.address.ZIP\" />\n\n{^{if manager.address.ZIP}}\n  ZIP: {^{:manager.address.ZIP}}\n{{/if}}\n```\n\nModify leaf: template values update in response:\n```js\n$.observable(team.manager.address).setProperty({\n  \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n});\n```\n\nChange manager: template values do *not* update:\n```js\n$.observable(team).setProperty({\n  manager: team.manager === person1 ? person2 : person1\n});\n```\n\n\n"
+            "text": "```jsr\n<input data-link=\"manager.address.ZIP\" />\n\n{^{if manager.address.ZIP}}\n  ZIP: {^{>manager.address.ZIP}}\n{{/if}}\n```\n\nModify leaf: template values update in response:\n```js\n$.observable(team.manager.address).setProperty({\n  \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n});\n```\n\nChange manager: template values do *not* update:\n```js\n$.observable(team).setProperty({\n  manager: team.manager === person1 ? person2 : person1\n});\n```\n\n\n"
           }
         ],
-        "html": "<div class=\"left\">\n  <button id=\"modifyLeaf\">Change leaf values</button>\n  <button id=\"changeManager\">Change manager</button>\n  <div id=\"result\"></div>\n</div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n\n<input data-link=\"manager.address.ZIP\" />\n\n{^{if manager.address.ZIP}}\n  ZIP: {^{:manager.address.ZIP}}\n{{/if}}\n\n<hr/>\n\nManager: {^{if manager === person1}}person1{{else}}person2{{/if}}\n\n</script>",
+        "html": "<div class=\"left\">\n  <button id=\"modifyLeaf\">Change leaf values</button>\n  <button id=\"changeManager\">Change manager</button>\n  <div id=\"result\"></div>\n</div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n\n<input data-link=\"manager.address.ZIP\" />\n\n{^{if manager.address.ZIP}}\n  ZIP: {^{>manager.address.ZIP}}\n{{/if}}\n\n<hr/>\n\nManager: {^{if manager === person1}}person1{{else}}person2{{/if}}\n\n</script>",
         "code": "var team = {\n  person1: {\n    address: {\n      City: \"New York\",\n      ZIP: \"10035\"\n    }\n  },\n  person2: {\n    address: {\n      City: \"London\"\n    }\n  }\n};\n\nteam.manager = team.person1;\n\n\n$(\"#modifyLeaf\").on(\"click\", function() {\n  $.observable(team.manager.address).setProperty({\n    \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n  });\n});\n\n$(\"#changeManager\").on(\"click\", function() {\n  $.observable(team).setProperty({\n    manager: team.manager === team.person1 ? team.person2 : team.person1\n  });\n});\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", team);",
         "title": "Leaf binding only",
         "height": "130"
@@ -2598,10 +2457,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<input data-link=\"manager^address.ZIP\" />\n\n{^{if manager^address.ZIP}}\n  ZIP: {^{:manager^address.ZIP}}\n{{/if}}\n```\n\nModify leaf (ZIP) or manager: template values all update correctly in response\n"
+            "text": "```jsr\n<input data-link=\"manager^address.ZIP\" />\n\n{^{if manager^address.ZIP}}\n  ZIP: {^{>manager^address.ZIP}}\n{{/if}}\n```\n\nModify leaf (ZIP) or manager: template values all update correctly in response\n"
           }
         ],
-        "html": "<div class=\"left\">\n  <button id=\"modifyLeaf\">Change leaf values</button>\n  <button id=\"changeManager\">Change manager</button>\n  <div id=\"result\"></div>\n</div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n\n<input data-link=\"manager^address.ZIP\" />\n\n{^{if manager^address.ZIP}}\n  ZIP: {^{:manager^address.ZIP}}\n{{/if}}\n\n<hr/>\n\nManager: {^{if manager === person1}}person1{{else}}person2{{/if}}\n\n</script>",
+        "html": "<div class=\"left\">\n  <button id=\"modifyLeaf\">Change leaf values</button>\n  <button id=\"changeManager\">Change manager</button>\n  <div id=\"result\"></div>\n</div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n\n<input data-link=\"manager^address.ZIP\" />\n\n{^{if manager^address.ZIP}}\n  ZIP: {^{>manager^address.ZIP}}\n{{/if}}\n\n<hr/>\n\nManager: {^{if manager === person1}}person1{{else}}person2{{/if}}\n\n</script>",
         "code": "var team = {\n  person1: {\n    address: {\n      City: \"New York\",\n      ZIP: \"10035\"\n    }\n  },\n  person2: {\n    address: {\n      City: \"London\"\n    }\n  }\n};\n\nteam.manager = team.person1;\n\n\n$(\"#modifyLeaf\").on(\"click\", function() {\n  $.observable(team.manager.address).setProperty({\n    \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n  });\n});\n\n$(\"#changeManager\").on(\"click\", function() {\n  $.observable(team).setProperty({\n    manager: team.manager === team.person1 ? team.person2 : team.person1\n  });\n});\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", team);",
         "title": "Data-linking to deep changes",
         "height": "130",
@@ -2685,6 +2544,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "title": "Targets for data-linking",
     "path": "",
     "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The [full syntax](#linked-elem-syntax@fullsyntax) for data-linked elements is written like this:\n\n```jsr\n<elem data-link=\"target1{linkExpression1} ...\" ...>\n```\n\nPossible targets include the following:\n- an HTML attribute (such as `title{...}`, `class{...}`, `id{...}`, `disabled{...}` or `data-foo{...}`\n)\n- an HTML element property (such as `prop-muted{...}` for a `<video>` element)\n- a CSS property (such as `css-background-color{...}`)\n- innerHTML (as in `html{...}`)\n- innerText (as in `text{...}`)\n- special targets like `visible{...}`\n- or can be missing altogether (as in `{...}`) in which case it stands for the default target for the element.\n\nThe default target for most elements is `innerText`, but for `input` and `select` elements it is `value`.\n\nThe following topics provide details and examples of each type of target attribute:"
+      },
       {
         "_type": "links",
         "title": "",
@@ -2984,7 +2848,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Radio buttons &ndash; dynamic array including id (value)",
-        "text": "Here we allow the user also to change the `id` value (used as key) -- which requires more advanced data-link syntax: `value^{:id}` to update the `value` of the `<input>`s when the `id` changes.\n\nWe provide two radio button groups -- showing the alternative syntax styles -- data-linking through a `{{radiogroup}}` wrapper tag, or data-linking directly to the `<input>`s. Since both groups data-link to the same `selectedCar` property, the two-way binding keeps them in sync.",
+        "text": "Here we allow the user also to change the `id` value (used as key) -- which requires the more advanced data-link syntax: [`value^{:id}`](#linked-elem-syntax@no-initial-render) to update the `value` of the `<input>`s when the `id` changes.\n\nWe provide two radio button groups -- showing the alternative syntax styles -- data-linking through a `{{radiogroup}}` wrapper tag, or data-linking directly to the `<input>`s. Since both groups data-link to the same `selectedCar` property, the two-way binding keeps them in sync.",
         "anchor": "radioeditid"
       },
       {
@@ -3005,11 +2869,17 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "*<div class=\"close\">Two radio button groups:<br/>-- with `{{radiogroup}}`:</div>*\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  {^{for cars}}\n    <label><input type=\"radio\" data-link=\"value{:id}\"/> {^{:name}}</label>\n  {{/for}}\n{{/radiogroup}}\n```\n\n*<div class=\"close\">-- and with direct data-linking to the `<input>`s:</div>*\n\n```jsr\n<label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/> None</label>\n{^{for cars}}\n  <label><input name=\"cars\" type=\"radio\"\n    value=\"{{:id}}\" data-link=\"{:~root.selectedCar:} value^{:id}\"\n  /> {^{:name}}</label>\n{{/for}}\n```\n\nSince the `id` is also editable, we are data-linking to `id`: `data-link=\"value{:id}\"`. \n\nFor the second style (data-linking directly to the `<input>`) we need to ensure that the `value` is initialized during rendering, using `value=\"{{:id}}\"` (to ensure correct initial selection of the *Ford* radio button -- based on the initial value `\"frd\"` of `selectedCar`) -- in addition to binding to subsequent changes in `id` using `value^{:id}`."
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on add}\">Add car</button>\n  <table>\n    <tbody>\n      {^{for cars}}\n        <tr>\n          <td><input data-link=\"name\"/></td>\n          <td><input data-link=\"id\"/></td>\n          <td><span class=\"remove\" data-link=\"{on ~root.remove #index}\"></span></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table><br/>\n\n  {^{radiogroup selectedCar}}\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    {^{for cars}}\n      <label><input type=\"radio\" data-link=\"value{:id}\"/> {^{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}<br/>\n \n  <label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/> None</label><br/>\n  {^{for cars}}\n    <label><input name=\"cars\" type=\"radio\"\n      value=\"{{:id}}\" data-link=\"{:~root.selectedCar:} value^{:id}\"\n    /> {^{:name}}</label><br/>\n  {{/for}}\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</script>",
-        "code": "var idCount = 0;\nvar tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  add: function() {\n    idCount++;\n    var id = \"car\" + idCount;\n    $.observable(this.cars).insert({id: id, name: \"name\" + idCount});\n    $.observable(this).setProperty(\"selectedCar\", id);\n  },\n  remove: function(index) {\n    $.observable(this.cars).remove(index);\n  },\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on add}\">Add car</button>\n  <table>\n    <tbody>\n      {^{for cars}}\n        <tr>\n          <td><input data-link=\"name\"/></td>\n          <td><input data-link=\"id\"/></td>\n          <td><span class=\"remove\" data-link=\"{on ~root.remove #index}\"></span></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table><br/>\n\n  <label><input type=\"checkbox\" data-link=\"disable\"/> Disable radio buttons</label><br/><br/>\n\n  {^{radiogroup selectedCar disabled=disable}}\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    {^{for cars}}\n      <label><input type=\"radio\" data-link=\"value{:id}\"/> {^{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}<br/>\n \n  <label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/> None</label><br/>\n  {^{for cars}}\n    <label><input name=\"cars\" type=\"radio\"\n      value=\"{{:id}}\" data-link=\"{:~root.selectedCar:} value^{:id} disabled{:~root.disable}\"\n    /> {^{:name}}</label><br/>\n  {{/for}}\n\n  <div class=\"spanbox\" data-link=\"selectedCar||'none'\"></div>\n</script>",
+        "code": "var idCount = 0;\nvar tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  add: function() {\n    idCount++;\n    var id = \"car\" + idCount;\n    $.observable(this.cars).insert({id: id, name: \"name\" + idCount});\n    $.observable(this).setProperty(\"selectedCar\", id);\n  },\n  remove: function(index) {\n    $.observable(this.cars).remove(index);\n  },\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ],\n  disable: false\n};\n\ntmpl.link(\"#result\", data);",
         "height": "390",
         "title": "",
         "anchor": "radioeditable"
+      },
+      {
+        "_type": "para",
+        "title": "Radio buttons: data-linking to enable/disable",
+        "text": "The above sample also shows the use of the `{{radiogroup}}` `disabled` property, which can be used with data-linking to dynamically enable/disable the radio buttons.\n\nThe sample also shows how to data-link `disabled` when using data-linking directly to the `<input>` elements (rather than using `{{radiogroup}}`).\n",
+        "anchor": "disabled"
       },
       {
         "_type": "para",
@@ -3086,13 +2956,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "This section shows data-linking to `<select>` elements:\n\n- [Two-way data-binding](#link-input@select2way)\n- Data-driven by [array](#link-input@selectarray) data (in a `{{for}}` loop)\n- Data-driven by an [editable array](#link-input@selectedit) (in a `{^{for}}` loop)\n- Using [converters](#link-input@selectconvert)"
+        "text": "This section shows data-linking to `<select>` elements:\n\n- [Two-way data-binding](#link-select@2way)\n- Data-driven by [array](#link-select@array) data (in a `{{for}}` loop)\n- Data-driven by an [editable array](#link-select@edit) (in a `{^{for}}` loop)\n- Using [converters](#link-select@convert)\n- [Multiple selection](#link-select@multiple)"
       },
       {
         "_type": "para",
         "title": "&lt;select&gt;: two-way data-binding",
         "text": "The `<selects>`s are data-linked to the `selectedCar` property (one a drop-down and the other a listbox: `size=\"3\"`). \n\nChanging selection on one `<select>` triggers the corresponding selection change on the other, thanks to two-way binding to the `selectedCar` property:\n",
-        "anchor": "select2way"
+        "anchor": "2way"
       },
       {
         "_type": "sample",
@@ -3121,7 +2991,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "&lt;select&gt;: &lt;option&gt;s in {{for}} loop with array",
         "text": "A `cars` array has values for the displayed `name` and the corresponding `id` (used as *key*, and data-linked to the `selectedCar` property). We loop through the array using `{{for cars}}`, to create an `<option>` for each car.",
-        "anchor": "selectarray"
+        "anchor": "array"
       },
       {
         "_type": "sample",
@@ -3150,7 +3020,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "&lt;select&gt;: &lt;option&gt;s in {^{for}} loop with dynamic array",
         "text": "In this example we allow the user to add and remove items from the array, and to change values such as `name` and `id` (the key).",
-        "anchor": "selectedit"
+        "anchor": "edit"
       },
       {
         "_type": "sample",
@@ -3179,7 +3049,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "&lt;select&gt;: with converters",
         "text": "In this last example we use *convert* and *convert back* converters to convert from the `selIndex`, the index of the selected radio button, to the value of the `id` key, and back. ",
-        "anchor": "selectconvert"
+        "anchor": "convert"
       },
       {
         "_type": "sample",
@@ -3207,7 +3077,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "&lt;select&gt;: with multiple selection",
-        "text": "If the multiple attribute is set, data-linking is to an array of strings (option values). \n\nConverters could be used to convert to other data formats, such as an array of indices, or an array of objects. "
+        "text": "If the multiple attribute is set, data-linking is to an array of strings (option values). \n\nConverters could be used to convert to other data formats, such as an array of indices, or an array of objects. ",
+        "anchor": "multiple"
       },
       {
         "_type": "sample",
@@ -3267,7 +3138,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The following sample shows data-linked text boxes, with two-way binding, one-way binding, and use of converters (*convert* and *convert back*)."
+        "text": "The following sample shows data-linked textboxes, with two-way binding, one-way binding, and use of converters (*convert* and *convert back*)."
       },
       {
         "_type": "sample",
@@ -3395,7 +3266,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The most common data-link expression for a data-linked element is a data path, such as:\n\n```jsr\n<div data-link=\"address.street\"></div>...\n```\n\n-- which is actually abbreviated syntax, and is equivalent to the full syntax:\n\n```jsr\n<div data-link=\"{:address.street}\"></div>...\n```\n\nIn fact this example is using the default target of `innerText`, and is equivalent to the even more explicit syntax:\n\n```jsr\n<div data-link=\"text{:address.street}\"></div>...\n```\n\nFor explanation and examples of the full syntax see the *[Data-linked elements (full syntax)](#linked-elem-syntax@fullsyntax)* topic.\n\nOur example, `data-link=\"{:address.street}\"` corresponds to the JsViews tag `{^{:address.street}}`.\n\nSimilarly we can data-link to ***any*** tag, such as:\n\n```jsr\n{^{:...}}, {^{>...}}, {^{for...}}, {^{if}}, {^{on}}, {^{slider}}, {^{mytag}} etc.\n```\n\nFor example to use `{^{mytag .../}}` as an element binding, you simply remove the initial `{^` and the last `}`, and optionally specify a target, such as `title` (or use the default `innerText` target):\n\n```jsr\ndata-link=\"title{mytag ...}\"\n```\n\nA data-linked element can use multiple bindings, each of which has a target and a link expression, and where the link expression corresponds to a data-linked JsViews/JsRender tag:\n\n```jsr\ndata-link=\"target1{linkExpression1} target2{linkExpression2}\" ...\n```\n\nExamples of tags are:\n\n```jsr\n{^{:age}}\n{^{>name}}\n{^{slider age/}}\n{^{if age < 15}}Child{{else age > 65}}Senior{{else}}Adult{{/if}}\n{^{for phones}}...{{/for}}\n{^{on increaseAge}}Increase Age{{/on}}\n{^{mytag person.name/}} \n```\n\nThe following examples show the same tags used as link expressions for data-linking elements (using in each case the default element data-linking target `innerText`):\n\n```jsr\n<div data-link=\"age\"></div>\n<div data-link=\"name\"></div>\n<div data-link=\"{slider age}\"></div>\n<span data-link=\"{if age < 15 tmpl='Child'}{else age > 65 tmpl='Senior'}{else tmpl='Adult'}\"></span>\n<div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n<button data-link=\"{on increaseAge}\">Increase Age</button>\n<div data-link=\"{mytag person.name}\"></div>\n```\n\nAnd the following example shows two bindings, one using the default target, and binding to a `{^{slider}}` tag and the other targeting the CSS `background` property of the `div`, and binding to an `{^{if ...}}}{{else ...}}{{else}}` tag:\n \n```jsr\n<div data-link=\"{slider age}\n css-background{if ... tmpl='green'}{else ... tmpl='red'}{else tmpl='blue'}\"></div>\n```\n"
+        "text": "The most common data-link expression for a data-linked element is a data path, such as:\n\n```jsr\n<div data-link=\"address.street\"></div>...\n```\n\n-- which is actually abbreviated syntax, and is equivalent to the full syntax:\n\n```jsr\n<div data-link=\"{:address.street}\"></div>...\n```\n\nIn fact this example is using the default target of `innerText`, and is equivalent to the even more explicit syntax:\n\n```jsr\n<div data-link=\"text{:address.street}\"></div>...\n```\n\nFor explanation and examples of the full syntax see the *[Data-linked elements (full syntax)](#linked-elem-syntax@fullsyntax)* topic.\n\nOur example, `data-link=\"{:address.street}\"` corresponds to the JsViews tag `{^{:address.street}}`.\n\nSimilarly we can data-link not only to `{^{:...}}` but to ***any*** tag, such as:\n\n```jsr\n{^{>...}}, {^{for...}}, {^{if}}, {^{on}}, {^{slider}}, {^{mytag}} etc.\n```\n\nFor example to use `{^{mytag .../}}` as an element binding, you simply remove the initial `{^` and the last `}`, and optionally specify a target, such as `title`:\n\n```jsr\ndata-link=\"title{mytag ...}\"\n```\n\nA data-linked element can use multiple bindings, each of which has a target and a link expression, and where the link expression corresponds to a data-linked JsViews/JsRender tag:\n\n```jsr\ndata-link=\"target1{linkExpression1} target2{linkExpression2}\" ...\n```\n\nExamples of tags are:\n\n```jsr\n{^{:age}}\n{^{>name}}\n{^{slider age/}}\n{^{if age < 15}}Child{{else age > 65}}Senior{{else}}Adult{{/if}}\n{^{for phones}}...{{/for}}\n{^{on increaseAge}}Increase Age{{/on}}\n{^{mytag person.name/}} \n```\n\nThe following examples show the same tags used as link expressions for data-linking elements:\n\n```jsr\n<div data-link=\"age\"></div>\n<div data-link=\"name\"></div>\n<div data-link=\"{slider age}\"></div>\n<span data-link=\"{if age < 15 tmpl='Child'}{else age > 65 tmpl='Senior'}{else tmpl='Adult'}\"></span>\n<div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n<button data-link=\"{on increaseAge}\">Increase Age</button>\n<div data-link=\"{mytag person.name}\"></div>\n```\n\nAnd the following example shows two bindings, one using the default target, and binding to a `{^{slider}}` tag and the other targeting the CSS `background` property of the `div`, and binding to an `{^{if ...}}}{{else ...}}{{else}}` tag:\n \n```jsr\n<div data-link=\"{slider age}\n css-background{if ... tmpl='green'}{else ... tmpl='red'}{else tmpl='blue'}\"></div>\n```"
       },
       {
         "_type": "sample",
@@ -3418,7 +3289,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"topLevel\">\n\n  <br/>\n\n  <div data-link=\"\n    {slider age _max=99 width='50%'}\n\n    css-background{if age < 15 tmpl='green'}\n    {else age > 65 tmpl='red'}\n    {else tmpl='blue'}\n  \"></div>\n\n  <br/>\n\n  <label>Age:</label>\n  <span data-link=\"{ageCat:age}\"></span>\n\n</div>\n",
         "code": "var person = {age: 23};\n\n$.views.converters(\"ageCat\", function(val) {\n  var category;\n  if (val < 15) {\n     category = \"Child\";\n  } else if (val > 65) {\n     category = \"Senior\";\n  } else {\n     category = \"Adult\";\n  }\n  return val + \" (\" + category + \")\";\n})\n\n$.link(true, \"#topLevel\", person);",
         "jsrJsvJqui": "jqui",
-        "height": "100"
+        "height": "90"
       },
       {
         "_type": "para",
@@ -3446,7 +3317,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<style>\n  button {margin-bottom: 12px;}\n  .ui-slider {margin: 16px 0;}\n  .summary {margin: 8px 0 18px 0}\n</style>\n\n<script id=\"phonesTmpl\" type=\"text/x-jsrender\">\n  <div>\n    <span data-link=\"\n      {if cell tmpl='Home'}\n      {else tmpl='Cell'}\n    \"></span>:\n    <span data-link=\"number\"></span>\n  </div>\n</script>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n\n<h3>(Tags in template)</h3>\n\n{^{on increaseAge}}Increase Age{{/on}}\n{^{for phones}}<div>\n  {^{if cell}}Home{{else}}Cell{{/if}}: {{:number}}</div>\n{{/for}}\n{^{slider age _max=99 width=\"50%\"/}}\n<label>Age:</label>\n{^{>age}}\n({^{if 15>age}}Child{{else age>65}}Senior{{else}}Adult{{/if}})\n{^{summary/}}\n\n<hr/>\n<h3>(Data-linked elements in template)</h3>\n\n<div>\n  <button data-link=\"{on increaseAge}\">Increase Age</button>\n  <div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n  <div data-link=\"{slider age _max=99 width='50%'}\"></div>\n  <label>Age:</label>\n  <span data-link=\"age\"></span>\n  (<span data-link=\"\n    {if 15>age tmpl='Child'}\n    {else age>65 tmpl='Senior'}\n    {else tmpl='Adult'}\n  \"></span>)\n  <div data-link=\"{summary}\"></div>\n</div>\n</script>\n\n<h3>(Top-level data-linked elements)</h3>\n\n<div id=\"topLevel\">\n  <button data-link=\"{on increaseAge}\">Increase Age</button>\n  <div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n  <div data-link=\"{slider age _max=99 width='50%'}\"></div>\n  <label>Age:</label>\n  <span data-link=\"age\"></span>\n (<span data-link=\"\n    {if 15>age tmpl='Child'}\n    {else age>65 tmpl='Senior'}\n    {else tmpl='Adult'}\n  \"></span>)\n  <div data-link=\"{summary}\"></div>\n</div>\n <hr/>\n\n<div id=\"result\"></div>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [\n    {number: \"111 111 1111\"},\n    {number:\"222 222 2222\", cell: true}\n  ],\n  age: 23,\n  increaseAge: function() {\n    $.observable(this).setProperty(\n      \"age\",\n      this.age + 10\n    );\n  }\n};\n\n$.views.tags(\n  \"summary\",\n  \"<div class='summary'>My name is {{>name}}.\"\n  + \"I am <b>{^{:age}}</b> years old.</div>\"\n);\n\ntmpl.link(\"#result\", person);\n$.link(true, \"#topLevel\", person);",
         "jsrJsvJqui": "jqui",
-        "height": "730"
+        "height": "690"
+      },
+      {
+        "_type": "para",
+        "title": "Default tag binding targets",
+        "text": "Data-linked expressions generally use the default target `innerText`, but data-linked *tag bindings* default to `innerHTML`.\n\nHere are the details:\n\nFor **_data-linked expressions_**, such as:\n\n```jsr\n<div data-link=\"address.street\">...\n<input data-link=\"address.street\" />...\n```\n\nor equivalently:\n\n```jsr\n<div data-link=\"{:address.street:}\">...\n<input data-link=\"{:address.street:}\" />...\n```\n\nthe default target is `value` for `input` or `select` elements, and `text` (`innerText`) for most other elements, so the above are equivalent to:\n\n```jsr\n<div data-link=\"text{:address.street:}\">...\n<input data-link=\"value{:address.street:}\" />...\n```\n\nFor **_tag bindings_**, such as:\n\n```jsr\n<div data-link=\"{mytag}\">...\n<input data-link=\"{mytag}\" />...\n```\n\nthe default target is `value` for `input` or `select` elements, and `html` (`innerHTML`) for most other elements, so the above are equivalent to:\n\n```jsr\n<div data-link=\"html{mytag}\">...\n<input data-link=\"value{mytag}\" />...\n```\n\nA custom tag can also specify its default target attribute, using the [`attr` tag option](#tagoptions@attr).",
+        "anchor": "defaulttargets"
       }
     ]
   },
@@ -3582,14 +3459,14 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```jsr\n<div data-link=\"name\"></div>\n<div data-link=\"text{:name}\"></div>\n<div data-link=\"html{:name}\"></div>\n```"
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~changeName}}Change name{{/on}}\n  <input data-link=\"name\" /><br/><br/>\n\n  <div data-link=\"name\"></div>\n  <div data-link=\"text{:name}\"></div>\n  <div data-link=\"html{:name}\"></div>\n</script>",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~changeName}}Change name{{/on}}\n  <input data-link=\"name\" /><br/>\n\n  <div data-link=\"name\"></div>\n  <div data-link=\"text{:name}\"></div>\n  <div data-link=\"html{:name}\"></div>\n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo <b>Blow</b>\"};\nvar swapped = false;\n\ntmpl.link(\"#result\", person, {changeName: function() {\n  swapped = !swapped;\n  $.observable(person).setProperty(\"name\", swapped ? \"Jethro <em>Tull</em>\" : \"Jo <b>Blow</b>\");\n}});",
-        "height": "144"
+        "height": "110"
       },
       {
         "_type": "para",
         "title": "HTML encoding of data-linked text",
-        "text": "The following approaches all guarantee HTML encoding -- and therefore protect against HTML injection from data containing untrusted markup:\n\n```jsr\n<div data-link=\"name\"></div>\n<div data-link=\"text{:name}\"></div>\n<div data-link=\"html{>name}\"></div>\n{^{>name}}\n```\n\nTo insert HTML markup *without encoding* (for example, from *trusted* markup in data), either of the following styles can be used:\n\n```jsr\n<div data-link=\"html{:name}\"></div>\n{^{:name}}<br/>\n```\n"
+        "text": "The following approaches all guarantee HTML encoding -- and therefore protect against HTML injection from data containing untrusted markup:\n\n```jsr\n<div data-link=\"name\"></div>\n<div data-link=\"text{:name}\"></div>\n<div data-link=\"html{>name}\"></div>\n{^{>name}}\n```\n\n(See [*Encoding to avoid XSS*](#link2way@encode)).\n\nTo insert HTML markup *without encoding* (for example, from *trusted* markup in data), either of the following styles can be used:\n\n```jsr\n<div data-link=\"html{:name}\"></div>\n{^{:name}}<br/>\n```\n"
       },
       {
         "_type": "para",
@@ -3627,7 +3504,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<style>\n  .redColor {color:red;}\n  .blueColor {color:blue;}\n  .greenBorder {border:1px solid green;}\n  .yellowBackground {background-color:yellow;}\n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n\n  <em>Data-link class to string:</em><br/><br/>\n\n  {^{on ~setClassString}}Set class{{/on}} <br/><br/>\n\n  <div data-link=\"class{:classString}\">\n    Data-link class to string\n  </div><br/>\n\n  <em>Toggle individual class names:</em><br/><br/>\n\n  <label><input type=\"checkbox\" data-link=\"isFoo\" /> isFoo</label> <br/><br/>\n\n  <div class=\"greenBorder\" data-link=\"\n    class{merge:isFoo toggle='redColor'}\n    class{merge:isFoo toggle='yellowBackground'}\n    class{merge:!isFoo toggle='blueColor'}\n  \">Toggle individual class names</div>\n\n</script>",
         "code": "function setClassString() {\n  swapped = !swapped;\n  $.observable(data).setProperty(\n    \"classString\",\n    swapped\n      ? \"redColor greenBorder yellowBackground\"\n      : \"blueColor greenBorder\"\n  );\n}\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  isFoo: false,\n  classString: \"blueColor greenBorder\"\n};\nvar swapped = false;\n\ntmpl.link(\"#result\", data, {setClassString: setClassString});\n",
-        "height": "254"
+        "height": "224"
       },
       {
         "_type": "para",
@@ -3836,7 +3713,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Determining the target element",
-        "text": "The `data-link=\"{on ...}\"` binding and the `{^{on ...}}` tag provide alternative (and generally equivalent) ways of attaching handler actions to HTML elements -- differing only in how they determine which element is used:\n\n- With `data-link`, the element is the data-linked element\n\n  ```jsr\n  <button data-link=\"{on ~doSomething}\">\n    Click me\n  </button>\n  ```\n- With `{^{on ...}}` the element is the element (or elements) wrapped by the tag\n\n  ```jsr\n  {^{on ~doSomething}}\n    <button>\n      Click me\n    </button>\n  {{/on}}\n  ```\n\nThe HTML element above can of course be *any* HTML element -- not necessarily `<button>`. But in the particular case of an `{^{on}}` tag wrapping a `<button>`, a simpler format is available -- since the `{^{on}}` tag wrapping only text will automatically render itself as a `<button>`:"
+        "text": "The `data-link=\"{on ...}\"` binding and the `{^{on ...}}` tag provide alternative (and generally equivalent) ways of attaching handler actions to HTML elements -- differing only in how they determine which element is used:\n\n- With `data-link`, the element is the data-linked element\n  ```jsr\n  <button data-link=\"{on ~doSomething}\">\n    Click me\n  </button>\n  ```\n- With `{^{on ...}}` the element is the element (or elements) wrapped by the tag\n  ```jsr\n  {^{on ~doSomething}}\n    <button>\n      Click me\n    </button>\n  {{/on}}\n  ```\n\nThe HTML element above can of course be *any* HTML element -- not necessarily `<button>`. But in the particular case of an `{^{on}}` tag wrapping a `<button>`, a simpler format is available -- since the `{^{on}}` tag wrapping only text will automatically render itself as a `<button>`:"
       },
       {
         "_type": "para",
@@ -3859,10 +3736,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<button data-link=\"{on ~doSomething}\" id=\"btn0\">Click me</button>\n\n{^{on ~doSomething}}<button id=\"btn1\">Click me</button>{{/on}}\n\n{^{on ~doSomething}}Click me{{/on}}\n\n{^{on ~doSomething tmpl=\"Click me\" /}}\n\n{^{on ~doSomething /}}\n\n{^{on ~doSomething height=13 width=75 class=\"red\" id=\"btn5\"}}Click me{{/on}}\n```\n"
+            "text": "```jsr\n<button data-link=\"{on ~doSomething}\" id=\"btn0\">Click me</button>\n\n{^{on ~doSomething}}<button id=\"btn1\">Click me</button>{{/on}}\n\n{^{on ~doSomething}}Click me{{/on}}\n\n{^{on ~doSomething tmpl=\"Click me\" /}}\n\n{^{on ~doSomething /}}\n\n{^{on ~doSomething height=18 width=75 class=\"red\" id=\"btn5\"}}Click me{{/on}}\n```\n"
           }
         ],
-        "html": "<style>\n  .red {color: red;}\n</style>\n\n<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on ~doSomething}\" id=\"btn0\">Click me</button>\n\n  {^{on ~doSomething}}<button id=\"btn1\">Click me</button>{{/on}}\n\n  {^{on ~doSomething}}Click me{{/on}}\n\n  {^{on ~doSomething tmpl=\"Click me\" /}}\n\n  {^{on ~doSomething /}}\n\n  {^{on ~doSomething height=13 width=75 class=\"red\" id=\"btn5\"}}Click me{{/on}}\n</script>",
+        "html": "<style>\n  .red {color: red;}\n</style>\n\n<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on ~doSomething}\" id=\"btn0\">Click me</button>\n\n  {^{on ~doSomething}}<button id=\"btn1\">Click me</button>{{/on}}\n\n  {^{on ~doSomething}}Click me{{/on}}\n\n  {^{on ~doSomething tmpl=\"Click me\" /}}\n\n  {^{on ~doSomething /}}\n\n  {^{on ~doSomething height=18 width=75 class=\"red\" id=\"btn5\"}}Click me{{/on}}\n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function(ev) {\n    alert(\"do something. id: \" + ev.target.id);\n  }\n}\n\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n",
         "height": "45"
       },
@@ -3891,7 +3768,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "height": "180",
-        "html": "<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label><input type=\"checkbox\" data-link=\"{on 'change' change}\"/> Decrease on change</label>\n\n  {^{on \"mouseup mousedown\" mouseUpAndDown}}Increase on up and down{{/on}} <br/><br/>\n\n  <form data-link=\"{on 'submit' formSubmit}\">\n    Age: {^{>age}} <br/>\n    Name: <input data-link=\"name\" /> <br/>\n    Submitted: {^{>submitted}} <br/><br/>\n\n    <button type=\"submit\">Submit</button>\n  </form> \n</script>",
+        "html": "<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label><input type=\"checkbox\" data-link=\"{on 'change' change}\"/> Decrease on change</label>\n\n  {^{on \"mouseup mousedown\" mouseUpAndDown}}Increase on up and down{{/on}} <br/>\n\n  <form data-link=\"{on 'submit' formSubmit}\">\n    Age: {^{>age}} <br/>\n    Name: <input data-link=\"name\" /> <br/>\n    Submitted: {^{>submitted}} <br/><br/>\n\n    <button type=\"submit\">Submit</button>\n  </form> \n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {\n  name: \"Jo\",\n  age: 20,\n  submitted: false,\n  change: function() {\n    $.observable(this).setProperty({\n      age: this.age - 1,\n      submitted: false\n    });\n  },\n  mouseUpAndDown: function() {\n    $.observable(this).setProperty({\n      age: this.age + 1,\n      submitted: false\n    });\n  },\n  formSubmit: function() {\n    $.observable(this).setProperty(\"submitted\", true);\n    return false;\n  }  \n};\n\ntmpl.link(\"#result\", person); // Render and link the template\n"
       },
       {
@@ -3917,7 +3794,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```jsr\n<input type=\"checkbox\" data-link=\"{on 'change' change}\"/> ...\n\n<button data-link=\"{on 'mouseup mousedown' mouseUpAndDown}\"> ...\n\n<form data-link=\"{on 'submit' formSubmit}\"> ...\n```\n"
           }
         ],
-        "html": "<span id=\"result\"></span>\n\n<div id=\"linkedContent\">\n  <label><input type=\"checkbox\" data-link=\"{on 'change' change}\"/> Decrease on change</label>\n\n  <button data-link=\"{on 'mouseup mousedown' mouseUpAndDown}\">Increase on up and down</button> <br/><br/>\n\n  <form data-link=\"{on 'submit' formSubmit}\">\n    Age: <span data-link=\"age\"></span> <br/>\n    Name: <input data-link=\"name\" /> <br/>\n    Submitted: <span data-link=\"submitted\"></span> <br/><br/>\n\n    <button type=\"submit\" value=\"x\">Submit</button>\n  </form> \n</div>",
+        "html": "<span id=\"result\"></span>\n\n<div id=\"linkedContent\">\n  <label><input type=\"checkbox\" data-link=\"{on 'change' change}\"/> Decrease on change</label>\n\n  <button data-link=\"{on 'mouseup mousedown' mouseUpAndDown}\">Increase on up and down</button> <br/>\n\n  <form data-link=\"{on 'submit' formSubmit}\">\n    Age: <span data-link=\"age\"></span> <br/>\n    Name: <input data-link=\"name\" /> <br/>\n    Submitted: <span data-link=\"submitted\"></span> <br/><br/>\n\n    <button type=\"submit\" value=\"x\">Submit</button>\n  </form> \n</div>",
         "code": "var person = {\n  name: \"Jo\",\n  age: 20,\n  submitted: false,\n  change: function() {\n    $.observable(this).setProperty({\n      age: this.age - 1,\n      submitted: false\n    });\n  },\n  mouseUpAndDown: function() {\n    $.observable(this).setProperty({\n      age: this.age + 1,\n      submitted: false\n    });\n  },\n  formSubmit: function() {\n    $.observable(this).setProperty(\"submitted\", true);\n    return false;\n  }  \n};\n\n$.link(true, \"#linkedContent\", person); // Data-link top-level content\n",
         "height": "180"
       },
@@ -4000,10 +3877,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n{^{on 'click' '.addBtn' add}}\n{^{on 'click' '.remove' remove}}\n{^{on 'click' 'li' select}}\n  <button class=\"addBtn\">add</button>\n  <ul>\n    {^{for items}}\n      <li>{{>label}} <span class=\"remove\"></span></li>\n      ...\n```"
+            "text": "```jsr\n{^{on 'click' '.addBtn' add}}\n  {^{on 'click' '.remove' remove}}\n    {^{on 'click' 'li' select}}\n      <button class=\"addBtn\">add</button>\n      <ul>\n        {^{for items}}\n          <li>{{>label}} <span class=\"remove\"></span></li>\n          ...\n```"
           }
         ],
-        "html": "<style>\nul { margin: 0; padding-left: 0;}\nli {border: 1px solid green; width: 100px; background-color: white; cursor: pointer; list-style: none;}\n</style>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on 'click' '.addBtn' add}}\n  {^{on 'click' '.remove' remove}}\n  {^{on 'click' 'li' select}}\n    <button class=\"addBtn\">add</button>\n    <ul>\n      {^{for items}}\n        <li>{{>label}} <span class=\"remove\"></span></li>\n      {{/for}}\n    </ul>\n  {{/on}}\n  {{/on}}\n  {{/on}}\n</script>\n\n<div id=\"result\"></div>\n",
+        "html": "<style>\nul { margin: 0; padding-left: 0;}\nli {border: 1px solid green; width: 100px; background-color: white; cursor: pointer; list-style: none;}\n</style>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on 'click' '.addBtn' add}}\n    {^{on 'click' '.remove' remove}}\n      {^{on 'click' 'li' select}}\n        <button class=\"addBtn\">add</button>\n        <ul>\n          {^{for items}}\n            <li>{{>label}} <span class=\"remove\"></span></li>\n          {{/for}}\n        </ul>\n      {{/on}}\n    {{/on}}\n  {{/on}}\n</script>\n\n<div id=\"result\"></div>\n",
         "code": "var cnt = 0,\ndata = {\n  add: function(ev, eventArgs) {\n    $.observable(data.items).insert({label: \"new\" + cnt++});\n  }, \n  remove: function(ev, eventArgs) {\n    var index = $.view(ev.target).index\n    $.observable(data.items).remove(index);\n    return false;\n  },\n  select: function(ev, eventArgs) {\n    var targetStyle = ev.target.style;\n    targetStyle.backgroundColor = targetStyle.backgroundColor===\"yellow\" ? \"white\" : \"yellow\";\n  },  \n  items: [\n    {label: \"one\"},\n    {label: \"two\"},\n    {label: \"three\"}\n  ]\n};\n\n$.templates(\"#tmpl\").link(\"#result\", data); // Render and link template",
         "height": "140"
       },
@@ -4216,12 +4093,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*Markup:* \n\n```jsr\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <b>[[:title]]</b>\n  <ul>\n    [[for members]]\n      <li>Name: [*[:name>]] <input data-link=\"name\"/></li>\n    [[/for]]\n  </ul>\n</script>\n```\n\n*Code*\n\n```js\n$.views.settings.delimiters(\"[[\", \"]]\", \"*\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n...\n```"
+            "text": "*Markup:* \n\n```jsr\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <b>[[>title]]</b>\n  <ul>\n    [[for members]]\n      <li>Name: [*[>name>]] <input data-link=\"name\"/></li>\n    [[/for]]\n  </ul>\n</script>\n```\n\n*Code*\n\n```js\n$.views.settings.delimiters(\"[[\", \"]]\", \"*\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n...\n```"
           }
         ],
-        "html": "<div id=\"result\">\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <b>[[:title]]</b>\n  <ul>\n    [[for members]]\n      <li>Name: [*[:name]] <input data-link=\"name\"/></li>\n    [[/for]]\n  </ul>\n</script>\n",
+        "html": "<div id=\"result\">\n\n<script id=\"peopleTmpl\" type=\"text/x-jsrender\">\n  <b>[[>title]]</b>\n  <ul>\n    [[for members]]\n      <li>Name: [*[>name]] <input data-link=\"name\"/></li>\n    [[/for]]\n  </ul>\n</script>\n",
         "code": "$.views.settings.delimiters(\"[[\", \"]]\", \"*\");\n\nvar tmpl = $.templates(\"#peopleTmpl\");\n\nvar team = {\n    title: \"A team\",\n    members: [{name: \"Jo\"}]\n  };\n\ntmpl.link(\"#result\", team);",
-        "height": "90",
+        "height": "80",
         "title": "Choosing alternative tag delimiters, with JsViews"
       },
       {
@@ -4259,7 +4136,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Triggering two-way binding on <b>blur</b>, rather than on <b>keydown</b>",
-        "text": "In the case of *[text boxes](#link-input@textbox)*, *[textarea](#link-textarea)*, *[contenteditable](#link-contenteditable)* and some *custom tags*, you can choose whether changes to the underlying data are triggered as you type (on *keydown*), or only on leaving the input control (on *change* or *blur*)\n\nAllowed values for *trigger* are:\n\n- `true` -- data updates as you type -- on *keydown* \n- `false` -- data updates on *change* (when the input loses focus) \n"
+        "text": "In the case of *[textboxes](#link-input@textbox)*, *[textarea](#link-textarea)*, *[contenteditable](#link-contenteditable)* and some *custom tags*, you can choose whether changes to the underlying data are triggered as you type (on *keydown*), or only on leaving the input control (on *change* or *blur*)\n\nAllowed values for *trigger* are:\n\n- `true` -- data updates as you type -- on *keydown* \n- `false` -- data updates on *change* (when the input loses focus) \n"
       },
       {
         "_type": "para",
@@ -4408,7 +4285,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label><input type=\"checkbox\" checked id=\"attach\"/> Change Log</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
-        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Data: hierarchy of plain objects and arrays\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n// Render and link template against plain object hierarchy\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: {street: \"New Street\"},\n    phones: [{number: \"123 123 1234\"}, {number: \"321 321 4321\"}]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones).insert({\n    number: \"456 456 4567\"\n  });\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Data: hierarchy of plain objects and arrays\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n// Render and link template against plain object hierarchy\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: {street: \"New Street\"},\n    phones: [{number: \"123 123 1234\"}, {number: \"321 321 4321\"}]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones).insert({\n    number: \"456 456 4567\"\n  });\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \"\n      + $.views.converters.encode(JSON.stringify(eventArgs[key])) + \"</div>\";\n      // (Note that we encode < > and & as HTML entities, for display)\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "title": "Render and link template directly against plain objects..."
       },
@@ -4479,7 +4356,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n<script src=\"mvvm/person-view-models-jsv.js\" ></script>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button>\n  <button id=\"setObjects\">Call setters</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <input type=\"checkbox\" checked id=\"attach\"/>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
-        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Instantiate View Model hierarchy\nvar person = new Person(\n  \"Pete\",\n  new Address(\"1st Ave\"),\n  [new Phone(\"111 111 1111\"), new Phone(\"222 222 2222\")]\n);\n\n// Render and link the template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() { // Use setProperty to make changes\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: new Address(\"New Street\"),\n    phones: [new Phone(\"123 123 1234\"), new Phone(\"321 321 4321\")]\n  });\n});\n\n$(\"#setObjects\").on(\"click\", function() {    // Use setters to make changes\n  person.name(\"setPete\");\n  person.address(new Address(\"Set Road\"));\n  person.phones([new Phone(\"987 987 9876\")]);\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones()).insert(new Phone(\"456 456 4567\"));\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Instantiate View Model hierarchy\nvar person = new Person(\n  \"Pete\",\n  new Address(\"1st Ave\"),\n  [new Phone(\"111 111 1111\"), new Phone(\"222 222 2222\")]\n);\n\n// Render and link the template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() { // Use setProperty to make changes\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: new Address(\"New Street\"),\n    phones: [new Phone(\"123 123 1234\"), new Phone(\"321 321 4321\")]\n  });\n});\n\n$(\"#setObjects\").on(\"click\", function() {    // Use setters to make changes\n  person.name(\"setPete\");\n  person.address(new Address(\"Set Road\"));\n  person.phones([new Phone(\"987 987 9876\")]);\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones()).insert(new Phone(\"456 456 4567\"));\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \"\n      + $.views.converters.encode(JSON.stringify(eventArgs[key])) + \"</div>\";\n      // (Note that we encode < > and & as HTML entities, for display)\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "title": "Render and link template against a 'hand-coded' View Model object hierarchy",
         "anchor": "linkvmsample"
@@ -4519,7 +4396,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button>\n  <button id=\"setObjects\">Call setters</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <input type=\"checkbox\" checked id=\"attach\"/>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
-        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  this.phones().push(Phone(phoneNo));\n}\n\n// Compile Person View Model, with addPhone method\nvar Person = $.views.viewModels({\n  getters: [\"name\", \"address\", \"phones\"],\n  extend: {addPhone: addPhone}\n});\n\n// Compile Address View Model\nvar Address = $.views.viewModels({getters: [\"street\"]});\n\n// Compile Phone View Model\nvar Phone = $.views.viewModels({getters: [\"number\"]});\n\n// Instantiate View Model hierarchy using constructors\nvar person = Person(\n  \"Pete\",\n  Address(\"1st Ave\"),\n  [Phone(\"111 111 1111\"), Phone(\"222 222 2222\")]\n);\n\n// Render and link the template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() { // Use setProperty to make changes\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: Address(\"New Street\"),\n    phones: [Phone(\"123 123 1234\"), Phone(\"321 321 4321\")]\n  });\n});\n\n$(\"#setObjects\").on(\"click\", function() {    // Use setters to make changes\n  person.name(\"setPete\");\n  person.address(Address(\"Set Road\"));\n  person.phones([Phone(\"987 987 9876\")]);\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones()).insert(Phone(\"456 456 4567\"));\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  this.phones().push(Phone(phoneNo));\n}\n\n// Compile Person View Model, with addPhone method\nvar Person = $.views.viewModels({\n  getters: [\"name\", \"address\", \"phones\"],\n  extend: {addPhone: addPhone}\n});\n\n// Compile Address View Model\nvar Address = $.views.viewModels({getters: [\"street\"]});\n\n// Compile Phone View Model\nvar Phone = $.views.viewModels({getters: [\"number\"]});\n\n// Instantiate View Model hierarchy using constructors\nvar person = Person(\n  \"Pete\",\n  Address(\"1st Ave\"),\n  [Phone(\"111 111 1111\"), Phone(\"222 222 2222\")]\n);\n\n// Render and link the template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() { // Use setProperty to make changes\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: Address(\"New Street\"),\n    phones: [Phone(\"123 123 1234\"), Phone(\"321 321 4321\")]\n  });\n});\n\n$(\"#setObjects\").on(\"click\", function() {    // Use setters to make changes\n  person.name(\"setPete\");\n  person.address(Address(\"Set Road\"));\n  person.phones([Phone(\"987 987 9876\")]);\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones()).insert(Phone(\"456 456 4567\"));\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \"\n      + $.views.converters.encode(JSON.stringify(eventArgs[key])) + \"</div>\";\n      // (Note that we encode < > and & as HTML entities, for display)\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "anchor": "compilevmsample",
         "title": "Render and link template against a compiled View Model object hierarchy"
@@ -4563,7 +4440,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button>\n  <button id=\"setObjects\">Call setters</button><br/>\n  <button id=\"swapObjects\">Swap address and phones</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <span class=\"floatleft\">{^{:number()}}</span>\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
-        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  this.phones().push(Phone(phoneNo));\n}\n\n// Compile Person View Model, with addPhone method\nvar Person = $.views.viewModels({\n  getters: [\"name\", \"address\", \"phones\"],\n  extend: {addPhone: addPhone}\n});\n\n// Compile Address View Model\nvar Address = $.views.viewModels({getters: [\"street\"]});\n\n// Compile Phone View Model\nvar Phone = $.views.viewModels({getters: [\"number\"]});\n\n// Instantiate View Model hierarchy\nvar alt = false,\n  address1 = Address(\"1st Ave\"),\n  phones1 = [Phone(\"111 111 1111\"), Phone(\"222 222 2222\")],\n  address2 = Address(\"New Street\"),\n  phones2 = [Phone(\"123 123 1234\")],\n  person = Person(\"Pete\", address1, phones1);\n\n// Render and link the template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Observe specific properties on specific objects\n$.observe(person, \"name\", \"phones\", \"address\", person.phones(), person.address(), \"street\", changeHandler);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() { // Modify leaf values by observable changes of data\n  $.observable(person).setProperty(\"name\", person.name() + \"+\");\n  $.observable(person.address()).setProperty(\"street\", person.address().street() + \"+\");\n});\n\n$(\"#setObjects\").on(\"click\", function() { // Modify leaf values by calling setters\n  person.name(person.name() + \"*\");\n  person.address().street(person.address().street() + \"*\");\n});\n\n$(\"#swapObjects\").on(\"click\", function() {\n  // Swap the objects (optionally, remove our specific observers)\n  $.unobserve(person.address(), \"street\", changeHandler);\n  $.unobserve(person.phones(), changeHandler);\n\n  person.address(alt ? address1 : address2);\n  person.phones(alt ? phones1 : phones2);\n\n  // observe new objects object on specific paths (if not already observing)\n  $.observe(person.address(), \"street\", changeHandler);\n  $.observe(person.phones(), changeHandler);\n\n  alt = !alt;\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones()).insert(new Phone(\"456 456 4567\"));\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  this.phones().push(Phone(phoneNo));\n}\n\n// Compile Person View Model, with addPhone method\nvar Person = $.views.viewModels({\n  getters: [\"name\", \"address\", \"phones\"],\n  extend: {addPhone: addPhone}\n});\n\n// Compile Address View Model\nvar Address = $.views.viewModels({getters: [\"street\"]});\n\n// Compile Phone View Model\nvar Phone = $.views.viewModels({getters: [\"number\"]});\n\n// Instantiate View Model hierarchy\nvar alt = false,\n  address1 = Address(\"1st Ave\"),\n  phones1 = [Phone(\"111 111 1111\"), Phone(\"222 222 2222\")],\n  address2 = Address(\"New Street\"),\n  phones2 = [Phone(\"123 123 1234\")],\n  person = Person(\"Pete\", address1, phones1);\n\n// Render and link the template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Observe specific properties on specific objects\n$.observe(person, \"name\", \"phones\", \"address\", person.phones(), person.address(), \"street\", changeHandler);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() { // Modify leaf values by observable changes of data\n  $.observable(person).setProperty(\"name\", person.name() + \"+\");\n  $.observable(person.address()).setProperty(\"street\", person.address().street() + \"+\");\n});\n\n$(\"#setObjects\").on(\"click\", function() { // Modify leaf values by calling setters\n  person.name(person.name() + \"*\");\n  person.address().street(person.address().street() + \"*\");\n});\n\n$(\"#swapObjects\").on(\"click\", function() {\n  // Swap the objects (optionally, remove our specific observers)\n  $.unobserve(person.address(), \"street\", changeHandler);\n  $.unobserve(person.phones(), changeHandler);\n\n  person.address(alt ? address1 : address2);\n  person.phones(alt ? phones1 : phones2);\n\n  // observe new objects object on specific paths (if not already observing)\n  $.observe(person.address(), \"street\", changeHandler);\n  $.observe(person.phones(), changeHandler);\n\n  alt = !alt;\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones()).insert(new Phone(\"456 456 4567\"));\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \"\n      + $.views.converters.encode(JSON.stringify(eventArgs[key])) + \"</div>\";\n      // (Note that we encode < > and & as HTML entities, for display)\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "title": "Using $.observe() to observe View Model objects"
       },
@@ -4699,7 +4576,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~doSomething}}Do something{{/on}}\n  <button data-link=\"{on ~doSomething}\">Do something</button>\n  <input type=\"button\" data-link=\"{on ~doSomething}\" value=\"Do something\" />\n</script>",
-        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function() {\n    alert(\"do something\");\nreturn false;\n  }\n}\n\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function() {\n    alert(\"do something\");\n  }\n}\n\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n",
         "height": "45"
       },
       {
@@ -4763,7 +4640,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```jsr\n<button data-link=\"\n  disabled{:disableButton}\n  title{:'Message: &quot;' + theTitle + '&quot;'}\n  data-myvalue{:myVal}\n  class{:disableButton ? 'class2' : 'class1'}\n\">\n```\n"
           }
         ],
-        "html": "<style>\n.class1 {color:green;}\n.class2 {color:red;}\n</style>\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"\n    disabled{:disableButton}\n    title{:'Message: &quot;' + theTitle + '&quot;'}\n    data-myvalue{:myVal}\n    class{:disableButton ? 'class2' : 'class1'}\n  \">\n    I am {^{:disableButton?'disabled':'enabled'}}\n  </button><br/><br/>\n\n  <label><input data-link=\"disableButton\" type=\"checkbox\" /> Disable</label><br/>\n  <label>Set button title: <input data-link=\"theTitle\" /></label> (To see it, hover over the button...)<br/>\n  <label>data-myvalue property: <input data-link=\"myVal\" /></label> (To see it, click on the button...)\n</script>\n\n",
+        "html": "<style>\n.class1 {border-color:green;}\n.class2 {border-color:red;}\n</style>\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"\n    disabled{:disableButton}\n    title{:'Message: &quot;' + theTitle + '&quot;'}\n    data-myvalue{:myVal}\n    class{:disableButton ? 'class2' : 'class1'}\n  \">\n    I am {^{:disableButton?'disabled':'enabled'}}\n  </button><br/><br/>\n\n  <label><input data-link=\"disableButton\" type=\"checkbox\" /> Disable</label><br/>\n  <label>Set button title: <input data-link=\"theTitle\" /></label> (To see it, hover over the button...)<br/>\n  <label>data-myvalue property: <input data-link=\"myVal\" /></label> (To see it, click on the button...)\n</script>\n\n",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  theTitle: \"the title\",\n  disableButton: false,\n  myVal: \"My value\"\n}\n\ntmpl.link(\"#result\", data);\n\n$(\"button\").on('click', function() {\n  alert(\n    $(this).data(\"myvalue\") // Can use 'this.dataset.myvalue' for HTML 5 browsers\n  );\n})\n",
         "height": "140"
       },
@@ -4928,7 +4805,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "anchor": "",
         "height": "320",
         "html": "<link href=\"editable-data/sample.css\" rel=\"stylesheet\"/>\n\n<!----------------- Data-linked content -------------------> \n<div class=\"linkedContent\">\n  <div class=\"buttons\">\n    <button data-link=\"{on ~showData}\">show data</button>\n    <button data-link=\"{on ~deleteLast}\">delete last language</button>\n    <button data-link=\"{on ~undo} disabled{:msg !== ''}\">Undo</button>\n  </div>\n\n  <form data-link=\"{on 'submit' ~saveData}\">\n    <button class=\"buttons\" type=\"submit\"\n     data-link=\"disabled{:msg !== ''}\">Submit Changes</button>\n\n    <div class=\"comment\">Click to select and edit</div>\n    <table data-link=\"\n      {on 'click' '.addMovie' ~addMovie}\n      {on 'click' '.movies tr' ~select}\n      {on 'click' '.removeMovie' ~removeMovie}\n    \">\n      <thead><tr>\n        <th>Title</th><th>Languages</th>\n        <th><span class=\"addMovie\">Add</span></th>\n      </tr></thead>\n      <tbody class=\"movies\"\n        data-link=\"{for movies tmpl='#movieTemplate'}\"></tbody>\n    </table>\n\n    <div class=\"detail\"\n      data-link=\"{for movies[selectedIndex] tmpl='#detailTemplate'}\n        {on 'click' '.addLanguage' ~addLanguage}\n        {on 'click' '.removeLanguage' ~removeLanguage}\n    \"></div>\n  </form>\n\n  <div class=\"message\" data-link=\"msg\"></div>\n</div>\n\n<!----------------- Templates ------------------->\n<script id=\"movieTemplate\" type=\"text/x-jsrender\">\n  <tr class=\"hover\" data-link=\"css-background-color{:~bgColor(#index)}\">\n    <td>\n      <span data-link=\"#index + 1\"></span>:\n      <span data-link=\"title\"></span>\n    </td>\n    <td>\n      {^{for languages}}\n        <div data-link=\"name\"></div>\n      {{/for}}\n    </td>\n    <td><span class=\"removeMovie\"></span></td>\n  </tr>\n</script>\n\n<script id=\"detailTemplate\" type=\"text/x-jsrender\">\n  <div>\n    <div class=\"title\">Title:</div>\n    <div><input data-link=\"title\" /></div>\n    <div class=\"title\">\n      Languages: <span class=\"addLanguage\">Add</span>\n    </div>\n    {^{for languages ~movie=#data}}\n      <input data-link=\"name\" />\n      <span class=\"removeLanguage\"\"></span>\n    {{/for}}\n  </div>\n</script>\n\n<!----------------- Show data ------------------->\n<script id=\"showData\" type=\"text/x-jsrender\">\n  <hr/>\n  {{for movies}}<div>\n    <b>Movie:</b> {{>title}}\n    <b>Languages:</b> {{for languages}} {{>name}}{{/for}}\n  </div>{{/for}}\n</script>\n\n<div id=\"console\"></div>",
-        "code": "var VMs = $.views.viewModels,\n  counter = 0,\n\n  // Initial data\n  app = {\n    msg: null,\n    selectedIndex: null,\n    movies: [\n      {\n        title:\"Meet Joe Black\",\n        languages: [\n          {name: \"English\"},\n          {name: \"French\"}\n        ]\n      },\n      {\n        title:\"Eyes Wide Shut\",\n        languages: [\n          {name: \"German\"},\n          {name: \"French\"},\n          {name: \"Spanish\"}\n        ]\n      }\n    ],\n    select: function(index) {\n      if (this.selectedIndex !== index) {\n        $.observable(this)\n          .setProperty(\"selectedIndex\", index);\n      }\n    },\n    showMsg: function(msg) {\n      $.observable(this).setProperty(\"msg\", msg);\n    }\n  },\n\n  savedData = JSON.stringify(app.movies),\n\n  handlers = {\n    undo: function() {\n      // Revert to previous savedData\n      $.observable(this.movies).refresh(JSON.parse(savedData));\n      $.observable(this).removeProperty(\"selectedIndex\");\n    },\n    saveData: function() {\n      // Make new savedData snapshot\n      savedData = JSON.stringify(this.movies);\n\n      // In real app, uncomment to save current data to the server:\n      // $.post(\"/save/data\", {movieData : savedData}, function(msg) {\n        var msg = \"In a real app, updated data would have been saved to server\";\n        this.showMsg(msg); // Display message\n      //});\n      return false; // Do not do default form action for submit\n    },\n    addMovie: function() {\n      $.observable(this.movies).insert({\n        title: \"NewTitle\" + counter ,\n        languages: [\n          {name: \"NewLanguage\" + counter++}\n        ]}\n      );\n      // Set selection on the added item\n      this.select($.view(\".movies tr:last\").index);\n    },\n    removeMovie: function(ev, evtArgs) {\n      this.select(); // unselect\n      var thisIndex = $.view(ev.target).index;\n      $.observable(this.movies).remove(thisIndex);\n      return false;\n    },\n    addLanguage: function(ev, evtArgs) {\n      var selectedMovie = this.movies[this.selectedIndex];\n      $.observable(selectedMovie.languages).insert({\n        name: \"NewLanguage\" + counter++\n      });\n    },\n    removeLanguage: function(ev, evtArgs) {\n      var selectedMovie = this.movies[this.selectedIndex];\n      var thisIndex = $.view(ev.currentTarget).index;\n      $.observable(selectedMovie.languages).remove(thisIndex);\n      return false;\n    },\n    select: function(ev, evtArgs) {\n      this.select($.view(ev.currentTarget).index);\n    },\n    deleteLast: function() {\n      if (this.movies.length) {\n        var languages = this.movies[this.movies.length - 1].languages;\n        $.observable(languages).remove();\n      }\n    },\n    showData: function() {\n      $(\"#console\").append($(\"#showData\").render(this));\n    },\n    bgColor: bgColor\n  };\n\n// Background color helper function\nfunction bgColor() {\n  return app.selectedIndex === this.index\n    ? \"yellow\"\n    : (this.index%2 ? \"#fdfdfe\" : \"#efeff2\");\n}\n\nbgColor.depends = [\"#index\", app, \"selectedIndex\"];\n\n$.observable(app.movies).observeAll(function() {\n  app.showMsg(\"\"); \n// If there have been any changes made to the movies data we clear\n\t//the Saved... message and this also drives the Save button\n\t//disabled property and the \"navigate away\" behavior.\n});\n\n// \"Navigate away\" behavior\n$(window).on('beforeunload', function(){\n  return app.msg === \"\" ? \"You have unsaved changes.\" : undefined;\n});\n\n$.link(true, \".linkedContent\", app, handlers);",
+        "code": "var VMs = $.views.viewModels,\n  counter = 0,\n\n  // Initial data\n  app = {\n    msg: null,\n    selectedIndex: null,\n    movies: [\n      {\n        title:\"Meet Joe Black\",\n        languages: [\n          {name: \"English\"},\n          {name: \"French\"}\n        ]\n      },\n      {\n        title:\"Eyes Wide Shut\",\n        languages: [\n          {name: \"German\"},\n          {name: \"French\"},\n          {name: \"Spanish\"}\n        ]\n      }\n    ],\n    select: function(index) {\n      if (this.selectedIndex !== index) {\n        $.observable(this)\n          .setProperty(\"selectedIndex\", index);\n      }\n    },\n    showMsg: function(msg) {\n      $.observable(this).setProperty(\"msg\", msg);\n    }\n  },\n\n  savedData = JSON.stringify(app.movies),\n\n  handlers = {\n    undo: function() {\n      // Revert to previous savedData\n      $.observable(this.movies).refresh(JSON.parse(savedData));\n      $.observable(this).removeProperty(\"selectedIndex\");\n    },\n    saveData: function() {\n      // Make new savedData snapshot\n      savedData = JSON.stringify(this.movies);\n\n      // In real app, uncomment to save current data to the server:\n      // $.post(\"/save/data\", {movieData : savedData}, function(msg) {\n        var msg = \"In a real app, updated data would have been saved to server\";\n        this.showMsg(msg); // Display message\n      //});\n      return false; // Do not do default form action for submit\n    },\n    addMovie: function() {\n      $.observable(this.movies).insert({\n        title: \"NewTitle\" + counter ,\n        languages: [\n          {name: \"NewLanguage\" + counter++}\n        ]}\n      );\n      // Set selection on the added item\n      this.select($.view(\".movies tr:last\").index);\n    },\n    removeMovie: function(ev, evtArgs) {\n      this.select(); // unselect\n      var thisIndex = $.view(ev.target).index;\n      $.observable(this.movies).remove(thisIndex);\n      return false;\n    },\n    addLanguage: function(ev, evtArgs) {\n      var selectedMovie = this.movies[this.selectedIndex];\n      $.observable(selectedMovie.languages).insert({\n        name: \"NewLanguage\" + counter++\n      });\n    },\n    removeLanguage: function(ev, evtArgs) {\n      var selectedMovie = this.movies[this.selectedIndex];\n      var thisIndex = $.view(ev.currentTarget).index;\n      $.observable(selectedMovie.languages).remove(thisIndex);\n      return false;\n    },\n    select: function(ev, evtArgs) {\n      this.select($.view(ev.currentTarget).index);\n    },\n    deleteLast: function() {\n      if (this.movies.length) {\n        var languages = this.movies[this.movies.length - 1].languages;\n        $.observable(languages).remove();\n      }\n    },\n    showData: function() {\n      $(\"#console\").append($(\"#showData\").render(this));\n    },\n    bgColor: bgColor\n  };\n\n// Background color helper function\nfunction bgColor() {\n  return app.selectedIndex === this.index\n    ? \"yellow\"\n    : (this.index%2 ? \"#fdfdfe\" : \"#efeff2\");\n}\n\nbgColor.depends = [\"#index\", app, \"selectedIndex\"];\n\n$.observable(app.movies).observeAll(function() {\n  app.showMsg(\"\"); \n// If there have been any changes made to the movies data we clear\n// the Saved... message and this also drives the Save button\n// disabled property and the \"navigate away\" behavior.\n});\n\n// \"Navigate away\" behavior\n$(window).on('beforeunload', function(){\n  return app.msg === \"\" ? \"You have unsaved changes.\" : undefined;\n});\n\n$.link(true, \".linkedContent\", app, handlers);",
         "title": "MVVM Save/Undo, using plain objects"
       },
       {
@@ -5105,7 +4982,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"update\">Update</button>\n  <button id=\"revert\">Revert</button>\n  <button id=\"getData\">Get Data</button><br/>\n  <button id=\"changeName\">Change name</button>\n  <button id=\"addPhone\">Add Phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label><input type=\"checkbox\" checked id=\"attach\"/> Change Log</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\"/></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\"/></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table></script>",
-        "code": "var tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                               // name is a primitive type (string)\n      {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n      {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {                // Uses vmCollection.Phone() to construct new instance\n  $.observable(this.phones()).insert(vmCollection.Phone(phoneNo));\n}\n\n// First version of data (e.g. from JSON request):\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Second version of data (e.g. from JSON request):\nvar personData2 = {\n  name: \"Peter\",\n  address: {street: \"2nd Ave\"},\n  phones: [{number: \"111 111 9999\"},{number: \"333 333 9999\"}]\n};\n\n// Instantiate View Model hierarchy, using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render and link the template against person (Person instance)\ntmpl.link(\"#result\", person);\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  person.merge(personData2);\n});\n\n$(\"#revert\").on(\"click\", function() {\n  person.merge(personData);\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n$(\"#getData\").on(\"click\", function() {\n  var updatedPersonData = person.unmap();\n  window.alert(JSON.stringify(updatedPersonData));\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \" + JSON.stringify(eventArgs[key]) + \"</div>\";\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "code": "var tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                               // name is a primitive type (string)\n      {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n      {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {                // Uses vmCollection.Phone() to construct new instance\n  $.observable(this.phones()).insert(vmCollection.Phone(phoneNo));\n}\n\n// First version of data (e.g. from JSON request):\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Second version of data (e.g. from JSON request):\nvar personData2 = {\n  name: \"Peter\",\n  address: {street: \"2nd Ave\"},\n  phones: [{number: \"111 111 9999\"},{number: \"333 333 9999\"}]\n};\n\n// Instantiate View Model hierarchy, using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render and link the template against person (Person instance)\ntmpl.link(\"#result\", person);\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  person.merge(personData2);\n});\n\n$(\"#revert\").on(\"click\", function() {\n  person.merge(personData);\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n$(\"#getData\").on(\"click\", function() {\n  var updatedPersonData = person.unmap();\n  window.alert(JSON.stringify(updatedPersonData));\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \"\n      + $.views.converters.encode(JSON.stringify(eventArgs[key])) + \"</div>\";\n      // (Note that we encode < > and & as HTML entities, for display)\n    }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "400",
         "anchor": "mergesample2",
         "title": "Using merge() and unmap() &ndash; with two-way binding"
@@ -5145,7 +5022,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "This sample, like the corresponding [JsRender version](#viewmodelsapi@mergesampleadv), shows some of the advanced features of compiled *View Models*.\n"
           }
         ],
-        "html": "<style>table {margin-bottom: 9px;}</style>\n\n<button id=\"update\">Update</button>\n<button id=\"revert\">Revert</button>\n<button id=\"getData\">Get Data</button><br/>\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Comment:</td><td><input data-link=\"comment()\"/></td></tr>\n    <tr><td>Name:</td><td><input data-link=\"name()\"/></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\"/></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones() ~personIndex=#index}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\" data-link=\"{on remove #index ~personIndex}\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table></script>",
+        "html": "<style>table {margin-top: 9px;}</style>\n\n<button id=\"update\">Update</button>\n<button id=\"revert\">Revert</button>\n<button id=\"getData\">Get Data</button><br/>\n<button id=\"changeName\">Change name</button>\n<button id=\"addPhone\">Add Phone</button>\n\n<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Comment:</td><td><input data-link=\"comment()\"/></td></tr>\n    <tr><td>Name:</td><td><input data-link=\"name()\"/></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\"/></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones() ~personIndex=#index}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\" data-link=\"{on remove #index ~personIndex}\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table></script>",
         "code": "var tmpl = $.templates(\"#personTmpl\");\n\nvar myVmCollection = {};\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      {getter: \"name\", defaultVal: \"No name\"}, // Compiled name() get/set\n      {getter: \"address\", type: \"Address\", defaultVal: defaultAddress},\n      {getter: \"phones\", type: \"Phone\", defaultVal: []}\n    ],\n    extend: {\n      name: myNameGetSet,                      // Override name() get/set\n      addPhone: addPhone,\n      comment: comment                         // Additional get/set property, not initialized by data)\n    },\n    id: function(vm, plain) {                  // Callback function to determine 'identity'\n      return vm.personId === plain.personId;\n    }\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone: {\n    getters: [\"number\"],\n    extend: {\n      remove: remove,\n    },\n    id: \"phoneId\"                              // Treat phoneId as 'primary key', for identity\n  }\n}, myVmCollection);                            // Store View Models (typed hierarchy) on myVmCollection\n\n// Override generated name() get/set\nfunction myNameGetSet(val) {\n  if (!arguments.length) {\n    return this._name; // If there is no argument, use as a getter\n  }\n  $.observable(this).setProperty(\"name\", val);\n};\n\nmyNameGetSet.set = function(val) {\n  this._name = val; // Setter called by observable property change\n  console.log(\"name set to \" + val);           // This is an additional line of code, for logging\n};\n\n// Method for Person class\nfunction addPhone(phoneNo) {                   // Uses myVmCollection.Phone() to construct new instance\n  $.observable(this.phones()).insert(myVmCollection.Phone(phoneNo));\n}\n\n// Method for Phone class\nfunction remove(index, personIndex) {\n  $.observable(people[personIndex].phones()).remove(index);\n};\n\n// get/set for comment (state on View Model instance, not initialized from data)\nfunction comment(val) {\n  if (!arguments.length) {\n    return this._comment; // If there is no argument, use as a getter\n  }\n  $.observable(this).setProperty(\"comment\", val);\n}\n\ncomment.set = function(val) {\n  this._comment = val; // Setter called by observable property change\n};\n\nfunction defaultAddress() {                    // Function providing default address if undefined in data\n  return {street: 'No street for \"' + this.name + '\"'};\n}\n\n// First version of data - array of objects (e.g. from JSON request):\nvar peopleData = [\n  {\n    personId: \"1\",\n    address: {\n      street: \"2nd Ave\"\n    }\n  },\n  {\n    personId: \"2\",\n    name: \"Pete\",\n    phones: [\n      {number: \"333 333 3333\", phoneId: \"2a\"}\n    ]\n  }\n];\n\n// Second version of data - JSON string (e.g. new JSON request):\nvar peopleData2 = '[{\"personId\":\"2\",\"name\":\"Peter\",\"address\":{\"street\":\"11 1st Ave\"},'\n+ '\"phones\":[{\"number\":\"111 111 9999\",\"phoneId\":\"1a\"},{\"number\":\"333 333 9999\",\"phoneId\":\"2a\"}]}]';\n\n// Instantiate View Model hierarchy using map()\nvar people = myVmCollection.Person.map(peopleData);\n\n// Render and link the template against people (array of Person instances)\ntmpl.link(\"#result\", people);\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  people.merge(peopleData2);\n});\n\n$(\"#revert\").on(\"click\", function() {\n  people.merge(peopleData);\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  people[0].name(\"newName\");\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  people[0].addPhone(\"xxx xxx xxxx\");\n});\n\n$(\"#getData\").on(\"click\", function() {\n  var updatedPeopleData = people.unmap(people);\n  window.alert(JSON.stringify(updatedPeopleData));\n});",
         "height": "400",
         "title": "Mapping from JSON data to View Model hierarchy &ndash; further features",
@@ -5197,7 +5074,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvassigntag": {
-    "title": "Data-linked template tag: {^{: ...}} <span style=\"font-weight:normal;\">(Evaluate)</span>",
+    "title": "Data-linked template tag: {^{: ...}} (Evaluate)",
     "path": "",
     "sections": [
       {
@@ -5223,7 +5100,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```jsr\n{^{:manager^nickname || manager^name}}\n```\n\nThe data-linked `{^{: ...}}` tag updates when the expression `manager^nickname || manager^name` changes<br/>-- i.e. when `manager.nickname`, `manager.name` or the `manager` object change."
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n  <em>Nickname:</em> <input data-link=\"manager^nickname\" /><br/>\n\n  <em>&lcub;{^:manager^nickname || manager^name}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{:manager^nickname || manager^name}}\n  </span>\n\n</script>",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n  <em>Nickname:</em> <input data-link=\"manager^nickname\" /><br/>\n\n  <em>&lcub;{^:manager^nickname || manager^name}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{:manager^nickname || manager^name}}\n  </span>\n\n</script>",
         "code": "var team = {\n  person1: {\n    name: \"Peter\",\n    nickname: \"Pete\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);",
         "title": "{^{: ...}}",
         "height": "155"
@@ -5284,7 +5161,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```jsr\n{^{:manager^nickname || manager^name}}\n```\n\nThe data-linked `{^{> ...}}` tag updates when the expression `manager^nickname || manager^name` changes<br/>-- i.e. when `manager.nickname`, `manager.name` or the `manager` object change."
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n  <em>Nickname:</em> <input data-link=\"manager^nickname\" /><br/>\n\n  <em>&lcub;^{>manager^nickname || manager^name}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{>manager^nickname || manager^name}}\n  </span>\n</script>",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n  <em>Nickname:</em> <input data-link=\"manager^nickname\" /><br/>\n\n  <em>&lcub;^{>manager^nickname || manager^name}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{>manager^nickname || manager^name}}\n  </span>\n</script>",
         "code": "var team = {\n  person1: {\n    name: \"Peter\",\n    nickname: \"Pete\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);",
         "title": "{^{> ...}}",
         "height": "155"
@@ -5345,7 +5222,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```jsr\n{{include tmpl=\"#managerTmpl\"/}}\n```\n\nHere, the `{{include}}` tag is not data-linked, but the `managerTmpl` template does itself include data-linking:\n\n```jsr\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  I am {^{>manager^name}}\n</script>\n```"
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  I am {^{>manager^name}}\n</script>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n\n  <em>&lcub;{include tmpl=\"#managerTmpl\"/}&rcub;:</em>\n  <span class=\"spanbox\">\n    {{include tmpl=\"#managerTmpl\"/}}\n  </span>\n</script>\n\n",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  I am {^{>manager^name}}\n</script>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n\n  <em>&lcub;{include tmpl=\"#managerTmpl\"/}&rcub;:</em>\n  <span class=\"spanbox\">\n    {{include tmpl=\"#managerTmpl\"/}}\n  </span>\n</script>\n\n",
         "code": "var team = {\n  person1: {\n    name: \"Peter\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);",
         "title": "{{include}}",
         "height": "130"
@@ -5373,7 +5250,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```jsr\n{^{include manager tmpl=\"#managerTmpl\"/}}\n```\n\nThe data-linked `{^{include}}` tag updates when the expression `manager` changes -- i.e. when the `manager` object is changed.\n\nAlso the 'name' updates when `name` changes, because the `managerTmpl` itself has a data-linked `{^{>name}}` tag:\n\n```jsr\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  I am {^{>name}}\n</script>\n```"
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  I am {^{>name}}\n</script>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n\n  <em>&lcub;^{include manager tmpl=\"#managerTmpl\"/}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{include manager tmpl=\"#managerTmpl\"/}}\n  </span>\n</script>\n\n",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n  I am {^{>name}}\n</script>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n\n  <em>&lcub;^{include manager tmpl=\"#managerTmpl\"/}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{include manager tmpl=\"#managerTmpl\"/}}\n  </span>\n</script>\n\n",
         "code": "var team = {\n  person1: {\n    name: \"Peter\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);",
         "title": "{^{include}}",
         "anchor": "",
@@ -5402,7 +5279,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```jsr\n{^{include manager ^tmpl=manager^template/}}\n```\n\nHere the data-linked `{^{include}}` uses a different template for each person (`^tmpl=manager^template`):\n\n```js\nvar team = {\n  person1: {\n    name: \"Peter\",\n    template: \"I am {^{>name}}\" // Template for Peter\n  },\n  ...\n```\n\n-- so thanks to the initial `^` in `^tmpl=...` (see *[binding to tag properties](#linked-tag-syntax@linkedproperties)*), the `{^{include}}` tag updates also if the template itself changes dynamically."
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n  <em>Template:</em> <input data-link=\"manager^template\" /><br/>\n\n  <em>^&lcub;{include manager ^tmpl=\"manager^template\"/}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{include manager ^tmpl=manager^template/}}\n  </span>\n</script>",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"teamTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on changeManager}\">Change manager</button><br/>\n\n  <em>Name:</em> <input data-link=\"manager^name\" /><br/>\n  <em>Template:</em> <input data-link=\"manager^template\" /><br/>\n\n  <em>^&lcub;{include manager ^tmpl=\"manager^template\"/}&rcub;:</em>\n  <span class=\"spanbox\">\n    {^{include manager ^tmpl=manager^template/}}\n  </span>\n</script>",
         "code": "var team = {\n  person1: {\n    name: \"Peter\",\n    template: \"I am {^{>name}}\"\n  },\n  person2: {\n    name: \"Octavia\",\n    template: \"My name is <b>{^{>name}}</b>\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#teamTmpl\");\n\ntmpl.link(\"#result\", team);",
         "title": "",
         "height": "155"
@@ -5466,7 +5343,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "{^{for ...}} with dynamically changing template",
-        "text": "If `{{for}}` uses `tmpl=expression` to obtain a template from data or from a helper, then the data-linked `{^{for}}` can be used to drive updates when the template changes dynamically:"
+        "text": "If `{{for}}` uses `tmpl=expression` to obtain a template from data or from a helper, then the data-linked `{^{for}}` can be used to drive updates when the template changes dynamically:",
+        "anchor": "chgtmpl"
       },
       {
         "_type": "sample",
@@ -5491,6 +5369,36 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "height": "160",
         "title": "",
         "anchor": "chgtmpl"
+      },
+      {
+        "_type": "para",
+        "title": "Using {^{for array}} with sorting and filtering, or specifying a range of items",
+        "text": "The `{{for}}` tag has native sorting, filtering and 'range' features -- as described in the [corresponding  JsRender topic](#fortag@sortfilterrange). \n\nThe following sample illustrates use of the `start=...` and `end=...` properties of `{{for}}` to dynamically limit the 'range' of items.\n\n",
+        "anchor": "jsvsortfilterrange"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "We use `{{for}}` to create a drop-down to select an integer between 1 and 10 as the `start` integer (...and similarly for the `end` integer):\n\n```jsr\n<select data-link=\"{:start:strToInt}\">\n  {^{for start=1 end=10}}\n    <option>{{:#data}}</option>\n  {{/for}}\n</select>\n```\n\nThen we again use `{{for}}` to show a partial list of team members:\n\n```jsr\n<ul>\n  {^{for members start=start-1 end=end}}\n    <li>\n      {^{:#index + ~root.start}}. {^{:name}}\n    </li>\n  {{else}}\n    <li>No items</li>\n  {{/for}}\n</ul>\n```"
+          }
+        ],
+        "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n\n<div class=\"left\">\n  <b>Choose the range</b><br/><br/>\n\n  Start:\n  <select data-link=\"{:start:strToInt}\">\n    {^{for start=1 end=10}}\n      <option>{{:}}</option>\n    {{/for}}\n  </select>\n\n  End:\n  <select data-link=\"{:end:strToInt}\">\n    {^{for start=1 end=10}}\n      <option>{{:}}</option>\n    {{/for}}\n  </select>\n\n  <ul>\n    {^{for members start=start-1 end=end}}\n      <li>\n        {^{:#index + ~root.start}}. {^{>name}}\n      </li>\n    {{else}}\n      <li>No items</li>\n    {{/for}}\n  </ul>\n</div>\n\n<div class=\"left\">\n  <b>Edit the list</b><br/><br/>\n  <div class=\"buttons\">\n    <button id=\"add\">Add</button>\n  </div>\n\n  <ol>\n    {^{for members}}\n      <li>\n        <input data-link=\"name\" />\n        <span class=\"remove\"></span>\n      </li>\n    {{/for}}\n  </ol>\n</div>\n\n</script>",
+        "code": "$.views.converters({\n  strToInt: function(value) {\n    return parseInt(value);\n  }\n});\n\nvar team = {\n  start: 2,\n  end: 4,\n  members: [\n    {name: \"Robert\"},\n    {name: \"Sarah\"},\n    {name: \"Xavier\"},\n    {name: \"Adriana\"}\n  ]\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team)\n  .on(\"click\", \".remove\", function() {\n    var view = $.view(this);\n    $.observable(team.members).remove(view.index);\n  })\n  .on(\"click\", \"#add\", function() {\n    $.observable(team.members).insert(0, {name: \"new\" + cnt++})\n  });",
+        "header": "",
+        "action": "append",
+        "height": "260"
       },
       {
         "_type": "links",
@@ -5662,7 +5570,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "More advanced use of {{props}} &ndash; {{jsonview/}}",
-        "text": "An example of more advanced use of `{{props}}` is the sample custom tag control `{{jsonview}}`, available from [downloads/tag-controls](#download/tag-controls). That tag control uses `{^{props}}`, and recursively calls itself:\n\n```jsr\n{^{props}}\n  <li>\n    ...\n    {^{jsonview prop/}}...\n  </li>\n{{/props}}\n```\n\nThe `{{jsonview}}` tag control can be included in any JsViews page, to show the contextual data at that place in the page, or to show given data returned by an expression `{^{jsonview someExpression /}}`. Changes to the data will then update dynamically.\n\nIn the next sample we update the previous one, to include:\n\n- a data-linked `{^{jsonview/}}` control to show current data\n- allow the user to modify the key values in the members object, using `<input data-link=\"key\" />`\n- `{^{props}}...{{else}}...{{/props}}` to show a message if the members object is 'empty'\n\nThis sample is also available at [samples/tag-controls/jsonview](#samples/tag-controls/jsonview).",
+        "text": "An example of more advanced use of `{{props}}` is the sample custom tag control `{{jsonview}}`, available from [downloads/tag-controls](#download/jsvplugins). That tag control uses `{^{props}}`, and recursively calls itself:\n\n```jsr\n{^{props}}\n  <li>\n    ...\n    {^{jsonview prop/}}...\n  </li>\n{{/props}}\n```\n\nThe `{{jsonview}}` tag control can be included in any JsViews page, to show the contextual data at that place in the page, or to show given data returned by an expression `{^{jsonview someExpression /}}`. Changes to the data will then update dynamically.\n\nIn the next sample we update the previous one, to include:\n\n- a data-linked `{^{jsonview/}}` control to show current data\n- allow the user to modify the key values in the members object, using `<input data-link=\"key\" />`\n- `{^{props}}...{{else}}...{{/props}}` to show a message if the members object is 'empty'\n\nThis sample is also available at [samples/tag-controls/jsonview](#samples/tag-controls/jsonview).",
         "anchor": "jsonview"
       },
       {
@@ -5722,6 +5630,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "height": "160",
         "title": "",
         "anchor": ""
+      },
+      {
+        "_type": "para",
+        "title": "Using {^{props}} with sorting and filtering, or specifying a range of properties",
+        "text": "The `{{props}}` tag has native sorting, filtering and 'range' features -- as described in the [corresponding  JsRender topic](#propstag@sortfilterrange). \n"
       },
       {
         "_type": "links",
@@ -5799,7 +5712,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "```jsr\n  {^{if reverse ^tmpl=isEditable?'#editableReverseTmpl':'#noeditReverseTmpl'}}\n  {{else ^tmpl=isEditable?'#editableTmpl':'#noeditTmpl'}}\n  {{/if}}\n```\nHere the data-linked `{^{if}}` and the `{{else}}` each use two alternate templates, driven by the `isEditable` property:\n\n```js\nvar team = {\n  members: [...],\n  isEditable: false,\n  ...\n```\n\n-- so thanks to the initial `^` in `^tmpl=...` (see *[binding to tag properties](#linked-tag-syntax@linkedproperties)*), the `{^{if}}` and `{{else}}` blocks each update if the `isEditable` changes -- and use the appropriate template."
           }
         ],
-        "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label><input type=\"checkbox\" data-link=\"isEditable\"/> Editable</label><br/>\n  <label><input type=\"checkbox\" data-link=\"reverse\"/> Reverse</label><br/><br/>\n\n  {^{if reverse ^tmpl=isEditable?'#editableReverseTmpl':'#noeditReverseTmpl'}}\n  {{else ^tmpl=isEditable?'#editableTmpl':'#noeditTmpl'}}\n  {{/if}}\n</script>\n\n<script id=\"editableReverseTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"last\" />, <input data-link=\"first\" />\n</script>\n\n<script id=\"noeditReverseTmpl\" type=\"text/x-jsrender\">\n  <b>{{:last}}</b>, {{:first}}\n</script>\n\n<script id=\"editableTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"first\" /> <input data-link=\"last\" />\n</script>\n\n<script id=\"noeditTmpl\" type=\"text/x-jsrender\">\n  {{:first}} <b>{{:last}}</b>\n</script>",
+        "html": "<div id=\"person\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label><input type=\"checkbox\" data-link=\"isEditable\"/> Editable</label><br/>\n  <label><input type=\"checkbox\" data-link=\"reverse\"/> Reverse</label><br/><br/>\n\n  {^{if reverse ^tmpl=isEditable?'#editableReverseTmpl':'#noeditReverseTmpl'}}\n  {{else ^tmpl=isEditable?'#editableTmpl':'#noeditTmpl'}}\n  {{/if}}\n</script>\n\n<script id=\"editableReverseTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"last\" />, <input data-link=\"first\" />\n</script>\n\n<script id=\"noeditReverseTmpl\" type=\"text/x-jsrender\">\n  <b>{{>last}}</b>, {{:first}}\n</script>\n\n<script id=\"editableTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"first\" /> <input data-link=\"last\" />\n</script>\n\n<script id=\"noeditTmpl\" type=\"text/x-jsrender\">\n  {{>first}} <b>{{>last}}</b>\n</script>",
         "code": "var person = {\n  isEditable: true,\n  reverse: true,\n  first:\"Jeff\",\n  last: \"Adams\"\n};\n\nvar tmpl = $.templates(\"#personTemplate\");\n\ntmpl.link(\"#person\", person);\n\n",
         "height": "110",
         "title": ""
@@ -5852,7 +5765,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Template:</div>*\n\n```jsr\n...\n{^{if type==='book'}}\n  The book price is {{>price}} \n{{else type==='car'}}\n  The car costs {{>price}}\n{{else}}\n  The price is {{>price}}\n{{/if}}\n...\n```\n\nNote that `{{else expression}}` behaves as *else if*, but it is not necessary to write `{^{else ...}}` -- since the dynamic data-linking is determined by the associated `{^{if ...}}` tag. "
+            "text": "*<div class=\"close\">Template:</div>*\n\n```jsr\n...\n{^{if type==='book'}}\n  The book price is {{>price}} \n{{else type==='car'}}\n  The car costs {{>price}}\n{{else}}\n  Nothing chosen\n{{/if}}\n...\n```\n\nNote that `{{else expression}}` behaves as *else if*, but it is not necessary to write `{^{else expression}}` -- since the dynamic data-linking is determined by the associated `{^{if ...}}` tag. "
           }
         ],
         "html": "<div id=\"object\"></div>\n\n<script id=\"objectTemplate\" type=\"text/x-jsrender\">\n  <select data-link=\"type\" size=\"3\">\n    <option value=\"\">Choose type</option>\n    <option>book</option>\n    <option>car</option>\n  </select><br/><br/>\n\n  <input data-link=\"type\" /><br/><br/>\n \n  {^{if type==='book'}}\n    The book price is {{>price}} \n  {{else type==='car'}}\n    The car costs {{>price}}\n  {{else}}\n    Nothing chosen\n  {{/if}}\n</script>\n",
@@ -5925,7 +5838,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The `{^{on ...}}` tag is used:\n\n- for attaching event handlers, as an alternative syntax to `data-link=\"{on ...}\"`\n- for [creating buttons](#link-events@button), to call a *data method/View Model method/helper method*.\n\nIt is used only as a data-bound tag in *JsViews*, and is not available in *JsRender*. \n\nSee the *[Event bindings](#link-events)* topic for more information and examples.\n"
+        "text": "The `{^{on ...}}` tag is used:\n\n- for attaching event handlers, using the syntax `data-link=\"{on ...}\"`\n- for [creating buttons](#link-events@button), to call a *data method/View Model method/helper method*.\n\nIt is used only as a data-bound tag in *JsViews*, and is not available in *JsRender*. \n\nSee the *[Event bindings](#link-events)* topic for more information and examples.\n"
       }
     ]
   },
@@ -6152,6 +6065,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "para",
+        "title": "The {^{radiogroup}} disabled property",
+        "text": "The `{^{radiogroup}}` tag has a `disabled` property which can be used for disabling/enabling the radio buttons, as shown [here](#link-input@disabled)."
+      },
+      {
+        "_type": "para",
         "title": "Data-linking a {^{radiogroup}} using converters",
         "text": "Just like any other tag, `{^{radiogroup}}` can use *convert* and *convertBack* converters, using the syntax:\n\n```jsr\n{^{radiogroup convert=... convertBack=.../}}\n```\n\nas shown in the following sample:"
       },
@@ -6215,7 +6133,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "sections": []
   },
   "eventArgs": {
-    "title": "eventArgs object",
+    "title": "The <em>eventArgs</em> object",
     "path": "",
     "sections": [
       {
@@ -6237,18 +6155,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvtagcontrols": {
-    "title": "Custom tag controls",
+    "title": "JsViews custom tag controls",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "(**Note:** This documentation topic is work in progress. More to follow...)"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, defined/registered in the usual way (see *[Using custom tags](#tags)*).\n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self-contained encapsulated components, with a life-cycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal...\n\n"
+        "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, documented in the topics *[Using custom tags](#tags)* (overview) and *[Registering custom tags](#tagsapi)* (API details). \n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self-contained encapsulated components, with a lifecycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal...\n\nJsViews tag controls support many additional tag options (see *[Tag control options](#tagoptions)*)."
       },
       {
         "_type": "para",
@@ -6275,176 +6188,1425 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "jsrJsvJqui": "",
         "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" /><br/>\n\n  No data binding: {{mytag name/}}<br/>\n  Data-linked tag: {^{mytag name/}}<br/>\n  Data-linked element with tag binding: <span data-link=\"{mytag name}\"></span><br/>\n</script>\n\n<div id=\"page\"></div>",
-        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { name: \"Jo\" };\n\n$.views.tags(\"mytag\", {\n  template: \"<b>{{:}}</b>\" // template (wrap the data value in a <b> tag)\n});\n\nmyTmpl.link(\"#page\", data);",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { name: \"Jo\" };\n\n$.views.tags(\"mytag\", {\n  template: \"<b>{{>}}</b>\" // template (wrap the data value in a <b> tag)\n});\n\nmyTmpl.link(\"#page\", data);",
         "height": "110"
       },
       {
         "_type": "para",
         "title": "Specifying tag options for a custom tag",
-        "text": "The following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function.\n\n"
+        "text": "The following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function.\n\nAn alternative syntax is useful for declaring multiple tags:\n```js\n$.views.tags({\n  mytag: tagOptions\n  ...\n});\n```\n"
       },
       {
         "_type": "para",
-        "title": "<span class=\"strong\">JsRender custom tag documentation topics</span>",
-        "text": "The JsRender custom tag overview topic *[Using custom tags](#tags)* and the more detailed api topic: *[Registering custom tags](#tagsapi)* api topic explain many important custom tag features and scenarios.\n\n**_These documentation topics apply equally to data-linked JsViews custom tag controls_**.\n\nThey include sections covering:\n\n- *[Registering custom tags](#tagsapi@register)* -- the `$.views.tags(...)` api\n- *[Custom tag options](#tagsapi@options)* -- specifying `init()`, `render()`, `template`, `baseTag`\n- *[Tag context](#tagsapi@context)* -- accessing the tag instance, `tagCtx`, tag args and params, parent views etc.\n- *[Custom tag child views](#tagsapi@childviews)* -- and rendering wrapped block content, etc.\n- *[Rendering else blocks](#tagsapi@elseblocks)* -- and using the `tagCtxs` array\n- *[Custom tag hierarchy](#tagsapi@parents)* -- and accessing parent tags\n- *[Accessing contextual parameters and helpers](#tagsapi@ctxparams)*\n\nThey also provide details on the following option settings:\n\n- The [init()](#tagsapi@init) method: `init: tagInitFn`\n- The [render()](#tagsapi@render) method: `render: tagRenderFn`\n- The [template](#tagsapi@template) option: `template: tagTemplate`\n\nas well as the `baseTag` option, for specifying tag inheritance:\n\n- [`baseTag: someTag`](#tagsapi@basetag) -- the custom tag derives from a chosen tag: `someTag`\n\nThey also give details for the following more advanced options and scenarios:\n\n- [`contentCtx: ...`](#tagsapi@contentctx) -- specifying data context within tag content\n- [`convert: ...`](#tagsapi@convert) -- providing a default converter\n- [`argDefault: ...`](#tagsapi@argdefault) -- specifying the default tag argument\n- [`bindTo: ...`](#tagsapi@bindto) -- specifying bound arguments and properties\n- [`flow: ...`](#tagsapi@flow) -- specifying 'flow' behavior\n- [Tags as private template resources](#tagsapi@privatetags)\n- [Unregistering tags](#tagsapi@privatetags)\n"
+        "title": "<span class=\"strong\">JsViews custom tag documentation topics</span>",
+        "text": "JsViews tag controls provide a rich and powerful platform for providing interactive data-driven UI controls. See the following topics for details and samples:\n\n- *[The structure of a JsViews tag control](#tagstructure)*\n- *[The lifecycle of a JsViews tag control](#taglifecycle)*\n- *[Tag control design patterns](#tagpatterns)*\n\nSee also the detailed API topic:\n\n- *[Tag control options](#tagoptions)*"
       },
       {
         "_type": "para",
-        "title": "<span class=\"strong\">The life-cycle of a JsViews tag control</span>",
-        "text": "The tag options can include event handlers for the following life-cycle events:\n\n- `init()` \n- `render()` \n- `onBind()` \n- `onUnbind()` \n- `onAfterLink()` \n- `onUpdate()` \n- `onDispose()`\n\n",
+        "title": "See also &ndash; JsRender custom tag documentation topics:",
+        "text": "Many of the tag-control features and options are useful for custom tags both with and without JsViews data-linking. See the following topics:\n\nThe JsRender custom tag overview topic *[Using custom tags](#tags)* and the more detailed api topic: *[Registering custom tags](#tagsapi)* api topic explain many important custom tag features and scenarios.\n\nThey include sections covering:\n\n- *[Registering custom tags](#tagsapi@register)* -- the `$.views.tags(...)` api\n- *[Custom tag options](#tagsapi@options)* -- specifying `init()`, `render()`, `template`, `baseTag`\n- *[Tag context](#tagsapi@context)* -- accessing the tag instance, `tagCtx`, tag args and params, parent views etc.\n- *[Custom tag child views](#tagsapi@childviews)* -- and rendering wrapped block content, etc.\n- *[Rendering wrapped block content](#tagsapi@wrapping)*\n- *[Rendering else blocks](#tagsapi@elseblocks)* -- and using the `tagCtxs` array\n- *[Custom tag hierarchy](#tagsapi@parents)* -- and accessing parent tags\n- *[Accessing contextual parameters and helpers](#tagsapi@ctxparams)*\n- *[Tags as private template resources](#tagsapi@privatetags)*\n- *[Unregistering tags](#tagsapi@privatetags)*",
+        "anchor": ""
+      }
+    ]
+  },
+  "tagoptions": {
+    "title": "JsViews custom tag controls: Declaring options",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, documented in the topics *[Using custom tags](#tags)* (overview) and *[Registering custom tags: $.views.tags()](#tagsapi)* (API details). \n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self-contained encapsulated components, with a lifecycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal...\n\nJsViews tag controls support many additional tag options.\n\nThe *[Custom tag controls](#jsvtagcontrols)* topic provides an overview of JsViews tag controls (with many examples), along with the following subtopics:\n\n- *[The structure of a JsViews tag control](#tagstructure)*\n- *[The lifecycle of a JsViews tag control](#taglifecycle)*\n- *[Tag control design patterns](#tagpatterns)*\n\nFor a complete list of available tag options, see [below](#tagoptions@options)."
+      },
+      {
+        "_type": "para",
+        "title": "<span class=\"strong\">The <i>$.views.tags(...)</i> API</span> ",
+        "text": "The following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function.\n\nAn alternative syntax is useful for declaring multiple tags:\n```js\n$.views.tags({\n  mytag: tagOptions\n  ...\n});\n```",
+        "anchor": "register"
+      },
+      {
+        "_type": "para",
+        "title": "<span class=\"strong\">Specifying tag control options</span> ",
+        "text": "The tag options can include any combination of the following:\n\n**JsViews tag settings**\n\n- The [`baseTag`](#tagoptions@basetag) option\n- The [`flow`](#tagoptions@flow) option\n- The [`dataBoundOnly`](#tagoptions@databoundonly) option\n- The [`template`](#tagoptions@template) option\n- The [`boundProps`](#tagoptions@boundprops) option\n- The [`depends`](#tagoptions@depends) option\n- The [`bindTo`](#tagoptions@bindto) option\n- The [`bindFrom`](#tagoptions@bindfrom) option\n- The [`setSize`](#tagoptions@setsize) option\n- The [`height`](#tagoptions@height) option\n- The [`width`](#tagoptions@width) option\n- The [`className`](#tagoptions@classname) option\n- The [`linkedElement`](#tagoptions@linkedelement) option\n- The [`linkedCtxParam`](#tagoptions@linkedctxparam) option\n- The [`mainElement`](#tagoptions@mainelement) option\n- The [`displayElement`](#tagoptions@displayelement) option\n- The [`trigger`](#tagoptions@trigger) option\n- The [`attr`](#tagoptions@attr) option\n- The [`ctx`](#tagoptions@ctx) option\n- The [`contentCtx`](#tagoptions@contentctx) option\n- The [`argDefault`](#tagoptions@argdefault) option\n- The [`dataMap`](#tagoptions@datamap) option\n- The [`lateRender`](#tagoptions@laterender) option\n\n**JsViews handlers and methods**\n\n- The [`init()`](#tagoptions@init) method\n- The [`render()`](#tagoptions@render) method\n- The [`onBind()`](#tagoptions@onbind) handler\n- The [`onAfterLink()`](#tagoptions@onafterlink) handler\n- The [`onUpdate()`](#tagoptions@onupdate) handler\n- The [`onDispose()`](#tagoptions@ondispose) handler\n- The [`convert`](#tagoptions@convert) option\n- The [`convertBack`](#tagoptions@convertback) option\n- The [`onUnbind()`](#tagoptions@onunbind) handler\n- The [`onBeforeUpdateVal()`](#tagoptions@onbeforeupdateval) handler\n- The [`onBeforeChange()`](#tagoptions@onbeforechange) handler\n- The [`onAfterChange()`](#tagoptions@onafterchange) handler\n- The [`onArrayChange()`](#tagoptions@onarraychange) handler\n- The [`setValue()`](#tagoptions@setvalue) method\n- The [`domChange()`](#tagoptions@domchange) handler\n\n**tag properties/state**\n\nInitialization of tag-specific 'user' properties (such as those used for instance state)\n\n**tag methods**\n\nTag-specific 'user' methods (such as methods called in response to click events on the tag control)",
+        "anchor": "options"
+      },
+      {
+        "_type": "para",
+        "title": "<b>Available options:</b>",
+        "text": " "
+      },
+      {
+        "_type": "para",
+        "title": "The init() method",
+        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe *init()* method acts as a handler for the *init* event of the custom tag, and is called with the tag instance as `this` parameter.\n\n```js\n$.views.tags({\n  mytag: {\n    init: function(tagCtx, linkCtx, ctx) { ... },\n    ...\n  }\n});\n``` \n\nIt can be used for initializing the tag instance, including programmatically setting [other tag options](#renderingpatterns@init-options).\n\nThe *init()* method arguments are:\n- `tagCtx`: the [tagCtx object](#tagcontextobject), also available as `this.tagCtx`\n- `linkCtx`: always 0 unless using [data-linked tags](#linked-tag-syntax) with *JsViews* (See [linkCtx object](#linkctxobject).)\n- `ctx`: [View context object](#ctxobject)\n\nSee also [JsRender `init()`](#tagsapi@init).",
+        "anchor": "init"
+      },
+      {
+        "_type": "para",
+        "title": "The render() method",
+        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe *render()* method acts as a handler for the *render* event of the custom tag, and is called with the tag instance as `this` parameter, and with arguments `arg1, arg2, ...`, corresponding to the unnamed arguments passed in the tag markup, `{{mytag expression1 expression2 ...  }}`.\n\nIf no arguments are passed in the markup, then the `render()` method will be called with the current data context as argument (unless modified by the [argDefault](#tagsapi@argdefault) option.)\n\n```js\nmytag: {\n  render: function(value1, value2) { ... return ...; },\n  ...\n}\n```\n\nThe *render()* method can be used to define how the tag renders, by returning an HTML markup string.\n\nThis approach to rendering can be used instead of (or together with) the [`template`](#tagoptions@template) option.  \n\n*See also:*\n- [JsRender `render()`](#tagsapi@render)\n- [Wrapping block content](#renderingpatterns@wrapping)",
+        "anchor": "render"
+      },
+      {
+        "_type": "para",
+        "title": "The onBind() handler",
+        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe `onBind()` handler is called during initial data-linking of the tag instance. It is also called during data-linking whenever the tag has been re-rendered. (This will be the case in response to `tag.refresh()` calls, and during observable updates if [`onUpdate()`](#tagoptions@onupdate) does not return `false`.)\n\nIt is called with the tag instance as `this` parameter, and with arguments `tagCtx`, `linkCtx` and `ctx`. In addition, for observable updates it receives the arguments `ev` and `eventArgs` (see [onPropertyChange](#onpropchange@args) and [onArrayChange](#onarrchange@args)).\n\n```js\nmytag: {\n  onBind: function(tagCtx, linkCtx, ctx, ev, eventArgs) { ... },\n  ...\n}\n```",
+        "anchor": "onbind"
+      },
+      {
+        "_type": "para",
+        "title": "The onAfterLink() handler",
+        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe `onAfterLink()` handler is called following data-linking of the tag instance, both for the initial data-linking and for any subsequent data-linking during observable updates or after `tag.refresh()` calls.\n\nIt is called with the tag instance as `this` parameter, and with arguments `tagCtx`, `linkCtx` and `ctx`. In addition, for observable updates it receives the arguments `ev` and `eventArgs` (see [onPropertyChange](#onpropchange@args) and [onArrayChange](#onarrchange@args)).\n\n```js\nmytag: {\n  onAfterLink: function(tagCtx, linkCtx, ctx, ev, eventArgs) { ... },\n  ...\n}\n```",
+        "anchor": "onafterlink"
+      },
+      {
+        "_type": "para",
+        "title": "The onUpdate() handler",
+        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe `onUpdate()` handler is called whenever the tag instance is updated as a result of an observable data change. This will be the case if the tag control has arguments `{^{mytag arg1 .../}}`, data-bound properties `{^{mytag ^prop1=... .../}}`, or declared [`bound properties`](#tagoptions@boundProps) or [`depends paths`](#tagoptions@depends) for which the data changes observably... \n\nIt is called with the tag instance as `this` parameter, and with arguments `ev` and `eventArgs` corresponding to the observable data change (see [onPropertyChange](#onpropchange@args) and [onArrayChange](#onarrchange@args)) and `newTagCtxs` -- which are the new updated `tagCtx` objects.\n\n```js\nmytag: {\n  onUpdate: function(ev, eventArgs, newTagCtxs) { ... },\n  ...\n}\n```\n\n**_Returning false from `onUpdate()`, or setting `onUpdate` to `false`_**:\n\nOften a custom tag control does not need to completely re-render itself when responding to observable changes in arguments, bound properties or dependencies. In that case, performance can be optimized (see [lifecycle](#taglifecycle@datalink)) by returning `false` from the handler. (The effect will be skip the subsequent `onBind()`, `render()` and `onUnbind()` calls.)\n\nSetting the option to false -- `onUpdate: false` -- is equivalent to using the handler `function() { return false; }`.\n\nSee the [Data-linked tag controls](#bindingpatterns@datalinked) design patterns topic for a usage example.",
+        "anchor": "onupdate"
+      },
+      {
+        "_type": "para",
+        "title": "The onDispose() handler",
+        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe `onDispose()` handler is called when the tag instance is disposed. This happens whenever the containing HTML/`View` of the tag control is removed. (The call to `onDispose()` is preceded by a call to [`onUnbind()`](#tagoptions@onunbind)).\n\nThe `onDispose()` handler call has no arguments, and has the tag instance as `this` parameter.\n\n```js\nmytag: {\n  onDispose: function() { ... },\n  ...\n}\n```",
+        "anchor": "ondispose"
+      },
+      {
+        "_type": "para",
+        "title": "The convert option",
+        "text": "On any tag, including custom tags, a converter can be specified directly on the tag (see [*Using converters with other tags*](#converters@othertags)):\n\n```jsr\n{{mytag name convert='toUpperCase'/}}\n```\n\nTo provide a default converter on a custom tag (used as fallback if no converter is specified on the tag), set the `convert` tag option to a function, or to a registered converter name:\n\n```js\nmytag: {\n  ...\n  convert: 'toLowerCase', // Default converter. (A function or a registered converter name)\n  ...\n}\n```\n\nSee also:\n- [JsRender `convert`](#tagsapi@convert)\n- The [`bindTo`](#tagoptions@bindto) option\n",
+        "anchor": "convert"
+      },
+      {
+        "_type": "para",
+        "title": "The convertBack option",
+        "text": "On any tag providing two-way data binding, including custom tags, a 'convertBack' converter can be specified directly on the tag (see [*Using converters with other tags*](#converters@othertags)):\n\n```jsr\n{^{mytag name convert=... convertBack=... /}}\n```\n\nTo provide a default 'convertBack' converter on a custom tag (used as fallback if no 'convertBack' is specified on the tag), set the `convertBack` tag option to a function, or to a registered converter name:\n\n```js\nmytag: {\n  ...\n  convertBack: ..., // Default 'convertBack' converter. (A function or a registered converter name)\n  ...\n}\n```\n\n(See also the [`bindTo`](#tagoptions@bindto) option.)",
+        "anchor": "convertback"
+      },
+      {
+        "_type": "para",
+        "title": "The onUnbind() handler",
+        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe `onUnbind()` handler is called during during disposal of the tag instance. This happens whenever the containing HTML/`View` of the tag control is removed. The call to `onUnbind()` is followed by a call to [`onDispose()`](#tagoptions@ondispose).\n\nThe `onUnbind()` handler is also called during data-linking whenever the tag has been re-rendered. (This will be the case in response to `tag.refresh()` calls, and during observable updates if [`onUpdate()`](#tagoptions@onupdate) does not return `false`.) In these scenarios it is followed by a call to [`onBind()`](#tagoptions@onbind), for the refreshed tag instance.\n\nThe `onUnbind()` call has the tag instance as `this` parameter, and has the arguments `tagCtx`, `linkCtx` and `ctx`. In addition, for observable updates it receives the arguments `ev` and `eventArgs` (see [onPropertyChange](#onpropchange@args) and [onArrayChange](#onarrchange@args)).\n\n```js\nmytag: {\n  onUnbind: function(tagCtx, linkCtx, ctx, ev, eventArgs) { ... },\n  ...\n}\n```",
+        "anchor": "onunbind"
+      },
+      {
+        "_type": "para",
+        "title": "The onBeforeUpdateVal() handler",
+        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe `onBeforeUpdateVal()` handler is called when the tag triggers an observable change on the data, through two-way binding (`bindTo`).\n\nThe call has the tag instance as `this` parameter, and the arguments `ev` and `eventArgs` (corresponding to the observable data change being triggered). It is cancellable: returning `false` will prevent the observable data change from happening.\n\n```js\nmytag: {\n  onBeforeUpdateVal: function(ev, eventArgs) { \n    // Optionally return false\n  },\n  ...\n}\n```\n\nSee usage examples in the [`{{validate}}`](#samples/tag-controls/validate) sample tag control and in the sample [here](#taglifecycle@instancehandlers).",
+        "anchor": "onbeforeupdateval"
+      },
+      {
+        "_type": "para",
+        "title": "The onBeforeChange() handler",
+        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe `onBeforeChange()` handler is called when the tag is about to be updated by an observable data change.\n\nThe call has the tag instance as `this` parameter, and the arguments `ev` and `eventArgs` (corresponding to the observable data change). It is cancellable: returning `false` will prevent the tag from being updated.\n\n```js\nmytag: {\n  onBeforeChange: function(ev, eventArgs) { \n    // Optionally return false\n  },\n  ...\n}\n```\n\nSee the sample [here](#taglifecycle@instancehandlers) for a usage example.",
+        "anchor": "onbeforechange"
+      },
+      {
+        "_type": "para",
+        "title": "The onAfterChange() handler",
+        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe `onAfterChange()` handler is called after tag has been updated by an observable data change.\n\nThe call has the tag instance as `this` parameter, and the arguments `ev` and `eventArgs` (corresponding to the observable data change).\n\n```js\nmytag: {\n  onAfterChange: function(ev, eventArgs) { ... },\n  ...\n}\n```",
+        "anchor": "onafterchange"
+      },
+      {
+        "_type": "para",
+        "title": "The onArrayChange() handler",
+        "text": "For a tag such as `{^{mytag things/}}`, if there is an observable property change which replaces the `things` property, then the [JsViews lifecycle](#taglifecycle) events such as [`onBeforeChange()`](#tagoptions@onbeforechange), [`onUpdate()`](#tagoptions@onupdate) and [`onAfterLink()`](#tagoptions@onafterlink) will be triggered.\n\nHowever, if `things` is an array, and if there is an observable array change to `things` (without replacing the array itself), then the above lifecycle events will not fire.\n\nIt is sometimes important for a custom tag to listen to array changes, as well as property changes. This can be achieved by providing an `onArrayChange()` handler as a tag option, and using the `onAfterLink` event to register it to observe array changes. To avoid possible memory leaks, it is good practice to also use `onDispose()` or `onUnbind()` to call `unobserve()`, and remove the array change handler registration.\n\nThe following sample illustrates the use of this approach:",
+        "anchor": "onarraychange"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{mytag items/}}\n```\n\n```js\n$.views.tags(\"mytag\", {\n  ...\n  onArrayChange: function() { ... },\n  onBind: function() {\n    ...\n    // Register array handler which calls tag.onArrayChange()\n    $.observe(... function(...) { tag.onArrayChange(...); });\n  ...\n  onDispose: function() {\n    ...\n    $.unobserve(...); // Unregister array handler from bound array\n```",
+            "sections": [
+              {
+                "_type": "para",
+                "title": "",
+                "text": "paragraph"
+              }
+            ]
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{on ~replaceItems /}} {^{on ~refreshItems /}} {^{on ~insertItem /}}\n  <label>Hide: <input type=\"checkbox\" data-link=\"showTag\"/></label>\n\n  {^{if showTag}}\n    {^{mytag items/}}\n  {{/if}}\n</script>\n\n<div id=\"page\"></div>",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  cnt = 0,\n  data = {\n    items: [\"a\", \"b\"],\n    showTag: true\n  };\n\n$.views.tags(\"mytag\", {\n  template: \"<ul><li>Length: {{:length}}</li><li>First: {{:#data[0]}}</li><li>Last: {{:#data[length-1]}}</li></ul>\",\n  onArrayChange: function(ev, eventArgs) {\n    if (!eventArgs.refresh) { // (Skip the initial 'move' events on an array refresh)\n      this.refresh(); // For each array change event, refresh the tag to render updated array\n    }\n  },\n  onBind: function(tagCtx) {\n    var tag = this,\n      data = tagCtx.args[0];\n    if (tag._boundArray !== data) { // Different data\n      if (tag._boundArray) { // Previous data had handler, so remove it\n        $.unobserve(tag._boundArray, tag._arCh);\n      }\n      if ($.isArray(data)) {\n        // New data is an array\n        tag._boundArray = data; // Store array data as tag._boundArray\n        tag._arCh = function(ev, eventArgs) { // Store arrayChange handler, which calls tag.onArrayChange(), as tag._arCh\n          tag.onArrayChange(ev, eventArgs);\n        };\n        $.observe(data, tag._arCh); // Attach arrayChange handler to new data\n      }\n    }\n  },\n  onDispose: function() {\n    var tag = this;\n    if (tag._boundArray) {\n      $.unobserve(tag._boundArray, tag._arCh); // Unregister array handler from bound array\n    }\n  }\n});\n  \nmyTmpl.link(\"#page\", data, {\n  replaceItems: function() {\n    $.observable(data).setProperty(\"items\", [\"A\" + cnt++, \"B\" + cnt,  \"C\" + cnt, \"Z\" + cnt]);\n  },\n  refreshItems: function() {\n    $.observable(data.items).refresh([\"a\" + cnt++, \"b\" + cnt, \"x\" + cnt]);\n  },\n  insertItem: function() {\n    $.observable(data.items).insert(\"y\" + cnt);\n  }\n});",
+        "height": "120"
+      },
+      {
+        "_type": "para",
+        "title": "The setValue() method",
+        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe `setValue()` method is called during tag rendering, and during each observable tag update.\n\n- It is called once for each bound argument or property -- as specified by [`bindTo`](#tagoptions@bindto) (or [`bindFrom`](#tagoptions@bindfrom), if provided) -- and receives the value of that argument or property.\n- If neither `bindFrom` nor `bindTo` are specified,  `setValue()` is called once with the value of the first argument (or the current data if the tag has no arguments) -- as if `bindFrom` was set to `[0]`.\n- For block tags with multiple `{{else}}` blocks, it is called also for each bound argument or property on the additional `{{else}}` blocks. The index of the `{{else}}` block is provided as third parameter.\n- If there is a converter, then the values are after conversion. In the case where `bindFrom`/`bindTo` is an array, but the converter returns a single value rather than an array, then `setValue()` is called once only, with that value.\n- If the tag has linked elements specified, then JsViews built-in code for data-linking (or setting the values) on those linked elements runs after the call to the `setValue()` method. If a `setValue()` method is provided, it can be used to  programmatically bind the linked elements (on the initial call) or update their values (on tag update calls) -- and the default code will not run. However if `setValue()` provides a return value then the default code will also run, using the returned value.\n\n```js\nmytag: {\n  setValue: function(value, index, elseBlock) { ... },\n  ...\n}\n```\n\nSee the [Programmatic two-way data-binding](#bindingpatterns@setvalue-updatevalue) design patterns topic for discussion and examples.",
+        "anchor": "setvalue"
+      },
+      {
+        "_type": "para",
+        "title": "The domChange() handler",
+        "text": "This feature is available for some advanced scenarios. The `{^{for}}` and `{^{if}}` tags each raise a `\"jsv-domchange\"` event whenever they dynamically modify the HTML DOM (for example when a `{^{for somearray}}` tag responds to an array change event, and inserts or removes HTML for added or removed array items). A custom tag could also raise a `\"jsv-domchange\"` event to notify when it makes changes to the DOM.\n\nTo listen to the DOM change events that are notified in this way, a handler for the `\"jsv-domchange\"` event should be attached to the HTML container element that is immediate parent of the `{^{for}}`, `{^{if}}` or custom tag:\n\n",
+        "anchor": "domchange"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<div data-link='{on \"jsv-domchange\" ~domchange name}'>\n  ...\n  {^{for items}}...{{/for}}\n  ...\n</div>\n```\n"
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{on ~insertItem /}} {^{on ~removeItem /}}\n  <input data-link=\"name\" />\n  <div data-link='{on \"jsv-domchange\" ~domchange name}'>\n    ...\n    {^{for items}} {{:}} {{/for}}\n    ...\n  </div>\n</script>\n\n<div id=\"page\"></div>\n\n<hr/>\nChanges: <div id=\"changes\"></div>",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  res = \"\",\n  cnt = 0,\n  data = {\n    name: \"Jo\",\n    items: [\"a\", \"b\"]\n  };\n\nmyTmpl.link(\"#page\", data, {\n  insertItem: function() {\n    $.observable(data.items).insert(\"y\" + cnt);\n  },\n  removeItem: function() {\n    $.observable(data.items).remove();\n  },\n  domchange: function(param1, ev, domchangeEventArgs, tagCtx, linkCtx, observableEventArgs) {\n    res += \"Params: \" + param1 + \", \" + observableEventArgs.change + \"<br/>\";\n    $(\"#changes\").html(res);\n  }\n});",
+        "height": "130"
+      },
+      {
+        "_type": "para",
+        "title": "The baseTag option",
+        "text": "See [JsRender `baseTag`](#tagsapi@basetag).",
+        "anchor": "basetag"
+      },
+      {
+        "_type": "para",
+        "title": "The flow option",
+        "text": "See [JsRender `flow`](#tagsapi@flow).",
+        "anchor": "flow"
+      },
+      {
+        "_type": "para",
+        "title": "The dataBoundOnly option",
+        "text": "If a custom tag control is intended *only* for use with data-linking: `{^{mytag ... /}}`, then the `dataBoundOnly` option can be set to `true`. Attempting to use the tag without data-linking (as in `{{mytag ... /}}`) will then produce an error message.\n\n```js\nmytag: {\n  dataBoundOnly: true,\n  ...\n}\n```",
+        "anchor": "databoundonly"
+      },
+      {
+        "_type": "para",
+        "title": "The template option",
+        "text": "The `template` option is used for declarative rendering of the tag control, as an alternative to providing a [`render()`](#tagoptions@render) method.\n\n```js\nmytag: {\n  template: tagTemplate, // A template string, selector, or compiled template object\n  ...\n}\n```\n\nIf the tag control is called with an argument: `{^{mytag someArgument ...}}` then the template will be rendered using the value of that argument as data context.\n\nOtherwise, the data context will be the same as the outer data context (unless otherwise specified using the  [contentCtx](#tagsapi@contentctx)) option). \n\n*See also:*\n- [JsRender `template`](#tagsapi@template)\n- [Wrapping block content](#renderingpatterns@wrapping)",
+        "anchor": "template"
+      },
+      {
+        "_type": "para",
+        "title": "The boundProps option",
+        "text": "By default, if a data-linked tag has arguments and named properties: `{^{sometag arg1 namedProp1=xxx}}` then the arguments are data-linked, but the named properties are not. (So changes to `arg1` will trigger updates but changes to `xxx` will not.)\n\nThe syntax `{^{sometag arg1 ^namedProp1=xxx}}` is used to opt in to data-linking for a named property. (See [*binding to tag properties*](#linked-tag-syntax@linkedproperties).) \n\nFor a custom tag, the `boundProps` option allows you to specify bound properties:\n\n```js\nmytag: {\n  boundProps: [\"prop1\", ...], // Array of names of bound properties\n  ...\n}\n```\n\nThose named properties will then be data-linked without needing to use the [`^prop1=...` syntax](#linked-elem-syntax@no-initial-render).\n\nSee also the [Data-linked tag controls](#bindingpatterns@datalinked) design patterns topic.",
+        "anchor": "boundprops"
+      },
+      {
+        "_type": "para",
+        "title": "The depends option",
+        "text": "A custom tag control can include a `depends` option:\n\n```js\nmytag: {\n  depends: [\"~reverse\", \"person.first\", ...],\n  ...\n}\n```\n\nas in the following sample:\n",
+        "anchor": "depends"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\n$.views.tags(\"mytag\", {\n  render: function(person) {\n    ...\n    return reverse ? person.last + \" \" + person.first : ... ;\n  },\n  depends: [\"~reverse\", \"person.first\", \"person.last\"],\n  ...\n});\n\n```"
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"person.first\" /> <input data-link=\"person.last\" />\n  <label>Reverse <input type=\"checkbox\" data-link=\"~reverse\" /></label><br/>\n\n  {^{mytag person class=\"tb1\"/}}\n</script>\n\n<div id=\"page\"></div>",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    person: {first: \"Jo\", last: \"Blow\"}\n  },\n  helpers = {reverse: true};\n\n$.views.tags(\"mytag\", {\n  render: function(person) {\n    var reverse = this.ctxPrm(\"reverse\");\n    return \"<div>\"\n      + (reverse ? person.last + \" \" + person.first : person.first + \" \" + person.last)\n    + \"</div>\";\n  },\n  depends: [\"~reverse\", \"person.first\", \"person.last\"],\n  mainElement: \"div\"\n});\n  \nmyTmpl.link(\"#page\", data, helpers);\n",
+        "header": "<style>\n.tb1 {border: 1px solid #bbb; padding: 8px; margin-top: 10px; font-style: italic; display: inline-block;}\ninput:not([type]) {width: 140px; margin-right: 8px;}\n</style>",
+        "action": "append",
+        "height": "95"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The `depends` option specifies dependencies for refreshing the tag rendering. If there is an observable data change on one of the specified data paths, then the tag rendering will be refreshed.\n\nSee [*Declaring dependencies for a computed observable*](#computed@depends) for details on specifying `depends` paths, including making `depends` a function, as in the following more advanced examples (that could have been used in the above sample):\n\n```js\ndepends: function(data, callback) {\n  $.observe(this.tagCtx.args[0], \"first\", \"last\", callback);\n  this.ctxPrm(\"reverse\", undefined, callback);\n}\n```\n\n```js\ndepends: function(data, callback) {\n  return [\"~reverse\", this.tagCtx.args[0], \"first\", \"last\"];\n}\n```\n\n```js\ndepends: function(data, callback) {\n  return [\"~reverse\", data.person, \"first\", \"last\"];\n}\n```"
+      },
+      {
+        "_type": "para",
+        "title": "The bindTo option",
+        "text": "The `bindTo` option is generally used in conjunction with [`linkedElement`](#tagoptions@linkedelement), [`linkedCtxParam`](#tagoptions@linkedctxparam), [`setValue()`](#tagoptions@setvalue) or [`updateValue()`](#jsvtagobject@updatevalue), in order to provide two-way data-binding for a tag control. It specifies one or more tag arguments or properties which will have two-way data-linking.\n\nThe `bindTo` option is set to an array, such as `[0, 1, 2]`, or `[\"title\", 1]` -- where integers refer to arguments and strings to named properties. So setting `bindTo: [\"title\", 1]` means that the `title` property and the second argument can have two-way data-binding. (However, see [`bindFrom`](#tagoptions@bindfrom) below for specifying not only *two-way*, bindings but also *one-way __from__* and *one-way __to__* bindings.)\n\nSetting to a single value (such as \"title\" or 0) is also allowed, and is equivalent to setting an array of length  1 (such as `[\"title\"]` or `[0]`).\n\nIf `bindTo` is not set then two-way binding (through `linkedElement`, `linkedCtxParam` etc.) defaults to binding the first argument (as if `bindTo` was set to `bindTo: 0`). \n\nSetting the `bindTo` option changes how converters work:\n- *convert:*\n  - *arguments:* By default the arguments passed to the `convert` converter will be the values of all the arguments passed in the tag markup. But if `bindTo` is set then the arguments passed to `convert` are instead the values of the set of arguments/properties specified in `bindTo`.\n  - *return values:* By default the value returned by the converter will be passed as first argument to the `render()` method, and be the current data for the `template`. However, if `bindTo` is an array, and the converter returns an array of the same length, then the returned values will be used as converted values for each of the arguments or properties specified in `bindTo` (see also [`cvtArgs()`](#tagobject@cvtargs) and [`bndArgs()`](#tagobject@bndargs)).\n  -  (If both `bindTo` and `bindFrom` are specified, then it will be `bindFrom` which determines converter arguments and the effect of returning an array.)\n- *convertBack:*\n  - *arguments:* If `bindTo` is an array then the `convertBack` signature should have a parameter for each `bindTo` path. When the tag control is updating a `bindTo` target, then `convertBack(val1, val2, val3 ...)` will be called, with  each argument `undefined` except for the argument that is updating.\n  - *return values:* The value returned by `convertBack` will update the target data. However, if `bindTo` is an array, then the first target specified in `bindTo` will be updated, unless `convertBack` returns an array of the same length, in which case the returned values will be used as updated values for each of the target arguments or properties specified in `bindTo`.\n\nSee also:\n- [JsRender `bindTo`](#tagsapi@bindto)\n- [`bindFrom`](#tagoptions@bindfrom)",
+        "anchor": "bindto"
+      },
+      {
+        "_type": "para",
+        "title": "The bindFrom option: Using bindFrom and bindTo to specify one-way bindings in either direction",
+        "text": "The `bindFrom` option is used in conjunction with the `bindTo` option, in some advanced scenarios.\n\nUsing `bindTo` alone specifies one or more two-way bindings. (A two-way binding is in fact made up of two separate one-way bindings, one in each direction: a *bind __to__* binding, in which the tag control triggers a change to the data, and a *bind __from__* binding, in which an observable change in the data triggers a change in the tag control.\n\nUsing both `bindTo` and `bindFrom` allows separately specifying the *bind __to__* bindings and the *bind __from__* bindings.\n\n\n```js\nbindTo: [0, \"title\"], \nbindFrom: [\"title\", 1, \"type\"],\n...\n```\n\nWith the above settings the `title` property is a two-way binding, the first argument is one-way *bind to*, and the second argument and `type` property are one-way *bind from*.\n\n(In fact, setting just the `bindTo` option, with no `bindFrom` option, is equivalent to setting both `bindTo` and `bindFrom` to the same target arguments/properties, and makes them all two-way bindings.)\n\nNote that when the `bindTo` and `bindFrom` options specify different paths, then the `linkedElement` option will correspond to the `bindTo` paths, and will specify *'one-way __to__'* bindings, and the `linkedCtxParam` option will correspond to the `bindFrom` paths, and will specify *'one-way __from__'* bindings, \n\nHere is a sample based on the [`linkTo` sample](#link2way@linkto), in which we define a `{^{toFrom current modified}}` custom tag, which behaves similarly to `<input data-link=\"current linkTo=modified\" />`:",
+        "anchor": "bindfrom"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\n$.views.tags(\"fromTo\", {\n  ...\n  bindTo: [1],    // bind to second argument (the current.title data)\n  bindFrom: [0],  // bind from first argument (the modified.title data)\n  linkedElement: \"input\", // Input binds to second argument\n  linkedCtxParam: \"fm\",   // input binds from first\n  template: \"<input data-link='~fm'/>\"\n});\n```\n\n```jsr\n{^{fromTo current.title modified.title/}}\n```"
+          }
+        ],
+        "html": "<script src=\"../download/sample-tag-controls/jsonview/jsonview.js\"></script>\n<link href=\"../download/sample-tag-controls/jsonview/jsonview.css\" rel=\"stylesheet\"></link>\n<style>\n.title {display: inline-block; border:1px solid; padding:5px; margin-bottom: 15px}\nform {border: 1px solid gray; display: inline-block; padding: 5px; margin-bottom: 15px;}\ninput, button, select {margin: 5px;} \n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n<b>Current settings:</b>\n<span class=\"title\" data-link=\"current.title\"></span><br/>\n\n<form data-link=\"{on 'submit' apply}\">\n  <em>Modify settings:</em><br/><br/>\n  Name:\n  {^{fromTo current.title modified.title/}}\n  <hr />\n  Modified settings:\n  <span class=\"title\" data-link=\"modified.title\"></span><br/>\n  <button type=\"submit\">Apply</button>\n  <button data-link=\"{on cancel}\">Cancel</button><br/>\n</form>\n</script>",
+        "code": "$.views.tags(\"fromTo\", {\n  databoundOnly: true,\n  onUpdate: false,\n  bindTo: [1],    // bind to second argument\n  bindFrom: [0],  // bind from first argument\n  linkedElement: \"input\", // Input binds to second argument\n  linkedCtxParam: \"fm\",   // input binds from first\n  template: \"<input data-link='~fm'/>\"\n});\n\nvar settings = {\n  current: {title: \"My title\", color:\"green\"},\n  modified: {title: \"My title\", color:\"green\"},\n  apply: function() {\n    $.observable(this.current).setProperty(this.modified);\n    return false;\n  },\n  cancel: function() {\n    $.observable(this.modified).setProperty(this.current);\n    $.observable(this.current).setProperty({title: \"\", color: \"\"});\n    $.observable(this.current).setProperty(this.modified);  }\n}\n\nvar myTmpl = $.templates(\"#myTmpl\");\n\nmyTmpl.link(\"#result\", settings);",
+        "height": "260"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In the above sample, the same `<input/>` is used both as linkedElement, to bind *__to__* the `modified.title` data path, and as linkedCtxParam, to bind *__from__* the `current.title` data path.\n\nSee also [this color picker sample](#samples/tag-controls/colorpicker@bindfrom) for advanced use of the `bindFrom` option."
+      },
+      {
+        "_type": "para",
+        "title": "The setSize option",
+        "text": "If the `setSize` option of a tag control is `true` then `width` and `height` values can be set declaratively:\n\n```jsr\n{{mytag ... width=\"30em\" height=33 .../}}\n```\n\nIn addition, default `width` and `height` can be set as options:\n\n```js\nmytag: {\n  setSize: true, // Enable setting width and height props on tag\n  ...\n  width: \"60px\" // Default width if not specified as prop on tag\n  height: maxHeight // Default height if not specified as prop on tag\n  ...\n}\n```\n\nThe values can be:\n- string literals (such as `width=\"100px\"` or `height=\"30em\"`)\n- numbers (such as `width=100`) - which are treated as pixel widths. (So `100` is equivalent to `\"100px\"`)\n- expressions returning strings or numbers (such as `width=app.gridWidth-50`)\n\nThe width and height settings are applied to the 'main element' of the tag instance. See [`mainElement`](#tagoptions@mainelement) below.\n\nSee also the [Setting size](#renderingpatterns@setsize) design patterns topic. ",
+        "anchor": "setsize"
+      },
+      {
+        "_type": "para",
+        "title": "The height option",
+        "text": "The `height` option is used as default height for the main element of the tag control, provided the `setSize` option is `true`.\n\nSee also the [`setSize`](#tagoptions@setsize), [`width`](#tagoptions@width) and [`mainElement`](#tagoptions@mainelement) options.\n",
+        "anchor": "height"
+      },
+      {
+        "_type": "para",
+        "title": "The width option",
+        "text": "The `width` option is used as default width for the main element of the tag control, provided the `setSize` option is `true`.\n\nSee also the [`setSize`](#tagoptions@setsize), [`height`](#tagoptions@height) and [`mainElement`](#tagoptions@mainelement) options.\n\n",
+        "anchor": "width"
+      },
+      {
+        "_type": "para",
+        "title": "The className option",
+        "text": "The `className` option is used as default class name for the display element of the tag control.\n\nIt can be overridden by setting the class property on the tag:\n\n```jsr\n{{mytag class=.../}}\n```\n\nSee also the [`displayElement`](#tagoptions@displayelement) option.",
+        "anchor": "classname"
+      },
+      {
+        "_type": "para",
+        "title": "The linkedElement option",
+        "text": "Often a tag control incorporates one or more textboxes, checkboxes, or other [form elements](#link-formelems). The  `linkedElement` option together with the [`bindTo`](#tagoptions@bindto) option make it easy provide two-way data binding between such an element (or elements) and a tag argument or property.\n\nThe following sample shows a `{{namebox}}` tag control with two textboxes (for first and last names) -- data-linked to the first and second tag arguments:",
+        "anchor": "linkedelement"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{namebox first last .../}}\n```\n\n```js\nnamebox: {\n  template: '...  <input class=\"first\"/> <input class=\"last\"/> ...',\n  bindTo: [0, 1],\n  linkedElement: [\".first\", \".last\"],\n  ...\n}\n```"
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{namebox first last  class=\"tb1\"/}}\n\n  <input data-link=\"first\"/> <input data-link=\"last\"/>\n</script>\n\n<div id=\"page\"></div>",
+        "header": "<style>\n  .tb1 {border: 1px solid #bbb; padding: 8px; margin: 5px 20px; font-style: italic; display: inline-block;}\n  </style>",
+        "code": "$.views.tags({\nnamebox: {\n  dataBoundOnly: true,\n  template: '<label>Full name: <input class=\"first\"/> <input class=\"last\"/></label>',\n  bindTo: [0, 1],\n  linkedElement: [\".first\", \".last\"],\n  displayElement: \"label\",\n  onUpdate: false\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    first: \"Jo\",\n    last: \"Blow\"\n  };\n\nmyTmpl.link(\"#page\", data);",
+        "height": "70",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The `linkedElement` option is a jQuery selector for declaratively setting `tag.linkedElem`.\n\n*Declare the `linkedElement` option:*\n\n```js\nmytag: {\n  linkedElement: \"input\", // jQuery selector\n  ...\n}\n```\n\nIf [`bindTo`](#tagoptions@bindto) is set to bind multiple arguments or properties (such as `bindTo: [0, 1]` in the sample above) then `linkedElement` must be an array of selectors, of the same length (`[\".first\", \".last\"]` in the sample). (To specify linked elements for some but not all of the `bindTo` bindings, set `undefined` for the other members of the `linkedElement` array.)\n\nThe `tag.linkedElem` (jQuery object) will then contain an HTML element (or elements, if `bindTo` is for multiple bindings) -- which will be automatically data-linked by JsViews to the specified tag argument or property.\n\n(The linked elements can be within the tag content rendered by the tag, as well as within block content wrapped by the tag.)\n\nIf the HTML element is a [form element](#link-formelems) such as `<input>` or `<selector>`, or a `contenteditable` element, then the data-link binding will be two-way.\n\nSelectors are applied to the HTML elements rendered by the tag. (In the case of a tag control using a data-linked element with [tag binding](), such as `<div data-link=\"{mytag ...}\">`, the set of HTML elements includes the data-linked element itself.) \n\nThe first element returned by a selector is added to `tag.linkedElem` (jQuery object). This element will be data-linked to the corresponding argument/property in `bindTo`.\n\nThe `tag.linkedElem` element(s) can also be set programmatically, in `onBind()` for example:\n\n```js\nmytag: {\n  onBind: function() {\n    this.linkedElem = this.contents(true, \"input\"); // Set linkedElem programmatically\n  },\n  ...\n}\n```\n\nIf `bindTo` is not set, then `linkedElement` will behave as if `bindTo` was set to `[0]`, and will provide two-way binding to the first argument.\n\nFor further discussion and examples, see the [linkedElement design pattern topic](#bindingpatterns@linkedelem).\n\nSee also the [`bindTo`](#tagoptions@bindto) and [`linkedCtxParam`](#tagoptions@linkedctxparam) options."
+      },
+      {
+        "_type": "para",
+        "title": "The linkedCtxParam option",
+        "text": "The `linkedCtxParam` option is used together with the [`bindTo`](#tagoptions@bindto) option (or the `bindFrom` option, if one is specified), to optionally declare a contextual parameter for each bound argument/property specified in `bindFrom`/`bindTo`. The contextual parameters can be accessed within the tag content rendered by the tag, as well as within block content wrapped by the tag.\n\nThe following sample shows a `{{mytag}}` tag control with a data-linked `mode` property. The tag uses `linkedCtxParam` to bind a `~mde` contextual parameter to the `mode` property.\n",
+        "anchor": "linkedctxparam"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{mytag mode=tagmode .../}}\n```\n\n```js\nmytag: {\n  ...\n  template: '...<input data-link=\"~mde\"/>...',\n  bindTo: [\"mode\"],\n  linkedCtxParam: [\"mde\"],\n  ...\n```"
+          }
+        ],
+        "nocss": true,
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{mytag mode=tagmode class=\"tb1\"/}}<br/>\n  <label>tagmode: <input data-link=\"tagmode\"/></label>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\nmytag: {\n  dataBoundOnly: true,\n  template: '<div><label>~mde: <input data-link=\"~mde\"/></label> ' +\n    '<button data-link=\"{on ~tag.setNormalMode}\">Set normal</button>' +\n    '<div class=\"msg\"></div></div>',\n  bindTo: [\"mode\"],\n  linkedCtxParam: [\"mde\"],\n  displayElement: \"div\",\n  onUpdate: false,\n  setNormalMode: function() { // Button action\n    this.ctxPrm(\"mde\", \"normal\"); // Modify the mode property\n  },\n  onBind: function() {\n    this.msgBox = this.contents(true, \".msg\");\n    // Attach listener to change in mode property\n    $.observe(this, \"~mde\", this.onModeChange);\n  },\n  onUnbind: function() {\n    $.unobserve(this, \"~mde\", this.onModeChange); // Detach listener\n  },\n  onModeChange: function(ev, eventArgs) { // Listener\n    this.msgBox.append($.views.converters.encode(eventArgs.value )+ \"<br/>\");\n    // (Note that we encode < > and & as HTML entities, for display)\n\n  }\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {tagmode: \"start\"};\n\nmyTmpl.link(\"#page\", data);\n",
+        "height": "140",
+        "header": "<style>\nbody {font-family: sans-serif;}\n.tb1 {border: 1px solid #bbb; padding: 8px; margin: 4px 20px 4px 14px; display: inline-block; float: left;}\n.tb1 .msg {font-style: italic; border: 1px solid #32b732; padding-left: 8px; margin: 8px 0 0; width: 220px; height: 55px; overflow-y:auto;}\n.tb1 input {margin: 6px; width: 80px;} \n</style>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "If [`bindTo`](#tagoptions@bindto) (or [`bindFrom`](#tagoptions@bindfrom)) is set to an array, binding multiple arguments or properties (such as `bindTo: [0, 1, \"mode\"]`), then `linkedCtxParam` must be an array of strings of the same length (such as linkedCtxParam: `[\"first\", \"last\", \"mde\"]` - specifying the names of the corresponding contextual parameters. (To specify linked contextual parameters for some but not all of the `bindTo` bindings, set `undefined` for the other members of the `linkedCtxParam` array.)\n\nIf `bindTo` is not set, then `linkedCtxParam` will behave as if `bindTo` was set to `[0]`, and will provide two-way binding to the first argument.\n\nThe linked contextual parameters can be used declaratively within templates (such as the tag template, or within a tag block). They can also be accessed programmatically, for getting or setting values, or for attaching handlers (to listen to observable changes). The following examples come from the sample above:\n\n```jsr\n<input data-link=\"~mde\"/>...\n<button data-link=\"{on ~tag.setNormalMode}\">...\n```\n\n```js\nsetNormalMode: function() { // Button action\n  this.ctxPrm(\"mde\", \"normal\"); // Modify the mode property\n},\nonBind: function() {\n  // Attach listener to change in mode property\n  $.observe(this, \"~mde\", this.onModeChange);\n},\nonUnbind: function() {\n  $.unobserve(this, \"~mde\", this.onModeChange); // Detach listener\n},\nonModeChange: function(ev, eventArgs) { // Listener\n  this.msgBox.append(eventArgs.value + \"<br/>\");\n}\n```\n\nThe declared linked contextual parameters thus provide an easy way for a tag control to respond to changes in the bound arguments or properties, to observably modify their values, or to register handlers to 'listen' to observable changes.\n\nFor further discussion and examples, see the [linkedCtxParam design pattern topic](#bindingpatterns@linkedctxparam).\n\nSee also the [`bindTo`](#tagoptions@bindto), [`bindFrom`](#tagoptions@bindfrom) and [`linkedElement`](#tagoptions@linkedelement) options.\n\n*Note:* if the `bindFrom` and `bindTo` options are both set, then linkedCtxParam will correspond "
+      },
+      {
+        "_type": "para",
+        "title": "The mainElement option",
+        "text": "The `mainElement` option is a jQuery selector for declaratively setting `tag.mainElem`.\n\nThe `tag.mainElem` (jQuery object) contains the HTML element in the tag control to be used for setting `width` or `height` (if `setSize` is `true`) or `id`. (See [`setSize`](#tagoptions@setsize), [`width`](#tagoptions@width) and [`height`](#tagoptions@height).)\n\n*Declare the `mainElement` option:*\n\n```js\nmytag: {\n  mainElement: \".foo\", // jQuery selector\n  ...\n}\n```\n\nThe selector is applied to the HTML elements rendered by the tag. (In the case of a tag control using a data-linked element with [tag binding](), such as `<div data-link=\"{mytag ...}\">`, the set of HTML elements includes the data-linked element itself.) \n\nThe first element returned by the selector is assigned to `tag.mainElem` (wrapped in a jQuery object). This element will be used for setting `width`, `height` or `id`. If no element is returned, `tag.mainElem` will be an empty jQuery object.\n\nThe `tag.mainElem` can also be set programmatically, in `onBind()` for example:\n\n```js\nmytag: {\n  onBind: function() {\n    this.mainElem = this.contents(true, \".foo\"); // Set mainElem programmatically\n  },\n  ...\n}\n```\n\n*Note:* If `tag.mainElem` has not been set but `tag.linkedElem` is defined, then `tag.linkedElem[0]` is instead used for setting `width`, `height` or `id`.\n\n*Usage:*\n\n```jsr\n{^{mytag width=22 id='foo' /}}\n```\n\nSee also the [`setSize`](#tagoptions@setsize), [`width`](#tagoptions@width), [`height`](#tagoptions@height) [`displayElement`](#tagoptions@displayelement) and [`linkedElement`](#tagoptions@linkedelement) options.",
+        "anchor": "mainelement"
+      },
+      {
+        "_type": "para",
+        "title": "The displayElement option",
+        "text": "The `displayElement` option is a jQuery selector for declaratively setting `tag.displayElem`.\n\nThe `tag.displayElem` (jQuery object) contains the HTML element in the tag control to be used for setting `class`, either declaratively:\n\n```jsr\n{{mytag ... class=.../}}\n```\n\nor, as default class, via the [`className`](#tagoptions@classname) option:\n\n```js\nmytag: {\n  className: ...\n  ...\n}\n```\n\nThe selector is applied to the HTML elements rendered by the tag. (In the case of a tag control using a data-linked element with [tag binding](), such as `<div data-link=\"{mytag ...}\">`, the set of HTML elements includes the data-linked element itself.) \n\nThe first element returned by the selector is assigned to `tag.displayElem` (wrapped in a jQuery object). This element will be used for setting `class`. If no element is returned, `tag.displayElem` will be an empty jQuery object.\n\nThe `tag.displayElem` can also be set programmatically, in `onBind()` for example:\n\n```js\nmytag: {\n  onBind: function() {\n    this.displayElem = this.contents(true, \".foo\"); // Set displayElem programmatically\n  },\n  ...\n}\n```\n\n*Note:* If `tag.displayElem` has not been set but `tag.mainElem` or `tag.linkedElem` are defined, then `tag.mainElem` (if defined), or else `tag.linkedElem[0]` is instead used for setting `class`. \n\n*Usage:*\n\n```jsr\n{^{mytag class='mytagclass' /}}\n```\n\nSee also the [`className`](#tagoptions@classname), [`mainElement`](#tagoptions@mainelement), and [`linkedElement`](#tagoptions@linkedelement) options.",
+        "anchor": "displayelement"
+      },
+      {
+        "_type": "para",
+        "title": "<b>Additional advanced or less commonly used options:</b>",
+        "text": " "
+      },
+      {
+        "_type": "para",
+        "title": "The trigger option",
+        "text": "The `trigger` option can be used to set a default trigger behavior for two-way [linked element`](#tagoptions@linkedelement) bindings within the tag.\n\n```js\nmytag: {\n  trigger: false, // Linked element text boxes within {{mytag}} will trigger on blur, not on keydown\n  ...\n}\n```\n\nAn individual `{{mytag}}` instance can override the `trigger` option setting by writing `{^{mytag trigger=... .../}}`.\n\nSee the [trigger setting](#jsvsettings/trigger) and [two-way binding](#link2way@trigger) topics.\n\n",
+        "anchor": "trigger"
+      },
+      {
+        "_type": "para",
+        "title": "The attr option",
+        "text": "When data-linking using a [*Tag binding*](#link-tags) with the [full linked element syntax](#linked-elem-syntax@fullsyntax), you can specify a target attribute such as the `title` attribute:\n\n```jsr\n<div data-link=\"title{mytag ...}\">...\n```\n\nIn the example above `mytag` will render to the `title` attribute of the `div` element. \n\nIf no target attribute is specified:\n\n```jsr\n<div data-link=\"{mytag ...}\">...\n```\n\nthen `mytag` will render to the default target attribute.\n\n\nThe `attr` option can be used to specify a default target attribute for `mytag`:\n\n```js\nmytag: {\n  attr: \"text\", // Default target attribute\n  ...\n}\n```\n\nIf `mytag` has no `attr` option specified, then the default target attribute will instead be the [default target](#link-tags@defaulttargets) for that element, such as `\"html\"` for a `div` or `\"value\"` for an `input`.\n\nPossible values for the `attr` option include any of the targets such as `\"text\"`, `\"html\"`, `\"class\"`, `\"visible\"` etc (see [*Targets for data-linking*](#link-targets)). Alternatively the `attr` option can be set to `attr: \"none\"` in the case of tag bindings which do not render output at all, but add other behavior in other ways (such as [`data-link=\"{on ...}\"`](#link-events@datalink-on) which adds event bindings). ",
+        "anchor": "attr"
+      },
+      {
+        "_type": "para",
+        "title": "The ctx option",
+        "text": "See [JsRender `ctx`](#tagsapi@ctx).",
+        "anchor": "ctx"
+      },
+      {
+        "_type": "para",
+        "title": "The contentCtx option",
+        "text": "See [JsRender `contentCtx`](#tagsapi@contentctx).",
+        "anchor": "contentctx"
+      },
+      {
+        "_type": "para",
+        "title": "The argDefault option",
+        "text": "See [JsRender `argDefault`](#tagsapi@argdefault).",
+        "anchor": "argdefault"
+      },
+      {
+        "_type": "para",
+        "title": "The dataMap option",
+        "text": " This option is used in some advanced scenarios, and internally for implementation of the `{{props}}` and `{{for}}` tags. ",
+        "anchor": "datamap"
+      },
+      {
+        "_type": "para",
+        "title": "The lateRender option",
+        "text": " This option is available for some advanced scenarios. See unit tests for some examples of use.",
+        "anchor": "laterender"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "jsvtagcontrols",
+            "label": "JsViews tag controls"
+          },
+          {
+            "_type": "topic",
+            "hash": "tagstructure",
+            "label": "Structure of a custom tag control"
+          },
+          {
+            "_type": "topic",
+            "hash": "taglifecycle",
+            "label": "The lifecycle of a JsViews tag control"
+          },
+          {
+            "_type": "topic",
+            "hash": "tagpatterns",
+            "label": "Tag control design patterns"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/tag-controls",
+            "label": "Samples: JsViews tag controls"
+          },
+          {
+            "_type": "topic",
+            "hash": "tags",
+            "label": "Using custom tags (JsRender)"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/jsr/tags",
+            "label": "Samples: JsRender custom tags"
+          }
+        ]
+      }
+    ]
+  },
+  "tagstructure": {
+    "title": "The structure of a JsViews custom tag control",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The [`options`](#tagoptions) object used to register a tag control is in effect a prototype for constructing the instances of the tag control.\n\nThe specified options will fall into the following categories:\n\n- JsViews tag settings\n- JsViews handlers and methods\n- tag properties/state\n- tag methods\n\nA tag declaration might typically be structured in sections corresponding to the above categories, as in this example:\n\n```js\n$.views.tags(\"tabs\", {\n  // JsViews tag settings\n  ...\n  displayElement: \".tabsview\",\n  bindTo: \"pane\",\n  width: 250,\n  template: '...',\n\n  // JsViews handlers and methods\n  init: function(tagCtx) { ... },\n  onUpdate: function(ev, event, newTagCtxs) { ... },\n\n  // tag properties/state\n  pane: 0, // selected pane (defaults to 0)\n\n  // tag methods\n  getPane: function(tagCtxs) { ... },\n  setTab: function(index) { ... }\n});\n```\n\n(from the [`{{tabs}}` sample](#bindingpatterns@tabs2way))\n\nThe sections are: \n\n**JsViews tag settings**\n\nAny of the following:\n- [`baseTag`](#tagoptions@basetag)\n- [`flow`](#tagoptions@flow)\n- [`dataBoundOnly`](#tagoptions@databoundonly)\n- [`template`](#tagoptions@template)\n- [`boundProps`](#tagoptions@boundprops)\n- [`depends`](#tagoptions@depends)\n- [`bindTo`](#tagoptions@bindto)\n- [`bindFrom`](#tagoptions@bindto)\n- [`setSize`](#tagoptions@setsize)\n- [`height`](#tagoptions@height)\n- [`width`](#tagoptions@width)\n- [`className`](#tagoptions@classname)\n- [`linkedElement`](#tagoptions@linkedelement)\n- [`linkedCtxParam`](#tagoptions@linkedctxparam)\n- [`mainElement`](#tagoptions@mainelement)\n- [`displayElement`](#tagoptions@displayelement)\n- [`trigger`](#tagoptions@trigger)\n- [`attr`](#tagoptions@attr)\n- [`ctx`](#tagoptions@ctx)\n- [`contentCtx`](#tagoptions@contentctx)\n- [`argDefault`](#tagoptions@argdefault)\n- [`dataMap`](#tagoptions@datamap)\n- [`lateRender`](#tagoptions@laterender)\n\n**JsViews handlers and methods**\n\nAny of the following:\n\n- [`init()`](#tagoptions@init)\n- [`render()`](#tagoptions@render)\n- [`onBind()`](#tagoptions@onbind)\n- [`onAfterLink()`](#tagoptions@onafterlink)\n- [`onUpdate()`](#tagoptions@onupdate)\n- [`onDispose()`](#tagoptions@ondispose)\n- [`convert`](#tagoptions@convert)\n- [`convertBack`](#tagoptions@convertback)\n- [`onUnbind()`](#tagoptions@onunbind)\n- [`onBeforeUpdateVal()`](#tagoptions@onbeforeupdateval)\n- [`onBeforeChange()`](#tagoptions@onbeforechange)\n- [`onAfterChange()`](#tagoptions@onafterchange)\n- [`onArrayChange()`](#tagoptions@onarraychange)\n- [`setValue()`](#tagoptions@setvalue)\n- [`domChange()`](#tagoptions@domchange)\n\n**tag properties/state**\n\nInitialization of tag-specific 'user' properties (such as those used for instance state)\n\n**tag methods**\n\nTag-specific 'user' methods (such as methods called in response to click events on the tag control)",
+        "anchor": "structure"
+      }
+    ]
+  },
+  "taglifecycle": {
+    "title": "The lifecycle of a JsViews custom tag control",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The [tag options](#tagoptions) can include event handlers for the following lifecycle events:\n\n- [`init()`](#tagoptions@init)\n- [`render()`](#tagoptions@render)\n- [`onBind()`](#tagoptions@onbind)\n- [`onUnbind()`](#tagoptions@onunbind)\n- [`onAfterLink()`](#tagoptions@onafterlink)\n- [`onUpdate()`](#tagoptions@onupdate)\n- [`onDispose()`](#tagoptions@ondispose)\n- [`onBeforeUpdateVal()`](#tagoptions@onbeforeupdateval)\n- [`onBeforeChange()`](#tagoptions@onbeforechange)\n- [`onAfterChange()`](#tagoptions@onafterchange)\n- [`setValue()`](#tagoptions@setvalue)",
         "anchor": "lifecycle"
       },
       {
         "_type": "para",
-        "title": "Custom tag life-cycle without data-linking: init() and render() events only",
-        "text": "When a custom tag is rendered without data-linking:\n\n```jsr\n{{myTag .../}}\n```\n\nthen it will be instantiated during rendering, and immediately disposed, and only the [`init()`](#tagsapi@init) and [`render()`](#tagsapi@render) life-cycle events will be triggered.\n\n"
+        "title": "Custom tag control lifecycle without data-linking: init() and render() events only",
+        "text": "When a custom tag is rendered without data-linking:\n\n```jsr\n{{mytag .../}}\n```\n\nthen it will be instantiated during rendering, and immediately disposed, and only the `init()` and `render()` lifecycle events will be triggered:\n\n- [`init()`](#tagoptions@init) -- initialization\n- [`render()`](#tagoptions@render) -- rendering\n\n\n"
       },
       {
         "_type": "para",
-        "title": "Custom tag life-cycle with data-linking (tag control): full life-cycle",
-        "text": "When a custom tag is rendered with data-linking:\n\n```jsr\n{^{myTag .../}}\n```\n\nthen it will behave as a *tag control*. It will be instantiated during rendering, and the instance will remain as long as the parent HTML element (and JsViews `View`) are not removed or disposed. \n\n**_Initialization_**:\n\nDuring the initial rendering and data-linking, life-cycle events will be triggered in the following sequence:\n\n- `init()` -- initialization\n- `render()` -- rendering\n- `onBind()` -- during initial data-linking\n- `onAfterLink()` -- after initial data-linking\n\n**_Data-linking update (observable change)_**:\n\nIf the tag control has arguments (`{^{myTag arg1 .../}}`) then whenever any of the arguments changes observably, data-linking will be refreshed, with the following sequence of events:\n\n- `onBeforeChange` -- cancellable event, before change\n- `onUpdate` -- update data-linking\n- `onUnbind` -- remove data-link bindings\n- `render` -- refresh rendering\n- `onBind` -- establish new data-link bindings\n- `onAfterLink` -- after updating data-linking\n- `onAfterChange` -- after completing change\n\n-- and similarly if the tag has data-bound properties (`{^{myTag ^prop1=... .../}}`), or declared dependencies which change... \n\n**_Data-linking update with onUpdate set to false_**:\n\nOften a custom tag control does not need to completely re-render itself when responding to an observable changes in arguments, bound properties or dependencies. In that case, performance can be optimized by setting `onUpdate: false` (or setting to a handler which returns `false`). The *observable change* life-cycle is then reduced to:\n\n- `onBeforeChange` -- cancellable event, before change\n- `onUpdate` -- update data-linking\n- `onAfterLink` -- after updating data-linking\n- `onAfterChange` -- after completing change\n\n-- Note that it is still possible to force a complete re-rendering, by calling `tag.refresh()`.\n\n**_Disposal_**:\n\nIf the containing HTML/`View` is removed, then the tag control instance will be disposed, with the following sequence of events:\n\n- `onUnbind()` -- remove data-link bindings\n- `onDispose()` -- dispose of instance\n\n**_Refresh_**:\n\nIf the tag control instance is refreshed (by calling the `tag.refresh()` method, for example) then the instance will be replaced by a newly rendered and data-linked instance -- with the following sequence of events:\n\n- `onUnbind` -- remove data-link bindings\n- `render` -- refresh rendering\n- `onBind` -- establish new data-link bindings\n- `onAfterLink` -- after data-linking refreshed instance"
+        "title": "Custom tag control lifecycle with data-linking (tag control)",
+        "text": "When a custom tag is rendered with data-linking:\n\n```jsr\n{^{mytag .../}}\n```\n\nthen it will behave as a *tag control*. It will be instantiated during rendering, and the instance will remain as long as the parent HTML element (and JsViews `View`) are not removed or disposed. \n\n*The different lifecycle scenarios are as follows:*\n\n**_Initialization_**:\n\nDuring the initial rendering and data-linking, lifecycle events will be triggered in the following sequence:\n\n- [`init()`](#tagoptions@init) -- initialization\n- [`render()`](#tagoptions@render) -- rendering\n- [`onBind()`](#tagoptions@onbind) -- during initial data-linking\n- [`onAfterLink()`](#tagoptions@onafterlink) -- after initial data-linking\n- [`setValue()`](#tagoptions@setvalue) -- called once for each bound argument or property (and for each `{{else}}` block)\n\n**_Data-linking update (observable change)_**:\n\nIf the tag control has arguments `{^{mytag arg1 .../}}` then whenever any of the arguments changes observably, data-linking and rendering will be refreshed, with the following sequence of events:\n\n- [`onBeforeChange()`](#tagoptions@onbeforechange) -- cancellable event, before change\n- [`onUpdate()`](#tagoptions@onupdate) -- update data-linking\n- [`onUnbind()`](#tagoptions@onunbind) -- remove data-link bindings\n- [`render()`](#tagoptions@render) -- refresh rendering\n- [`onBind()`](#tagoptions@onbind) -- establish new data-link bindings\n- [`onAfterLink()`](#tagoptions@onafterlink) -- after updating data-linking\n- [`setValue()`](#tagoptions@setvalue) -- called once for each bound argument or property (and for each `{{else}}` block)\n- [`onAfterChange()`](#tagoptions@onafterchange) -- after completing change\n\n-- and similarly if the tag has data-bound properties `{^{mytag ^prop1=... .../}}`, or declared [`boundProps`](#tagoptions@boundProps) or [`depends`](#tagoptions@depends) paths for which the data changes observably... \n\n**_Data-linking update with onUpdate set to false_**:\n\nOften a custom tag control does not need to completely re-render itself when responding to observable changes in arguments, bound properties or dependencies. In that case, performance can be optimized by setting `onUpdate: false` (or setting to a handler which returns `false`). The *observable change* lifecycle is then reduced to:\n\n- [`onBeforeChange()`](#tagoptions@onbeforechange) -- cancellable event, before change\n- [`onUpdate()`](#tagoptions@onupdate) -- update data-linking (set to `false` or returns `false`)\n- [`onAfterLink()`](#tagoptions@onafterlink) -- after updating data-linking\n- [`setValue()`](#tagoptions@setvalue) -- called once for each bound argument or property (and for each `{{else}}` block)\n- [`onAfterChange()`](#tagoptions@onafterchange) -- after completing change\n\n-- Note that it is still possible to force a complete re-rendering, by calling `tag.refresh()`.\n\n**_Two-way bound tag control triggering an observable update to data_**:\n\nA tag control may be bound to data through a two-way binding. In that case it can be updated when the data-linked data changes observably (two previous scenarios), but there is also the reverse scenario where the tag triggers an observable change on the data. This leads to the following sequence of lifecycle events:\n\n- [`onBeforeUpdateVal()`](#tagoptions@onbeforeupdateval) -- cancellable event, before triggering change\n- [`onBeforeChange()`](#tagoptions@onbeforechange) -- cancellable event, before change\n- [`onUpdate()`](#tagoptions@onupdate) -- update data-linking\n- [`onAfterLink()`](#tagoptions@onafterlink) -- after updating data-linking\n- [`onAfterChange()`](#tagoptions@onafterchange) -- after completing change\n- [`setValue()`](#tagoptions@setvalue) -- called once only -- for the bound argument or property which is being triggered\n\n**_Disposal_**:\n\nIf the containing HTML/`View` is removed, then the tag control instance will be disposed, with the following sequence of events:\n\n- [`onUnbind()`](#tagoptions@onunbind) -- remove data-link bindings\n- [`onDispose()`](#tagoptions@ondispose) -- dispose of instance\n\n**_Refresh_**:\n\nIf the tag control instance is refreshed (by calling the `tag.refresh()` method, for example) then the instance will be replaced by a newly rendered and data-linked instance -- with the following sequence of events:\n\n- [`onUnbind()`](#tagoptions@onunbind) -- remove data-link bindings\n- [`render()`](#tagoptions@render) -- refresh rendering\n- [`onBind()`](#tagoptions@onbind) -- establish new data-link bindings\n- [`onAfterLink()`](#tagoptions@onafterlink) -- after data-linking refreshed instance\n- [`setValue()`](#tagoptions@setvalue) -- called once for each bound argument or property (and for each `{{else}}` block)\n",
+        "anchor": "datalink"
       },
       {
         "_type": "para",
-        "title": "Structure of a custom tag control",
-        "text": "The `options` object used to register a tag control is in effect a prototype for constructing the instances of the tag control.\n\nThe specified options will fall into the following categories:\n\n- JsViews handlers and methods\n- JsViews tag settings\n- tag properties/state\n- tag methods\n\nA tag declaration might typically be structured in sections corresponding to the above categories, as in this example (see [below]()):\n\n```js\n$.views.tags(\"spinbox\", {\n  // JsViews handlers and methods\n  onUpdate: false, // No need to re-render on update\n\n  // JsViews tag settings\n  template: \"#spinboxTmpl\",\n  dataBoundOnly: true,\n\n  // tag properties/state\n  selectedIndex: 1,  // initial selectedIndex\n\n  // tag methods\n  cycleSelection: cycleSelFn // method to cycle/increment selectedIndex\n});\n```\n\nThe sections are: \n\n**JsViews handlers and methods**\n\nAny of the following:\n\n- init\n- render\n- onBind\n- onAfterLink\n- onUpdate\n- onDispose\n- convert\n- convertBack\n- onUnbind\n- onBeforeUpdateVal\n- onBeforeChange\n- onAfterChange\n- onArrayChange\n- setValue\n- domChange\n\n**JsViews tag settings**\n\nAny of the following:\n\n- baseTag\n- flow\n- dataBoundOnly\n- template\n- boundProps\n- depends\n- bindTo\n- attr\n- setSize\n- height\n- width\n- className\n- linkedCtxParam\n- mainElement\n- linkedElement\n- displayElement\n- contentCtx\n- argDefault\n- dataMap\n- lateRender\n- trigger\n\n**tag properties/state**\n\nInitialization of tag-specific 'user' properties (such as those used for instance state)\n\n**tag methods**\n\nTag-specific 'user' methods (such as methods called in response to click events on the tag control)"
+        "title": "Declaring event handlers directly on the tag instance",
+        "text": "The following event handlers can be specified as tag options, for custom tags, but can also be declared directly on a tag instance:\n- [`onBind()`](#tagoptions@onbind)\n- [`onUnbind()`](#tagoptions@onunbind)\n- [`onAfterLink()`](#tagoptions@onafterlink)\n- [`onUpdate()`](#tagoptions@onupdate)\n- [`onDispose()`](#tagoptions@ondispose)\n- [`onBeforeUpdateVal()`](#tagoptions@onbeforeupdateval)\n- [`onBeforeChange()`](#tagoptions@onbeforechange)\n- [`onAfterChange()`](#tagoptions@onafterchange)\n\nFor example:\n\n```jsr\n{^{mytag ... onDispose=~cleanupMyTag/}}\n```\n\nThis style of inline event handler declaration works for regular built-in tags too. Here is an example declaring an `onBeforeUpdateVal()` handler on an `<input data-link=\"...\" />`, and an `onBeforeChange()` handler on a `{^{: ...}}` tag:",
+        "anchor": "instancehandlers"
       },
       {
-        "_type": "para",
-        "title": "Sections to follow...",
-        "text": "**Note:** This documentation topic is work in progress. More to follow..."
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<input data-link=\"telephone onBeforeUpdateVal=~validateTel\"/>\n\n... {^{:telephone onBeforeChange=~confirmChange}}\n```\n\n```js\nhelpers = {\n  validateTel: function(ev, eventArgs) {\n    return eventArgs.value.length < 13;\n  },\n  confirmChange: function(ev, eventArgs) {\n    return confirm(\"Accept the value: '\" + eventArgs.value + \"'?\");\n  }\n};\n```"
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"telephone onBeforeUpdateVal=~validateTel\"/>\n\n  Telephone: {^{:telephone onBeforeChange=~confirmChange}}\n</script>\n\n<div id=\"page\"></div>",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n\n  data = { telephone: \"693 726 3388\" },\n\n  helpers = {\n    validateTel: function(ev, eventArgs) {\n      return eventArgs.value.length < 13;\n    },\n    confirmChange: function(ev, eventArgs) {\n      return confirm(\"Accept the value: '\" + eventArgs.value + \"'?\");\n    }\n  };\n\nmyTmpl.link(\"#page\", data, helpers);",
+        "height": "50"
       }
-      //},
-      //{
-      //  "_type": "para",
-      //  "title": "Tag control design patterns",
-      //  "text": "The following are some common design patterns used for different categories of JsViews custom tag controls:\n\n**_Rendered template_**:\n\nAs shown in the JsRender *[Using custom tags](#tags)* topic, a simple tag control can be obtained just by assigning a template to the `template` option:\n\n```js\n$.views.tags(\"mytag\", {\n  template: tagTemplate; // Provide just a template (string, selector, or compiled template object)\n});\n```\n\nSee [this example](#tags@template-sample) and [this example](#tags@tmplcontext-sample).\n\n**_Programmatic rendering (render method)_**:\n\nSimilarly, a tag control can be defined just by assigning a function to the `render` option:\n\n```js\n$.views.tags(\"mytag\", {\n  render: tagRenderFn); // Provide just a render method\n});\n```\n\nThis is also shown in the JsRender *[Using custom tags](#tags)* topic. See [this example](#tags@render-sample) and [this example](#tags@context-sample).\n\n**_Dynamic template_**:\n\nSometimes a tag control is conveniently defined using a template (rather than a render method) -- but the desired template depends on state, or data, or other settings such as tag properties, and so cannot be 'statically' defined. An appropriate 'dynamic' template can easily be achieved by setting the `template` property 'dynamically' within the `init` method, as in [this example](#tagsapi@initsample).\n\n**_Wrapping content_**:\n\nchooseBlock\n\n**_User action events_**:\n\n{{on}}\nspinbox"
-      //},
-      //{
-      //  "_type": "sample",
-      //  "typeLabel": "Sample:",
-      //  "codetabs": [],
-      //  "sectionTypes": {
-      //    "para": "para",
-      //    "data": "data",
-      //    "template": "template",
-      //    "code": "code",
-      //    "links": "links"
-      //  },
-      //  "sections": [],
-      //  "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {{:name}}\n</script>\n\n<div id=\"page\"></div>",
-      //  "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { name: \"Jo\" };\n\nmyTmpl.link(\"#page\", data);"
-      //},
-      //{
-      //  "_type": "para",
-      //  "title": "",
-      //  "text": "**_Tag control state_**:\n\n\n**_Tag hierarchy and recursive tags_**:\n\n\n**_Inheritance -- derived controls_**:\n\nrange\nbase\n\n**_Two-way binding_**:\n\nSimple text box\nlinkedElem\nminislider\nlinkedCtxParam\nsetValue\n\n**_Default converters_**:\n\nconvert\nconvertBack\n\n**_Multiple two-way bindings_**:\n\nareaslider\nbindTo\n\n**_Composite controls_**:\n\npicker\n\n**_??_**\n\nSortable grid\nDataMap\n"
-      //}
     ]
   },
-  //"jsvtagcontrolsPrevNew": {
-  //  "title": "Custom tag controls",
-  //  "path": "",
-  //  "sections": [
-  //    {
-  //      "_type": "para",
-  //      "title": "",
-  //      "text": "*Custom tag controls* used in *JsViews* apps are regular *JsRender* custom tags, defined/registered in the usual way (see *[Using custom tags](#tags)*).\n\nHowever, in the context of JsViews data-linking they become stateful 'controls' (or 'widgets') -- self-contained encapsulated components, with a life-cycle of instantiation, initialization, initial rendering, data-binding, updating (triggered by observable data changes), disposal...\n\n"
-  //    },
-  //    {
-  //      "_type": "para",
-  //      "title": "Custom tags with or without data-linking",
-  //      "text": "A custom tag can be used simply for rendering, without data-binding, as in\n\n```jsr\n{{mytag ...}}\n```\n\nor it can be used (with JsViews) as a data-linked tag (so it becomes a dynamic data-bound *tag control*), as in:\n\n```jsr\n{^{mytag ...}}\n```\n\nIt can also be used as a [tag binding](#link-tags) on a [data-linked element](#linked-elem-syntax):\n\n```jsr\n<div data-link=\"{mytag ...}\">...</div>\n```\n"
-  //    },
-  //    {
-  //      "_type": "sample",
-  //      "typeLabel": "Sample:",
-  //      "codetabs": [],
-  //      "sectionTypes": {
-  //        "para": "para",
-  //        "data": "data",
-  //        "template": "template",
-  //        "code": "code",
-  //        "links": "links"
-  //      },
-  //      "sections": [
-  //        {
-  //          "_type": "para",
-  //          "title": "",
-  //          "text": "Simple tag:\n\n```js\n$.views.tags(\"mytag\", \"<b>{{:}}</b>\");\n```\n\nUse with or without data-linking:\n\n```jsr\n<input data-link=\"name\" />\nNo data binding: {{mytag name/}}\nData-linked tag: {^{mytag name/}}\nData-linked element with tag binding: <span data-link=\"{mytag name}\"></span>\n```"
-  //        }
-  //      ],
-  //      "jsrJsvJqui": "",
-  //      "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" /><br/>\n\n  No data binding: {{mytag name/}}<br/>\n  Data-linked tag: {^{mytag name/}}<br/>\n  Data-linked element with tag binding: <span data-link=\"{mytag name}\"></span><br/>\n</script>\n\n<div id=\"page\"></div>",
-  //      "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { name: \"Jo\" };\n\n$.views.tags(\"mytag\", \"<b>{{:}}</b>\");\n\nmyTmpl.link(\"#page\", data);",
-  //      "height": "110"
-  //    },
-  //    {
-  //      "_type": "para",
-  //      "title": "Specifying tag options for a custom tag",
-  //      "text": "The following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function.\n\n(See: *[Registering a custom tag](#tags@register)*.)"
-  //    },
-  //    {
-  //      "_type": "para",
-  //      "title": "<b>The life-cycle of a JsViews tag control</b>",
-  //      "text": "The tag options can include event handlers for the following life-cycle events:\n\n- `init()` \n- `render()` \n- `onBeforeBind()` tag.mainElem, tag.linkedElem and tag.displayElem can be set in tag.onBeforeBind\n- `onBind()` \n- `onUnbind()` \n- `onAfterLink()` \n- `onUpdate()` \n- `onDispose()`\n\n"
-  //    },
-  //    {
-  //      "_type": "para",
-  //      "title": "Custom tag life-cycle without data-linking: init() and render() events only",
-  //      "text": "When a custom tag is rendered without data-linking:\n\n```jsr\n{{myTag .../}}\n```\n\nthen it will be instantiated during rendering, and immediately disposed, and only the [`init()`](#tagsapi@init) and [`render()`](#tagsapi@render) life-cycle events will be triggered.\n\n"
-  //    },
-  //    {
-  //      "_type": "para",
-  //      "title": "Custom tag life-cycle with data-linking (tag control): full life-cycle",
-  //      "text": "When a custom tag is rendered with data-linking:\n\n```jsr\n{^{myTag .../}}\n```\n\nthen it will behave as a *tag control*. It will be instantiated during rendering, and the instance will remain as long as the parent HTML element (and JsViews `View`) are not removed or disposed. \n\n**_Initialization_**:\n\nDuring the initial rendering and data-linking, life-cycle events will be triggered in the following sequence:\n\n- `init()` -- initialization\n- `render()` -- rendering\n- `onBeforeBind()` -- prior to initial data-linking\n- `onBind()` -- during initial data-linking\n- `onAfterLink()` -- after initial data-linking\n\n**_Data-linking update (observable change)_**:\n\nIf the tag control has arguments (`{^{myTag arg1 .../}}`)then whenever any of the arguments changes observably, data-linking will be refreshed, with the following sequence of events:\n\n- `onBeforeChange` -- cancellable event, before change\n- `onUpdate` -- update data-linking\n- `onAfterLink` -- after updating data-linking\n- `onAfterChange` -- after completing change\n\n-- and similarly if the tag has data-bound properties (`{^{myTag ^prop1=... .../}}`), or declared dependencies which change... \n\n**_Disposal_**:\n\nIf the containing HTML/`View` is removed, then the tag control instance will be disposed, with the following sequence of events:\n\n- `onUnbind()` -- remove data-link bindings\n- `onDispose()` -- dispose of instance\n\n**_Refresh_**:\n\nIf the tag control instance is refreshed (by calling the `tag.refresh()` method, for example) then the instance will be replaced by a newly rendered and data-linked instance -- with the following sequence of events:\n\n- `onUnbind` -- remove data-link bindings\n- `render` -- refresh rendering\n- `onBind` -- establish new data-link bindings\n- `onAfterLink` -- after data-linking refreshed instance"
-  //    },
-  //    {
-  //      "_type": "para",
-  //      "title": "Tag control design patterns",
-  //      "text": "**_Rendered template_**:\n\nAs shown in the *JsRender* *[Using custom tags](#tags)* topic, a simple tag control can be obtained just by assigning a template to the `template` option:\n\n```js\n$.views.tags(\"mytag\", {\n  template: tagTemplate; // Provide just a template (string, selector, or compiled template object)\n});\n```\n\nSee [this example](#tags@template-sample) and [this example](#tags@context-sample).\n\n**_Programmatic rendering (render method)_**:\n\nSimilarly, a tag control can be defined just by assigning a function to the `render: ...` option. This is also shown in the JsRender *[Using custom tags](#tags)* topic -- in [this example](#tags@render-sample) and [this example](#tags@tmplcontext-sample).\n\n**_Dynamic template_**:\n\ninit\n\n**_Wrapping content_**:\n\nchooseBlock\n\n**_User action events_**:\n\n{{on}}\nspinbox\n\n**_Inheritance -- derived controls_**:\n\nrange\nbase\n\n**_Two-way binding_**:\n\nSimple text box\nlinkedElem\nminislider\nlinkedCtxParam\nsetValue\n\n**_Default converters_**:\n\nconvert\nconvertBack\n\n**_Multiple two-way bindings_**:\n\nareaslider\nbindTo\n\n**_Composite controls_**:\n\npicker"
-  //    },
-  //    {
-  //      "_type": "para",
-  //      "title": "AND",
-  //      "text": "Consider the following simple custom tag control, rendered by a JsRender template:\n\nSample with init and render, {{}}\n\nIn JsRender - init and render\n\nNow add onBind, onAfterLink onDispose and use {^{}}\n\nExample needing onBind and onAfterLink\n\nUsing dispose\n\n(Add convert ?)\n\nBinding - linkedElem simple textbox\n\nspinbox\nUser action events\nWrapping content\n\nInheritance - range\n\nSpecifying data-binding behavior (one-way and two-way)\n\nminislider\nlinkedCtxParam\nsetValue\n\nareaslider\nbindTo\n\ncomposition: picker\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- tag.depends()\n- tag.convertBack()\n- tag.onBeforeUpdateVal()\n- tag.onBeforeChange()\n- tag.onArrayChange()\n- tag.onAfterChange()\n- tag.domChange()\n"
-  //    },
-  //    {
-  //      "_type": "sample",
-  //      "typeLabel": "Sample:",
-  //      "codetabs": [],
-  //      "sectionTypes": {
-  //        "para": "para",
-  //        "data": "data",
-  //        "template": "template",
-  //        "code": "code",
-  //        "links": "links"
-  //      },
-  //      "sections": [],
-  //      "jsrJsvJqui": "jsr",
-  //      "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {{name firstName lastName prefix=title/}}\n</script>\n\n<div id=\"page\"></div>",
-  //      "code": "$.views.tags(\"myTag\", {\n  init: function(tagCtx) {\n    this.prefix = tagCtx.props.prefix;\n  },\n  render: function(first, second) {\n    return this.prefix + \" \" + first + \" \" + second\n  }\n})\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = { firstName: \"Jo\", lastName: \"Blow\", title: \"Mr\" },\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);"
-  //    },
-  //    {
-  //      "_type": "para",
-  //      "title": "",
-  //      "text": "### _Tag options available in both JsRender and JsViews:_\n\nThe following tag options are documented in the JsRender [*Registering custom tags*](#tagsapi) topic -- and concern primarily the *rendering* behavior of the custom tag, rather than its dynamic interactive data-bound behavior when using data-linking:\n\n- The [init()](#tagsapi@init) method: `init: tagInitFn`\n- The [render()](#tagsapi@render) method: `render: tagRenderFn`\n- The [template](#tagsapi@template) property: `template: tagTemplate`\n- The [baseTag](#tagsapi@basetag) property, specifying tag inheritance: `baseTag: ...`\n\nThe following more advanced options (also documented in the JsRender [*Registering custom tags*](#tagsapi) topic) are also available with or without data-linking:\n\n- [`contentCtx: ...`](#tagsapi@contentctx)\n- [`convert: ...`](#tagsapi@convert)\n- [`argDefault: ...`](#tagsapi@argdefault)\n- [`bindTo: ...`](#tagsapi@bindto)\n- [`flow: ...`](#tagsapi@flow)"
-  //    },
-  //    {
-  //      "_type": "para",
-  //      "title": "OTHER",
-  //      "text": "\nSpecifying data-binding behavior (one-way and two-way)\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- tag.depends()\n- tag.convertBack()\n- tag.onBeforeUpdateVal()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n- tag.domChange()\n\n\nAdvanced\n\n- lateRender (feature)\n- dataMap\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\n\n"
-  //    },
-  //    {
-  //      "_type": "para",
-  //      "title": "",
-  //      "text": "### _Tag options available only to JsViews custom tag controls:_"
-  //    },
-  //    {
-  //      "_type": "para",
-  //      "title": "Tag options available only to JsViews custom tag controls ",
-  //      "text": "The \n\nDeclare\n\n- tag.boundProps\n- tag.linkedCtxParam\n- tag.mainElement\n- tag.linkedElement\n- tag.displayElement\n- tag.setSize\n- tag.attr (e.g. [`{show ...}`](https://stackoverflow.com/questions/45651480/issue-with-jsviews-and-materialize-dropdown-button/45655487)\n- tag.dataBoundOnly\n- dateMap\n- lateRender (feature)\n\nEvent handlers\n\n- tag.convertBack()\n- tag.domChange()\n- tag.depends()\n- tag.onBeforeBind()\n- tag.onBind()\n- tag.onAfterLink()\n- tag.onUpdate()\n- tag.onBeforeUpdateVal()\n- tag.onDispose()\n- tag.onBeforeChange()\n- tag.onAfterChange()\n\nProps/Methods\n\n- tag.refresh()\n- tag.contents()\n- tag.childTags()\n- tag.nodes()\n- tag.setValue()\n- tag.setValues()\n- tag.updateValue()\n- tag.updateValues()\n- tag.linkCtx\n- tag.parentElem\n- tag._.inline\n- tag.linkedElem\n- tag.displayElem\n- tag.linkedElems\n- tag.mainElem\n\nJsRender\n\nDeclare\n\n- tag.template\n- tag.flow\n- tag.baseTag\n- tag.contentCtx\n- tag.argDefault\n- tag.bindTo\n\nEvent handlers\n\n- tag.init()\n- tag.render()\n- tag.convert()\n\nProps/Methods\n\n- tag.ctxPrm()\n- tag.cvt()\n- tag.cvtArgs()\n- tag.bndArgs() \n- tag.ctx\n- tag.parent\n- tag.parents\n- tag.tagCtx\n- tag.tagCtxs\n- tag.tagName\n- tag.base\n- tag.baseApply\n- rendering\n\n"
-  //    }
-  //  ]
-  //}
+  "tagpatterns": {
+    "title": "JsViews custom tag controls: Design patterns",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The following subtopics and sections show some common design patterns used for different categories of JsViews custom tag controls:\n\n*[Layout and rendering design patterns](#renderingpatterns)*\n- [Rendered template](#renderingpatterns@template)\n- [Programmatic rendering (render method)](#renderingpatterns@programmatic)\n- [Setting options in the init method](#renderingpatterns@init-options)\n- [Specifying event handlers](#renderingpatterns@handlers)\n- [Setting size](#renderingpatterns@setsize)\n- [Setting class](#renderingpatterns@setclass)\n- [Wrapping content](#renderingpatterns@wrapping)\n- [Setting the data context of wrapped content](#renderingpatterns@contentctx)\n\n*[Data binding design patterns](#bindingpatterns)*\n- [Data-linked tags: responding to updated args or props](#bindingpatterns@datalinked)\n- [Responding to user actions](#bindingpatterns@user-actions)\n- [Two-way binding to args or props (bindTo). Persistence of state](#bindingpatterns@bindto)\n- [Linked element](#bindingpatterns@linkedelem)\n- [Linked contextual parameters](#bindingpatterns@linkedctxparam)\n- [SetValue and updateValue](#bindingpatterns@setvalue-updatevalue)\n- [Multiple two-way binding to args or props](#bindingpatterns@multiple-twoway)\n\n*[Tag hierarchy design patterns](#hierarchypatterns)*\n- [Composite controls](#hierarchypatterns@composite)\n- [Converters](#hierarchypatterns@converters)"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also the *[JsViews tag controls](#jsvtagcontrols)* overview topic, and the *[Tag control options](#tagoptions)* API details topic.\n"
+      }
+    ]
+  },
+  "renderingpatterns": {
+    "title": "JsViews tag controls: Layout and rendering design patterns",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This topic shows common tag control design patterns concerning the visual rendering and UI layout of tag controls:\n\n- [Rendered template](#renderingpatterns@template)\n- [Programmatic rendering (render method)](#renderingpatterns@programmatic)\n- [Setting options in the init method](#renderingpatterns@init-options)\n- [Specifying event handlers](#renderingpatterns@handlers)\n- [Setting size](#renderingpatterns@setsize)\n- [Setting class](#renderingpatterns@setclass)\n- [Wrapping content](#renderingpatterns@wrapping)\n- [Setting the data context of wrapped content](#renderingpatterns@contentctx)\n\nFor other categories of tag control design pattern, see *[Data binding design patterns](#bindingpatterns)* and *[Tag hierarchy design patterns](#hierarchypatterns)*.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Rendered template",
+        "text": "As shown in the JsRender *[Using custom tags](#tags)* topic, a simple tag control can be obtained just by assigning a template to the [`template`](#tagoptions@template) option:\n\n```js\n$.views.tags(\"mytag\", {\n  template: tagTemplate; // Provide just a template (string, selector, or compiled template object)\n});\n```\n\nSee [this example](#tags@template-sample) and [this example](#tags@tmplcontext-sample).\n",
+        "anchor": "template"
+      },
+      {
+        "_type": "para",
+        "title": "Programmatic rendering (render method)",
+        "text": "Similarly, a tag control can be defined just by assigning a function to the [`render`](#tagoptions@render) option:\n\n```js\n$.views.tags(\"mytag\", {\n  render: tagRenderFn); // Provide just a render method\n});\n```\n\nThis is also shown in the JsRender *[Using custom tags](#tags)* topic. See [this example](#tags@render-sample) and [this example](#tags@context-sample).",
+        "anchor": "programmatic"
+      },
+      {
+        "_type": "para",
+        "title": "Setting options (such as the template option) in the init() method",
+        "text": "Most of the [tag options](tagoptions) that can be specified 'statically' in a tag declaration can alternatively be set programmatically in the `init()` method, and made to depend 'dynamically' on state, or data, or other settings such as tag properties. \n\nThe following options can all be set in this way in the [`init()`](#tagoptions@init) method:\n\n- [`template`](#tagoptions@template)\n- [`boundProps`](#tagoptions@boundprops)\n- [`depends`](#tagoptions@depends)\n- [`bindTo`](#tagoptions@bindto)\n- [`bindFrom`](#tagoptions@bindfrom)\n- [`attr`](#tagoptions@attr)\n- [`setSize`](#tagoptions@setsize)\n- [`height`](#tagoptions@height)\n- [`width`](#tagoptions@width)\n- [`className`](#tagoptions@classname)\n- [`linkedElement`](#tagoptions@linkedelement)\n- [`linkedCtxParam`](#tagoptions@linkedctxparam)\n- [`mainElement`](#tagoptions@mainelement)\n- [`displayElement`](#tagoptions@displayelement)\n- [`contentCtx`](#tagoptions@contentctx)\n- [`argDefault`](#tagoptions@argdefault)\n\nFor example, in [this sample](#tagsapi@initsample) the `template` option is set within the `init()` method to a different template depending on the value of the `mode` property.",
+        "anchor": "init-options"
+      },
+      {
+        "_type": "para",
+        "title": "Specifying event handlers",
+        "text": "The appearance, behavior, data-binding and interactivity of a tag control can be determined by both declarative and programmatic approaches.\n\n- The declarative approach uses options such as [`template`](#tagoptions@template), [`boundProps`](#tagoptions@boundprops), [`bindTo`](#tagoptions@bindto), [`width`](#tagoptions@width), [`className`](#tagoptions@classname), [`linkedCtxParam`](#tagoptions@linkedctxparam) and [`displayElement`](#tagoptions@displayelement).\n- The programmatic approach is primarily by placing code in event handlers, declared for different events in the tag control [lifecycle](#taglifecycle).\n\nThe most common usage patterns for event handlers include:\n\n- [`init()`](#tagoptions@init) -- Called during initialization\n  - Used for initialization and Programmatic [setting of options](renderingpatterns@ini-options)\n- [`render()`](#tagoptions@render) -- Called during rendering\n  - Used for returning rendered HTML, or for controlling rendering behavior\n- [`onBind()`](#tagoptions@onbind) -- Called during initial data-linking\n  - Used for accessing tag control UI, adding data-binding, attaching event handlers\n- [`onAfterLink()`](#tagoptions@onafterlink) -- Called after data-linking, both initially, and on every observable update\n  - Used for accessing tag control UI (when needed on every update)\n- [`onUpdate()`](#tagoptions@onupdate) -- Called on every observable update\n  - Used for coding on every update. Code can depend on the specific change (`newTagCtxs`)\n  - Return `false` to skip re-rendering\n- [`onDispose()`](#tagoptions@ondispose) -- Called when tag instance is disposed\n  - Used for instance clean up or disposal\n",
+        "anchor": "handlers"
+      },
+      {
+        "_type": "para",
+        "title": "Setting size",
+        "text": "The height and width of a tag control can be specified in different ways:\n\n- Through CSS -- for example by setting the [`displayElement`](#tagoptions@displayelement) option, then either setting the [`className`](#tagoptions@classname) option, or specifying the `class` property on the tag markup: `{{mytag ... class=.../}}`\n- By setting the [`setSize`](#tagoptions@setsize) and [`mainElement`](#tagoptions@mainelement) options -- then either setting the  [`width`](#tagoptions@width)/[`height`](#tagoptions@height) options, or specifying the `width`/`height` properties on the tag markup: `{{mytag ... width=... height=.../}}`.<br/>See for example this [tabs sample](#bindingpatterns@tabs).\n- Programmatically -- by setting the width or height of the chosen HTML element. For example, in `onBind()`:<br/>\n`onBind: function() { this.contents(true, \"someSelector\").width(300); }`",
+        "anchor": "setsize"
+      },
+      {
+        "_type": "para",
+        "title": "Setting class",
+        "text": "A tag control can render elements with associated class names, which can then allow styling of the tag control instances, through CSS.\n\n```js\nmytag: {\n  template: '...<div class=\"mytagOuter\">...'\n```\n\nIn addition, if a display element is defined then a class can be associated with that element, either through the [`className`](#tagoptions@classname) option, or declaratively on the tag: `{{mytag ... class=...}}`.\n\nSee [`displayElement`](#tagoptions@displayelement).",
+        "anchor": "setclass"
+      },
+      {
+        "_type": "para",
+        "title": "Wrapping content",
+        "text": "Any tag can wrap block content, as in:\n\n```jsr\n{{mytag}}some block content{{/mytag}}\n```\n\nor be used with `{{else}}` tags to wrap multiple blocks -- as in \n\n```jsr\n{{mytag}}block1{{else}}block2{{else}}block3{{/mytag}}\n```\n\nIf the tag has no `template` option and no `render()` method then all the blocks will be rendered as is. Nevertheless the tag may indirectly affect rendering or behavior as a result of other tag options -- such as a setting for [`mainElement`](#tagoptions@mainelement), [`width`](#tagoptions@width), [`className`](#tagoptions@classname)\nor [`contentCtx`](#tagoptions@contentctx).\n\nEven if no tag options are specified, the tag may still impact the rendering of each block, since it will have the default `contentCtx` behavior, and move the data context in the block to whatever data was passed in as argument:",
+        "anchor": "wrapping"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{{mytag person}}\n  Name: {{:name}}<br/> {{!--data context here is 'person'--}}\n{{else address}}\n  Address: {{:street}} {{!--data context here is 'address'--}}\n{{/mytag}}\n```\n\n```js\n$.views.tags(\"mytag\", {});\nvar data = {person: {name: \"Jo\"}, address: {street: \"Main Street\"}; ...\n```"
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{{mytag person}}\n  Name: {{:name}}<br/> {{!--data context here is 'person'--}}\n{{else address}}\n  Address: {{:street}} {{!--data context here is 'address'--}}\n{{/mytag}}\n</script>\n\n<div id=\"page\"></div>\n",
+        "code": "$.views.tags(\"mytag\", {});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    person: {name: \"Jo\"},\n    address: {street: \"Main Street\"}\n  },\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);",
+        "jsrJsvJqui": "jsr",
+        "height": "54",
+        "nocss": false
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "If the tag has a `render()` method or a `template` then block content needs to be specifically included in the rendered output.\n\nIn a [`render()`](#tagoptions@render) method (if there is no `template`) block content is rendered using:\n\n```js\n... this.tagCtx.render() ...\n```\n\nIn a [`template`](#tagoptions@template) either of the following forms will render the block content:\n\n```jsr\n{{include tmpl=#content/}}\n{{include tmpl=~tagCtx.content/}}\n```\n\nand similarly, a data-linked element can use an `{include}` [tag binding](#link-tags) to wrap content, as in:\n\n```jsr\n<div data-link=\"{include tmpl=#content/}\"></div>\n```\n\n(See also the related documentation topics: *[Accessing and rendering wrapped block content](#tags@wrapping)*, *[Rendering wrapped block content](#tagsapi@wrapping)* and *[Rendering else blocks](#tagsapi@elseblocks)*)\n\nThe following sample shows two versions of a `{{chooseblock}}` custom tag -- one using a `render()` method and the other a `template`. The tag can wrap multiple blocks:\n\n```jsr\n{{chooseblock pane=2}}\n  <u>Zero</u>\n{{else}}\n  <b>One</b>\n{{else}}\n  <i>Two</i>\n{{/chooseblock}}\n```\n\nThe tag renders just one block -- specified by its `pane` property -- which defaults to `0` and can be set using (for example) `{{chooseblock pane=1}}`, or driven by a data value such as `mode`, in `{{chooseblock pane=mode}}`.\n\nNote that the `{{chooseblock}}` tag uses the `init()` method and either the `render()` method or the `template` option, and also has a custom tag property: `pane`.\n\nWe will develop this example further in the following sections, and incorporate additional data-linking and interactivity features, using other custom tag [*options* and *methods/handlers*](#tagstructure). In this way it will evolve into a `{{spinblock}}` control (with the `pane` property as tag state) which will then be incorporated (through tag composition) into a more advanced `{{colorpicker}}` control."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Tag declaration (using a render method):*\n\n```js\nchooseblock: {\n  // JsViews handlers and methods\n  init: function(tagCtx) {\n    ... this.pane = tagCtx.props.pane;\n  },\n  render: function() {\n    // Called once for each block (tagCtx)\n    if (this.tagCtx.index === this.pane) {\n      // For selected block, include block content in rendered string \n      ret += ... + this.pane + \": \" + this.tagCtx.render();\n    }\n    return ret; // For non-selected blocks, return \"\"\n  },\n  // tag properties/state\n  pane: 0 // selected pane (defaults to 0)\n}\n```\n\n*Alternative version using a template:*\n\n```js\nchooseblock2: {\n  // JsViews tag settings\n  template: \"#chooseblock2Tmpl\", // Rendered once for each block (tagCtx)\n  // JsViews handlers and methods\n  init: function(tagCtx) {...},\n  ...\n}\n```\n\n*chooseblock2Tmpl:*\n\n```jsr\n{{!--include rendered block content, but only for selected pane--}}\n{{if ~tagCtx.index===~tag.pane}}\n  ... {{:~tag.pane}} ... {{include tmpl=#content/}}\n{{/if}}\n```"
+          }
+        ],
+        "jsrJsvJqui": "jsr",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n<div class=\"box\">\n{{chooseblock pane=0}}\n  <u>Zero</u>\n{{else}}\n  <b>One</b>\n{{else}}\n  <i>Two</i>\n{{/chooseblock}}\n</div>\n\n<div class=\"box\">\n{{chooseblock2 pane=1}}\n  <u>Zero</u>\n{{else}}\n  <b>One</b>\n{{else}}\n  <i>Two</i>\n{{/chooseblock2}}\n</div>\n</script>\n\n<!--chooseblock2Tmpl-->\n<script id=\"chooseblock2Tmpl\" type=\"text/x-jsrender\">\n{{!--include rendered block content, but only for selected pane--}}\n{{if ~tagCtx.index===~tag.pane}}\n  {{:~tag.tagName}}<br/> Pane {{:~tag.pane}}:\n  {{include tmpl=#content/}}\n{{/if}}\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\n\n//---- {{chooseblock}} tag definition ----\n\nchooseblock: {\n  // JsViews handlers and methods\n  render: function() {\n    // Called once for each block (tagCtx)\n    var ret = \"\";\n    if (this.tagCtx.index === this.pane) {\n      // For selected block, include block content in rendered string \n      ret += this.tagName\n           + \"<br/>Pane \" + this.pane + \": \"\n           + this.tagCtx.render();\n    }\n    return ret; // For non-selected blocks, return \"\"\n  },\n\n  init: function(tagCtx) {\n    if (tagCtx.props.pane !== undefined) {\n      this.pane = tagCtx.props.pane;\n    }\n  },\n\n  // tag properties/state\n  pane: 0 // selected pane (defaults to 0)\n},\n\n//---- {{chooseblock2}} tag definition ----\n\nchooseblock2: {\n  // JsViews tag settings\n  template: \"#chooseblock2Tmpl\", // Rendered once for each block (tagCtx)\n\n  // JsViews handlers and methods\n  init: function(tagCtx) {\n    if (tagCtx.props.pane !== undefined) {\n      this.pane = tagCtx.props.pane;\n    }\n  },\n\n  // tag properties/state\n  pane: 0 // selected pane (defaults to 0)\n}\n\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {},\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);",
+        "header": "<style>\n.box { width: 130px; height: 37px; margin: 10px; float: left; padding: 10px; font-family: sans-serif; box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 4px 0 rgba(0, 0, 0, 0.37);  border-radius: 2px; }\n</style>\n",
+        "action": "",
+        "height": "100",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The two versions of `{{chooseblock}}` above show how:\n\n- with a `render()` method and no `template`, `render()` is called once for each block, and can selectively output rendering (such as the block content) for that block\n- with a `template` but no `render()` method, the template is rendered once for each block, and can again selectively render content (such as the block content) for the block\n\nThe following is a third variant which shows how:\n\n- with both a `template` and a `render()` method, calling `tagCtx.render()` from the `render()` method will render the template for that block. The template can then optionally include the corresponding block content"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*render() method*\n\n```js\nrender: function() {\n  // Called once for each block (tagCtx)\n  if (this.tagCtx.index === 0) {\n    return this.tagCtx.render();\n    // render the template only once, on first tagCtx\n  }\n  return \"\";\n}\n```\n\n*chooseblock3Tmpl*\n\n```jsr\n{{:~tag.tagName}}<br/> Pane {{:~tag.pane}}:\n{{!--Render block content (tagCtx.content) for the selected pane--}}\n{{include tmpl=~tag.tagCtxs[~tag.pane].content /}}\n```\n"
+          }
+        ],
+        "jsrJsvJqui": "jsr",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n<div class=\"box\">\n{{chooseblock3 pane=pane}}\n  <u>Zero</u>\n{{else}}\n  <b>One</b>\n{{else}}\n  <i>Two</i>\n{{/chooseblock3}}\n</div>\n</script>\n\n<!--chooseblock3Tmpl-->\n<script id=\"chooseblock3Tmpl\" type=\"text/x-jsrender\">\n{{:~tag.tagName}}<br/> Pane {{:~tag.pane}}:\n{{!--Render block content (tagCtx.content) for the selected pane--}}\n{{include tmpl=~tag.tagCtxs[~tag.pane].content /}}\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\nchooseblock3: {\n  // JsViews tag settings\n  template: \"#chooseblock3Tmpl\",\n\n  // JsViews handlers and methods\n  render: function() {\n    // Called once for each block (tagCtx)\n    if (this.tagCtx.index === 0) {\n      return this.tagCtx.render();\n      // render the template only once, on first tagCtx\n    }\n    return \"\";\n  },\n  init: function(tagCtx) {\n    if (tagCtx.props.pane !== undefined) {\n      this.pane = tagCtx.props.pane;\n    }\n  },\n\n  // tag properties/state\n  pane: 0 // selected pane (defaults to 0)\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {pane: 1}, // Set the selected pane\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);",
+        "header": "<style>\n.box { width: 130px; height: 37px; margin: 10px; float: left; padding: 10px; font-family: sans-serif; box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 4px 0 rgba(0, 0, 0, 0.37);  border-radius: 2px; }\n</style>",
+        "action": "append",
+        "height": "100",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "Setting the data context of wrapped content",
+        "text": "*__To set the inner data context for the wrapped content:__*\n\n- With the `render()` approach:\n  - pass in data as argument: `tagCtx.render(someData)`\n  - use [contentCtx](#tagoptions@contentctx) to define the inner data context\n  - call `render()` without argument, in which case the inner data context will be the same as the outer context\n- With the `template` approach:\n  - pass data as an argument: `{{include someData tmpl=... /}}`\n  - use [contentCtx](#tagoptions@contentctx) to define the data context of both the template and the wrapped content\n  - use `{{include tmpl=... /}}` without argument, in which case the data context of both the template and the wrapped content will be:\n    - the value passed as first tag argument `{{mytag someData...}}`, if there is one\n    - otherwise, the same as the outer context.)\n",
+        "anchor": "contentctx"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "bindingpatterns",
+            "label": "Data binding design patterns"
+          },
+          {
+            "_type": "topic",
+            "hash": "hierarchypatterns",
+            "label": "Tag hierarchy design patterns"
+          }
+        ],
+        "detail": false
+      }
+    ]
+  },
+  "bindingpatterns": {
+    "title": "JsViews tag controls: Data binding design patterns",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This topic shows common tag control design patterns involving data-binding and interactivity:\n\n- [Data-linked tags: responding to updated args or props](#bindingpatterns@datalinked)\n- [Responding to user actions](#bindingpatterns@user-actions)\n- [Two-way binding to args or props (bindTo). Persistence of state](#bindingpatterns@bindto)\n- [Linked element](#bindingpatterns@linkedelem)\n- [Linked contextual parameters](#bindingpatterns@linkedctxparam)\n- [SetValue and updateValue](#bindingpatterns@setvalue-updatevalue)\n- [Multiple two-way binding to args or props](#bindingpatterns@multiple-twoway)\n\nFor other categories of tag control design pattern, see *[Layout and rendering design patterns](#renderingpatterns)* and *[Tag hierarchy design patterns](#hierarchypatterns)*.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Data-linked tag controls: responding to updated args or props",
+        "text": "The *[Wrapping content](#renderingpatterns@wrapping)* section of  *[Layout and rendering design patterns](#renderingpatterns)* showed the `{{chooseblock}}` custom tag -- which did not use data-linking (and could be used just with JsRender).\n\nThe next sample will make `{^{chooseblock pane=...}}` into a data-linked tag control, where the selected `tag.pane` can be driven by data and respond to observable changes through one-way data binding of the `pane` property.\n\nThis will illustrate the use of the [`boundProps`](#tagoptions@boundprops) option, the [`init()`](#tagoptions@init) and [`onUpdate()`](#tagoptions@onupdate) event handler, and custom tag methods.\n\nSpecifically, we will provide:\n\n- a `boundProps: [\"pane\"]` option setting. (This option takes an array of property names.) Declaring `pane` as a bound property saves us from having to write `{^{chooseblock ^pane=...}}` on each tag instance (see [*binding to tag properties*](#linked-tag-syntax@linkedproperties)).  \n- a `getPane()` custom tag method, to validate the value of the `pane` property.\n- an `init()` event handler to initialize `tag.pane` based on the data).\n- an `onUpdate()` event handler, to respond to observable changes of the `pane` property. Like `init()`, this handler will use `tag.getPane(...)` to test whether the new value is valid -- and if so will set the `tag.pane` to the new value. For invalid values we return `false`, to ignore the change, and skip re-rendering the tag control. (See *[Custom tag control lifecycle](#taglifecycle@datalink)*.)",
+        "anchor": "datalinked"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Data-linked tag:*\n\n```jsr\n{^{chooseblock pane=mode}}...{{else}}...{{else}}...{{/chooseblock}}\n```\n\n*Add `boundProps` to observe `pane`, `getPane()` to validate value of `pane`, `init()` and `onUpdate()` to respond to valid changes:*\n\n```js\nchooseblock: {\n  // JsViews tag settings\n  boundProps: [\"pane\"], // respond to observable changes in the 'pane' property\n  // JsViews handlers and methods\n  init: function(tagCtx) {\n    var newPane = this.getPane(this.tagCtxs);  // Validate 'pane' prop\n    ...\n  },\n  render: function() {\n    ...\n  }, \n  onUpdate: function(ev, event, newTagCtxs) {\n    var newPane = this.getPane(newTagCtxs); // Validate 'pane' prop\n    if (newPane === undefined) {\n      return false; // Not a valid value, so no update\n    }\n    this.pane = newPane; // Valid value, so update\n  },\n  ...\n  // tag methods\n  getPane: function(tagCtxs) {\n    // Helper function to validate the 'pane' prop - integer, in range\n    var pane = tagCtxs[0].props.pane;\n    if (...) {\n      return pane;\n    }\n  }\n}\n```"
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n<div class=\"box\">\n{^{chooseblock pane=mode}}\n  <u>Zero</u>\n{{else}}\n  <b>One</b>\n{{else}}\n  <i>Two</i>\n{{/chooseblock}}\n</div>\n\n<div class=\"left\">\n  <input data-link=\"mode convert=~toString convertBack=~toInt\"/>\n</div>\n\n<div class=\"left\">\n{^{radiogroup mode convert=~toString convertBack=~toInt}}\n  <label><input type=\"radio\" value=\"0\"/> 0</label>\n  <label><input type=\"radio\" value=\"1\"/> 1</label>\n  <label><input type=\"radio\" value=\"2\"/> 2</label>\n{{/radiogroup}}\n</div>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\nchooseblock: {\n  // JsViews tag settings\n  boundProps: [\"pane\"], // Respond to observable changes in 'pane' prop\n\n  // JsViews handlers and methods\n  init: function(tagCtx) {\n    var newPane = this.getPane(this.tagCtxs);  // Validate 'pane' prop\n    if (newPane !== undefined) {\n      this.pane = newPane; // Is valid, so set to the value\n    }\n  },\n\n  render: function() { \n    var ret = \"\";\n    if (this.tagCtx.index === this.pane) {\n      // For selected block, include block content in rendered string \n      ret += this.tagName + \"<br/>Pane \"\n          + this.pane + \": \"\n          + this.tagCtx.render();\n    }\n    return ret; // For non-selected blocks, return \"\"\n  },\n\n  onUpdate: function(ev, event, newTagCtxs) {\n    var newPane = this.getPane(newTagCtxs); // Validate 'pane' prop\n    if (newPane === undefined) {\n      return false; // Not a valid value, so no update\n    }\n    this.pane = newPane; // Valid value, so update\n  },\n\n  // tag properties/state\n  pane: 0,  // selected pane (defaults to 0)\n\n  // tag methods\n  getPane: function(tagCtxs) {\n    // Helper function to validate the 'pane' prop - integer, in range\n    var pane = tagCtxs[0].props.pane;\n    if (pane !== null && 0 <= pane && pane < this.tagCtxs.length) {\n      return pane;\n    }\n  }\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    mode: 1\n  },\n  context = {\n    toInt: function(value) {\n      value = +value;  // Coerce to number\n      return value === parseInt(value) ? value : null; // If not exact integer return null\n    },\n    toString: function(value) {\n      return \"\" + value;\n    }\n  };\n\nmyTmpl.link(\"#page\", data, context);\n",
+        "header": "<style>\n.box { width: 130px; height: 37px; margin: 10px; float: left; padding: 10px; font-family: sans-serif; box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 4px 0 rgba(0, 0, 0, 0.37);  border-radius: 2px; }\n.left { float: left; padding: 12px; }\n.left input:not([type]) { width: 100px; }\nlabel { display: block }\n</style>",
+        "action": "",
+        "height": "100",
+        "title": "{{chooseblock}} with  one-way binding",
+        "anchor": "chooseblock1way",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "Responding to user actions",
+        "text": "An interactive tag control will capture and respond to user actions, generally in one or more of the following ways:\n\n- Responding to observable changes to data -- such as bound args or props, or changes corresponding to `depends` settings (see the *[Data-linked controls](#bindingpatterns@datalinked)* pattern above). (The data changes are typically themselves the result of the user interacting with the UI elsewhere, outside this tag control).\n- Responding to user changes made via 'sub-controls' within this tag control UI, such as textboxes, radio buttons, checkboxes or other tag controls (see the *[linked elements](#bindingpatterns@linkedelem)*, *[linked contextual parameters](#bindingpatterns@linkedctxparam)* and *[composition](#hierarchypatterns@compositee)* patterns)\n- The tag control can attach event handlers on its rendered UI, and then respond to user events such as 'click' or 'mousemove', via those handlers.\n\nTo illustrate the use of event handlers, we will convert our `{{chooseblock}}` tag control into a `{{spinblock}}` tag control, by providing *switcher* UI for cycling through the panes.\n\nWe will set the option [`dataBoundOnly: true`](#tagoptions@databoundonly) (since this control is only intended to be used with data-linking -- and otherwise should show an error message).\n\nWe will add a custom tag method, `cycle()`, registered as 'click' handler on the *switcher*.\n\nTwo versions of the `{{spinblock}}` show:\n\n- Attaching the handler declaratively, using `{on ~tag.cycle}`. (See [*Event bindings*](#link-events).)\n- Attaching the handler programmatically in the [`onBind()`](#tagoptions@onbind) event, using jQuery\n\nThe `cycle()` method modifies the tag control state: `tag.pane`, and then calls `tag.refresh()` to re-render with the new pane selection.\n\n- A third version takes the declarative approach, but instead of using a `render()` method it uses a `template`. The template data-links directly to the `tag.pane` value. In this version, the `cycle()` method does not call `tag.refresh()`, but simply changes the `tag.pane` observably, and lets JsViews automatically update appropriately thanks to the data-linking.",
+        "anchor": "user-actions"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Data-linked tag:*\n\n```jsr\n{^{spinblock pane=mode}}...{{else}}...{{else}}...{{/spinblock}}\n```\n\n*spinblock* -- Attach handler declaratively, using [`{on ...}`](#jsvontag)\n\n```js\n// JsViews tag settings\ndataBoundOnly: true,\n// JsViews handlers and methods\nrender: function() {\n  ...\n  if (this.tagCtx.index === 0) { // First pane\n    // Render switcher UI, with 'click' handler calling tag.cycle() method\n    ... + '<div class=\"switcher\" data-link=\"{on ~tag.cycle}\">...</div>';\n  }\n  if (this.tagCtx.index === this.pane) { // This is the selected pane.\n    ... + this.tagCtx.render(); // Render block content\n  }\n  ...\n},\n...\n// tag methods\ncycle: function() { // Method to cycle/increment selected pane\n  this.pane = (this.pane+1) % this.tagCtxs.length;\n  this.refresh();\n}\n```\n\n*spinblock2* -- Attach handler programmatically, using jQuery *on()*\n\n```js\n...\n// JsViews handlers and methods\nrender: function() {\n  ...\n  if (this.tagCtx.index === 0) { // First pane\n    ... + '<div class=\"switcher\"> ... </div>'; // Render switcher UI\n  }\n  ...\n},\nonBind: function() {\n  // Attach tag.cycle() method to switcher UI, as 'click' handler\n  this.contents(true, '.switcher').on(\"click\", $.proxy(this.cycle, this));\n},\n...// tag methods\ncycle: function() { ... }\n```\n\n*spinblock3* -- Use data-link to incrementally update for new pane (rather than complete refresh)\n\n```js\n// JsViews tag settings\ndataBoundOnly: true,\ntemplate: \"#spinblock3Tmpl\", // spinblock UI\n...\n// tag methods\ncycle: function() { // Method to cycle/increment selected pane\n  var newPane = (this.pane+1) % this.tagCtxs.length;\n  $.observable(this).setProperty(\"pane\", newPane);\n}\n```\n\n*spinblock3Tmpl* -- Switch blocks, driven by data-linking to *tag.pane* \n\n```jsr\n...\n{{!--Switcher UI with 'click' handler calling tag.cycle() method--}}\n<div class=\"switcher\" data-link=\"{on ~tag.cycle}\">\n...\n{{!--Render wrapped content of selected block, data-linked to ~tag.pane for dynamic switching--}}\n{^{include ^tmpl=~tag.tagCtxs[~tag.pane].content/}}\n...\n```"
+          }
+        ],
+        "header": "<style>\n.box { position: relative; width: 140px; height: 37px; margin: 10px; float: left; padding: 10px; font-family: sans-serif; box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 4px 0 rgba(0, 0, 0, 0.37);  border-radius: 2px; }\n.switcher {position: absolute; left: 136px; top: 12px; font-family: Verdana; font-size: 14px; height: 34px; width: 17px; cursor: pointer; }\n.switcher:hover { background-color: #DDD; }\n</style>",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{^{spinblock}}\n  <u>Zero</u>\n{{else}}\n  <b>One</b>\n{{else}}\n  <i>Two</i>\n{{/spinblock}}\n\n{^{spinblock2}}\n  <u>Zero</u>\n{{else}}\n  <b>One</b>\n{{else}}\n  <i>Two</i>\n{{/spinblock2}}\n\n{^{spinblock3}}\n  <u>Zero</u>\n{{else}}\n  <b>One</b>\n{{else}}\n  <i>Two</i>\n{{/spinblock3}}\n</script>\n\n<script id=\"spinblock3Tmpl\" type=\"text/x-jsrender\">\n{{if ~tagCtx.index===0}} {{!--render once only--}}\n  <div class=\"box\">\n    {{!--Switcher UI with 'click' handler calling tag.cycle() method--}}\n    <div class=\"switcher\" data-link=\"{on ~tag.cycle}\">\n      <svg height=\"34\" width=\"17\">\n        <path d=\"M5,6 L11,6 L8,2 Z M5,26 L11,26 L8,30 Z\"></path>\n        <text x=4 y=21 data-link=\"text{:~tag.pane}\"></text>\n      </svg>\n    </div>\n    {{:~tag.tagName}}<br/>\n    {{!--Render wrapped content of selected block,\n         data-linked to ~tag.pane for dynamic switching--}}\n    {^{include ^tmpl=~tag.tagCtxs[~tag.pane].content/}}\n  </div>\n{{/if}}\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\n\n//---- {{spinblock}} tag definition ----\n\nspinblock: {\n  // JsViews tag settings\n  dataBoundOnly: true,\n\n  // JsViews handlers and methods\n  render: function() {\n    var ret = \"\";\n    if (this.tagCtx.index === 0) {\n      // First pane\n      ret += '<div class=\"box\">' // Outer 'box' div\n      // Render switcher UI, with 'click' handler calling tag.cycle() method\n      + '<div class=\"switcher\" data-link=\"{on ~tag.cycle}\">'\n        + '<svg height=\"34\" width=\"17\">'\n          + '<path d=\"M5,6 L11,6 L8,2 Z M5,26 L11,26 L8,30 Z\"></path>'\n          + '<text x=4 y=21 >' + this.pane + '</text>'\n        + '</svg>'\n      + '</div>';\n    }\n    if (this.tagCtx.index === this.pane) {\n      // This is the selected pane.\n      ret += this.tagName + \"<br/>\"\n        + this.tagCtx.render(); // Render block content\n    }\n    if (this.tagCtx.index === this.tagCtxs.length-1) {\n      // Last pane\n      ret += '</div>'; // Close outer 'box' div\n    }\n    return ret;\n  },\n\n  onUpdate: false, // No need to re-render on update\n\n  // tag properties/state\n  pane: 1, // Initial selected pane\n\n  // tag methods\n  cycle: function() {\n    // Method to cycle/increment selected pane\n    this.pane = (this.pane+1) % this.tagCtxs.length;\n    this.refresh();\n  }\n},\n\n//---- {{spinblock2}} tag definition ----\n\nspinblock2: {\n  // JsViews tag settings\n  dataBoundOnly: true,\n\n  // JsViews handlers and methods\n  render: function() {\n    var ret = \"\";\n    if (this.tagCtx.index === 0) {\n      // First pane\n      ret += '<div class=\"box\">' // Outer 'box' div\n      // Render switcher UI\n      + '<div class=\"switcher\">'\n        + '<svg height=\"34\" width=\"17\">'\n          + '<path d=\"M5,6 L11,6 L8,2 Z M5,26 L11,26 L8,30 Z\"></path>'\n          + '<text x=4 y=21 >' + this.pane + '</text>'\n        + '</svg>'\n      + '</div>';\n    }\n    if (this.tagCtx.index === this.pane) {\n      // This is the selected pane.\n      ret += this.tagName + \"<br/>\"\n        + this.tagCtx.render(); // Render block content\n    }\n    if (this.tagCtx.index === this.tagCtxs.length-1) {\n    // Last pane\n      ret += '</div>'; // Close outer 'box' div\n    }\n    return ret;\n  },\n\n  onBind: function() {\n    // Attach tag.cycle() method to switcher UI, as 'click' handler\n    this.contents(true, '.switcher').on(\"click\", $.proxy(this.cycle, this));\n  },\n\n  onUpdate: false, // No need to re-render on update\n\n  // tag properties/state\n  pane: 1, // Initial selected pane\n\n  // tag methods\n  cycle: function() {\n    // Method to cycle/increment selected pane index\n    this.pane = (this.pane+1) % this.tagCtxs.length;\n    this.refresh();\n  }\n},\n\n//---- {{spinblock3}} tag definition ----\n\nspinblock3: {\n  // JsViews tag settings\n  dataBoundOnly: true,\n  template: \"#spinblock3Tmpl\", // spinblock UI\n\n  // JsViews handlers and methods\n  onUpdate: false, // No need to re-render on update\n\n  // tag properties/state\n  pane: 1, // Initial selected pane\n\n  // tag methods\n  cycle: function() {\n    // Method to cycle/increment selected pane\n    newPane = (this.pane+1) % this.tagCtxs.length;\n    $.observable(this).setProperty(\"pane\", newPane);\n  }\n}\n\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {mode: \"2\"};\n\nmyTmpl.link(\"#page\", data);",
+        "height": "100",
+        "title": "{{spinblock}} variants",
+        "anchor": "spinblock",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "It is easy to use the above pattern for other similar tag controls which wrap content, and offer interactive UI to switch blocks. Here is the same `{{spinblock3}}` example above converted to a `{{tabs}}` control:\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Data-linked tag:*\n\n```jsr\n{^{tabs width=width height=22 caption=\"Tab A\"}}...{{else caption=\"Tab B\"}}...{{else caption=\"Tab C\"}}...{{/tabs}}\n```\n\n*Tag options for {{tabs}}:* -- Use data-link to incrementally update for new pane\n\n```js\ntabs: {\n  // JsViews tag settings\n  setSize: true, // Allow setting width and height of 'main element'\n  mainElement: \".tabscontent td\", // Selector for 'main element' (tag.mainElem)\n  ...\n  template: \"#tabsTmpl\", // UI for tabs control\n\n  // JsViews handlers and methods\n  onUpdate: false, // No need to re-render on update\n\n  // tag properties/state\n  pane: 0, // selected pane (defaults to 0)\n\n  // tag methods\n  setTab: function(index) {\n    // OnClick for a tab\n    $.observable(this).setProperty(\"pane\", index);\n  }\n}\n```\n\n*tabsTmpl:* -- Data-linking to *tag.pane*\n\n```jsr\n{{if ~tagCtx.index===0}} {{!--render once only--}}\n  <table ...><tbody>\n    {{!--Tab strip UI with 'click' handler calling tag.setTab() method--}}\n    <tr ...>\n      {{for ~tag.tagCtxs}}\n        <th data-link=\"... {on ~tag.setTab #index}\"></th>\n      {{/for}}\n    </tr>\n    {{!--Tab content: wrapped content of selected block, data-linked to ~tag.pane for dynamic switching--}}\n    <tr ...>\n      <td ... data-link=\"{include ^tmpl=~tag.tagCtxs[~tag.pane].content}\"></td>\n    </tr>\n  </tbody></table>\n{{/if}}\n```"
+          }
+        ],
+        "header": "<style>\n.tabstrip > td, .tabscontent > td { border: solid 1px #0000A6; border-top: none; border-right: solid 2px; #1E1ED2; background-color: #fff; }\n.tabstrip > th { cursor: pointer; padding: 2px; font-weight: normal; font-style: italic; color: #424FB3;   border: solid 1px #bbb; border-right: none; background-color: #f8f8f8; border-bottom: solid 1px #1E1ED2; }\n.tabsview { border-collapse: collapse; border: none; font-family: sans-serif; }\n.tabstrip { border-right: solid 1px #bbb; height: 26px }\n.tabstrip > th.header_true { cursor: default; font-weight: bold; border: solid 1px #0000A6; border-right: solid 2px #1E1ED2; border-bottom: solid 1px #eee; color: #0000A6; background-color: #fff; }\n.tabscontent td { padding: 15px 10px 10px 10px; }\n</style>",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{^{tabs width=width height=22 caption=\"Tab A\"}}\n  <u>Zero</u>\n{{else caption=\"Tab B\"}}\n  <b>One</b>\n{{else caption=\"Tab C\"}}\n  <i>Two</i>\n{{/tabs}}\n</script>\n\n<script id=\"tabsTmpl\" type=\"text/x-jsrender\">\n{{if ~tagCtx.index===0}} {{!--render once only--}}\n  <table class=\"tabsview\"><tbody>\n    {{!--Tab strip UI with 'click' handler calling tag.setTab() method--}}\n    <tr class=\"tabstrip\">\n      {{for ~tag.tagCtxs}}\n        <th data-link=\"\n          class{:'header_' + (#index === ~tag.pane)}\n          {on ~tag.setTab #index}\n          {:props.caption}\"></th>\n      {{/for}}\n    </tr>\n    {{!--Tab content with wrapped content of selected {{else}} block--}}\n    <tr class=\"tabscontent\">\n      <td colspan=\"{{:~tag.tagCtxs.length}}\" data-link=\"{include ^tmpl=~tag.tagCtxs[~tag.pane].content}\"></td>\n    </tr>\n  </tbody></table>\n{{/if}}\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\ntabs: {\n  // JsViews tag settings\n  dataBoundOnly: true,\n  setSize: true, // Allow setting width and height of 'main element'\n  mainElement: \".tabscontent td\", // Selector for 'main element' (tag.mainElem)\n  width: 250, // Default width\n  height: 100, // Default height\n  template: \"#tabsTmpl\", // UI for tabs control\n\n  // JsViews handlers and methods\n  onUpdate: false, // No need to re-render on update\n\n  // tag properties/state\n  pane: 0, // selected pane (defaults to 0)\n\n  // tag methods\n  setTab: function(index) {\n    // OnClick for a tab\n    $.observable(this).setProperty(\"pane\", index);\n  }\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    width: 230,\n    pane: \"1\"\n  };\n\nmyTmpl.link(\"#page\", data);",
+        "height": "100",
+        "title": "{{tabs}} control",
+        "anchor": "tabs",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The `{{tabs}}` sample above is structurally identical to the previous `{{spinblock3}}` sample, but substitutes the tabs UI (`\"#tabsTmpl\"`) for the spinblock UI (`\"spinblockTmpl3\"`).\n\nIt also adds the following tag options -- for specifying the size of the tabs control (see the *[Setting size](#renderingpatterns@setsize)* pattern):\n\n- [`setSize: true`](#tagoptions@setsize):\n- [`width: 250`](#tagoptions@width) and [`height: 100`](#tagoptions@height):\n- [`mainElement: \".tabsContent td\"`](#tagoptions@mainelement):\n"
+      },
+      {
+        "_type": "para",
+        "title": "Two-way binding to args or props (bindTo). Persistence of state",
+        "text": "The `{{tabs}}` control has internal state -- the `tag.pane` integer -- which changes when the use switches to another pane. A common requirement is to be able to initialize the UI state of a tag control from a contextual 'data store' (typically, from the server as session data), and also to be able to persist changes back to that store. \n\nIn the next two samples we will first add one-way data-linking so that `tag.pane` can be initialized from contextual data, and then use the [`bindTo`](#tagoptions@bindto) option to instead provide two-way data-linking, so we can persist changes.  \n\nThe one-way data-linking has already been addressed in the section above (the *[Data-linked tag controls](#bindingpatterns@datalinked)* pattern). We will take the same approach used in that section for the `{{chooseblock pane}}` tag control with data-driven pane selection, and apply it to our `{{tabs}}` control:",
+        "anchor": "bindto"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "This `{{tabs}}` sample adds a data-driven `pane` (selected tab), using the same pattern (and essentially the same code) as data-driven `{{chooseblock}}` example [above](#bindingpatterns@datalinked) -- adding the following option settings:\n\n- *boundProps* -- to observe `pane` property\n- *getPane()* -- to validate value of `pane`\n- *init()* -- to initialize `tag.pane` with valid value\n- *onUpdate()* -- to respond to valid changes\n\nThis sample also moves the `template` option to a template string, rather than an external script block template declaration (for better custom tag encapsulation).\n\nIt also sets the [`displayElement`](#tagoptions@displayelement) option:\n\n- `displayElement: \".tabsview\"`\n\nto determine the HTML element that takes the class attribute. (See the *[Setting class](#renderingpatterns@setclass)* pattern).\n\n*Usage:*\n\n```jsr\n{^{tabs pane=~state.tabSelect width=width ... class=\"myTabs \"}}...{{/tabs}}\n```\n\n*Behavior:*\n\nWe have one-way binding to `state.tabSelect`. (Changing the radio buttons drives tab selection, but changing the tab does not drive the radio buttons. The next sample will add two-way binding.)",
+            "sections": [
+              {
+                "_type": "para",
+                "title": "",
+                "text": "paragraph"
+              }
+            ]
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{^{tabs pane=~state.tabSelect width=width height=22 caption=\"Tab A\" class=\"myTabs \"}}\n  <u>Zero</u>\n{{else caption=\"Tab B\"}}\n  <b>One</b>\n{{else caption=\"Tab C\"}}\n  <i>Two</i>\n{{/tabs}}\n\n<div class=\"left\">\n  <input data-link=\"~state.tabSelect convert=~toString convertBack=~toInt\"/>\n</div>\n\n<div class=\"left\">\n{^{radiogroup ~state.tabSelect convert=~toString convertBack=~toInt}}\n  <label><input type=\"radio\" value=\"0\"/> 0</label><br/>\n  <label><input type=\"radio\" value=\"1\"/> 1</label><br/>\n  <label><input type=\"radio\" value=\"2\"/> 2</label><br/>\n{{/radiogroup}}\n</div>\n\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\ntabs: {\n  // JsViews tag settings\n  dataBoundOnly: true,\n  setSize: true,\n  mainElement: \".tabscontent td\",\n  displayElement: \".tabsview\",\n  boundProps: [\"pane\"],\n  width: 250,\n  height: 100,\n  template:\n    '{{if ~tagCtx.index===0}}' + // render once only\n      '<table class=\"tabsview\"><tbody>' +\n        // Tab strip UI with 'click' handler calling tag.setTab() method\n        '<tr class=\"tabstrip\">' +\n          '{{for ~tag.tagCtxs}}' +\n            '<th data-link=\"class{:\\'header_\\' + (#index === ~tag.pane)} {on ~tag.setTab #index} {:props.caption}\"></th>' +\n          '{{/for}}' +\n        '</tr>' +\n        // Tab content with wrapped content of selected {{else}} block\n        '<tr class=\"tabscontent\">' +\n          '<td colspan=\"{{:~tag.tagCtxs.length}}\" data-link=\"{include ^tmpl=~tag.tagCtxs[~tag.pane].content}\"></td>' +\n        '</tr>' +\n      '</tbody></table>' +\n    '{{/if}}',\n\n  // JsViews handlers and methods\n  init: function(tagCtx) {\n    var newPane = this.getPane(this.tagCtxs);  // Validate 'pane' prop\n    if (newPane !== undefined) {\n      this.pane = newPane; // Is valid, so set to the value\n    }\n  },\n  onUpdate: function(ev, event, newTagCtxs) {\n    var newPane = this.getPane(newTagCtxs); // Validate 'pane' prop\n    if (newPane === undefined) {\n      return false; // Not a valid value, so no update\n    }\n    this.pane = newPane; // Valid value, so update\n  },\n\n  // tag properties/state\n  pane: 0, // selected pane (defaults to 0)\n\n  // tag methods\n  getPane: function(tagCtxs) {\n    // Helper function\n    var pane = +tagCtxs[0].props.pane;\n    if (!isNaN(pane) && pane >= 0 && pane < tagCtxs.length) {\n      return pane;\n    }\n  },\n  setTab: function(index) {\n    // OnClick for a tab\n    $.observable(this).setProperty(\"pane\", index); // Update tag.pane\n  }\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    width: 290\n  },\n  context = {\n    state: {\n      tabSelect: 1\n    },\n    toInt: function(index) {\n      return +index;\n    },\n    toString: function(index) {\n      return \"\" + index;\n    }\n  };\n\nmyTmpl.link(\"#page\", data, context);\n",
+        "header": "<style>\n.left { float: left; padding: 12px; }\n.left input:not([type]) { width: 100px; }\n.myTabs { float: left; margin-right: 20px; }\n.tabstrip > td, .tabscontent > td { border: solid 1px #0000A6; border-top: none; border-right: solid 2px; #1E1ED2; background-color: #fff; }\n.tabstrip > th { cursor: pointer; padding: 2px; font-weight: normal; font-style: italic; color: #424FB3;   border: solid 1px #bbb; border-right: none; background-color: #f8f8f8; border-bottom: solid 1px #1E1ED2; }\n.tabsview { border-collapse: collapse; border: none; font-family: sans-serif; }\n.tabstrip { border-right: solid 1px #bbb; height: 26px }\n.tabstrip > th.header_true { cursor: default; font-weight: bold; border: solid 1px #0000A6; border-right: solid 2px #1E1ED2; border-bottom: solid 1px #eee; color: #0000A6; background-color: #fff; }\n.tabscontent td { padding: 15px 10px 10px 10px; }\n</style>",
+        "height": "102",
+        "title": "{{tabs}} with one-way binding",
+        "anchor": "tabs1way",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Next we replace the [`boundProps`](#tagoptions@boundprops) option setting by the [`bindTo`](#tagoptions@bindto) option, to allow two-way binding of the `tab` property. This will enable us to persist changes in the `{{tabs}}` control state by calling `tag.updateValue()` (see also the *[setValue and updateValue](#bindingpatterns@setvalue-updatevalue)* pattern below)."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Here we use the [`bindTo`](#tagoptions@bindto) option to provide two-way data-linking of `pane`:\n\n```js\ntabs: {\n  bindTo: \"pane\",\n ...\n  setTab: function(index) {\n    // OnClick for a tab\n    $.observable(this).setProperty(\"pane\", index); // Update tag.pane\n    this.updateValue(\"\" + index); // Update external data, through two-way binding\n  }\n}\n```\n\nOur sample has nested `{{tabs}}` tag controls:\n\n```jsr\n{^{tabs pane=~state.outerSelect ...}}\n  ...\n  {^{tabs pane=~state.innerSelect ...}}\n    ...\n  {{else ...}}\n    ...\n  {{/tabs}}\n{{else ...}}\n  ...\n{{/tabs}}\n```\n\nThanks to the state persistence to `~state.outerSelect` and `~state.innerSelect`, the user can switch tabs on the inner `{{tabs}}` control, then switch the outer `{{tabs}}` control to a different tab. On returning to the original tab, the inner `{{tabs}}` control 'remembers' its previous 'selected tab' setting. Both controls can be driven by the corresponding radio buttons, by two-way binding. The `~state` object could also be 'round-tripped' to the server/cloud/web service at any time, to allow re-initializing of the page with correct current 'user state' data. "
+          }
+        ],
+        "header": "<style>\nbody { font-family: sans-serif; }\n.special { color: red; font-family: Comic Sans MS; font-style: italic; margin-bottom: 12px; }\n.left { width: 90px; height: 37px; float: left; padding: 25px; }\n.myTabs { float: left; margin-right: 20px; }\n.tabstrip > td, .tabscontent > td { border: solid 1px #0000A6; border-top: none; border-right: solid 2px; #1E1ED2; background-color: #fff; }\n.tabstrip > th { cursor: pointer; padding: 2px; font-weight: normal; font-style: italic; color: #424FB3;   border: solid 1px #bbb; border-right: none; background-color: #f8f8f8; border-bottom: solid 1px #1E1ED2; }\n.tabsview { border-collapse: collapse; border: none; }\n.tabstrip { border-right: solid 1px #bbb; height: 26px }\n.tabstrip > th.header_true { cursor: default; font-weight: bold; border: solid 1px #0000A6; border-right: solid 2px #1E1ED2; border-bottom: solid 1px #eee; color: #0000A6; background-color: #fff; }\n.tabscontent td { padding: 15px 10px 10px 10px; }\n</style>",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{^{tabs pane=~state.outerSelect width=width height=125 caption=\"Tab A\" class=\"myTabs\"}}\n  <div class=\"special\">Some tabbed content:</div>\n  {^{tabs pane=~state.innerSelect\n    width=(width-23) height=35 caption=\"Inner One\"}}\n    ONE inner\n  {{else caption=\"Inner Two\"}}\n    TWO {{>label2}}\n  {{else caption=\"Inner Three\"}}\n    THREE inner\n  {{/tabs}}\n{{else caption=\"Tab B\"}}\n  <ul><li>Some</li><li><b>other</b></li><li>content</li></ul>\n{{/tabs}}\n\n<div class=\"left\">\nOuter Select<br/>\n{^{radiogroup ~state.outerSelect convert=~toString convertBack=~toInt}}\n  <label><input type=\"radio\" value=\"0\"/> 0</label><br/>\n  <label><input type=\"radio\" value=\"1\"/> 1</label><br/>\n{{/radiogroup}}\n</div>\n\n<div class=\"left\">\nInner Select<br/>\n{^{radiogroup ~state.innerSelect convert=~toString convertBack=~toInt}}\n  <label><input type=\"radio\" value=\"0\"/> 0</label><br/>\n  <label><input type=\"radio\" value=\"1\"/> 1</label><br/>\n  <label><input type=\"radio\" value=\"2\"/> 2</label><br/>\n{{/radiogroup}}\n</div>\n\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\ntabs: {\n  // JsViews tag settings\n  dataBoundOnly: true,\n  setSize: true,\n  mainElement: \".tabscontent td\",\n  displayElement: \".tabsview\",\n  bindTo: \"pane\",\n  width: 250,\n  height: 100,\n  template:\n    '{{if ~tagCtx.index===0}}' + // render once only\n      '<table class=\"tabsview\"><tbody>' +\n        // Tab strip UI with 'click' handler calling tag.setTab() method\n        '<tr class=\"tabstrip\">' +\n          '{{for ~tag.tagCtxs}}' +\n            '<th data-link=\"class{:\\'header_\\' + (#index === ~tag.pane)} {on ~tag.setTab #index} {:props.caption}\"></th>' +\n          '{{/for}}' +\n        '</tr>' +\n        // Tab content with wrapped content of selected {{else}} block\n        '<tr class=\"tabscontent\">' +\n          '<td colspan=\"{{:~tag.tagCtxs.length}}\" data-link=\"{include ^tmpl=~tag.tagCtxs[~tag.pane].content}\"></td>' +\n        '</tr>' +\n      '</tbody></table>' +\n    '{{/if}}',\n\n  // JsViews handlers and methods\n  init: function(tagCtx) {\n    var newPane = this.getPane(this.tagCtxs);  // Validate 'pane' prop\n    if (newPane !== undefined) {\n      this.pane = newPane; // Is valid, so set to the value\n    }\n  },\n  onUpdate: function(ev, event, newTagCtxs) {\n    var newPane = this.getPane(newTagCtxs); // Validate 'pane' prop\n    if (newPane === undefined) {\n      return false; // Not a valid value, so no update\n    }\n    this.pane = newPane; // Valid value, so update\n  },\n\n  // tag properties/state\n  pane: 0, // selected pane (defaults to 0)\n\n  // tag methods\n  getPane: function(tagCtxs) {\n    // Helper function\n    var pane = +tagCtxs[0].props.pane;\n    if (!isNaN(pane) && pane >= 0 && pane < tagCtxs.length) {\n      return pane;\n    }\n  },\n\n  setTab: function(index) {\n    // OnClick for a tab\n    $.observable(this).setProperty(\"pane\", index); // Update tag.pane\n    this.updateValue(\"\" + index); // Update external data, through two-way binding\n  }\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    width: 290,\n    label2: \"Inner Tab Label2\",\n    },\n  context = {\n    state: {\n      outerSelect: 0,\n      innerSelect: 1\n    },\n    toInt: function(index) {\n      return +index;\n    },\n    toString: function(index) {\n      return \"\" + index;\n    }\n  };\n\nmyTmpl.link(\"#page\", data, context);\n",
+        "height": "200",
+        "title": "{{tabs}} with two-way binding",
+        "anchor": "tabs2way",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "Linked element",
+        "text": "The [previous section](#bindingpatterns@bindto) showed how to provide two-way data-linking on custom tag controls, using [`bindTo`](#tagoptions@bindto). The approach was partly programmatic -- involving for example a call to `tag.updateValue()` to drive the two-way data-binding to the tag argument or property.\n\nTwo additional option settings can be used in conjunction with [`bindTo`](#tagoptions@bindto), to provide a simpler and more declarative approach to two-way data-linking\n\n- The first, discussed in this section, is the [`linkedElement`](#tagoptions@linkedelement) option.\n- The second -- the [`linkedCtxParam`](#tagoptions@linkedctxparam) option -- is discussed in the [next section](#bindingpatterns@linkedctxparam).  \n\nThe `linkedElement` option allows identifying a single HTML element in the control with each of the tag arguments or properties specified in `bindTo`. The chosen element is automatically data-linked to the chosen argument/property.\n\nFor example here is a custom `{{textbox}}` tag control consisting of a data-linked caption, and an `<input>` element. We use `linkedElement: \"input\"` (with the selector `\"input\"`) to set up the two-way data-linking on the `<input>`.",
+        "anchor": "linkedelem"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{textbox name caption=role .../}}\n```\n\n```js\ntextbox: {\n  ...\n  boundProps: [\"caption\"],\n  template: \"... {^{:~tagCtx.props.caption}}: <input/>...\",\n  linkedElement: \"input\",\n  displayElement: \"div\",\n  ...\n}\n```"
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{^{textbox name caption=role class=\"tb1\"/}}<br />\n\n<input data-link=\"role\" class=\"left\"/>\n<input data-link=\"name\"/>\n</script>\n\n<div id=\"page\"></div>",
+        "header": "<style>\n.tb1 {border: 1px solid #bbb; padding: 8px; margin: 5px 20px; font-style: italic; display: inline-block;}\n.left {margin: 5px 20px;}\n</style>",
+        "code": "$.views.tags({\ntextbox: {\n  dataBoundOnly: true,\n  boundProps: [\"caption\"],\n  template: \"<div>{^{>~tagCtx.props.caption}}: <input/></div>\",\n  linkedElement: \"input\",\n  displayElement: \"div\",\n  onUpdate: false\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    name: \"Jo\",\n    role: \"Owner\"\n  };\n\nmyTmpl.link(\"#page\", data);",
+        "height": "102",
+        "title": "{{textbox}} with  linkedElement",
+        "anchor": "textbox-linkedelem",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In the above sample, `bindTo` was not set, so it had the default behavior of binding to the first tag argument (`bindTo: 0`).\n\nHere is a modified sample, with `bindTo` and `linkedElement` specifying bindings to three elements:\n\n- a `<span>` for the caption (one-way binding)\n- an `<input>` for first name (two-way binding)\n- an `<input>` for last name (two-way binding)\n\n```js\nbindTo: [0, 1, \"caption\"],\nlinkedElement: [\".frst\", \".lst\", \".cptn\"],\n```"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{namebox first last caption=~label .../}}\n```\n\n```js\nnamebox: {\n  ...\n  template: '...<span class=\"cptn\"></span>: <input class=\"firstnm\"/> <input class=\"lastnm\"/>...',\n  bindTo: [0, 1, \"caption\"],\n  linkedElement: [\".firstnm\", \".lastnm\", \".cptn\"],\n  ...\n}\n```"
+          }
+        ],
+        "header": "<style>\n.tb1 {border: 1px solid #bbb; padding: 8px; margin: 5px 20px; font-style: italic; display: inline-block;}\n.left {margin: 5px 20px;}\n</style>",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{^{namebox first last caption=~label class=\"tb1\"/}}<br />\n\n<input data-link=\"~label\" class=\"left\"/>\n<input data-link=\"first\"/>\n<input data-link=\"last\"/>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\nnamebox: {\n  dataBoundOnly: true,\n  template: '<div><span class=\"cptn\"></span>: <input class=\"firstnm\"/> <input class=\"lastnm\"/></div>',\n  bindTo: [0, 1, \"caption\"],\n  linkedElement: [\".firstnm\", \".lastnm\", \".cptn\"],\n  displayElement: \"div\",\n  onUpdate: false\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    first: \"Jo\",\n    last: \"Blow\"\n  }, \n  uiTerms = {\n    label: \"Full name\"\n  };\n\nmyTmpl.link(\"#page\", data, uiTerms);\n",
+        "height": "102",
+        "title": "{{namebox}} with linkedElement",
+        "anchor": "namebox-linkedelem",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "LInked contextual parameters",
+        "text": "Like the [`linkedElement`](#tagoptions@linkedelement) option used in the [section above](#bindingpatterns@linkedelem), the [`linkedCtxParam`](#tagoptions@linkedctxparam) option provides a largely declarative approach to two-way data-linking of tag controls. But the *linked contextual parameter* approach is in many ways simpler, more flexible and more powerful than using *'linked elements'*.\n\nWe will convert the `{{namebox}}` `linkedElement` sample above to use `linkedCtxParam`.\n\nHere, we will declare a contextual parameter for each of the element bindings we want to establish:\n\n- a `<span>` for the caption (one-way binding) -- contextual parameter `~firstnm`\n- an `<input>` for first name (two-way binding) -- contextual parameter `~lastnm`\n- an `<input>` for last name (two-way binding) -- contextual parameter `~cptn`\n\n```js\nbindTo: [0, 1, \"caption\"],\nlinkedCtxParam: [\"firstnm\", \"lastnm\", \"cptn\"],\n```\n\nNow, we can use the contextual parameters, either:\n\n- declaratively in the template -- using data-linking: `<input data-link=\"~firstnm\"/>`\n- programmatically -- using APIs such as `tag.ctxPrm(...)`\n\nHere is the `{{namebox}}` sample above, converted to use contextual parameters, with declarative data-linking in the template:\n\n```jsr\ntemplate: '...{^{:~cptn}}: <input data-link=\"~firstnm\"/> <input data-link=\"~lastnm\"/>...'\n```",
+        "anchor": "linkedctxparam"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{namebox first last caption=~fullName .../}}\n```\n\n```js\nnamebox: {\n  ...\n  template: '...{^{:~cptn}}: <input data-link=\"~firstnm\"/> <input data-link=\"~lastnm\"/>...',\n  bindTo: [0, 1, \"caption\"],\n  linkedCtxParam: [\"firstnm\", \"lastnm\", \"cptn\"],\n  ...\n}\n```"
+          }
+        ],
+        "title": "{{namebox}} with linkedCtxParam",
+        "header": "<style>\n.tb1 {border: 1px solid #bbb; padding: 8px; margin: 5px 20px; font-style: italic; display: inline-block;}\n.left {margin: 5px 20px;}\n</style>",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{^{namebox first last caption=~label class=\"tb1\"/}}<br />\n\n<input data-link=\"~label\" class=\"left\"/>\n<input data-link=\"first\"/>\n<input data-link=\"last\"/>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\nnamebox: {\n  dataBoundOnly: true,\n  template: '<div>{^{>~cptn}}: <input data-link=\"~firstnm\"/> <input data-link=\"~lastnm\"/></div>',\n  bindTo: [0, 1, \"caption\"],\n  linkedCtxParam: [\"firstnm\", \"lastnm\", \"cptn\"],\n  displayElement: \"div\",\n  onUpdate: false\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    first: \"Jo\",\n    last: \"Blow\"\n  }, \n  uiTerms = {\n    label: \"Full name\"\n  };\n\nmyTmpl.link(\"#page\", data, uiTerms);\n",
+        "height": "102",
+        "anchor": "namebox-linkedctxprm",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Linked contextual parameters provide many useful features:\n\n- They can store state in the tag control\n- There can be multiple bindings to the same contextual parameter, within the template\n- Calling `tag.ctxPrm(\"myparam\", newValue)` will trigger observable updates both within the tag control (to `~myparam`) and outside the tag control (to whatever data is used for two-way binding to that contextual parameter, through the `bindTo` mapping)\n- A contextual parameter can be accessed not only within the tag control template, but also, for tag controls that are used as *block controls*, within wrapped content\n\nTo illustrate some of those features, let's add editability to our `{{namebox}}`, by adding an additional contextual parameter: `~edt`, which will correspond to a boolean 'editable' property (state) on the tag control.\n\nRather than a simple checkbox data-linked to `~edt`, we will provide a data-linked image (icon) that toggles based on `~edt`, with a click handler that calls `tag.toggle()`.\n\nWithin our `toggle()` tag method, we call `tag.ctxPrm(...)` to observably change the `~edt` state.\n\n(*Note:* See also the [*composite tag controls*](#hierarchypatterns@composite) topic for a version of the this editable `{{namebox}}` sample rewritten as a composite control.)"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*{{namebox}} template:*\n\n```jsr\n...\n<img data-link=\"{on ~tag.toggle} src{:~edt ? ~tag.icons.noEdit : ~tag.icons.edit}\"/>\n...\n{^{if ~edt}}\n  <input data-link='~frst'/> <input data-link='~lst'/>\n{{else}}\n  {^{:~firstnm}} {^{:~lastnm}}\n{{/if}}\n...\n```\n\n*{{namebox}} options declaration:*\n\n```js\nnamebox: {\n  bindTo: [0, 1, \"caption\", \"editable\"],\n  linkedCtxParam: [\"firstnm\", \"lastnm\", \"cptn\", \"edt\"],\n  ...\n  toggle: function() {\n    this.ctxPrm(\"edt\", !this.ctxPrm(\"edt\")); // Observably toggle ~edt\n  },\n  icons: {edit: \"...\", noEdit: \"...\"}\n}\n```\n\n*Usage:*\n\n```jsr\n{^{namebox first last caption=~label editable=edit .../}}\n```"
+          }
+        ],
+        "header": "<style>\n.tb1 {border: 1px solid #bbb; padding: 8px 8px 10px 8px; margin: 5px 20px; display: inline-block; height: 20px; font-style: normal;}\n.tb1 span, label {font-style: italic;} \n.tb1 img {margin-right: 6px; margin-top: 1px;}\n.left, label {margin: 5px 20px;}\nimg {width: 16px; height: 16px; cursor: pointer;}\n</style>",
+        "html": "<script id=\"nameboxTmpl\" type=\"text/x-jsrender\">\n<div>\n  <img data-link=\"{on ~tag.toggle} src{:~edt ? ~tag.icons.noEdit : ~tag.icons.edit}\"/>\n  <span data-link=\"~cptn\"></span>:\n  {^{if ~edt}}\n    <input data-link='~firstnm'/> <input data-link='~lastnm'/>\n  {{else}}\n    {^{>~firstnm}} {^{>~lastnm}}\n  {{/if}}\n</div>\n</script>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{^{namebox first last caption=~label editable=edit class=\"tb1\"/}}<br/>\n\n<input data-link=\"~label\" class=\"left\"/>\n<input data-link=\"first\"/>\n<input data-link=\"last\"/>\n<label> Editable: <input type=\"checkbox\" data-link=\"edit\"/></label>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\nnamebox: {\n  // JsViews tag settings\n  dataBoundOnly: true,\n  template: \"#nameboxTmpl\",\n  bindTo: [0, 1, \"caption\", \"editable\"],\n  linkedCtxParam: [\"firstnm\", \"lastnm\", \"cptn\", \"edt\"],\n  displayElement: \"div\",\n\n  // JsViews handlers and methods\n  onUpdate: false,\n\n  // tag methods\n  toggle: function() {\n    this.ctxPrm(\"edt\", !this.ctxPrm(\"edt\")); // Observably toggle ~edt\n  },\n\n  icons: {\n    edit: \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8\"\n+ \"/9hAAAA4UlEQVQ4jZXTvUpDMRgG4Eesgi5adXV1EAdBwYI4e0Q3dwcXd70O6VKoODqJN+DiIP\"\n+ \"hXRbRIL8ghDcTDOZ7mhQ+SkDzkhxCyjgcMsC8za/jEBpbwiiIHuB8vjikjM9hBp1TbaMEPVkp\"\n+ \"oiqyiW1HXeCSc+aMBqcswNgq8VyBtvOCwCUiR5dKkRTzhqAmIyKACWcAzDpqA2THyJtxBmja+M\"\n+ \"V8HbAq3G3dShfSwVwd0cJX0C+EVUuQE55MCEflCH6c4xm0OAHPYxQXucJYL/Jc/wBZuMhZPYZQ\"\n+ \"OTAtfejhhjXD5Cy7fOa4Bo/DvAAAAAElFTkSuQmCC\",\n    noEdit: \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf\"\n+ \"8/9hAAABJ0lEQVQ4jZXSP0sDMRzG8S/4B3RRa1dXoe2Z5HqiFRHcWtDV93Gcr0O6CIpT8U24dB\"\n+ \"BEreJQpO/ncZDW5AznGfgNucvz+SV3AUApbRnGskxk6fOfIcuuHB9qkahDQ44XdRnUBwwPapEs\"\n+ \"5iVEGStqcyhDL6iEfZ2yjFI+ldEMUA9Rwo4Mw0jdyfGILH053ufIKC80ygtVHWexxjH97thlIM\"\n+ \"ubMprzl6O8kPbYkuNZjrNyOAAC5IDt0qJNWZ5kOfefAwSAh0x+IRkb5XAc6LCqLgMZXtWh4Yc8\"\n+ \"bD0KyOFkGC52EkFkuZbhJA4Yekq59Y8T3YGlqAUEIcPNn9/AB4LwEWtyHCvlsvIvzIFYJ39U3Y\"\n+ \"NMhvuqcBmRZfYDXLAkw1iOaa2yzJRy9QVyXUUsviSJ/AAAAABJRU5ErkJggg==\"\n  }\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    first: \"Jo\",\n    last: \"Blow\",\n    edit: false\n  }, \n  uiHelpers = {\n    label: \"Full name\"\n  };\n\nmyTmpl.link(\"#page\", data, uiHelpers);\n\n//Icon made by Gregor Cresnar: https://www.flaticon.com/authors/gregor-cresnar\n",
+        "height": "102",
+        "title": "Editable {{namebox}} with linkedCtxParam",
+        "anchor": "namebox-editable",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Sometimes using linked contextual parameters can simplify tag controls, as in the next sample, where we convert the `{{tabs}}` two-way binding sample [above](#bindingpatterns@tabs2way) to use the [`linkedCtxParam`](#tagoptions@linkedctxparam) option for two-way binding.\n \n```js\nbindTo: \"pane\",\nlinkedCtxParam: \"pane\",\n```\n\nThe `~pane` linked contextual parameter stores the tag state for tab selection, through two-way data binding to the `pane` property.\n\nThe new `setTab()` method is:\n\n```js\nsetTab: function(index) {\n  // Update tag.pane, and update external data through two-way binding\n  this.ctxPrm(\"pane\", \"\" + index);\n}\n```\n\nThis is simpler than our previous `setTab()` method, which was:\n\n```js\nsetTab: function(index) {\n  // OnClick for a tab\n  $.observable(this).setProperty(\"pane\", index); // Update tag.pane\n  this.updateValue(\"\" + index); // Update external data, through two-way binding\n}\n```"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/tabs/tabs.js",
+            "label": "tabs.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\ntabs: {\n  bindTo: \"pane\",\n  linkedCtxParam: \"pane\",\n  ctx: {pane: 0}, // Default value for ~pane\n  ...\n  setTab: function(index) {\n    // Update tag.pane, and update external data through two-way binding\n    this.ctxPrm(\"pane\", \"\" + index);\n  }\n}\n```"
+          }
+        ],
+        "url": "samples/tag-controls/tabs/sample",
+        "height": "200",
+        "title": "{{tabs}} with linkedCtxParam",
+        "anchor": "tabsctxprm"
+      },
+      {
+        "_type": "para",
+        "title": "Using contextual parameters in tag controls",
+        "text": "Many of the features of linked contextual parameters shown above actually apply to contextual parameters more generally. \n\nWithin a tag control, a contextual parameter can be used directly (declaratively in the tag template, or programmatically through the `ctxPrm()` API), without being declared as a linked contextual parameter (through `linkedCtxParam`), and can bring the following features:\n\n- The contextual parameter can store state in the tag control\n- There can be multiple bindings to the same contextual parameter, within the template\n- A contextual parameter can be accessed not only within the tag control template, but also, for tag controls that are used as *block controls*, within wrapped content\n\nFor example in the editable `{{namebox}}` sample [above](#bindingpatterns@namebox-editable) we can remove the two-way data-linking on the `editable` property, but still use use the `~edt` contextual parameter within the tag control -- to provide the boolean 'editable' state. This is shown in the following modified sample:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*{{namebox}} template:*\n\n```jsr\n...\n<img data-link=\"{on ~tag.toggle} src{:~edt ? ~tag.icons.noEdit : ~tag.icons.edit}\"/>\n...\n{^{if ~edt}}...{{else}}...{{/if}}\n...\n```\n\n*{{namebox}} options declaration:*\n\n```js\nnamebox: {\n  bindTo: [0, 1, \"caption\"],\n  linkedCtxParam: [\"firstnm\", \"lastnm\", \"cptn\"], // ~edt is no longer declared as linked\n  ...\n  toggle: function() {\n    this.ctxPrm(\"edt\", !this.ctxPrm(\"edt\")); // Observably toggle ~edt\n  },\n  icons: {edit: \"...\", noEdit: \"...\"}\n}\n```\n\n*Usage:*\n\n```jsr\n{^{namebox first last caption=~fullName .../}}\n```"
+          }
+        ],
+        "header": "<style>\n.tb1 {border: 1px solid #bbb; padding: 8px 8px 10px 8px; margin: 5px 20px; display: inline-block; height: 20px; font-style: normal;}\n.tb1 span, label {font-style: italic;} \n.tb1 img {margin-right: 6px; margin-top: 1px;}\n.left, label {margin: 5px 20px;}\nimg {width: 16px; height: 16px; cursor: pointer;}\n</style>",
+        "height": "102",
+        "html": "<script id=\"nameboxTmpl\" type=\"text/x-jsrender\">\n<div>\n  <img data-link=\"{on ~tag.toggle} src{:~edt ? ~tag.icons.noEdit : ~tag.icons.edit}\"/>\n  <span data-link=\"~cptn\"></span>:\n  {^{if ~edt}}\n    <input data-link='~firstnm'/> <input data-link='~lastnm'/>\n  {{else}}\n    {^{>~firstnm}} {^{>~lastnm}}\n  {{/if}}\n</div>\n</script>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{^{namebox first last caption=~label editable=edit class=\"tb1\"/}}<br/>\n\n<input data-link=\"~label\" class=\"left\"/>\n<input data-link=\"first\"/>\n<input data-link=\"last\"/>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\nnamebox: {\n  dataBoundOnly: true,\n  template: \"#nameboxTmpl\",\n  bindTo: [0, 1, \"caption\"],\n  linkedCtxParam: [\"firstnm\", \"lastnm\", \"cptn\"],\n  displayElement: \"div\",\n  onUpdate: false,\n  toggle: function() {\n    this.ctxPrm(\"edt\", !this.ctxPrm(\"edt\"));\n  },\n  icons: {\n    edit: \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8\"\n+ \"/9hAAAA4UlEQVQ4jZXTvUpDMRgG4Eesgi5adXV1EAdBwYI4e0Q3dwcXd70O6VKoODqJN+DiIP\"\n+ \"hXRbRIL8ghDcTDOZ7mhQ+SkDzkhxCyjgcMsC8za/jEBpbwiiIHuB8vjikjM9hBp1TbaMEPVkp\"\n+ \"oiqyiW1HXeCSc+aMBqcswNgq8VyBtvOCwCUiR5dKkRTzhqAmIyKACWcAzDpqA2THyJtxBmja+M\"\n+ \"V8HbAq3G3dShfSwVwd0cJX0C+EVUuQE55MCEflCH6c4xm0OAHPYxQXucJYL/Jc/wBZuMhZPYZQ\"\n+ \"OTAtfejhhjXD5Cy7fOa4Bo/DvAAAAAElFTkSuQmCC\",\n    noEdit: \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf\"\n+ \"8/9hAAABJ0lEQVQ4jZXSP0sDMRzG8S/4B3RRa1dXoe2Z5HqiFRHcWtDV93Gcr0O6CIpT8U24dB\"\n+ \"BEreJQpO/ncZDW5AznGfgNucvz+SV3AUApbRnGskxk6fOfIcuuHB9qkahDQ44XdRnUBwwPapEs\"\n+ \"5iVEGStqcyhDL6iEfZ2yjFI+ldEMUA9Rwo4Mw0jdyfGILH053ufIKC80ygtVHWexxjH97thlIM\"\n+ \"ubMprzl6O8kPbYkuNZjrNyOAAC5IDt0qJNWZ5kOfefAwSAh0x+IRkb5XAc6LCqLgMZXtWh4Yc8\"\n+ \"bD0KyOFkGC52EkFkuZbhJA4Yekq59Y8T3YGlqAUEIcPNn9/AB4LwEWtyHCvlsvIvzIFYJ39U3Y\"\n+ \"NMhvuqcBmRZfYDXLAkw1iOaa2yzJRy9QVyXUUsviSJ/AAAAABJRU5ErkJggg==\"\n  }\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    first: \"Jo\",\n    last: \"Blow\"\n  }, \n  uiHelpers = {\n    label: \"Full name\"\n  };\n\nmyTmpl.link(\"#page\", data, uiHelpers);\n\n//Icon made by Gregor Cresnar: https://www.flaticon.com/authors/gregor-cresnar",
+        "title": "Editable {{namebox}} using unlinked contextual parameter",
+        "anchor": "namebox-unlinkededitable",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The next example goes further in showing the use of 'regular' contextual parameters (not declared in `linkedCtxParam`). It is a `{{namebox}}` tag control which binds to a single string argument containing the *'full name'*:\n\n```jsr\n{^{namebox name}}\n```\n\n```js\nvar data = {name: \"Jo Blow\"}; \n```\nNevertheless, it provides separate textboxes for the first and last names.\n\nInternally, the tag control does not use the `linkedCtxParam` option at all. It has two separate contextual parameters for the first and last name: `~firstnm` and `~lastnm` (bound to the textboxes). In addition it has a `~fullnm()` contextual parameter, which is a [computed observable property](#computed) depending on `~firstnm` and `~lastnm`."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Within the `init()` method a `fullName()` computed observable function is declared, and assigned to `~fullnm`:\n\n```js\n// Make fullName function a computed observable\nfunction fullName() {\n  return this.ctxPrm(\"firstnm\") + \" \" + this.ctxPrm(\"lastnm\");\n}\n// Make fullName depend on ~firstnm and ~lastnm (in the context of this tag), and assign setter\nfullName.depends = [this, \"~firstnm\", \"~lastnm\"];\nfullName.set = this.fullnmSetter;\n\n// Assign fullName function as computed ~fullnm() contextual parameter\nthis.ctxPrm(\"fullnm\", fullName); \n\n// Call ~fullnm setter to initialize from tag argument\nthis.fullnmSetter(tagCtx.args[0]);\n```\n\nTwo-way binding is established between `~fullnm()` and the tag control argument (`name`, in our example):\n \nFirst, changes to `~fullnm()` are bound back to the argument, by declaring an `updateName()` method, registered/unregistered in `onBind()` and `onUnbind()` as a handler for change events of `~fullnm()`. This method uses a `this.updateValue(...)` call to observably update the value of the argument.\n\n```js\nonBind: function(ev, eventArgs) {\n  // Register updateName() method as a handler for changes in ~fullnm()\n  $.observe(this, \"~fullnm\", this.updateName);\n},\nonUnbind: function(ev, eventArgs) {\n  // Unregister updateName() method as a handler for changes in ~fullnm()\n  $.unobserve(this, \"~fullnm\", this.updateName);\n},\n...\n// tag method - handler for ~fullnm change events\nupdateName: function(ev, eventArgs) {\n  ...\n  // Update the bound tag argument with new value of ~fullnm()\n  this.updateValue(this.ctxPrm(\"fullnm\")());\n  ...\n}\n```\n\nNext, the `onUpdate()` handler is used to respond to changes in the value of the argument (`name` in our example), and trigger a corresponding change to `~fullnm()`:\n\n```js\nonUpdate: function(ev, eventArgs, newTagCtxs) {\n  ...\n  this.ctxPrm(\"fullnm\", newTagCtxs[0].args[0]);\n  ...\n}\n```"
+          }
+        ],
+        "header": "<style>\n.tb1 {border: 1px solid #bbb; padding: 8px; margin: 5px 20px; font-style: italic; display: inline-block;}\n</style>",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{namebox name class=\"tb1\"/}}\n\n  <input data-link=\"name\"/>\n</script>\n\n<div id=\"page\"></div>",
+        "height": "70",
+        "code": "$.views.tags({\nnamebox: {\n  dataBoundOnly: true,\n  template: '<div><input data-link=\"~firstnm\"/> <input data-link=\"~lastnm\"/></div>',\n  displayElement: \"div\",\n  init: function(tagCtx) {\n    // Make fullName function a computed observable\n    function fullName() {\n      return this.ctxPrm(\"firstnm\") + \" \" + this.ctxPrm(\"lastnm\");\n    }\n    // Make fullName depend on ~firstnm and ~lastnm (in the context of this tag)\n    fullName.depends = [this, \"~firstnm\", \"~lastnm\"];\n    fullName.set = this.fullnmSetter, // Assign the setter\n\n    // Assign fullName function as computed ~fullnm() contextual parameter\n    this.ctxPrm(\"fullnm\", fullName); \n\n    // Call ~fullnm setter to initialize from tag argument\n    this.fullnmSetter(tagCtx.args[0]);\n  },\n  onBind: function(ev, eventArgs) {\n    // Register updateName() method as a handler for changes in ~fullnm()\n    $.observe(this, \"~fullnm\", this.updateName);\n  },\n  onUnbind: function(ev, eventArgs) {\n    // Unregister updateName() method as a handler for changes in ~fullnm()\n    $.unobserve(this, \"~fullnm\", this.updateName);\n  },\n  onUpdate: function(ev, eventArgs, newTagCtxs) {\n    if (!this.updating) {\n      // If tag argument changes, (and if change is from tag control\n      // updating itself) update ~fullnm() with the new value\n      this.ctxPrm(\"fullnm\", newTagCtxs[0].args[0]);\n    }\n    return false;\n  },\n  // tag method - setter for computed ~fullnm()\n  fullnmSetter: function(val) {\n    val = val.split(\" \");\n    this.ctxPrm(\"lastnm\", val.pop());\n    this.ctxPrm(\"firstnm\", val.join(\" \"));\n  },\n  // tag method - handler for ~fullnm change events\n  updateName: function(ev, eventArgs) {\n    this.updating = true;\n    // Update the bound tag argument with new value of ~fullnm()\n    this.updateValue(this.ctxPrm(\"fullnm\")());\n    this.updating = false;\n  }\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    name: \"Jo Blow\"\n  }; \n\nmyTmpl.link(\"#page\", data);",
+        "title": "{{namebox}} with computed contextual parameter",
+        "anchor": "namebox-computed",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "Programmatic two-way data-binding: setValue() and updateValue() ",
+        "text": "The sections above show patterns for two-way data-binding of tag controls, using linked elements, and linked contextual parameters.\n\nThis section will show a pattern using a more generic programmatic approach to two-way data-binding of tag controls, particularly for cases where the data-binding does *not* correspond to data-linked form elements such as `<input>` or `<select>`.\n\nThe pattern is as follows:\n\n- The [`bindTo`](#tagoptions@bindto) option specifies the tag arguments or properties which have two-way data-binding. (If `bindTo` is not set, the default behavior will be to bind to the first argument -- as if the setting was `bindTo: 0`) \n- Whenever a bound argument or tag changes, the [`setValue()`](#tagoptions@setvalue) event handler method is called, with the updated value. The tag control uses the code in `setValue()` to respond appropriately to the changed value.\n- The tag control uses calls to [`updateValue()`](#jsvtagobject@updatevalue) to drive changes in the bound arguments or properties -- for example, in response to user actions via the tag control UI.\n- Programmatically calling [`tag.setValue(...)`](#jsvtagobject@setvalue) with a value will first call the tag's `setValue(...)` event handler (if there is one). Next, if the value (or the value returned by the handler if there is one) is not `undefined`, and if there are [linked elements](#bindingpatterns@linkedelem), it will set the value on the appropriate linked element.\n\nThus, `setValue()` and `updateValue()` play symmetric roles:\n\n- [`setValue()`](#jsvtagobject@setvalue) is used to change the tag control in response to external changes in the data-linked data.\n- [`updateValue()`](#jsvtagobject@updatevalue) is used by the tag control to trigger external changes in the data-linked data\n\nThis design pattern is illustrated by the next sample -- a *slider* tag control.",
+        "anchor": "setvalue-updatevalue"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsrt\n{^{slider amount min=360 max=0 .../}}\n```\n\n```js\nslider: {\n  ...\n  // Movable slider handle, within slider box\n  template: '<div class=\"box\"><div class=\"handle\"></div></div>',\n\n  onBind: function(tagCtx) {\n    ...\n    // Register handler for mouse click or start of drag\n    tagCtx.mainElem.on(\"mousedown touchstart\", function(ev) {\n      ...\n      tag.moveTo(newVal); // User click in box: move handle to clicked position\n\n      // Register handler for mousemove during drag\n      $(document).on(\"mousemove touchmove\", function(ev2) {\n        ...\n        tag.moveTo(newVal); // User mousemove - sliding handle: move handle to new position\n    ...\n  },\n  ...\n  setValue: function(x) {\n    // Move the handle to the new position x\n    ...\n    tagCtx.handle.offset({left: ...});\n  },\n\n  moveTo: function(x) {\n    // Call setValue() to move the handle to position x\n    this.setValue(x);\n    // Call updateValue() to change the external data-linked data to the new value x\n    this.updateValue(x);\n  },\n  ...\n}\n```\n\n"
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{slider amount min=360 max=0 class=\"slider1\"/}}\n  <input data-link=\"amount\"/>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\nslider: {\n  setSize: true,\n  mainElement: \".box\",\n\n  // Movable slider handle, within slider box\n  template: '<div class=\"box\"><div class=\"handle\"></div></div>',\n\n  init: function(tagCtx) {\n    // Define handler specific to this slider, to be used for end of drag\n    this.mouseMoveOff = function() {\n      $(document).off(\"mousemove touchmove\");\n    };\n  },\n\n  onBind: function(tagCtx) {\n    var tag = this,\n      min = tagCtx.props.min,\n      max = tagCtx.props.max;\n    tagCtx.handle = tagCtx.mainElem.find(\".handle\").first();\n\n    // Register handler for mouse click or start of drag\n    tagCtx.mainElem.on(\"mousedown touchstart\", function(ev) {\n      var newVal;\n      function valFromPosition(newX) {\n        newVal = clamp(\n          round(min + (newX - tagCtx.metrics.left)/tagCtx.metrics.scale),\n          min, max);\n      }\n      valFromPosition(ev.clientX);\n      // User click in box: move handle to clicked position\n      tag.moveTo(newVal);\n\n      // Register handler for mousemove during drag\n      $(document).on(\"mousemove touchmove\", function(ev2) {\n        valFromPosition(ev2.clientX);\n        if (newVal !== tagCtx.val) {\n          tagCtx.val = newVal;\n          setTimeout(function() {\n            // User mousemove - sliding handle: move handle to new position\n            tag.moveTo(newVal);\n          }, 0);\n        }\n        ev.preventDefault();\n      });\n      ev.preventDefault();\n    });\n\n    // Register slider-specific handler for end of drag\n    $(document).on(\"mouseup touchend\", this.mouseMoveOff);\n  },\n\n  onUnbind: function(tagCtx, linkCtx, ctx, ev, eventArgs) {\n    // Remove handler for end of drag specific to this slider\n    $(document).off(\"mouseup touchend\", this.mouseMoveOff);\n  },\n\n  onAfterLink: function(tagCtx, linkCtx, ctx, ev, eventArgs) {\n    if (!eventArgs) {\n      // We set metrics here, after initial linking. This event is preceded by\n      // 1) onBind event 2) setting of Width and height of mainElem\n      this.setMetrics(tagCtx); \n    }\n  },\n  onUpdate: false,\n\n  setValue: function(x) {\n    // Move the handle to the new position x\n    var tagCtx = this.tagCtx,\n      min = tagCtx.props.min,\n      max = tagCtx.props.max,\n      metrics = tagCtx.metrics;\n    x = clamp(x, min, max);\n    tagCtx.handle.offset({left: (x-min)*metrics.scale + metrics.left - metrics.handleWidth});\n  },\n\n  moveTo: function(x) {\n    // Call setValue() to move the handle to position x\n    this.setValue(x);\n    // Call updateValue() to change the external data-linked data to the new value x\n    this.updateValue(x);\n  },\n\n  setMetrics: function(tagCtx) {\n    var box = tagCtx.mainElem;\n    tagCtx.metrics = {\n      left: box.offset().left,\n      width: box.width(),\n      scale: box.width()/(tagCtx.props.max-tagCtx.props.min),\n      handleWidth: tagCtx.handle.width()/2\n    };\n  }\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {amount: 200};\n\nmyTmpl.link(\"#page\", data);\n\nfunction round(val) {\n  return Math.round(100*val)/100;\n}\n\nfunction clamp(num, min, max) {\n  return min>max\n    ? num <= max ? max : num >= min ? min : num\n    : num <= min ? min : num >= max ? max : num;\n}",
+        "header": "<style>\ninput {width: 154px; margin: 0 10px;}\n.slider1 {width: 154px; height: 11px; border-radius: 2px; background: #eee; border: #999 solid 1px; margin: 15px 0 10px 10px;}\n.slider1 .handle {cursor: pointer; width: 11px; height: 11px; margin-top: -1px; border: 1px solid rgba(0, 0, 0, 0.5);\n  border-radius: 11px; background: #fafafa; box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);}\n</style>\n",
+        "height": "80",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "Multiple two-way binding to args or props",
+        "text": "Tag controls can have two-way binding to multiple arguments or properties. The following `{{areaslider}}` sample is a two-dimensional version of the `{{slider}}` tag control above.\n\nIt has `bindTo: [0, 1]` specifying two-way binding to the first and second argument:\n\n```jsr\n{^{areaslider x y .../}}\n```\n\nIn the `moveTo()` method, it uses the [`setValues(x, y)`](#jsvtagobject@setvalues) and [`updateValues(x, y)`](#jsvtagobject@updatevalues) tag methods in order to pass multiple values, rather than using the single-value versions [`setValue()`](#jsvtagobject@setvalue) and [`updateValue()`](#jsvtagobject@updatevalue).\n\nThe example has two instances of the `{{areaslider}}` bound to the same data values, `x`, and `y`, but with different 'range' settings (`xMin` etc.). This shows clearly the two-way binding...\n",
+        "anchor": "multiple-twoway"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{areaslider x y xMin=0 xMax=100 yMin=0 yMax=50 .../}}\n{^{areaslider x y xMin=100 xMax=0 yMin=0 yMax=50 .../}}\n```\n\n```js\nareaslider: {\n  bindTo: [0, 1],\n  ...\n\n  // Movable slider handle, within slider box\n  template: '<div class=\"box\"><div class=\"handle\"></div></div>',\n\n  onBind: function(tagCtx) {\n    ...\n    // Register handler for mouse click or start of drag\n    tagCtx.mainElem.on(\"mousedown touchstart\", function(ev) {\n      ...\n      tag.moveTo(newXVal, newYVal); // User click in box: move handle to clicked position\n\n      // Register handler for mousemove during drag\n      $(document).on(\"mousemove touchmove\", function(ev2) {\n        ...\n        tag.moveTo(newXVal, newYVal); // User mousemove - sliding handle: move handle to new position\n    ...\n  },\n  ...\n  setValue: function(val, index) {\n    // Move the handle to the new x-position or y-position\n    ...\n    if (index) { // Change in y-position\n      ...\n      tagCtx.handle.offset({top:...});\n    } else { // Change in x-position\n      ...\n      tagCtx.handle.offset({left:...});\n  },\n\n  moveTo: function(x, y) {\n    // Call setValues() to move the handle to new (x, y) position\n    this.setValues(x, y);\n    // Call updateValues() to change the external data-linked data to the new values (x, y)\n    this.updateValues(x, y);\n  },\n  ...\n}\n```"
+          }
+        ],
+        "header": "<style>\ninput {width: 154px; margin-top: 10px;}\n.slider1 {width: 154px; height: 50px; border-radius: 2px; background: #eee; border: #999 solid 1px; margin: 10px; float: left;}\n.slider1 .handle {cursor: pointer; width: 11px; height: 11px; border: 1px solid rgba(0, 0, 0, 0.5);\n  border-radius: 11px; background: #fafafa; box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2); }\n</style>\n",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{areaslider x y xMin=0 xMax=100 yMin=0 yMax=50 class=\"slider1\"/}}\n  {^{areaslider x y xMin=100 xMax=0 yMin=0 yMax=50 class=\"slider1\"/}}\n  <input data-link=\"x\"/><br/>\n  <input data-link=\"y\"/>\n</script>\n\n<div id=\"page\"></div>\n",
+        "code": "$.views.tags({\nareaslider: {\n  bindTo: [0, 1],\n  setSize: true,\n  mainElement: \".box\",\n\n  // Movable slider handle, within slider box\n  template: '<div class=\"box\"><div class=\"handle\"></div></div>',\n\n  init: function(tagCtx) {\n    // Define handler specific to this slider, to be used for end of drag\n    this.mouseMoveOff = function() {\n      $(document).off(\"mousemove touchmove\");\n    };\n  },\n\n  onBind: function(tagCtx) {\n    var tag = this,\n      xMin = tagCtx.props.xMin,\n      xMax = tagCtx.props.xMax,\n      yMin = tagCtx.props.yMin,\n      yMax = tagCtx.props.yMax;\n    tagCtx.handle = tagCtx.mainElem.find(\".handle\").first();\n\n    // Register handler for mouse click or start of drag\n    tagCtx.mainElem.on(\"mousedown touchstart\", function(ev) {\n      var newXVal, newYVal;\n      function valFromPosition(newX, newY) {\n        newXVal = clamp(\n          round(xMin + (newX - tagCtx.metrics.left)/tagCtx.metrics.xScale),\n          xMin, xMax);\n        newYVal = clamp(\n          round(yMin + (newY - tagCtx.metrics.top)/tagCtx.metrics.yScale),\n          yMin, yMax);\n      }\n      valFromPosition(ev.clientX, ev.clientY);\n      // User click in box: move handle to clicked position\n      tag.moveTo(newXVal, newYVal);\n\n      // Register handler for mousemove during drag\n      $(document).on(\"mousemove touchmove\", function(ev2) {\n        valFromPosition(ev2.clientX, ev2.clientY);\n        if (newXVal !== tagCtx.xVal || newYVal !== tagCtx.yVal) {\n          tagCtx.xVal = newXVal;\n          tagCtx.yVal = newYVal;\n          setTimeout(function() {\n            // User mousemove - sliding handle: move handle to new position\n            tag.moveTo(newXVal, newYVal);\n          }, 0);\n        }\n        ev.preventDefault();\n      });\n      ev.preventDefault();\n    });\n\n    // Register slider-specific handler for end of drag\n    $(document).on(\"mouseup touchend\", this.mouseMoveOff);\n  },\n\n  onAfterLink: function(tagCtx, linkCtx, ctx, ev, eventArgs) {\n    if (!eventArgs) {\n      this.setMetrics(tagCtx);\n    }\n  },\n  onUpdate: false,\n\n  setValue: function(val, index) {\n    // Move the handle to the new x-position or y-position\n    var tagCtx = this.tagCtx,\n      xMin = tagCtx.props.xMin,\n      xMax = tagCtx.props.xMax,\n      yMin = tagCtx.props.yMin,\n      yMax = tagCtx.props.yMax;\n      metrics = tagCtx.metrics;\n    if (index) { // Change in y-position\n      val = clamp(val, yMin, yMax);\n      tagCtx.handle.offset({top: (val-yMin)*metrics.yScale + metrics.top - metrics.handleHeight});\n    } else { // Change in x-position\n      val = clamp(val, xMin, xMax);\n      tagCtx.handle.offset({left: (val-xMin)*metrics.xScale + metrics.left - metrics.handleWidth});\n    }\n  },\n\n  moveTo: function(x, y) {\n    // Call setValues() to move the handle to new (x, y) position\n    this.setValues(x, y);\n    // Call updateValues() to change the external data-linked data to the new values (x, y)\n    this.updateValues(x, y);\n  },\n\n  setMetrics: function(tagCtx) {\n    var box = tagCtx.mainElem,\n      boxOffset = box.offset();\n    tagCtx.metrics = {\n      left: boxOffset.left,\n      top: boxOffset.top,\n      xScale: box.width()/(tagCtx.props.xMax - tagCtx.props.xMin),\n      yScale: box.height()/(tagCtx.props.yMax - tagCtx.props.yMin),\n      handleWidth: tagCtx.handle.width()/2,\n      handleHeight: tagCtx.handle.height()/2\n    };\n  }\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {x: 30, y: 10};\n\nmyTmpl.link(\"#page\", data);\n\nfunction round(val) {\n  return Math.round(100*val)/100;\n}\nfunction clamp(num, min, max) {\n  return min>max\n    ? num <= max ? max : num >= min ? min : num\n    : num <= min ? min : num >= max ? max : num;\n}",
+        "height": "90",
+        "nocss": true
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "renderingpatterns",
+            "label": "Layout and rendering design patterns"
+          },
+          {
+            "_type": "topic",
+            "hash": "hierarchypatterns",
+            "label": "Tag hierarchy design patterns"
+          }
+        ]
+      }
+    ]
+  },
+  "hierarchypatterns": {
+    "title": "JsViews tag controls: Tag hierarchy design patterns",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "This topic shows common tag control design patterns involving tag composition and tag hierarchy:\n\n- [Composite controls](#hierarchypatterns@composite)\n- [Converters](#hierarchypatterns@converters)\n\nFor other categories of tag control design pattern, see *[Layout and rendering design patterns](#renderingpatterns)* and *[Data binding design patterns](#bindingpatterns)*.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Composite controls",
+        "text": "A very common pattern with custom tags (in JsRender) and tag controls (in JsViews) is for the custom tag to include other custom tags, combined together as a composite tag.\n\nFor example here is a custom `{{onoff}}` tag control which behaves like a regular checkbox, but which lets you specify images (icons) for the on and off states of the button:",
+        "anchor": "composite"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Template:*\n\n```jsr\n{^{onoff edit onsrc=~iconEdit offsrc=~iconNoEdit ... /}}\n{^{onoff edit onsrc=~iconNoSel offsrc=~iconSel ... /}}\n<input data-link=\"edit\" type=\"checkbox\"/>\n```\n\n*Custom tag declaration:*\n```js\n$.views.tags({\nonoff: {\n  ...\n  template: '<img data-link=\"'\n    + '{on ~tag.toggle'} // OnClick handler call toggle method\n    + 'src{:~on ? ~tagCtx.props.offsrc : ~tagCtx.props.onsrc} '// src for icon depends on boolean contextual parameter \"~on\"\n  + '\" />',\n  linkedCtxParam: \"on\", // Boolean contextual parameter bound to data\n  ...\n  toggle: function() { // toggle method\n    this.ctxPrm(\"on\", !this.ctxPrm(\"on\"));\n  }\n}});\n```"
+          }
+        ],
+        "height": "40",
+        "header": "<style>\n.onoff1 {margin: 0 50px 0 15px; cursor: pointer;}\n.onoff2 {margin: 0 50px 0 0; cursor: pointer;}\ninput {cursor: pointer;}\n</style>\n",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {^{onoff edit onsrc=~iconEdit offsrc=~iconNoEdit class='onoff1' /}}\n  {^{onoff edit onsrc=~iconNoSel offsrc=~iconSel class='onoff2'/}}\n  <input data-link=\"edit\" type=\"checkbox\"/>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.tags({\nonoff: {\n  dataBoundOnly: true,\n  template: '<img data-link=\"{on ~tag.toggle} src{:~on ? ~tagCtx.props.offsrc : ~tagCtx.props.onsrc}\" />',\n  linkedCtxParam: \"on\",\n  displayElement: \"img\",\n  toggle: function() {\n    this.ctxPrm(\"on\", !this.ctxPrm(\"on\"));\n  }\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    edit: false\n  },\n  uiHelpers = {\n    iconEdit: \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8\"\n+ \"/9hAAAA4UlEQVQ4jZXTvUpDMRgG4Eesgi5adXV1EAdBwYI4e0Q3dwcXd70O6VKoODqJN+DiIP\"\n+ \"hXRbRIL8ghDcTDOZ7mhQ+SkDzkhxCyjgcMsC8za/jEBpbwiiIHuB8vjikjM9hBp1TbaMEPVkp\"\n+ \"oiqyiW1HXeCSc+aMBqcswNgq8VyBtvOCwCUiR5dKkRTzhqAmIyKACWcAzDpqA2THyJtxBmja+M\"\n+ \"V8HbAq3G3dShfSwVwd0cJX0C+EVUuQE55MCEflCH6c4xm0OAHPYxQXucJYL/Jc/wBZuMhZPYZQ\"\n+ \"OTAtfejhhjXD5Cy7fOa4Bo/DvAAAAAElFTkSuQmCC\",\n      iconNoEdit: \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf\"\n+ \"8/9hAAABJ0lEQVQ4jZXSP0sDMRzG8S/4B3RRa1dXoe2Z5HqiFRHcWtDV93Gcr0O6CIpT8U24dB\"\n+ \"BEreJQpO/ncZDW5AznGfgNucvz+SV3AUApbRnGskxk6fOfIcuuHB9qkahDQ44XdRnUBwwPapEs\"\n+ \"5iVEGStqcyhDL6iEfZ2yjFI+ldEMUA9Rwo4Mw0jdyfGILH053ufIKC80ygtVHWexxjH97thlIM\"\n+ \"ubMprzl6O8kPbYkuNZjrNyOAAC5IDt0qJNWZ5kOfefAwSAh0x+IRkb5XAc6LCqLgMZXtWh4Yc8\"\n+ \"bD0KyOFkGC52EkFkuZbhJA4Yekq59Y8T3YGlqAUEIcPNn9/AB4LwEWtyHCvlsvIvzIFYJ39U3Y\"\n+ \"NMhvuqcBmRZfYDXLAkw1iOaa2yzJRy9QVyXUUsviSJ/AAAAABJRU5ErkJggg==\",\n      iconNoSel: \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8\"\n+ \"/9hAAAAXklEQVQ4je3ToRGAMBBE0dcHNoWkDBqIpxfKQtIEOhYBgmQGB0yQ+TPr9q+64yJgRs\"\n+ \"bxkFy6wY0VCxLGh6TSXascsWPwnqE4ESZsH+TKVtw+0Af+GYgaT5nGZ6LhnU94YkRZoAhnWgA\"\n+ \"AAABJRU5ErkJggg==\",\n      iconSel: \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/\"\n+ \"9hAAAAxklEQVQ4ja3TP0qDMRjH8Q8IggrtWjfXokNHj9A/OnoCly4eQFrv4hl6ACmFQudOHb1\"\n+ \"A9zqILgk8vKQ1L/jAD5In+X5JIIE+phV5xrlC7fFTmafAddCTFhYY/JHbAN/gE8sseC8d7Uhl\"\n+ \"+IBhW0GER7mZBWe4x0UbOAq6afyByxPwuGmOV3hN8yWuGvAXJqn3gnlJALPUW+EuwA9hzwa7Y\"\n+ \"wJ4S/3vAlwlkI64x2NhrUpwqv5fUPOUY7ZR0OYzxayzoPY7N3MNvyKdYTRQV8pRAAAAAElFTk\"\n+ \"SuQmCC\"\n   };\n\nmyTmpl.link(\"#page\", data, uiHelpers);",
+        "nocss": true
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Now we'll take the [*Editable `{{namebox}}`*](#bindingpatterns@namebox-editable) sample (from the [*Data binding design patterns*](#bindingpatterns) topic) and convert it to be a composite tag incorporating the `{{onoff}}` tag as a component. \n\nThe template option in the `{{namebox}}` tag definition uses `{{onoff}}` bound to the internal `~edt` contextual parameter:\n\n```jsr\n{^{onoff ~edt onsrc=~tag.icons.edit offsrc=~tag.icons.noEdit ... /}}\n```\n\nIn this sample we also use the `{{onoff}}` tag control separately from `{{namebox}}`, bound to the boolean `edit` data."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*nameboxTmpl:*\n\n```jsr\n...\n  {^{onoff ~edt onsrc=~tag.icons.edit offsrc=~tag.icons.noEdit ... /}}\n  <span data-link=\"~cptn\"></span>:\n  {^{if ~edt}}\n    <input data-link='~frst'/> <input data-link='~lst'/>\n  {{else}}\n    {^{:~frst}} {^{:~lst}}\n  {{/if}}\n...\n```\n\n*Template:*\n\n```jsr\n{^{namebox first last caption=~fullName editable=edit ... /}}\n...\nEditable: {^{onoff edit onsrc=... offsrc=... /}}\n```\n\n*Custom tag declarations:*\n\n```js\n$.views.tags({\n  onoff: {...},\n  namebox: {\n    ...\n    template: \"#nameboxTmpl\",\n    bindTo: [0, 1, \"caption\", \"editable\"],\n    linkedCtxParam: [\"frst\", \"lst\", \"cptn\", \"edt\"],\n    ...\n    icons: {edit: \"...\", noEdit: \"...\"}\n  }\n});\n```",
+            "sections": [
+              {
+                "_type": "para",
+                "title": "",
+                "text": "paragraph"
+              }
+            ]
+          }
+        ],
+        "header": "<style>\n.tb1 {border: 1px solid #bbb; padding: 8px 8px 10px 8px; margin: 5px 20px; display: inline-block; height: 20px; font-style: normal; }\n.tb1 span, label {font-style: italic;} \n.tb1 img {margin-right: 6px; margin-top: 1px;}\n.onoff1 {margin: 0 4px -3px 4px;}\n.left, label {margin: 5px 20px;}\nimg {width: 16px; height: 16px; cursor: pointer;}\n</style>",
+        "html": "<script id=\"nameboxTmpl\" type=\"text/x-jsrender\">\n<label>\n  {^{onoff ~edt onsrc=~tag.icons.edit offsrc=~tag.icons.noEdit class='onoff' /}}\n  <span data-link=\"~cptn\"></span>:\n  {^{if ~edt}}\n    <input data-link='~frst'/> <input data-link='~lst'/>\n  {{else}}\n    {^{>~frst}} {^{>~lst}}\n  {{/if}}\n</label>\n</script>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{^{namebox first last caption=~fullName editable=edit class=\"tb1\"/}}<br/>\n\n<input data-link=\"~fullName\" class=\"left\"/>\n<input data-link=\"first\"/>\n<input data-link=\"last\"/>\n<label> Editable: {^{onoff edit onsrc=~iconNoSel offsrc=~iconSel class='onoff1'/}}</label>\n</script>\n\n<div id=\"page\"></div>",
+        "nocss": true,
+        "code": "$.views.tags({\nonoff: {\n  dataBoundOnly: true,\n  template: '<img data-link=\"{on ~tag.toggle} src{:~on ? ~tagCtx.props.offsrc : ~tagCtx.props.onsrc}\" />',\n  linkedCtxParam: \"on\",\n  displayElement: \"img\",\n  toggle: function() {\n    this.ctxPrm(\"on\", !this.ctxPrm(\"on\"));\n  }\n},\nnamebox: {\n  dataBoundOnly: true,\n  template: \"#nameboxTmpl\",\n  bindTo: [0, 1, \"caption\", \"editable\"],\n  linkedCtxParam: [\"frst\", \"lst\", \"cptn\", \"edt\"],\n  displayElement: \"label\",\n  onUpdate: false,\n  icons: {\n    edit: \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8\"\n+ \"/9hAAAA4UlEQVQ4jZXTvUpDMRgG4Eesgi5adXV1EAdBwYI4e0Q3dwcXd70O6VKoODqJN+DiIP\"\n+ \"hXRbRIL8ghDcTDOZ7mhQ+SkDzkhxCyjgcMsC8za/jEBpbwiiIHuB8vjikjM9hBp1TbaMEPVkp\"\n+ \"oiqyiW1HXeCSc+aMBqcswNgq8VyBtvOCwCUiR5dKkRTzhqAmIyKACWcAzDpqA2THyJtxBmja+M\"\n+ \"V8HbAq3G3dShfSwVwd0cJX0C+EVUuQE55MCEflCH6c4xm0OAHPYxQXucJYL/Jc/wBZuMhZPYZQ\"\n+ \"OTAtfejhhjXD5Cy7fOa4Bo/DvAAAAAElFTkSuQmCC\",\n    noEdit: \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf\"\n+ \"8/9hAAABJ0lEQVQ4jZXSP0sDMRzG8S/4B3RRa1dXoe2Z5HqiFRHcWtDV93Gcr0O6CIpT8U24dB\"\n+ \"BEreJQpO/ncZDW5AznGfgNucvz+SV3AUApbRnGskxk6fOfIcuuHB9qkahDQ44XdRnUBwwPapEs\"\n+ \"5iVEGStqcyhDL6iEfZ2yjFI+ldEMUA9Rwo4Mw0jdyfGILH053ufIKC80ygtVHWexxjH97thlIM\"\n+ \"ubMprzl6O8kPbYkuNZjrNyOAAC5IDt0qJNWZ5kOfefAwSAh0x+IRkb5XAc6LCqLgMZXtWh4Yc8\"\n+ \"bD0KyOFkGC52EkFkuZbhJA4Yekq59Y8T3YGlqAUEIcPNn9/AB4LwEWtyHCvlsvIvzIFYJ39U3Y\"\n+ \"NMhvuqcBmRZfYDXLAkw1iOaa2yzJRy9QVyXUUsviSJ/AAAAABJRU5ErkJggg==\"\n    }\n  }\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    first: \"Jo\",\n    last: \"Blow\",\n    edit: false\n  }, \n  uiHelpers = {\n    fullName: \"Full name\",\n    iconNoSel: \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8\"\n+ \"/9hAAAAXklEQVQ4je3ToRGAMBBE0dcHNoWkDBqIpxfKQtIEOhYBgmQGB0yQ+TPr9q+64yJgRs\"\n+ \"bxkFy6wY0VCxLGh6TSXascsWPwnqE4ESZsH+TKVtw+0Af+GYgaT5nGZ6LhnU94YkRZoAhnWgA\"\n+ \"AAABJRU5ErkJggg==\",\n    iconSel: \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/\"\n+ \"9hAAAAxklEQVQ4ja3TP0qDMRjH8Q8IggrtWjfXokNHj9A/OnoCly4eQFrv4hl6ACmFQudOHb1\"\n+ \"A9zqILgk8vKQ1L/jAD5In+X5JIIE+phV5xrlC7fFTmafAddCTFhYY/JHbAN/gE8sseC8d7Uhl\"\n+ \"+IBhW0GER7mZBWe4x0UbOAq6afyByxPwuGmOV3hN8yWuGvAXJqn3gnlJALPUW+EuwA9hzwa7Y\"\n+ \"wJ4S/3vAlwlkI64x2NhrUpwqv5fUPOUY7ZR0OYzxayzoPY7N3MNvyKdYTRQV8pRAAAAAElFTk\"\n+ \"SuQmCC\"\n  };\n\nmyTmpl.link(\"#page\", data, uiHelpers);",
+        "height": "102",
+        "title": "The {{namebox}} composite control",
+        "anchor": "namebox",
+        "action": ""
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Our next sample is a much richer tag control: `{{picker}}` -- a color picker tag control based on the Chrome devtools color picker (which itself is based on the [Spectrum](https://bgrins.github.io/spectrum/) color picker).\n\nOur `{{picker}}` (which uses helper functions from [tinycolor.js](https://github.com/bgrins/TinyColor)) is a composite control which incorporates the following tag controls:\n\n- [slider](#samples/tag-controls/slider)\n- [areaslider](#samples/tag-controls/areaslider)\n- [spinblock](#samples/tag-controls/spinblock)\n\nIt is available at [www.jsviews.com/download/sample-tag-controls/colorpicker/colorpicker.js](download/sample-tag-controls/colorpicker/colorpicker.js).\n\nThe `{{picker}}` template is as follows:\n\n```js\n{^{areaslider ~s ~v xMin=0 xMax=1 yMin=1 yMax=0 width=\"100%\" convert=~cvt convertBack=~cbk}}\n  <div ... data-link=\"css-background-color{rgb:~h 100 100}\">\n    <div class=\"...\">\n      <div class=\"dragger\" data-link=\"css-background-color{rgb:~h ~s ~v}\"></div>\n    </div>\n  </div>\n{{/areaslider}}\n<span class=\"swatch\">\n  <span ... data-link=\"css-background-color{rgba:~h ~s ~v ~a}\"></span>\n</span>\n{^{slider ~h min=360 max=0 class=\"hue\"/}}\n{^{slider ~a min=0 max=1}}\n  <div class=\"...\">\n    <div class=\"handle\"></div>\n    <div class=\"alpha-background\" data-link=\"css-background-image{rgbGrad:~h ~s ~v}\"></div>\n  </div>\n{{/slider}}\n{^{spinblock}}\n  <div ...>\n    <input ... data-link=\"{hex:~h ~s ~v ~a:fromhex}\"/>\n    <div ...>HEX</div>\n  </div>\n{{else}}\n  ...\n{{else}}\n  ...\n{{/spinblock}}\n```\n\nIn the `onBind()` handler, tag properties are set pointing to each of the component tag controls:\n\n```js\nonBind: function() {\n  // Provide reference vars to access component controls\n  var tag = this,\n    sliders = tag.childTags(\"slider\");\n  tag.hueslider = sliders[0];\n  tag.alphaslider = sliders[1];\n  tag.areaslider = tag.childTags(\"areaslider\")[0];\n}\n```\n\nThen in the initial call to `onAfterLink()` (for which `eventArgs` is undefined), the metrics of each component control are updated:\n\n```js\nonAfterLink: function(tagCtx, linkCtx, ctx, ev, eventArgs) {\n  if (!eventArgs) {\n    // Update the UI width height and position metrics for each component control\n    var tag = this;\n    tag.hueslider.setMetrics();\n    tag.alphaslider.setMetrics();\n    tag.areaslider.setMetrics();\n  }\n}\n```\n\nThe `{{picker}}` control uses the HSVA color format, with the four color values binding to arguments 0, 1, 2 and 3:\n\n```js\nbindTo: [0, 1, 2, 3],\nlinkedCtxParam: [\"h\", \"s\", \"v\", \"a\"],\n```",
+        "anchor": "colorpicker"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/colorpicker/colorpicker.js",
+            "label": "colorpicker.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{picker color.h color.s color.v color.a ... /}}\n\n<div ... data-link=\"css-background-color{rgba:color.h color.s color.v color.a}\">\n  {^{rgba:color.h color.s color.v color.a}} ...\n  {^{hex:color.h color.s color.v color.a}}\n</div>\n\n<div ...>\n  h: <input data-link=\"color.h\"/>\n  ...\n</div>\n```"
+          }
+        ],
+        "url": "samples/tag-controls/colorpicker/colorpicker",
+        "height": "280",
+        "jsrJsvJqui": "",
+        "title": "The {{picker}} composite control",
+        "anchor": "picker"
+      },
+      {
+        "_type": "para",
+        "title": "Converters",
+        "text": "A custom tag can use converters. (See [*Using converters with other tags*](#converters@othertags) and [*Two-way binding: convert and convert back*](#link2way@converters).)\n\nConverters can be specified on tag instances: `{^{mytag convert=... convertBack=... ... /}}` or as [convert](#tagoptions@convert) and [convertBack](#tagoptions@convertback) tag options. \n\nIf a custom tag has a [`bindTo`](#tagoptions@bindto) option which is an array (specifying binding to multiple arguments or properties) then convert and convertBack receive multiple arguments and return arrays.\n\nThe next sample shows a `{{namebox}}` tag which has built-in convert/convertBack option settings that swap the first and last names if the `reverse` property is `true`.\n\nHere is the `{{namebox}}` tag definition:\n\n```js\nbindTo: [0, 1],\nlinkedElement: [\".firstnm\", \".lastnm\"],\n...\ntemplate:\n  '<div>' +\n    '<span data-link=\"~tagCtx.props.caption\"></span>: ' +\n    '<input class=\"firstnm\"/> ' +\n    '<input class=\"lastnm\"/>' +\n  '</div>',\n\nconvert: function(first, last) {\n  // Swap arguments if props.reverse is true\n  return this.tagCtx.props.reverse ? [last, first] : [first, last];\n},\n\nconvertBack: function(first, last) {\n  // If arguments were swapped, (i.e. if props.reverse true) swap them back again\n  return this.tagCtx.props.reverse ? [last, first] : [first, last];\n}\n```",
+        "anchor": "converters"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n{^{namebox first last caption=\"First/Last\" ... /}}\n{^{namebox first last caption=\"Last/First\" reverse=true ... /}}\n\n<div ... >\n  <input data-link=\"first\"/>\n  <input data-link=\"last\"/>\n</div>\n</script>\n```\n\n"
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n{^{namebox first last caption=\"First/Last\" class=\"tb1\"/}}\n{^{namebox first last caption=\"Last/First\" reverse=true class=\"tb1\"/}}\n\n<div class=\"left\">\n  <input data-link=\"first\"/>\n  <input data-link=\"last\"/>\n</div>\n</script>\n\n<div id=\"page\"></div>\n",
+        "code": "$.views.tags({\nnamebox: {\n  dataBoundOnly: true,\n  bindTo: [0, 1],\n  linkedElement: [\".firstnm\", \".lastnm\"],\n  displayElement: \"div\",\n  onUpdate: false,\n\n  template:\n    '<div>' +\n      '<span data-link=\"~tagCtx.props.caption\"></span>: ' +\n      '<input class=\"firstnm\"/> ' +\n      '<input class=\"lastnm\"/>' +\n    '</div>',\n\n  convert: function(first, last) {\n    // Swap arguments if props.reverse is true\n    return this.tagCtx.props.reverse ? [last, first] : [first, last];\n  },\n\n  convertBack: function(first, last) {\n    // If arguments were swapped, (i.e. if props.reverse true) swap them back again\n    return this.tagCtx.props.reverse ? [last, first] : [first, last];\n  }\n}\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    first: \"Jo\",\n    last: \"Blow\"\n  };\n\nmyTmpl.link(\"#page\", data);",
+        "nocss": true,
+        "header": "<style>\n.tb1 {border: 1px solid #bbb; padding: 8px 8px 10px 8px; margin: 5px 20px; display: inline-block; height: 20px; font-style: normal;}\n.tb1 span {font-style: italic;} \n.left {margin: 15px 20px;}\n</style>",
+        "height": "165"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "We will take the technique of custom tags with built-in converters a step further, in the next sample: An improved version of the [color picker](#hierarchypatterns@picker) above, which can bind to multiple alternative data formats: HSVS, RGBA and HEX.\n\nIt is available at [www.jsviews.com/download/sample-tag-controls/colorpicker/colorpicker-multiformat.js](download/sample-tag-controls/colorpicker/colorpicker-multiformat.js).\n\nHere is the tag definition of the 'multi-format' `{{picker}}`, with the added `convert` and `convertBack` options:\n\n```js\n// Bind to HSVA color parameters and mode. Color parameters will be HSVA, RGBA or HEX, depending on mode\nbindTo: [0, 1, 2, 3, \"mode\"],\nlinkedCtxParam: [\"h\", \"s\", \"v\", \"a\", undefined],\n...\nconvert: function(arg1, arg2, arg3, arg4, mode) {\n  mode = mode || \"hsva\";\n  var arg;\n  switch (mode) {\n    case \"hsva\":\n      // This is our internal format, so return as is\n      return [arg1, arg2, arg3, arg4, mode];\n    case \"rgba\":\n      // Convert from RGBA to our internal HSVA format\n      arg = tinycolor({r: arg1, g: arg2, b: arg3, a: arg4}).toHsv();\n      break;\n    case \"hex\":\n      // Convert from HEX to our internal HSVA format\n      arg = tinycolor(arg1).toHsv();\n      break;\n  }\n  return [arg.h, arg.s, arg.v, arg.a, mode];\n},\n\nconvertBack: function(arg1, arg2, arg3, arg4, mode) {\n  var arg;\n  switch (mode) {\n    case \"hsva\":\n      // External format is same as internal format, so return as is\n      return [arg1, arg2, arg3, arg4];\n    case \"rgba\":\n      // Convert from internal HSVA format to RGBA external format\n      arg = tinycolor({h: arg1, s: arg2, v: arg3, a: arg4}).toRgb();\n      return [arg.r, arg.g, arg.b, arg.a];\n    case \"hex\":\n      // Convert from internal HSVA format to HEX external format\n      return [tinycolor({h: arg1, s: arg2, v: arg3, a: arg4}).toHex8String()];\n  }\n}\n```"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/colorpicker/colorpicker-multiformat.js",
+            "label": "colorpicker-multiformat.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Default mode: HSVA format -- binding to `color1` data:*\n\n```jsr\n{^{picker color1.h color1.s color1.v color1.a ... /}}\n...\nh: <input data-link=\"color1.h\"/>\n...\n```\n\n*Alternative RGBA format -- `mode` set to `\"rgba\"` -- binding to `color2` data:*\n\n```jsr\n{^{picker color2.r color2.g color2.b color2.a mode=\"rgba\" ... /}}\n...\nr: <input data-link=\"color2.r\"/>\n...\n```\n\n*Alternative HEX format -- `mode` set to `\"hex\"` -- binding to `color3` data:*\n\n```jsr\n\n{^{picker color3.hex mode=\"hex\" ... /}}\n...\nhex: <input data-link=\"color3.hex\"/>\n...\n```"
+          }
+        ],
+        "url": "samples/tag-controls/colorpicker/colorpicker-multiformat",
+        "height": "470"
+      },
+      {
+        "_type": "links",
+        "title": "See also:",
+        "links": [],
+        "topics": [
+          {
+            "_type": "topic",
+            "hash": "renderingpatterns",
+            "label": "Layout and rendering design patterns"
+          },
+          {
+            "_type": "topic",
+            "hash": "bindingpatterns",
+            "label": "Data binding design patterns"
+          }
+        ]
+      }
+    ]
+  },
+  "todo": {
+    "title": "TODO",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "- Add to  Data binding topic\n\n  argDefault\n  trigger \n  sortable grid\n\n- Add to Tag hierarchy topic\n\n  - [Derived tag controls](#hierarchypatterns@derived)\n  - [Tag hierarchy and recursive tags](#hierarchypatterns@hierarchy)\n  - [dataMap flow](#hierarchypatterns@datamap)\n\n  **Derived tag controls**\n  Existing samples - on links and range\n\n  forPlus?\n  props?\n\n  dataMap\n  flow\n\n  sortable grid\n\n  forHash\n\n  **Tag hierarchy and recursive tags**\n\n  forHash forPlus (sort and filter and start end), grid, pager, gridheader etc.\n\n  jsonview\n\nAlso this=~mytag, lateRender, \n\nunlink (all APIs)"
+      }
+    ]
+  }
 };

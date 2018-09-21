@@ -1,15 +1,16 @@
 ﻿"use strict";
 var formatters = {
 
-  // Time formatter using moment.js
+  // Display formatter for Date using moment.js:
+  // Date to time string
   time: {
-    parse: function(value, props) {
+    parse: function(timeString, props) {
       var format = props._culture === "en-US" ? "h:mm A" : "HH:mm";
-      return moment(value, format).toDate();
+      return moment(timeString, format).toDate();
     },
-    format: function(value, props) {
+    format: function(date, props) {
       var format = props._culture === "en-US" ? "h:mm A" : "HH:mm";
-      return moment(value).format(format);
+      return moment(date).format(format);
     }
   }
 

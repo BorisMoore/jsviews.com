@@ -1,34 +1,35 @@
 ﻿"use strict";
 var helpers = {
 
-  // Time formatter using moment.js
+  // Display formatter for timestamp (ticks) using moment.js:
+  // ticks to time string
   time: {
-    parse: function(value, props) {
+    parse: function(string, props) {
       var format = props._culture === "en-US" ? "h:mm A" : "HH:mm";
-      return moment(value, format).toDate();
+      return +moment(string, format).toDate();
     },
-    format: function(value, props) {
+    format: function(ticks, props) {
       var format = props._culture === "en-US" ? "h:mm A" : "HH:mm";
-      return moment(value).format(format);
+      return moment(ticks).format(format);
     }
   },
 
-  // Date to number formatter
-  dateToNumber: {
-    parse: function(value, props) {
-      return +value;
+  // Data formatter: ticks to Date
+  numberToDate: {
+    parse: function(date, props) {
+      return +date;
     },
-    format: function(value, props) {
-      return new Date(value);
+    format: function(ticks, props) {
+      return new Date(ticks);
     }
   },
 
   // Converters
-  toNumber: function(value, props) {
-    return +value;
+  toNumber: function(date, props) {
+    return +date;
   },
-  toDate: function(value, props) {
-    return new Date(value);
+  toDate: function(ticks, props) {
+    return new Date(ticks);
   }
 };
 

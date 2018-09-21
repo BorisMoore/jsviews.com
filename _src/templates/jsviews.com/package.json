@@ -15,7 +15,10 @@
     "url": "https://github.com/borismoore/jsviews.com/issues"
   },
   "homepage": "http://www.jsviews.com",
-  "dependencies": {},
+  "dependencies": { 
+    "jsviews": "^@@include("templates/-version.txt")",
+    "jquery": "^3.0.0"
+  },
   "devDependencies": {
     "browserify": "^11.0.1",
     "glob-stream": "^5.0.0",
@@ -29,11 +32,9 @@
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
-    "jquery": "^2.1.4",
     "jshint-stylish": "^2.0.1",
     "jshint-summary": "^0.4.0",
     "jsrender": "^@@include("templates/-version.txt")",
-    "jsviews": "^@@include("templates/-version.txt")",
     "node-qunit-phantomjs": "^1.2.1",
     "qunit": "^0.7.6",
     "qunitjs": "^1.18.0",

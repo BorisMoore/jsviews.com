@@ -1,4 +1,6 @@
 ﻿"use strict";
+var items1 = [1,3],
+	items2 = [0,2,4];
 var cnt = 5,
   pageTmpl = $.templates("#pageTmpl"),
   model = {
@@ -21,6 +23,9 @@ var cnt = 5,
         lastName: "lastName "  + cnt
       });
     },
+    swap: function() {
+      $.observable(this).setProperty("selectedItems", this.selectedItems===items1 ? items2 : items1);
+    },
     remove: function(index) {
       $.observable(this.people).remove(index);
     },
@@ -31,7 +36,7 @@ var cnt = 5,
       {name: "Mara", lastName: "May"},
       {name: "Mando", lastName: "Mechy"}
     ],
-    selectedItems: [1,3]
+    selectedItems: items1
   };
 
 model.selectedPeople.depends = ["people", "selectedItems"];

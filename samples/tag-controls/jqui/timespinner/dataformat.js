@@ -1,6 +1,6 @@
 ﻿"use strict";
 var helpers = {
-  // Data formatter using moment.js - for wcfDate serialization
+  // Data formatter for Date using moment.js: Date to wcfDate string
   wcfDate: {
     parse: function(wcfString, props) {
       return moment(wcfString, "/\\D\\at\\e(xZZ)/").toDate();
@@ -10,7 +10,8 @@ var helpers = {
     }
   },
 
-  // Data formatter using moment.js - using custom full date/time string
+  // Data formatter for Date using moment.js:
+  // Date to custom date/time string
   fullDate: {
     parse: function(dateTimeString, props) {
       return moment(dateTimeString, "YYYY-MM-DD@HH:mm").toDate();
@@ -20,7 +21,8 @@ var helpers = {
     }
   },
 
-  // Time display formatter (culture-based) using moment.js
+  // Display formatter for Date using moment.js:
+  // Date to time string
   time: {
     parse: function(timeString, props) {
       var format = props._culture === "en-US" ? "h:mm A" : "HH:mm";
@@ -29,16 +31,6 @@ var helpers = {
     format: function(date, props) {
       var format = props._culture === "en-US" ? "h:mm A" : "HH:mm";
       return moment(date).format(format);
-    }
-  },
-
-  // Date to number formatter
-  dateToNumber: {
-    parse: function(value, props) {
-      return +value;
-    },
-    format: function(value, props) {
-      return new Date(value);
     }
   },
 

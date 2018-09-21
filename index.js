@@ -96,7 +96,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					var sampleSection = $.view(this).parent.tag,
 						tabsControl = sampleSection.tabs,
 						tryitTab = tabsControl.tabCount - 1;
-					tabsControl.setTab(tabsControl.selectedIndex === tryitTab ? 0 : tryitTab);
+					tabsControl.setTab(tabsControl.pane === tryitTab ? 0 : tryitTab);
 				})
 				.on("keyup", ".try textarea", function() {
 					$.observable($.view(this).ctx.parentTags.section.sampleFrame).setProperty("ranIt", true);
@@ -541,7 +541,8 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 						header = header.innerHTML
 							.replace(/^.*sample-viewer.*$/m, "")
 							.replace(/<style type="text\/css"><\/style>/, "")
-							.replace(/^\n*.*\.js"><\/script>\n*/, "");
+							.replace(/^\n*.*\.js"><\/script>\n*/, "")
+							.replace(/\n\n/, "\n");
 					}
 					$.get(data.url + ".js", function(content) {
 						loadScript({code: content});
@@ -575,6 +576,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 						data: data.data,
 						markup: data.markup,
 						header: header,
+						action: data.action,
 						html: data.html,
 						code: data.code,
 						jsrJsvJqui: data.jsrJsvJqui,
@@ -582,7 +584,6 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					};
 					codetabs && self.loadTabs(codetabs);
 				}
-				this.parent.tabs.activateTabs(); // Do this now sample is loaded
 			};
 		},
 		loadTabs: function(codetabs) {
@@ -631,7 +632,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 		},
 		render: function(mode, arg1, arg2) {
 			function fullCode() {
-				var headerInsert,
+				var headerInsert, urlTokens,
 					code = tryItData.code,
 					codeInHeader = code && code.indexOf("$(function()") === 0,
 					html = tryItData.html,
@@ -641,17 +642,30 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					headerInsert =
 						nocss || header && !headerAction
 							? "" // If nocss specified, or if headerAction is replace ("") and there is header content provided, don't insert samples.css
-							: "  <link href=\"samples.css\" rel=\"stylesheet\" />\n";
+							: "  <link href=\"//www.jsviews.com/samples/samples.css\" rel=\"stylesheet\" />\n";
 					header = headerAction === "append" ? headerInsert + header : header + headerInsert;
+				} else {
+					urlTokens = url.split("/");
+					urlTokens.pop();
+					header = header.replace(/((?:href|src)=["'])(?:\.\.\/)*\/?/g, function(replaced, start, index, str) {
+						if (replaced === start + "/" && str.charAt(index+start.length) === "/") {
+							return replaced;
+						}
+						replaced = replaced.replace(/[^.]/g,"").length/2;
+						headerInsert = (replaced ? urlTokens.slice(0, -replaced) : urlTokens).join("/");
+						if (headerInsert.length) {
+							headerInsert += "/";
+						}
+						return start + "//www.jsviews.com/" + headerInsert;
+					});
 				}
 				return "<!DOCTYPE html>\n"
 					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "  <script src=\"//code.jquery.com/jquery-1.12.4.min.js\"></script>\n"
+					+ "  <script src=\"//code.jquery.com/jquery-3.3.1.min.js\"></script>\n"
 					+ (url
-						? ("  <base href=\"//www.jsviews.com/" + url.slice(0, url.lastIndexOf("/")) + "/\" />\n"
-							+ (codeInHeader
+						? ((codeInHeader
 								? ("<script>\n" + code
 									+ "\n</script>\n")
 								: ""))
@@ -661,11 +675,10 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 							+ "  <link href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\" />\n"
 						: ""
 					)
-					+ "  <base href=\"//www.jsviews.com/samples/\" />\n"
-					+ "  <script src=\"../download/js" + (jsrJsvJqui === "jsr" ? "render" : "views")
+					+ "  <script src=\"//www.jsviews.com/download/js" + (jsrJsvJqui === "jsr" ? "render" : "views")
 					+ ".min.js\"></script>\n"
 					+ (jsrJsvJqui === "jqui"
-						? "  <script src=\"../download/sample-tag-controls/jsviews-jqueryui-widgets.min.js\"></script>\n"
+						? "  <script src=\"//www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.min.js\"></script>\n"
 						: "")
 					))
 					+ (header || "") + "</head>\n"
@@ -794,9 +807,9 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 							codetabs = this.data.codetabs || [],
 							codetabsLength = codetabs.length,
 							template = '{^{tabs tabCaption="How it works"}}' +
-							'{{for ~sections}}' +
+							'<div style="margin: -18px 0">{{for ~sections}}' +
 								'{{if ~mode!=="summary" || !detail}}{^{section _type ~mode /}}{{/if}}' +
-							'{{/for}}' +
+							'{{/for}}</div>' +
 						'{{else tabCaption="Code"}}' +
 							'<div class="code">' +
 								'{{sampleFields/}}' +
@@ -996,7 +1009,7 @@ function searchContent(searchValue) {
 		$.observable(category).setProperty("filtered", foundInCat);
 	}
 	$.observable(content).setProperty({
-		noSearch: foundInCats || !searchValue ? "" : "No results found for <span class='searchterm'>" + searchValue + "</span>...",
+		noSearch: foundInCats || !searchValue ? "" : "No results found for <span class='searchterm'>" + htmlConverter(searchValue) + "</span>...",
 		filterlen: content.filter.length
 	});
 }

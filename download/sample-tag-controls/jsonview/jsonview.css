@@ -1,4 +1,6 @@
 ﻿ul.jsonview {
+  font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+  font-size: 15px;
   padding-left: 0;
   margin-left: 10px;
   margin-top: 0;
@@ -20,4 +22,13 @@ ul.jsonview li label {
 .jsonview .brace {
   color: #00f;
   font-style:normal;
+}
+ul.jsonview li.function {
+  white-space:pre;
+  overflow:auto;
+  font-family: monospace;
+  font-style: italic;
+}
+ul.jsonview li.function label {
+  font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
 }

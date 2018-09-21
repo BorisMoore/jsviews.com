@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="../../../../download/jsviews.min.js"></script>
   <script src="../../../sample-viewer.min.js"></script>
   <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -35,8 +35,8 @@
 <script id="peopleList" type="text/x-jsrender">
   <div class="list">
     <div><b>Index:</b> {^{:index}}</div>
-    <div><b>First name:</b> {^{:person.name}}</div>
-    <div><b>Last name:</b> {^{:person.lastName}}</div>
+    <div><b>First name:</b> {^{>person.name}}</div>
+    <div><b>Last name:</b> {^{>person.lastName}}</div>
   </div>
 </script>
 

@@ -1,7 +1,9 @@
-﻿/*! Sample JsViews tag control: {{tabs}} control v0.9.84 (Beta)
-see: http://www.jsviews.com/#download/sample-tagcontrols */
+﻿/*! Sample JsViews tag control: {{tabs}} control v0.9.91 (Beta)
+Version using linkedCtxPrm
+see: http://www.jsviews.com/#download/sample-tagcontrols
+and http://www.jsviews.com/#bindingpatterns@tabsctxprm
 /*
- * Copyright 2017, Boris Moore
+ * Copyright 2018, Boris Moore
  * Released under the MIT License.
  */
 
@@ -9,50 +11,43 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
 "use strict";
 
 $.views.tags({
-  tabs: {
-    init: function(tagCtx) {
-      this.selectedIndex = tagCtx.props.selectedIndex || 0;
-      this.tabCount = this.tagCtxs.length;
-    },
-    render: function() {
-      var tagCtx = this.tagCtx;
-      return this.selectedIndex === tagCtx.index ? tagCtx.render() : "";
-    },
-    onBind: function() {
-      var self = this;
-      self.contents(true, ".tabstrip").first()
-        .on("click", ".header_false", function() {
-          self.setTab($.view(this).index);
-        });
-    },
-    template: '<table class="tabsview"><tbody>' +
-      '<tr class="tabstrip">' +
-      '{{for ~tag.tagCtxs}}' +
-        '<th data-link="class{:\'header_\' + (#index === ~tag.selectedIndex)}">' +
-          '{{>props.tabCaption}}' +
-        '</th>' +
-      '{{/for}}' +
-    '</tr>' +
-    '<tr class="tabscontent">' +
-      '<td colspan="{{:~tag.tagCtxs.length}}">' +
-        '<div style="width:{{attr:~tag.tagCtxs[0].props.width}};' +
-                    'height:{{attr:~tag.tagCtxs[0].props.height}}">' +
-          '{^{for ^tmpl=~tag.tagCtxs[~tag.selectedIndex].tmpl /}}' +
-        '</div>' +
-        '</td>' +
-      '</tr>' +
-    '</tbody></table>',
+tabs: {
+  // JsViews tag settings
+  dataBoundOnly: true,
+  setSize: true,
+  mainElement: ".tabscontent td",
+  displayElement: ".tabsview",
+  bindTo: "pane",
+  linkedCtxParam: "pane",
+  ctx: {pane: 0}, // Default value for ~pane
+  width: 250,
+  height: 100,
+  template:
+    '{{if ~tagCtx.index===0}}' + // render once only
+      '<table class="tabsview"><tbody>' +
+        // Tab strip UI with 'click' handler calling tag.setTab() method
+        '<tr class="tabstrip">' +
+          '{{for ~tag.tagCtxs}}' +
+            '<th data-link="class{:\'header_\' + (#index == ~pane)} {on ~tag.setTab #index} {:props.caption}"></th>' +
+          '{{/for}}' +
+        '</tr>' +
+        // Tab content with wrapped content of selected {{else}} block
+        '<tr class="tabscontent">' +
+          '<td colspan="{{:~tag.tagCtxs.length}}" data-link="{include ^tmpl=~tag.tagCtxs[~pane].content}"></td>' +
+        '</tr>' +
+      '</tbody></table>' +
+    '{{/if}}',
 
-    //METHODS
-    setTab: function(index) {
-      $.observable(this).setProperty("selectedIndex", index);
-      if (this.onSelectionChange) {
-        this.onSelectionChange(index, this);
-      }
-    },
-    dataBoundOnly: true
+  // JsViews handlers and methods
+  onUpdate: false,
+
+  // tag methods
+  setTab: function(index) {
+    index = index || 0;
+    // Update tag.pane, and update external data through two-way binding
+    this.ctxPrm("pane", "" + index);
   }
+}
 });
 
 })(this.jQuery);
-

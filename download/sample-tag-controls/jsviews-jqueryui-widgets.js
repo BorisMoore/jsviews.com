@@ -1,8 +1,8 @@
-﻿/*! JsViews jQueryUI widget integration v0.9.90 (Beta)
+/*! JsViews jQueryUI widget integration v0.9.91 (Beta)
 see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
  * https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
- * Copyright 2017, Boris Moore
+ * Copyright 2018, Boris Moore
  * Released under the MIT License.
  */
 
@@ -38,9 +38,8 @@ function getConverter(tag, cvt) {
 function checkboxRadioOnBind() {
   var tag = this,
     props = tag.tagCtx.props,
-    elem = tag.mainElem[0],
-    val = tag.bndArgs()[0];
-  // Set the value to arg[0] (after applying converter, if there is one)
+    elem = tag.mainElem[0];
+    tag.baseApply(arguments);
 
   if (props.name) {
     elem.name = props.name;
@@ -50,8 +49,15 @@ function checkboxRadioOnBind() {
   }
 
   tag.displayElem = tag.widget.label;
+}
 
-  if (props.label) {
+function checkboxRadioOnAfterLink(tagCtx, linkCtx) {
+  var tag = this,
+    props = tagCtx.props;
+
+  tag.baseApply(arguments);
+
+  if (props.label && props.label !== tag.widget.options.label) {
     tag.widget.option("label", props.label);
   }
 }
@@ -60,10 +66,10 @@ function tabsAccordionOnBind() {
   var tag = this;
   tag.mainElem.on("jsv-domchange", function(ev, tagCtx, linkCtx, eventArgs) {
     var newSelected,
-      selected = tag.widget.option("active");
+      selected = tag.widget.options.active;
 
     tag.widget.refresh();
-    newSelected = tag.widget.option("active")
+    newSelected = tag.widget.options.active;
 
     if (selected !== newSelected) {
       tag.updateValue(newSelected);
@@ -76,12 +82,13 @@ function tabsAccordionOptions() {
   return {
     activate: function(evt, ui) {
       // Raise elemChangeHandler event when selected tab changes - for two-way binding to arg(0)
-      tag.updateValue(tag.widget.option("active"));
+      tag.updateValue(tag.widget.options.active);
     }
   };
 }
 
-function initFormatter(tag, tagCtx) { // Used by datepicker and spinner
+function initDataFormatter(tag, tagCtx) { // Used by datepicker and spinner
+  // Initialize the data formatter
   var dataFormatter,
     dataFormat = tagCtx.props.dataFormat;
   if (dataFormat === undefined) {
@@ -92,11 +99,11 @@ function initFormatter(tag, tagCtx) { // Used by datepicker and spinner
     : tag.dataFormatter;
 
   // Formatter can be provided as tag.dataFormat or tagCtx.props.dataFormat
-  tag.parseData = function(value) {
-    return dataFormatter.parse.call(tag, value, tag.tagCtx.props);
+  tag.parseData = function(data) {
+    return dataFormatter.parse.call(tag, data, tag.tagCtx.props);
   };
-  tag.formatData = function(value) {
-    return dataFormatter.format.call(tag, value, tag.tagCtx.props);
+  tag.formatData = function(date) {
+    return dataFormatter.format.call(tag, date, tag.tagCtx.props);
   };
   return dataFormat;
 }
@@ -191,7 +198,7 @@ widget: {
       if (key.charAt(0) === "_") {
         key = key.slice(1);
         option = options && options[key];
-        if (mainElem[widgetName]("option", key) !== prop) {
+        if (mainElem[widgetName]("option", key) != prop) { // != so undefined and null are considered equivalent
           mainElem[widgetName]("option", key,
             option && $.isFunction(option) && prop && $.isFunction(prop)
               ? function() {
@@ -265,16 +272,16 @@ checkbox: {
   widgetName: "checkboxradio",
   template: "<label><input type='checkbox'/></label>",
   mainElement: "input",
-  linkedElement: "input",
   setSize: true,
-  onBind: function() {
-    this.baseApply(arguments);
-    checkboxRadioOnBind.call(this);
-  },
+  onBind: checkboxRadioOnBind,
+  onAfterLink: checkboxRadioOnAfterLink,
   setValue: function(val) {
-    if (val !== undefined) {
-      var elem = this.mainElem[0];
-      elem.checked = val && val !== "false";
+    var tag = this,
+      elem = this.mainElem[0],
+      checked = val && val !== "false";
+    if (elem.checked !== checked) {
+      elem.checked = checked;
+      tag.widget.refresh();
     }
   }
 },
@@ -284,30 +291,36 @@ radio: {
   widgetName: "checkboxradio",
   template: "<label><input type='radio'/></label>",
   mainElement: "input",
-  linkedElement: "input",
   setSize: true,
   onBind: function() {
-    var tag = this,
-      radiogroup = tag.parents.radiogroup;
-    tag.baseApply(arguments);
-    checkboxRadioOnBind.call(tag);
-    if (radiogroup && !radiogroup.onAfterLink) {
-      // If {{radio}} is child of {{radiogroup}}, make radiogroup
-      // notify radio buttons of selection changes
-      radiogroup.onAfterLink = function(tagCtx) {
-        var val = this.bndArgs()[0],
-          radios = this.childTags("radio"),
+    var radiogroup = this.parents.radiogroup;
+    checkboxRadioOnBind.apply(this, arguments);
+    if (radiogroup && !radiogroup._d) {
+      radiogroup.onAfterLink = $.views.sub._gm(radiogroup.onAfterLink, function() { // Get derived method
+        var widget,
+          val = radiogroup.bndArgs()[0],
+          disabled = !!radiogroup.tagCtx.props.disabled,
+          radios = radiogroup.childTags("radio"),
           l = radios.length;
         while (l--) {
           radios[l].setValue(val);
+          widget = radios[l].widget;
+          if (disabled !== widget.options.disabled) {
+            widget.option("disabled", disabled);
+          }
         }
-      }
+        this.baseApply(arguments); // Call base onAfterLink()
+      });
+      radiogroup._d = true;
     }
   },
+  onAfterLink: checkboxRadioOnAfterLink,
+
   setValue: function(val) {
-    if (val !== undefined) {
-      var elem = this.mainElem[0];
-      elem.checked = val === elem.value;
+    var elem = this.mainElem[0],
+    checked = val === elem.value;
+    if (elem.checked !== checked) {
+      elem.checked = checked;
     }
     this.widget.refresh();
   }
@@ -335,14 +348,14 @@ datepicker: {
   elem: "input",
   setSize: true,
   dataFormat: true,
-  dataFormatter: {
-    // Default data formatter uses built-in datepicker formatter as used in display.
+  dataFormatter: { // Data formatter from data to Date
+    // Default data formatter uses built-in datepicker formatter.
     // Override as tag.dataFormat in tagDef or as tagCtxprops.dataFormat
-    parse: function(value, props) {
-      return $.datepicker.parseDate(this.dataFormat, value);
+    parse: function(data, props) {
+      return $.datepicker.parseDate(this.dataFormat, data);
     },
-    format: function(value, props) {
-      return $.datepicker.formatDate(this.dataFormat, value);
+    format: function(date, props) {
+      return $.datepicker.formatDate(this.dataFormat, date);
     }
   },
   init: function(tagCtx) {
@@ -353,7 +366,7 @@ datepicker: {
         || $.datepicker._defaults.dateFormat, // or use internal date-picker default
       cvt = getConverter(tag, tag.convert),
       cvtBk = getConverter(tag, tag.convertBack),
-      dataFormat = initFormatter(tag, tagCtx);
+      dataFormat = initDataFormatter(tag, tagCtx);
       tag.dataFormat = dataFormat === true ? tag.dateFormat : dataFormat;
 
     tag.convert = function(val) {
@@ -445,7 +458,6 @@ progressbar: {
   baseTag: "widget",
   widgetName: "progressbar",
   boundProps: ["busy"],
-  bindTo: 0,
   elem: "div",
   wrap: true,
   setSize: true,
@@ -486,19 +498,18 @@ resizable: {
     };
   },
   setValue: function(value, index) {
-    var mainElem = this.mainElem;
-    mainElem[index ? "height" : "width"](value || 0);
+    if (value !== undefined) {
+      this.mainElem[index ? "height" : "width"](value || 0);
+    }
   },
   getValue: function() {
-    var mainElem = this.mainElem;
-    return [mainElem.width(), mainElem.height()];
+    return [this.mainElem.width(), this.mainElem.height()];
   }
 },
 // ============================= SELECTMENU =============================
 selectmenu: {
   baseTag: "widget",
   widgetName: "selectmenu",
-  linkedElement: "select",
   elem: "select",
   wrap: true,
   setSize: true,
@@ -520,8 +531,10 @@ selectmenu: {
     });
   },
   setValue: function(value) {
-    this.mainElem[0].value = value;
-    this.widget.refresh();
+    if (value !== undefined) {
+      this.mainElem[0].value = value;
+      this.widget.refresh();
+    }
   },
   getValue: function() { 
     return this.mainElem[0].value;
@@ -531,7 +544,6 @@ selectmenu: {
 slider: {
   baseTag: "widget",
   widgetName: "slider",
-  linkedElement: "*",
   elem: "div",
   setSize: true,
   options: function() {
@@ -552,7 +564,9 @@ slider: {
     }
   },
   setValue: function(value) {
-    this.widget.value(value || 0);
+    if (value !== undefined) {
+      this.widget.value(value || 0);
+    }
   },
   getValue: function() {
     return this.widget.value();
@@ -568,16 +582,16 @@ spinner: {
   setSize: true,
   // Default display formatter uses Globalize 0.1.1.
   // Override as tag.displayFormat in tagDef or as tagCtx.props.displayFormat
-  displayFormat: {
-    parse: function(value, props) {
+  displayFormat: { // Default display format: numberString, to number
+    parse: function(numberString, props) {
       return window.Globalize
-        ? Globalize.parseFloat(value, 10, props._culture)
-        : value;
+        ? Globalize.parseFloat(numberString, 10, props._culture)
+        : numberString;
     },
-    format: function(value, props) {
+    format: function(data, props) {
       return window.Globalize
-        ? Globalize.format(value, this.widget.options.numberFormat, props._culture)
-        : value;
+        ? Globalize.format(data, this.widget.options.numberFormat, props._culture)
+        : data;
     }
   },
   options: function() {
@@ -592,23 +606,24 @@ spinner: {
     var dataFormat,
       tag = this,
       displayFormat = tagCtx.props.displayFormat;
-    tag.parse = function(value) {
-      return displayFormat.parse.call(tag, value, tag.tagCtx.props);
+    tag.parse = function(numberString) {
+      return displayFormat.parse.call(tag, numberString, tag.tagCtx.props);
     };
-    tag.format = function(value, props) {
-      return displayFormat.format.call(tag, value, tag.tagCtx.props);
+    tag.format = function(data, props) {
+      return displayFormat.format.call(tag, data, tag.tagCtx.props);
     };
     if (displayFormat === undefined) {
       displayFormat = tag.displayFormat;
     }
-    tag.dataFormat = dataFormat = initFormatter(tag, tagCtx);
+    tag.dataFormat = dataFormat = initDataFormatter(tag, tagCtx);
     tag.baseApply(arguments);
   },
   onBind: function(tagCtx) {
     var tag = this,
       cvt = getConverter(tag, tag.convert),
       cvtBk = getConverter(tag, tag.convertBack);
-
+    tag.dataCvt = cvt;
+    tag.dataCvtBk = cvtBk;
     tag.baseApply(arguments);
 
     if (!tag.linkCtx.elem._jsvChg) {
@@ -641,38 +656,38 @@ spinner: {
         ? +tag.parse(value, tagCtx.props)
         : value;
     };
-    tag.widget._format = function(value) {
-      return value !== ""
-        ? tag.format(value, tagCtx.props)
-        : value;
+    tag.widget._format = function(data) {
+      return data !== ""
+        ? tag.format(data, tagCtx.props)
+        : data;
     };
   }
 },
 // ============================= TIMESPINNER =============================
 timespinner: {
   baseTag: "spinner",
-  dataFormat: {
-    parse: function(value, props) {
-      return +value;
+  dataFormat: { // Default data format: ticks/timestamp, to Date
+    parse: function(date, props) {
+      return +date;
     },
-    format: function(value, props) {
-      return new Date(value);
+    format: function(ticks, props) {
+      return new Date(ticks);
     }
   },
-  displayFormat: {
-    parse: function(value, props) {
+  displayFormat: { // Default timestring display, to Date
+    parse: function(timeString, props) {
       var date;
-      if (value) {
+      if (timeString) {
         return window.Globalize
-          ? Globalize.parseDate(value, "t", props._culture)
-          : ((date = new Date()).setHours(value.slice(0, 2), value.slice(3)), date);
+          ? Globalize.parseDate(timeString, "t", props._culture)
+          : ((date = new Date()).setHours(timeString.slice(0, 2), timeString.slice(3)), date);
       }
     },
-    format: function(value, props) {
-      if (value.getDay) {
+    format: function(date, props) {
+      if (date.getDay) {
         return window.Globalize
-          ? Globalize.format(value, "t", props._culture)
-          : (100 + value.getHours() + "").slice(1) + ":" + (100 + value.getMinutes() + "").slice(1);
+          ? Globalize.format(date, "t", props._culture)
+          : (100 + date.getHours() + "").slice(1) + ":" + (100 + date.getMinutes() + "").slice(1);
       }
     }
   },
@@ -691,15 +706,24 @@ timespinner: {
     tag.baseApply(arguments);
 
     tag.widget._parse = function(value) {
-      if ("" + value === value && value) {
-        value = tag.parse(value, tagCtx.props);
-        if (value && !tag.keepDay) {
-          // Make return dateNumber (ticks) change the hours and minutes but keep current date (day/month)
-          var returnDate = new Date(tag.value);
-          returnDate.setHours(value.getHours());
-          returnDate.setMinutes(value.getMinutes());
-          value = returnDate;
+      var returnDate;
+      if ("" + value === value && value && (value = tag.parse(value, tagCtx.props))) {
+        // Make return dateNumber (ticks) change the hours and minutes but keep current date (day/month)
+        if (tag.keepDay) {
+          returnDate = tag.tagCtx.args[0];
+          if (tag.dataCvt) {
+            returnDate = tag.dataCvt(returnDate);
+          }
+          if (tag.dataFormat) {
+            returnDate = tag.parseData(returnDate);
+          }
+        } else {
+          returnDate = tag.value;
         }
+        returnDate = new Date(returnDate);
+        returnDate.setHours(value.getHours());
+        returnDate.setMinutes(value.getMinutes());
+        value = returnDate;
       }
       return +value;
     };
@@ -712,7 +736,6 @@ timespinner: {
   },
   onAfterLink: function(tagCtx) {
     var keepDay = tagCtx.props.keepDay;
-
     if (keepDay !== undefined) {
       this.keepDay = keepDay;
     }
@@ -724,15 +747,15 @@ timespinner: {
 tabs: {
   baseTag: "widget",
   widgetName: "tabs",
-  bindTo: 0,
   elem: "div",
   wrap: true,
   setSize: true,
   contentCtx: true,
   options: tabsAccordionOptions,
   setValue: function(value) {
-    // Select the tab whose index is the currently selected one
-    this.widget.option("active", parseInt(value));
+    if (value !== undefined) {
+      this.widget.option("active", parseInt(value));
+    }
   },
   onBind: function(value) {
     this.baseApply(arguments);
@@ -745,7 +768,7 @@ tabs: {
     tabsAccordionOnBind.call(this);
   },
   getValue: function() { // Helper: get the index of the currently selected tab
-    return this.widget.option("active");
+    return this.widget.options.active;
   }
 }
 
@@ -823,7 +846,7 @@ if ($.ui.version.slice(0, 4) === "1.11") {
           // Use {^{button value="xxx"}}Label{{/button}}
           if (elem.value === "undefined") {
             // Default, for {^{button}}xxx{{/button}} or {^{button _label="xxx"/}}
-            elem.value = tag.widget.option("label"); 
+            elem.value = tag.widget.options.label; 
           }
           elem.checked = val === elem.value;
         } else {
@@ -916,9 +939,13 @@ if ($.ui.draggable) {
       };
     },
     setValue: function(value, index) {
-      this.mainElem.offset(index ? {top: value} : {left: value});
+      if (value === undefined) {
+        this.ctxPrm(this.linkedCtxParam[index], this.getValue()[index]);
+      } else {
+        this.mainElem.offset(index ? {top: value} : {left: value});
+      }
     },
-    getValue: function(left, top) {
+    getValue: function() {
       var offset = this.mainElem.offset();
       return [offset.left, offset.top];
     }
@@ -939,7 +966,6 @@ if ($.ui.accordion) {
   $.views.tags("accordion", {
     baseTag: "widget",
     widgetName: "jsv-accordion",
-    bindTo: 0,
     wrap: true,
     setSize: true,
     contentCtx: true,
@@ -950,11 +976,13 @@ if ($.ui.accordion) {
       tabsAccordionOnBind.call(this);
     },
     setValue: function(value) {
-      // Select the panel whose index is the currently selected one
-      this.widget.option("active", parseInt(value));
+      if (value !== undefined) {
+        // Select the tab whose index is the currently selected one
+        this.widget.option("active", parseInt(value));
+      }
     },
     getValue: function() { // Helper: get the index of the currently selected panel
-      return this.widget.option("active");
+      return this.widget.options.active;
     }
   });
 }
@@ -972,7 +1000,7 @@ if ($.ui.sortable) {
         start: function(event, ui) {
           startOption && startOption.apply(this, arguments);
 
-          if (widget.option("bindArray") !== false) {
+          if (widget.options.bindArray !== false) {
             innerView = ui.item.view(); // The view of the item that is being dragged
             if (innerView.type === "item") {
               // The sortable items are within a {{for}} loop, so this is a data-linked sortable list
@@ -1023,7 +1051,6 @@ if ($.ui.selectable) {
   $.views.tags("selectable", {
     baseTag: "widget",
     widgetName: "jsv-selectable",
-    bindTo: 0,
     wrap: true,
     setSize: true,
     contentCtx: true,
@@ -1060,12 +1087,9 @@ if ($.ui.selectable) {
     },
     setValue: function(selected) { // Set the new observed array of selected indices
       var tag = this;
-      if ($.isArray(selected) && tag.selected !== selected) {
+      if (selected !== undefined && $.isArray(selected) && tag.selected !== selected) {
         $.unobserve(tag.selected, tag.selObs);
         tag.selected = selected;
-        if (selected !== tag.bndArgs[0]) {
-          tag.updateValue(selected);
-        }
         $.observe(selected, tag.selObs);
         tag.setSelection();
       }

@@ -1,15 +1,16 @@
 ﻿"use strict";
 var formatters = {
 
-  // Time formatter using moment.js
+  // Display formatter for timestamp (ticks) using moment.js:
+  // ticks to time string
   time: {
-    parse: function(value, props) {
+    parse: function(string, props) {
       var format = props._culture === "en-US" ? "h:mm A" : "HH:mm";
-      return moment(value, format).toDate();
+      return +moment(string, format).toDate();
     },
-    format: function(value, props) {
+    format: function(ticks, props) {
       var format = props._culture === "en-US" ? "h:mm A" : "HH:mm";
-      return moment(value).format(format);
+      return moment(ticks).format(format);
     }
   }
 

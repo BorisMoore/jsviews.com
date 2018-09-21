@@ -33,7 +33,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "See also:\n\n- the [demos](https://github.com/BorisMoore/jsrender/tree/master/demos) folder of the JsRender GitHub repository -- available [here](http://borismoore.github.io/jsrender/demos/index.html\") as live samples\n- the [demos](https://github.com/BorisMoore/jsviews/tree/master/demos) folder of the JsViews GitHub repository -- or [here](http://borismoore.github.io/jsviews/demos/index.html) as live samples\n"
+        "text": "See also:\n\n- the [demos](https://github.com/BorisMoore/jsrender/tree/master/demos) folder of the JsRender GitHub repository -- available [here](http://borismoore.github.io/jsrender/demos/index.html) as live samples\n- the [demos](https://github.com/BorisMoore/jsviews/tree/master/demos) folder of the JsViews GitHub repository -- or [here](http://borismoore.github.io/jsviews/demos/index.html) as live samples\n"
       }
     ]
   },
@@ -225,7 +225,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "Asynchronous loading of templates from the server",
-            "text": "This sample illustrates one approach to loading remote templates: the template file on the server is a javascript file which registers a named template."
+            "text": "This sample illustrates one approach to loading remote templates: the template file on the server is a JavaScript file which registers a named template."
           },
           {
             "_type": "code",
@@ -406,11 +406,12 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "This sample shows a custom tag: <em>{{range}}</em> -- extending the <em>{{for}}</em> tag, used with JsRender (code: <a href=\"download/sample-tag-controls/range/range.js\">range.js</a>).\n\n(See also the <a href=\"#samples/tag-controls/range\">tag-controls/range</a> sample -- which uses the same tag with JsViews, as a data-linked custom tag control.)"
+        "text": "This sample shows a custom tag: *{{purchases}}* -- extending the *{{for}}* tag, used with JsRender.\n\nSee the discussion in the *[Tag inheritance](#tagsapi@basetag)* topic, which includes this sample.\n\nSee also the [tag-controls/purchases](#samples/tag-controls/purchases) sample -- which uses the same tag with JsViews, as a data-linked custom tag control."
       },
       {
         "_type": "sample",
         "typeLabel": "Sample:",
+        "codetabs": [],
         "sectionTypes": {
           "para": "para",
           "data": "data",
@@ -421,36 +422,17 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "sections": [
           {
             "_type": "para",
-            "title": "A <b>{{range}}</b> tag - extending the <b>{{for}}</b> tag",
-            "text": "`{{range}}` inherits from `{{for}}`, and adds support for iterating over a range (`start` to `end`) of items within an array, or for iterating directly over integers from `start` integer to `end` integer."
-          },
-          {
-            "_type": "template",
-            "title": "Range of items from array",
-            "markup": "{{range members start=1 end=3}}\n  ...\n{{else}}\n  ...\n{{/range}}"
-          },
-          {
-            "_type": "template",
-            "title": "Range of integers",
-            "markup": "{{range start=10 end=40}}\n  ...\n{{else}}\n  ...\n{{/range}}"
-          },
-          {
-            "_type": "code",
-            "title": "Derive from <b>{{for}}</b> tag",
-            "code": "$.views.tags({\n  range: {\n    // Inherit from {{for}} tag\n    baseTag: \"for\",\n\n    // Override the render method of {{for}}\n    render: function(val) {\n\n      ...\n\n      // Call the baseTag render method\n      return ... ? this.base(array) : this.base();\n    },\n\n    ...\n  }\n});\n"
+            "title": "",
+            "text": "Each running total calls the `~total(expr)` helper with an *expression* parameter for each running total -- to be used to compute the incremental amount for each row.\n\n*Tag declaration:*\n\n```js\n$.views.tags(\"purchases\", {\n  baseTag: \"for\",                        // Inherit from the {{for}} tag\n  ctx: {\n    total: function(expr) {              // A ~total(expression) helper\n      var tmpl = $.templates[expr]       // Get named compiled template for expression, or else...\n                 || $.templates(expr, \"{{:\" + expr + \"}}\"), // ...if this is first call, create it\n\n        runningTotal = 0,\n        view = this,                     // The content view of the ~total(...) helper call\n        items = view.get(\"array\").data,\n        rowIndex = view.getIndex();\n\n      for (var i = 0; i <= rowIndex; i++) {\n        runningTotal += +tmpl(items[i]); // Compute running total up to this row, using render function\n      }                                  // of compiled tmpl (either tmpl() or tmpl.render()...)\n      return runningTotal;               // Return value from ~total(...)\n    }\n  }\n});\n```\n\n*Tag usage:*\n\n```jsr\n{{purchases lineItems sort=\"category\" ...}} \n  ...{{:~total(\"quantity*price\")}}...\n{{else}}\n  ...No items...\n{{/purchases}}\n```"
           }
         ],
-        "codetabs": [
-          {
-            "_type": "codetab",
-            "name": "",
-            "url": "download/sample-tag-controls/range/range.js",
-            "label": "range.js"
-          }
-        ],
-        "url": "samples/jsrender/tags/extend-for/sample",
-        "height": "464",
-        "jsrJsvJqui": "jsr"
+        "code": "",
+        "html": "",
+        "height": "550",
+        "jsrJsvJqui": "jsr",
+        "header": "",
+        "action": "append",
+        "url": "samples/jsrender/tags/extend-for/sample"
       }
     ]
   },
@@ -522,7 +504,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "For more information about helpers, see the <a href=\"#helpers\">`$.views.helpers()`</a> API topic.\n\nThis sample shows passing in helpers to the `render()` method:\n\n```js\nvar html = $(\"#movieTemplate\").render(\n  // Pass in data\n  [movies],\n  // Pass in helpers\n  {\n    reverseSort: reverse,\n    ...\n  }\n);\n```\n\nIn this case our template renders an array (with sort-order based on the `~reverseSort` boolean value we pass in as a helper).\n\nTo make our template render just once, rather than iterating over the `movies` array, we wrap the array -- as `render([myArray])` -- and then <em>within the template</em> we do the iteration, using `{{for #data}}`.\n\n```jsr\n{{for #data}}\n  <tr>\n    <td>{{>~format(title)}}</td>\n    <td>\n      {{sort languages reverse=~reverseSort}}\n        <div><b>{{>name}}</b></div>\n      {{/sort}}\n    </td>\n  </tr>\n{{/for}}\n```\n\n"
+            "text": "For more information about helpers, see the <a href=\"#helpers\">`$.views.helpers()`</a> API topic.\n\nThis sample shows passing in helpers to the `render()` method:\n\n```js\nvar html = $(\"#movieTemplate\").render(\n  // Pass in data\n  [movies],\n  // Pass in helpers\n  {\n    reverse: reverse,\n    ...\n  },\n  true // noIteration\n);\n```\n\nIn this case our template renders an array (with order increasing/decreasing index, based on the `~reverse` boolean value we pass in as a helper).\n\nTo make our template render just once, rather than iterating over the `movies` array, we pass in the additional boolean `noIteration` parameter, `true` to the `render()` method -- and then <em>within the template</em> we do the iteration, using `{{for}}`.\n\n```jsr\n{{for}} {{!-- iterate over movies array --}}\n  <tr>\n    <td>{{>~format(title)}}</td>\n    <td>\n      {{for languages reverse=~reverse}}\n        <div><b>{{>name}}</b></div>\n      {{/for}}\n    </td>\n  </tr>\n{{/for}}\n```\n\n"
           }
         ],
         "codetabs": [],
@@ -641,17 +623,17 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "Specifying converters:",
-            "text": "<ul>\n<li><code>{{:value}}</code> &mdash; does not convert. Used to render values that include html markup.</li>\n<li><code>{{loc:value lang=\"...\"}}</code> &mdash; Uses custom converter, below.</li>\n<li><code>{{html:value}}</code> &mdash; Converts using built-in HTML encoder. (Better security within element content, but slight perf cost).</li>\n<li><code>{{>value}}</code> &mdash; Alternative syntax for built-in HTML encoder.</li>\n<li><code>{{attr:availability}}</code> &mdash; Converts using built-in attribute encoder. (Better security within attributes).</li>\n<li><code>{{url:value}}</code> &mdash; Converts using built-in URL encoder.</li>\n</ul>\n\n"
+            "text": "- `{{:value}}` -- does not convert. Used to render values that include html markup.\n- `{{loc:value lang=\"...\"}}` -- Uses custom converter, below.\n- `{{html:value}}` -- Converts using built-in HTML encoder. (Better security within element content, but slight perf cost).\n- `{{>value}}` -- Alternative syntax for built-in HTML encoder.\n- `{{attr:availability}}` -- Converts using built-in attribute encoder. (Better security within attributes).\n- `{{url:value}}` -- Converts using built-in URL encoder.\n- `{{dec:ticketPrice}}` -- Uses custom converter, below.\n\n"
           },
           {
             "_type": "code",
             "title": "Declaring custom converters",
-            "code": "$.views.converters({\n  loc: function(value) {\n    var language = this.tagCtx.props.lang;\n    ... (return localized value based on language)\n  }\n});\n"
+            "code": "$.views.converters({\n  dec: function(value) {\n    return value.toFixed(2);\n  },\n  loc: function(value) {\n    var language = this.tagCtx.props.lang;\n    ... (return localized value based on language)\n  }\n});\n"
           }
         ],
         "codetabs": [],
         "url": "samples/jsrender/converters/sample",
-        "height": "448",
+        "height": "486",
         "title": "Using {{: }} or {{> }} to render data values with optional conversion or encoding",
         "jsrJsvJqui": "jsr"
       }
@@ -707,6 +689,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "path": "",
     "sections": [
       {
+        "_type": "para",
+        "title": "",
+        "text": "Available from [downloads/tag-controls](#download/tag-controls).\n\nFor additional information about the `{{tabs}}` control see the  *[Data binding design patterns -- two-way binding](#bindingpatterns@bindto)* topic."
+      },
+      {
         "_type": "sample",
         "typeLabel": "Sample:",
         "sectionTypes": {
@@ -725,7 +712,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "template",
             "title": "Here is markup for the inner one:",
-            "markup": "{^{tabs tabCaption=\"Inner One\"}}\n  ONE inner\n{{else tabCaption=\"Inner Two\"}}\n  TWO  {{>label2}}\n{{else tabCaption=\"Inner Three\"}}\n  THREE inner\n{{/tabs}}\n"
+            "markup": "{^{tabs tabCaption=\"Inner One\"}}\n  ONE inner\n{{else tabCaption=\"Inner Two\"}}\n  TWO {{>label2}}\n{{else tabCaption=\"Inner Three\"}}\n  THREE inner\n{{/tabs}}\n"
           }
         ],
         "url": "samples/tag-controls/tabs/sample",
@@ -736,7 +723,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "url": "download/sample-tag-controls/tabs/tabs.js"
           }
         ],
-        "height": "310",
+        "height": "210",
         "title": "Tabs control"
       }
     ]
@@ -1049,7 +1036,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "This set of samples shows three variants of a <em>tree</em> tag control:\n\n<ul><li>The first uses <code>visible{:...}</code> binding to show and hide tree nodes using <code>display:none</code>. It also allows the user to select/deselect nodes.</li> \n<li>The second uses <code>{^{if ...}}</code> binding to conditionally render tree nodes.</li>\n<li>The third adds editability, to allow the user to create or remove nodes, and to modify labels.</li></ul>"
+        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nThis set of samples shows three variants of a <em>tree</em> tag control:\n\n<ul><li>The first uses <code>visible{:...}</code> binding to show and hide tree nodes using <code>display:none</code>. It also allows the user to select/deselect nodes.</li> \n<li>The second uses <code>{^{if ...}}</code> binding to conditionally render tree nodes.</li>\n<li>The third adds editability, to allow the user to create or remove nodes, and to modify labels.</li></ul>"
       },
       {
         "_type": "links",
@@ -1079,7 +1066,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "These samples use the custom `{{validate}}` tag control.\n\nThis provides validation support to all the two-way bound controls based on form elements, such as <em>text box</em>, <em>dropdown</em>, <em>checkbox</em>, <em>radio button group</em> or <em>textarea</em>, as well as to custom tags such as the `{{datepicker}}` and `{{slider}}` controls.\n\nIn addition, a `{{validation}}` control adds group validation. See the date-picker validation wizard sample, as an example of using the group validation features: In that sample, the <em>next</em> button is only enabled when all controls on the current pane validate successfully."
+        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nThese samples use the custom `{{validate}}` tag control.\n\nThis provides validation support to all the two-way bound controls based on form elements, such as <em>textbox</em>, <em>dropdown</em>, <em>checkbox</em>, <em>radio button group</em> or <em>textarea</em>, as well as to custom tags such as the `{{datepicker}}` and `{{slider}}` controls.\n\nIn addition, a `{{validation}}` control adds group validation. See the date-picker validation wizard sample, as an example of using the group validation features: In that sample, the <em>next</em> button is only enabled when all controls on the current pane validate successfully."
       },
       {
         "_type": "links",
@@ -1103,7 +1090,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     ]
   },
   "samples/tag-controls/jqui/datepicker": {
-    "title": "Samples: A JsViews \"datepicker\" tag control",
+    "title": "Samples: {{datepicker}} tag control",
     "path": "",
     "sections": [
       {
@@ -1146,7 +1133,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     ]
   },
   "samples/tag-controls/jqui/slider": {
-    "title": "Samples: A JsViews \"slider\" tag control",
+    "title": "Samples: {{slider}} tag control (jQuery UI)",
     "path": "",
     "sections": [
       {
@@ -1503,7 +1490,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/tag-controls/jqui/slider/simple/sample",
-        "height": "400",
+        "height": "380",
         "title": "Slider control",
         "jsrJsvJqui": "jqui"
       },
@@ -1548,7 +1535,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/tag-controls/jqui/slider/simple-toplevel/sample",
-        "height": "400",
+        "height": "380",
         "title": "Top-level data-link=\"{slider ...}\"",
         "anchor": "toplink",
         "jsrJsvJqui": "jqui"
@@ -1585,7 +1572,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/tag-controls/jqui/slider/variants/sample",
-        "height": "800",
+        "height": "770",
         "jsrJsvJqui": "jqui"
       }
     ]
@@ -1774,7 +1761,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This version of the sample uses <em>data-linking within a template</em>. The template is rendered and data-linked within an HTML container element as follows: \n\n```js\n$.templates(\"#tmpl\").link(\"#amountPickers\", data);\n```\n\nand elements within the template are linked to the data using either <em>element-based data-linking syntax</em> or <em>JsViews tag-based data-linking syntax</em>:\n\n```jsr\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  ...\n  <b data-link=\"amount+1\"></b>\n  ...\n  {^{:amount}}\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount\" />\n  ...\n  <select data-link=\"{:amount:} size{:listbox ? 4 : null}\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <div data-link=\"{radiogroup amount}\">\n    <label><input type=\"radio\" value=\"0\" /> 0</label>\n    ...\n  </div>\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</script>\n\n<div id=\"amountPickers\"></div>\n```"
+            "text": "This version of the sample uses <em>data-linking within a template</em>. The template is rendered and data-linked within an HTML container element as follows: \n\n```js\n$.templates(\"#tmpl\").link(\"#amountPickers\", data);\n```\n\nand elements within the template are linked to the data using either <em>element-based data-linking syntax</em> or <em>JsViews tag-based data-linking syntax</em>:\n\n```jsr\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  ...\n  <b data-link=\"amount+1\"></b>\n  ...\n  {^{>amount}}\n  ...\n  <input type=\"checkbox\" data-link=\"listbox\" />\n  ...\n  <input data-link=\"amount\" />\n  ...\n  <select data-link=\"{:amount:} size{:listbox ? 4 : null}\">\n    <option>0</option>\n    ...  \n  </select>\n  ...\n  <div data-link=\"{radiogroup amount}\">\n    <label><input type=\"radio\" value=\"0\" /> 0</label>\n    ...\n  </div>\n  ...\n  <textarea data-link=\"amount\"></textarea>\n  ...\n</script>\n\n<div id=\"amountPickers\"></div>\n```"
           }
         ],
         "url": "samples/form-els/simple/template",
@@ -1890,7 +1877,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "This sample shows data-linked visibility, and also shows data-linked <em>textbox</em>, <em>checkbox</em>, <em>textarea</em>, <em>radio button</em> and <em>select</em> elements.\n\nEnter values in text boxes etc. and gradually the successive steps will be made visible through data-binding:"
+        "text": "This sample shows data-linked visibility, and also shows data-linked <em>textbox</em>, <em>checkbox</em>, <em>textarea</em>, <em>radio button</em> and <em>select</em> elements.\n\nEnter values in textboxes etc. and gradually the successive steps will be made visible through data-binding:"
       },
       {
         "_type": "sample",
@@ -1986,7 +1973,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "This sample show a simple custom `{{textbox}}` tag control.\n\nIt can be considered as a first step towards a more advanced control."
+        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nThis sample show a simple custom `{{textbox}}` tag control.\n\nIt can be considered as a first step towards a more advanced control."
       },
       {
         "_type": "sample",
@@ -2010,11 +1997,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This sample illustrates the simplest possible custom tag control supporting <em>two-way data-binding</em>.\n\nBy using a template which includes an <em>input</em> element:\n\n```jsr\n<input/>\n```\n\nand then setting the `linkedElement` property to `\"input\"`:\n\n```js\n$.views.tags({\n  textbox: {\n    linkedElement: \"input\",\n    template: \"<input/>\",\n    ...\n  }\n});\n```\n\nJsViews automatically looks for a matching element (the `linkedElement` string being treated as a jQuery selector), which it then provides as a property on the resulting tag instance (wrapped in a jQuery object): `tag.linkedElem`.\n\nJsViews sets up two-way data-linking on that <em>input</em> element.\n\nNow you can get two-way binding to your data, simply by setting the path to the data as parameter on your `{{textbox}}` tag:\n\n```jsr\n{{textbox my.data.path /}}\n```\n\nAs an optional optimization, we can set the `onUpdate` handler of our tag control to return `false`. This has the effect of preventing the control from re-rendering itself each time that data changes. (The updating of the textbox content is already assured by the data-linked <em>input</em>, so re-rendering is unnecessary.)  \n\n```js\n$.views.tags({\n  textbox: {\n    linkedElement: \"input\",\n    template: \"<input/>\",\n    onUpdate: function() {\n      return false;\n    },\n    template: \"<input/>\"\n  }\n});\n```"
+            "text": "This sample illustrates the simplest possible custom tag control supporting <em>two-way data-binding</em>.\n\nBy using a template which includes an <em>input</em> element:\n\n```jsr\n<input/>\n```\n\nand then setting the `linkedElement` property to `\"input\"`:\n\n```js\n$.views.tags({\n  textbox: {\n    linkedElement: \"input\",\n    template: \"<input/>\",\n    ...\n  }\n});\n```\n\nJsViews automatically looks for a matching element (the `linkedElement` string being treated as a jQuery selector), which it then provides as a property on the resulting tag instance (wrapped in a jQuery object): `tag.linkedElem`.\n\nJsViews sets up two-way data-linking on that <em>input</em> element.\n\nNow you can get two-way binding to your data, simply by setting the path to the data as parameter on your `{{textbox}}` tag:\n\n```jsr\n{{textbox my.data.path /}}\n```\n\nAs an optional optimization, we can set the `onUpdate` handler of our tag control to `false`. This has the effect of preventing the control from re-rendering itself each time that data changes. (The updating of the textbox content is already assured by the data-linked <em>input</em>, so re-rendering is unnecessary.)  \n\n```js\n$.views.tags({\n  textbox: {\n    linkedElement: \"input\",\n    template: \"<input/>\",\n    onUpdate: false,\n    template: \"<input/>\"\n  }\n});\n```"
           }
         ],
         "url": "samples/tag-controls/simple-textbox/sample",
-        "height": "340"
+        "height": "310"
       }
     ]
   },
@@ -2604,7 +2591,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           "disableButton": false
         },
         "title": "",
-        "height": "120"
+        "height": "100"
       },
       {
         "_type": "para",
@@ -3040,7 +3027,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     ]
   },
   "samples/tag-controls/range": {
-    "title": "Samples: A JsViews \"range\" tag control",
+    "title": "Sample: A JsViews \"range\" tag control",
     "path": "",
     "sections": [
       {
@@ -3070,7 +3057,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "We use the `{{range}}` custom tag to create a drop-down to select an integer between 1 and 10 as the `start` integer (...and similarly for the `end` integer):\n\n```jsr\n<select data-link=\"{:start:strToInt}\">\n  {^{range start=1 end=10}}\n    <option>{{:#data}}</option>\n  {{/range}}\n</select>\n```\n\nThen we again use the `{{range}}` tag to show a partial list of team members:\n\n```jsr\n<ul>\n  {^{range members start=start-1 end=end}}\n    <li>\n      {^{:#index + ~root.start}}. {^{:name}}\n    </li>\n  {{else}}\n    <li>No items</li>\n  {{/range}}\n</ul>\n```\n\nNote that by default, named properties like `start=start-1` are not data-bound. (This is made 'opt-in' for perf optimization reasons.) However in this case, our `{{range}}` tag implementation has `start` and `end` specified as bound properties:\n\n```js\n$.views.tags({\n  range: {\n    boundProps: [\"start\", \"end\"],\n    baseTag: \"for\",\n    ...\n```\n\nSo observable changes to the `start` and `end` properties automatically trigger updates. \n\n(If not declared as `boundProps` we would have needed to use the syntax: `^start=start-1`.)"
+            "text": "We use the `{{range}}` custom tag to create a drop-down to select an integer between 1 and 10 as the `start` integer (...and similarly for the `end` integer):\n\n```jsr\n<select data-link=\"{:start:strToInt}\">\n  {^{range start=1 end=10}}\n    <option>{{:#data}}</option>\n  {{/range}}\n</select>\n```\n\nThen we again use the `{{range}}` tag to show a partial list of team members:\n\n```jsr\n<ul>\n  {^{range members start=start-1 end=end}}\n    <li>\n      {^{:#index + ~root.start}}. {^{>name}}\n    </li>\n  {{else}}\n    <li>No items</li>\n  {{/range}}\n</ul>\n```\n\nNote that by default, named properties like `start=start-1` are not data-bound. (This is made 'opt-in' for perf optimization reasons.) However in this case, our `{{range}}` tag implementation has `start` and `end` specified as bound properties:\n\n```js\n$.views.tags({\n  range: {\n    boundProps: [\"start\", \"end\"],\n    baseTag: \"for\",\n    ...\n```\n\nSo observable changes to the `start` and `end` properties automatically trigger updates. \n\n(If not declared as `boundProps` we would have needed to use the syntax: `^start=start-1`.)"
           }
         ],
         "url": "samples/tag-controls/range/sample",
@@ -3246,13 +3233,13 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     ]
   },
   "samples/tag-controls/jsonview": {
-    "title": "The jsonview control",
+    "title": "Sample: A JsViews \"jsonview\" tag control",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "This sample shows the `{{jsonview/}}` control, which is available from [downloads/tag-controls](#download/tag-controls).\n\nThe `{{jsonview}}` tag control can be included in any JsViews page, to show the contextual data at that place in the page, or to show given data returned by an expression `{^{jsonview someExpression /}}`. Changes to the data will then update dynamically.\n\nThe following sample (shown also in the *[Data-linked template tag: {^{props ...}}](#jsvpropstag@jsonview)* topic) illustrates the use of `{{jsonview}}`:"
+        "text": "This sample shows the `{{jsonview/}}` control, which is available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nThe `{{jsonview}}` tag control can be included in any JsViews page, to show the contextual data at that place in the page, or to show given data returned by an expression `{^{jsonview someExpression /}}`. Changes to the data will then update dynamically.\n\nThe following sample (shown also in the *[Data-linked template tag: {^{props ...}}](#jsvpropstag@jsonview)* topic) illustrates the use of `{{jsonview}}`:"
       },
       {
         "_type": "sample",
@@ -3276,7 +3263,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Template:</div>*\n\n```js\n...\n<ul>\n  {^{props members}}\n    <li>\n      ...\n      <input data-link=\"key\"/>\n      {^{>key}}\n      <input data-link=\"prop^name\"/>\n      {^{>prop^name}}\n      ...\n    </li>\n  {{else}}\n    ...\n  {{/props}}\n</ul>\n...\n{^{jsonview/}}\n...\n```\n"
+            "text": "*<div class=\"close\">Template:</div>*\n\n```jsr\n...\n<ul>\n  {^{props members}}\n    <li>\n      ...\n      <input data-link=\"key\"/>\n      {^{>key}}\n      <input data-link=\"prop^name\"/>\n      {^{>prop^name}}\n      ...\n    </li>\n  {{else}}\n    ...\n  {{/props}}\n</ul>\n...\n{^{jsonview noFunctions=true/}}\n...\n```\n"
           }
         ],
         "url": "samples/tag-controls/jsonview/sample",
@@ -3321,7 +3308,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "html": "<script id=\"pageTmpl\" type=\"text/x-jsrender\">\n\n<h4>Tag syntax:</h4>\n\n<pre>\n&lcub;^{accordion ...}&rcub;...&lcub;^{/accordion}&rcub;\n</pre>\n\n<!--tag syntax-->\n{^{accordion _collapsible=true elem=\"div\"}}\n  <h3>Section 1</h3>\n  <div>\n    <p><em>Click header again to close panel.</em></p>\n    <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam.</p>\n  </div>\n  <h3>Section 2</h3>\n  <div>\n    <p><em>Click header again to close panel.</em></p>\n    <p>Sed non urna. Donec et ante.</p>\n  </div>\n  <h3>Section 3</h3>\n  <div>\n    <p><em>Click header again to close panel.</em></p>\n    <ul>\n      <li>List item one</li>\n      <li>List item two</li>\n    </ul>\n  </div>\n{{/accordion}}\n\n<h4>Element-based data-link syntax:</h4>\n\n<pre>\n&lt;div data-link=\"{accordion _collapsible=true}\">...&lt;/div>\n</pre>\n\n<!--alternative data-linked element syntax-->\n<div data-link=\"{accordion _collapsible=true}\">\n  <h3>Not latin</h3>\n  <div>\n    <p><em>Click header to close.</em></p>\n    <p>First non-latin text.</p>\n  </div>\n  <h3>Section two</h3>\n  <div>\n    <p><em>Click header to close.</em></p>\n    <p>Second text.</p>\n  </div>\n  <h3>Section three</h3>\n  <div>\n    <p><em>Click header to close.</em></p>\n    <p>Further content.</p>\n  </div>\n</div>\n\n</script>\n\n<div id=\"page\"></div>",
         "code": "var pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {};\n\npageTmpl.link(\"#page\", model);",
         "jsrJsvJqui": "jqui",
-        "height": "680",
+        "height": "650",
         "title": "Collapsible accordion"
       },
       {
@@ -3396,7 +3383,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "jsrJsvJqui": "jqui",
-        "height": "280",
+        "height": "270",
         "url": "samples/tag-controls/jqui/accordion/sortable",
         "title": "Sortable accordion",
         "code": ""
@@ -3433,12 +3420,12 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n{^{accordion selectedPanel _header='>div>h3' _collapsible=true}}\n  {^{sortable _axis=\"y\" _handle='h3' elem='div'}}\n    {^{for panelData}}\n      <div>\n        <h3>{^{:header}}</h3>\n        <div>{^{:content}}</div>\n      </div>\n    {{/for}}\n  {{/sortable}}\n{{/accordion}}\n```"
+            "text": "```jsr\n{^{accordion selectedPanel _header='>div>h3' _collapsible=true}}\n  {^{sortable _axis=\"y\" _handle='h3' elem='div'}}\n    {^{for panelData}}\n      <div>\n        <h3>{^{>header}}</h3>\n        <div>{^{>content}}</div>\n      </div>\n    {{/for}}\n  {{/sortable}}\n{{/accordion}}\n```"
           }
         ],
         "url": "samples/tag-controls/jqui/accordion/sortablearray",
         "jsrJsvJqui": "jqui",
-        "height": "550"
+        "height": "520"
       },
       {
         "_type": "para",
@@ -3467,7 +3454,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<script id=\"panelMarkup\" type=\"text/x-jsrender\">\n  <div>\n    <h3>{^{:header}}</h3>\n    <div>{^{:content}}</div>\n  </div>\n</script>\n```\n\nTop-level data-linked element:\n\n```jsr\n<div class=\"linkedUI\" data-link=\"\n  {for panelData tmpl='#panelMarkup'}\n  {sortable _axis='y' _handle='h3'}\n  {accordion selectedPanel _header='>div>h3' _collapsible=true}\n\"></div>\n```"
+            "text": "```jsr\n<script id=\"panelMarkup\" type=\"text/x-jsrender\">\n  <div>\n    <h3>{^{>header}}</h3>\n    <div>{^{>content}}</div>\n  </div>\n</script>\n```\n\nTop-level data-linked element:\n\n```jsr\n<div class=\"linkedUI\" data-link=\"\n  {for panelData tmpl='#panelMarkup'}\n  {sortable _axis='y' _handle='h3'}\n  {accordion selectedPanel _header='>div>h3' _collapsible=true}\n\"></div>\n```"
           }
         ],
         "url": "samples/tag-controls/jqui/accordion/sortablearray-toplevel",
@@ -3522,7 +3509,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "To use the above tag controls simply include the library after loading  *jQuery UI* (recommended version *1.12.1* or later) and *JsViews*:\n\n```jsr\n...\n<script src=\"//code.jquery.com/jquery-1.12.4.js\"></script>\n<script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n...\n<script src=\"//www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"//www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js\"></script>\n...\n```\n\nIn addition, include an appropriate an jQuery UI css class library, such as the default theme:\n\n```jsr\n<link href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\">\n```\n"
+        "text": "To use the above tag controls simply include the library after loading  *jQuery UI* (recommended version *1.12.1* or later) and *JsViews*:\n\n```jsr\n...\n<script src=\"//code.jquery.com/jquery-3.3.1.js\"></script>\n<script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n...\n<script src=\"//www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"//www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js\"></script>\n...\n```\n\nIn addition, include an appropriate an jQuery UI css class library, such as the default theme:\n\n```jsr\n<link href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\">\n```\n"
       },
       {
         "_type": "links",
@@ -3662,7 +3649,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "jsrJsvJqui": "jqui",
         "title": "Toolbar",
         "url": "samples/tag-controls/jqui/toolbar/toolbar",
-        "height": "415"
+        "height": "395"
       },
       {
         "_type": "para",
@@ -3696,7 +3683,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "url": "samples/tag-controls/jqui/toolbar/toolbararray",
         "jsrJsvJqui": "jqui",
-        "height": "415",
+        "height": "395",
         "title": "Toolbar with dynamic {{radio}} array",
         "anchor": "dynamic"
       },
@@ -4048,7 +4035,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "jsrJsvJqui": "jqui",
-        "height": "580",
+        "height": "550",
         "url": "samples/tag-controls/jqui/progressbar/variants"
       }
     ]
@@ -4151,7 +4138,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "html": "<script id=\"pageTmpl\" type=\"text/x-jsrender\">\n\n<h4>Tag syntax:</h4>\n\n<pre>\n&lcub;^{tabs ...}&rcub;...&lcub;^{/tabs}&rcub;\n</pre>\n\n<!--tag syntax-->\n{^{tabs _collapsible=true}}\n  <ul>\n    <li><a href=\"#tabs-1\">Nunc tincidunt</a></li>\n    <li><a href=\"#tabs-2\">Proin dolor</a></li>\n    <li><a href=\"#tabs-3\">Aenean lacinia</a></li>\n  </ul>\n  <div id=\"tabs-1\">\n    <p><em>Click tab again to close content pane.</em></p>\n    <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a,\n    risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris.</p>\n  </div>\n  <div id=\"tabs-2\">\n    <p><em>Click tab again to close content pane.</em></p>\n    <p>Morbi tincidunt, dui sit amet facilisis feugiat,\n    odio metus gravida ante, ut pharetra massa metus id nunc.</p>\n  </div>\n  <div id=\"tabs-3\">\n    <p><em>Click tab again to close content pane.</em></p>\n    <p>Duis cursus.</p>\n  </div>\n{{/tabs}}\n\n<h4>Element-based data-link syntax:</h4>\n\n<pre>\n&lt;div data-link=\"{tabs _collapsible=true}\">...&lt;/div>\n</pre>\n\n<!--alternative data-linked element syntax-->\n<div data-link=\"{tabs _collapsible=true}\">\n  <ul>\n    <li><a href=\"#tabs-1b\">Not latin</a></li>\n    <li><a href=\"#tabs-2b\">Tab2</a></li>\n    <li><a href=\"#tabs-3b\">Tab3</a></li>\n  </ul>\n  <div id=\"tabs-1b\">\n    <p><em>Click tab again to close content pane.</em></p>\n    <p>First non-latin text.</p>\n  </div>\n  <div id=\"tabs-2b\">\n    <p><em>Click tab again to close content pane.</em></p>\n    <p>Second text.</p>\n  </div>\n  <div id=\"tabs-3b\">\n    <p><em>Click tab again to close content pane.</em></p>\n    <p>Further content.</p>\n  </div>\n</div>\n\n</script>\n\n<div id=\"page\"></div>\n",
         "code": "var pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {};\n\npageTmpl.link(\"#page\", model);",
         "jsrJsvJqui": "jqui",
-        "height": "540",
+        "height": "496",
         "title": "Collapsible tabs"
       },
       {
@@ -4295,7 +4282,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<script id=\"tabsMarkup\" type=\"text/x-jsrender\">\n  {^{sortable elem=\"ul\" _axis=\"x\"}}\n    {^{for tabData}}<li><a href=\"#{{:id}}\">{^{:header}}</a></li>{{/for}}\n  {{/sortable}}\n  {^{for tabData}}\n    <div id=\"{{:id}}\">{^{:content}}</div>\n  {{/for}}\n</script>\n```\n\nTop-level data-linked element:\n\n```jsr\n<div class=\"linkedUI\" data-link=\"{include tmpl='#tabsMarkup'}{tabs selectedTab}\"></div>\n```"
+            "text": "```jsr\n<script id=\"tabsMarkup\" type=\"text/x-jsrender\">\n  {^{sortable elem=\"ul\" _axis=\"x\"}}\n    {^{for tabData}}<li><a href=\"#{{:id}}\">{^{>header}}</a></li>{{/for}}\n  {{/sortable}}\n  {^{for tabData}}\n    <div id=\"{{:id}}\">{^{>content}}</div>\n  {{/for}}\n</script>\n```\n\nTop-level data-linked element:\n\n```jsr\n<div class=\"linkedUI\" data-link=\"{include tmpl='#tabsMarkup'}{tabs selectedTab}\"></div>\n```"
           }
         ],
         "url": "samples/tag-controls/jqui/tabs/sortablearray-toplevel",
@@ -4395,7 +4382,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "html": "<style>\n  fieldset {border:0; margin-left:300px;}\n  label {display:block; margin:20px 0 5px;}\n  select {width:200px;}\n  .circle {float:left; border-radius:50%; width:150px; height:150px;}\n  .clear {clear:both}\n</style>\n\n<script id=\"pageTmpl\" type=\"text/x-jsrender\">\n\n<div data-link=\"\n  css-background{:color}\n  css-width{:radius}\n  css-height{:radius}\n\" class=\"circle\"></div>\n\n<fieldset>\n{^{selectmenu color}}\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n{{/selectmenu}}<br/><br/>\n\n<select data-link=\"{selectmenu color}\">\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n</select><br/><br/>\n\n<select data-link=\"color\">\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n</select><br/><br/>\n\n<select data-link=\"color\" size=\"5\">\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n</select>\n</fieldset>\n\n<div class=\"clear\">\n  {^{:color}}\n</div>\n\n</script>\n\n<div id=\"page\"></div>",
-        "height": "310",
+        "height": "290",
         "jsrJsvJqui": "jqui",
         "nocss": true,
         "code": "var pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {\n    color: \"yellow\",\n    colors: [\n      {name: \"black\", label: \"Black\"},\n      {name: \"red\", label: \"Red\"},\n      {name: \"yellow\", label: \"Yellow\"},\n      {name: \"blue\", label: \"Blue\"},\n      {name: \"green\", label: \"Green\"}\n    ]\n  };\n\npageTmpl.link(\"#page\", model);"
@@ -4437,7 +4424,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "jsrJsvJqui": "jqui",
-        "height": "1130",
+        "height": "1090",
         "url": "samples/tag-controls/jqui/autocomplete/variants",
         "code": ""
       }
@@ -4480,7 +4467,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "html": "<style>\n  ol.grid {list-style-type: none; margin: 0 0 162px 0; padding: 0; width: 360px;}\n  .grid .ui-selecting {background: #FECA40;}\n  .grid .ui-selected {background: #F39814; color: white;}\n  .grid li {float: left; margin: 3px; padding: 1px; height: 50px; font-size: 18px;\n    line-height: 46px; cursor:pointer; width: 66px; text-align: center;\n    border: 1px solid #c5c5c5; background: #f6f6f6; color: #454545;}\n  h4 {clear:both}\n</style>\n\n<script id=\"pageTmpl\" type=\"text/x-jsrender\">\n\n<h4>Tag syntax:</h4>\n\n<pre>\n&lcub;^{selectable ...}&rcub;...&lcub;^{/selectable}&rcub;\n</pre>\n\n{^{selectable class=\"grid\" elem=\"ol\"}}\n  <li>Jo</li>\n  <li>Pierre</li>\n  <li>Rudy</li>\n  <li>Mara</li>\n  <li>Mando</li>\n  <li>Ivor</li>\n  <li>Graca</li>\n  <li>Sabrine</li>\n{{/selectable}}\n\n<h4>Element-based data-link syntax:</h4>\n\n<pre>\n&lt;ol data-link=\"{selectable}\">...&lt;/ol>\n</pre>\n\n<ol class=\"grid\" data-link=\"{selectable}\">\n  <li>Jo</li>\n  <li>Pierre</li>\n  <li>Rudy</li>\n  <li>Mara</li>\n  <li>Mando</li>\n  <li>Ivor</li>\n  <li>Graca</li>\n  <li>Sabrine</li>\n</ol>\n\n</script>\n\n<em>Drag (or ctrl-click) to select one or more elements:</em>\n<div id=\"page\"></div>",
         "code": "var pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {};\n\npageTmpl.link(\"#page\", model);",
         "jsrJsvJqui": "jqui",
-        "height": "490",
+        "height": "470",
         "title": "Selectable &ndash; Display as grid",
         "nocss": false
       },
@@ -4515,7 +4502,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "jsrJsvJqui": "jqui",
-        "height": "490",
+        "height": "480",
         "url": "",
         "title": "Data-linking the selection",
         "html": "<link href=\"tag-controls/jqui/demos.css\" rel=\"stylesheet\" />\n\n<style>\n  ol.grid {list-style-type: none; margin: 0 0 162px 0; padding: 0; width: 360px;}\n  .grid .ui-selecting {background: #FECA40;}\n  .grid .ui-selected {background: #F39814; color: white;}\n  .grid li {float: left; margin: 3px; padding: 1px; height: 50px; font-size: 18px;\n    line-height: 46px; cursor:pointer; width: 66px; text-align: center;\n    border: 1px solid #c5c5c5; background: #f6f6f6; color: #454545;}\n  h4 {clear:both}\n</style>\n\n<script id=\"pageTmpl\" type=\"text/x-jsrender\">\n<b>Selected indices:</b> {^{for selected}}{{:}} {{/for}}\n\n<h4>Tag syntax:</h4>\n\n<pre>\n&lcub;^{selectable selected ...}&rcub;...&lcub;^{/selectable}&rcub;\n</pre>\n\n{^{selectable selected class=\"grid\" elem=\"ol\"}}\n  <li>Jo</li>\n  <li>Pierre</li>\n  <li>Rudy</li>\n  <li>Mara</li>\n  <li>Mando</li>\n  <li>Ivor</li>\n  <li>Graca</li>\n  <li>Sabrine</li>\n{{/selectable}}\n\n<h4>Element-based data-link syntax:</h4>\n\n<pre>\n&lt;ol data-link=\"{selectable selected ...}\">...&lt;/ol>\n</pre>\n\n<ol class=\"grid\" data-link=\"{selectable selected}\">\n  <li>Jo</li>\n  <li>Pierre</li>\n  <li>Rudy</li>\n  <li>Mara</li>\n  <li>Mando</li>\n  <li>Ivor</li>\n  <li>Graca</li>\n  <li>Sabrine</li>\n</ol>\n\n</script>\n\n<div id=\"page\"></div>",
@@ -4624,7 +4611,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "html": "<link href=\"tag-controls/jqui/demos.css\" rel=\"stylesheet\" />\n\n<style>\n  table {margin: 25px 7px; border-collapse:collapse}\n  table, td {border: 1px solid gray; padding: 8px; cursor:pointer}\n  .ui-selecting {background: #FECA40;}\n  .ui-selected {background: #F39814; color: white;}\n</style>\n\n<script id=\"pageTmpl\" type=\"text/x-jsrender\">\n\n<h4>Selection</h4>\n\n{^{for #childTags('selectable') lateRender=true}}\n  List {{:tagCtx.props.list}} [\n    {^{for selected}} {{:}} {{/for}} \n  ]<br/>\n{{/for}}\n\n<h4>List one</h4>\n\n<table>\n  {^{selectable _filter=\"tr\" elem=\"tbody\" list=\"one\"}}\n    {^{for people}}\n      <tr>\n        <td>{{:name}}</td>\n      </tr>\n    {{/for}}\n  {{/selectable}}\n</table>\n\n<h4>List two</h4>\n\n<table>\n  {^{selectable _filter=\"tr\" elem=\"tbody\" list=\"two\"}}\n    {^{for people}}\n      <tr>\n        <td>{{:name}}</td>\n      </tr>\n    {{/for}}\n  {{/selectable}}\n</table>\n\n</script>\n\n<div id=\"page\"></div>",
         "code": "var pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {\n    people: [\n      {name: \"Jo\"},\n      {name: \"Pierre\"},\n      {name: \"Radagu\"},\n      {name: \"Mando\"}\n    ]\n  };\n\npageTmpl.link(\"#page\", model);",
         "jsrJsvJqui": "jqui",
-        "height": "550",
+        "height": "520",
         "nocss": true
       }
     ]
@@ -4994,7 +4981,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "jsrJsvJqui": "jqui",
         "url": "samples/tag-controls/jqui/datepicker/date-formats/basic",
-        "height": "590",
+        "height": "600",
         "title": "Alternative data formats"
       },
       {
@@ -5039,7 +5026,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/tag-controls/jqui/datepicker/date-formats/custom",
-        "height": "590",
+        "height": "600",
         "jsrJsvJqui": "jqui",
         "title": "Data formatters, converters and custom tag examples"
       },
@@ -5080,7 +5067,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "html": "<script id=\"pageTmpl\" type=\"text/x-jsrender\">\n  Time: {^{timespinner date /}}<br/><br/>\n  Date: {^{datepicker date elem=\"div\" dataFormat=false /}}<br/><br/>\n  <b>Underlying data (date):</b><br/><br/> <em>{^{:date}}</em>\n</script>\n\n<div id=\"page\"></div>",
         "code": "\"use strict\";\nvar pageTmpl = $.templates(\"#pageTmpl\");\nvar nextWeek = new Date();\nnextWeek.setDate(nextWeek.getDate()+7);\n\nvar model = {\n    date: nextWeek\n  };\n\npageTmpl.link(\"#page\", model);",
         "jsrJsvJqui": "jqui",
-        "height": "390",
+        "height": "370",
         "nocss": true,
         "header": "  <link href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\">\n  <link href=\"tag-controls/jqui/demos.css\" rel=\"stylesheet\" />"
       },
@@ -5151,7 +5138,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n  <script src=\"//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js\"></script>\n```\n\n```js\n// Time formatter using moment.js\nvar timeFormatter = {\n  parse: function(value, props) {\n    // Note that the 'this' pointer is the tag instance, so it can be used to access any tag properties\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(value, format).toDate();\n  },\n  format: function(value, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(value).format(format);\n  }\n};\n```\n\nUsage:\n```js\n$.views.helpers({time: timeFormatter, ...});\n```\n\n```jsr\n{^{timespinner date ^_culture=culture displayFormat=~time /}}\n```\n"
+            "text": "```jsr\n  <script src=\"//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js\"></script>\n```\n\n```js\n// Display formatter using moment.js:\n// Date to time string\nvar timeFormatter = {\n  parse: function(timeString, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(timeString, format).toDate();\n  },\n  format: function(date, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(date).format(format);\n  }\n};\n```\n\nUsage:\n```js\n$.views.helpers({time: timeFormatter, ...});\n```\n\n```jsr\n{^{timespinner date ^_culture=culture displayFormat=~time /}}\n```\n"
           }
         ],
         "title": "Custom display formatter using moment.js for culture/locale support",
@@ -5195,7 +5182,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/tag-controls/jqui/timespinner/dataformat",
-        "height": "810",
+        "height": "820",
         "jsrJsvJqui": "jqui"
       },
       {
@@ -5240,14 +5227,14 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "jsrJsvJqui": "jqui",
-        "height": "290",
+        "height": "270",
         "url": "samples/tag-controls/jqui/spinner/globalize",
         "title": "Number and currency formats using globalize.js 0.1.1"
       },
       {
         "_type": "para",
         "title": "Custom display formatters",
-        "text": "The `{{spinner}}` tag control lets you specify a *\"display formatter\"* (an object with a `parse()` and a `format()` method) -- to provide conversion between the underlying `number` and any string display you wish.\n\nIn particular, you can use your own formatter to provide formatting based on culture, without depending on the Globalize 0.1.1 library.\n\n(Note that the `this` pointer within `parse` or `format` is the tag instance (in this case the spinner instance) so it can be used to access any tag properties.)\n\nThe following formatter uses [accounting.js](//openexchangerates.github.io/accounting.js/) to provide culture-based number formatting:\n\n```js\nvar accountingCulture = {\n  \"de-DE\": {symbol: \"€\", thousand: \".\", decimal: \",\", format: \"%v %s\"},\n  \"en-US\": {symbol: \"$\", thousand: \",\", decimal: \".\"}\n};\n\nvar numberFormatter = {\n  format: function(value, props) {\n    return accounting.formatNumber(\n      value,\n      accountingCulture[props._culture]\n    );\n  },\n  parse: function(value, props) {\n    return accounting.unformat(\n      value,\n      accountingCulture[props._culture].precision\n    );\n  }\n};\n```\n\nUsage:\n```js\n$.views.helpers({number: numberFormatter, ...});\n```\n\n```jsr\n{^{spinner amount ^_culture=culture displayFormat=~number /}}\n```\n\nThe following sample uses accounting.js for currency and number formatting based on culture:",
+        "text": "The `{{spinner}}` tag control lets you specify a *\"display formatter\"* (an object with a `parse()` and a `format()` method) -- to provide conversion between the underlying `number` and any string display you wish.\n\nIn particular, you can use your own formatter to provide formatting based on culture, without depending on the Globalize 0.1.1 library.\n\n(Note that the `this` pointer within `parse` or `format` is the tag instance (in this case the spinner instance) so it can be used to access any tag properties.)\n\nThe following formatter uses [accounting.js](//openexchangerates.github.io/accounting.js/) to provide culture-based number formatting:\n\n```js\nvar accountingCulture = {\n  \"de-DE\": {symbol: \"€\", thousand: \".\", decimal: \",\", format: \"%v %s\"},\n  \"en-US\": {symbol: \"$\", thousand: \",\", decimal: \".\"}\n};\n\nvar numberFormatter = {\n  parse: function(string, props) {\n    return accounting.unformat(\n      string,\n      accountingCulture[props._culture].decimal\n    );\n  },\n  format: function(number, props) {\n    return accounting.formatNumber(\n      number,\n      accountingCulture[props._culture]\n    );\n  }\n};\n```\n\nUsage:\n```js\n$.views.helpers({number: numberFormatter, ...});\n```\n\n```jsr\n{^{spinner amount ^_culture=culture displayFormat=~number /}}\n```\n\nThe following sample uses accounting.js for currency and number formatting based on culture:",
         "anchor": "display"
       },
       {
@@ -5277,7 +5264,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         ],
         "title": "Custom display formatters using accounting.js for culture/locale support",
         "url": "samples/tag-controls/jqui/spinner/accounting",
-        "height": "290",
+        "height": "270",
         "jsrJsvJqui": "jqui"
       },
       {
@@ -5307,7 +5294,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js\"></script>\n```\n\n```js\ntime: {\n  parse: function(value, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(value, format).toDate();\n  },\n  format: function(value, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(value).format(format);\n  }\n}\n```\n\n```jsr\n{^{spinner dateNumber ^_culture=culture ... displayFormat=~time /}}\n```\n"
+            "text": "```jsr\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js\"></script>\n```\n\n```js\ntime: {\n  parse: function(string, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return +moment(string, format).toDate();\n  },\n  format: function(ticks, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(ticks).format(format);\n  }\n}\n```\n\n```jsr\n{^{spinner dateNumber ^_culture=culture ... displayFormat=~time /}}\n```\n"
           }
         ],
         "url": "samples/tag-controls/jqui/spinner/moment",
@@ -5341,7 +5328,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "```js\n// Date to number formatter\ndateToNumber: {\n  parse: function(value, props) {\n    return +value;\n  },\n  format: function(value, props) {\n    return new Date(value);\n  }\n}\n```\n\n```jsr\n{^{spinner date ^_culture=culture ... displayFormat=~time dataFormat=~dateToNumber /}}\n\n{^{spinner date ^_culture=culture ... displayFormat=~time convert=~toNumber convertBack=~toDate /}}\n```\n"
+            "text": "```js\n// Data formatter: ticks to Date\nnumberToDate: {\n  parse: function(date, props) {\n    return +date;\n  },\n  format: function(ticks, props) {\n    return new Date(ticks);\n  }\n}\n```\n\n```jsr\n{^{spinner date ^_culture=culture ... displayFormat=~time dataFormat=~dateToNumber /}}\n\n{^{spinner date ^_culture=culture ... displayFormat=~time convert=~toNumber convertBack=~toDate /}}\n```\n"
           }
         ],
         "url": "samples/tag-controls/jqui/spinner/dataformat",
@@ -5392,7 +5379,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "html": "<h3>Variants of the &lcub;{spinner}&rcub; tag:</h3>\n\n<script id=\"pageTmpl\" type=\"text/x-jsrender\">\n<h4>Tag syntax</h4>\n\n<pre>&lcub;^{spinner amount .../}&rcub;</pre>\n\n{^{spinner amount/}}\n\n<h4>Tag syntax, wrapping element:</h4>\n\n<pre>\n&lcub;^{spinner amount ...}&rcub;\n    &lt;input .../&gt;\n&lcub;^{/spinner}&rcub;\n</pre>\n\n{^{spinner amount}}\n  <input/>\n{{/spinner}}\n\n<h4>Element-based data-link syntax:</h4>\n\n<pre>\n&lt;input data-link=\"{spinner amount ...}\" /&gt;\n</pre>\n\n<input data-link=\"{spinner amount}\"/>\n\n<h4>Regular input tag without spinner:</h4>\n\n<input type=\"text\" data-link=\"{:amount:tonum}\" />\n\n</script>\n\n<div id=\"page\"></div>\n\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js\"></script>\n",
         "jsrJsvJqui": "jqui",
         "code": "$.views.converters({\n  tonum: function(val) {\n    return +val; // Convert string to number\n  }\n});\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {\n    amount: 150\n  };\n\npageTmpl.link(\"#page\", model);",
-        "height": "520"
+        "height": "500"
       },
       {
         "_type": "para",
@@ -5465,6 +5452,312 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "codetabs": [],
         "url": "samples/editable-data/hash-dictionary/sample",
         "height": "320"
+      }
+    ]
+  },
+  "samples/tag-controls/spinblock": {
+    "title": "Sample: A JsViews \"spinblock\" tag control",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nFor additional information about the `{{spinblock}}` control see the  *[Data binding design patterns -- responding to user actions](#bindingpatterns@user-actions)* topic."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/spinblock/spinblock.js",
+            "label": "spinblock.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "This sample shows nested `{{spinblock}}` custom tags:\n\n```jsr\n{^{spinblock pawne=~state.outerSelect}}\n  ...\n  {^{spinblock pane=~state.innerSelect}}\n    ...\n  {{/spinblock}}\n{{else}}\n  ...\n{{/spinblock}}\n```\n\nSee also the [`{{colorpicker}}`](#samples/tag-controls/colorpicker) sample, which is a [composite tag](#hierarchypatterns@composite) which uses this `{{spinblock}}`."
+          }
+        ],
+        "url": "samples/tag-controls/spinblock/sample",
+        "height": "140"
+      }
+    ]
+  },
+  "samples/tag-controls/colorpicker": {
+    "title": "Sample: A JsViews \"colorpicker\" tag control",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nFor additional information about the `{{colorpicker}}` control see the  *[Tag hierarchy design patterns -- composite controls](#hierarchypatterns@composite)* topic."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/colorpicker/colorpicker.js",
+            "label": "colorpicker.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "**_Usage_**\n\n```jsr\n{^{picker color.h color.s color.v color.a ... /}}\n\n<div ... data-link=\"css-background-color{rgba:color.h color.s color.v color.a}\">\n  {^{rgba:color.h color.s color.v color.a}} ...\n  {^{hex:color.h color.s color.v color.a}}\n</div>\n\n<div ...>\n  h: <input data-link=\"color.h\"/>\n  ...\n</div>\n```"
+          }
+        ],
+        "url": "samples/tag-controls/colorpicker/colorpicker",
+        "height": "280",
+        "title": "Colorpicker",
+        "anchor": "colorpicker"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The next two samples show variants of the `{{colorpicker}}` which take advantage of advanced use of converters, as discussed in the *[Tag hierarchy design patterns -- converters](#hierarchypatterns@converters)* topic."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/colorpicker/colorpicker-multiformat.js",
+            "label": "colorpicker-multiformat.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "**_Tag definition_**\n\n```js\n$.views.tags({\npicker: {\n  // Bind to HSVA color parameters and mode. Color parameters will be HSVA, RGBA or HEX, depending on mode\n  bindTo: [0, 1, 2, 3, \"mode\"],\n  linkedCtxParam: [\"h\", \"s\", \"v\", \"a\", undefined],\n  ...\n```\n\n**_Usage_**\n\n\n*Default mode: HSVA format -- binding to `color1` data:*\n\n```jsr\n{^{picker color1.h color1.s color1.v color1.a ... /}}\n...\nh: <input data-link=\"color1.h\"/>\n...\n```\n\n*Alternative RGBA format -- `mode` set to `\"rgba\"` -- binding to `color2` data:*\n\n```jsr\n{^{picker color2.r color2.g color2.b color2.a mode=\"rgba\" ... /}}\n...\nr: <input data-link=\"color2.r\"/>\n...\n```\n\n*Alternative HEX format -- `mode` set to `\"hex\"` -- binding to `color3` data:*\n\n```jsr\n\n{^{picker color3.hex mode=\"hex\" ... /}}\n...\nhex: <input data-link=\"color3.hex\"/>\n...\n```"
+          }
+        ],
+        "url": "samples/tag-controls/colorpicker/colorpicker-multiformat",
+        "height": "470",
+        "title": "Multi-format colorpicker",
+        "anchor": "multiformat"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/colorpicker/colorpicker-multiformat2.js",
+            "label": "colorpicker-multiformat2.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "**_Tag definition_**\n\n```js\n$.views.tags({\npicker: {\n  // Bind to HSVA color parameters and mode. Color parameters will be HSVA, RGBA or HEX, depending on mode\n  bindTo: [0, 1, 2, 3],\n  bindFrom: [0, 1, 2, 3, \"mode\"],\n  linkedCtxParam: [\"h\", \"s\", \"v\", \"a\", undefined],\n  ...\n```"
+          }
+        ],
+        "url": "samples/tag-controls/colorpicker/colorpicker-multiformat2",
+        "height": "470",
+        "anchor": "bindfrom",
+        "title": "Multi-format colorpicker using bindTo and bindFrom options"
+      }
+    ]
+  },
+  "samples/tag-controls/areaslider": {
+    "title": "Sample: A JsViews \"areaslider\" tag control",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nFor additional information about the `{{areaslider}}` control see the  *[Data binding design patterns -- multiple two-way binding](#bindingpatterns@multiple-twoway)* topic."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/areaslider/areaslider.js",
+            "label": "areaslider.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "This sample shows two JsViews `{{areaslider}}` custom tags, bound to the same underlying `(x, y)`data, but with different range settings ('xMin' etc.):\n\n```jsr\n{^{areaslider x y xMin=0 xMax=100 .../}}\n{^{areaslider x y xMin=100 xMax=0 .../}}\n```\n\nThe `{{areaslider}}` is a two-dimensional version of the [`{{slider}}`](#samples/tag-controls/slider) tag.\n\nSee also the [`{{colorpicker}}`](#samples/tag-controls/colorpicker) sample, which is a [composite tag](#hierarchypatterns@composite) which uses this `{{areaslider}}`."
+          }
+        ],
+        "url": "samples/tag-controls/areaslider/sample",
+        "height": "100"
+      }
+    ]
+  },
+  "samples/tag-controls/slider": {
+    "title": "Sample: A JsViews \"slider\" tag control",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nFor additional information about the `{{slider}}` control see the  *[Data binding design patterns -- programmatic two-way binding](#bindingpatterns@setvalue-updatevalue)* topic."
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/slider/slider.js",
+            "label": "slider.js"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "This sample shows a JsViews `{{slider}}` custom tag:\n\n```jsr\n{^{slider amount min=360 max=0 .../}}\n```\n\nSee also the [`{{colorpicker}}`](#samples/tag-controls/colorpicker) sample, which is a [composite tag](#hierarchypatterns@composite) which uses this `{{slider}}`."
+          }
+        ],
+        "url": "samples/tag-controls/slider/sample",
+        "height": "90"
+      }
+    ]
+  },
+  "name0": {
+    "title": "purchases control",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [],
+        "url": "samples/tag-controls/purchases/sample"
+      }
+    ]
+  },
+  "samples/tag-controls/purchases": {
+    "title": "purchases control",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The `{{purchases}}` custom tag is a precursor of a full grid control. It derives from the `{{for}}` tag.\n\nThe JsRender version of `{{purchases}}` was discussed [here](#tagsapi@totals-expr) in the JsRender [custom tags](#tagsapi) topic.\n\nThanks to the built-in features of `{{for}}` such as [sorting and filtering](#fortag@sortfilterrange), the `{{purchases}}` tag also supports these features: "
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```js\nfunction categoryFilter(item, index, items) {\n  return this.props.category === item.category;\n}\n```\n\n```jsr\n{{purchases lineItems sort=\"price\" reverse=true filter=~category category=\"grocery\"}}...{{/purchses}}\n```"
+          }
+        ],
+        "url": "samples/tag-controls/purchases/sample-jsr",
+        "height": "674",
+        "jsrJsvJqui": "jsr",
+        "anchor": "jsr",
+        "title": "{{purchases}} with JsRender. Examples of sorting and filtering"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The `{{purchases}}` tag control above needs minimal changes to work also with JsViews data-linking, and provide full editing and dynamic sorting and filtering in response to user actions.\n\nThe following sample lets the user click on column headers to change the sort order, and to click in cells (for data columns: \"category\", \"quantity\" and \"price\") in order to modify the data.\n\nCalculated columns and running totals automatically update too:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Make `~total()` depend on any modified property on the line item:\n\n```js\ntotal.depends = \"#parent.data.[].*\";\n```\n\nProvide editable text boxes on data columns:\n```jsr\n{^{purchases lineItems sort=~sortBy reverse=~reverseSort }} \n  <tr>\n    <td class=\"editable\"><input data-link=\"category\" .../>\n  ...\n{{else}}\n  <tr><td colspan=\"6\">No items</td></tr>\n{{/purchases}}\n```\n"
+          }
+        ],
+        "url": "samples/tag-controls/purchases/sample-jsv",
+        "height": "290",
+        "anchor": "jsv",
+        "title": "Editable {{purchases}} grid, with JsViews"
       }
     ]
   }

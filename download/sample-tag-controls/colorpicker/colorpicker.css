@@ -1,0 +1,19 @@
+.dragger { border-radius: 12px; height: 12px; width: 12px; border: 1px solid white; cursor: pointer; position: absolute; top: 0; left: 0; background: black; box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.24); }
+.handle { position: absolute; top: -1px; cursor: pointer; width: 13px; height: 13px; border-radius: 13px; background-color: rgb(248, 248, 248); box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37); }
+.fill { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+.val { background-image: linear-gradient(to top, black, rgba(204, 154, 129, 0)); }
+.sat { background-image: linear-gradient(to right, white, rgba(204, 154, 129, 0)); position: relative; width: 232px; height: 124px; border-radius: 2px 2px 0 0; overflow: hidden; }
+.swatch { width: 30px; height: 30px; margin: 0; position: absolute; top: 141px; left: 21px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==); border-radius: 30px; }
+.swatch-inner { position: absolute; width: 100%; height: 100%; display: inline-block; border-radius: 30px; }
+.alpha { top: 159px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==); background-size: 12px 11px; }
+.alpha-background { height: 100%; border-radius: 2px; }
+.hue { top: 140px; background: linear-gradient(to left, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%); }
+.hue, .alpha { position: absolute; right: 16px; width: 154px; height: 11px; border-radius: 2px; }
+.popover { font-family: Verdana; position: absolute; z-index: 600; width: 232px; height: 240px; display: flex; background-color: white; box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 4px 0 rgba(0, 0, 0, 0.37); border-radius: 2px; pointer-events: auto; overflow: hidden; line-height: 11px; flex: auto; padding: 0; }
+.switcher { position: absolute; left: 209px; top: 198px; height: 18px; width: 17px; cursor: pointer; }
+  .switcher:hover { background-color: #DDD; }
+.spinblock-text { position: absolute; top: 184px; left: 16px; }
+.spinblock-value { display: inline-block; width: 40px; overflow: hidden; text-align: center; border: 1px solid #dadada; border-radius: 2px; margin-right: 6px; line-height: 20px; height: 22px; font-size: 11px; padding: 0; color: #333; white-space: nowrap; }
+.spinblock-label { letter-spacing: 39.5px; margin-top: 8px; display: block; color: #969696; margin-left: 16px; width: 174px; font-size: 11px !important; }
+.spinblock-hex > .spinblock-value { width: 178px; }
+.spinblock-hex > .spinblock-label { letter-spacing: normal; margin-left: 0; text-align: center; }

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="../../../../download/jsviews.min.js"></script>
   <script src="../../../sample-viewer.min.js"></script>
   <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -38,6 +38,7 @@
     {{/on}}
   {{/controlgroup}}
   {^{checkbox reverse id="reverseChkBx" label="Reverse"/}}
+  {^{checkbox reverse id="reverseChkBx" label="Reverse"/}}
   {^{controlgroup _classes=~myUiOverrides}}
     {^{radiogroup mode}}
       {^{for modes}}
@@ -46,13 +47,13 @@
     {{/radiogroup}}
   {{/controlgroup}}
   {^{controlgroup onBind=~onbind}}
+    {^{on addSpeed}}
+      {^{button _label="+"/}}
+    {{/on}}
+    {^{on removeSpeed}}
+      {^{button _label="-"/}}
+    {{/on}}
     {^{radiogroup speed}}
-      {^{on addSpeed}}
-        {^{button _label="+"/}}
-      {{/on}}
-      {^{on removeSpeed}}
-        {^{button _label="-"/}}
-      {{/on}}
       {^{for speeds}}
         {^{radio label=label value=speedFactor/}}
       {{/for}}

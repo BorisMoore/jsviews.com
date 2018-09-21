@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="../../../download/jsviews.min.js"></script>
+  <script src="../../sample-viewer.min.js"></script>
+  <script src="../../../download/sample-tag-controls/spinblock/spinblock.min.js"></script>
+<style>
+  .spinblock1 {position:relative; float: left; margin-right: 20px; width: 200px; height:100px; border-radius: 2px; background: #f7f7f7; border: #999 solid 1px; padding: 5px;}
+  .spinblock1>.switcher { position: absolute; left: 190px; top: 43px; height: 18px; width: 17px; cursor: pointer; }
+
+  .spinblock2 {position:absolute; width: 130px; height:58px; top: 34px; border-radius: 2px; background: #eee; border: #999 solid 1px; padding: 5px;}
+  .spinblock2>.switcher { position: absolute; left: 120px; top: 25px; height: 18px; width: 17px; cursor: pointer; }
+
+  .switcher:hover { background-color: #DDD; }
+  body { font-family: sans-serif; }
+  .special { color: red; font-family: Comic Sans MS; font-style: italic; margin-bottom: 12px; }
+  .left { width: 90px; height: 37px; float: left; padding: 25px; }
+</style>
+</head>
+<body>
+
+<div id="tabsView"></div>
+
+<script id="tabsTmpl" type="text/x-jsrender">
+<div class="spinblock1">
+  {^{spinblock pane=~state.outerSelect}}
+    <div class="special">Nested spinblock:</div>
+    <div class="spinblock2">
+      {^{spinblock pane=~state.innerSelect}}
+        ONE inner
+      {{else}}
+        TWO {{>label}}
+      {{else}}
+        THREE inner
+      {{/spinblock}}
+    </div>
+  {{else}}
+    <ul><li>Some</li><li>other</li><li>content</li></ul>
+  {{/spinblock}}
+</div>
+
+<div class="left">
+Outer Select<br/>
+{^{radiogroup ~state.outerSelect convert=~toString convertBack=~toInt}}
+  <label><input type="radio" value="0"/> 0</label><br/>
+  <label><input type="radio" value="1"/> 1</label><br/>
+{{/radiogroup}}
+</div>
+
+<div class="left">
+Inner Select<br/>
+{^{radiogroup ~state.innerSelect convert=~toString convertBack=~toInt}}
+  <label><input type="radio" value="0"/> 0</label><br/>
+  <label><input type="radio" value="1"/> 1</label><br/>
+  <label><input type="radio" value="2"/> 2</label><br/>
+{{/radiogroup}}
+</div>
+</script>
+<!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

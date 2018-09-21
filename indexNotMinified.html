@@ -20,7 +20,7 @@
 	<link href="resources/css/dataurls.css" rel="stylesheet"/>
 	<link href="resources/css/contents.css" rel="stylesheet"/>
 	<link href="resources/css/highlight.css" rel="stylesheet" /> <!--xcode vs brown_paper googlecode magula mono-blue-->
-	<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="//code.jquery.com/jquery-3.3.1.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.js"></script>
 	<script src="lib/highlight.js"></script>
 	<script src="download/jsviews.js"></script>
@@ -195,7 +195,7 @@
 </script>
 
 <script id="pagePanelTmpl" type="text/x-jsrender">
-	<div class="panel {{attr:~tag.tagCtx.props.classnm}}">
+	<div class="panel {{attr:~tagCtx.props.classnm}}">
 		{{include tmpl=#content /}}
 	</div>
 </script>
@@ -217,7 +217,7 @@
 <script id="sectionTitleTmpl" type="text/x-jsrender">
 	{{if title}}
 		{{if anchor ~hash="#" + ~root.catName +'@'+anchor}}
-			<a id="{{:~hash}}$" href="/{{:~hash}}" data-link="{on ~parentTags.page.scrollTo ~hash}" class="anchortitle ">
+			<a id="{{:~hash}}$" href="{{:~hash}}" data-link="{on ~parentTags.page.scrollTo ~hash}" class="anchortitle ">
 				<div class="anchor"></div>
 				<div class="title">{{:typeLabel}} <span>{{:title}}</span></div>
 			</a>
@@ -577,6 +577,6 @@
 	</div>
 </div>
 
-<script src="index.js"></script>
+	<script src="indexNotMinified.js"></script>
 </body>
 </html>

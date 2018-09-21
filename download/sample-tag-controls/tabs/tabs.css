@@ -1,15 +1,4 @@
-﻿body {
-  font-family: Arial;
-}
-
-.special {
-  color: Red;
-  font-family: Comic Sans MS;
-  font-style: italic;
-  margin-bottom: 12px;
-}
-
-.tabstrip > td, .tabscontent > td {
+﻿.tabstrip > td, .tabscontent > td {
   border: solid 1px #0000A6;
   border-top: none;
   border-right: solid 2px #1E1ED2;
@@ -30,7 +19,7 @@
 .tabsview {
   border-collapse: collapse;
   border: none;
-
+  font-family: sans-serif;
 }
 
 .tabstrip {
@@ -50,4 +39,5 @@
 
 .tabscontent td {
   padding: 15px 10px 10px 10px;
+  background-color: #fff;
 }

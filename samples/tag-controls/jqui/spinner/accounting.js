@@ -6,34 +6,36 @@ var accountingCulture = {
 
 var formatters = {
 
-  // Currency formatter using accounting.js
+  // Display formatter for currency, using accounting.js:
+  // amount (number) to currency string
   currency: {
-    format: function(value, props) {
-      return accounting.formatMoney(
-        value,
-        accountingCulture[props._culture]
+    parse: function(string, props) {
+      return accounting.unformat(
+        string,
+        accountingCulture[props._culture].decimal
       );
     },
-    parse: function(value, props) {
-      return accounting.unformat(
-        value,
-        accountingCulture[props._culture].decimal
+    format: function(amount, props) {
+      return accounting.formatMoney(
+        amount,
+        accountingCulture[props._culture]
       );
     }
   },
 
-  // Number formatter using accounting.js
+  // Display formatter for numbers, using accounting.js:
+  //amount (number) to string
   number: {
-    format: function(value, props) {
-      return accounting.formatNumber(
-        value,
-        accountingCulture[props._culture]
+    parse: function(string, props) {
+      return accounting.unformat(
+        string,
+        accountingCulture[props._culture].decimal
       );
     },
-    parse: function(value, props) {
-      return accounting.unformat(
-        value,
-        accountingCulture[props._culture].decimal
+    format: function(number, props) {
+      return accounting.formatNumber(
+        number,
+        accountingCulture[props._culture]
       );
     }
   }

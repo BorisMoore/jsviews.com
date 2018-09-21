@@ -1,36 +1,53 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="../../../download/jsviews.min.js"></script>
   <script src="../../sample-viewer.min.js"></script>
   <script src="../../../download/sample-tag-controls/tabs/tabs.min.js"></script>
   <link href="../../../download/sample-tag-controls/tabs/tabs.css" rel="stylesheet"/>
+  <style>
+  body { font-family: sans-serif; }
+  .special { color: red; font-family: Comic Sans MS; font-style: italic; margin-bottom: 12px; }
+  .left { width: 90px; height: 37px; float: left; padding: 25px; }
+  .myTabs { float: left; margin-right: 20px; }
+  </style>
 </head>
 <body>
-
-<h3>JsViews 'tabs' tag control: The {{tabs}} tag</h3>
-
-<div id="tabsView">..loading</div>
+<div id="tabsView"></div>
 
 <script id="tabsTmpl" type="text/x-jsrender">
-  {^{tabs id="outer" ^width=width+"px" height="125px" tabCaption="first"}}
-    <div class="special">Some tabbed content:</div>
-    {^{tabs id="inner" ^selectedIndex=~state.innerSelect
-      ^width=(width-23)+"px" height="35px" tabCaption="Inner One"}}
-      ONE inner
-    {{else tabCaption="Inner Two"}}
-      TWO {{>label2}}
-    {{else tabCaption="Inner Three"}}
-      THREE inner
-    {{/tabs}}
-  {{else tabCaption="second"}}
-    <ul style="margin:0"><li>Some</li><li>other</li><li>content</li></ul>
+{^{tabs pane=~state.outerSelect ^width=width height=125 caption="first" class="myTabs"}}
+  <div class="special">Some tabbed content:</div>
+  {^{tabs pane=~state.innerSelect
+    ^width=(width-23) height=35 caption="Inner One"}}
+    ONE inner
+  {{else caption="Inner Two"}}
+    TWO {{>label2}}
+  {{else caption="Inner Three"}}
+    THREE inner
   {{/tabs}}
+{{else caption="second"}}
+  <ul><li>Some</li><li>other</li><li>content</li></ul>
+{{/tabs}}
 
-  <br/><br/>
+<div class="left">
+Outer Select<br/>
+{^{radiogroup ~state.outerSelect convert=~toString convertBack=~toInt}}
+  <label><input type="radio" value="0"/> 0</label><br/>
+  <label><input type="radio" value="1"/> 1</label><br/>
+{{/radiogroup}}
+</div>
 
-  Modify width (pixels): <input data-link="width" />
+<div class="left">
+Inner Select<br/>
+{^{radiogroup ~state.innerSelect convert=~toString convertBack=~toInt}}
+  <label><input type="radio" value="0"/> 0</label><br/>
+  <label><input type="radio" value="1"/> 1</label><br/>
+  <label><input type="radio" value="2"/> 2</label><br/>
+{{/radiogroup}}
+</div>
+
 </script>
 <!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
 </body>

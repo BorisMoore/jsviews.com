@@ -1,74 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="../../../../download/jsrender.min.js"></script>
   <script src="../../../sample-viewer.min.js"></script>
-  <script src="../../../../download/sample-tag-controls/range/range.js"></script>
   <link href="sample.css" rel="stylesheet"/>
 </head>
 <body>
 
-<div id="team"></div>
+<script id="myTmpl" type="text/x-jsrender">
+<em>Unsorted</em>
 
-<script id="teamTemplate" type="text/x-jsrender">
-  <h4>Members 2 to 4</h4>
-  <ul>
-    {{range members start=1 end=3}}
-      <li>
-        {{:name}}
-      </li>
-    {{else}}
-      <li>No items</li>
-    {{/range}}
-  </ul>
+<table><tbody>
+  <tr><th>Category</th><th>Quantity</th>
+  <th>Total quantity</th><th>Price</th>
+  <th>Amount</th><th>Total cost</th></tr>
+  {{purchases lineItems}} 
+    <tr>
+      <td>{{:category}}</td>
+      <td>{{:quantity}}</td>
+      <td class="total">{{:~total("quantity")}}</td>
+      <td>{{dec2:price}}</td>
+      <td>{{dec2:quantity*price}}</td>
+      <td class="total">{{dec2:~total("quantity*price")}}</td>
+    </tr>
+  {{else}}
+    <tr><td colspan="6">No items</td></tr>
+  {{/purchases}}
+</tbody></table>
 
-  <h4>Members 2 to end</h4>
-  <ul>
-    {{range members start=1}}
-      <li>
-        {{:name}}
-      </li>
-    {{else}}
-      <li>No items</li>
-    {{/range}}
-  </ul>
+<em>Sorted by category</em>
 
-  <h4>Members 5 to 8</h4>
-  <ul>
-    {{range members start=4 end=7}}
-      <li>
-        {{:name}}
-      </li>
-    {{else}}
-      <li>No items</li>
-    {{/range}}
-  </ul>
+<table><tbody>
+  <tr><th>Category</th><th>Quantity</th>
+  <th>Total quantity</th><th>Price</th>
+  <th>Amount</th><th>Total cost</th></tr>
+  {{purchases lineItems sort="category"}}
+    <tr>
+      <td>{{:category}}</td>
+      <td>{{:quantity}}</td>
+      <td class="total">{{:~total("quantity")}}</td>
+      <td>{{dec2:price}}</td>
+      <td>{{dec2:quantity*price}}</td>
+      <td class="total">{{dec2:~total("quantity*price")}}</td>
+    </tr>
+  {{else}}
+    <tr><td colspan="6">No items</td></tr>
+  {{/purchases}}
+</tbody></table>
 
-  <h4>Integers 3 to 7</h4>
-  <ul>
-    {{range start=3 end=7}}
-      <li>
-        {{:#data}}
-      </li>
-    {{else}}
-      <li>No items</li>
-    {{/range}}
-  </ul>
+<em>Filtered on "grocery" category</em>
 
+<table><tbody>
+  <tr><th>Category</th><th>Quantity</th>
+  <th>Total quantity</th><th>Price</th>
+  <th>Amount</th><th>Total cost</th></tr>
+  {{purchases lineItems sort="category" filter=~category category="grocery"}} 
+    <tr>
+      <td>{{:category}}</td>
+      <td>{{:quantity}}</td>
+      <td class="total">{{:~total("quantity")}}</td>
+      <td>{{dec2:price}}</td>
+      <td>{{dec2:quantity*price}}</td>
+      <td class="total">{{dec2:~total("quantity*price")}}</td>
+    </tr>
+  {{else}}
+    <tr><td colspan="6">No items</td></tr>
+  {{/purchases}}
+</tbody></table>
 
-  <h4>Integers from 4 to 0</h4>
-  <ul>
-    {{range start=4}}
-      <li>
-        {{:#data}}
-      </li>
-    {{else}}
-      <li>No items</li>
-    {{/range}}
-  </ul>
+<em>Filtered on "restaurant" category</em>
 
+<table><tbody>
+  <tr><th>Category</th><th>Quantity</th>
+  <th>Total quantity</th><th>Price</th>
+  <th>Amount</th><th>Total cost</th></tr>
+  {{purchases lineItems sort="category" filter=~category category="restaurant"}} 
+    <tr>
+      <td>{{:category}}</td>
+      <td>{{:quantity}}</td>
+      <td class="total">{{:~total("quantity")}}</td>
+      <td>{{dec2:price}}</td>
+      <td>{{dec2:quantity*price}}</td>
+      <td class="total">{{dec2:~total("quantity*price")}}</td>
+    </tr>
+  {{else}}
+    <tr><td colspan="6">No items</td></tr>
+  {{/purchases}}
+</tbody></table>
 </script>
+
+<div id="purchases"></div>
 <!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
 </body>
 </html>

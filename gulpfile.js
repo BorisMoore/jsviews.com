@@ -112,12 +112,18 @@ gulp.task('minifyLibs', function() {
 	minifyFile('sample-tag-controls/multiselect/', 'multiselect.js');
 	minifyFile('sample-tag-controls/range/', 'range.js');
 	minifyFile('sample-tag-controls/tabs/', 'tabs.js');
+	minifyFile('sample-tag-controls/tabs/', 'tabs2.js');
+	minifyFile('sample-tag-controls/tabs/', 'tabs3.js');
+	minifyFile('sample-tag-controls/areaslider/', 'areaslider.js');
+	minifyFile('sample-tag-controls/colorpicker/', 'colorpicker.js');
+	minifyFile('sample-tag-controls/colorpicker/', 'colorpicker-multiformat.js');
+	minifyFile('sample-tag-controls/colorpicker/', 'tinycolor.js');
+	minifyFile('sample-tag-controls/slider/', 'slider.js');
+	minifyFile('sample-tag-controls/spinblock/', 'spinblock.js');
 	minifyFile('sample-tag-controls/textbox/', 'simple-textbox.js');
 	minifyFile('sample-tag-controls/treeview/', 'tree-if.js');
 	minifyFile('sample-tag-controls/treeview/', 'tree-visible.js');
 	minifyFile('sample-tag-controls/validate/', 'validate.js');
-	minifyFile('sample-tag-controls/tabs/', 'tabs.js');
-	minifyFile('sample-tag-controls/tabs/', 'tabs.js');
 
 	minifyFile('../', 'index.js');
 	minifyFile('../resources/tags/', 'built-in-tags.js');
