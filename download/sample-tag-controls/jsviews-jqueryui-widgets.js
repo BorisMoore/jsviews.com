@@ -1,4 +1,4 @@
-/*! JsViews jQueryUI widget integration v0.9.91 (Beta)
+/*! JsViews jQueryUI widget integration v1.0.0
 see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
  * https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
@@ -32,7 +32,7 @@ if (!$ || !$.fn || !$.ui || !$.views) {
 }
 
 function getConverter(tag, cvt) {
-  return cvt + "" === cvt ? tag.tagCtx.contentView.getRsc("converters", cvt) : cvt;
+  return cvt + "" === cvt ? tag.tagCtx.view.getRsc("converters", cvt) : cvt;
 }
 
 function checkboxRadioOnBind() {
@@ -493,6 +493,7 @@ resizable: {
       resize: function(evt, ui) {
         setTimeout(function() {
           tag.updateValues(ui.size.width, ui.size.height);
+          tag.setValues(ui.size.width, ui.size.height);
         },0);
       }
     };
@@ -934,6 +935,9 @@ if ($.ui.draggable) {
         drag: function(evt, ui) {
           setTimeout(function() {
             tag.updateValues(ui.offset.left, ui.offset.top);
+            if (tag.convert) {
+              tag.setValues(ui.offset.left, ui.offset.top);
+            }
           },0);
         }
       };
@@ -942,12 +946,16 @@ if ($.ui.draggable) {
       if (value === undefined) {
         this.ctxPrm(this.linkedCtxParam[index], this.getValue()[index]);
       } else {
-        this.mainElem.offset(index ? {top: value} : {left: value});
+        // Set new position (offset left/top) to ui.offset.left/top (and include effect of margin, if set)
+        var offset = {},
+          topLeft = index ? "top" : "left";
+        offset[topLeft] = value + parseInt(this.mainElem.css("margin-" + topLeft));
+        this.mainElem.offset(offset);
       }
     },
     getValue: function() {
-      var offset = this.mainElem.offset();
-      return [offset.left, offset.top];
+      var position = this.mainElem.position();
+      return [position.left, position.top];
     }
   });
 }

@@ -237,8 +237,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       },
       {
         "name": "jsv-quickstart",
-        "label": "JsViews Quickstart",
-        "hidden": false
+        "label": "JsViews Quickstart"
       },
       {
         "name": "temp",
@@ -404,11 +403,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "expanded": false
           },
           {
-            "name": "tagsOld",
-            "label": "OldCustom tags",
-            "hidden": true
-          },
-          {
             "name": "converters",
             "label": "Converters",
             "categories": [
@@ -425,7 +419,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "name": "settings",
         "label": "Settings",
-        "hidden": false,
         "categories": [
           {
             "name": "settings/delimiters",
@@ -451,13 +444,8 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Error handling"
           },
           {
-            "name": "settings/advanced",
-            "label": "Advanced settings"
-          },
-          {
             "name": "nojqueryapi",
-            "label": "JsRender without jQuery",
-            "hidden": true
+            "label": "JsRender without jQuery"
           },
           {
             "name": "jsrobjects",
@@ -466,13 +454,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "viewsobject",
                 "label": "$.views object",
-                "expanded": true,
-                "hidden": false
+                "expanded": true
               },
               {
                 "name": "templateobject",
-                "label": "template object",
-                "hidden": false
+                "label": "template object"
               },
               {
                 "name": "viewobject",
@@ -480,26 +466,22 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               },
               {
                 "name": "tagobject",
-                "label": "tag object",
-                "hidden": false
+                "label": "tag object"
               },
               {
-                "name": "viewcontextobject",
-                "label": "View context object (ctx)",
-                "hidden": true
+                "name": "ctxobject",
+                "label": "View context object (ctx)"
               },
               {
-                "name": "tagcontextobject",
-                "label": "Tag context object (tagCtx)",
-                "hidden": false
+                "name": "tagctxobject",
+                "label": "Tag context object (tagCtx)"
+              },
+              {
+                "name": "globals",
+                "label": "Globals"
               }
             ],
             "expanded": true
-          },
-          {
-            "name": "lifecycle",
-            "label": "Life-cycle events",
-            "hidden": true
           }
         ],
         "expanded": false
@@ -564,33 +546,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "name": "link2way",
-            "label": "Two-way binding",
-            "hidden": false
+            "label": "Two-way binding"
           },
           {
             "name": "link-events",
-            "label": "Event bindings",
-            "hidden": false
-          },
-          {
-            "name": "jsvviews",
-            "label": "View hierarchy",
-            "categories": [
-              {
-                "name": "jsvgetindex",
-                "label": "getIndex()"
-              },
-              {
-                "name": "jsvcontextualparams",
-                "label": "Contextual parameters"
-              },
-              {
-                "name": "jsvparentdata",
-                "label": "Accessing parent data"
-              }
-            ],
-            "expanded": true,
-            "hidden": true
+            "label": "Event bindings"
           }
         ],
         "expanded": true
@@ -601,33 +561,27 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "categories": [
           {
             "name": "jsvassigntag",
-            "label": "{^{: ...}}",
-            "hidden": false
+            "label": "{^{: ...}}"
           },
           {
             "name": "jsvhtmltag",
-            "label": "{^{> ...}}",
-            "hidden": false
+            "label": "{^{> ...}}"
           },
           {
             "name": "jsvincludetag",
-            "label": "{^{include ...}}",
-            "hidden": false
+            "label": "{^{include ...}}"
           },
           {
             "name": "jsvfortag",
-            "label": "{^{for ...}}",
-            "hidden": false
+            "label": "{^{for ...}}"
           },
           {
             "name": "jsviftag",
-            "label": "{^{if ...}}",
-            "hidden": false
+            "label": "{^{if ...}}"
           },
           {
             "name": "jsvpropstag",
-            "label": "{^{props ...}}",
-            "hidden": false
+            "label": "{^{props ...}}"
           },
           {
             "name": "jsvradiogrouptag",
@@ -635,18 +589,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "name": "jsvelsetag",
-            "label": "{{else ...}}",
-            "hidden": false
+            "label": "{{else ...}}"
           },
           {
             "name": "jsvontag",
-            "label": "{^{on ...}}",
-            "hidden": false
-          },
-          {
-            "name": "jsvcustomtags",
-            "label": "Custom tags",
-            "hidden": true
+            "label": "{^{on ...}}"
           }
         ],
         "expanded": true
@@ -664,8 +611,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "$.link.myTmpl()"
           }
         ],
-        "expanded": true,
-        "hidden": false
+        "expanded": true
       },
       {
         "name": "jsvapps",
@@ -737,17 +683,14 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "name": "mvvm-views",
-            "label": "MVVM -- Dynamic  view hierarchy",
-            "hidden": false
+            "label": "MVVM -- Dynamic  view hierarchy"
           }
         ],
-        "expanded": true,
-        "hidden": false
+        "expanded": true
       },
       {
         "name": "toplink",
         "label": "Top-level data-linking",
-        "hidden": false,
         "categories": [
           {
             "name": "jsv.toplink-true",
@@ -793,80 +736,53 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               },
               {
                 "name": "link-button",
-                "label": "button",
-                "hidden": false
+                "label": "button"
               }
             ],
             "expanded": true
           },
           {
             "name": "link-text-html",
-            "label": "innerText / innerHTML",
-            "hidden": false
+            "label": "innerText / innerHTML"
           },
           {
             "name": "link-css",
-            "label": "CSS attributes",
-            "hidden": false
+            "label": "CSS attributes"
           },
           {
             "name": "link-class",
-            "label": "class",
-            "hidden": false
+            "label": "class"
           },
           {
             "name": "link-visibility",
-            "label": "visibility",
-            "hidden": false
+            "label": "visibility"
           },
           {
             "name": "link-elemattribs",
-            "label": "Element attributes/properties",
-            "hidden": false
+            "label": "Element attributes/properties"
           },
           {
             "name": "link-tags",
-            "label": "Tag bindings",
-            "hidden": false
+            "label": "Tag bindings"
           },
           {
             "name": "link-computed",
-            "label": "Computed observables",
-            "hidden": false
+            "label": "Computed observables"
           },
           {
             "name": "link-svg",
-            "label": "SVG elements",
-            "hidden": false
+            "label": "SVG elements"
           },
           {
             "name": "link-contenteditable",
             "label": "contenteditable elements"
           }
         ],
-        "expanded": true,
-        "hidden": false
-      },
-      {
-        "name": "jsvunlink",
-        "label": "unlink()",
-        "categories": [
-          {
-            "name": "jsv.d.unlink",
-            "label": "$.unlink()"
-          },
-          {
-            "name": "jsv.db.unlink",
-            "label": "$(...).unlink()"
-          }
-        ],
-        "expanded": true,
-        "hidden": true
+        "expanded": true
       },
       {
         "name": "jsvsettings",
         "label": "Settings",
-        "hidden": false,
         "categories": [
           {
             "name": "jsvsettings/delimiters",
@@ -878,8 +794,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "name": "jsvsettings/trigger",
-            "label": "Trigger",
-            "hidden": false
+            "label": "Trigger"
           },
           {
             "name": "jsvsettings/allowcode",
@@ -903,13 +818,11 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               {
                 "name": "jsvviewsobject",
                 "label": "$.views object",
-                "expanded": true,
-                "hidden": false
+                "expanded": true
               },
               {
                 "name": "jsvtemplateobject",
-                "label": "template object",
-                "hidden": false
+                "label": "template object"
               },
               {
                 "name": "jsvviewobject",
@@ -918,46 +831,36 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
               },
               {
                 "name": "jsvtagobject",
-                "label": "tag object",
-                "hidden": false
+                "label": "tag object"
               },
               {
-                "name": "jsvviewcontextobject",
-                "label": "View context object (ctx)",
-                "hidden": true
+                "name": "jsvctxobject",
+                "label": "View context object (ctx)"
               },
               {
-                "name": "jsvtagcontextobject",
-                "label": "Tag context object (tagCtx)",
-                "hidden": true
+                "name": "jsvtagctxobject",
+                "label": "Tag context object (tagCtx)"
               },
               {
-                "name": "jsvlinkcontextobject",
-                "label": "Link context object (linkCtx)",
-                "hidden": true
+                "name": "jsvlinkctxobject",
+                "label": "Link context object (linkCtx)"
               },
               {
                 "name": "eventArgs",
-                "label": "eventArgs object",
-                "hidden": true
+                "label": "eventArgs object"
+              },
+              {
+                "name": "jsvglobals",
+                "label": "Globals"
               }
             ],
             "expanded": true
           },
           {
-            "name": "other",
-            "label": "And computed observable, {{on}}, DataMap. lateRender...",
-            "hidden": true
-          },
-          {
-            "name": "jsvlifecycle",
-            "label": "Life-cycle events",
-            "hidden": true
-          },
-          {
-            "name": "replace-target",
-            "label": "Replace placeholder target",
-            "hidden": true
+            "name": "jsvunlink",
+            "label": "$.unlink()",
+            "categories": [],
+            "expanded": true
           }
         ],
         "expanded": false
@@ -1028,23 +931,19 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           },
           {
             "name": "observe",
-            "label": "$.observe()",
-            "hidden": false
+            "label": "$.observe()"
           },
           {
             "name": "unobserve",
-            "label": "$.unobserve()",
-            "hidden": false
+            "label": "$.unobserve()"
           },
           {
             "name": "observeAll",
-            "label": "$.observable().observeAll()",
-            "hidden": false
+            "label": "$.observable().observeAll()"
           },
           {
             "name": "unobserveAll",
-            "label": "$.observable().unobserveAll()",
-            "hidden": false
+            "label": "$.observable().unobserveAll()"
           }
         ],
         "expanded": true
@@ -1088,7 +987,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "categories": [
               {
                 "name": "samples/jsr/composition/tmpl",
-                "label": "tmpl parameter"
+                "label": "tmpl property"
               },
               {
                 "name": "samples/jsr/composition/from-strings",
@@ -1136,10 +1035,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "expanded": true
       },
       {
-        "hidden": true,
         "filter": "jsv",
         "name": "samples/jso",
-        "label": "JsObservable samples"
+        "label": "JsObservable samples",
+        "hidden": true
       },
       {
         "filter": "jsv",
@@ -1273,8 +1172,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "categories": [
               {
                 "name": "samples/computed/fullname",
-                "label": "fullName variants",
-                "hidden": false
+                "label": "fullName variants"
               },
               {
                 "name": "samples/computed/shopping-cart",
@@ -1371,53 +1269,43 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                   },
                   {
                     "name": "samples/tag-controls/jqui/toolbar",
-                    "label": "button radio checkbox...",
-                    "hidden": false
+                    "label": "button radio checkbox..."
                   },
                   {
                     "name": "samples/tag-controls/jqui/tabs",
-                    "label": "tabs control (jQuery UI)",
-                    "hidden": false
+                    "label": "tabs control (jQuery UI)"
                   },
                   {
                     "name": "samples/tag-controls/jqui/menu",
-                    "label": "menu control",
-                    "hidden": false
+                    "label": "menu control"
                   },
                   {
                     "name": "samples/tag-controls/jqui/selectmenu",
-                    "label": "selectmenu control",
-                    "hidden": false
+                    "label": "selectmenu control"
                   },
                   {
                     "name": "samples/tag-controls/jqui/progressbar",
-                    "label": "progressbar control",
-                    "hidden": false
+                    "label": "progressbar control"
                   },
                   {
                     "name": "samples/tag-controls/jqui/accordion",
-                    "label": "accordion control",
-                    "hidden": false
+                    "label": "accordion control"
                   },
                   {
                     "name": "samples/tag-controls/jqui/autocomplete",
-                    "label": "autocomplete control",
-                    "hidden": false
+                    "label": "autocomplete control"
                   },
                   {
                     "name": "samples/tag-controls/jqui/selectable",
-                    "label": "selectable control",
-                    "hidden": false
+                    "label": "selectable control"
                   },
                   {
                     "name": "samples/tag-controls/jqui/sortable",
-                    "label": "sortable control",
-                    "hidden": false
+                    "label": "sortable control"
                   },
                   {
                     "name": "samples/tag-controls/jqui/resizable",
-                    "label": "resizable control",
-                    "hidden": false
+                    "label": "resizable control"
                   },
                   {
                     "name": "samples/tag-controls/jqui/draggable-droppable",
@@ -1564,6 +1452,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           }
         ],
         "expanded": true
+      },
+      {
+        "name": "typescript",
+        "label": "TypeScript declaration files"
       }
     ],
     "expanded": true

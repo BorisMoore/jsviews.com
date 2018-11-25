@@ -55,7 +55,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "title": "",
         "url": "samples/jsrender/composition/tmpl/sample",
-        "text": "Composition by providing tmpl parameters referencing external templates, rather than inline block content, as in:\n{{for languages tmpl=\"#columnTemplate\"/}}\n\nor:\n{{if name.charAt(0)==='E' tmpl='#rowTemplate'}}\n{{else tmpl='#columnTemplate'}}\n{{/if}}\n\nAlso shows wrapping, where an external template is used which then wraps the rendered block content, as in:\n{{include tmpl=\"#sectionWrapperTemplate\"}}\n  {{>title}}\n{{/include}}\n\n<script id=\"sectionWrapperTemplate\" type=\"text/x-jsrender\">\n  <td>Section: <em>{{include tmpl=#content/}}</em></td>\n</script>\n\nor as in:\n{{for languages tmpl='#indexWrapperTemplate'}}\n  <b>{{>name}}</b>\n{{/for}}\n\n<script id=\"indexWrapperTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:#index}}:\n    {{include tmpl=#content/}}\n  </div>\n</script>\n\nNote that tmpl=#content above is not a jQuery selector, but rather uses view.content. See Wrapping content.\n\n"
+        "text": "Composition by providing tmpl properties referencing external templates, rather than inline block content, as in:\n{{for languages tmpl=\"#columnTemplate\"/}}\n\nor:\n{{if name.charAt(0)==='E' tmpl='#rowTemplate'}}\n{{else tmpl='#columnTemplate'}}\n{{/if}}\n\nAlso shows wrapping, where an external template is used which then wraps the rendered block content, as in:\n{{include tmpl=\"#sectionWrapperTemplate\"}}\n  {{>title}}\n{{/include}}\n\n<script id=\"sectionWrapperTemplate\" type=\"text/x-jsrender\">\n  <td>Section: <em>{{include tmpl=#content/}}</em></td>\n</script>\n\nor as in:\n{{for languages tmpl='#indexWrapperTemplate'}}\n  <b>{{>name}}</b>\n{{/for}}\n\n<script id=\"indexWrapperTemplate\" type=\"text/x-jsrender\">\n  <div>\n    {{:#index}}:\n    {{include tmpl=#content/}}\n  </div>\n</script>\n\nNote that tmpl=#content above is not a jQuery selector, but rather uses view.content. See Wrapping content.\n\n"
       },
       {
         "_type": "para",
@@ -74,7 +74,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "",
-        "text": "All of the templates referenced by tmpl=… in the preceding tmpl parameter sample were declared as script blocks. But they could equally have been compiled from markup strings.\nHere is a simple example:\n"
+        "text": "All of the templates referenced by tmpl=… in the preceding tmpl property sample were declared as script blocks. But they could equally have been compiled from markup strings.\nHere is a simple example:\n"
       },
       {
         "_type": "sample",
@@ -107,7 +107,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "",
-        "text": "This sample takes the previous tmpl parameter sample and modifies it to declare nested templates as sub-templates of the calling template.\n"
+        "text": "This sample takes the previous tmpl property sample and modifies it to declare nested templates as sub-templates of the calling template.\n"
       },
       {
         "_type": "sample",
@@ -121,7 +121,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "",
-        "text": "This sample takes the previous tmpl parameter sample and provides  nested templates to the calling template, by passing them in as compiled template objects, associated with a helper object.\n"
+        "text": "This sample takes the previous tmpl property sample and provides  nested templates to the calling template, by passing them in as compiled template objects, associated with a helper object.\n"
       },
       {
         "_type": "sample",
@@ -159,7 +159,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "url": "samples/jsrender/tags/wrap-content/sample",
-        "text": "Composition with custom tags\nThis sample shows some basic custom tags implemented as simple render functions, or templates, and in each case shows how the tag can incorporate block content…\n{{mytag}}\n  {{>title}}\n{{/mytag}}\n\n…into its rendering.\nA variant, is to incorporate external content (through a tag parameter such as tmpl, referencing an external template) into the rendered output…\n{{mytag tmpl=\"#externalcontent\"/}}\n\n\n"
+        "text": "Composition with custom tags\nThis sample shows some basic custom tags implemented as simple render functions, or templates, and in each case shows how the tag can incorporate block content…\n{{mytag}}\n  {{>title}}\n{{/mytag}}\n\n…into its rendering.\nA variant, is to incorporate external content (through a tag property such as tmpl, referencing an external template) into the rendered output…\n{{mytag tmpl=\"#externalcontent\"/}}\n\n\n"
       }
     ]
   },
@@ -458,7 +458,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "",
-        "text": "See also: {{timespinner}}\n"
+        "text": "See also:\n\n{{timespinner}}\nwidget APIs\n\n"
       }
     ]
   },
@@ -488,6 +488,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "title": "",
         "url": "samples/tag-controls/jqui/datepicker/simple/sample",
         "text": "Simple datepicker\n\n{^{datepicker startDate /}}\n\ndatepicker with data-linked properties\n\n{^{datepicker startDate\n  _changeMonth=true\n  ^_maxDate=endDate\n/}}\n\nIn-line datepicker with data-linked properties\n\n{^{datepicker middleDate\n  ^_minDate=startDate\n  ^_maxDate=endDate\n  ^_numberOfMonths=~page.monthsSpan\n}}\n  \n{{/datepicker}}\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -497,6 +502,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "url": "samples/tag-controls/jqui/datepicker/variants/sample",
         "text": "Multiple examples of {{datepicker}} syntax…\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -506,6 +516,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "url": "samples/tag-controls/jqui/datepicker/with-validation/sample",
         "text": "To add validation to a datepicker, simply wrap with a {{validate}} tag.\n{^{validate startDate\n  required=true\n  ^maxday=endDate\n}}\n  {^{datepicker startDate _numberOfMonths=2 /}}\n{{/validate}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -516,6 +531,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "title": "",
         "url": "samples/tag-controls/jqui/datepicker/with-validation-wizard/sample",
         "text": "The sample shows a wizard, using {^{if ...}} ... {{else ...}} ... {{else ...}} ... {{else}} ... {{/if}} to manage displaying the separate wizard steps, one after the other…\nMoving to the next step is not possible until the validate controls on the current step are all valid.\nThis is achieved by wrapping in a validation group {{validation}}.\nThe enabled/disabled state of the Next button is data-linked to the validation.isValid property:\n{^{validation}}\n  ...\n  <button id=\"next\" data-link=\"... disabled{:!~tag.isValid}\">Next</button>\n  ...\n  <h4>Choose a start date:</h4> \n  {^{validate startDate\n    required=true\n    ^maxday=endDate\n  }}\n    {^{datepicker startDate _numberOfMonths=1 /}}\n  {{/validate}}\n  ...\n{{/validation}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -557,7 +577,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "url": "samples/tag-controls/tree/editable/sample",
-        "text": "This version builds on the previous sample, and adds editability:\nCode:\n$.views.tags({\n  editableTree: {\n    ...\n    template: \"#editableTreeTemplate\",\n\n    //METHODS\n    ...\n    remove: function() {\n      var parentFolders = this.parent.view.data.folders,\n        index = this.tagCtx.view.index;\n      $.observable(parentFolders).remove(index);\n    },\n    addFolder: function() {\n      $.observable(this.view.data.folders).insert({\n        name: \"new folder\",\n        folders: []\n      });\n      $.observable(this.view.data).setProperty(\"expanded\", true);\n    },    ...\n  }\n});\n\neditableTreeTemplate:\n<li>\n  ...\n  {^{if ~tag.tagCtx.props.editable}}\n    <input data-link=\"name\" />\n    <span data-link=\"{on ~tag.addFolder}\" class=\"add\">add</span>\n    {^{if ~tag.parent && ~tag.parent.tagName==='editableTree'}}\n      {{!-- Don't allow removing the top-level tree control --}}\n      <span data-link=\"{on ~tag.remove}\" class=\"remove\"></span>\n    {{/if}}\n  {{else}}\n    {^{>name}}\n  {{/if}}\n</li>\n{^{if expanded}}\n  ...\n{{/if}}\n\n\n"
+        "text": "This version builds on the previous sample, and adds editability:\nCode:\n$.views.tags({\n  editableTree: {\n    ...\n    template: \"#editableTreeTemplate\",\n\n    //METHODS\n    ...\n    remove: function() {\n      var parentFolders = this.parent.view.data.folders,\n        index = this.tagCtx.view.index;\n      $.observable(parentFolders).remove(index);\n    },\n    addFolder: function() {\n      $.observable(this.view.data.folders).insert({\n        name: \"new folder\",\n        folders: []\n      });\n      $.observable(this.view.data).setProperty(\"expanded\", true);\n    },    ...\n  }\n});\n\neditableTreeTemplate:\n<li>\n  ...\n  {^{if ~tagCtx.props.editable}}\n    <input data-link=\"name\" />\n    <span data-link=\"{on ~tag.addFolder}\" class=\"add\">add</span>\n    {^{if ~tag.parent && ~tag.parent.tagName==='editableTree'}}\n      {{!-- Don't allow removing the top-level tree control --}}\n      <span data-link=\"{on ~tag.remove}\" class=\"remove\"></span>\n    {{/if}}\n  {{else}}\n    {^{>name}}\n  {{/if}}\n</li>\n{^{if expanded}}\n  ...\n{{/if}}\n\n\n"
       }
     ]
   },
@@ -584,6 +604,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "title": "Top-level data-link=\"{slider ...}\"",
         "url": "samples/tag-controls/jqui/slider/simple-toplevel/sample",
         "text": "Top-level data-link=\"{slider ...}\"\nSlider with initialized properties (top-level data-linking)\n<div data-link=\"{slider size _range='min' _min=1 max=200 _orientation='vertical' width=400}\"></div>\n\n\nData-linking to SVG content\n\n\n  \n  ...\n\n\nActivate data-linking \n\n$.link(true, \"body\", model);\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -593,6 +618,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "url": "samples/tag-controls/jqui/slider/variants/sample",
         "text": "Multiple examples of {{slider}} syntax…\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -602,6 +632,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "url": "samples/tag-controls/jqui/slider/with-validation/sample",
         "text": "To add validation to a slider, simply wrap with a {{validate}} tag.\n{^{validate size\n  min=20\n  max=150\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  {^{slider size _orientation='vertical' ... /}}\n{{/validate}}\n\nor\n{^{validate size\n  min=50 max=100\n  msg_min=\"Min size: %cond%\"\n  msg_max=\"Max size: %cond%\"\n  preventInvalidData=~page.noInvalidData\n}}\n  <div data-link=\"{slider size _orientation='vertical' ...}\"></div>\n{{/validate}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -936,7 +971,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "Using the <b>merge</b> converter to toggle the class",
-        "text": "Using the merge converter to toggle the class\nYou just data-link the target (such as class) to a boolean value, add the {merge: converter, and then set the toggle='...' named parameter to the string (the name of your class) that you want to toggle. When the boolean is true, the toggle term will get added to the current value of the target (such as class), treated as a white-space-separated list. When false, it will get removed…:\n<span class=\"red-border\"\n  data-link=\"someTarget{merge:some.boolean.value toggle='someTermInWhiteSpaceSeparatedList'}\">\n\nLet’s use that to toggle our special class within the className list (which includes red-border):\n"
+        "text": "Using the merge converter to toggle the class\nYou just data-link the target (such as class) to a boolean value, add the {merge: converter, and then set the toggle='...' named property to the string (the name of your class) that you want to toggle. When the boolean is true, the toggle term will get added to the current value of the target (such as class), treated as a white-space-separated list. When false, it will get removed…:\n<span class=\"red-border\"\n  data-link=\"someTarget{merge:some.boolean.value toggle='someTermInWhiteSpaceSeparatedList'}\">\n\nLet’s use that to toggle our special class within the className list (which includes red-border):\n"
       },
       {
         "_type": "sample",
@@ -1164,11 +1199,6 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "para",
         "title": "See also the JsViews API topics:",
         "text": "See also the JsViews API topics:\nData-linked tagsData-linked elements"
-      },
-      {
-        "_type": "links",
-        "title": "See also:",
-        "text": "See also:\n"
       }
     ]
   },
@@ -1325,6 +1355,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "url": "samples/tag-controls/jqui/accordion/sortablearray-toplevel",
         "text": "<script id=\"panelMarkup\" type=\"text/x-jsrender\">\n  <div>\n    <h3>{^{>header}}</h3>\n    <div>{^{>content}}</div>\n  </div>\n</script>\n\nTop-level data-linked element:\n<div class=\"linkedUI\" data-link=\"\n  {for panelData tmpl='#panelMarkup'}\n  {sortable _axis='y' _handle='h3'}\n  {accordion selectedPanel _header='>div>h3' _collapsible=true}\n\"></div>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -1334,6 +1369,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "url": "samples/tag-controls/jqui/slider/colorpicker/sample",
         "text": "Three sliders each data-linked to a color variable (red, green, blue):\n{^{slider red class=\"red\" ... /}}\n{^{slider green class=\"green\" ... /}}\n{^{slider blue class=\"blue\" ... /}}\n\nand a <div> data-linked to three color arguments – with a converter producing a single resulting background color:\n<div class=\"swatch\" data-link=\"css-background-color{toHex:red green blue}\"></div>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -1347,7 +1387,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "",
-        "text": "To use the above tag controls simply include the library after loading  jQuery UI (recommended version 1.12.1 or later) and JsViews:\n...\n<script src=\"//code.jquery.com/jquery-3.3.1.js\"></script>\n<script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n...\n<script src=\"//www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"//www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js\"></script>\n...\n\nIn addition, include an appropriate an jQuery UI css class library, such as the default theme:\n<link href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\">\n\n"
+        "text": "To use the above tag controls simply include the library after loading  jQuery UI (recommended version 1.12.1 or later) and JsViews:\n...\n<script src=\"https://code.jquery.com/jquery-3.3.1.js\"></script>\n<script src=\"https://code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n...\n<script src=\"https://www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js\"></script>\n...\n\nIn addition, include an appropriate an jQuery UI css class library, such as the default theme:\n<link href=\"https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\">\n\n"
       },
       {
         "_type": "links",
@@ -1397,7 +1437,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "",
-        "text": "The second version of the sample, above, also shows alternative approaches to setting options on the jQuery UI widgets:\n\nDeclarative setting of options:\n{^{controlgroup _classes=~myUiOverrides}}\n\nProgrammatic approach, using an overridden ‘onBind’ event handler:\n{^{controlgroup onBind=~onbind}}\n\npageTmpl.link(\"#page\", model, {\n  ...\n  onbind: function(val) {\n    this.baseApply(arguments);\n    this.mainElem.controlgroup( \"option\", \"classes\", uiOverrides);\n  },\n  ...\n});\n\nProgrammatic approach, using an id and corresponding jQuery selector:\n{^{checkbox reverse id=\"reverseChkBx\"/}}\n\n$(\"#reverseChkBx\").checkboxradio(\"option\", \"classes\", {\"ui-checkboxradio-label\": ...});\n\n$.observe(model, \"reverse\", function() {\n  $(\"#reverseChkBx\").checkboxradio(\"option\", \"label\", model.reverse ? \"Forward\" : \"Reverse\");\n});\n\n\n"
+        "text": "The second version of the sample, above, also shows alternative approaches to setting options on the jQuery UI widgets:\n\nDeclarative setting of options:\n{^{controlgroup _classes=~myUiOverrides}}\n\nProgrammatic approach, using an overridden ‘onBind’ event handler:\n{^{controlgroup onBind=~onbind}}\n\npageTmpl.link(\"#page\", model, {\n  ...\n  onbind: function(val) {\n    this.baseApply(arguments);\n    this.mainElem.controlgroup( \"option\", \"classes\", uiOverrides);\n  },\n  ...\n});\n\nProgrammatic approach, using an id and corresponding jQuery selector:\n{^{checkbox reverse id=\"reverseChkBx\"/}}\n\n$(\"#reverseChkBx\").checkboxradio(\"option\", \"classes\", {\"ui-checkboxradio-label\": ...});\n\n$.observe(model, \"reverse\", function() {\n  $(\"#reverseChkBx\").checkboxradio(\"option\", \"label\", model.reverse ? \"Forward\" : \"Reverse\");\n});\n\n\nSee also: widget APIs\n"
       }
     ]
   },
@@ -1430,7 +1470,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       },
       {
         "_type": "sample",
-        "text": "\n  .orange {padding: 6px; width: 34px; height: 34px; text-align: center;\n    line-height: 34px; cursor: move; border: 1px solid #d55900;\n    background-color: #ffe5d2; z-index: 100;}\n  .smalltext {font-size: 12px; line-height: 17px;}\n  body {overflow: auto;}\n  .slider .ui-slider {margin: 2px 16px 0 5px; float: left;}\n  .slider {margin-bottom: 20px;}\n\n\n\n<h4>Drag the square:</h4>\n\n<div class=\"slider\">\n  {^{slider cx _min=20 _max=400 _range=\"min\" width=400/}}\n  <em>cx:</em> {^{rnd:cx}}\n</div>\n<div class=\"slider\">\n  {^{slider cy _min=110 _max=210 _range=\"min\" width=400/}}\n  <em>cy:</em> {^{rnd:cy}}\n</div>\n\n{^{draggable left=cx top=cy\n  _containment=\"document\" class=\"orange smalltext\" \n}}\n  Drag me{{/draggable}}\n\n\n\nvar i,\n  pageTmpl = $.templates(\"#pageTmpl\"),\n  data = {cx: 210, cy: 160};\n\n$.views.converters({\n  rnd: function(val) {\n    // To string, rounded to nearest integer\n    return \"\" + Math.round(val);\n  }\n});\n\npageTmpl.link(\"#page\", data);\n\n{^{slider cx ... //}}\n...\n{^{slider cy... //}}\n...\n{^{draggable left=cx top=cy ...}}Drag me{{/draggable}}\n\n\n"
+        "text": "\n  .orange {padding: 6px; width: 34px; height: 34px; text-align: center;\n    line-height: 34px; cursor: move; border: 1px solid #d55900;\n    background-color: #ffe5d2; z-index: 100;}\n  .smalltext {font-size: 12px; line-height: 17px;}\n  body {overflow: auto;}\n  .slider .ui-slider {margin: 2px 16px 0 5px; float: left;}\n  .slider {margin-bottom: 20px;}\n\n\n\n<h4>Drag the square:</h4>\n\n<div class=\"slider\">\n  {^{slider cx _min=20 _max=400 _range=\"min\" width=400/}}\n  <em>cx:</em> {^{rnd:cx}}\n</div>\n<div class=\"slider\">\n  {^{slider cy _min=110 _max=210 _range=\"min\" width=400/}}\n  <em>cy:</em> {^{rnd:cy}}\n</div>\n\n{^{draggable left=cx top=cy\n  _containment=\"document\" class=\"orange smalltext\" \n}}\n  Drag me{{/draggable}}\n\n\n\nvar i,\n  pageTmpl = $.templates(\"#pageTmpl\"),\n  data = {cx: 210, cy: 160};\n\n$.views.converters({\n  rnd: function(val) {\n    // To string, rounded to nearest integer\n    return \"\" + Math.round(val);\n  }\n});\n\npageTmpl.link(\"#page\", data);\n{^{slider cx ... //}}\n...\n{^{slider cy... //}}\n...\n{^{draggable left=cx top=cy ...}}Drag me{{/draggable}}\n\n\n"
       },
       {
         "_type": "para",
@@ -1439,7 +1479,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       },
       {
         "_type": "sample",
-        "text": "\n  .orange {cursor: move; border: 1px solid #d55900;\n    background-color: #ffe5d2; padding: 6px; width: 34px; height: 34px;\n    text-align: center; line-height: 34px; z-index: 100;}\n  .smalltext {font-size: 12px; line-height: 17px;}\n  body {overflow: auto;}\n  .slider .ui-slider {margin: 2px 16px 0 5px; float: left;}\n  .slider {margin-bottom: 20px;}\n\n\n\n<h4>Drag the squares:</h4>\n\n<div class=\"slider\">\n  {^{slider cx _min=20 _max=300 _range=\"min\" width=400/}}\n  <em>cx:</em> {^{rnd:cx}}\n</div>\n<div class=\"slider\">\n  {^{slider cy _min=110 _max=220 _range=\"min\" width=400/}}\n  <em>cy:</em> {^{rnd:cy}}\n</div>\n\n{^{draggable left=cx top=cy\n  _containment=\"document\" class=\"orange smalltext\" \n}}\n  {^{rnd:~left}}<br/>{^{rnd:~top}}\n{{/draggable}}\n\n\nvar i,\n  pageTmpl = $.templates(\"#pageTmpl\"),\n  data = {cx: 150, cy: 165};\n\n$.views.converters({\n  rnd: function(val) {\n    // To string, rounded to nearest integer\n    return \"\" + Math.round(val);\n  }\n});\n\npageTmpl.link(\"#page\", data);\n\n\n{^{draggable left=cx top=cy}}\n  {^{:~left}} {^{:~top}}\n{{/draggable}}\n\n\n"
+        "text": "\n  .orange {cursor: move; border: 1px solid #d55900;\n    background-color: #ffe5d2; padding: 6px; width: 34px; height: 34px;\n    text-align: center; line-height: 34px; z-index: 100;}\n  .smalltext {font-size: 12px; line-height: 17px;}\n  body {overflow: auto;}\n  .slider .ui-slider {margin: 2px 16px 0 5px; float: left;}\n  .slider {margin-bottom: 20px;}\n\n\n\n<h4>Drag the squares:</h4>\n\n<div class=\"slider\">\n  {^{slider cx _min=20 _max=300 _range=\"min\" width=400/}}\n  <em>cx:</em> {^{rnd:cx}}\n</div>\n<div class=\"slider\">\n  {^{slider cy _min=110 _max=220 _range=\"min\" width=400/}}\n  <em>cy:</em> {^{rnd:cy}}\n</div>\n\n{^{draggable left=cx top=cy\n  _containment=\"document\" class=\"orange smalltext\" \n}}\n  {^{rnd:~left}}<br/>{^{rnd:~top}}\n{{/draggable}}\n\n\nvar i,\n  pageTmpl = $.templates(\"#pageTmpl\"),\n  data = {cx: 150, cy: 165};\n\n$.views.converters({\n  rnd: function(val) {\n    // To string, rounded to nearest integer\n    return \"\" + Math.round(val);\n  }\n});\n\npageTmpl.link(\"#page\", data);\n{^{draggable left=cx top=cy}}\n  {^{:~left}} {^{:~top}}\n{{/draggable}}\n\n\n"
       },
       {
         "_type": "para",
@@ -1448,7 +1488,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       },
       {
         "_type": "sample",
-        "text": "\n  .orange, .inputs {cursor: move; border: 1px solid #d55900;\n    background-color: #ffe5d2; z-index: 100;}\n  .orange {padding: 5px; width: 34px; height: 34px;\n    text-align: center; line-height: 34px;}\n  .smalltext {font-size: 12px; line-height: 17px;}\n  .inputs {display:inline-block; padding: 10px;}\n  .inputs input {width: 40px; margin: 0; font-size: 12px;}\n  body {overflow: auto;}\n  .slider .ui-slider {margin: 2px 16px 0 5px; float: left;}\n  .slider {margin-bottom: 20px;}\n\n\n\n<h4>Drag the squares:</h4>\n\n<div class=\"slider\">\n  {^{slider cx _min=20 _max=300 _range=\"min\" width=400/}}\n  <em>cx:</em> {^{rnd:cx}}\n</div>\n<div class=\"slider\">\n  {^{slider cy _min=110 _max=220 _range=\"min\" width=400/}}\n  <em>cy:</em> {^{rnd:cy}}\n</div>\n\n{^{draggable left=cx top=cy\n  _containment=\"document\" class=\"orange smalltext\" \n}}\n  {^{rnd:~left}}<br/>{^{rnd:~top}}\n{{/draggable}}\n\n\n{^{draggable left=cx top=cy rightshift=100\n  convert=\"shift\" convertBack=\"unshift\"\n  _containment=\"document\" class=\"inputs\" \n}}\n  <input data-link=\"~left\" /><br/>\n  <input data-link=\"~top\" />\n{{/draggable}}\n\n\nvar i,\n  pageTmpl = $.templates(\"#pageTmpl\"),\n  data = {cx: 150, cy: 165};\n\n$.views.converters({\n  rnd: function(val) {\n    // To string, rounded to nearest integer\n    return \"\" + Math.round(val);\n  },\n  shift: function(left, top) {\n    // Shift to the right, by amount rightshift\n    return [\n      (Math.round(left) + this.tagCtx.props.rightshift) || undefined,\n      (Math.round(top) - 6) || undefined\n    ];\n  },\n  unshift: function(left, top) {\n    // Shift to the left, by amount rightshift\n    return [\n      (Math.round(left) - this.tagCtx.props.rightshift) || undefined,\n      (Math.round(top) + 6) || undefined\n    ];\n  }\n});\n\npageTmpl.link(\"#page\", data);\n\n\n{^{draggable left=cx top=cy rightshift=100\n  convert=\"shift\" convertBack=\"unshift\" ...\n}}\n  <input data-link=\"~left\" />\n  <input data-link=\"~top\" />\n{{/draggable}}\n\n\n"
+        "text": "\n  .orange, .inputs {cursor: move; border: 1px solid #d55900;\n    background-color: #ffe5d2; z-index: 100;}\n  .orange {padding: 5px; width: 34px; height: 34px;\n    text-align: center; line-height: 34px;}\n  .smalltext {font-size: 12px; line-height: 17px;}\n  .inputs {display:inline-block; padding: 10px;}\n  .inputs input {width: 40px; margin: 0; font-size: 12px;}\n  body {overflow: auto;}\n  .slider .ui-slider {margin: 2px 16px 0 5px; float: left;}\n  .slider {margin-bottom: 20px;}\n\n\n\n<h4>Drag the squares:</h4>\n\n<div class=\"slider\">\n  {^{slider cx _min=20 _max=300 _range=\"min\" width=400/}}\n  <em>cx:</em> {^{rnd:cx}}\n</div>\n<div class=\"slider\">\n  {^{slider cy _min=110 _max=220 _range=\"min\" width=400/}}\n  <em>cy:</em> {^{rnd:cy}}\n</div>\n\n{^{draggable left=cx top=cy\n  _containment=\"document\" class=\"orange smalltext\" \n}}\n  {^{rnd:~left}}<br/>{^{rnd:~top}}\n{{/draggable}}\n\n{^{draggable left=cx top=cy rightshift=100\n  convert=\"shift\" convertBack=\"unshift\"\n  _containment=\"document\" class=\"inputs\" \n}}\n  <input data-link=\"~left\" /><br/>\n  <input data-link=\"~top\" />\n{{/draggable}}\n\n\nvar i,\n  pageTmpl = $.templates(\"#pageTmpl\"),\n  data = {cx: 150, cy: 165};\n\n$.views.converters({\n  rnd: function(val) {\n    // To string, rounded to nearest integer\n    return \"\" + Math.round(val);\n  },\n  shift: function(left, top) {\n    // Shift to the right, by amount rightshift\n    return [\n      (Math.round(left) + this.tagCtx.props.rightshift) || undefined,\n      (Math.round(top) - 6) || undefined\n    ];\n  },\n  unshift: function(left, top) {\n    // Shift to the left, by amount rightshift\n    return [\n      (Math.round(left) - this.tagCtx.props.rightshift) || undefined,\n      (Math.round(top) + 6) || undefined\n    ];\n  }\n});\n\npageTmpl.link(\"#page\", data);\n{^{draggable left=cx top=cy rightshift=100\n  convert=\"shift\" convertBack=\"unshift\" ...\n}}\n  <input data-link=\"~left\" />\n  <input data-link=\"~top\" />\n{{/draggable}}\n\n\n"
       },
       {
         "_type": "para",
@@ -1478,6 +1518,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "url": "samples/tag-controls/jqui/draggable-droppable/draggable2",
         "text": "$.views.tags(\"draggable2\", {\n  bindTo: [\"left\", \"top\"],\n  linkedCtxParam: [\"left\", \"top\"],\n  mainElement: \"div\",\n  template: \"<div class='mytag'>{{include tmpl=#content/}}</div>\",\n  onBind: function() {\n    var tag = this;\n    tag.mainElem.on(\"mousedown touchstart\", function(ev) {\n      var offset = tag.mainElem.offset(),\n        addedLeft = offset.left - ev.clientX,\n        addedTop = offset.top - ev.clientY;\n      if (document.elementFromPoint(ev.clientX, ev.clientY) === tag.mainElem[0]) {\n        $(document).on(\"mousemove touchmove\", function(ev2) {\n          setTimeout(function() {\n            var moveToX = ev2.clientX + addedLeft,\n              moveToY = ev2.clientY + addedTop;\n            tag.updateValues(moveToX, moveToY);\n            tag.setValues(moveToX, moveToY);\n          }, 0);\n          ev.preventDefault();\n        });\n      }\n      ev.preventDefault();\n    });\n    $(document).on(\"mouseup touchend\", function() {\n      $(document).off(\"mousemove touchmove\");\n    });\n  },\n  setValue: function(value, index) {\n    this.mainElem.offset(index ? {top: value || 0} : {left: value || 0});\n  },\n  getValue: function() {\n    var offset = this.mainElem.offset();\n    return [offset.left, offset.top];\n  },\n  onUpdate: false,\n  setSize: true\n});\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -1503,6 +1548,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "title": "Data-link syntax, top-level content",
         "text": "Data-link syntax, top-level content\n\n\n\n\n  \n    \n    Save\n  \n  \n    \n    Zoom In\n  \n  \n    \n    Zoom Out\n  \n  \n    \n    Print...\n  \n  \n    Playback\n    \n      \n        \n        Prev\n      \n      \n        \n        Stop\n      \n      \n        \n        Play\n      \n      \n        \n        Next\n      \n    \n  \n  \n    Learn more about this menu\n  \n\n\n\nSome page content.\nvar data = {};\n\n$.link(true, \"#linked\", data, {\n  menuAction: function(ev, ui) {\n    if (!ui.item.children(\"ul\").length) {\n      // Leaf menu item\n      alert(ui.item.text());\n    }\n  }\n});\n<div id=\"linked\">\n  ...\n  <ul data-link=\"{menu ~menuAction}\">\n    <li>\n      <div><span class=\"ui-icon ui-icon-disk\"></span>Save</div>\n    </li>\n    ...\n  </ul>\n  ...\n\n$.link(true, \"#linked\", data, {\n  menuAction: function(ev, ui) {\n    ...\n    alert(ui.item.text());\n  }\n});\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -1517,6 +1567,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "url": "samples/tag-controls/jqui/progressbar/variants",
         "text": "Tag syntax:\n{^{progressbar amount\n  busy=mode===\"Busy\"\n  _max=max\n  _change=~change\n  _complete=~complete\n  width=\"70%\"\n  height=25\n/}}\n\nTag syntax – wrapping a <div>, to provide a custom label:\n{^{progressbar amount\n  busy=mode===\"Busy\"\n  _max=max\n  ...\n}}\n  <div class=\"proglabel\" data-link=\"label||100*amount/max+'%'\"></div>\n{{/progressbar}}\n\nData-linked element syntax (again wrapping a <div>, to provide a custom label):\n<div data-link=\"{progressbar amount\n  busy=mode==='Busy'\n  _max=max\n  ...\n}\">\n  <div class=\"proglabel\" ...></div>\n</div>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -1622,6 +1677,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "url": "samples/tag-controls/jqui/tabs/sortablearray-toplevel",
         "text": "<script id=\"tabsMarkup\" type=\"text/x-jsrender\">\n  {^{sortable elem=\"ul\" _axis=\"x\"}}\n    {^{for tabData}}<li><a href=\"#{{:id}}\">{^{>header}}</a></li>{{/for}}\n  {{/sortable}}\n  {^{for tabData}}\n    <div id=\"{{:id}}\">{^{>content}}</div>\n  {{/for}}\n</script>\n\nTop-level data-linked element:\n<div class=\"linkedUI\" data-link=\"{include tmpl='#tabsMarkup'}{tabs selectedTab}\"></div>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -1654,6 +1714,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "text": "\n  fieldset {border:0; margin-left:300px;}\n  label {display:block; margin:20px 0 5px;}\n  select {width:200px;}\n  .circle {float:left; border-radius:50%; width:150px; height:150px;}\n  .clear {clear:both}\n\n\n\n\n<div data-link=\"\n  css-background{:color}\n  css-width{:radius}\n  css-height{:radius}\n\" class=\"circle\"></div>\n\n<fieldset>\n{^{selectmenu color}}\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n{{/selectmenu}}<br/><br/>\n\n<select data-link=\"{selectmenu color}\">\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n</select><br/><br/>\n\n<select data-link=\"color\">\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n</select><br/><br/>\n\n<select data-link=\"color\" size=\"5\">\n  {^{for colors}}\n    <option value=\"{{:name}}\">{{:label}}</option>\n  {{/for}}\n</select>\n</fieldset>\n\n<div class=\"clear\">\n  {^{:color}}\n</div>\n\n\n\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {\n    color: \"yellow\",\n    colors: [\n      {name: \"black\", label: \"Black\"},\n      {name: \"red\", label: \"Red\"},\n      {name: \"yellow\", label: \"Yellow\"},\n      {name: \"blue\", label: \"Blue\"},\n      {name: \"green\", label: \"Green\"}\n    ]\n  };\n\npageTmpl.link(\"#page\", model);\nAlternative drop-down styles:\n{^{selectmenu color}}\n  {^{for colors}}...{{/for}}\n{{/selectmenu}}\n\n<select data-link=\"{selectmenu color}\">\n  {^{for colors}}...{{/for}}\n</select>\n\n<select data-link=\"color\">\n  {^{for colors}}...{{/for}}\n</select>\n\n<select data-link=\"color\" size=\"5\">\n  {^{for colors}}...{{/for}}\n</select>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -1668,6 +1733,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "url": "samples/tag-controls/jqui/autocomplete/variants",
         "text": "Each variant has two-way data binding to the val property, and obtains the autocomplete suggestion list locally from a suggestionList helper property (assigned to the _source property, from the jQuery UI API).\nFor example:\nTag syntax:\n{^{autocomplete val _source=~suggestionList/}}\n\nTag syntax wrapping a <textarea> element:\n{^{autocomplete val _source=~suggestionList}}\n  <textarea ...></textarea>\n{{/autocomplete}}\n\nData-linked element syntax (textarea):\n<textarea ... data-link=\"{autocomplete val _source=~suggestionList}\"></textarea>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -1728,6 +1798,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "text": "\n\n\n  table {margin: 25px 7px; border-collapse:collapse}\n  table, td {border: 1px solid gray; padding: 8px; cursor:pointer}\n  .ui-selecting {background: #FECA40;}\n  .ui-selected {background: #F39814; color: white;}\n\n\n\n\n<h4>Selection</h4>\n\n{^{for #childTags('selectable') lateRender=true}}\n  List {{:tagCtx.props.list}} [\n    {^{for selected}} {{:}} {{/for}} \n  ]<br/>\n{{/for}}\n\n<h4>List one</h4>\n\n<table>\n  {^{selectable _filter=\"tr\" elem=\"tbody\" list=\"one\"}}\n    {^{for people}}\n      <tr>\n        <td>{{:name}}</td>\n      </tr>\n    {{/for}}\n  {{/selectable}}\n</table>\n\n<h4>List two</h4>\n\n<table>\n  {^{selectable _filter=\"tr\" elem=\"tbody\" list=\"two\"}}\n    {^{for people}}\n      <tr>\n        <td>{{:name}}</td>\n      </tr>\n    {{/for}}\n  {{/selectable}}\n</table>\n\n\n\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {\n    people: [\n      {name: \"Jo\"},\n      {name: \"Pierre\"},\n      {name: \"Radagu\"},\n      {name: \"Mando\"}\n    ]\n  };\n\npageTmpl.link(\"#page\", model);\nBinding to the tag.selected property of any {{selectable}} tags in the page is achieved by first finding all sibling {{selectable}} tags, and iterating through them:\n{^{for #childTags('selectable') lateRender=true}}\n\nHere lateRender=true ensures that the declarative childTags() call only happens after the initial data-linking has been completed.\nThen for each {{selectable}} tag, we iterate through the selected array property:\n{^{for selected}} {{:}} {{/for}}\n\nThe complete markup is:\n{^{for #childTags('selectable') lateRender=true}}\n  List {{:tagCtx.props.list}} [\n    {^{for selected}} {{:}} {{/for}} \n  ]<br/>\n{{/for}}\n...\n{^{selectable ... list=\"One\"}}\n...\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -1778,6 +1853,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "title": "{{sortable}} variants",
         "url": "samples/tag-controls/jqui/sortable/variants",
         "text": "{{sortable}} variants\nMultiple variants of data-driven editable {{sortable}} lists.\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -1826,6 +1906,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "url": "samples/tag-controls/jqui/resizable/grid3",
         "text": "{^{resizable width=w1 height=h1 convert='reduce' convertBack='increase' ...}}\n  {^{int:~width}} {^{int:~height}}\n{{/resizable}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -1895,7 +1980,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "",
-        "text": "See also: {{timespinner}}\n"
+        "text": "See also:\n\n{{timespinner}}\nwidget APIs\n\n"
       }
     ]
   },
@@ -1924,7 +2009,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "title": "Time formatting using globalize.js 0.1.1",
         "url": "samples/tag-controls/jqui/timespinner/globalize",
-        "text": "Time formatting using globalize.js 0.1.1\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/globalize.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.de-DE.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.ja-JP.min.js\"></script>\n\n{^{timespinner date ^_culture=culture /}}\n\n\n"
+        "text": "Time formatting using globalize.js 0.1.1\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/globalize.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.de-DE.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.ja-JP.min.js\"></script>\n\n{^{timespinner date ^_culture=culture /}}\n\n\n"
       },
       {
         "_type": "para",
@@ -1935,7 +2020,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "title": "Custom display formatter using moment.js for culture/locale support",
         "url": "samples/tag-controls/jqui/timespinner/moment",
-        "text": "Custom display formatter using moment.js for culture/locale support\n  <script src=\"//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js\"></script>\n\n// Display formatter using moment.js:\n// Date to time string\nvar timeFormatter = {\n  parse: function(timeString, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(timeString, format).toDate();\n  },\n  format: function(date, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(date).format(format);\n  }\n};\n\nUsage:\n$.views.helpers({time: timeFormatter, ...});\n\n{^{timespinner date ^_culture=culture displayFormat=~time /}}\n\n\n"
+        "text": "Custom display formatter using moment.js for culture/locale support\n  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js\"></script>\n\n// Display formatter using moment.js:\n// Date to time string\nvar timeFormatter = {\n  parse: function(timeString, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(timeString, format).toDate();\n  },\n  format: function(date, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(date).format(format);\n  }\n};\n\nUsage:\n$.views.helpers({time: timeFormatter, ...});\n\n{^{timespinner date ^_culture=culture displayFormat=~time /}}\n\n\n"
       },
       {
         "_type": "para",
@@ -1955,7 +2040,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "Custom timespinner tags",
-        "text": "Custom timespinner tags\nYou can create your own flavor of timespinner which defaults to a chosen displayFormat and/or dataFormat and/or default converters:\n$.views.tags({\n  myTimespinner: {\n    baseTag: \"timespinner\",\n    displayFormat: momentTimeFormatter,\n    dataFormat: momentCustomDateTime,\n    convert: addDays,\n    convertBack: subtractDays\n  }\n);\n\nUsage:\n{^{myTimespinner dateTimeString culture=\"en-US\" delay=48 /}}\n\nSee also: Datepicker date formats\n"
+        "text": "Custom timespinner tags\nYou can create your own flavor of timespinner which defaults to a chosen displayFormat and/or dataFormat and/or default converters:\n$.views.tags({\n  myTimespinner: {\n    baseTag: \"timespinner\",\n    displayFormat: momentTimeFormatter,\n    dataFormat: momentCustomDateTime,\n    convert: addDays,\n    convertBack: subtractDays\n  }\n);\n\nUsage:\n{^{myTimespinner dateTimeString culture=\"en-US\" delay=48 /}}\n\nSee also:\n\nDatepicker date formats\nwidget APIs\n\n"
       }
     ]
   },
@@ -1970,7 +2055,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "title": "Number and currency formats using globalize.js 0.1.1",
         "url": "samples/tag-controls/jqui/spinner/globalize",
-        "text": "Number and currency formats using globalize.js 0.1.1\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/globalize.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.de-DE.min.js\"></script>\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.ja-JP.min.js\"></script>\n\n{^{spinner amount ^_culture=culture _numberFormat=\"C\" /}}\n\n{^{spinner amount ^_culture=culture _numberFormat=\"n\" /}}\n\n\n"
+        "text": "Number and currency formats using globalize.js 0.1.1\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/globalize.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.de-DE.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/globalize/0.1.1/cultures/globalize.culture.ja-JP.min.js\"></script>\n\n{^{spinner amount ^_culture=culture _numberFormat=\"C\" /}}\n\n{^{spinner amount ^_culture=culture _numberFormat=\"n\" /}}\n\n\n"
       },
       {
         "_type": "para",
@@ -1981,7 +2066,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "title": "Custom display formatters using accounting.js for culture/locale support",
         "url": "samples/tag-controls/jqui/spinner/accounting",
-        "text": "Custom display formatters using accounting.js for culture/locale support\n<script src=\"//cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.js\"></script>\n\n{^{spinner amount ^_culture=culture displayFormat=~currency /}}\n\n{^{spinner amount ^_culture=culture displayFormat=~number /}}\n\n\n"
+        "text": "Custom display formatters using accounting.js for culture/locale support\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.js\"></script>\n\n{^{spinner amount ^_culture=culture displayFormat=~currency /}}\n\n{^{spinner amount ^_culture=culture displayFormat=~number /}}\n\n\n"
       },
       {
         "_type": "para",
@@ -1991,7 +2076,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "url": "samples/tag-controls/jqui/spinner/moment",
-        "text": "<script src=\"//cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js\"></script>\n\ntime: {\n  parse: function(string, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return +moment(string, format).toDate();\n  },\n  format: function(ticks, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(ticks).format(format);\n  }\n}\n\n{^{spinner dateNumber ^_culture=culture ... displayFormat=~time /}}\n\n\n"
+        "text": "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js\"></script>\n\ntime: {\n  parse: function(string, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return +moment(string, format).toDate();\n  },\n  format: function(ticks, props) {\n    var format = props._culture === \"en-US\" ? \"h:mm A\" : \"HH:mm\";\n    return moment(ticks).format(format);\n  }\n}\n\n{^{spinner dateNumber ^_culture=culture ... displayFormat=~time /}}\n\n\n"
       },
       {
         "_type": "para",
@@ -2006,7 +2091,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "Custom spinner tags",
-        "text": "Custom spinner tags\nYou can create your own flavor of spinner which defaults to a chosen displayFormat and dataFormat:\n$.views.tags({\n  myCurrencySpinner: {\n    baseTag: \"spinner\",\n    displayFormat: currencyFormatter\n  }\n);\n\nUsage:\n{^{myCurrencySpinner amount culture=culture /}}\n\n"
+        "text": "Custom spinner tags\nYou can create your own flavor of spinner which defaults to a chosen displayFormat and dataFormat:\n$.views.tags({\n  myCurrencySpinner: {\n    baseTag: \"spinner\",\n    displayFormat: currencyFormatter\n  }\n);\n\nUsage:\n{^{myCurrencySpinner amount culture=culture /}}\n\nSee also: widget APIs\n"
       }
     ]
   },
@@ -2030,6 +2115,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "url": "samples/tag-controls/jqui/spinner/sample",
         "text": "{^{validate amount messagewrap=true ...}}\n\n  {^{spinner amount\n    ^_culture=currency\n    _numberFormat=\"C\"\n    ...\n  /}}\n\n{{/validate}}\n\n<select data-link=\"currency\" ...>\n  <option value=\"en-US\">US $</option>\n  ...\n</select>\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: widget APIs\n"
       }
     ]
   },
@@ -2083,7 +2173,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "_type": "sample",
         "title": "Multi-format colorpicker",
         "url": "samples/tag-controls/colorpicker/colorpicker-multiformat",
-        "text": "Multi-format colorpicker\nTag definition\n$.views.tags({\npicker: {\n  // Bind to HSVA color parameters and mode. Color parameters will be HSVA, RGBA or HEX, depending on mode\n  bindTo: [0, 1, 2, 3, \"mode\"],\n  linkedCtxParam: [\"h\", \"s\", \"v\", \"a\", undefined],\n  ...\n\nUsage\nDefault mode: HSVA format – binding to color1 data:\n{^{picker color1.h color1.s color1.v color1.a ... /}}\n...\nh: <input data-link=\"color1.h\"/>\n...\n\nAlternative RGBA format – mode set to \"rgba\" – binding to color2 data:\n{^{picker color2.r color2.g color2.b color2.a mode=\"rgba\" ... /}}\n...\nr: <input data-link=\"color2.r\"/>\n...\n\nAlternative HEX format – mode set to \"hex\" – binding to color3 data:\n\n{^{picker color3.hex mode=\"hex\" ... /}}\n...\nhex: <input data-link=\"color3.hex\"/>\n...\n\n\n"
+        "text": "Multi-format colorpicker\nTag definition\n$.views.tags({\npicker: {\n  // Bind to HSVA color parameters and mode. Color parameters will be HSVA, RGBA or HEX, depending on mode\n  bindTo: [0, 1, 2, 3, \"mode\"],\n  linkedCtxParam: [\"h\", \"s\", \"v\", \"a\", undefined],\n  ...\n\nUsage\nDefault mode: HSVA format – binding to color1 data:\n{^{picker color1.h color1.s color1.v color1.a ... /}}\n...\nh: <input data-link=\"color1.h\"/>\n...\n\nAlternative RGBA format – mode set to \"rgba\" – binding to color2 data:\n{^{picker color2.r color2.g color2.b color2.a mode=\"rgba\" ... /}}\n...\nr: <input data-link=\"color2.r\"/>\n...\n\nAlternative HEX format – mode set to \"hex\" – binding to color3 data:\n{^{picker color3.hex mode=\"hex\" ... /}}\n...\nhex: <input data-link=\"color3.hex\"/>\n...\n\n\n"
       },
       {
         "_type": "sample",

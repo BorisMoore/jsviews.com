@@ -10,7 +10,7 @@ var isIE8 = window.attachEvent && !window.addEventListener;
 
 if (!isIE8) {
 
-test('Error cases for require() for JsRender, JsViews, JsObservable, JsRender templates', function() {
+QUnit.test('Error cases for require() for JsRender, JsViews, JsObservable, JsRender templates', function(assert) {
 	// ............................... Hide QUnit global jQuery and any previous global jsrender.................................
 	var jQuery = global.jQuery, jsr = global.jsrender;
 	global.jQuery = global.jsrender = undefined;
@@ -27,7 +27,7 @@ test('Error cases for require() for JsRender, JsViews, JsObservable, JsRender te
 	}
 
 	// ............................... Assert .................................
-	equal(result, "Requires jsrender/jQuery", 'require("../templates/name-template.html")() throws "Requires jsrender/jQuery"');
+	assert.equal(result, "Requires jsrender/jQuery", 'require("../templates/name-template.html")() throws "Requires jsrender/jQuery"');
 
 	// ................................ Act ..................................
 
@@ -39,7 +39,7 @@ test('Error cases for require() for JsRender, JsViews, JsObservable, JsRender te
 	}
 
 	// ............................... Assert .................................
-	equal(result, "Requires jsrender/jQuery", 'require("../templates/name-template.html")(22) throws "Requires jsrender/jQuery"');
+	assert.equal(result, "Requires jsrender/jQuery", 'require("../templates/name-template.html")(22) throws "Requires jsrender/jQuery"');
 
 	// ................................ Act ..................................
 
@@ -52,7 +52,7 @@ test('Error cases for require() for JsRender, JsViews, JsObservable, JsRender te
 	}
 
 	// ............................... Assert .................................
-	equal(result, "Requires jsrender/jQuery", 'require("../templates/name-template.html")(jq) ($ without jsrender) throws "Requires jsrender/jQuery"');
+	assert.equal(result, "Requires jsrender/jQuery", 'require("../templates/name-template.html")(jq) ($ without jsrender) throws "Requires jsrender/jQuery"');
 
 	// ................................ Act ..................................
 
@@ -64,7 +64,7 @@ test('Error cases for require() for JsRender, JsViews, JsObservable, JsRender te
 	}
 
 	// ............................... Assert .................................
-	equal(result, "Provide jQuery or null", 'require("jsrender")({}) throws "Provide jQuery or null"');
+	assert.equal(result, "Provide jQuery or null", 'require("jsrender")({}) throws "Provide jQuery or null"');
 
 	// ................................ Act ..................................
 
@@ -77,7 +77,7 @@ test('Error cases for require() for JsRender, JsViews, JsObservable, JsRender te
 	}
 
 	// ............................... Assert .................................
-	equal(result, "JsObservable requires jQuery", 'require("jquery.observable")() throws "JsObservable requires jQuery"');
+	assert.equal(result, "JsObservable requires jQuery", 'require("jquery.observable")() throws "JsObservable requires jQuery"');
 
 	// ................................ Act ..................................
 
@@ -89,7 +89,7 @@ test('Error cases for require() for JsRender, JsViews, JsObservable, JsRender te
 	}
 
 	// ............................... Assert .................................
-	equal(result, "JsObservable requires jQuery", 'require("jquery.observable")("a") throws "JsObservable requires jQuery"');
+	assert.equal(result, "JsObservable requires jQuery", 'require("jquery.observable")("a") throws "JsObservable requires jQuery"');
 
 	// ................................ Act ..................................
 
@@ -102,7 +102,7 @@ test('Error cases for require() for JsRender, JsViews, JsObservable, JsRender te
 	}
 
 	// ............................... Assert .................................
-	equal(result, "JsViews requires jQuery", 'require("jquery.views")() throws "JsViews requires jQuery"');
+	assert.equal(result, "JsViews requires jQuery", 'require("jquery.views")() throws "JsViews requires jQuery"');
 
 	// ................................ Act ..................................
 
@@ -114,7 +114,7 @@ test('Error cases for require() for JsRender, JsViews, JsObservable, JsRender te
 	}
 
 	// ............................... Assert .................................
-	equal(result, "JsViews requires jQuery", 'require("jquery.views")("a") throws "JsViews requires jQuery"');
+	assert.equal(result, "JsViews requires jQuery", 'require("jquery.views")("a") throws "JsViews requires jQuery"');
 
 	// ................................ Act ..................................
 
@@ -128,7 +128,7 @@ test('Error cases for require() for JsRender, JsViews, JsObservable, JsRender te
 	}
 
 	// ............................... Assert .................................
-	equal(result.slice(0, 25), "JsViews requires JsRender", 'require("jquery.views")(jQuery) throws "JsViews requires JsRender"');
+	assert.equal(result.slice(0, 25), "JsViews requires JsRender", 'require("jquery.views")(jQuery) throws "JsViews requires JsRender"');
 
 	// ................................ Act ..................................
 
@@ -142,7 +142,7 @@ test('Error cases for require() for JsRender, JsViews, JsObservable, JsRender te
 	}
 
 	// ............................... Assert .................................
-	equal(result, "JsViews requires jQuery", 'require("jquery.views")(jsrender) throws "JsViews requires jQuery"');
+	assert.equal(result, "JsViews requires jQuery", 'require("jquery.views")(jsrender) throws "JsViews requires jQuery"');
 
 	// ................................ Act ..................................
 
@@ -156,7 +156,7 @@ test('Error cases for require() for JsRender, JsViews, JsObservable, JsRender te
 	}
 
 	// ............................... Assert .................................
-	equal(result, "JsViews requires JsObservable", 'require("jquery.views")($jsr) throws "JsViews requires JsObservable"');
+	assert.equal(result, "JsViews requires JsObservable", 'require("jquery.views")($jsr) throws "JsViews requires JsObservable"');
 
 	// ............................... Reset .................................
 	global.jQuery = jQuery; // Replace QUnit global jQuery

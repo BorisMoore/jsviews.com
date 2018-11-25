@@ -1,4 +1,4 @@
-﻿/*! Sample JsViews tag control: {{tree}} control using visible{...} binding v0.9.84 (Beta)
+﻿/*! Sample JsViews tag control: {{tree}} control using visible{...} v1.0.0
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
  * Copyright 2018, Boris Moore

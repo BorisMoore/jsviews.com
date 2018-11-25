@@ -642,13 +642,13 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					headerInsert =
 						nocss || header && !headerAction
 							? "" // If nocss specified, or if headerAction is replace ("") and there is header content provided, don't insert samples.css
-							: "  <link href=\"//www.jsviews.com/samples/samples.css\" rel=\"stylesheet\" />\n";
+							: "  <link href=\"https://www.jsviews.com/samples/samples.css\" rel=\"stylesheet\" />\n";
 					header = headerAction === "append" ? headerInsert + header : header + headerInsert;
 				} else {
 					urlTokens = url.split("/");
 					urlTokens.pop();
 					header = header.replace(/((?:href|src)=["'])(?:\.\.\/)*\/?/g, function(replaced, start, index, str) {
-						if (replaced === start + "/" && str.charAt(index+start.length) === "/") {
+						if (/^(?:https:|http:)?\/\//.test(str.slice(index+start.length))) {
 							return replaced;
 						}
 						replaced = replaced.replace(/[^.]/g,"").length/2;
@@ -656,14 +656,14 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 						if (headerInsert.length) {
 							headerInsert += "/";
 						}
-						return start + "//www.jsviews.com/" + headerInsert;
+						return start + "https://www.jsviews.com/" + headerInsert;
 					});
 				}
 				return "<!DOCTYPE html>\n"
 					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "  <script src=\"//code.jquery.com/jquery-3.3.1.min.js\"></script>\n"
+					+ "  <script src=\"https://code.jquery.com/jquery-3.3.1.min.js\"></script>\n"
 					+ (url
 						? ((codeInHeader
 								? ("<script>\n" + code
@@ -671,14 +671,14 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 								: ""))
 						: (
 					(jsrJsvJqui === "jqui"
-						? "  <script src=\"//code.jquery.com/ui/1.12.1/jquery-ui.min.js\"></script>\n"
-							+ "  <link href=\"//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\" />\n"
+						? "  <script src=\"https://code.jquery.com/ui/1.12.1/jquery-ui.min.js\"></script>\n"
+							+ "  <link href=\"https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\" />\n"
 						: ""
 					)
-					+ "  <script src=\"//www.jsviews.com/download/js" + (jsrJsvJqui === "jsr" ? "render" : "views")
+					+ "  <script src=\"https://www.jsviews.com/download/js" + (jsrJsvJqui === "jsr" ? "render" : "views")
 					+ ".min.js\"></script>\n"
 					+ (jsrJsvJqui === "jqui"
-						? "  <script src=\"//www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.min.js\"></script>\n"
+						? "  <script src=\"https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.min.js\"></script>\n"
 						: "")
 					))
 					+ (header || "") + "</head>\n"

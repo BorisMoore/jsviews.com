@@ -33,7 +33,7 @@ $.views.converters({
         + Math.pow(props.cy - top, 2))/props.radius,
       rotate = Math.atan2(props.cx - left, top - props.cy)/radDlta
         + 180 - props.shift;
-    return [expand, rotate/scaleRot];
+    return [expand, ((rotate/scaleRot)+360)%360];
   },
   rnd: function(val) {
     // To string, rounded to nearest integer

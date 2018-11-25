@@ -1,4 +1,4 @@
-﻿/*! Sample JsViews tag control: {{validate}} control v0.9.90 (Beta)
+﻿/*! Sample JsViews tag control: {{validate}} control v1.0.0
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
  * Copyright 2018, Boris Moore

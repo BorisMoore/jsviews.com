@@ -45,10 +45,6 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "Targets for data-linking"
           },
           {
-            "hash": "jsvunlink",
-            "label": "unlink()"
-          },
-          {
             "hash": "jsvsettings",
             "label": "Settings"
           },
@@ -82,7 +78,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "In JsViews your template must be well-formed:",
-        "text": "JsViews imposes some 'well-formed' constraints on templates which do not apply if you are only using JsRender. This is because JsRender is string-based, and is not 'aware' of the HTML structure, whereas JsViews is 'HTML-aware' in order to provide element-based data-binding'\n\nIn JsRender you have a lot of freedom. You can even do this:"
+        "text": "JsViews imposes some 'well-formed' constraints on templates which do not apply if you are only using JsRender. This is because JsRender is string-based, and is not 'aware' of the HTML structure, whereas JsViews is 'HTML-aware' in order to provide element-based data-binding'\n\nIn JsRender you have a lot of freedom. You can even do this:",
+        "anchor": "wellformed"
       },
       {
         "_type": "sample",
@@ -197,7 +194,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "code": "code",
           "sample": "sample",
           "links": "links"
-        }
+        },
+        "anchor": "api"
       },
       {
         "_type": "para",
@@ -340,7 +338,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Passing an array to link(), but without iteration.",
-        "text": "When rendering and linking an array, an additional optional boolean parameter, `true`, can be passed to the `link()` method, in order to prevent iteration.\n"
+        "text": "When rendering and linking an array, an additional optional boolean parameter, `true`, can be passed to the `link()` method, in order to prevent iteration.\n",
+        "anchor": "noiteration"
       },
       {
         "_type": "api",
@@ -399,12 +398,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "sample": "sample",
           "links": "links"
         },
-        "anchor": "noiteration"
+        "anchor": "apinoiteration"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "By passing in `true` as the fourth *'noIteration'* parameter, the template renders just once, with the array itself as current data, rather than rendering once for each item in the array.\n\nWithin the template, `{^{for}}` (or equivalently `{^{for #data}}`) can be used to iterate over the array, as in the following example:"
+        "text": "By passing in `true` as the fourth *'noIteration'* parameter, (or as third parameter if no `helpersOrContext` are passed), the template renders just once, with the array itself as current data, rather than rendering once for each item in the array.\n\nWithin the template, `{^{for}}` (or equivalently `{^{for #data}}`) can be used to iterate over the array, as in the following example:"
       },
       {
         "_type": "sample",
@@ -421,13 +420,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "Code:\n\n```js\nmyTmpl.link(\"#peopleList\", people, null, true);\n```\n\nTemplate:\n\n```jsr\n<table>\n  <thead><tr><th colspan=\"2\">\n    {^{:#data.length}} people\n  </th></tr></thead>\n  <tbody>\n    {^{for}}\n      <tr>\n        <td>{^{>name}}</td><td><input data-link=\"name\" /></td>\n      </tr>\n    {{/for}}\n  </tbody>\n</table>\n```"
+            "text": "Code:\n\n```js\nmyTmpl.link(\"#peopleList\", people, true); // helpersOrContext not passed (so undefined), and noIteration set to true\n```\n\nTemplate:\n\n```jsr\n<table>\n  <thead><tr><th colspan=\"2\">\n    {^{:#data.length}} people\n  </th></tr></thead>\n  <tbody>\n    {^{for}}\n      <tr>\n        <td>{^{>name}}</td><td><input data-link=\"name\" /></td>\n      </tr>\n    {{/for}}\n  </tbody>\n</table>\n```"
           }
         ],
         "jsrJsvJqui": "",
         "height": "190",
         "html": "<button id=\"add\">Add person</button>\n\n<div id=\"peopleList\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table>\n    <thead><tr><th colspan=\"2\">\n      {^{:#data.length}} people\n    </th></tr></thead>\n    <tbody>\n      {^{for}}\n        <tr>\n          <td>{^{>name}}</td><td><input data-link=\"name\" /></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table>\n</script>",
-        "code": "var myTmpl = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nmyTmpl.link(\"#peopleList\", people, null, true);\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(people).insert({\n    name: \"name\"\n  });\n});\n",
+        "code": "var myTmpl = $.templates(\"#personTmpl\");\n\nvar people = [\n  {\n    name: \"Adriana\"\n  },\n  {\n    name: \"Robert\"\n  }\n];\n\nmyTmpl.link(\"#peopleList\", people, true); // helpersOrContext not passed (so undefined), and noIteration set to true\n\n$(\"#add\").on(\"click\", function() {\n  $.observable(people).insert({\n    name: \"name\"\n  });\n});\n",
         "title": "template.link(container, array, helpers, noIteration):"
       },
       {
@@ -648,40 +647,20 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvunlink": {
-    "title": "Unlink a template",
+    "title": "$.unlink(): removing data-bindings",
     "path": "",
     "sections": [
       {
-        "_type": "links",
+        "_type": "para",
         "title": "",
-        "links": [],
-        "topics": [
-          {
-            "hash": "jsv.d.unlink",
-            "label": "$.unlink()"
-          },
-          {
-            "hash": "jsv.db.unlink",
-            "label": "$(...).unlink()"
-          }
-        ]
+        "text": "The `$.unlink(...)` API is used for programmatically removing previously registered views and data-link bindings on a target HTML element and its content:\n\n```js\n$.unlink(selectorOrElement); // Unregister views and data-binding on container element and content\n```\n\nor equivalently:\n\n```js\n$(selectorOrElement).unlink(); // Unregister views and data-binding on container element and content\n```\n\nCalling `$.unlink()` without arguments will remove views and data-bindings from all HTML content:\n```js\n$.unlink(); // Unregister all views and data-binding\n```"
+      },
+      {
+        "_type": "para",
+        "title": "Scenarios for calling $.unlink()",
+        "text": "In many scenarios, JsViews will automatically remove views and handlers when appropriate, so specific use of `$.unlink()` is rarely necessary.\n\nIn fact, the APIs for [data-linking a template](#jsvlinktmpl):\n\n- [myTmpl.link(container, data, helpers)](#jsvtmpllink)\n- [$.link.myTmpl(container, data, helpers)](#jsv.d.link)\n\nwill generally:\n\n- render the template as new HTML content within the container element\n- register a corresponding [view hierarchy](#views)\n- attach appropriate data-binding event handlers on the new content\n\nIf the new HTML content is later removed from the DOM, JsViews will automatically unregister those views and handlers.\n\nSimilarly, calling the `myTmpl.link(...)` or `$.link.myTmpl(...)` a second time will automatically unregister the previous views and handlers before establishing new ones.\n\nHowever, the [top-level data-linking](#toplink) APIs:\n\n- [$.link(true, targetElem, data, helpers, data, helpers)](#jsv.toplink-true)\n- [$.link(expression, targetElem, data, helpers, data, helpers)](#jsv.toplink-expr)\n\nwill, if called multiple times, add multiple data-bindings to the same target element. In this scenario, calling `$.unlink(targetElem)` can be useful for removing previous bindings..."
       }
     ]
-  },
-  "jsvtmplunlink": {
-    "title": "template.unlink()",
-    "path": "",
-    "sections": []
-  },
-  "jsv.d.unlink": {
-    "title": "$.unlink()",
-    "path": "",
-    "sections": []
-  },
-  "jsv.db.unlink": {
-    "title": "$(...).unlink()",
-    "path": "",
-    "sections": []
   },
   "$view": {
     "title": "The view hierarchy: getting from the UI back to the data",
@@ -724,7 +703,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "var view = $.view(elem);",
-        "text": "Each instance of a rendered template or a template block tag is associated with a JsViews *\"[view](#jsvviewobject)\"* object.\n\nViews provide information on how the underlying data objects map to the rendered UI.\n\n**From UI back to data:**\n\nUse `$.view(elemOrSelector)` to get from a DOM element to the corresponding `view` object for that part of the rendered content.\n\nFrom the `view` you can get to the underlying `data`, the `index`, etc."
+        "text": "Each instance of a rendered template or a template block tag is associated with a JsViews *\"[view](#jsvviewobject)\"* object.\n\nViews provide information on how the underlying data objects map to the rendered UI.\n\n**From UI back to data:**\n\nUse `$.view(elemOrSelector)` to get from a DOM element to the corresponding `view` object (the *'containing'* `view`) for that part of the rendered content.\n\nFrom the `view` you can get to the underlying `data`, the `index`, etc."
       },
       {
         "_type": "sample",
@@ -794,7 +773,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Alternative syntax:",
-        "text": "If you already have a jQuery object `$(elementOrSelector)`, then it can be convenient to use the following alternative syntax:\n\n```js\nvar view = $(elementOrSelector).view();\n```\n\nThis can be convenient in some scenarios, for example if you want to call another jQuery method on the same target element or selector, before getting the view. You can even chain the calls as in: `var view = $(elementOrSelector).doSomething().view();`\n"
+        "text": "If you already have a jQuery object `$(elementOrSelector)`, then it can be convenient to use the following alternative syntax:\n\n```js\nvar view = $(elementOrSelector).view();\n```\n\nThis can be helpful in some scenarios, for example if you want to call another jQuery method on the same target element or selector, before getting the view. You can even chain the calls as in: `var view = $(elementOrSelector).doSomething().view();`\n",
+        "anchor": "alt"
       },
       {
         "_type": "api",
@@ -824,6 +804,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "sample": "sample",
           "links": "links"
         }
+      },
+      {
+        "_type": "para",
+        "title": "Getting inner views",
+        "text": "An additional signature is available (for advanced scenarios):\n\n```js\nvar typeView = $.view(elementOrSelector, true, type);\n```\n\n-- which finds the containing view for the element or selector, then steps *down* through descendant views (depth first traversal) and returns *the first descendant view of type `type`*.\n\nSimilarly, in the alternative syntax above:\n\n```js\nvar typeView = $(elementOrSelector).view(true, type);\n```\n\n**Note:** The above are equivalent to [var typeView = `$.view(elementOrSelector).get(true, type)`](#viewobject@get).",
+        "anchor": "innerview"
       },
       {
         "_type": "links",
@@ -915,27 +901,31 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "tag object"
           },
           {
-            "hash": "jsvviewcontextobject",
+            "hash": "jsvctxobject",
             "label": "View context object (ctx)"
           },
           {
-            "hash": "jsvtagcontextobject",
+            "hash": "jsvtagctxobject",
             "label": "Tag context object (tagCtx)"
           },
           {
-            "hash": "jsvlinkcontextobject",
+            "hash": "jsvlinkctxobject",
             "label": "Link context object (linkCtx)"
           },
           {
             "hash": "eventArgs",
             "label": "eventArgs object"
+          },
+          {
+            "hash": "jsvglobals",
+            "label": "Globals"
           }
         ]
       }
     ]
   },
   "jsvviewsobject": {
-    "title": "The <em>$.views</em> object",
+    "title": "The <em>$.views</em> object (JsViews)",
     "path": "",
     "sections": [
       {
@@ -946,7 +936,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvtemplateobject": {
-    "title": "The <em>template</em> object",
+    "title": "The <em>template</em> object (JsViews)",
     "path": "",
     "sections": [
       {
@@ -972,7 +962,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvviewobject": {
-    "title": "The <em>view</em> object",
+    "title": "The <em>view</em> object (JsViews)",
     "path": "",
     "sections": [
       {
@@ -983,12 +973,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "A <b>view object</b> has the following properties and methods:",
-        "text": "**JsViews -- programmatic access only**\n\nThe following methods are available only for programmatic access when using JsViews:\n\n- [refresh() method](#jsvviewobject@refresh)\n- [contents() method](#jsvviewobject@contents)\n- [childTags() method](#jsvviewobject@childtags)\n- [nodes() method](#jsvviewobject@nodes)\n- [ctxPrm() get/set method](#jsvviewobject@ctxprm)\n\n**Both JsRender and JsViews** (see [JsRender `view` object](#viewobject))\n\n*The following properties and methods are available when using either JsRender or JsViews (both for programmatic access and declaratively in templates):*\n\n- [type property](#viewobject@type)\n- [data property](#viewobject@data)\n- [parent property](#viewobject@parent)\n- [index property](#viewobject@index)\n- [getIndex() method](#viewobject@getindex)\n- [get(type) method](#viewobject@get)\n- [content property](#viewobject@content)\n- [root property](#viewobject@root)\n- [other properties (tmpl, views, ctx, tag)](#viewobject@other)\n"
+        "text": "**JsViews -- programmatic access only**\n\nThe following methods are available only for programmatic access when using JsViews:\n\n- [*refresh()* method](#jsvviewobject@refresh)\n- [*contents()* method](#jsvviewobject@contents)\n- [*childTags()* method](#jsvviewobject@childtags)\n- [*nodes()* method](#jsvviewobject@nodes)\n- [*ctxPrm()* get/set method](#jsvviewobject@ctxprm)\n\n**Both JsRender and JsViews** (see [JsRender `view` object](#viewobject))\n\n*The following properties and methods are available when using either JsRender or JsViews (both for programmatic access and declaratively in templates):*\n\n- [*type* property](#viewobject@type)\n- [*data* property](#viewobject@data)\n- [*parent* property](#viewobject@parent)\n- [*index* property](#viewobject@index)\n- [*getIndex()* method](#viewobject@getindex)\n- [*get(type)* method](#viewobject@get)\n- [*content* property](#viewobject@content)\n- [*root* property](#viewobject@root)\n- [other properties and methods -- *tmpl*, *views*, *ctx*, *tag*, *getRsc()*](#jsvviewobject@other)\n"
       },
       {
         "_type": "para",
         "title": "Accessing view objects",
-        "text": "The `view` object can be accessed *programmatically* in many contexts, such as:\n\n- in a click handler (with JsViews) -- using [`$.view(this)`](#jsv.d.view) to return the `view` for a given HTML element (`this`)\n- in a helper function, `~myHelper()` -- where the `this` pointer is the current view\n- in any method of a custom tag -- using `this.tagCtx.view`\n\nIn addition, properties and methods that are available to both JsRender and JsViews (second list above) can also be accessed *declaratively* in a template using *[view paths](#paths)* -- such as `#parent` for the `view.parent` property.\n<br/><br/>\n\n### Properties and methods:\n"
+        "text": "The `view` object can be accessed *programmatically* in many contexts, such as:\n\n- in a click handler (with JsViews) -- using [`$.view(this)`](#jsv.d.view) to return the `view` for a given HTML element (`this`)\n- in a helper function, `~myHelper()` -- where the `this` pointer is the current view\n- in any method of a custom tag -- using `this.tagCtx.view`\n\nIn addition, properties and methods that are available to both JsRender and JsViews (second list above) can also be accessed *declaratively* in a template using *[view paths](#paths)* -- such as `#parent` for the `view.parent` property.\n<br/><br/>\n\n### Properties and methods:\n",
+        "anchor": "access"
       },
       {
         "_type": "para",
@@ -1022,7 +1013,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The contents() method",
-        "text": "***view.contents(...)***: returns a jQuery object of view content nodes -- optionally filtered by a jQuery selector.\n\n```js\nvar jqMyClassElem = view.contents(true, \".myClass\");\n// jQuery object for element with 'myClass'at any depth within view\n```",
+        "text": "***view.contents(...)***: returns a jQuery object of view content nodes -- optionally filtered by a jQuery selector.\n\n```js\nvar jqMyClassElem = view.contents(true, \".myClass\");\n// jQuery object for element with 'myClass' at any depth within view\n```",
         "anchor": "contents"
       },
       {
@@ -1080,7 +1071,13 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
               }
             ],
             "args": [],
-            "sections": [],
+            "sections": [
+              {
+                "_type": "para",
+                "title": "",
+                "text": "*Note:* The `selector` argument can be jQuery selector string, or alternatively, an HTML Element, or a jQuery object"
+              }
+            ],
             "example": "var jqContents = view.contents(true, \".toRed\");\njqContents.css(\"color\", \"red\");",
             "description": "Get a jQuery object for the contents of the view: child and descendant nodes, filtered by the selector"
           }
@@ -1136,7 +1133,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "name": "childTags",
         "object": "view",
         "method": true,
-        "returns": "jQuery object",
+        "returns": "Tag array",
         "signatures": [
           {
             "_type": "signature",
@@ -1185,7 +1182,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             ],
             "args": [],
             "sections": [],
-            "example": "var jqContents = view.childTags(true, \".toRed\");\njqContents.css(\"color\", \"red\");",
+            "example": "var sliders = view.childTags(true, \"slider\");\nsliders[0].updateValue(25);",
             "description": "Get instances of {{tagName}} in view (including those nested in other custom tags)"
           }
         ],
@@ -1259,7 +1256,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The ctxPrm() get/set method:",
-        "text": "***view.ctxPrm(name)***: returns the value of the named contextual parameter, within the context of that view.\n\n```js\nvar value = view.ctxPrm(\"color\"));\n// Get value of current contextual parameter \"color\"\n```\n\n***view.ctxPrm(name, newValue)***: observably modifies the value of the named contextual parameter, within the context of that view.\n\n```js\nview.ctxPrm(\"color\", \"green\"));\n// Set value of current contextual parameter \"color\" to \"green\"\n```",
+        "text": "***view.ctxPrm(name)***: returns the value of the named contextual parameter or helper (at the context of the view).\n\n```js\nvar value = view.ctxPrm(\"color\");\n// Get value of contextual parameter (or helper) \"color\"\n```\n\n***view.ctxPrm(name, newValue)***: observably modifies the value of the named contextual parameter or helper.\n\n```js\nview.ctxPrm(\"color\", \"green\");\n// Set value of contextual parameter (or helper) \"color\" to \"green\"\n```\n\nAvailable also as [`tag.ctxPrm()`](#jsvtagobject@ctxprm).\n\nSee *[Accessing contextual parameters and helpers](#tagsapi@ctxparams)*.\n\n*__Note:__* to register a listener for observable changes to a contextual parameter, such as `\"~color\"`, defined on a view, use:\n\n```js\n$.observe(view, \"~color\", myListener);\n```\n\n(Similarly on a tag, as in the [*linkedCtxParam* sample](#tagoptions@linkedctxparam) -- with the listener for `\"~mde\"`.)",
         "anchor": "ctxprm"
       },
       {
@@ -1312,6 +1309,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "height": "140"
       },
       {
+        "_type": "para",
+        "title": "Other view object properties and methods:",
+        "text": "Additional properties of the `view` object are used by JsRender and JsViews for processing templates:\n\n- *tmpl*: the template used to render the view\n- *views*: the child views in the view hierarchy\n- *ctx*: object (hash) with the named contextual helpers/template parameters for this view\n- *tag*: the `\"mytag\"` view rendered by a custom tag `{{mytag ...}}`, has a `view.tag` property -- the instance of the `mytag` tag object\n- *linked*: boolean, value `true` in the case of data-linked views (from [`tmpl.link()`](#jsvlinktmpl) rather than [`tmpl.render()`](#rendertmpl))\n- *getRsc(namedCollection, itemName)*: returns a named resource (*converter* function, compiled *template* object, compiled *tag*, *helper* or *viewModel*), as available contextually in the scope of the view (i.e. global, or local as a template resource from one of the parent templates)<br/><br/>The `namedCollection` parameter can be `\"templates\"`, `\"converters\"`, `\"tags\"`, `\"helpers\"` or  `\"viewModels\"`). For example:\n  ```js\n  var upperCvtFunction = view.getRsc(\"converters\", \"upper\");\n  ```",
+        "anchor": "other"
+      },
+      {
         "_type": "links",
         "title": "See also:",
         "links": [],
@@ -1331,75 +1334,143 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     ]
   },
   "jsvtagobject": {
-    "title": "The <em>tag</em> object",
+    "title": "The <em>tag</em> object (JsViews)",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "<b>Tag object</b> properties and event handlers provided as tag options",
-        "text": "The following tag properties and event handlers can be specified as tag options when registering a custom tag:\n\n*Tag properties (both in JsRender and JsViews -- see [`$.views.tags()`](#tagsapi))*:\n\n- [`baseTag`](#tagsapi@basetag)\n- [`flow`](#tagsapi@flow)\n- [`template`](#tagsapi@template)\n- [`bindTo`](#tagsapi@bindto)\n- [`ctx`](#tagsapi@ctx)\n- [`contentCtx`](#tagsapi@contentctx)\n- [`argDefault`](#tagsapi@argdefault)\n\n*Tag properties (only in JsViews -- see [tag control options](#tagoptions))*:\n\n- [`dataBoundOnly`](#tagoptions@databoundonly)\n- [`boundProps`](#tagoptions@boundprops)\n- [`depends`](#tagoptions@depends)\n- [`attr`](#tagoptions@attr)\n- [`setSize`](#tagoptions@setsize)\n- [`height`](#tagoptions@height)\n- [`width`](#tagoptions@width)\n- [`className`](#tagoptions@classname)\n- [`linkedElement`](#tagoptions@linkedelement)\n- [`mainElement`](#tagoptions@mainelement)\n- [`displayElement`](#tagoptions@displayelement)\n- [`linkedCtxParam`](#tagoptions@linkedctxparam)\n- [`dataMap`](#tagoptions@datamap)\n- [`lateRender`](#tagoptions@laterender)\n- [`trigger`](#tagoptions@trigger)\n\n*Event handlers (both in JsRender and JsViews -- see [`$.views.tags()`](#tagsapi))*:\n\n- [`init()`](#tagsapi@init)\n- [`render()`](#tagsapi@render)\n- [`convert`](#tagsapi@convert)\n\n*Event handlers (only in JsViews -- see [tag control options](#tagoptions))*:\n\n- [`onBind()`](#tagoptions@onbind)\n- [`onAfterLink()`](#tagoptions@onafterlink)\n- [`onUpdate()`](#tagoptions@onupdate)\n- [`onDispose()`](#tagoptions@ondispose)\n- [`convertBack`](#tagoptions@convertback)\n- [`onUnbind()`](#tagoptions@onunbind)\n- [`onBeforeUpdateVal()`](#tagoptions@onbeforeupdateval)\n- [`onBeforeChange()`](#tagoptions@onbeforechange)\n- [`onAfterChange()`](#tagoptions@onafterchange)\n- [`onArrayChange()`](#tagoptions@onarraychange)\n- [`setValue()`](#tagoptions@setvalue)\n- [`domChange()`](#tagoptions@domchange)"
+        "text": "The following tag properties and event handlers can be specified as tag options when registering a custom tag:\n\n*Tag properties specified as tag options (both in JsRender and JsViews -- see [`$.views.tags()`](#tagsapi))*:\n\n- [`baseTag`](#tagsapi@basetag)\n- [`flow`](#tagsapi@flow)\n- [`template`](#tagsapi@template)\n- [`bindTo`](#tagsapi@bindto)\n- [`ctx`](#jsvtagobject@ctx)\n- [`contentCtx`](#tagsapi@contentctx)\n- [`argDefault`](#tagsapi@argdefault)\n\n*Tag properties specified as tag options (only in JsViews -- see [tag control options](#tagoptions))*:\n\n- [`dataBoundOnly`](#tagoptions@databoundonly)\n- [`boundProps`](#tagoptions@boundprops)\n- [`depends`](#tagoptions@depends)\n- [`attr`](#tagoptions@attr)\n- [`setSize`](#tagoptions@setsize)\n- [`height`](#tagoptions@height)\n- [`width`](#tagoptions@width)\n- [`className`](#tagoptions@classname)\n- [`linkedElement`](#tagoptions@linkedelement)\n- [`mainElement`](#tagoptions@mainelement)\n- [`displayElement`](#tagoptions@displayelement)\n- [`linkedCtxParam`](#tagoptions@linkedctxparam)\n- [`dataMap`](#tagoptions@datamap)\n- [`lateRender`](#tagoptions@laterender)\n- [`trigger`](#tagoptions@trigger)\n\n*Event handlers specified as tag options (both in JsRender and JsViews -- see [`$.views.tags()`](#tagsapi))*:\n\n- [`init()`](#tagsapi@init)\n- [`render()`](#tagsapi@render)\n- [`convert`](#tagsapi@convert)\n\n*Event handlers specified as tag options (only in JsViews -- see [tag control options](#tagoptions))*:\n\n- [`onBind()`](#tagoptions@onbind)\n- [`onAfterLink()`](#tagoptions@onafterlink)\n- [`onUpdate()`](#tagoptions@onupdate)\n- [`onDispose()`](#tagoptions@ondispose)\n- [`convertBack`](#tagoptions@convertback)\n- [`onUnbind()`](#tagoptions@onunbind)\n- [`onBeforeUpdateVal()`](#tagoptions@onbeforeupdateval)\n- [`onBeforeChange()`](#tagoptions@onbeforechange)\n- [`onAfterChange()`](#tagoptions@onafterchange)\n- [`onArrayChange()`](#tagoptions@onarraychange)\n- [`setValue()`](#tagoptions@setvalue)\n- [`domChange()`](#tagoptions@domchange)"
       },
       {
         "_type": "para",
         "title": "Additional <b>tag object</b> properties and methods",
-        "text": "In addition to the above properties and handlers set as tag options, the tag object has the following properties and methods:\n\n*Tag properties (both in JsRender and JsViews)*\n\n- [parent](#tagobject@parent)\n- [parents](#tagobject@parents)\n- [tagCtx](#tagobject@tagctx)\n- [tagCtxs](#tagobject@tagctxs)\n- [tagName](#tagobject@tagname)\n- [rendering](#tagobject@rendering)\n\n*Tag properties (only in JsViews)*\n\n- [linkCtx](#jsvtagobject@parent)\n- [parentElem](#jsvtagobject@parent)\n\n*Tag methods (both in JsRender and JsViews)*\n\n- [ctxPrm()](#tagobject@ctxprm)\n- [cvt()](#tagobject@cvt)\n- [cvtArgs()](#tagobject@cvtargs)\n- [bndArgs()](#tagobject@bndargs)\n- [base()](#tagobject@base)\n- [baseApply()](#tagobject@baseapply)\n\n*Tag methods (only in JsViews)*\n\n- [refresh()](#jsvtagobject@refresh)\n- [contents()](#jsvtagobject@contents)\n- [childTags()](#jsvtagobject@childtags)\n- [nodes()](#jsvtagobject@nodes)\n- [setValue()](#jsvtagobject@setvalue)\n- [setValues()](#jsvtagobject@setvalues)\n- [updateValue()](#jsvtagobject@updatevalue)\n- [updateValues()](#jsvtagobject@updatevalues)"
+        "text": "In addition to the above properties and handlers set as tag options, the tag object has the following properties and methods:\n\n*Tag properties (both in JsRender and JsViews)*\n\n- [parent](#tagobject@parent)\n- [parents](#tagobject@parents)\n- [tagCtx](#jsvtagobject@tagctx)\n- [tagCtxs](#tagobject@tagctxs)\n- [tagName](#tagobject@tagname)\n- [rendering](#tagobject@rendering)\n\n*Tag properties (only in JsViews)*\n\n- [linkCtx](#jsvtagobject@linkctx)\n- [parentElem](#jsvtagobject@parentelem)\n- [linkedElems and linkedElem](#jsvtagobject@linkedelem)\n- [mainElem](#jsvtagobject@mainelem)\n- [displayElem](#jsvtagobject@displayelem)\n- [inline](#jsvtagobject@inline)\n\n*Tag methods (both in JsRender and JsViews)*\n\n- [ctxPrm()](#jsvtagobject@ctxprm)\n- [cvtArgs()](#tagobject@cvtargs)\n- [bndArgs()](#tagobject@bndargs)\n- [base()](#tagobject@base)\n- [baseApply()](#tagobject@baseapply)\n\n*Tag methods (only in JsViews)*\n\n- [refresh()](#jsvtagobject@refresh)\n- [contents()](#jsvtagobject@contents)\n- [childTags()](#jsvtagobject@childtags)\n- [nodes()](#jsvtagobject@nodes)\n- [setValue()](#jsvtagobject@setvalue)\n- [setValues()](#jsvtagobject@setvalues)\n- [updateValue()](#jsvtagobject@updatevalue)\n- [updateValues()](#jsvtagobject@updatevalues)"
       },
       {
         "_type": "para",
         "title": "Accessing tag objects",
-        "text": "The `tag` object can be accessed *programmatically*, for example in event handlers of custom tags, using the `this` pointer.\n\nThe current tag can also be accessed *declaratively* (in a custom tag template,  or in wrapped block content) using `~tag`, as in:\n\n```jsr\n{{:~tag.parent.tagName}}`\n```\n\nIn addition, `tag.tagCtx` can be accessed declaratively using `~tagCtx`, as in:\n\n```jsr\n{{:~tagCtx.props.mode}}`\n```\n\n### Tag properties and methods (JsViews only):\n\n(Additional details to follow.)"
+        "text": "The `tag` object can be accessed *programmatically*, for example in event handlers of custom tags, using the `this` pointer.\n\nThe current tag can also be accessed *declaratively* (in a custom tag template,  or in wrapped block content) using `~tag`, as in:\n\n```jsr\n{{:~tag.parent.tagName}}`\n```\n\nIn addition, `tag.tagCtx` can be accessed declaratively using `~tagCtx`, as in:\n\n```jsr\n{{:~tagCtx.props.mode}}`\n```",
+        "anchor": "access"
+      },
+      {
+        "_type": "para",
+        "title": "<b>Tag properties</b> (JsRender and JsViews):",
+        "text": "(See also the JsRender [tag object](#tagobject@propsmethods) topic.)",
+        "anchor": "jsrproperties"
+      },
+      {
+        "_type": "para",
+        "title": "The tagCtx property",
+        "text": "***tag.tagCtx**: a [tag context](#jsvtagctxobject) object* providing access to instance information such as arguments/properties/view etc., as in:\n\n```js\nvar propA = tag.tagCtx.props.propA;\n```\n\nIt is also provided as an argument in tag events such as [*onBind(**tagCtx**, linkCtx, ctx)*](#tagoptions@onbind).\n\nAccessed declaratively (in a tag template or wrapped content) as `~tagCtx`.\n\nSee [*Tag Context*](#tagsapi@context)",
+        "anchor": "tagctx"
+      },
+      {
+        "_type": "para",
+        "title": "The  ctx property",
+        "text": "***tag.ctx**: a [view context](jsvctxobject) object (hash) providing access to the [contextual parameters](#contextualparams)*, as in.\n\n```js\nvar rootData = tag.tagCtx.root;\n```\n\nIt is also provided as an argument in tag events such as [*onBind(tagCtx, linkCtx, **ctx**)*](#tagoptions@onbind).\n\nAccessed declaratively as `~tag.ctx`.\n\nSee [*Tag Context*](#tagsapi@context)\n\nSee also:\n- [`tag.ctxPrm()`](#jsvtagobject@ctxprm), below\n- The [`ctx` tag option](#tagsapi@ctx) (for specifying default context on a custom tag)",
+        "anchor": "ctx"
+      },
+      {
+        "_type": "para",
+        "title": "<b>Tag properties</b> (JsViews only):",
+        "text": " ",
+        "anchor": "properties"
       },
       {
         "_type": "para",
         "title": "The linkCtx property",
-        "text": " ",
+        "text": "For any data-linked tag, such as `{^{mytag/}}` (*inline* [data-linked tag](#linked-tag-syntax)) , or `<div data-link=\"{mytag}\"></div>`([tag binding](#link-tags) on a [data-linked element](#linked-elem-syntax)), ***tag.linkCtx*** is a [link context](#jsvlinkctxobject) object providing contextual data-link information, as in:\n\n```js\nvar isTopLevelDataLinked = tag.linkCtx.type === \"top\";\n```\n\nIt is also provided as an argument in tag events such as [*onBind(tagCtx, **linkCtx**, ctx)*`](#tagoptions@onbind).",
         "anchor": "linkctx"
       },
       {
         "_type": "para",
         "title": "The parentElem property",
-        "text": " ",
+        "text": "For a [data-linked tag](#linked-tag-syntax), such as `{^{mytag/}}`, ***tag.parentElem*** is the parent (containing) HTML element.\n\nFor a [data-linked element](#linked-elem-syntax) such as `<div data-link=\"{mytag}\"></div>` ([tag binding](#link-tags)), whether in a template or with [top-level data-linking](#toplink), ***tag.parentElem*** is the data-linked element (the `<div>` in this case).",
         "anchor": "parentelem"
       },
       {
         "_type": "para",
-        "title": "The refresh() method",
+        "title": "The linkedElems and linkedElem properties",
+        "text": "The ***tag.linkedElems*** and ***tag.linkedElem*** properties are associated with the [`linkedElement` option](#tagoptions@linkedelement). (See the [*linkedElement* design pattern topic](#bindingpatterns@linkedelem).)\n\nIf the `linkedElement` option is used to establish two-way data binding between an element (or elements) in the tag, and the [`bindTo`](#tagoptions@bindto) tag arguments or properties, then after data-linking (for example, in the [`onBind`](#tagoptions@onbind) event handler of the tag) the `tag.linkedElems` property will contain *an array of jQuery objects for those data-linked elements*. And the `tag.linkedElem` property will contain *a jQuery object for the first of those elements*.  \n\nConversely, if `linkedElement` is not set, then in the `onBind` handler the `tag.linkedElems` properties can be ***set** to an array of jQuery objects for chosen tag elements*. (Or, if `bindTo` specifies only one binding, then `tag.linkedElem` properties can be ***set** to a single jQuery object for a chosen tag element*.)\n\nThis provides a programmatic approach to configuring the choice of data-linked elements.\n\nFor example in the [`{{namebox}}`](#bindingpatterns@namebox-linkedelem) sample\n\n```jsr\n{^{namebox first last caption=~label .../}}\n```\n\nThe declarative approach:\n\n```js\nlinkedElement: [\".firstnm\", \".lastnm\", \".cptn\"]\n```\n\ncould be replaced by a programmatic approach: \n\n```js\nnamebox: {\n  ...\n  template: '...<span class=\"cptn\"></span>: <input class=\"firstnm\"/> <input class=\"lastnm\"/>...',\n  bindTo: [0, 1, \"caption\"],\n  onBind: function() {\n    this.linkedElems = [\n      this.contents(true, \".firstnm\"); // Set linkedElem for argument 0 (first)\n      this.contents(true, \".lastnm\");  // Set linkedElem for argument 1 (last)\n      this.contents(true, \".cptn\");    // Set linkedElem for property \"caption\" (caption=~label)\n    ];\n  },\n  ...\n}\n```\n\n*Note:*\n- For tags with `{{else}}` blocks see also [`tagCtx.linkedElems`](#jsvtagctxobject@properties)\n- Establishing of two-way binding on `linkedElems` is done after the [`onBind`](#tagoptions@onbind) event, and before the [`onAfterLink`](#tagoptions@onafterlink) event",
+        "anchor": "linkedelem"
+      },
+      {
+        "_type": "para",
+        "title": "The mainElem property",
+        "text": "The ***tag.mainElem*** property is associated with the [`mainElement` option](#tagoptions@mainelement).\n\nIf the `mainElement` option is used to establish an element in the tag as *main element*, then after data-linking (for example, in the [`onBind`](#tagoptions@onbind) event handler of the tag) the `tag.mainElem` property will contain a jQuery object for the *main element*.  \n\nConversely, if `mainElement` is not set, then in the `onBind` handler the `tag.mainElem` property can be ***set** to a jQuery objects for a chosen tag element*.\n\nThis provides a programmatic approach to configuring the choice of *main element*.\n\n*Note:*\n- Setting of `width`, `height` or `id` on `tag.mainElem` is done after the [`onBind`](#tagoptions@onbind) event, and before the [`onAfterLink`](#tagoptions@onafterlink) event\n- For tags with `{{else}}` blocks see also [`tagCtx.mainElem`](#jsvtagctxobject@properties)",
+        "anchor": "mainelem"
+      },
+      {
+        "_type": "para",
+        "title": "The displayElem property",
+        "text": "The ***tag.displayElem*** property is associated with the [`displayElement` option](#tagoptions@displayelement).\n\nIf the `displayElement` option is used to establish an element in the tag as *display element*, then after data-linking (for example, in the [`onBind`](#tagoptions@onbind) event handler of the tag) the `tag.displayElem` property will contain a jQuery object for the *display element*.  \n\nConversely, if `displayElement` is not set, then in the `onBind` handler the `tag.displayElem` property can be ***set** to a jQuery objects for a chosen tag element*.\n\nThis provides a programmatic approach to configuring the choice of *display element*.\n\n*Note:*\n- Setting of `class` on the `tag.displayElem` is done after the [`onBind`](#tagoptions@onbind) event, and before the [`onAfterLink`](#tagoptions@onafterlink) event\n- For tags with `{{else}}` blocks see also [`tagCtx.displayElem`](#jsvtagctxobject@properties)\n",
+        "anchor": "displayelem"
+      },
+      {
+        "_type": "para",
+        "title": "The inline property",
+        "text": "If ***tag.inline*** is `true`, then this is a [data-linked tag](#linked-tag-syntax) such as `{^{mytag/}}` (also referred to as an ***inline tag***).\n\nIf ***tag.inline*** is `false`, then this is a [tag binding](#link-tags) on a [data-linked element](#linked-elem-syntax) such as `<div data-link=\"{mytag}\"></div>` (whether in a template or with [top-level data-linking](#toplink)).\n\nSee also [tag.linkCtx.type](#jsvlinkctxobject)",
+        "anchor": "inline"
+      },
+      {
+        "_type": "para",
+        "title": "<b>Tag methods</b> (JsRender and JsViews):",
+        "text": "(See also the JsRender [tag object](#tagobject@methods) topic.)",
+        "anchor": "jsrmethods"
+      },
+      {
+        "_type": "para",
+        "title": "The ctxPrm() get/set method",
+        "text": "***tag.ctxPrm(name)***: returns the value of the named contextual parameter or helper (at the context of the tag instance).\n\n```js\nvar value = tag.ctxPrm(\"color\");\n// Get value of contextual parameter (or helper) \"color\"\n```\n\n***tag.ctxPrm(name, newValue)***: observably modifies the value of the named contextual parameter or helper.\n\n```js\ntag.ctxPrm(\"color\", \"green\");\n// Set value of contextual parameter (or helper) \"color\" to \"green\"\n```\n\nAvailable also as [`view.ctxPrm()`](#jsvviewobject@ctxprm).\n\nSee *[Accessing contextual parameters and helpers](#tagsapi@ctxparams)*.\n\n*__Note:__* to register a listener for observable changes to a contextual parameter, such as `\"~color\"`, defined on a tag, use:\n\n```js\n$.observe(tag, \"~color\", myListener);\n```\n\nSee for example the [*linkedCtxParam* sample](#tagoptions@linkedctxparam) -- with the listener for `\"~mde\"`.",
+        "anchor": "ctxprm"
+      },
+      {
+        "_type": "para",
+        "title": "<b>Tag methods</b> (JsViews only):",
         "text": " ",
+        "anchor": "methods"
+      },
+      {
+        "_type": "para",
+        "title": "The refresh() method",
+        "text": "The ***tag.refresh()*** method refreshes (re-renders and data-links) the tag control.\n\nFor example, in the [`{{spinblock}}` sample](#bindingpatterns@spinblock):\n\n- the `render()` method returns content which depends on the value of the `tag.pane` property\n- the custom tag method `cycle()` changes the value of `tag.pane`, then calls `tag.refresh()` to refresh the rendering and data-binding using the new value of `tag.pane`: \n \n\n```js\n$.views.tags(\"spinblock\", {\n  render: function() {\n    ...\n    if (this.tagCtx.index === this.pane) { // This is the selected pane.\n      ... + this.tagCtx.render(); // Render block content\n    }\n    ...\n  },\n  cycle: function() { // Method to cycle/increment selected pane\n    this.pane = (this.pane+1) % this.tagCtxs.length;\n    this.refresh();   // Refresh the rendering and data-binding, with the new value of this.pane\n  },\n  ...\n```",
         "anchor": "refresh"
       },
       {
         "_type": "para",
         "title": "The contents() method",
-        "text": " ",
+        "text": "Returns a jQuery object of tag content nodes -- optionally filtered by a jQuery selector:\n\n- ***tag.contents()*** (without arguments) returns the top-level contents of the tag (top-level child nodes, including text nodes):\n  ```js\n  var jqContents = tag.contents();\n  ```\n- ***tag.contents(selector)*** (with a selector argument) returns top-level content elements of the tag, filtered by the selector:\n  ```js\n  var jqSelectedElem = tag.contents(\".selected\");\n  ```\n- ***tag.contents(deep, selector)*** (with `deep` flag: `true`, and selector argument) returns content elements of the tag (any depth) filtered by the selector:\n  ```js\n  var jqContents = tag.contents(true, \".selected\");\n  ```\n\nFor example, in the [`{{spinblock}}` sample](#bindingpatterns@spinblock):\n\n```js\n$.views.tags(\"spinblock\", {\n  ...\n  onBind: function() {\n    // Find the switcher <div> element, and attach the tag.cycle() method to it, as 'click' handler\n    this.contents(true, '.switcher').on(\"click\", $.proxy(this.cycle, this));\n  },\n  ...\n```\n\nSee the similar API [`view.contents(...)`](#jsvviewobject@contents)\n",
         "anchor": "contents"
       },
       {
         "_type": "para",
         "title": "The childTags() method",
-        "text": " ",
+        "text": "Returns an array of custom tag instances, within the content of the tag -- optionally filtered by tag name:\n\n- ***tag.childTags()*** returns the top-level custom tag instances within the tag content:\n  ```js\n  var childTagsArray = tag.childTags();\n  ```\n- ***tag.childTags(tagName)*** returns instances of `{{tagName}}` within the tag content (not nested in other custom tags):\n  ```js\n  var slidersArray = tag.childTags(\"slider\");\n  ```\n- ***tag.childTags(deep, tagName)*** (with `deep` flag: `true`) returns instances of `{{tagName}}` within the tag content (including those nested in other custom tags):\n  ```js\n  var slidersArray = tag.childTags(true, \"slider\");\n  ```\n\nFor example, in the [`{{picker}}` sample](#hierarchypatterns@picker):\n\n```js\n$.views.tags(\"picker\", {\n  ...\n  onBind: function() {\n    ...\n    tag.areaslider = tag.childTags(\"areaslider\")[0];\n  },\n  ...\n```\n\nSee the similar API [`view.childTags(...)`](#jsvviewobject@childtags)\n",
         "anchor": "childtags"
       },
       {
         "_type": "para",
         "title": "The nodes() method",
-        "text": " ",
+        "text": "The ***tag.nodes()*** method returns an array of top-level nodes within the tag content (including text nodes):\n\n```js\nvar nodesArray = tag.nodes();\n```\n\nSee the similar API [`view.nodes(...)`](#jsvviewobject@nodes)\n",
         "anchor": "nodes"
       },
       {
         "_type": "para",
         "title": "The setValue() method",
-        "text": "If a custom tag control uses [`linked elements`]() then calling `tag.setValue(newValue, index)` will set the value of the corresponding linked element. In addition, if the tag control has a [`setValue()`](@tagoptions@setvalue) event handler, then that event handler will be called.\n\nFor block tags, with multiple `{{else}}` blocks, a third parameter can be passed specifying the index of the `{{else}}` block whose linked element is to be updated:\n\n```js\ntag.setValue(newValue, index, elseBlock);\n```\n\nSee the [Programmatic two-way data-binding](#bindingpatterns@setvalue-updatevalue) design patterns topic for additional discussion and examples.\n\nSee also [`setValues()`](#jsvtagobject@setvalues) below."
+        "text": "If a custom tag control uses [`linked elements`]() then calling `tag.setValue(newValue, index)` will set the value of the corresponding linked element. In addition, if the tag control has a [`setValue()`](#tagoptions@setvalue) event handler, then that event handler will be called.\n\nFor block tags, with multiple `{{else}}` blocks, the [`tagCtx.setValues()`](#jsvtagctxobject@methods) can be used (for the `tagCtx` corresponding to the `{{else}}` block) -- or, alternatively a third parameter can be passed specifying the index of the `{{else}}` block whose linked element is to be updated:\n\n```js\ntag.setValue(newValue, index, elseBlock);\n```\n\nSee the [Programmatic two-way data-binding](#bindingpatterns@setvalue-updatevalue) design patterns topic for additional discussion and examples.\n\nSee also [`setValues()`](#jsvtagobject@setvalues) below.",
+        "anchor": "setvalue"
       },
       {
         "_type": "para",
         "title": "The setValues() method",
-        "text": "If a custom tag control uses [`linked elements`]() then calling `tag.setValues()` will set the values of the linked elements. In addition, if the tag control has a [`setValue()`](@tagoptions@setvalue) event handler, then that event handler will be called prior to updating each targeted linked element.\n\nFor block tags with multiple `{{else}}` blocks, `setValues()` will set values on the linked elements on the initial tag (the first block). To set values on the linked elements in additional `{{else}}` blocks, use [`setValue()`](#jsvtagobject@updatevalue).\n\nSee the [Multiple two-way binding](#bindingpatterns@multiple-twoway) design patterns topic for additional discussion and examples.",
+        "text": "If a custom tag control uses [`linked elements`]() then calling `tag.setValues(newVal1, newVal2, ...)` will set the values of the linked elements. In addition, if the tag control has a [`setValue()`](@tagoptions@setvalue) event handler, then that event handler will be called prior to updating each targeted linked element.\n\n```js\ntag.setValues(newValueFor1stElem, newValueFor2ndElem, ...);\n```\n\nFor block tags with multiple `{{else}}` blocks, `setValues()` will set values on the linked elements on the initial tag (the first block). To set values on the linked elements in additional `{{else}}` blocks, use either [`tagCtx.setValues()`](#jsvtagctxobject@methods) or [`tag.setValue()`](#jsvtagobject@setvalue).\n\nSee the [Multiple two-way binding](#bindingpatterns@multiple-twoway) design patterns topic for additional discussion and examples.",
         "anchor": "setvalues"
       },
       {
         "_type": "para",
         "title": "The updateValue() method",
-        "text": "Calling `tag.updateValue(newValue, index)` will observably update the bound argument or property corresponding to the specified `index` of the [`bindTo`](#tagoptions@bindto) array.\n\nFor block tags, with multiple `{{else}}` blocks, a third parameter can be passed specifying the index of the `{{else}}` block whose bound argument or property is being updated:\n\n```js\ntag.updateValue(value, index, elseBlock);\n```\n\nThe call will use two-way data-binding to update the underlying data specified in the data-link expression.",
+        "text": "Calling `tag.updateValue(newValue, index)` will observably update the bound argument or property corresponding to the specified `index` of the [`bindTo`](#tagoptions@bindto) array.\n\nFor block tags, with multiple `{{else}}` blocks, a third parameter can be passed specifying the index of the `{{else}}` block whose bound argument or property is being updated:\n\n```js\ntag.updateValue(newValue, index, elseBlock);\n```\n\nThe call will use two-way data-binding to update the underlying data specified in the data-link expression.",
         "anchor": "updatevalue"
       },
       {
@@ -1435,7 +1506,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The updateValues() method",
-        "text": "Calling `tag.updateValues()` will observably update the bound arguments or properties specified in the [`bindTo`](#tagoptions@bindto) option array:\n\n```js\ntag.updateValues(newValue1, newValue2, ...);\n```\n\nThe call will use two-way data-binding to update the underlying data specified in the data-link expressions.\n\nFor block tags with multiple `{{else}}` blocks, `updateValues()` will update the bound data-link expressions on the initial tag (the first block). To drive updates on the additional `{{else}}` block bindings, use [`updateValue()`](#jsvtagobject@updatevalue).\n\nThe `bindTo` option defaults to `[0]`, so if there is no `bindTo` setting, `updateValues(value)` will observably update the first argument data path, and will be equivalent to `updateValue(value)`.\n\nSee the [Multiple two-way binding](#bindingpatterns@multiple-twoway) design patterns topic for additional discussion and examples.",
+        "text": "Calling `tag.updateValues(...)` will observably update the bound arguments or properties specified in the [`bindTo`](#tagoptions@bindto) option array:\n\n```js\ntag.updateValues(newValue1, newValue2, ...);\n```\n\nThe call will use two-way data-binding to update the underlying data specified in the data-link expressions.\n\nFor block tags with multiple `{{else}}` blocks, `updateValues(...)` will update the bound data-link expressions on the initial tag (the first block). To drive updates on the additional `{{else}}` block bindings, use [`updateValue(...)`](#jsvtagobject@updatevalue).\n\nThe `bindTo` option defaults to `[0]`, so if there is no `bindTo` setting, `updateValues(value)` will observably update the first argument data path, and will be equivalent to `updateValue(value)`.\n\nSee the [Multiple two-way binding](#bindingpatterns@multiple-twoway) design patterns topic for additional discussion and examples.",
         "anchor": "updatevalues"
       },
       {
@@ -1452,30 +1523,60 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       }
     ]
   },
-  "jsvviewcontextobject": {
-    "title": "The <em>view context</em> object",
-    "path": "",
-    "sections": []
-  },
-  "jsvtagcontextobject": {
-    "title": "The <em>tag context</em> object",
+  "jsvctxobject": {
+    "title": "The <em>view context</em> object, <em>ctx</em> (JsViews)",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "- tagCtx.contentView\n- tagCtx.contents()\n- tagCtx.nodes()\n- tagCtx.childTags()\n- tagCtx.cvtArgs()\n- tagCtx.bndArgs()\n- tagCtx.setValues()\n- tagCtx.render()\n- tagCtx.args\n- tagCtx.props\n- tagCtx.params\n- tagCtx.tag\n- tagCtx.ctx\n- tagCtx.tmpl\n- tagCtx.view\n- tagCtx.contentView\n- tagCtx.index"
+        "text": "Each view has a view context object: ***view.ctx***, which is a 'hash' whose properties correspond to the set of [contextual parameters](#contextualparams), `~foo` accessible from that view, within a template. (See [*Accessing contextual parameters and helpers*](#tagsapi@ctxparams).)\n\nIt also has the following built-in properties (contextual parameters):\n\n- `ctx.root`: The [root data](#contextualparams@root) (accessed from a template as `~root`)\n- `ctx.tag`: The [tag object](#tagobject) (accessed from a template as `~tag`)\n- `ctx.tagCtx`: The [tagCtx object](#tagobject@tagctx) (accessed from a template as `~tagCtx`)\n- `ctx.parentTags`: [parent tags](tagsapi@parents) (accessed from a template as `~parentTags`)\n\nFor programmatic access to contextual parameters, it may be better to use the [view.ctxPrm()](#jsvviewobject@ctxprm) or [tag.ctxPrm()](#jsvtagobject@ctxprm) API."
       }
     ]
   },
-  "jsvlinkcontextobject": {
-    "title": "The <em>link context</em> object",
+  "jsvtagctxobject": {
+    "title": "The <em>tag context</em> object, <em>tagCtx</em> (JsViews)",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "paragraph"
+        "text": "When a template is rendered, each tag is instantiated.\n\n```jsr\n{^{sometag argExpr prop1=propExpr ~ctxprm1=prmExpr .../}}\n```\n\nThe tag instance has an associated tag context object, `tag.tagCtx`, giving contextual information for the tag.\n\nSee [*Tag context*](#tagsapi@context)\n\nIn the case of a tag with `{{else}}` blocks it has an array of `tagCtx` objects, `tag.tagCtxs`, one for each `{{else}}` block):\n\n```jsr\n{^{sometag argExpr prop1=propExpr ~ctxprm1=prmExpr ...}}\n  ...\n{{else argExpr2 prop2=propExpr2 ~ctxprm2=prmExpr2 ...}}\n  ...\n{{/sometag}}\n```"
+      },
+      {
+        "_type": "para",
+        "title": "<b>tagCtx properties</b> (JsRender and JsViews):",
+        "text": "(See also the JsRender [`tagCtx` object](#tagctxobject@properties) topic.)\n\n- ***tagCtx.props:***\n  - a hash of the values of the named properties (such as `tagCtx.props.prop1`)\n- ***tagCtx.args:***\n  - an array with argument value (such as `tagCtx.args[0]`)\n- ***tagCtx.params:***\n  - provides access to argument, property and contextual parameter expressions (such as `tagCtx.params.props.prop1`, `tagCtx.params.args[0]` or `tagCtx.params.ctx.ctxprm1`)\n- ***tagCtx.content:***\n  - for a block tag (see [wrapping block content](#tagsapi@wrapping)), the compiled template for wrapped content\n  - otherwise, for a tag with an [external template reference](#tagsyntax@tmplref), `tmpl=...`, the compiled external template (same as `tagCtx.tmpl`)\n  - otherwise, `false`\n- ***tagCtx.tmpl:***\n  - for a tag with an external template, `tmpl=...`, the compiled external template\n  - otherwise, for a block tag, the template for wrapped content (same as `tagCtx.content`)\n  - otherwise, `false`\n- ***tagCtx.index:***\n  - for `{{else}}` blocks, the index of the block (see [`tag.tagCtxs`](#tagobject@tagctxs))\n  - otherwise, `0`\n- ***tagCtx.tag:***\n  - the tag instance\n- ***tagCtx.view:***\n  - the contextual (containing) view object\n- ***tagCtx.ctx:***\n  - the [ctx](#ctxobject) (view context) object with the contextual helpers/template parameters for this tag.",
+        "anchor": "jsrproperties"
+      },
+      {
+        "_type": "para",
+        "title": "<b>tagCtx properties</b> (JsViews only):",
+        "text": "- ***tagCtx.linkedElems:***\n  - equivalent to [`tag.linkedElems`](#jsvtagobject@linkedelem)\n  - however, for a tag with `{{else}}` blocks such as:\n    ```jsr\n      {{mytag firstName}}...{{else lastName}}...{{/mytag}}\n    ```\n    the context is the specific `{{else}}` block -- e.g. for the example above, `tag.tagCtxs[1].linkedElems[0]` might access an `<input/>` binding to `lastName`\n- ***tagCtx.mainElem***\n  - equivalent to [`tag.mainElem`](#jsvtagobject@mainElem)\n  - however, for a tag with `{{else}}` blocks such as:\n    ```jsr\n      {{mytag id=\"a\"}}...{{else id=\"b\"}}...{{/mytag}}\n    ```\n    the context is the specific `{{else}}` block -- e.g. for the example above, `tag.tagCtxs[1].mainElem` would access an element with `id`: `\"b\"`\n- ***tagCtx.displayElem:***\n  - equivalent to [`tag.displayElem`](#jsvtagobject@displayElem)\n  - however, for a tag with `{{else}}` blocks such as:\n    ```jsr\n      {{mytag class=\"a\"}}...{{else class=\"b\"}}...{{/mytag}}\n    ```\n    the context is the specific `{{else}}` block -- e.g. for the example above, `tag.tagCtxs[1].displayElem` would access an element with `class`: `\"b\"`\n- ***tagCtx.contentView:***\n  - the view object for tag content -- whether rendered by the render method or by a template, or wrapped content...<br/>(see [*Custom tag child views*](#tagsapi@childviews))\n  - for a tag with `{{else}}` blocks the context is the specific `{{else}}` block",
+        "anchor": "properties"
+      },
+      {
+        "_type": "para",
+        "title": "<b>tagCtx methods</b> (JsRender and JsViews):",
+        "text": "(See also the JsRender [`tagCtx` object](#tagctxobject@methods) topic.)\n\n- ***tagCtx.render(data, context, noIteration):***\n  - if there is a tag template, renders the template\n  - otherwise for a template with an [external template reference](#tagsyntax@tmplref), `tmpl=...`, renders the external template\n  - otherwise, for a block tag, renders the wrapped content\n  - otherwise, returns `\"\"`\n  - *Note:* as an alternative, to render wrapped content even if there is a tag template, or an external template (`tmpl-=...`), use<br/>***tagCtx.content.render(data, context, noIteration)***. (See [sample](#tags@renderplustmpl-sample))\n- ***tagCtx.ctxPrm(name):***\n  - equivalent to [`tag.ctxPrm(name)`](#jsvtagobject@ctxprm)\n  - however, for a tag with `{{else}}` blocks such as:\n    ```jsr\n      {{mytag}}...{{else ~myparam=...}}...{{/mytag}}\n    ```\n    the context is the specific `{{else}}` block -- e.g. accessing `tag.tagCtxs[1].ctxPrm(\"myparam\")` for the example above\n- ***tagCtx.cvtArgs():***\n  - equivalent to [`tag.cvtArgs()`](#jsvtagobject@cvtargs)\n  - however, for a tag with `{{else}}` blocks the context is the specific `{{else}}` block<br/>\n  -- i.e. equivalent to `tag.cvtArgs(tagCtx.index)`\n- ***tagCtx.bndArgs():***\n  - equivalent to [`tag.bndArgs()`](#jsvtagobject@bndargs)\n  - however, for a tag with `{{else}}` blocks the context is the specific `{{else}}` block<br/>\n  -- i.e. equivalent to `tag.bndArgs(tagCtx.index)`",
+        "anchor": "jsrmethods"
+      },
+      {
+        "_type": "para",
+        "title": "<b>tagCtx methods</b> (JsViews only):",
+        "text": "- ***tagCtx.contents():*** returns a jQuery object of tag content nodes –- optionally filtered by a jQuery selector\n  - equivalent to [`tag.contents()`](#jsvtagobject@contents)\n  - however, for a tag with `{{else}}` blocks the context is the contents of the specific `{{else}}` block\n- ***tagCtx.nodes():*** returns an array of top-level nodes within the tag content (including text nodes)\n  - equivalent to [`tag.nodes()`](#jsvtagobject@nodes)\n  - however, for a tag with `{{else}}` blocks the context is the contents of the specific `{{else}}` block\n- ***tagCtx.childTags():*** returns an array of custom tag instances, within the content of the tag -– optionally filtered by tag name\n  - equivalent to [`tag.childTags()`](#jsvtagobject@childtags)\n  - however, for a tag with `{{else}}` blocks the context is the contents of the specific `{{else}}` block\n- ***tagCtx.setValues(...):*** sets the values of the linked elements. In addition, if the tag control has a [`setValue()`](#tagoptions@setvalue) event handler, then that event handler will be called prior to updating each targeted linked element.\n  - equivalent to [`tag.setValues(...)`](#jsvtagobject@setvalues)\n  - however, for a tag with `{{else}}` blocks the context is the linked elements in the specific `{{else}}` block",
+        "anchor": "methods"
+      }
+    ]
+  },
+  "jsvlinkctxobject": {
+    "title": "The <em>linkCtx</em> object (JsViews)",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Data-linked tags (such as `{^{mytag/}}` or `<div data-link=\"{mytag}\"></div>`) provide a `linkCtx` object giving contextual data-link information:\n\n- ***linkCtx.tag:*** the tag instance\n- ***linkCtx.type:*** `\"inline\"` for a [data-linked tag](#linked-tag-syntax), `\"link\"` for [data-linked element](#linked-elem-syntax) (tag binding), `\"top\"` for a [top-level declarative](#jsv.toplink-true) data-linked element binding or `\"expr` for a [top-level programmatic](#jsv.toplink-expr) data-linked element binding \n- ***linkCtx.data:*** the current data context for the tag\n- ***linkCtx.elem:*** the associated HTML element (e.g. the data-linked element `<div data-link=\"{mytag}\"></div>`)\n- ***linkCtx.view:*** the contextual (containing) view object\n- ***linkCtx.expr:*** the tag binding expression\n- ***linkCtx.attr:*** the [target `attr`](#link-targets) of the tag binding expression\n- ***linkCtx.ctx:*** the [ctx](#jsvctxobject) (view context) object with the contextual helpers/template parameters for this tag.\n"
       }
     ]
   },
@@ -1638,7 +1739,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "Abbreviated syntax and full syntax for data-linked elements",
         "text": "In fact the examples of data-linked elements above correspond to simple cases, where you can use abbreviated syntax. For more powerful or complex data-linking to elements, you can use the full syntax.",
-        "anchor": ""
+        "anchor": "syntax"
       },
       {
         "_type": "para",
@@ -1649,13 +1750,14 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The corresponding full syntax is a data-linked <code>{{: ...}}</code> tag",
-        "text": "In fact it is short for this full syntax:\n\n```jsr\n<span data-link=\"{:pathOrExpression}\"></span>\n```\n\n-- which is a data-linked version of the familiar JsRender tag: <em><a href=\"#assigntag\">`{{:pathOrExpression}}`</a></em>. \n\nExamples:\n\n```jsr\n<span data-link=\"{:name}\"></span>\n<span data-link=\"{:address.street}\"></span>\n<span data-link=\"{:~someHelper.computed() > 1}\"></span>\n\n<input data-link=\"{:name:}\"/>\n<input data-link=\"{:name trigger=false:}\"/>\n```"
+        "text": "In fact it is short for this full syntax:\n\n```jsr\n<span data-link=\"{:pathOrExpression}\"></span>\n```\n\n-- which is a data-linked version of the familiar JsRender tag: <em><a href=\"#assigntag\">`{{:pathOrExpression}}`</a></em>. \n\nExamples:\n\n```jsr\n<span data-link=\"{:name}\"></span>\n<span data-link=\"{:address.street}\"></span>\n<span data-link=\"{:~someHelper.computed() > 1}\"></span>\n\n<input data-link=\"{:name:}\"/>\n<input data-link=\"{:name trigger=false:}\"/>\n```",
+        "anchor": "full"
       },
       {
         "_type": "para",
         "title": "Optional two-way data-binding",
         "text": "Notice the full syntax for the `<input>` has an additional `:` before the `}` at the end. It corresponds to the two-way data binding. (The same applies to other *'user input elements'* such as `select`, `textarea` etc. (and also *[contenteditable elements](#)*). \n\nYou can provide both convert and convertBack converters if you want. (See the *[Two-way binding and converters](#samples/form-els/converters)* sample):\n\n```jsr\n<input data-link=\"{myConverter:some.data.path:myConvertBack}\"/>\n\n<select data-link=\"{myConverter:some.data.path:myConvertBack}\">...</select>\n```\n\nIf you want only one-way binding (from the data to the `<input>`) you simply eliminate the `:` at the end:\n\n```jsr\n<input data-link=\"{:some.data.path}\"/>\n```\n\nSee the *[Two-way binding](#link2way)* topic for additional details.",
-        "anchor": ""
+        "anchor": "twoway"
       },
       {
         "_type": "para",
@@ -1666,12 +1768,14 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "When do you use the abbreviated syntax?",
-        "text": "The abbreviated syntax is an alternative syntax when you only have a single expression of the form `{:someExpression}`, or in the case of inputs `{:someExpression:}` (two-way binding). So it is using the default target attrib, and is targeting `innerText`, and automatically doing HTML encoding. In that case you can remove the `{}` delimiters and colons and just write the `someExpression`. JsViews will expand your expression to the full syntax. Example: `data-link=\"name\"`.\n\nSo if you need any of the following, you need to switch to the full format:\n- insertion of HTML markup as `innerHTML`: (switch to `html{:someExpression}`)\n- converters\n- different target 'attribs'\n- multiple bindings\n- using tags other than `{{: ...}}`\n"
+        "text": "The abbreviated syntax is an alternative syntax when you only have a single expression of the form `{:someExpression}`, or in the case of inputs `{:someExpression:}` (two-way binding). So it is using the default target attrib, and is targeting `innerText`, and automatically doing HTML encoding. In that case you can remove the `{}` delimiters and colons and just write the `someExpression`. JsViews will expand your expression to the full syntax. Example: `data-link=\"name\"`.\n\nSo if you need any of the following, you need to switch to the full format:\n- insertion of HTML markup as `innerHTML`: (switch to `html{:someExpression}`)\n- converters\n- different target 'attribs'\n- multiple bindings\n- using tags other than `{{: ...}}`\n",
+        "anchor": "when-abbrev"
       },
       {
         "_type": "para",
         "title": "Data-linking expressions using block tags, such as {{for}} &ndash; including {{else}} blocks.",
-        "text": "As mentioned above, you can data-link to block tags, as long as you register the block content as a separate template, referenced using `tmpl=...`:\n\n```jsr\n<div data-link=\"{for employees tmpl='nameTmpl'}\">\n```\n\nYou can also data-link to block tags that include `{{else}}` blocks, such as:\n\n```jsr\n<div data-link=\"{if someExpression tmpl='isTrueTmpl'}{else tmpl='isFalseTmpl'}\" ></div>\n```\n\n***Example***:"
+        "text": "As mentioned above, you can data-link to block tags, as long as you register the block content as a separate template, referenced using `tmpl=...`:\n\n```jsr\n<div data-link=\"{for employees tmpl='nameTmpl'}\">\n```\n\nYou can also data-link to block tags that include `{{else}}` blocks, such as:\n\n```jsr\n<div data-link=\"{if someExpression tmpl='isTrueTmpl'}{else tmpl='isFalseTmpl'}\" ></div>\n```\n\n***Example***:",
+        "anchor": "else-syntax"
       },
       {
         "_type": "sample",
@@ -1687,20 +1791,28 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "sections": [
           {
             "_type": "para",
-            "title": "Top-level data-linking to {if ...}{else ...}",
-            "text": "```jsr\n<input data-link=\"show\" type=\"checkbox\"/>Show\n<div data-link=\"{if show tmpl='show this'}{else tmpl='no show'}\"></div>\n```\n\n```js\n$.link(true, \"body\", {show: true});\n```"
+            "title": "Top-level data-linking to {if ...}{else ...}{else ...}",
+            "text": "```jsr\n...<input data-link=\"show\" type=\"checkbox\"/> Show...\n...<input data-link=\"alt\" type=\"checkbox\"/> Alt...\n\n<div data-link=\"{if show tmpl='Show this'}{else alt tmpl='#alttmpl'}{else tmpl='No show, no alt'}\"></div>\n```\n\n```js\n$.link(true, \"body\", {show: true, alt: true});\n```"
           }
         ],
-        "html": "<label><input data-link=\"show\" type=\"checkbox\"/> Show</label>\n<div data-link=\"{if show tmpl='show this'}{else tmpl='no show'}\"></div>\n",
-        "code": "$.link(true, \"body\", {show: true});\n\n",
-        "height": "70",
+        "html": "<script id=\"alttmpl\" type=\"text/x-jsrender\">\n  No show, but alt is true...\n</script>\n\n<label><input data-link=\"show\" type=\"checkbox\"/> Show</label>\n\n<label><input data-link=\"alt\" type=\"checkbox\"/> Alt</label>\n\n<div data-link=\"{if show tmpl='Show this'}{else alt tmpl='#alttmpl'}{else tmpl='No show, no alt'}\"></div>\n",
+        "code": "$.link(true, \"body\", {show: true, alt: true});\n\n",
+        "height": "85",
         "title": "",
-        "nocss": false
+        "nocss": false,
+        "header": "<style>label {display: block;} div { margin-top: 8px;}</style>",
+        "action": "append"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "(See also [this](#jsviftag@if-else-tmpl) `{if}{else}` sample with dynamically changing templates)."
       },
       {
         "_type": "para",
         "title": "Data-linking expressions using tag controls",
-        "text": "An important case of data-linking is binding and instantiating of custom tag controls, such as:\n\n```jsr\n<div data-link=\"{slider size _range='min' ...}\"></div>\n```\n\nSee the [tag control samples](#samples/tag-controls). Note that this works not only within data-linked templates, but also  when linking to top-level content -- as shown in the second variant of the [slider sample](#samples/tag-controls/jqui/slider/simple@toplink). \n\nAnother example might be a *tabs* control where the `{{else}}` blocks are the contents of the different tabs:\n\n```jsr\n<div data-link=\"{tabs ... tmpl='tab1'}{else ... tmpl='tab2'}{else ... tmpl='tab3'}\"></div>\n```\n\n***Example***:\n"
+        "text": "An important case of data-linking is binding and instantiating of custom tag controls, such as:\n\n```jsr\n<div data-link=\"{slider size _range='min' ...}\"></div>\n```\n\nSee the [tag control samples](#samples/tag-controls). Note that this works not only within data-linked templates, but also  when linking to top-level content -- as shown in the second variant of the [slider sample](#samples/tag-controls/jqui/slider/simple@toplink). \n\nAnother example might be a *tabs* control where the `{{else}}` blocks are the contents of the different tabs:\n\n```jsr\n<div data-link=\"{tabs ... tmpl='tab1'}{else ... tmpl='tab2'}{else ... tmpl='tab3'}\"></div>\n```\n\n***Example***:\n",
+        "anchor": "tagcontrol"
       },
       {
         "_type": "sample",
@@ -1879,7 +1991,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "code": "code",
           "sample": "sample",
           "links": "links"
-        }
+        },
+        "anchor": "api"
       },
       {
         "_type": "api",
@@ -1930,7 +2043,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "code": "code",
           "sample": "sample",
           "links": "links"
-        }
+        },
+        "anchor": "alt"
       },
       {
         "_type": "para",
@@ -2025,6 +2139,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "linked-elem-syntax",
             "label": "Data-linked elements"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsvunlink",
+            "label": "$.unlink()"
           }
         ]
       }
@@ -2095,7 +2214,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "code": "code",
           "sample": "sample",
           "links": "links"
-        }
+        },
+        "anchor": "api"
       },
       {
         "_type": "api",
@@ -2146,7 +2266,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "code": "code",
           "sample": "sample",
           "links": "links"
-        }
+        },
+        "anchor": "alt"
       },
       {
         "_type": "para",
@@ -2174,7 +2295,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"group\"> \n  <label><input class=\"ceo\" type=\"checkbox\"/> CEO</label>\n  <span id=\"notCeo\"></span><br/><br/>\n\n  <b>Employees:</b> \n\n  <div id=\"employees\"></div> \n</div>\n",
         "code": "$.templates(\"nameTmpl\", \"<div>Name: {{:first}} {{:last}}</div>\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$.link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  \"#group\", // target\n  person // data\n);\n\n$.link(\n  \"isCEO\", // expression\n  \"input.ceo\", // target\n  person // data\n);\n\n$.link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  \"#employees\", // target\n  person // data\n);\n\n$.link(\n  \"visible{:!isCEO} {:~message}\", // expression\n \"#notCeo\", // target\n  person, // data \n  {message: \"(Not CEO!)\"} // helpers\n);\n",
         "height": "115",
-        "title": "Top-level programmatic data-linking"
+        "title": "Top-level programmatic data-linking",
+        "anchor": "sample"
       },
       {
         "_type": "para",
@@ -2203,7 +2325,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "$.templates(\"nameTmpl\", \"<div>Name: {{:first}} {{:last}}</div>\");\n\nvar person = {\n  isCEO: true,\n  employees: [\n    {first: \"Mary\", last: \"A\"},\n    {first: \"Hank\", last: \"B\"}\n  ]};\n\n$(\"#group\").link(\n  \"css-color{:isCEO ? 'green' : 'blue'}\", // expression\n  person // data\n);\n\n$(\"input.ceo\").link(\n  \"isCEO\", // expression\n  person // data\n);\n\n$(\"#employees\").link(\n  \"{for employees tmpl='nameTmpl'} visible{:isCEO}\", // expression\n  person // data\n);\n\n$(\"#notCeo\").link(\n  \"visible{:!isCEO} {:~message}\", // expression\n  person, // data \n  {message: \"(Not CEO!)\"} // helpers\n);\n",
         "height": "115",
         "title": "Top-level programmatic data-linking <span style=\"font-style:normal;\">(alternative syntax)</span>",
-        "markup": ""
+        "markup": "",
+        "anchor": "sample-alt"
       },
       {
         "_type": "links",
@@ -2219,6 +2342,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "linked-elem-syntax",
             "label": "Data-linked elements"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsvunlink",
+            "label": "$.unlink()"
           }
         ]
       }
@@ -2253,15 +2381,17 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"name\" class=\"block\"/>\n\n  <label class=\"block\"><input data-link=\"{toBool:gender:toString}\" type=\"checkbox\" /> Male</label>\n\n  <div class=\"block\" data-link=\"{radiogroup gender}\">\n    <label><input value=\"male\" type=\"radio\" /> Male</label><br/>\n    <label><input data-link=\"gender\" value=\"female\" type=\"radio\" /> Female</label>\n  </div>\n\n  <select data-link=\"gender\" class=\"block\">\n    <option value=\"male\">Male</option>\n    <option value=\"female\">Female</option>\n  </select>\n\n  <textarea data-link=\"name\" class=\"block\"></textarea>\n\n  <div class=\"block\">\n    <span data-link=\"{encode:name:unencode}\" contenteditable=\"true\"></span>\n  </div>\n\n  <div class=\"block\">\n    {^{textbox name label=\"Name:\"/}}\n  </div>\n\n  <hr/>\n\n  <div class=\"green\"><b>person:</b> {^{>name}} {^{>gender}}</div>\n</script>",
         "code": "$.views.converters({\n  toString: function(val) {\n   return val ? 'male' : 'female';\n  },\n  toBool: function(val) {\n    return val === 'male';\n }\n});\n\n$.views.tags({\n  textbox: {\n    onBind: function() {\n      // Find input in contents\n      this.linkedElem = this.contents(\"input\");\n    },\n    onUpdate: false, // No need to re-render whole tag, when content updates.\n    template: \"<em>{{:~tagCtx.props.label}}</em> <input/>\"\n  }\n});\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: \"Jo\", gender: \"male\"};\n\ntmpl.link(\"#result\", person);\n",
-        "height": "320",
+        "height": "310",
         "title": "Two way binding",
         "header": "<style>\n  [contenteditable] {border:1px solid green; padding:5px;}\n  .block {display: block; margin-bottom: 10px} .green {color: green;}\n</style>",
-        "action": "append"
+        "action": "append",
+        "anchor": "sample-twoway"
       },
       {
         "_type": "para",
         "title": "Abbreviated syntax and full syntax for data-link",
-        "text": "Notice that on the above elements, the `data-link=\"name\"` syntax automatically has <em>two-way data-binding</em>.\n\nThe full syntax for two-way binding is `data-link=\"{:name:}\"`. See *[Data-linked elements](#linked-elem-syntax)* for syntax details.\n\n***Note:*** To specify *one-way binding* only, use the full syntax, but *without the final colon*: `data-link=\"{:name}`."
+        "text": "Notice that on the above elements, the `data-link=\"name\"` syntax automatically has <em>two-way data-binding</em>.\n\nThe full syntax for two-way binding is `data-link=\"{:name:}\"`. See *[Data-linked elements](#linked-elem-syntax)* for syntax details.\n\n***Note:*** To specify *one-way binding* only, use the full syntax, but *without the final colon*: `data-link=\"{:name}`.",
+        "anchor": "full-abbrev"
       },
       {
         "_type": "para",
@@ -2290,12 +2420,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<style>.block {display: block; margin-bottom: 10px} .green {color: green;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label class=\"block\">\n  <input data-link=\"gender convert=~toBool convertBack=~toString\" type=\"checkbox\" />\n  Male</label>\n\n  <div class=\"block\" data-link=\"{radiogroup gender}\">\n    <label><input value=\"male\" type=\"radio\" /> Male</label><br/>\n    <label><input value=\"female\" type=\"radio\" /> Female</label>\n  </div>\n\n  <hr/>\n\n  <div class=\"green\">{^{>gender}}</div>\n</script>",
         "code": "var helpers = {\n  toString: function(val) {\n   return val ? 'male' : 'female';\n  },\n  toBool: function(val) {\n    return val === 'male';\n }\n};\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {gender: \"male\"};\n\ntmpl.link(\"#result\", person, helpers);\n",
         "title": "Two-way binding &ndash; using helpers as converters",
-        "height": "130"
+        "height": "120"
       },
       {
         "_type": "para",
         "title": "Converter function signature",
-        "text": "Both the convert and the convertBack converter functions are invoked with the tag instance as `this` pointer -– as described in this JsRender topic: [*Converter function signature*](#convertersapi@signature). So within a converter function you can access this.tagCtx, this.linkCtx, etc. and from there reach many useful properties and objects.",
+        "text": "Both the convert and the convertBack converter functions are invoked with the tag instance as `this` pointer -– as described in this JsRender topic: [*Converter function signature*](#convertersapi@signature). So within a converter function you can access `this.tagCtx`, `this.linkCtx`, etc. and from there reach many useful properties and objects.",
         "anchor": "signature"
       },
       {
@@ -2335,7 +2465,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<script src=\"../download/sample-tag-controls/jsonview/jsonview.js\"></script>\n<link href=\"../download/sample-tag-controls/jsonview/jsonview.css\" rel=\"stylesheet\"></link>\n<style>\n.title {display: inline-block; border:1px solid; padding:5px; margin-bottom: 15px}\nform {border: 1px solid gray; display: inline-block; padding: 5px; margin-bottom: 15px;}\ninput, button, select {margin: 5px;} \n</style>\n\n<div id=\"result\"></div>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n<b>Current settings:</b>\n<span class=\"title\" data-link=\"\n  css-border-color{:current.color}\n  css-color{:current.color}\n  {:current.title}\n\"></span><br/>\n\n<form data-link=\"{on 'submit' apply}\">\n  <em>Modify settings:</em><br/><br/>\n  Color:\n  <select data-link=\"current.color linkTo=modified.color\">\n    <option>red</option>\n    <option>green</option>\n  </select><br/>\n  Name:\n  <input data-link=\"current.title linkTo=modified.title\" />\n  <hr />\n  Modified settings:\n  <span class=\"title\" data-link=\"\n    css-border-color{:modified.color}\n    css-color{:modified.color}\n    {:modified.title}\n  \"></span><br/>\n  <button type=\"submit\">Apply</button>\n  <button data-link=\"{on cancel}\">Cancel</button><br/>\n</form><br/>\n\n<em>Underlying data:</em><br/>{^{jsonview noFunctions=true/}}\n\n</script>",
         "code": "var settings = {\n  current: {title: \"My title\", color:\"green\"},\n  modified: {title: \"My title\", color:\"green\"},\n  apply: function() {\n    $.observable(this.current).setProperty(this.modified);\n    return false;\n  },\n  cancel: function() {\n    $.observable(this.modified).setProperty(this.current);\n    $.observable(this.current).setProperty({title: \"\", color: \"\"});\n    $.observable(this.current).setProperty(this.modified);  }\n}\n\nvar myTmpl = $.templates(\"#myTmpl\");\n\nmyTmpl.link(\"#result\", settings);",
-        "height": "500",
+        "height": "480",
         "title": "linkTo"
       },
       {
@@ -2364,7 +2494,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"{toFull:first last:fromFull}\"/><br/><br/>\n\n  First: <em>{^{>first}}</em><br/>\n  Last: <b>{^{>last}}</b>\n</script>\n\n<div id=\"page\"></div>",
         "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = { first: \"Jo\", last: \"Blow\" };\n\n$.views.converters({\n  toFull: function(first, last) {\n    return first + \" \" + last;\n  },\n  fromFull: function(fullname) {\n    var names = fullname.split(\" \");\n    var last = names.pop();\n    var first = names.join(\" \"); \n    return [first, last]; // Return array for binding back to the two arguments\n  }\n});\n\nmyTmpl.link(\"#page\", data);",
-        "height": "120"
+        "height": "105"
       },
       {
         "_type": "para",
@@ -2393,7 +2523,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "header": "<style>\ninput {width: 300px;}\n[contenteditable] {display: inline-block;}\n.box {display: inline-block; border:1px solid green;}\ninput, [contenteditable] {border: 1px solid #c31f1f;}\ninput, [contenteditable], .box {margin: 0 0 23px 15px; padding: 5px;}\ncode {display: block; margin-bottom: 10px; font-style: italic; }\n</style>",
         "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <code>&lt;input data-link=\"name\"/&gt;:</code>\n  <input data-link=\"name\" class=\"block\"/>\n\n  <code>&lt;div contenteditable=\"true\" data-link=\"{encode:name:unencode}\"&gt;:</code>\n  <div contenteditable=\"true\" data-link=\"{encode:name:unencode}\"></div>\n\n  <code>&lcub;^{>name}&rcub;:</code>\n  <span class=\"box\"> \n    {^{>name}}\n  </span>\n\n  <code>&lcub;^{encode:name}&rcub;:</code>\n  <span class=\"box\">\n    {^{encode:name}}\n  </span>\n\n  <code>&lt;div data-link=\"name\"&gt;:</code>\n  <span class=\"box\">\n    <div data-link=\"name\"></div>\n  </span>\n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {name: 'Jo <img src=\"dangerous\" onerror=\"alert()\"/>'};\n\ntmpl.link(\"#result\", person);\n",
-        "height": "418",
+        "height": "408",
         "nocss": false,
         "action": "append"
       }
@@ -2435,7 +2565,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div class=\"left\">\n  <button id=\"modifyLeaf\">Change leaf values</button>\n  <button id=\"changeManager\">Change manager</button>\n  <div id=\"result\"></div>\n</div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n\n<input data-link=\"manager.address.ZIP\" />\n\n{^{if manager.address.ZIP}}\n  ZIP: {^{>manager.address.ZIP}}\n{{/if}}\n\n<hr/>\n\nManager: {^{if manager === person1}}person1{{else}}person2{{/if}}\n\n</script>",
         "code": "var team = {\n  person1: {\n    address: {\n      City: \"New York\",\n      ZIP: \"10035\"\n    }\n  },\n  person2: {\n    address: {\n      City: \"London\"\n    }\n  }\n};\n\nteam.manager = team.person1;\n\n\n$(\"#modifyLeaf\").on(\"click\", function() {\n  $.observable(team.manager.address).setProperty({\n    \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n  });\n});\n\n$(\"#changeManager\").on(\"click\", function() {\n  $.observable(team).setProperty({\n    manager: team.manager === team.person1 ? team.person2 : team.person1\n  });\n});\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", team);",
         "title": "Leaf binding only",
-        "height": "130"
+        "height": "130",
+        "anchor": "sample-leaf"
       },
       {
         "_type": "para",
@@ -2464,7 +2595,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var team = {\n  person1: {\n    address: {\n      City: \"New York\",\n      ZIP: \"10035\"\n    }\n  },\n  person2: {\n    address: {\n      City: \"London\"\n    }\n  }\n};\n\nteam.manager = team.person1;\n\n\n$(\"#modifyLeaf\").on(\"click\", function() {\n  $.observable(team.manager.address).setProperty({\n    \"ZIP\": team.manager.address.ZIP === \"45008\" ? \"\" : \"45008\"\n  });\n});\n\n$(\"#changeManager\").on(\"click\", function() {\n  $.observable(team).setProperty({\n    manager: team.manager === team.person1 ? team.person2 : team.person1\n  });\n});\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", team);",
         "title": "Data-linking to deep changes",
         "height": "130",
-        "anchor": ""
+        "anchor": "sample-deep"
       },
       {
         "_type": "para",
@@ -2493,7 +2624,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var person1 = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\",\n    ZIP: \"34009\"\n  }\n};\n\nvar person2 = {\n  name: \"Henry\",\n  address: {\n    street: \"Trinity St\"\n  }\n};\n\nvar data = {\n  manager: person1\n};\n\n$(\"#modifyLeaf\").on(\"click\", function() {\n  $.observable(data.manager).setProperty({\n    name: \"Hermione\",\n    \"address.street\": \"Main St\",\n    \"address.ZIP\": \"45008\"\n  });\n});\n\n$(\"#changeAddress\").on(\"click\", function() {\n  $.observable(data.manager).setProperty(\n    \"address\", \n    {\n      street: \"New Street\",\n      ZIP: \"99999\"\n    }\n  );\n});\n\n$(\"#UKAddress\").on(\"click\", function() {\n  $.observable(data.manager).setProperty(\n    \"address\", \n    {\n      street: \"St James St\"\n    }\n  );\n});\n\n$(\"#changeManager\").on(\"click\", function() {\n  $.observable(data).setProperty({\n    manager: data.manager === person1 ? person2 : person1\n  });\n});\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", data);",
         "height": "180",
         "title": "Data-linking to deep changes (three levels)",
-        "anchor": "deep3levels"
+        "anchor": "sample-deep3levels"
       },
       {
         "_type": "para",
@@ -2848,7 +2979,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Radio buttons &ndash; dynamic array including id (value)",
-        "text": "Here we allow the user also to change the `id` value (used as key) -- which requires the more advanced data-link syntax: [`value^{:id}`](#linked-elem-syntax@no-initial-render) to update the `value` of the `<input>`s when the `id` changes.\n\nWe provide two radio button groups -- showing the alternative syntax styles -- data-linking through a `{{radiogroup}}` wrapper tag, or data-linking directly to the `<input>`s. Since both groups data-link to the same `selectedCar` property, the two-way binding keeps them in sync.",
+        "text": "Here we allow the user also to change the `id` value (used as key) -- which requires the more advanced data-link syntax: `value^{:id}` (see [*syntax for updating only*](#linked-elem-syntax@no-initial-render)) to update the `value` of the `<input>`s when the `id` changes.\n\nWe provide two radio button groups -- showing the alternative syntax styles -- data-linking through a `{{radiogroup}}` wrapper tag, or data-linking directly to the `<input>`s. Since both groups data-link to the same `selectedCar` property, the two-way binding keeps them in sync.",
         "anchor": "radioeditid"
       },
       {
@@ -2866,7 +2997,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Two radio button groups:<br/>-- with `{{radiogroup}}`:</div>*\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  {^{for cars}}\n    <label><input type=\"radio\" data-link=\"value{:id}\"/> {^{:name}}</label>\n  {{/for}}\n{{/radiogroup}}\n```\n\n*<div class=\"close\">-- and with direct data-linking to the `<input>`s:</div>*\n\n```jsr\n<label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/> None</label>\n{^{for cars}}\n  <label><input name=\"cars\" type=\"radio\"\n    value=\"{{:id}}\" data-link=\"{:~root.selectedCar:} value^{:id}\"\n  /> {^{:name}}</label>\n{{/for}}\n```\n\nSince the `id` is also editable, we are data-linking to `id`: `data-link=\"value{:id}\"`. \n\nFor the second style (data-linking directly to the `<input>`) we need to ensure that the `value` is initialized during rendering, using `value=\"{{:id}}\"` (to ensure correct initial selection of the *Ford* radio button -- based on the initial value `\"frd\"` of `selectedCar`) -- in addition to binding to subsequent changes in `id` using `value^{:id}`."
+            "text": "*<div class=\"close\">Two radio button groups:<br/>-- with `{{radiogroup}}`:</div>*\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  {^{for cars}}\n    <label><input type=\"radio\" data-link=\"value{:id}\"/> {^{:name}}</label>\n  {{/for}}\n{{/radiogroup}}\n```\n\n*<div class=\"close\">-- and with direct data-linking to the `<input>`s:</div>*\n\n```jsr\n<label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/> None</label>\n{^{for cars}}\n  <label><input name=\"cars\" type=\"radio\"\n    value=\"{{:id}}\" data-link=\"{:~root.selectedCar:} value^{:id}\"\n  /> {^{:name}}</label>\n{{/for}}\n```\n\nSince the `id` is also editable, we are data-linking to `id`: `data-link=\"value{:id}\"`. \n\nFor the second style (data-linking directly to the `<input>`) we need to ensure that the `value` is initialized during rendering, using `value=\"{{:id}}\"` (to ensure correct initial selection of the *Ford* radio button -- based on the initial value `\"frd\"` of `selectedCar`) -- in addition to binding to subsequent changes in `id` using [`value^{:id}`](#linked-elem-syntax@no-initial-render)."
           }
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on add}\">Add car</button>\n  <table>\n    <tbody>\n      {^{for cars}}\n        <tr>\n          <td><input data-link=\"name\"/></td>\n          <td><input data-link=\"id\"/></td>\n          <td><span class=\"remove\" data-link=\"{on ~root.remove #index}\"></span></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table><br/>\n\n  <label><input type=\"checkbox\" data-link=\"disable\"/> Disable radio buttons</label><br/><br/>\n\n  {^{radiogroup selectedCar disabled=disable}}\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    {^{for cars}}\n      <label><input type=\"radio\" data-link=\"value{:id}\"/> {^{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}<br/>\n \n  <label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/> None</label><br/>\n  {^{for cars}}\n    <label><input name=\"cars\" type=\"radio\"\n      value=\"{{:id}}\" data-link=\"{:~root.selectedCar:} value^{:id} disabled{:~root.disable}\"\n    /> {^{:name}}</label><br/>\n  {{/for}}\n\n  <div class=\"spanbox\" data-link=\"selectedCar||'none'\"></div>\n</script>",
@@ -3289,7 +3420,9 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"topLevel\">\n\n  <br/>\n\n  <div data-link=\"\n    {slider age _max=99 width='50%'}\n\n    css-background{if age < 15 tmpl='green'}\n    {else age > 65 tmpl='red'}\n    {else tmpl='blue'}\n  \"></div>\n\n  <br/>\n\n  <label>Age:</label>\n  <span data-link=\"{ageCat:age}\"></span>\n\n</div>\n",
         "code": "var person = {age: 23};\n\n$.views.converters(\"ageCat\", function(val) {\n  var category;\n  if (val < 15) {\n     category = \"Child\";\n  } else if (val > 65) {\n     category = \"Senior\";\n  } else {\n     category = \"Adult\";\n  }\n  return val + \" (\" + category + \")\";\n})\n\n$.link(true, \"#topLevel\", person);",
         "jsrJsvJqui": "jqui",
-        "height": "90"
+        "height": "90",
+        "title": "tag binding examples",
+        "anchor": "bindings-sample"
       },
       {
         "_type": "para",
@@ -3314,10 +3447,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "Tag syntax within a template:\n\n```jsr\n{^{on increaseAge}}Increase Age{{/on}}\n{^{for phones}}\n  <div>{^{if cell}}Home{{else}}Cell{{/if}}...</div>\n{{/for}}\n{^{slider age/}}\n...\n({^{if ...}}...{{else ...}}...{{else}}...{{/if}})\n{^{summary/}}\n```\n\nData-linked element syntax (tag bindings) either within a template or on top-level elements:\n\n```jsr\n<button data-link=\"{on increaseAge}\">Increase Age</button>\n<div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n<div data-link=\"{slider age}\"></div>\n...\n<span data-link=\"{if ...}{else ...}{else ...}\"></span>\n<div data-link=\"{summary}\"></div>\n```\n\nCode to set up data-linking:\n\n```js\ntmpl.link(\"#result\", person); // Data-linked template\n\n$.link(true, \"#topLevel\", person); // Data-linked top-level elements\n```\n"
           }
         ],
-        "html": "<style>\n  button {margin-bottom: 12px;}\n  .ui-slider {margin: 16px 0;}\n  .summary {margin: 8px 0 18px 0}\n</style>\n\n<script id=\"phonesTmpl\" type=\"text/x-jsrender\">\n  <div>\n    <span data-link=\"\n      {if cell tmpl='Home'}\n      {else tmpl='Cell'}\n    \"></span>:\n    <span data-link=\"number\"></span>\n  </div>\n</script>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n\n<h3>(Tags in template)</h3>\n\n{^{on increaseAge}}Increase Age{{/on}}\n{^{for phones}}<div>\n  {^{if cell}}Home{{else}}Cell{{/if}}: {{:number}}</div>\n{{/for}}\n{^{slider age _max=99 width=\"50%\"/}}\n<label>Age:</label>\n{^{>age}}\n({^{if 15>age}}Child{{else age>65}}Senior{{else}}Adult{{/if}})\n{^{summary/}}\n\n<hr/>\n<h3>(Data-linked elements in template)</h3>\n\n<div>\n  <button data-link=\"{on increaseAge}\">Increase Age</button>\n  <div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n  <div data-link=\"{slider age _max=99 width='50%'}\"></div>\n  <label>Age:</label>\n  <span data-link=\"age\"></span>\n  (<span data-link=\"\n    {if 15>age tmpl='Child'}\n    {else age>65 tmpl='Senior'}\n    {else tmpl='Adult'}\n  \"></span>)\n  <div data-link=\"{summary}\"></div>\n</div>\n</script>\n\n<h3>(Top-level data-linked elements)</h3>\n\n<div id=\"topLevel\">\n  <button data-link=\"{on increaseAge}\">Increase Age</button>\n  <div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n  <div data-link=\"{slider age _max=99 width='50%'}\"></div>\n  <label>Age:</label>\n  <span data-link=\"age\"></span>\n (<span data-link=\"\n    {if 15>age tmpl='Child'}\n    {else age>65 tmpl='Senior'}\n    {else tmpl='Adult'}\n  \"></span>)\n  <div data-link=\"{summary}\"></div>\n</div>\n <hr/>\n\n<div id=\"result\"></div>",
+        "html": "<style>\n  button {margin-bottom: 12px;}\n  .ui-slider {margin: 16px 0;}\n  .summary {margin: 8px 0 18px 0}\n</style>\n\n<script id=\"phonesTmpl\" type=\"text/x-jsrender\">\n  <div>\n    <span data-link=\"\n      {if cell tmpl='Home'}\n      {else tmpl='Cell'}\n    \"></span>:\n    <span data-link=\"number\"></span>\n  </div>\n</script>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n\n<h3>(Tags in template)</h3>\n\n{^{on increaseAge}}Increase Age{{/on}}\n{^{for phones}}<div>\n  {^{if cell}}Home{{else}}Cell{{/if}}: {{:number}}</div>\n{{/for}}\n{^{slider age _max=99 width=\"50%\"/}}\n<label>Age:</label>\n{^{>age}}\n({^{if 15>age}}Child{{else age>65}}Senior{{else}}Adult{{/if}})\n{^{summary/}}\n\n<hr/>\n\n<h3>(Data-linked elements in template)</h3>\n\n<div>\n  <button data-link=\"{on increaseAge}\">Increase Age</button>\n  <div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n  <div data-link=\"{slider age _max=99 width='50%'}\"></div>\n  <label>Age:</label>\n  <span data-link=\"age\"></span>\n  (<span data-link=\"\n    {if 15>age tmpl='Child'}\n    {else age>65 tmpl='Senior'}\n    {else tmpl='Adult'}\n  \"></span>)\n  <div data-link=\"{summary}\"></div>\n</div>\n</script>\n\n<div id=\"result\"></div>\n\n<hr/>\n\n<h3>(Top-level data-linked elements)</h3>\n\n<div id=\"topLevel\">\n  <button data-link=\"{on increaseAge}\">Increase Age</button>\n  <div data-link=\"{for phones tmpl='#phonesTmpl'}\"></div>\n  <div data-link=\"{slider age _max=99 width='50%'}\"></div>\n  <label>Age:</label>\n  <span data-link=\"age\"></span>\n (<span data-link=\"\n    {if 15>age tmpl='Child'}\n    {else age>65 tmpl='Senior'}\n    {else tmpl='Adult'}\n  \"></span>)\n  <div data-link=\"{summary}\"></div>\n</div>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [\n    {number: \"111 111 1111\"},\n    {number:\"222 222 2222\", cell: true}\n  ],\n  age: 23,\n  increaseAge: function() {\n    $.observable(this).setProperty(\n      \"age\",\n      this.age + 10\n    );\n  }\n};\n\n$.views.tags(\n  \"summary\",\n  \"<div class='summary'>My name is {{>name}}.\"\n  + \"I am <b>{^{:age}}</b> years old.</div>\"\n);\n\ntmpl.link(\"#result\", person);\n$.link(true, \"#topLevel\", person);",
         "jsrJsvJqui": "jqui",
-        "height": "690"
+        "height": "690",
+        "title": "tags in template / tag bindings in template / top-level tag bindings",
+        "anchor": "tag-binding-variants"
       },
       {
         "_type": "para",
@@ -3636,7 +3771,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<button class=\"myButton\">top level</button>\n<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button class=\"myButton\">in template</button>\n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function() {\n    alert(\"do something\");\n  }\n}\n\ntmpl.link(\"#result\", person); // Render and link the template\n\n// Attach handler to buttons (class 'myButton'), whether in top-level or rendered content.\n$(\".myButton\").on(\"click\", helpers.doSomething);\n",
-        "height": "45",
+        "height": "50",
         "title": ""
       },
       {
@@ -3665,7 +3800,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<span id=\"topLinked\">\n  <button data-link=\"{on ~doSomething}\">top level</button>\n</span>\n\n<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on ~doSomething}\">in template</button>\n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function() {\n    alert(\"do something\");\n  }\n}\n\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n\n$.link(true, \"#topLinked\", person, helpers); // Data-link top-level content\n\n",
-        "height": "45"
+        "height": "50"
       },
       {
         "_type": "para",
@@ -3698,12 +3833,12 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~doSomething/}}\n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function() {\n    alert(\"do something\");\n  }\n}\n\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n",
-        "height": "45"
+        "height": "50"
       },
       {
         "_type": "para",
         "title": "Calling a View Model method in the click event",
-        "text": "The most common usage scenario for the `{on}` event binding is to have the click event invoke a *View Model* method -- for example, to provide a button to invoke the `add()` method, as in [this sample](#samples/editable/compiled)."
+        "text": "A common usage scenario for the `{on}` event binding is to have the click event invoke a *View Model* method -- for example, to provide a button to invoke the `add()` method, as in [this sample](#samples/editable/compiled)."
       },
       {
         "_type": "para",
@@ -3713,7 +3848,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Determining the target element",
-        "text": "The `data-link=\"{on ...}\"` binding and the `{^{on ...}}` tag provide alternative (and generally equivalent) ways of attaching handler actions to HTML elements -- differing only in how they determine which element is used:\n\n- With `data-link`, the element is the data-linked element\n  ```jsr\n  <button data-link=\"{on ~doSomething}\">\n    Click me\n  </button>\n  ```\n- With `{^{on ...}}` the element is the element (or elements) wrapped by the tag\n  ```jsr\n  {^{on ~doSomething}}\n    <button>\n      Click me\n    </button>\n  {{/on}}\n  ```\n\nThe HTML element above can of course be *any* HTML element -- not necessarily `<button>`. But in the particular case of an `{^{on}}` tag wrapping a `<button>`, a simpler format is available -- since the `{^{on}}` tag wrapping only text will automatically render itself as a `<button>`:"
+        "text": "The `data-link=\"{on ...}\"` binding and the `{^{on ...}}` tag provide alternative (and generally equivalent) ways of attaching handler actions to HTML elements -- differing only in how they determine which element is used:\n\n- With `data-link`, the element is the data-linked element\n  ```jsr\n  <button data-link=\"{on ~doSomething}\">\n    Click me\n  </button>\n  ```\n- With `{^{on ...}}` the element is the element (or elements) wrapped by the tag\n  ```jsr\n  {^{on ~doSomething}}\n    <button>\n      Click me\n    </button>\n  {{/on}}\n  ```\n\nThe HTML element above can of course be *any* HTML element -- not necessarily `<button>`. But in the particular case of an `{^{on}}` tag wrapping a `<button>`, a simpler format is available -- since the `{^{on}}` tag wrapping only text will automatically render itself as a `<button>`:",
+        "anchor": "target"
       },
       {
         "_type": "para",
@@ -3741,7 +3877,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<style>\n  .red {color: red;}\n</style>\n\n<span id=\"result\"></span>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on ~doSomething}\" id=\"btn0\">Click me</button>\n\n  {^{on ~doSomething}}<button id=\"btn1\">Click me</button>{{/on}}\n\n  {^{on ~doSomething}}Click me{{/on}}\n\n  {^{on ~doSomething tmpl=\"Click me\" /}}\n\n  {^{on ~doSomething /}}\n\n  {^{on ~doSomething height=18 width=75 class=\"red\" id=\"btn5\"}}Click me{{/on}}\n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function(ev) {\n    alert(\"do something. id: \" + ev.target.id);\n  }\n}\n\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n",
-        "height": "45"
+        "height": "50"
       },
       {
         "_type": "para",
@@ -3806,7 +3942,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Attaching handlers to specific elements within nested content &ndash; the selector argument",
-        "text": "If the `{on}` binding is on an element or tag with nested element content, then an additional optional `selector` argument can be passed (after the `eventName` argument and before the `handlerFn` argument).\n\nAs a result the event handler will be attached to the element(s) targeted by the `selector`. (This is equivalent to the jQuery *'delegated events'* pattern).\n\nHere is an example where only the `<li>`s of class `active` have click handlers attached:"
+        "text": "If the `{on}` binding is on an element or tag with nested element content, then an additional optional `selector` argument can be passed (after the `eventName` argument and before the `handlerFn` argument).\n\nAs a result the event handler will be attached to the element(s) targeted by the `selector`. (This is equivalent to the jQuery *'delegated events'* pattern).\n\nHere is an example where only the `<li>`s of class `active` have click handlers attached:",
+        "anchor": "selector"
       },
       {
         "_type": "sample",
@@ -3833,7 +3970,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Multiple {on} bindings on the same element",
-        "text": "It is possible to have multiple `{on}` bindings on the same element -- which might use different `selector`, `eventName` or `handler` arguments. The following sample has an outer `<div>` element with three `{on}` bindings -- each attaching a different handler to different elements in the nested content  (specified by different `selector` arguments):\n\n"
+        "text": "It is possible to have multiple `{on}` bindings on the same element -- which might use different `selector`, `eventName` or `handler` arguments. The following sample has an outer `<div>` element with three `{on}` bindings -- each attaching a different handler to different elements in the nested content  (specified by different `selector` arguments):\n\n",
+        "anchor": "multiple"
       },
       {
         "_type": "sample",
@@ -3887,32 +4025,38 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The selector argument can target elements that are added later",
-        "text": "The above two samples illustrate the fact that the 'delegated events' pattern (using a `selector` argument) can target elements which are added later in time -- and were not yet present when the `{on}` binding was created.\n\nIn this case, clicking *add* will add a new `<li>` which can be selected and removed thanks to the already established `{on}` bindings for the *select* and *remove* handler actions."
+        "text": "The above two samples illustrate the fact that the 'delegated events' pattern (using a `selector` argument) can target elements which are added later in time -- and were not yet present when the `{on}` binding was created.\n\nIn this case, clicking *add* will add a new `<li>` which can be selected and removed thanks to the already established `{on}` bindings for the *select* and *remove* handler actions.",
+        "anchor": "late-delegate"
       },
       {
         "_type": "para",
         "title": "Passing parameters",
-        "text": "The `{on}` binding can include parameters to be passed to the handler:\n\n```jsr\n{on ... myHandler param1 param2}\n```\n\nIn the above case the handler should have the signature `function(param1, param2, ev, eventArgs)`"
+        "text": "The `{on}` binding can include parameters to be passed to the handler:\n\n```jsr\n{on ... myHandler param1 param2}\n```\n\nIn the above case the handler should have the signature `function(param1, param2, ev, eventArgs)`",
+        "anchor": "parameters"
       },
       {
         "_type": "para",
         "title": "Setting context",
-        "text": "The `{on}` binding can take an optional `context` property -- used to specify the *this* pointer in the handler. \n\nIf no `context` property is provided then:\n- if the provided handler is a 'property chain', such as `a.b.myHandler`, the context will be the preceding object in the chain -- in this case `a.b`\n- otherwise, it will be the current data context\n\nFor example if the current data context is `team`:\n\n- `{on add}`<br/>-- Here the handler is the `team.add()` method, the `this` pointer is `team`\n- `{on settings.edit}`<br/>-- Here the handler is the `team.settings.edit()` method, the `this` pointer is `team.settings`\n- `{on ~reverse}`<br/>-- Here the handler is the `reverse()` helper method, the `this` pointer is `team`\n- `{on settings.edit context=#data}`<br/>-- Here the handler is the `settings.edit()` method, the `this` pointer is `team`\n- `{on ~reverse context=settings}`<br/>-- Here the handler is the `reverse()` helper method, the `this` pointer is `team.settings`"
+        "text": "The `{on}` binding can take an optional `context` property -- used to specify the *this* pointer in the handler. \n\nIf no `context` property is provided then:\n- if the provided handler is a 'property chain', such as `a.b.myHandler`, the context will be the preceding object in the chain -- in this case `a.b`\n- otherwise, it will be the current data context\n\nFor example if the current data context is `team`:\n\n- `{on add}`<br/>-- Here the handler is the `team.add()` method, the `this` pointer is `team`\n- `{on settings.edit}`<br/>-- Here the handler is the `team.settings.edit()` method, the `this` pointer is `team.settings`\n- `{on ~reverse}`<br/>-- Here the handler is the `reverse()` helper method, the `this` pointer is `team`\n- `{on settings.edit context=#data}`<br/>-- Here the handler is the `settings.edit()` method, the `this` pointer is `team`\n- `{on ~reverse context=settings}`<br/>-- Here the handler is the `reverse()` helper method, the `this` pointer is `team.settings`",
+        "anchor": "context"
       },
       {
         "_type": "para",
         "title": "Passing data",
-        "text": "The `{on}` binding can take an optional `data` property -- used to specify data which will then be passed to the handler as `ev.data`.\n\n \n"
+        "text": "The `{on}` binding can take an optional `data` property -- used to specify data which will then be passed to the handler as `ev.data`.\n\n \n",
+        "anchor": "data"
       },
       {
         "_type": "para",
         "title": "The signature of the event handler function",
-        "text": "If the `{on}` binding is:\n\n```jsr\n{^{on 'click' myHandler param1 param2 data=myData}}\n```\nor\n\n```jsr\ndata-link=\"{on 'click' myHandler param1 param2 data=myData}\"\n```\n\nthen the `myHandler` function should have the signature:\n\n```js\nfunction myHandler(param1, param2, ev, eventArgs) { ... }\n```\n\nwhere `ev` is the *jQuery event object*, with properties that include:\n\n- *target*: the HTML element where the click event occurred\n- *data*: the `myData` data\n\nand `eventArgs` is the *JsViews event object*, with properties:\n\n- *change*: the event: `\"click\"`\n- *linkCtx*: the link context \n- *view*: the view object\n"
+        "text": "If the `{on}` binding is:\n\n```jsr\n{^{on 'click' myHandler param1 param2 data=myData}}\n```\nor\n\n```jsr\ndata-link=\"{on 'click' myHandler param1 param2 data=myData}\"\n```\n\nthen the `myHandler` function should have the signature:\n\n```js\nfunction myHandler(param1, param2, ev, eventArgs) { ... }\n```\n\nwhere `ev` is the *jQuery event object*, with properties that include:\n\n- *target*: the HTML element where the click event occurred\n- *data*: the `myData` data\n\nand `eventArgs` is the *JsViews event object*, with properties:\n\n- *change*: the event: `\"click\"`\n- *linkCtx*: the link context \n- *view*: the view object\n",
+        "anchor": "signature"
       },
       {
         "_type": "para",
         "title": "<b style=\"font-style: normal\">{on} binding &ndash; API summary</b>",
-        "text": "The following is a summary of the arguments and properties which can be provided to the `{on}` binding:"
+        "text": "The following is a summary of the arguments and properties which can be provided to the `{on}` binding:",
+        "anchor": "api"
       },
       {
         "_type": "tag",
@@ -4023,7 +4167,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The <span style='font-style: normal'>jsv-domchange</span> event (advanced)",
-        "text": "An advanced JsViews feature allows you to add an event listener for the `'jsv-domchange'` event, on an element wrapping dynamic content such as a `{^{for someArray}}` block, or an `{^{if someExpression}}` block. \n\nThe event handler will get called whenever the immediate content changes dynamically, as in this example:"
+        "text": "An advanced JsViews feature allows you to add an event listener for the `'jsv-domchange'` event, on an element wrapping dynamic content such as a `{^{for someArray}}` block, or an `{^{if someExpression}}` block. \n\nThe event handler will get called whenever the immediate content changes dynamically, as in this example:",
+        "anchor": "domchange"
       },
       {
         "_type": "sample",
@@ -4071,7 +4216,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The following call:\n\n```js\n$.views.settings.delimiters(\"<%\", \"%>\");\n```\n\nwill change the tag syntax to `<%...%>` for JsRender, and `<^%...%>`) for a data-linked tag in JsViews.\n\nAnd the following:\n```js\n$.views.settings.delimiters(\"<<\", \">>. \"*\");\n```\n\nwill change to  `<<...>>` for a JsRender tag, and `<*<...>>`) for a data-linked tag in JsViews.\n\n(*Note:* `$.views.settings.delimiters(...);` also accepts as parameter an array such as `[\"<%\", %>, \"*\"]` -- as shown in [this sample](#settings/delimiters@tmpl-for-tmpl).)"
+        "text": "The following call:\n\n```js\n$.views.settings.delimiters(\"<%\", \"%>\");\n```\n\nwill change the tag syntax to `<%...%>` for JsRender, and `<^%...%>`) for a data-linked tag in JsViews.\n\nAnd the following:\n```js\n$.views.settings.delimiters(\"<<\", \">>. \"*\");\n```\n\nwill change to  `<<...>>` for a JsRender tag, and `<*<...>>`) for a data-linked tag in JsViews.\n\nThe chosen delimiters must each consist of two non-alphanumeric characters.\n\n(*Note:* `$.views.settings.delimiters(...);` also accepts as parameter an array such as `[\"<%\", %>, \"*\"]` which can be useful for reverting to a previous set of delimiters -- as shown in [this sample](#settings/delimiters@tmpl-for-tmpl).)"
       },
       {
         "_type": "para",
@@ -4157,7 +4302,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "JsViews has the following advanced settings:\n\n- **useViews** -- *default:* `false`\n- **linkAttr** -- *default:* `\"data-link\"`\n- **noValidate** -- *default:* `false` \n\nand also the following 'private' advanced settings:\n\n- **_jsv** -- *default:* `false`\n- **_wm** -- *default:* current 'wrapMap' settings\n- **_fe** -- *default:* current 'form element binding' settings\n\n***useViews*** controls a JsRender performance optimization, while building the *[view hierarchy](#views)*. In very simple templates there will usually not be any need to access the [`view`](#viewobject). JsRender detects these cases, does not create a view, and hence obtains a slight performance gain. By setting `useViews` to `true`, you guarantee that JsRender will *always* create views for template blocks.\n\n***linkAttr*** determines the JsViews data-link attribute. By default it is `data-link`. If there is a conflict where another module also uses the 'data-link' attribute, then you can choose a different attribute for JsViews data-linking. \n\nFor example, if you set `$.views.settings.advanced({linkAttr: \"link\"})`, then you would write `<input link=\"name\"/>` instead of `<input data-link=\"name\" />` for data-linking an `<input/>` to `name`.\n\n***noValidate*** controls whether JsViews runs validation code during data-linking, to raise an error in the case of invalid HTML structure (such as `<div/>` or <`div><span></div>`) or HTML/JsViews tag structure (such as `{^{if...}} <span{{/if}} ... >`). By setting *noValidate* to `true`, JsViews will skip the validation step, with a minor improvement to performance as a result.\n\n***_jsv*** is a 'private' setting (could change in the future). If set to `true` JsRender provides a global `_jsv` variable, which gives access to the internal store of views.\n\n***_wm*** is a 'private' setting (could change in the future). It determines the 'wrapMap' configuration which controls how document fragments are inserted into the DOM during data-linking. (Also used by jQuery DOM manipulation).\n\n***_fe*** is a 'private' setting (could change in the future). If contains the 'form element binding' configuration, which determines the elements (such as `<input/>` or `<textarea>`) which provide two-way data-binding with JsViews -- and specifies the default data-linked attribute, such as `value`.\n\n***To get current advanced settings:***\n\n```js\nvar advancedSettings = $.views.settings.advanced();\n```\n\nBy default the returned `advancedSettings` object is:\n\n```js\n{useViews: false, linkAttr: \"data-link\", noValidate: false, _jsv: false, _wm: ..., _fe: ...}\n```\n\n***To set advanced settings:***\n\n```js\n$.views.settings.advanced({useViews: true});\n// Set one or more advanced settings\n```"
+        "text": "JsViews has the following advanced settings:\n\n- **useViews** -- *default:* `false`\n- **linkAttr** -- *default:* `\"data-link\"`\n- **noValidate** -- *default:* `false` \n\nand also the following 'private' advanced settings:\n\n- **_jsv** -- *default:* `false`\n- **_wm** -- *default:* current 'wrapMap' settings\n- **_fe** -- *default:* current 'form element binding' settings\n\n***useViews*** controls a performance optimization, while building the *[view hierarchy](#views)*. For render-only scenarios with very simple templates there will usually not be any need to access the [`view`](#viewobject). JsRender detects these cases, does not create a `view` object, and hence obtains a slight performance gain. By setting `useViews` to `true`, you guarantee that JsRender will *always* create views for template blocks. (Alternatively, when registering a specific template, you can set `useViews: true` as a template option setting: `$.templates({markup: ..., useViews: true, ...})`).\n\n\n***linkAttr*** determines the JsViews data-link attribute. By default it is `data-link`. If there is a conflict where another module also uses the 'data-link' attribute, then you can choose a different attribute for JsViews data-linking. \n\nFor example, if you set `$.views.settings.advanced({linkAttr: \"link\"})`, then you would write `<input link=\"name\"/>` instead of `<input data-link=\"name\" />` for data-linking an `<input/>` to `name`.\n\n***noValidate*** controls whether JsViews runs validation code during data-linking, to raise an error in the case of invalid HTML structure (such as `<div/>` or <`div><span></div>`) or HTML/JsViews tag structure (such as `{^{if...}} <span{{/if}} ... >`). By setting *noValidate* to `true`, JsViews will skip the validation step, with a minor improvement to performance as a result.\n\n***_jsv*** is a 'private' setting (could change in the future). If set to `true` JsRender provides a global `_jsv` variable, which gives access to the internal stores of views and of data-bindings.\n\n***_wm*** is a 'private' setting (could change in the future). It determines the 'wrapMap' configuration which controls how document fragments are inserted into the DOM during data-linking. (Also used by jQuery DOM manipulation).\n\n***_fe*** is a 'private' setting (could change in the future). If contains the 'form element binding' configuration, which determines the elements (such as `<input/>` or `<textarea>`) which provide two-way data-binding with JsViews -- and specifies the default data-linked attribute, such as `value`.\n\n***To get current advanced settings:***\n\n```js\nvar advancedSettings = $.views.settings.advanced();\n```\n\nBy default the returned `advancedSettings` object is:\n\n```js\n{useViews: false, linkAttr: \"data-link\", noValidate: false, _jsv: false, _wm: ..., _fe: ...}\n```\n\n***To set advanced settings:***\n\n```js\n$.views.settings.advanced({useViews: true});\n// Set one or more advanced settings\n```"
       }
     ]
   },
@@ -4254,7 +4399,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "<b>Example: JsViews with plain objects and arrays</b>",
-        "text": "In this example we add *JsViews* data-binding to the *[plain objects example](#jsrmodel@plain)* taken from the *JsRender Data / View Model* topic."
+        "text": "In this example we add *JsViews* data-binding to the *[plain objects example](#jsrmodel@plain)* taken from the *JsRender Data / View Model* topic.",
+        "anchor": "plain"
       },
       {
         "_type": "code",
@@ -4284,7 +4430,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "var tmpl = $.templates(\"#personTmpl\");\ntmpl.link(\"#result\", person);"
           }
         ],
-        "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label><input type=\"checkbox\" checked id=\"attach\"/> Change Log</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "html": "<link href=\"https://www.jsviews.com/samples/change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label><input type=\"checkbox\" checked id=\"attach\"/> Change Log</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Data: hierarchy of plain objects and arrays\nvar person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n// Render and link template against plain object hierarchy\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: {street: \"New Street\"},\n    phones: [{number: \"123 123 1234\"}, {number: \"321 321 4321\"}]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones).insert({\n    number: \"456 456 4567\"\n  });\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \"\n      + $.views.converters.encode(JSON.stringify(eventArgs[key])) + \"</div>\";\n      // (Note that we encode < > and & as HTML entities, for display)\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "title": "Render and link template directly against plain objects..."
@@ -4355,7 +4501,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "by directly changing data:\n\n```js\n$(\"#changeObjects\").on(\"click\", function() { // Use setProperty to make changes\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: new Address(\"New Street\"),\n    phones: [new Phone(\"123 123 1234\"), new Phone(\"321 321 4321\")]\n  });\n});\n```\n\nor by using setters:\n\n```js\n$(\"#setObjects\").on(\"click\", function() {    // Use setters to make changes\n  person.name(\"setPete\");\n  person.address(new Address(\"Set Road\"));\n  person.phones([new Phone(\"987 987 9876\")]);\n});\n```"
           }
         ],
-        "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n<script src=\"mvvm/person-view-models-jsv.js\" ></script>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button>\n  <button id=\"setObjects\">Call setters</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <input type=\"checkbox\" checked id=\"attach\"/>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "html": "<link href=\"https://www.jsviews.com/samples/change-log.css\" rel=\"stylesheet\"/>\n<script src=\"mvvm/person-view-models-jsv.js\" ></script>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button>\n  <button id=\"setObjects\">Call setters</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:\n  <input type=\"checkbox\" checked id=\"attach\"/></label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Instantiate View Model hierarchy\nvar person = new Person(\n  \"Pete\",\n  new Address(\"1st Ave\"),\n  [new Phone(\"111 111 1111\"), new Phone(\"222 222 2222\")]\n);\n\n// Render and link the template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() { // Use setProperty to make changes\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: new Address(\"New Street\"),\n    phones: [new Phone(\"123 123 1234\"), new Phone(\"321 321 4321\")]\n  });\n});\n\n$(\"#setObjects\").on(\"click\", function() {    // Use setters to make changes\n  person.name(\"setPete\");\n  person.address(new Address(\"Set Road\"));\n  person.phones([new Phone(\"987 987 9876\")]);\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones()).insert(new Phone(\"456 456 4567\"));\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \"\n      + $.views.converters.encode(JSON.stringify(eventArgs[key])) + \"</div>\";\n      // (Note that we encode < > and & as HTML entities, for display)\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "title": "Render and link template against a 'hand-coded' View Model object hierarchy",
@@ -4395,7 +4541,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "by directly changing data:\n\n```js\n$(\"#changeObjects\").on(\"click\", function() { // Use setProperty to make changes\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: Address(\"New Street\"),\n    phones: [Phone(\"123 123 1234\"), Phone(\"321 321 4321\")]\n  });\n});\n```\n\nor by using setters:\n\n```js\n$(\"#setObjects\").on(\"click\", function() {    // Use setters to make changes\n  person.name(\"setPete\");\n  person.address(Address(\"Set Road\"));\n  person.phones([Phone(\"987 987 9876\")]);\n});\n```"
           }
         ],
-        "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button>\n  <button id=\"setObjects\">Call setters</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <input type=\"checkbox\" checked id=\"attach\"/>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "html": "<link href=\"https://www.jsviews.com/samples/change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button>\n  <button id=\"setObjects\">Call setters</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:\n  <input type=\"checkbox\" checked id=\"attach\"/></label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  this.phones().push(Phone(phoneNo));\n}\n\n// Compile Person View Model, with addPhone method\nvar Person = $.views.viewModels({\n  getters: [\"name\", \"address\", \"phones\"],\n  extend: {addPhone: addPhone}\n});\n\n// Compile Address View Model\nvar Address = $.views.viewModels({getters: [\"street\"]});\n\n// Compile Phone View Model\nvar Phone = $.views.viewModels({getters: [\"number\"]});\n\n// Instantiate View Model hierarchy using constructors\nvar person = Person(\n  \"Pete\",\n  Address(\"1st Ave\"),\n  [Phone(\"111 111 1111\"), Phone(\"222 222 2222\")]\n);\n\n// Render and link the template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() { // Use setProperty to make changes\n  $.observable(person).setProperty({\n    name: \"newName\",\n    address: Address(\"New Street\"),\n    phones: [Phone(\"123 123 1234\"), Phone(\"321 321 4321\")]\n  });\n});\n\n$(\"#setObjects\").on(\"click\", function() {    // Use setters to make changes\n  person.name(\"setPete\");\n  person.address(Address(\"Set Road\"));\n  person.phones([Phone(\"987 987 9876\")]);\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones()).insert(Phone(\"456 456 4567\"));\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \"\n      + $.views.converters.encode(JSON.stringify(eventArgs[key])) + \"</div>\";\n      // (Note that we encode < > and & as HTML entities, for display)\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "anchor": "compilevmsample",
@@ -4409,17 +4555,20 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "<b>Using observe and observeAll APIs with View Model hierarchies</b>",
-        "text": " "
+        "text": " ",
+        "anchor": "observeapis"
       },
       {
         "_type": "para",
         "title": "observeAll()",
-        "text": "The <em>Change Log</em> feature above is showing us ALL the changes to *View Model* instances, even as we structurally modify the tree by adding and removing objects from arrays, setting structured values to properties, etc.\n\nThis is achieved with exactly the same call to `observeAll`/`unobserveAll` that we used above for plain objects:\n\n```js\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n```"
+        "text": "The <em>Change Log</em> feature above is showing us ALL the changes to *View Model* instances, even as we structurally modify the tree by adding and removing objects from arrays, setting structured values to properties, etc.\n\nThis is achieved with exactly the same call to `observeAll`/`unobserveAll` that we used above for plain objects:\n\n```js\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n```",
+        "anchor": "observeall"
       },
       {
         "_type": "para",
         "title": "$.observe()",
-        "text": "Similarly you can use the `observe()` APIs to observe specific properties of *View Model* objects.\n\n```js\n// Observe changes to name, address and phones properties of <em>person</em> object\n$.observe(person, \"name\", \"phones\", \"address\",changeHandler); \n\n// Observe array changes <em>person.phones()</em>\n$.observe(person.phones(), changeHandler);\n\n// Observe changes to street property of <em>person.address()</em> object.\n$.observe(person.address(), \"street\", changeHandler);\n```\n\nor equivalently:\n\n```js\n$.observe(person, \"name\", \"phones\", \"address\",\n    person.phones(), person.address(), \"street\", changeHandler);\n```\n\nHere it is in a sample:"
+        "text": "Similarly you can use the `observe()` APIs to observe specific properties of *View Model* objects.\n\n```js\n// Observe changes to name, address and phones properties of <em>person</em> object\n$.observe(person, \"name\", \"phones\", \"address\",changeHandler); \n\n// Observe array changes <em>person.phones()</em>\n$.observe(person.phones(), changeHandler);\n\n// Observe changes to street property of <em>person.address()</em> object.\n$.observe(person.address(), \"street\", changeHandler);\n```\n\nor equivalently:\n\n```js\n$.observe(person, \"name\", \"phones\", \"address\",\n    person.phones(), person.address(), \"street\", changeHandler);\n```\n\nHere it is in a sample:",
+        "anchor": "observe"
       },
       {
         "_type": "sample",
@@ -4439,7 +4588,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "$.observe(person, \"name\", \"phones\", \"address\",\n    person.phones(), person.address(), \"street\", changeHandler);"
           }
         ],
-        "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button>\n  <button id=\"setObjects\">Call setters</button><br/>\n  <button id=\"swapObjects\">Swap address and phones</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <span class=\"floatleft\">{^{:number()}}</span>\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "html": "<link href=\"https://www.jsviews.com/samples/change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"changeObjects\">Change data</button>\n  <button id=\"setObjects\">Call setters</button><br/>\n  <button id=\"swapObjects\">Swap address and phones</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <span class=\"floatleft\">{^{:number()}}</span>\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "// Compiled template\nvar tmpl = $.templates(\"#personTmpl\");\n\n// Method for Person class\nfunction addPhone(phoneNo) {\n  // Uses Phone() View Model constructor to create Phone instance\n  this.phones().push(Phone(phoneNo));\n}\n\n// Compile Person View Model, with addPhone method\nvar Person = $.views.viewModels({\n  getters: [\"name\", \"address\", \"phones\"],\n  extend: {addPhone: addPhone}\n});\n\n// Compile Address View Model\nvar Address = $.views.viewModels({getters: [\"street\"]});\n\n// Compile Phone View Model\nvar Phone = $.views.viewModels({getters: [\"number\"]});\n\n// Instantiate View Model hierarchy\nvar alt = false,\n  address1 = Address(\"1st Ave\"),\n  phones1 = [Phone(\"111 111 1111\"), Phone(\"222 222 2222\")],\n  address2 = Address(\"New Street\"),\n  phones2 = [Phone(\"123 123 1234\")],\n  person = Person(\"Pete\", address1, phones1);\n\n// Render and link the template against person object (instance of Person)\ntmpl.link(\"#result\", person);\n\n// Observe specific properties on specific objects\n$.observe(person, \"name\", \"phones\", \"address\", person.phones(), person.address(), \"street\", changeHandler);\n\n// Button event handlers for changes\n$(\"#changeObjects\").on(\"click\", function() { // Modify leaf values by observable changes of data\n  $.observable(person).setProperty(\"name\", person.name() + \"+\");\n  $.observable(person.address()).setProperty(\"street\", person.address().street() + \"+\");\n});\n\n$(\"#setObjects\").on(\"click\", function() { // Modify leaf values by calling setters\n  person.name(person.name() + \"*\");\n  person.address().street(person.address().street() + \"*\");\n});\n\n$(\"#swapObjects\").on(\"click\", function() {\n  // Swap the objects (optionally, remove our specific observers)\n  $.unobserve(person.address(), \"street\", changeHandler);\n  $.unobserve(person.phones(), changeHandler);\n\n  person.address(alt ? address1 : address2);\n  person.phones(alt ? phones1 : phones2);\n\n  // observe new objects object on specific paths (if not already observing)\n  $.observe(person.address(), \"street\", changeHandler);\n  $.observe(person.phones(), changeHandler);\n\n  alt = !alt;\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones()).insert(new Phone(\"456 456 4567\"));\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \"\n      + $.views.converters.encode(JSON.stringify(eventArgs[key])) + \"</div>\";\n      // (Note that we encode < > and & as HTML entities, for display)\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "title": "Using $.observe() to observe View Model objects"
@@ -4447,7 +4596,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Chained paths with plain objects or with View Model objects",
-        "text": "With plain object hierarchies you can use [chained paths](#linked-paths) in both templates, and `observe()` paths:\n\n```jsr\n<input data-link=\"address^street\" />\n```\n\n```js\n$.observe(person, \"address^street\", changeHandler);\n```\n\nBut for *View Model* hierarchies, you can only used chained paths in templates:\n\n```jsr\n<input data-link=\"address()^street()\" />\n```\n\nFor the corresponding `$.observe()` calls you must pass in each *View Model* object and observe its properties, rather than using a chained path. Parens are not supported within `$.observe()` paths.\n\nSo you would write:\n\n```js\n$.observe(person, \"address\", changeHandler);\n$.observe(person.address(), \"street\", changeHandler);\n```\n\nor as a single call:\n\n```js\n$.observe(person, \"address\", person.address(), \"street\", changeHandler);\n```\n"
+        "text": "With plain object hierarchies you can use [chained paths](#linked-paths) in both templates, and `observe()` paths:\n\n```jsr\n<input data-link=\"address^street\" />\n```\n\n```js\n$.observe(person, \"address^street\", changeHandler);\n```\n\nBut for *View Model* hierarchies, you can only used chained paths in templates:\n\n```jsr\n<input data-link=\"address()^street()\" />\n```\n\nFor the corresponding `$.observe()` calls you must pass in each *View Model* object and observe its properties, rather than using a chained path. Parens are not supported within `$.observe()` paths.\n\nSo you would write:\n\n```js\n$.observe(person, \"address\", changeHandler);\n$.observe(person.address(), \"street\", changeHandler);\n```\n\nor as a single call:\n\n```js\n$.observe(person, \"address\", person.address(), \"street\", changeHandler);\n```\n",
+        "anchor": "chain"
       },
       {
         "_type": "links",
@@ -4577,7 +4727,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{on ~doSomething}}Do something{{/on}}\n  <button data-link=\"{on ~doSomething}\">Do something</button>\n  <input type=\"button\" data-link=\"{on ~doSomething}\" value=\"Do something\" />\n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar person = {};\n\nvar helpers = {\n  doSomething: function() {\n    alert(\"do something\");\n  }\n}\n\ntmpl.link(\"#result\", person, helpers); // Render and link the template\n",
-        "height": "45"
+        "height": "50"
       },
       {
         "_type": "para",
@@ -4604,7 +4754,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "code": "var person = {};\n\nvar helpers = {\n  doSomething: function() {\n    alert(\"do something\");\n  }\n}\n\n$.link(true, \"#topLinked\", person, helpers); // Data-link top-level content\n\n",
         "html": "<div id=\"topLinked\">\n  <button data-link=\"{on ~doSomething}\">Do something</button>\n  <input type=\"button\" data-link=\"{on ~doSomething}\" value=\"Do something\" />\n</div>\n",
-        "height": "45"
+        "height": "50"
       },
       {
         "_type": "para",
@@ -4653,7 +4803,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Element attributes &ndash; and corresponding element properties",
-        "text": "For attributes that are part of the HTML schema there is generally a corresponding property on the underlying HTML Element object, and data-linking to the attribute will also drive changes the corresponding property. For example, setting the `title` attribute will also set the underlying `elem.title` property. However, data-linking to an unknown attribute, such as `foo{:...}` will add a `foo=\"...\"` attribute, but will not set an `elem.foo` property.\n\n\n"
+        "text": "For attributes that are part of the HTML schema there is generally a corresponding property on the underlying HTML Element object, and data-linking to the attribute will also drive changes the corresponding property. For example, setting the `title` attribute will also set the underlying `elem.title` property. However, data-linking to an unknown attribute, such as `foo{:...}` will add a `foo=\"...\"` attribute, but will not set an `elem.foo` property.\n\n\n",
+        "anchor": "elemattribs"
       },
       {
         "_type": "para",
@@ -4753,7 +4904,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Using merge() and unmap() for Save/Undo behavior, in an MVVM application",
-        "text": "MVVM (*Model/View/View-Model*) applications (including single page apps -- SPAs) generally work with data on the server, considered as the *Model*, and client data, in the browser -- which is a hierarchy of *View Models*. Client *View Models* are initialized from the server *Model*. \n\nThe user may be able to interact with *Views* in the browser, and drive changes to the *View Model*. There will then typically be a process of saving data (from the modified *View Model* in the browser) back to the server, to update the *Model*.\n\nThe following sample (available also at [samples/editable/submit](#samples/editable/submit)) illustrates this, and provides a *Submit Changes* button (which makes a 'snapshot' of current *View Model* data, and which would in a 'real app' save that data back to the server), and an *Undo* button (which reverts current *View Model* data back to the last 'snapshot').\n\nSpecifically:\n\n- *Submit Changes* is bound to the submit action of an HTML form -- so will be triggered also by *Enter*\n- It uses the *compiled View Model* [`unmap()`](#viewmodelsapi@unmap) feature to make a `snapshot` of data for sending to the server\n- *Undo* uses the *compiled View Model* [`merge()`](#viewmodelsapi@merge) feature to revert changes\n"
+        "text": "MVVM (*Model/View/View-Model*) applications (including single page apps -- SPAs) generally work with data on the server, considered as the *Model*, and client data, in the browser -- which is a hierarchy of *View Models*. Client *View Models* are initialized from the server *Model*. \n\nThe user may be able to interact with *Views* in the browser, and drive changes to the *View Model*. There will then typically be a process of saving data (from the modified *View Model* in the browser) back to the server, to update the *Model*.\n\nThe following sample (available also at [samples/editable/submit](#samples/editable/submit)) illustrates this, and provides a *Submit Changes* button (which makes a 'snapshot' of current *View Model* data, and which would in a 'real app' save that data back to the server), and an *Undo* button (which reverts current *View Model* data back to the last 'snapshot').\n\nSpecifically:\n\n- *Submit Changes* is bound to the submit action of an HTML form -- so will be triggered also by *Enter*\n- It uses the *compiled View Model* [`unmap()`](#viewmodelsapi@unmap) feature to make a `snapshot` of data for sending to the server\n- *Undo* uses the *compiled View Model* [`merge()`](#viewmodelsapi@merge) feature to revert changes\n",
+        "anchor": "save-undo-compiled"
       },
       {
         "_type": "sample",
@@ -4774,14 +4926,15 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "url": "samples/editable-data/submit/sample",
-        "anchor": "",
+        "anchor": "sample-save-undo-compiled",
         "height": "320",
         "title": "MVVM Save/Undo, using compiled View Models "
       },
       {
         "_type": "para",
         "title": "Save/Undo behavior in an MVVM application using plain objects",
-        "text": "The above scenario of *Save/Undo* making a snapshot of current *View Model* data, and binding to the submit action, can be achieved with either *compiled View Models* or with plain object hierarchies. But it is easier to achieve with *compiled View Models*.\n\nBy way of comparison, here is the corresponding sample using plain objects:"
+        "text": "The above scenario of *Save/Undo* making a snapshot of current *View Model* data, and binding to the submit action, can be achieved with either *compiled View Models* or with plain object hierarchies. But it is easier to achieve with *compiled View Models*.\n\nBy way of comparison, here is the corresponding sample using plain objects:",
+        "anchor": "save-undo-plain"
       },
       {
         "_type": "sample",
@@ -4802,7 +4955,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "url": "",
-        "anchor": "",
+        "anchor": "sample-save-undo-plain",
         "height": "320",
         "html": "<link href=\"editable-data/sample.css\" rel=\"stylesheet\"/>\n\n<!----------------- Data-linked content -------------------> \n<div class=\"linkedContent\">\n  <div class=\"buttons\">\n    <button data-link=\"{on ~showData}\">show data</button>\n    <button data-link=\"{on ~deleteLast}\">delete last language</button>\n    <button data-link=\"{on ~undo} disabled{:msg !== ''}\">Undo</button>\n  </div>\n\n  <form data-link=\"{on 'submit' ~saveData}\">\n    <button class=\"buttons\" type=\"submit\"\n     data-link=\"disabled{:msg !== ''}\">Submit Changes</button>\n\n    <div class=\"comment\">Click to select and edit</div>\n    <table data-link=\"\n      {on 'click' '.addMovie' ~addMovie}\n      {on 'click' '.movies tr' ~select}\n      {on 'click' '.removeMovie' ~removeMovie}\n    \">\n      <thead><tr>\n        <th>Title</th><th>Languages</th>\n        <th><span class=\"addMovie\">Add</span></th>\n      </tr></thead>\n      <tbody class=\"movies\"\n        data-link=\"{for movies tmpl='#movieTemplate'}\"></tbody>\n    </table>\n\n    <div class=\"detail\"\n      data-link=\"{for movies[selectedIndex] tmpl='#detailTemplate'}\n        {on 'click' '.addLanguage' ~addLanguage}\n        {on 'click' '.removeLanguage' ~removeLanguage}\n    \"></div>\n  </form>\n\n  <div class=\"message\" data-link=\"msg\"></div>\n</div>\n\n<!----------------- Templates ------------------->\n<script id=\"movieTemplate\" type=\"text/x-jsrender\">\n  <tr class=\"hover\" data-link=\"css-background-color{:~bgColor(#index)}\">\n    <td>\n      <span data-link=\"#index + 1\"></span>:\n      <span data-link=\"title\"></span>\n    </td>\n    <td>\n      {^{for languages}}\n        <div data-link=\"name\"></div>\n      {{/for}}\n    </td>\n    <td><span class=\"removeMovie\"></span></td>\n  </tr>\n</script>\n\n<script id=\"detailTemplate\" type=\"text/x-jsrender\">\n  <div>\n    <div class=\"title\">Title:</div>\n    <div><input data-link=\"title\" /></div>\n    <div class=\"title\">\n      Languages: <span class=\"addLanguage\">Add</span>\n    </div>\n    {^{for languages ~movie=#data}}\n      <input data-link=\"name\" />\n      <span class=\"removeLanguage\"\"></span>\n    {{/for}}\n  </div>\n</script>\n\n<!----------------- Show data ------------------->\n<script id=\"showData\" type=\"text/x-jsrender\">\n  <hr/>\n  {{for movies}}<div>\n    <b>Movie:</b> {{>title}}\n    <b>Languages:</b> {{for languages}} {{>name}}{{/for}}\n  </div>{{/for}}\n</script>\n\n<div id=\"console\"></div>",
         "code": "var VMs = $.views.viewModels,\n  counter = 0,\n\n  // Initial data\n  app = {\n    msg: null,\n    selectedIndex: null,\n    movies: [\n      {\n        title:\"Meet Joe Black\",\n        languages: [\n          {name: \"English\"},\n          {name: \"French\"}\n        ]\n      },\n      {\n        title:\"Eyes Wide Shut\",\n        languages: [\n          {name: \"German\"},\n          {name: \"French\"},\n          {name: \"Spanish\"}\n        ]\n      }\n    ],\n    select: function(index) {\n      if (this.selectedIndex !== index) {\n        $.observable(this)\n          .setProperty(\"selectedIndex\", index);\n      }\n    },\n    showMsg: function(msg) {\n      $.observable(this).setProperty(\"msg\", msg);\n    }\n  },\n\n  savedData = JSON.stringify(app.movies),\n\n  handlers = {\n    undo: function() {\n      // Revert to previous savedData\n      $.observable(this.movies).refresh(JSON.parse(savedData));\n      $.observable(this).removeProperty(\"selectedIndex\");\n    },\n    saveData: function() {\n      // Make new savedData snapshot\n      savedData = JSON.stringify(this.movies);\n\n      // In real app, uncomment to save current data to the server:\n      // $.post(\"/save/data\", {movieData : savedData}, function(msg) {\n        var msg = \"In a real app, updated data would have been saved to server\";\n        this.showMsg(msg); // Display message\n      //});\n      return false; // Do not do default form action for submit\n    },\n    addMovie: function() {\n      $.observable(this.movies).insert({\n        title: \"NewTitle\" + counter ,\n        languages: [\n          {name: \"NewLanguage\" + counter++}\n        ]}\n      );\n      // Set selection on the added item\n      this.select($.view(\".movies tr:last\").index);\n    },\n    removeMovie: function(ev, evtArgs) {\n      this.select(); // unselect\n      var thisIndex = $.view(ev.target).index;\n      $.observable(this.movies).remove(thisIndex);\n      return false;\n    },\n    addLanguage: function(ev, evtArgs) {\n      var selectedMovie = this.movies[this.selectedIndex];\n      $.observable(selectedMovie.languages).insert({\n        name: \"NewLanguage\" + counter++\n      });\n    },\n    removeLanguage: function(ev, evtArgs) {\n      var selectedMovie = this.movies[this.selectedIndex];\n      var thisIndex = $.view(ev.currentTarget).index;\n      $.observable(selectedMovie.languages).remove(thisIndex);\n      return false;\n    },\n    select: function(ev, evtArgs) {\n      this.select($.view(ev.currentTarget).index);\n    },\n    deleteLast: function() {\n      if (this.movies.length) {\n        var languages = this.movies[this.movies.length - 1].languages;\n        $.observable(languages).remove();\n      }\n    },\n    showData: function() {\n      $(\"#console\").append($(\"#showData\").render(this));\n    },\n    bgColor: bgColor\n  };\n\n// Background color helper function\nfunction bgColor() {\n  return app.selectedIndex === this.index\n    ? \"yellow\"\n    : (this.index%2 ? \"#fdfdfe\" : \"#efeff2\");\n}\n\nbgColor.depends = [\"#index\", app, \"selectedIndex\"];\n\n$.observable(app.movies).observeAll(function() {\n  app.showMsg(\"\"); \n// If there have been any changes made to the movies data we clear\n// the Saved... message and this also drives the Save button\n// disabled property and the \"navigate away\" behavior.\n});\n\n// \"Navigate away\" behavior\n$(window).on('beforeunload', function(){\n  return app.msg === \"\" ? \"You have unsaved changes.\" : undefined;\n});\n\n$.link(true, \".linkedContent\", app, handlers);",
@@ -4981,7 +5134,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "This sample illustrates two-way data-linking of *get/set* properties on compiled *View Models*, by replacing the data-linked tags of the previous sample, such as: \n\n```jsr\n{^{:name()}}\n```\n\nwith data-linked input elements:\n\n```jsr\n<input data-link=\"name()\" />\n```\n\nIt also illustrates using `observeAll` with compiled *View Model* instances -- by including the <em>Change Log</em> idea, copied over from the samples on the <a href=\"#observeAll\">`observeAll`</a>/<a href=\"#unobserveAll\">`unobserveAll`</a> topics."
           }
         ],
-        "html": "<link href=\"change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"update\">Update</button>\n  <button id=\"revert\">Revert</button>\n  <button id=\"getData\">Get Data</button><br/>\n  <button id=\"changeName\">Change name</button>\n  <button id=\"addPhone\">Add Phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label><input type=\"checkbox\" checked id=\"attach\"/> Change Log</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\"/></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\"/></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table></script>",
+        "html": "<link href=\"https://www.jsviews.com/samples/change-log.css\" rel=\"stylesheet\"/>\n\n<div class=\"left\">\n  <button id=\"update\">Update</button>\n  <button id=\"revert\">Revert</button>\n  <button id=\"getData\">Get Data</button><br/>\n  <button id=\"changeName\">Change name</button>\n  <button id=\"addPhone\">Add Phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label><input type=\"checkbox\" checked id=\"attach\"/> Change Log</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name()\"/></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address()^street()\"/></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones()}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number()\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table></script>",
         "code": "var tmpl = $.templates(\"#personTmpl\");\n\n// Compile View Models\n$.views.viewModels({\n  Person: {\n    getters: [\n      \"name\",                               // name is a primitive type (string)\n      {getter: \"address\", type: \"Address\"}, // address is of type Address (View Model)\n      {getter: \"phones\", type: \"Phone\"}     // Each phone is of type Phone (View Model)\n    ],\n    extend: {addPhone: addPhone}\n  },\n  Address: {\n    getters: [\"street\"]\n  },\n  Phone:{\n    getters: [\"number\"]\n  }\n});\n\nvar vmCollection = $.views.viewModels;\n\n// Method for Person class\nfunction addPhone(phoneNo) {                // Uses vmCollection.Phone() to construct new instance\n  $.observable(this.phones()).insert(vmCollection.Phone(phoneNo));\n}\n\n// First version of data (e.g. from JSON request):\nvar personData = {\n  name: \"Pete\",\n  address: {street: \"1st Ave\"},\n  phones: [{number: \"111 111 1111\"}, {number: \"222 222 2222\"}]\n};\n\n// Second version of data (e.g. from JSON request):\nvar personData2 = {\n  name: \"Peter\",\n  address: {street: \"2nd Ave\"},\n  phones: [{number: \"111 111 9999\"},{number: \"333 333 9999\"}]\n};\n\n// Instantiate View Model hierarchy, using map()\nvar person = vmCollection.Person.map(personData);\n\n// Render and link the template against person (Person instance)\ntmpl.link(\"#result\", person);\n\n// Button handlers\n$(\"#update\").on(\"click\", function() {\n  person.merge(personData2);\n});\n\n$(\"#revert\").on(\"click\", function() {\n  person.merge(personData);\n});\n\n$(\"#changeName\").on(\"click\", function() {\n  person.name(\"newName\");\n});\n\n$(\"#addPhone\").on(\"click\", function() {\n  person.addPhone(\"xxx xxx xxxx\");\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones()).remove(\n    $.view(this).index\n  )\n});\n\n$(\"#getData\").on(\"click\", function() {\n  var updatedPersonData = person.unmap();\n  window.alert(JSON.stringify(updatedPersonData));\n});\n\n// Change log code\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \"\n      + $.views.converters.encode(JSON.stringify(eventArgs[key])) + \"</div>\";\n      // (Note that we encode < > and & as HTML entities, for display)\n    }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "400",
         "anchor": "mergesample2",
@@ -5259,7 +5412,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "{^{include ...}} with dynamically changing template",
-        "text": "If `{{include}}` uses `tmpl=expression` to obtain a template from data or from a helper, then the data-linked `{^{include}}` can be used to drive updates when the template changes dynamically:"
+        "text": "If `{{include}}` uses `tmpl=expression` to obtain a template from data or from a helper, then the data-linked `{^{include}}` can be used to drive updates when the template changes dynamically:",
+        "anchor": "chgtmpl"
       },
       {
         "_type": "sample",
@@ -5454,7 +5608,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<style>li {list-style: none}</style>\n<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <ul>\n    {^{props members}}\n      <li>\n        {^{:#index+1}}: {{>prop}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{else}}\n      <li>There are no members</li>\n    {{/props}}\n  </ul>\n</script>\n",
         "code": "var team = {\n  members: {m1: \"Robert\", m2: \"Sarah\"},\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, \"new\" + cnt++);\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: \"Peter\", m2: \"Octavia\", m3: \"Xavier\"});\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
         "height": "130",
-        "title": "{^{props ...}} &ndash; iterating over string properties "
+        "title": "{^{props ...}} &ndash; iterating over string properties ",
+        "url": "stringprops"
       },
       {
         "_type": "para",
@@ -5482,7 +5637,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <ol>\n    {^{props members}}\n      <li>\n        {{>prop.name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{/props}}\n  </ol>\n</script>\n",
         "code": "var team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++});\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}});\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
         "height": "130",
-        "title": "{^{props ...}} &ndash; iterating over object properties"
+        "title": "{^{props ...}} &ndash; iterating over object properties",
+        "anchor": "objectprops"
       },
       {
         "_type": "para",
@@ -5510,7 +5666,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <button data-link=\"{on changeMembers}\">Change</button>\n  <ol>\n    {^{props members}}\n      <li>\n        <input data-link=\"prop\"/>\n        {^{>prop}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{else}}\n      There are no members\n    {{/props}}\n  </ol>\n</script>\n",
         "code": "var team = {\n  members: {m1: \"Robert\", m2: \"Sarah\"},\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, \"new\" + cnt++);\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: \"Peter\", m2: \"Octavia\", m3: \"Xavier\"});\n  },\n  changeMembers: function() {\n    for (var property in this.members) {\n      if (property !== $.expando) {\n        $.observable(this.members).setProperty(property, this.members[property] + cnt++);\n      }\n    }\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
         "title": "{^{props ...}} &ndash; with observably changing property values (strings)",
-        "height": "140"
+        "height": "140",
+        "anchor": "chg-stringprops"
       },
       {
         "_type": "para",
@@ -5538,7 +5695,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"team\"></div>\n\n<script id=\"teamTemplate\" type=\"text/x-jsrender\">\n  <button data-link=\"{on addMember}\">Add</button>\n  <button data-link=\"{on replaceMembers}\">Replace</button>\n  <button data-link=\"{on changeMembers}\">Change</button>\n  <ol>\n    {^{props members}}\n      <li>\n        <input data-link=\"prop^name\"/>\n        {^{>prop^name}}\n        <span class=\"remove\" data-link=\"{on ~root.removeMember key}\"></span>\n      </li>\n    {{/props}}\n  </ol>\n</script>\n",
         "code": "var team = {\n  members: {\n    m1: {name: \"Robert\"},\n    m2: {name: \"Sarah\"}\n  },\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, {name: \"new\" + cnt++});\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: {name: \"Peter\"}, m2: {name: \"Octavia\"}, m3: {name: \"Xavier\"}});\n  },\n  changeMembers: function() {\n    for (var property in this.members) {\n      if (property !== $.expando) {\n        $.observable(this.members).setProperty(property, {name: this.members[property].name + cnt++});\n      }\n    }\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
         "title": "{^{props ...}} &ndash; with observably changing property values (objects)",
-        "height": "140"
+        "height": "140",
+        "anchor": "chg-objectprops"
       },
       {
         "_type": "para",
@@ -5605,7 +5763,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "{^{props ...}} with dynamically changing template (advanced)",
-        "text": "If `{{props}}` uses `tmpl=expression` to obtain a template from data or from a helper, then the data-linked `{^{props}}` can be used to drive updates when the template changes dynamically.\n\nHere it is in a sample (similar to the [corresponding sample](#jsvfortag@chgtmpl) using the `{^{for}}` tag). "
+        "text": "If `{{props}}` uses `tmpl=expression` to obtain a template from data or from a helper, then the data-linked `{^{props}}` can be used to drive updates when the template changes dynamically.\n\nHere it is in a sample (similar to the [corresponding sample](#jsvfortag@chgtmpl) using the `{^{for}}` tag). ",
+        "anchor": "chgtmpl"
       },
       {
         "_type": "sample",
@@ -5634,7 +5793,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Using {^{props}} with sorting and filtering, or specifying a range of properties",
-        "text": "The `{{props}}` tag has native sorting, filtering and 'range' features -- as described in the [corresponding  JsRender topic](#propstag@sortfilterrange). \n"
+        "text": "The `{{props}}` tag has native sorting, filtering and 'range' features -- as described in the [corresponding  JsRender topic](#propstag@sortfilterrange). \n",
+        "anchor": "sortfilterrange"
       },
       {
         "_type": "links",
@@ -5771,7 +5931,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"object\"></div>\n\n<script id=\"objectTemplate\" type=\"text/x-jsrender\">\n  <select data-link=\"type\" size=\"3\">\n    <option value=\"\">Choose type</option>\n    <option>book</option>\n    <option>car</option>\n  </select><br/><br/>\n\n  <input data-link=\"type\" /><br/><br/>\n \n  {^{if type==='book'}}\n    The book price is {{>price}} \n  {{else type==='car'}}\n    The car costs {{>price}}\n  {{else}}\n    Nothing chosen\n  {{/if}}\n</script>\n",
         "code": "var object = {\n  type: \"car\",\n  price:\"$25000\"\n};\n\nvar tmpl = $.templates(\"#objectTemplate\");\n\ntmpl.link(\"#object\", object);\n\n",
         "title": "{^{if ...}} ... {{else ...}} ... {{else}} ... {{/if}}",
-        "height": "160"
+        "height": "160",
+        "anchor": "if-else-multiple"
       },
       {
         "_type": "para",
@@ -5845,52 +6006,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
   "jsvcustomtags": {
     "title": "Data-linked custom tags",
     "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "In JsViews the `{^{: ...}}` tag is a data-bound version of the JsRender [`{{: ...}}`](#assigntag) tag.\n\nWhen using [data-linked templates](#linkedtmpls) the data-bound version will update automatically when the data in the expression changes observably.\n"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "```jsr\n{^{:manager^nickname || manager^name}}\n```\n\nData-linked tag updates when expression `manager^nickname || manager^name` changes<br/>-- i.e. when `manager.nickname`, `manager.name` or `manager` object change."
-          }
-        ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"managerTmpl\" type=\"text/x-jsrender\">\n\n<button data-link=\"{on changeManager}\">Change manager</button><br/><br/>\n\n<em>Name:</em> <input data-link=\"manager^name\" /><br/>\n<em>Nickname:</em> <input data-link=\"manager^nickname\" /><br/><br/>\n\n<em>{^&lcub;:manager^nickname || manager^name}&rcub;:</em> <b>{^{:manager^nickname || manager^name}}</b>\n\n</script>",
-        "code": "var team = {\n  person1: {\n    name: \"Peter\",\n    nickname: \"Pete\"\n  },\n  person2: {\n    name: \"Octavia\"\n  },\n  changeManager: function() {\n    $.observable(this).setProperty({\n      manager: this.manager === this.person1 ? this.person2 : this.person1\n    });\n  }\n};\n\nteam.manager = team.person1;\n\nvar tmpl = $.templates(\"#managerTmpl\");\n\ntmpl.link(\"#result\", team);",
-        "title": "{^{: ...}}"
-      },
-      {
-        "_type": "links",
-        "title": "See:",
-        "links": [],
-        "topics": [
-          {
-            "_type": "topic",
-            "hash": "linked-tag-syntax",
-            "label": "Data-linked tags"
-          },
-          {
-            "_type": "topic",
-            "hash": "linked-paths",
-            "label": "Data-linked paths"
-          }
-        ]
-      }
-    ]
+    "sections": []
   },
   "jsvradiogrouptag": {
     "title": "Data-linked template tag: {^{radiogroup ...}} <span style=\"font-weight:normal;\">(Radio button group)</span>",
@@ -5904,7 +6020,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The {^{radiogroup}} tag",
-        "text": "The `{^{radiogroup ...}}` tag is used to provide two-way data-linking to a group of radio buttons.\n\nIt is used only as a data-bound tag in *JsViews*, and is not available in *JsRender*.\n\nThe set of radio buttons (`<input type=\"radio\">`) are wrapped by the tag (or contained in the external template referenced by `tmpl=...`) -- and are data-linked to the data property specified by the path or expression: `{^{radiogroup pathOrExpr}}`.\n"
+        "text": "The `{^{radiogroup ...}}` tag is used to provide two-way data-linking to a group of radio buttons.\n\nIt is used only as a data-bound tag in *JsViews*, and is not available in *JsRender*.\n\nThe set of radio buttons (`<input type=\"radio\">`) are wrapped by the tag (or contained in the external template referenced by `tmpl=...`) -- and are data-linked to the data property specified by the path or expression: `{^{radiogroup pathOrExpr}}`.\n",
+        "anchor": "radiogroup"
       },
       {
         "_type": "tag",
@@ -5966,12 +6083,14 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The name property of the radio &lt;input&gt; elements",
-        "text": "If the radio button group is within an HTML `<form>` which will be submitted, then the associated `name` property of the radio button group may be specified on the `{^{radiogroup}}`:\n\n```jsr\n{^{radiogroup selectedCar name=\"cars\"}}\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  ...\n{{/radiogroup}}\n```\n\nAlternatively it can be specified on each `<input>`\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\" name=\"cars\"/> None</label>\n  <label><input type=\"radio\" value=\"vlv\" name=\"cars\"/> Volvo</label>\n  ...\n{{/radiogroup}}\n```\n\nIf it is not specified, then each `{^{radiogroup}}` will provide an auto-generated unique `name`, which will be set on the radio button `<input>` elements."
+        "text": "If the radio button group is within an HTML `<form>` which will be submitted, then the associated `name` property of the radio button group may be specified on the `{^{radiogroup}}`:\n\n```jsr\n{^{radiogroup selectedCar name=\"cars\"}}\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  ...\n{{/radiogroup}}\n```\n\nAlternatively it can be specified on each `<input>`\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\" name=\"cars\"/> None</label>\n  <label><input type=\"radio\" value=\"vlv\" name=\"cars\"/> Volvo</label>\n  ...\n{{/radiogroup}}\n```\n\nIf it is not specified, then each `{^{radiogroup}}` will provide an auto-generated unique `name`, which will be set on the radio button `<input>` elements.",
+        "anchor": "name"
       },
       {
         "_type": "para",
         "title": "Using a data-linked element &ndash; with data-link=\"{radiogroup ...}\"",
-        "text": "An alternative to wrapping radio button `<input>` tags in a `{^{radiogroup}}` tag is to wrap them in a data-linked HTML element tag such as a `<div>`, using `data-link=\"{radiogroup ...}\"`.\n\n```jsr\n<div data-link=\"{radiogroup selectedCar}\">\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  ...\n</div>\n```\n\nThis approach can be used within templates, but is particularly useful for [top-level data-linking](#toplink), as in the following sample:\n"
+        "text": "An alternative to wrapping radio button `<input>` tags in a `{^{radiogroup}}` tag is to wrap them in a data-linked HTML element tag such as a `<div>`, using `data-link=\"{radiogroup ...}\"`.\n\n```jsr\n<div data-link=\"{radiogroup selectedCar}\">\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  ...\n</div>\n```\n\nThis approach can be used within templates, but is particularly useful for [top-level data-linking](#toplink), as in the following sample:\n",
+        "anchor": "datalink"
       },
       {
         "_type": "sample",
@@ -6000,7 +6119,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "{^{radiogroup}} with {{for}}",
-        "text": "A common scenario is when the options in a radio button group come from a data array. The `<input type=\"radio\">` elements wrapped by a `{^{radiogroup}}` can be generated by a `{{for}}` tag, as in the following example:"
+        "text": "A common scenario is when the options in a radio button group come from a data array. The `<input type=\"radio\">` elements wrapped by a `{^{radiogroup}}` can be generated by a `{{for}}` tag, as in the following example:",
+        "anchor": "fortag"
       },
       {
         "_type": "sample",
@@ -6033,7 +6153,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Radio buttons in an external template, using {radiogroup tmpl=...}",
-        "text": "The set of radio buttons wrapped by a `{^{radiogroup}}` can be in an external template, referenced using `{^{radiogroup tmpl=...}}` or `data-link=\"{radiogroup tmpl=...}\"`, as in the following example:"
+        "text": "The set of radio buttons wrapped by a `{^{radiogroup}}` can be in an external template, referenced using `{^{radiogroup tmpl=...}}` or `data-link=\"{radiogroup tmpl=...}\"`, as in the following example:",
+        "anchor": "tmpl"
       },
       {
         "_type": "sample",
@@ -6061,17 +6182,20 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Data context within block is the same as the outer context",
-        "text": "Note that using either a `{^{radiogroup ...}}` tag or a `<div data-link=\"radiogroup ...}\">` to wrap a content block leaves the data-context unchanged. -- The current data item within the block is the same as the outer data context (including when referenced as an external template, as in the samples above)."
+        "text": "Note that using either a `{^{radiogroup ...}}` tag or a `<div data-link=\"radiogroup ...}\">` to wrap a content block leaves the data-context unchanged. -- The current data item within the block is the same as the outer data context (including when referenced as an external template, as in the samples above).",
+        "anchor": "context"
       },
       {
         "_type": "para",
         "title": "The {^{radiogroup}} disabled property",
-        "text": "The `{^{radiogroup}}` tag has a `disabled` property which can be used for disabling/enabling the radio buttons, as shown [here](#link-input@disabled)."
+        "text": "The `{^{radiogroup}}` tag has a `disabled` property which can be used for disabling/enabling the radio buttons, as shown [here](#link-input@disabled).",
+        "anchor": "disabled"
       },
       {
         "_type": "para",
         "title": "Data-linking a {^{radiogroup}} using converters",
-        "text": "Just like any other tag, `{^{radiogroup}}` can use *convert* and *convertBack* converters, using the syntax:\n\n```jsr\n{^{radiogroup convert=... convertBack=.../}}\n```\n\nas shown in the following sample:"
+        "text": "Just like any other tag, `{^{radiogroup}}` can use *convert* and *convertBack* converters, using the syntax:\n\n```jsr\n{^{radiogroup convert=... convertBack=.../}}\n```\n\nas shown in the following sample:",
+        "anchor": "converters"
       },
       {
         "_type": "sample",
@@ -6099,7 +6223,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Data-linking radio buttons to integer variables",
-        "text": "Selection of data-linked radio buttons is determined by comparing the current value of the date variable to the `value` of the `<input type=\"radio\" value=\"...\" />` -- which is necessarily of type *string*.\n\nIn order to data-link to a data variable of type *number* (integer), use *intToStr* and *strToInt* converters, as shown in the following samples:\n\n"
+        "text": "Selection of data-linked radio buttons is determined by comparing the current value of the date variable to the `value` of the `<input type=\"radio\" value=\"...\" />` -- which is necessarily of type *string*.\n\nIn order to data-link to a data variable of type *number* (integer), use *intToStr* and *strToInt* converters, as shown in the following samples:\n\n",
+        "anchor": "integer"
       },
       {
         "_type": "links",
@@ -6133,24 +6258,24 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
     "sections": []
   },
   "eventArgs": {
-    "title": "The <em>eventArgs</em> object",
+    "title": "The <em>eventArgs</em> object (JsViews), for observable changes",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "paragraph"
+        "text": "[Observable changes](#$observable) to objects or arrays trigger *[onPropertyChange](#onpropchange)* or *[onArray\nChange](#onarrchange)* events, which can be observed using event handlers such as `myHandler` below:\n\n```js\n$.observe(person, \"firstName\", myHandler);\n$.observable(person).setProperty(\"firstName\", \"newName\");\n...\n```\n\n```js\nfunction myHandler(ev, eventArgs) {\n  ...\n}\n```\n\n**The first handler argument (`ev`) is the _jQuery event object_**\n\nThe properties include:\n\n- `target`: the object which changed\n- `namespace`: The *insert()* / *remove()* / *move()* / *refresh()* [namespace](#namespaces@handler)\n- `data`: *JsViews metadata*:\n\n-- where *`ev.data` JsViews metadata* corresponds to the `observe()` or `observeCall()` call, with properties that include:\n\n- `ns`: The handler [namespace](#namespaces@handler)\n- `fullPath`: the full path –- such as `\"team.manager.address.street\"`\n- `prop`: the property being changed -– such as `\"manager\"`\n- `paths`: array of 'ongoing' paths -- when doing 'deep' binding<br/>(So if this property is part of a deep path such as `\"team.manager^address.street\"`, and `manager` is being changed, the `paths` will include `[\"address^street\"]`)\n- `observeAll`: *access to additional metadata*\n\n-- where *`ev.data.observeAll`*, for `observeAll()` calls, provides methods:\n\n- *`ev.data.observeAll.path()`*: returns path to object being changed, e.g. `\"root.team\"` \n- *`ev.data.observeAll.parents()`*: returns 'parent objects' to object being changed, e.g. `[team, model]`\n\n**The second handler argument (`eventArgs`) is the _JsViews event object for array or property changes_**\n\nThe properties are specific to the *'change'* type:\n\n- For *setProperty()*: `path`, `value` and `oldValue`. (With `change`=*\"set\"*\n- For *insert()*: `index` and `items`. (With `change`=`\"insert\"`)\n- For *remove()*: `index` and `numToRemove`. (With `change`=`\"remove\"`)\n- For *move()*: `oldIndex`, `index` and `items`. (With `change`=`\"move\"`)\n- For *refresh()*, multiple events will be triggered:\n  - First, conversion from the current array items to the new refreshed set of items will be broken down into a sequence of *insert()*, *remove()* and *move()* operations, and each will trigger a corresponding event.<br/>The `eventArgs` object for each of these events will have an additional property: `refresh` = `true` (together with the usual `change`=`\"insert\"` / `\"remove\"` / `\"move\"` etc.)\n  - Secondly, after those supplementary events, a `change`=`\"refresh\"` event will be triggered, which will also have an `oldItems` property"
       }
     ]
   },
   "jsvglobals": {
-    "title": "globals",
+    "title": "Global jQuery extensions",
     "path": "",
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender\n\n- render()\n- templates()\n- views\n\nJsViews\n\n- link()\n- observe()\n- observable()\n- unlink()\n- unobserved()\n- view()\n\n"
+        "text": "*JsViews* adds the following extensions to the jQuery object:\n\n- ***$.render:***\n  - See [`$.render.myTmpl()`](#d.render)\n- ***$.templates:***\n  - See [`$.templates()`](#d.templates)\n- ***$.views:***\n  - See [`$.views`](#jsvviewsobject)\n- ***$.observable:***\n  - See [`$.observable(array)`](#arrchange)\n  - and [`$.observable(object)`](#propchange)\n- ***$.observe:***\n  - See [`$.observe()`](#observe)\n- ***$.unobserve:***\n  - See [`$.unobserve()`](#unobserve)\n- ***$.view:***\n  - See [`$.view()`](#jsv.d.view)\n- ***$.link:***\n  - See [`$.link.myTmpl()`](#jsv.d.link)\n- ***$.unlink:***\n  - See [`$.unlink()`](#jsvunlink)\n\nIt also adds the following 'plugin' extensions to jQuery instances:\n\n- ***$(\"#myTmpl\").render(...):***\n  - See [`$(\"#myTmpl\").render()`](#db.render)\n- ***$(elemOrSelector).view(...):***\n  - See [`$(elemOrSelector).view()`](#jsv.d.view@alt)\n- ***$(elemOrSelector).link(...):***\n  - See [`$(elemOrSelector).link(true, ...)`](#jsv.toplink-true@alt)\n  - or [`$(elemOrSelector).link(expression, ...)`](#jsv.toplink-expr@alt)\n- ***$(elemOrSelector).unlink():***\n  - See [`$(elemOrSelector).unlink()`](#jsvunlink)\n\nSee also [JsRender globals](#globals)\n"
       }
     ]
   },
@@ -6194,18 +6319,20 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Specifying tag options for a custom tag",
-        "text": "The following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function.\n\nAn alternative syntax is useful for declaring multiple tags:\n```js\n$.views.tags({\n  mytag: tagOptions\n  ...\n});\n```\n"
+        "text": "The following tag declaration registers a custom tag:\n\n```js\n$.views.tags(\"mytag\", tagOptions);\n```\n\nwhere the `tagOptions` object (hash) specifies the tag options, and determines how the tag will function.\n\nAn alternative syntax is useful for declaring multiple tags:\n```js\n$.views.tags({\n  mytag: tagOptions\n  ...\n});\n```\n",
+        "anchor": "options"
       },
       {
         "_type": "para",
         "title": "<span class=\"strong\">JsViews custom tag documentation topics</span>",
-        "text": "JsViews tag controls provide a rich and powerful platform for providing interactive data-driven UI controls. See the following topics for details and samples:\n\n- *[The structure of a JsViews tag control](#tagstructure)*\n- *[The lifecycle of a JsViews tag control](#taglifecycle)*\n- *[Tag control design patterns](#tagpatterns)*\n\nSee also the detailed API topic:\n\n- *[Tag control options](#tagoptions)*"
+        "text": "JsViews tag controls provide a rich and powerful platform for providing interactive data-driven UI controls. See the following topics for details and samples:\n\n- *[The structure of a JsViews tag control](#tagstructure)*\n- *[The lifecycle of a JsViews tag control](#taglifecycle)*\n- *[Tag control design patterns](#tagpatterns)*\n\nSee also the detailed API topic:\n\n- *[Tag control options](#tagoptions)*",
+        "anchor": "topics"
       },
       {
         "_type": "para",
         "title": "See also &ndash; JsRender custom tag documentation topics:",
         "text": "Many of the tag-control features and options are useful for custom tags both with and without JsViews data-linking. See the following topics:\n\nThe JsRender custom tag overview topic *[Using custom tags](#tags)* and the more detailed api topic: *[Registering custom tags](#tagsapi)* api topic explain many important custom tag features and scenarios.\n\nThey include sections covering:\n\n- *[Registering custom tags](#tagsapi@register)* -- the `$.views.tags(...)` api\n- *[Custom tag options](#tagsapi@options)* -- specifying `init()`, `render()`, `template`, `baseTag`\n- *[Tag context](#tagsapi@context)* -- accessing the tag instance, `tagCtx`, tag args and params, parent views etc.\n- *[Custom tag child views](#tagsapi@childviews)* -- and rendering wrapped block content, etc.\n- *[Rendering wrapped block content](#tagsapi@wrapping)*\n- *[Rendering else blocks](#tagsapi@elseblocks)* -- and using the `tagCtxs` array\n- *[Custom tag hierarchy](#tagsapi@parents)* -- and accessing parent tags\n- *[Accessing contextual parameters and helpers](#tagsapi@ctxparams)*\n- *[Tags as private template resources](#tagsapi@privatetags)*\n- *[Unregistering tags](#tagsapi@privatetags)*",
-        "anchor": ""
+        "anchor": "jsrtopics"
       }
     ]
   },
@@ -6238,7 +6365,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The init() method",
-        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe *init()* method acts as a handler for the *init* event of the custom tag, and is called with the tag instance as `this` parameter.\n\n```js\n$.views.tags({\n  mytag: {\n    init: function(tagCtx, linkCtx, ctx) { ... },\n    ...\n  }\n});\n``` \n\nIt can be used for initializing the tag instance, including programmatically setting [other tag options](#renderingpatterns@init-options).\n\nThe *init()* method arguments are:\n- `tagCtx`: the [tagCtx object](#tagcontextobject), also available as `this.tagCtx`\n- `linkCtx`: always 0 unless using [data-linked tags](#linked-tag-syntax) with *JsViews* (See [linkCtx object](#linkctxobject).)\n- `ctx`: [View context object](#ctxobject)\n\nSee also [JsRender `init()`](#tagsapi@init).",
+        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe *init()* method acts as a handler for the *init* event of the custom tag, and is called with the tag instance as `this` parameter.\n\n```js\n$.views.tags({\n  mytag: {\n    init: function(tagCtx, linkCtx, ctx) { ... },\n    ...\n  }\n});\n``` \n\nIt can be used for initializing the tag instance, including programmatically setting [other tag options](#renderingpatterns@init-options).\n\nThe *init()* method arguments are:\n- `tagCtx`: the [tagCtx object](#tagctxobject), also available as `this.tagCtx`\n- `linkCtx`: always 0 unless using [data-linked tags](#linked-tag-syntax) with *JsViews* (See [linkCtx object](#linkctxobject).)\n- `ctx`: [View context object](#ctxobject)\n\nSee also [JsRender `init()`](#tagsapi@init).",
         "anchor": "init"
       },
       {
@@ -6345,7 +6472,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The setValue() method",
-        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe `setValue()` method is called during tag rendering, and during each observable tag update.\n\n- It is called once for each bound argument or property -- as specified by [`bindTo`](#tagoptions@bindto) (or [`bindFrom`](#tagoptions@bindfrom), if provided) -- and receives the value of that argument or property.\n- If neither `bindFrom` nor `bindTo` are specified,  `setValue()` is called once with the value of the first argument (or the current data if the tag has no arguments) -- as if `bindFrom` was set to `[0]`.\n- For block tags with multiple `{{else}}` blocks, it is called also for each bound argument or property on the additional `{{else}}` blocks. The index of the `{{else}}` block is provided as third parameter.\n- If there is a converter, then the values are after conversion. In the case where `bindFrom`/`bindTo` is an array, but the converter returns a single value rather than an array, then `setValue()` is called once only, with that value.\n- If the tag has linked elements specified, then JsViews built-in code for data-linking (or setting the values) on those linked elements runs after the call to the `setValue()` method. If a `setValue()` method is provided, it can be used to  programmatically bind the linked elements (on the initial call) or update their values (on tag update calls) -- and the default code will not run. However if `setValue()` provides a return value then the default code will also run, using the returned value.\n\n```js\nmytag: {\n  setValue: function(value, index, elseBlock) { ... },\n  ...\n}\n```\n\nSee the [Programmatic two-way data-binding](#bindingpatterns@setvalue-updatevalue) design patterns topic for discussion and examples.",
+        "text": "See [JsViews lifecycle](#taglifecycle).\n\nThe `setValue()` method is called during tag rendering, and during each observable tag update.\n\n- It is called once for each bound argument or property -- as specified by [`bindTo`](#tagoptions@bindto) (or [`bindFrom`](#tagoptions@bindfrom), if provided) -- and receives the value of that argument or property.\n- If neither `bindFrom` nor `bindTo` are specified,  `setValue()` is called once with the value of the first argument (or the current data if the tag has no arguments) -- as if `bindFrom` was set to `[0]`.\n- For block tags with multiple `{{else}}` blocks, it is called also for each bound argument or property on the additional `{{else}}` blocks. The index of the `{{else}}` block is provided as third parameter.\n- If there is a converter, then the values are after conversion. In the case where `bindFrom`/`bindTo` is an array, but the converter returns a single value rather than an array, then `setValue()` is called once only, with that value.\n- If the tag has linked elements specified, then JsViews built-in code for data-linking (or setting the values) on those linked elements runs after the call to the `setValue()` method. If a `setValue()` method is provided, it can be used to  programmatically bind the linked elements (on the initial call) or update their values (on tag update calls) -- and the default code will not run. However if `setValue()` provides a return value then the default code will also run, using the returned value.\n\n```js\nmytag: {\n  setValue: function(value, index, elseBlock) {\n    ... // Optionally return modified value\n  },\n  ...\n}\n```\n\nSee the [Programmatic two-way data-binding](#bindingpatterns@setvalue-updatevalue) design patterns topic for discussion and examples.",
         "anchor": "setvalue"
       },
       {
@@ -6507,7 +6634,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The linkedElement option",
-        "text": "Often a tag control incorporates one or more textboxes, checkboxes, or other [form elements](#link-formelems). The  `linkedElement` option together with the [`bindTo`](#tagoptions@bindto) option make it easy provide two-way data binding between such an element (or elements) and a tag argument or property.\n\nThe following sample shows a `{{namebox}}` tag control with two textboxes (for first and last names) -- data-linked to the first and second tag arguments:",
+        "text": "Often a tag control incorporates one or more textboxes, checkboxes, or other [form elements](#link-formelems). The  `linkedElement` option together with the [`bindTo`](#tagoptions@bindto) option make it easy to provide two-way data binding between such an element (or elements) and a tag argument or property.\n\nThe following sample shows a `{{namebox}}` tag control with two textboxes (for first and last names) -- data-linked to the first and second tag arguments:",
         "anchor": "linkedelement"
       },
       {
@@ -6537,7 +6664,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The `linkedElement` option is a jQuery selector for declaratively setting `tag.linkedElem`.\n\n*Declare the `linkedElement` option:*\n\n```js\nmytag: {\n  linkedElement: \"input\", // jQuery selector\n  ...\n}\n```\n\nIf [`bindTo`](#tagoptions@bindto) is set to bind multiple arguments or properties (such as `bindTo: [0, 1]` in the sample above) then `linkedElement` must be an array of selectors, of the same length (`[\".first\", \".last\"]` in the sample). (To specify linked elements for some but not all of the `bindTo` bindings, set `undefined` for the other members of the `linkedElement` array.)\n\nThe `tag.linkedElem` (jQuery object) will then contain an HTML element (or elements, if `bindTo` is for multiple bindings) -- which will be automatically data-linked by JsViews to the specified tag argument or property.\n\n(The linked elements can be within the tag content rendered by the tag, as well as within block content wrapped by the tag.)\n\nIf the HTML element is a [form element](#link-formelems) such as `<input>` or `<selector>`, or a `contenteditable` element, then the data-link binding will be two-way.\n\nSelectors are applied to the HTML elements rendered by the tag. (In the case of a tag control using a data-linked element with [tag binding](), such as `<div data-link=\"{mytag ...}\">`, the set of HTML elements includes the data-linked element itself.) \n\nThe first element returned by a selector is added to `tag.linkedElem` (jQuery object). This element will be data-linked to the corresponding argument/property in `bindTo`.\n\nThe `tag.linkedElem` element(s) can also be set programmatically, in `onBind()` for example:\n\n```js\nmytag: {\n  onBind: function() {\n    this.linkedElem = this.contents(true, \"input\"); // Set linkedElem programmatically\n  },\n  ...\n}\n```\n\nIf `bindTo` is not set, then `linkedElement` will behave as if `bindTo` was set to `[0]`, and will provide two-way binding to the first argument.\n\nFor further discussion and examples, see the [linkedElement design pattern topic](#bindingpatterns@linkedelem).\n\nSee also the [`bindTo`](#tagoptions@bindto) and [`linkedCtxParam`](#tagoptions@linkedctxparam) options."
+        "text": "The `linkedElement` option is a jQuery selector for declaratively setting `tag.linkedElem`.\n\n*Declare the `linkedElement` option:*\n\n```js\nmytag: {\n  linkedElement: \"input\", // jQuery selector\n  ...\n}\n```\n\nIf [`bindTo`](#tagoptions@bindto) is set to bind multiple arguments or properties (such as `bindTo: [0, 1]` in the sample above) then `linkedElement` must be an array of selectors, of the same length (`[\".first\", \".last\"]` in the sample). (To specify linked elements for some but not all of the `bindTo` bindings, set `undefined` for the other members of the `linkedElement` array.)\n\nThe `tag.linkedElem` (jQuery object) will then contain an HTML element (or elements, if `bindTo` is for multiple bindings) -- which will be automatically data-linked by JsViews to the specified tag argument or property.\n\n(The linked elements can be within the tag content rendered by the tag, as well as within block content wrapped by the tag.)\n\nIf the HTML element is a [form element](#link-formelems) such as `<input>` or `<selector>`, or a `contenteditable` element, then the data-link binding will be two-way.\n\nSelectors are applied to the HTML elements rendered by the tag. (In the case of a tag control using a data-linked element with [tag binding](), such as `<div data-link=\"{mytag ...}\">`, the set of HTML elements includes the data-linked element itself.) \n\nThe first element returned by a selector is added to `tag.linkedElem` (jQuery object). This element will be data-linked to the corresponding argument/property in `bindTo`.\n\nThe `tag.linkedElem` element(s) can also be set programmatically, in [`onBind`](#tagoptions@onbind) for example:\n\n```js\nmytag: {\n  onBind: function() {\n    this.linkedElem = this.contents(true, \"input\"); // Set linkedElem programmatically\n  },\n  ...\n}\n```\n\nIf `bindTo` is not set, then `linkedElement` will behave as if `bindTo` was set to `[0]`, and will provide two-way binding to the first argument.\n\nFor further discussion and examples, see the [linkedElement design pattern topic](#bindingpatterns@linkedelem).\n\nSee also the [`bindTo`](#tagoptions@bindto) and [`linkedCtxParam`](#tagoptions@linkedctxparam) options."
       },
       {
         "_type": "para",
@@ -6572,18 +6699,18 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "If [`bindTo`](#tagoptions@bindto) (or [`bindFrom`](#tagoptions@bindfrom)) is set to an array, binding multiple arguments or properties (such as `bindTo: [0, 1, \"mode\"]`), then `linkedCtxParam` must be an array of strings of the same length (such as linkedCtxParam: `[\"first\", \"last\", \"mde\"]` - specifying the names of the corresponding contextual parameters. (To specify linked contextual parameters for some but not all of the `bindTo` bindings, set `undefined` for the other members of the `linkedCtxParam` array.)\n\nIf `bindTo` is not set, then `linkedCtxParam` will behave as if `bindTo` was set to `[0]`, and will provide two-way binding to the first argument.\n\nThe linked contextual parameters can be used declaratively within templates (such as the tag template, or within a tag block). They can also be accessed programmatically, for getting or setting values, or for attaching handlers (to listen to observable changes). The following examples come from the sample above:\n\n```jsr\n<input data-link=\"~mde\"/>...\n<button data-link=\"{on ~tag.setNormalMode}\">...\n```\n\n```js\nsetNormalMode: function() { // Button action\n  this.ctxPrm(\"mde\", \"normal\"); // Modify the mode property\n},\nonBind: function() {\n  // Attach listener to change in mode property\n  $.observe(this, \"~mde\", this.onModeChange);\n},\nonUnbind: function() {\n  $.unobserve(this, \"~mde\", this.onModeChange); // Detach listener\n},\nonModeChange: function(ev, eventArgs) { // Listener\n  this.msgBox.append(eventArgs.value + \"<br/>\");\n}\n```\n\nThe declared linked contextual parameters thus provide an easy way for a tag control to respond to changes in the bound arguments or properties, to observably modify their values, or to register handlers to 'listen' to observable changes.\n\nFor further discussion and examples, see the [linkedCtxParam design pattern topic](#bindingpatterns@linkedctxparam).\n\nSee also the [`bindTo`](#tagoptions@bindto), [`bindFrom`](#tagoptions@bindfrom) and [`linkedElement`](#tagoptions@linkedelement) options.\n\n*Note:* if the `bindFrom` and `bindTo` options are both set, then linkedCtxParam will correspond "
+        "text": "If [`bindTo`](#tagoptions@bindto) (or [`bindFrom`](#tagoptions@bindfrom)) is set to an array, binding multiple arguments or properties (such as `bindTo: [0, 1, \"mode\"]`), then `linkedCtxParam` must be an array of strings of the same length (such as linkedCtxParam: `[\"first\", \"last\", \"mde\"]` - specifying the names of the corresponding contextual parameters. (To specify linked contextual parameters for some but not all of the `bindTo` bindings, set `undefined` for the other members of the `linkedCtxParam` array.)\n\nIf `bindTo` is not set, then `linkedCtxParam` will behave as if `bindTo` was set to `[0]`, and will provide two-way binding to the first argument.\n\nThe linked contextual parameters can be used declaratively within templates (such as the tag template, or within a tag block). They can also be accessed programmatically, for getting or setting values, or for attaching handlers (to listen to observable changes). The following examples come from the sample above:\n\n```jsr\n<input data-link=\"~mde\"/>...\n<button data-link=\"{on ~tag.setNormalMode}\">...\n```\n\n```js\nsetNormalMode: function() { // Button action\n  this.ctxPrm(\"mde\", \"normal\"); // Modify the mode property\n},\nonBind: function() {\n  // Attach listener to change in mode property\n  $.observe(this, \"~mde\", this.onModeChange);\n},\nonUnbind: function() {\n  $.unobserve(this, \"~mde\", this.onModeChange); // Detach listener\n},\nonModeChange: function(ev, eventArgs) { // Listener\n  this.msgBox.append(eventArgs.value + \"<br/>\");\n}\n```\n\nThe declared linked contextual parameters thus provide an easy way for a tag control to respond to changes in the bound arguments or properties, to observably modify their values, or to register handlers to 'listen' to observable changes.\n\nFor further discussion and examples, see the [linkedCtxParam design pattern topic](#bindingpatterns@linkedctxparam).\n\nSee also the [`bindTo`](#tagoptions@bindto), [`bindFrom`](#tagoptions@bindfrom) and [`linkedElement`](#tagoptions@linkedelement) options.\n\n*Note:* if the `bindFrom` and `bindTo` options are both set, then linkedCtxParam will correspond to the `bindFrom` arguments/properties\n"
       },
       {
         "_type": "para",
         "title": "The mainElement option",
-        "text": "The `mainElement` option is a jQuery selector for declaratively setting `tag.mainElem`.\n\nThe `tag.mainElem` (jQuery object) contains the HTML element in the tag control to be used for setting `width` or `height` (if `setSize` is `true`) or `id`. (See [`setSize`](#tagoptions@setsize), [`width`](#tagoptions@width) and [`height`](#tagoptions@height).)\n\n*Declare the `mainElement` option:*\n\n```js\nmytag: {\n  mainElement: \".foo\", // jQuery selector\n  ...\n}\n```\n\nThe selector is applied to the HTML elements rendered by the tag. (In the case of a tag control using a data-linked element with [tag binding](), such as `<div data-link=\"{mytag ...}\">`, the set of HTML elements includes the data-linked element itself.) \n\nThe first element returned by the selector is assigned to `tag.mainElem` (wrapped in a jQuery object). This element will be used for setting `width`, `height` or `id`. If no element is returned, `tag.mainElem` will be an empty jQuery object.\n\nThe `tag.mainElem` can also be set programmatically, in `onBind()` for example:\n\n```js\nmytag: {\n  onBind: function() {\n    this.mainElem = this.contents(true, \".foo\"); // Set mainElem programmatically\n  },\n  ...\n}\n```\n\n*Note:* If `tag.mainElem` has not been set but `tag.linkedElem` is defined, then `tag.linkedElem[0]` is instead used for setting `width`, `height` or `id`.\n\n*Usage:*\n\n```jsr\n{^{mytag width=22 id='foo' /}}\n```\n\nSee also the [`setSize`](#tagoptions@setsize), [`width`](#tagoptions@width), [`height`](#tagoptions@height) [`displayElement`](#tagoptions@displayelement) and [`linkedElement`](#tagoptions@linkedelement) options.",
+        "text": "The `mainElement` option is a jQuery selector for declaratively setting `tag.mainElem`.\n\nThe `tag.mainElem` (jQuery object) contains the HTML element in the tag control to be used for setting `width` or `height` (if `setSize` is `true`) or `id`. (See [`setSize`](#tagoptions@setsize), [`width`](#tagoptions@width) and [`height`](#tagoptions@height).)\n\n*Declare the `mainElement` option:*\n\n```js\nmytag: {\n  mainElement: \".foo\", // jQuery selector\n  ...\n}\n```\n\nThe selector is applied to the HTML elements rendered by the tag. (In the case of a tag control using a data-linked element with [tag binding](), such as `<div data-link=\"{mytag ...}\">`, the set of HTML elements includes the data-linked element itself.) \n\nThe first element returned by the selector is assigned to `tag.mainElem` (wrapped in a jQuery object). This element will be used for setting `width`, `height` or `id`. If no element is returned, `tag.mainElem` will be an empty jQuery object.\n\nThe `tag.mainElem` can also be set programmatically, in [`onBind`](#tagoptions@onbind) for example:\n\n```js\nmytag: {\n  onBind: function() {\n    this.mainElem = this.contents(true, \".foo\"); // Set mainElem programmatically\n  },\n  ...\n}\n```\n\n*Note:* if `tag.mainElem` has not been set but `tag.linkedElem` is defined, then `tag.linkedElem[0]` is instead used for setting `width`, `height` or `id`\n\n*Usage:*\n\n```jsr\n{^{mytag width=22 id='foo' /}}\n```\n\nSee also the [`setSize`](#tagoptions@setsize), [`width`](#tagoptions@width), [`height`](#tagoptions@height) [`displayElement`](#tagoptions@displayelement) and [`linkedElement`](#tagoptions@linkedelement) options.",
         "anchor": "mainelement"
       },
       {
         "_type": "para",
         "title": "The displayElement option",
-        "text": "The `displayElement` option is a jQuery selector for declaratively setting `tag.displayElem`.\n\nThe `tag.displayElem` (jQuery object) contains the HTML element in the tag control to be used for setting `class`, either declaratively:\n\n```jsr\n{{mytag ... class=.../}}\n```\n\nor, as default class, via the [`className`](#tagoptions@classname) option:\n\n```js\nmytag: {\n  className: ...\n  ...\n}\n```\n\nThe selector is applied to the HTML elements rendered by the tag. (In the case of a tag control using a data-linked element with [tag binding](), such as `<div data-link=\"{mytag ...}\">`, the set of HTML elements includes the data-linked element itself.) \n\nThe first element returned by the selector is assigned to `tag.displayElem` (wrapped in a jQuery object). This element will be used for setting `class`. If no element is returned, `tag.displayElem` will be an empty jQuery object.\n\nThe `tag.displayElem` can also be set programmatically, in `onBind()` for example:\n\n```js\nmytag: {\n  onBind: function() {\n    this.displayElem = this.contents(true, \".foo\"); // Set displayElem programmatically\n  },\n  ...\n}\n```\n\n*Note:* If `tag.displayElem` has not been set but `tag.mainElem` or `tag.linkedElem` are defined, then `tag.mainElem` (if defined), or else `tag.linkedElem[0]` is instead used for setting `class`. \n\n*Usage:*\n\n```jsr\n{^{mytag class='mytagclass' /}}\n```\n\nSee also the [`className`](#tagoptions@classname), [`mainElement`](#tagoptions@mainelement), and [`linkedElement`](#tagoptions@linkedelement) options.",
+        "text": "The `displayElement` option is a jQuery selector for declaratively setting `tag.displayElem`.\n\nThe `tag.displayElem` (jQuery object) contains the HTML element in the tag control to be used for setting `class`, either declaratively:\n\n```jsr\n{{mytag ... class=.../}}\n```\n\nor, as default class, via the [`className`](#tagoptions@classname) option:\n\n```js\nmytag: {\n  className: ...\n  ...\n}\n```\n\nThe selector is applied to the HTML elements rendered by the tag. (In the case of a tag control using a data-linked element with [tag binding](), such as `<div data-link=\"{mytag ...}\">`, the set of HTML elements includes the data-linked element itself.) \n\nThe first element returned by the selector is assigned to `tag.displayElem` (wrapped in a jQuery object). This element will be used for setting `class`. If no element is returned, `tag.displayElem` will be an empty jQuery object.\n\nThe `tag.displayElem` can also be set programmatically, in [`onBind`](#tagoptions@onbind) for example:\n\n```js\nmytag: {\n  onBind: function() {\n    this.displayElem = this.contents(true, \".foo\"); // Set displayElem programmatically\n  },\n  ...\n}\n```\n\n*Note:* if `tag.displayElem` has not been set but `tag.mainElem` or `tag.linkedElem` are defined, then `tag.mainElem` (if defined), or else `tag.linkedElem[0]` is instead used for setting `class`\n\n*Usage:*\n\n```jsr\n{^{mytag class='mytagclass' /}}\n```\n\nSee also the [`className`](#tagoptions@classname), [`mainElement`](#tagoptions@mainelement), and [`linkedElement`](#tagoptions@linkedelement) options.",
         "anchor": "displayelement"
       },
       {
@@ -6696,8 +6823,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "The [tag options](#tagoptions) can include event handlers for the following lifecycle events:\n\n- [`init()`](#tagoptions@init)\n- [`render()`](#tagoptions@render)\n- [`onBind()`](#tagoptions@onbind)\n- [`onUnbind()`](#tagoptions@onunbind)\n- [`onAfterLink()`](#tagoptions@onafterlink)\n- [`onUpdate()`](#tagoptions@onupdate)\n- [`onDispose()`](#tagoptions@ondispose)\n- [`onBeforeUpdateVal()`](#tagoptions@onbeforeupdateval)\n- [`onBeforeChange()`](#tagoptions@onbeforechange)\n- [`onAfterChange()`](#tagoptions@onafterchange)\n- [`setValue()`](#tagoptions@setvalue)",
-        "anchor": "lifecycle"
+        "text": "The [tag options](#tagoptions) can include event handlers for the following lifecycle events:\n\n- [`init()`](#tagoptions@init)\n- [`render()`](#tagoptions@render)\n- [`onBind()`](#tagoptions@onbind)\n- [`onUnbind()`](#tagoptions@onunbind)\n- [`onAfterLink()`](#tagoptions@onafterlink)\n- [`onUpdate()`](#tagoptions@onupdate)\n- [`onDispose()`](#tagoptions@ondispose)\n- [`onBeforeUpdateVal()`](#tagoptions@onbeforeupdateval)\n- [`onBeforeChange()`](#tagoptions@onbeforechange)\n- [`onAfterChange()`](#tagoptions@onafterchange)\n- [`setValue()`](#tagoptions@setvalue)"
       },
       {
         "_type": "para",
@@ -7263,7 +7389,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Using contextual parameters in tag controls",
-        "text": "Many of the features of linked contextual parameters shown above actually apply to contextual parameters more generally. \n\nWithin a tag control, a contextual parameter can be used directly (declaratively in the tag template, or programmatically through the `ctxPrm()` API), without being declared as a linked contextual parameter (through `linkedCtxParam`), and can bring the following features:\n\n- The contextual parameter can store state in the tag control\n- There can be multiple bindings to the same contextual parameter, within the template\n- A contextual parameter can be accessed not only within the tag control template, but also, for tag controls that are used as *block controls*, within wrapped content\n\nFor example in the editable `{{namebox}}` sample [above](#bindingpatterns@namebox-editable) we can remove the two-way data-linking on the `editable` property, but still use use the `~edt` contextual parameter within the tag control -- to provide the boolean 'editable' state. This is shown in the following modified sample:"
+        "text": "Many of the features of linked contextual parameters shown above actually apply to contextual parameters more generally. \n\nWithin a tag control, a contextual parameter can be used directly (declaratively in the tag template, or programmatically through the `ctxPrm()` API), without being declared as a linked contextual parameter (through `linkedCtxParam`), and can bring the following features:\n\n- The contextual parameter can store state in the tag control\n- There can be multiple bindings to the same contextual parameter, within the template\n- A contextual parameter can be accessed not only within the tag control template, but also, for tag controls that are used as *block controls*, within wrapped content\n\nFor example in the editable `{{namebox}}` sample [above](#bindingpatterns@namebox-editable) we can remove the two-way data-linking on the `editable` property, but still use use the `~edt` contextual parameter within the tag control -- to provide the boolean 'editable' state. This is shown in the following modified sample:",
+        "anchor": "ctxparams"
       },
       {
         "_type": "sample",
@@ -7573,7 +7700,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*Default mode: HSVA format -- binding to `color1` data:*\n\n```jsr\n{^{picker color1.h color1.s color1.v color1.a ... /}}\n...\nh: <input data-link=\"color1.h\"/>\n...\n```\n\n*Alternative RGBA format -- `mode` set to `\"rgba\"` -- binding to `color2` data:*\n\n```jsr\n{^{picker color2.r color2.g color2.b color2.a mode=\"rgba\" ... /}}\n...\nr: <input data-link=\"color2.r\"/>\n...\n```\n\n*Alternative HEX format -- `mode` set to `\"hex\"` -- binding to `color3` data:*\n\n```jsr\n\n{^{picker color3.hex mode=\"hex\" ... /}}\n...\nhex: <input data-link=\"color3.hex\"/>\n...\n```"
+            "text": "*Default mode: HSVA format -- binding to `color1` data:*\n\n```jsr\n{^{picker color1.h color1.s color1.v color1.a ... /}}\n...\nh: <input data-link=\"color1.h\"/>\n...\n```\n\n*Alternative RGBA format -- `mode` set to `\"rgba\"` -- binding to `color2` data:*\n\n```jsr\n{^{picker color2.r color2.g color2.b color2.a mode=\"rgba\" ... /}}\n...\nr: <input data-link=\"color2.r\"/>\n...\n```\n*Alternative HEX format -- `mode` set to `\"hex\"` -- binding to `color3` data:*\n\n```jsr\n{^{picker color3.hex mode=\"hex\" ... /}}\n...\nhex: <input data-link=\"color3.hex\"/>\n...\n```"
           }
         ],
         "url": "samples/tag-controls/colorpicker/colorpicker-multiformat",
@@ -7605,7 +7732,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "- Add to  Data binding topic\n\n  argDefault\n  trigger \n  sortable grid\n\n- Add to Tag hierarchy topic\n\n  - [Derived tag controls](#hierarchypatterns@derived)\n  - [Tag hierarchy and recursive tags](#hierarchypatterns@hierarchy)\n  - [dataMap flow](#hierarchypatterns@datamap)\n\n  **Derived tag controls**\n  Existing samples - on links and range\n\n  forPlus?\n  props?\n\n  dataMap\n  flow\n\n  sortable grid\n\n  forHash\n\n  **Tag hierarchy and recursive tags**\n\n  forHash forPlus (sort and filter and start end), grid, pager, gridheader etc.\n\n  jsonview\n\nAlso this=~mytag, lateRender, \n\nunlink (all APIs)"
+        "text": "- Add to  Data binding topic\n\n  argDefault\n  trigger \n  sortable grid\n\n- Add to Tag hierarchy topic\n\n  - [Derived tag controls](#hierarchypatterns@derived)\n  - [Tag hierarchy and recursive tags](#hierarchypatterns@hierarchy)\n  - [dataMap flow](#hierarchypatterns@datamap)\n\n  **Derived tag controls**\n  Existing samples - on links and range\n\n  dataMap\n  flow\n\n  sortable grid\n\n  **Tag hierarchy and recursive tags**\n\n  grid, pager, gridheader etc.\n\nAlso this=~mytag, lateRender, "
       }
     ]
   }

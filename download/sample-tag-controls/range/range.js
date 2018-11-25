@@ -1,4 +1,4 @@
-﻿/*! Sample JsViews tag control: {{range}} control v0.9.91 (Beta)
+﻿/*! Sample JsViews tag control: {{range}} control v1.0.0
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
  * Copyright 2018, Boris Moore

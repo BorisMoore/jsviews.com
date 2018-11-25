@@ -1,4 +1,4 @@
-﻿/*! Sample JsViews tag control: {{tabs}} control v0.9.91 (Beta)
+﻿/*! Sample JsViews tag control: {{tabs}} control v1.0.0
 Version using linkedCtxPrm
 see: http://www.jsviews.com/#download/sample-tagcontrols
 and http://www.jsviews.com/#bindingpatterns@tabsctxprm

@@ -1,11 +1,11 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="../../../../download/jsviews.min.js"></script>
   <script src="../../../sample-viewer.min.js"></script>
-  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-  <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
   <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.min.js"></script>
   <link href="../demos.css" rel="stylesheet" />
 </head>
@@ -55,18 +55,18 @@
 {{/draggable2}}
 
 {{for points}}
-  {^{draggable left=~root.expand top=~root.rotate
+  {^{draggable2 left=~root.expand top=~root.rotate
     ^cx=~root.cx ^cy=~root.cy
     shift=angle radius=r
     convert="polarToXY" convertBack="XYtoPolar"
     _containment="document" class="orange"
   }}
     {{:angle/30}}
-  {{/draggable}}
+  {{/draggable2}}
 
   {^{draggable2 left=~root.expand top=~root.rotate
     ^cx=~root.cx2 ^cy=~root.cy2
-    shift=angle radius=r scaleRot=-2
+    shift=angle radius=r scaleRot=-1
     convert="polarToXY" convertBack="XYtoPolar"
     _containment="document" class="green"
   }}

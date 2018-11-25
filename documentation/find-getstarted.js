@@ -189,12 +189,12 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "Using JsRender with jQuery",
-        "text": "Using JsRender with jQuery\nWhen jQuery is present, JsRender loads as a jQuery plugin and adds $.views, $.templates and $.render to the jQuery namespace object, $ (or window.jQuery).\nExample HTML page: JsRender with jQuery\n"
+        "text": "Using JsRender with jQuery\nWhen jQuery is present, JsRender loads as a jQuery plugin and adds $.views, $.templates and $.render to the jQuery global namespace object, $ (or jQuery).\nExample HTML page: JsRender with jQuery\n"
       },
       {
         "_type": "para",
         "title": "JsRender without jQuery",
-        "text": "JsRender without jQuery\nWhen jQuery is not present, JsRender provides its own jsrender namespace object, exposed as window.jsrender\nThe jsrender namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\nvar $ = window.jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n\nExample HTML page: JsRender without jQuery\n\nJsRender usage\n"
+        "text": "JsRender without jQuery\nWhen jQuery is not present, JsRender provides its own jsrender global namespace object, jsrender (or window.jsrender)\nThe jsrender namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\nvar $ = jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n\nExample HTML page: JsRender without jQuery\nLearn more: JsRender without jQuery\n\nJsRender usage\n"
       },
       {
         "_type": "para",
@@ -219,7 +219,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "Template tag syntax",
-        "text": "Template tag syntax\n\nAll tags other than {{: ...}} {{> ...}} {{* ...}} {{!-- --}} behave as block tags\nBlock tags can have content, unless they use the self-closing syntax:\n\nBlock tag – with content: {{sometag ...}} content {{/sometag}}\nSelf-closing tag – no content (empty): {{sometag .../}}\n\nA particular case where self-closing syntax is used is when a block tag uses the named parameter tmpl=... to reference an external template – which then replaces what would have been the block content:\n\nSelf-closing block  tag referencing an external template: {{sometag ... tmpl=.../}}(This lets you do template composition. See example.)\n\nTags can take both unnamed arguments and named parameters:\n\n{{sometag argument1 param1=...}} content {{/sometag}}\nan example of a named parameter is the tmpl=... parameter mentioned above\narguments and named parameters can be assigned values from simple data-paths such as address.street or from richer expressions such as product.quantity * 3.1 / 4.5, or name.toUpperCase()\n\n\nLearn more…\nBuilt-in tags"
+        "text": "Template tag syntax\n\nAll tags other than {{: ...}} {{> ...}} {{* ...}} {{!-- --}} behave as block tags\nBlock tags can have content, unless they use the self-closing syntax:\n\nBlock tag – with content: {{sometag ...}} content {{/sometag}}\nSelf-closing tag – no content (empty): {{sometag .../}}\n\nA particular case where self-closing syntax is used is when a block tag uses the named property tmpl=... to reference an external template – which then replaces what would have been the block content:\n\nSelf-closing block  tag referencing an external template: {{sometag ... tmpl=.../}}(This lets you do template composition. See example.)\n\nTags can take both unnamed arguments and named properties:\n\n{{sometag argument1 param1=...}} content {{/sometag}}\nan example of a named property is the tmpl=... property mentioned above\narguments and named properties can be assigned values from simple data-paths such as address.street or from richer expressions such as product.quantity * 3.1 / 4.5, or name.toUpperCase()\n\n\nLearn more…\nBuilt-in tags"
       },
       {
         "_type": "para",
@@ -279,7 +279,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "Logic and expressions",
-        "text": "Logic and expressions\nJsRender supports rich expressions and logic, but at the same time encapsulates templates to prevent random access to globals. If you want to provide access to global variables within a template, you have to pass them in as data or as helpers.\nYou can assign rich expressions to any template arguments or parameters, as in:\n{{:person.nickname ? \"Nickname: \" + person.nickname : \"(has no nickname)\"}}\nor\n{{if ~limits.maxVal > (product.price*100 - discount)/rate}}\n  ...\n{{else ~limits.minVal < product.price}}\n  ... \n{{else}}\n  ... \n{{/if}}\n\n"
+        "text": "Logic and expressions\nJsRender supports rich expressions and logic, but at the same time encapsulates templates to prevent random access to globals. If you want to provide access to global variables within a template, you have to pass them in as data or as helpers.\nYou can assign rich expressions to any template arguments or properties, as in:\n{{:person.nickname ? \"Nickname: \" + person.nickname : \"(has no nickname)\"}}\nor\n{{if ~limits.maxVal > (product.price*100 - discount)/rate}}\n  ...\n{{else ~limits.minVal < product.price}}\n  ... \n{{else}}\n  ... \n{{/if}}\n\n"
       },
       {
         "_type": "links",

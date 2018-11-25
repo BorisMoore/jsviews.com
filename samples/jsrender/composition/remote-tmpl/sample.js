@@ -8,7 +8,7 @@ function lazyGetTemplate(name) {
     deferred.resolve();
   } else {
     $.getScript(
-      "//www.jsviews.com/samples/resources/templates/"
+      "https://www.jsviews.com/samples/resources/templates/"
               + name + ".js")
       .then(function() {
         if ($.templates[name]) {

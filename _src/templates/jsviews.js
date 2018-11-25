@@ -55,7 +55,7 @@ var versionNumber = "v@@include("templates/-version.txt")",
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsObservable >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 /* JsObservable:
- * See http://www.jsviews.com/#jsobservable and http://github.com/borismoore/jsviews
+ * See https://www.jsviews.com/#jsobservable and http://github.com/borismoore/jsviews
 @@include("templates/-copyright.txt")
  */
 
@@ -70,7 +70,7 @@ $expando = $.expando;
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsViews >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 /* JsViews:
  * Interactive data-driven views using templates and data-linking.
- * See http://www.jsviews.com/#jsviews and http://github.com/BorisMoore/jsviews
+ * See https://www.jsviews.com/#jsviews and http://github.com/BorisMoore/jsviews
 @@include("templates/-copyright.txt")
  */
 

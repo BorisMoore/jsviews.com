@@ -10,7 +10,7 @@ var isIE8 = window.attachEvent && !window.addEventListener;
 
 if (!isIE8) {
 
-test("jQuery global: require('jsrender')", function() {
+QUnit.test("jQuery global: require('jsrender')", function(assert) {
 
 	// ............................... Hide QUnit global jQuery and any previous global jsrender.................................
 	var jQuery = global.jQuery, jsr = global.jsrender;
@@ -29,7 +29,7 @@ test("jQuery global: require('jsrender')", function() {
 	var result = tmpl(data) + " " + tmpl2(data);
 
 	// ............................... Assert .................................
-	equal(result, "Name: Jo (name-template.html) Name: Jo (name-template.jsr)", "result: jQuery global: require('jsrender') - html");
+	assert.equal(result, "Name: Jo (name-template.html) Name: Jo (name-template.jsr)", "result: jQuery global: require('jsrender') - html");
 
 	// ............................... Reset .................................
 	global.jQuery = jQuery; // Replace QUnit global jQuery

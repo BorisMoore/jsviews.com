@@ -105,7 +105,7 @@ if (!$.observe) {
 				ctx = ev.data,
 				observeAll = ctx.observeAll,
 				cb = ctx.cb,
-				noArray = ctx.arOk ? 0 : 1,
+				noArray = ctx._arOk ? 0 : 1,
 				paths = ctx.paths,
 				ns = ctx.ns;
 
@@ -312,7 +312,7 @@ if (!$.observe) {
 							fullPath: fullPath,
 							paths: pathStr ? [pathStr] : [],
 							prop: prop,
-							arOk: allowArray
+							_arOk: allowArray
 						};
 					evData.ns = initialNs;
 					evData.cb = cb;

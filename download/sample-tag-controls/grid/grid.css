@@ -1,57 +1,47 @@
-body { font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif; font-size: 14px; }
-label { font-style: italic; font-weight: bold; margin: 8px 0; display: block; }
-
-.pagerHeader { margin-bottom: 10px; }
-	.pagerHeader input { width: 30px; }
-	.pagerHeader select { width: 60px; }
-	.pagerHeader input[type=checkbox] { width: auto; }
+body {
+  font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  padding: 0 0 0 5px;
+  color: #172e40;
+}
 .addRow { background-color: #e5ddd2; }
-
-.pager > span { vertical-align: top; display: inline-block; height: 14px; width: 26px; padding: 4px; cursor: pointer; }
-.pager > .first:after { content: '<<'; }
-.pager > .prev:after { content: '<'; }
-.pager > .page { cursor: default; width: auto; background-color: darkseagreen; }
-	.pager > .page input { width: 50px; }
-.pager > .next:after { content: '>'; }
-.pager > .last:after { content: '>>'; }
-
 .grid { cursor: default; border-collapse: collapse; table-layout: fixed; width: 1px; margin: 10px 0 20px 0; }
-	.pager, .pager input, .grid, .grid input, .grid button { font-family: tahoma,arial,verdana,sans-serif,'Lucida Sans'; font-size: 11px; font-weight: 400; color: #2b587a; border: none; }
-		.grid th.filter input { max-width: 140px; display: block; border: 1px solid #bccedb; height: 14px; background-color: #f3f5f6; margin: -8px auto 0px; padding: 0 0 2px 4px; background-repeat: no-repeat; background-size: 12px; background-position-x: 3px; background-position-y: 2px; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA/klEQVQ4jZWSzWrDMBCE/f4v1SSFtnYPViAlxZJLHB9iLEF8iZxISqYnm6x+qDuwINDo02i1GTwZayGVwrFtIZXCzRjfQpRNC+schKixWq3x4lVVcVjn0gDrHPK8CA4+V54XUUgGAELUxFyWDJwLMLYNkgQAYy2Jfeo6Yjh1HYGM1ysFSKXIzTGVJZs9vZQUcGzbeZNzEQVwLmbPoWnSCRjbRgHPvQgS3Iwhb/yrBxetKQAAqoov+oW8+AzSLZ6DVJ/IJPpJpnp7/0hCMnjS44heShyaBr2UuGiN++OB3e4rCgkAKcUgdf2zHOBDNptXnIfhf4AJst9/4zwMAIBfl1WxTm6LNOIAAAAASUVORK5CYII='); }
-			.grid th.filter input:hover { background-color: #e9f6fe; }
-			.grid th.filter input:focus, .grid th.filter input.active { background-color: #fff; border-color: #95c2e2; background-image: none; }
+.grid, .grid input, .grid button { font-family: tahoma,arial,verdana,sans-serif,'Lucida Sans'; font-size: 11px; font-weight: 400; color: #2b587a; border: none; }
+.grid th.filter input { max-width: 140px; display: block; border: 1px solid #bccedb; height: 14px; background-color: #f3f5f6; margin: -8px auto 0px; padding: 0 0 2px 4px; background-repeat: no-repeat; background-size: 12px; background-position-x: 3px; background-position-y: 2px; background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA/klEQVQ4jZWSzWrDMBCE/f4v1SSFtnYPViAlxZJLHB9iLEF8iZxISqYnm6x+qDuwINDo02i1GTwZayGVwrFtIZXCzRjfQpRNC+schKixWq3x4lVVcVjn0gDrHPK8CA4+V54XUUgGAELUxFyWDJwLMLYNkgQAYy2Jfeo6Yjh1HYGM1ysFSKXIzTGVJZs9vZQUcGzbeZNzEQVwLmbPoWnSCRjbRgHPvQgS3Iwhb/yrBxetKQAAqoov+oW8+AzSLZ6DVJ/IJPpJpnp7/0hCMnjS44heShyaBr2UuGiN++OB3e4rCgkAKcUgdf2zHOBDNptXnIfhf4AJst9/4zwMAIBfl1WxTm6LNOIAAAAASUVORK5CYII='); }
+	.grid th.filter input:hover { background-color: #e9f6fe; }
+	.grid th.filter input:focus, .grid th.filter input.active { background-color: #fff; border-color: #95c2e2; background-image: none; }
 
-		.grid th.edit button { display: block; height: 32px; margin: -9px auto; }
-		.grid th.edit { width: 60px; }
-		.grid td.add { border-right-color: #eaa085; padding: 2px; text-align: center; }
-			.grid td.add button, .grid th.edit button, .grid td.remove button { padding: 0; width: 50px; font-weight: bold; color: #0e60a0; cursor: pointer; background-color: #c0ced8; border-radius: 2px; border: 1px solid #99b2c2; font-size: 10px; }
-			.grid td.add button { height: 20px; }
-		.grid td.remove button { width: 23px; color: rgba(194, 56, 10, 0.90); background-color: hsla(204, 46%, 86%, 0.22); border: 1px solid hsla(239, 77%, 74%, 0.57); }
-			.grid td.remove button:after { content: 'X'; }
-		.grid .adding td { border-top-color: #eaa085; border-bottom-color: #eaa085; background-color: #fff; }
-		.grid tr.adding td:first-child { border-left-color: #eaa085; }
-		.grid td, .grid .opencell { border: 1px solid #d3dbe1; height: 15px; }
-		.grid .added.last td, .grid .added.last td { border-bottom-color: #1bac1b; }
-		.grid td.editable input, .grid td { padding: 7px 9px; }
-			.grid td.editable { padding: 0; }
-		.grid tbody tr { background-color: #fff; height: 3px; }
-			.grid tbody tr:nth-child(odd) { background-color: #f0f2f4; }
-			.grid tbody tr input { background-color: inherit; }
-			.grid tbody tr:nth-child(odd) input { background-color: #f0f2f4; border: 1px solid #f0f2f4; }
-		.grid thead tr { color: #51677a; background-color: #d3dce4; border-top: #b9c6d0 solid 1px; border-right: 1px solid #d3dbe1; }
-		.grid th.sort:hover { background-color: #f1f5f9; cursor: pointer; }
-		.grid th { padding: 11px 0; border-left: 1px solid #fff; }
-			.grid th.filter { padding-bottom: 2px; padding-top: 10px; }
-			.grid th:first-child { border-left: 1px solid #d3dbe1; }
-			.grid th img { margin-left: 3px; margin-bottom: -1px; }
-		.grid td input:hover { background-color: #e9f6fe; }
-		.grid tbody tr:nth-child(odd) td input:hover { background-color: #dce3ea; }
-		.grid td.editable input { border: 1px solid #fff; }
-			.grid td.editable input:focus { border: 1px solid #93c1e4; background-color: #fff; }
-				.grid td.editable input:focus:hover { background-color: #fff; }
-		.grid td.remove { padding: 2px; text-align: center; }
-		.grid .total { background-color: #f2f7f7; }
-		.grid tr:nth-child(odd) .total { background-color: #eaedf0; }
-		.grid .coltotal { background-color: #e7ebee; border-top: #aebcc2 solid 2px; border-right: #cbd4d8 solid 1px; border-left: #d3dbe1 solid 2px; color: #152b3c; }
-		.grid .blanktotal { background-color: white; border-right-color: white; }
-		.grid .blank { background-color: white; }
+.grid th.edit button { display: block; height: 32px; margin: -9px auto; }
+.grid th.edit { width: 60px; }
+.grid td.add { border-right-color: #eaa085; padding: 2px; text-align: center; }
+	.grid td.add button, .grid th.edit button, .grid td.remove button { padding: 0; width: 50px; font-weight: bold; color: #0e60a0; cursor: pointer; background-color: #c0ced8; border-radius: 2px; border: 1px solid #99b2c2; font-size: 10px; }
+	.grid td.add button { height: 20px; }
+.grid td.remove button { width: 23px; color: rgba(194, 56, 10, 0.90); background-color: hsla(204, 46%, 86%, 0.22); border: 1px solid hsla(239, 77%, 74%, 0.57); }
+	.grid td.remove button:after { content: 'X'; }
+.grid .adding td { border-top-color: #eaa085; border-bottom-color: #eaa085; background-color: #fff; }
+.grid tr.adding td:first-child { border-left-color: #eaa085; }
+.grid td, .grid .opencell { border: 1px solid #d3dbe1; height: 15px; }
+.grid .added.last td, .grid .added.last td { border-bottom-color: #1bac1b; }
+.grid td.editable input, .grid td { padding: 7px 9px; }
+	.grid td.editable { padding: 0; }
+.grid tbody tr { background-color: #fff; height: 3px; }
+	.grid tbody tr:nth-child(odd) { background-color: #f0f2f4; }
+	.grid tbody tr input { background-color: inherit; }
+	.grid tbody tr:nth-child(odd) input { background-color: #f0f2f4; border: 1px solid #f0f2f4; }
+.grid thead tr { color: #51677a; background-color: #d3dce4; border-top: #b9c6d0 solid 1px; border-right: 1px solid #d3dbe1; }
+.grid th.sort:hover { background-color: #f1f5f9; cursor: pointer; }
+.grid th { padding: 11px 0; border-left: 1px solid #fff; }
+	.grid th.filter { padding-bottom: 2px; padding-top: 10px; }
+	.grid th:first-child { border-left: 1px solid #d3dbe1; }
+	.grid th img { margin-left: 3px; margin-bottom: -1px; }
+.grid td input:hover { background-color: #e9f6fe; }
+.grid tbody tr:nth-child(odd) td input:hover { background-color: #dce3ea; }
+.grid td.editable input { border: 1px solid #fff; }
+	.grid td.editable input:focus { border: 1px solid #93c1e4; background-color: #fff; }
+		.grid td.editable input:focus:hover { background-color: #fff; }
+.grid td.remove { padding: 2px; text-align: center; }
+.grid .total { background-color: #f2f7f7; }
+.grid tr:nth-child(odd) .total { background-color: #eaedf0; }
+.grid .coltotal { background-color: #e7ebee; border-top: #aebcc2 solid 2px; border-right: #cbd4d8 solid 1px; border-left: #d3dbe1 solid 2px; color: #152b3c; }
+.grid .blanktotal { background-color: white; border-right-color: white; }
+.grid .blank { background-color: white; }

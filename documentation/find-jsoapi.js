@@ -247,6 +247,11 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "_type": "sample",
         "title": "",
         "text": "\n\n\n  Reverse sort the items\n  Replace the items\n  \n\n\n\n  Changes:\n  \n\nvar items = [\n    {id: \"item0\"},\n    {id: \"item1\"},\n    {id: \"item2\"},\n    {id: \"item3\"},\n    {id: \"item4\"}\n  ],\n  otherItems = [\n    {id: \"otherItem0\"},\n    {id: \"otherItem1\"},\n    {id: \"otherItem2\"}\n  ],\n  things = [\n    items[0],\n    items[1],\n    items[2],\n    items[3],\n    items[4]\n  ];\n\n$(\"#sort\").on(\"click\", function() {\n  $.observable(things).refresh(\n    things.slice().reverse() // copy array and reverse it\n  );\n});\n\n$(\"#replace\").on(\"click\", function() {\n  $.observable(things).refresh(\n    (things.length === 5 ? otherItems : items)\n  );\n});\n\nvar tmpl = $.templates(\"id: {{:id}}\");\n\ntmpl.link(\"#result\", things);\n\n$([things]).on(\"arrayChange\", changeHandler); \n\nvar message;\n\nfunction changeHandler(ev, eventArgs) {\n  if (eventArgs.refresh) {\n    message = message || \"Array.refresh() actions:\";\n    message += \" \" + eventArgs.change;\n  } else if (eventArgs.change === \"refresh\") {\n    message += \"Previous length: \" + eventArgs.oldItems.length\n      + \". New length: \" + ev.target.length + \"\";\n    $(\".messages\").append(message);\n    message = \"\";\n  }\n}\n\n$([things]).on(\"arrayChange\", changeHandler); \n\nReplacing with the same items in different order:\n\n$.observable(things).refresh(\n  things.slice().reverse() // copy array and reverse it\n);\n\nReplacing with a different set of items\n\n$.observable(things).refresh(\n  (things.length === 5 ? otherItems : items)\n);\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Note: Calling the refresh() method will in fact trigger multiple observable change events (see onArrayChange):\n\nFirst, conversion from the current array items to the new refreshed set of items will be broken down into a sequence of insert(), remove() and move() operations, and each will trigger a corresponding event.The eventArgs object for each of these events will have an additional property: refresh = true (together with the usual change=\"insert\" / \"remove\" / \"move\" etc.)\nSecondly, after those supplementary events, a change=\"refresh\" event will be triggered, which will also have an oldItems property\n\n"
       }
     ]
   },
@@ -296,9 +301,9 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "text": "JsViews and JsObservable raise a jQuery event: “propertyChange”, whenever an object changes observably.\nTo handle the propertyChange changes you have two alternatives:\n\nuse jQuery .on() to attach an event handler to the object\nuse $.observe() or  .observeAll() to associate a handler with the object, or with a path including the object\n\n"
       },
       {
-        "_type": "code",
+        "_type": "para",
         "title": "Using jQuery .on()",
-        "text": "Using jQuery .on()\n$(myObject).on(\"propertyChange\", myHandler);\n"
+        "text": "Using jQuery .on()\n$(myObject).on(\"propertyChange\", myHandler);\n\n(See Handling property change events sample below)\n"
       },
       {
         "_type": "para",
@@ -347,7 +352,7 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Arguments of the arrayChange event handler",
-        "text": "Arguments of the arrayChange event handler\nfunction changeHandler(ev, eventArgs) { ... }\n\nThe first argument (ev) is the jQuery event object\nThe properties include:\n\ntarget: the object which changed\nnamespace: The insert()/remove()/move()/refresh() namespace\ndata: JsViews metadata:\n\n– where ev.data JsViews metadata corresponds to the observe() or observeCall() call, with properties that include:\n\nns: The handler namespace\nobserveAll: access to additional metadata\n\n– where ev.data.observeAll, for observeAll() calls, provides methods:\n\nev.data.observeAll.path(): returns path to object being changed - e.g. \"root.team\"\nev.data.observeAll.parents(): returns ‘parent objects’ to object being changed, e.g. [team, model]\n\nThe second argument (eventArgs) is the JsViews event object for array changes\nThe properties are specific to the ‘change’ type:\n\nFor insert(): index and items. (With change=\"insert\")\nFor remove(): index and numToRemove. (With change=\"remove\")\nFor move(): oldIndex, index and items. (With change=\"move\")\nFor refresh(), multiple events will be triggered:\n\nFirst, conversion from the current array items to the new refreshed set of items will be broken down into a sequence of insert(), remove() and move() operations, and each will trigger a corresonding event.The eventArgs object for each of these events will have an additional property: refresh = true (together with the usual change=insert/remove/move etc.)\nSecondly, after those supplementary events, a change=\"refresh\" event will be triggered, which will also have an oldItems property\n\n\n"
+        "text": "Arguments of the arrayChange event handler\nfunction changeHandler(ev, eventArgs) { ... }\n\nThe first argument (ev) is the jQuery event object\nThe properties include:\n\ntarget: the object which changed\nnamespace: The insert() / remove() / move() / refresh() namespace\ndata: JsViews metadata:\n\n– where ev.data JsViews metadata corresponds to the observe() or observeCall() call, with properties that include:\n\nns: The handler namespace\nobserveAll: access to additional metadata\n\n– where ev.data.observeAll, for observeAll() calls, provides methods:\n\nev.data.observeAll.path(): returns path to object being changed - e.g. \"root.team\"\nev.data.observeAll.parents(): returns ‘parent objects’ to object being changed, e.g. [team, model]\n\nThe second argument (eventArgs) is the JsViews event object for array changes\nThe properties are specific to the ‘change’ type:\n\nFor insert(): index and items. (With change=\"insert\")\nFor remove(): index and numToRemove. (With change=\"remove\")\nFor move(): oldIndex, index and items. (With change=\"move\")\nFor refresh(), multiple events will be triggered:\n\nFirst, conversion from the current array items to the new refreshed set of items will be broken down into a sequence of insert(), remove() and move() operations, and each will trigger a corresponding event.The eventArgs object for each of these events will have an additional property: refresh = true (together with the usual change=\"insert\" / \"remove\" / \"move\" etc.)\nSecondly, after those supplementary events, a change=\"refresh\" event will be triggered, which will also have an oldItems property\n\n\n"
       },
       {
         "_type": "para",
@@ -460,7 +465,7 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "api",
         "title": "$.unobserve(objectOrArray, ..., myHandler)",
-        "text": "$.unobserve(objectOrArray, ..., myHandler)\nUnregister a handler for observable changes on one or more objects or data paths\nRemove handler for observable  changes on specific paths\n\n$.unobserve(person, \"address.street\", myHandler); \n\nRemove all handlers for all observable changes to target object/array\n\n$.unobserve(person); \n\nRemove any handlers targetting specific properties or paths\n\n$.unobserve(person, \"address.street\");\n\n"
+        "text": "$.unobserve(objectOrArray, ..., myHandler)\nUnregister a handler for observable changes on one or more objects or data paths\nRemove handler for observable  changes on specific paths\n\n$.unobserve(person, \"address.street\", myHandler); \n\nRemove all handlers for all observable changes to target object/array\n\n$.unobserve(person); \n\nRemove any handlers targeting specific properties or paths\n\n$.unobserve(person, \"address.street\");\n\nRemove handler from all objects/paths that it was observing\n\n$.unobserve(myHandler);\n\n"
       },
       {
         "_type": "para",
