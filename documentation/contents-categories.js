@@ -448,6 +448,14 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "JsRender without jQuery"
           },
           {
+            "name": "escapetag",
+            "label": "Escape {{ in template"
+          },
+          {
+            "name": "nullcheck",
+            "label": "Null checks in templates"
+          },
+          {
             "name": "jsrobjects",
             "label": "JsRender objects",
             "categories": [

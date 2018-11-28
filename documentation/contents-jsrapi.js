@@ -5455,8 +5455,16 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "Error handling"
           },
           {
-            "hash": "settings/advanced",
-            "label": "Advanced settings"
+            "hash": "nojqueryapi",
+            "label": "JsRender without jQuery"
+          },
+          {
+            "hash": "escapetag",
+            "label": "Escape {{ in template"
+          },
+          {
+            "hash": "nullcheck",
+            "label": "Null checks in templates"
           },
           {
             "hash": "jsrobjects",
@@ -8079,6 +8087,56 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "JsViews tag controls"
           }
         ]
+      }
+    ]
+  },
+  "escapetag": {
+    "title": "Escaping tag delimiters in a template",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In a template you can use HTML character entities, including `&#123;` for `{` and `&#125;` for `}` (or equivalently `&lcub;` and `&rcub;`) -- which can be useful if you want a template to output the characters \"...{{...\" without JsRender from parsing those characters as a tag delimiter.\n\nFor example, in a scenario using a JsRender template to generate another JsRender template from data, you might want to output the string `\"...{{myCustomTag/}}...\"`, where the name `myCustomTag` comes from data:\n\n```js\n{customTagName: \"myCustomTag\"}\n```\n\nThis is shown in the following sample:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Rather than writing\n\n```jsr\n... {{{{:customTagName}} ... /}} ...\n```\n\nwe write:\n\n\n```jsr\n... &#123;&#123;{{:customTagName}} ... /&#125;&#125; ...\n```\n\n*Note:* In fact the parser is looking for `{{`, `{^{` and `}}`as tag delimiters, so the following will also work:\n\n```jsr\n... {&#123;{{:customTagName}} ... /&#125;} ...\n```\n"
+          }
+        ],
+        "jsrJsvJqui": "jsr",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n... {&#123;{{:customTagName}} ... /&#125;} ...\n</script>\n\n<div id=\"page\"></div>",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = {customTagName: \"myCustomTag\"},\n\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);",
+        "height": "45"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Suppose you have:\n\n```js\nvar html = myTemplate.render(myOrder);\n```\nand your template is:\n\n```jsr\n{{:shipping.id}}\n```\n\nHere are the results with the different versions of `myOrder`:\n\n- `myOrder = {shipping: {name: \"Jo\", id: \"J1\"} }`<br/>result: `\"J1\"`\n- `myOrder = {shipping: {name: \"Jo\"} }`<br/>result: `\"\"`\n- `myOrder = {}`<br/>result: `\"{Error: TypeError: Unable to get property 'id' of undefined or null reference}\"`\n\nSo now, here are several ways to handle that last case -- without outputting the error message:\n\n***1)** Use `onerror=...` on the `{{:}}` tag to specify a fallback rendering of the tag in the case of error.*\n\nFor example if you want to render the empty string when the shipping object is null or undefined, you can use the template:\n\n```jsr\n{{:shipping.id onerror=''}}\n```\n\nOr you could write \n\n```jsr\n{{:shipping.id onerror='no shipping info'}}\n```\n\n***2)** Test for the shipping object using `{{if}}` or `{{if}} {{else}} {{/if}}`*\n\n```jsr\n{{if shipping}}{{:shipping.id}}{{else}}no shipping info{{/if}}\n```\n\n***3)** Use `{{for}}` or `{{for}} {{else}} {{/for}}`*\n\n```jsr\n{{for shipping}}{{:id}}{{else}}no shipping info{{/for}}\n```\n\n***4)** Use a null check*\n\n```jsr\n{{:shipping && shipping.id}}\n```\n\n***5)** Use a ternary expression*\n\n```jsr\n{{:shipping ? shipping.id : 'no shipping info'}}\n```\n\nSo to summarize, here is a template showing all of these alternatives:\n\n*Template:*\n\n```jsr\n1 {{:shipping.id onerror='no shipping info'}}<br/>\n2 {{if shipping}}{{:shipping.id}}{{else}}no shipping info{{/if}}<br />\n3 {{for shipping}}{{:id}}{{else}}no shipping info{{/for}}<br />\n4 {{:shipping && shipping.id}}<br />\n5 {{:shipping ? shipping.id : 'no shipping info'}}<br />\n```\n\n*Script:*\n\n```js\nvar myOrder = {};\nvar html = myTemplate.render(myOrder);\n```\n\n*Result:*\n\n```html\n1 no shipping info\n2 no shipping info\n3 no shipping info\n4\n5 no shipping info\n```\n\nFinally, if the order itself is null or undefined, or if you pass an array of orders, but some may be undefined, then you can wrap the whole template by an `{{if #data}}` or equivalently simply `{{if}}`, which tests for whether the current object, (the contextual data object that you are rendering this template against) is null.\n\n*Template:*\n\n```jsr\n{{if}}\n  {{:shipping.id onerror='no shipping info'}}<br/>\n{{else}}\n  no order<br/>\n{{/if}}\n```\n\n*Script:*\n\n```js\nvar myOrders = [\n  {shipping: {id: \"J1\"}},\n  ,\n  {},\n  {shipping: {id: \"J2\"}},\n];\n\nvar html = myTemplate.render(myOrders)\n```\n\n*Result:*\n\n<pre>\nJ1\nno order\nno shipping info\nJ2\n</pre>"
+      }
+    ]
+  },
+  "nullcheck": {
+    "title": "Null checks in templates",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Suppose you have:\n\n```js\nvar html = myTemplate.render(myOrder);\n```\nand your template is:\n\n```jsr\n{{:shipping.id}}\n```\n\nSometimes you need to handle the case where the parent object, such as `shipping` might be `null` or `undefined`.\n\nHere are the results with different versions of `myOrder`:\n\n- `myOrder = {shipping: {name: \"Jo\", id: \"J1\"} }`<br/>result: `\"J1\"`\n- `myOrder = {shipping: {name: \"Jo\"} }`<br/>result: `\"\"`\n- `myOrder = {}`<br/>(Note that the `shipping` object is `undefined`)<br/>result: `\"{Error: TypeError: Unable to get property 'id' of undefined or null reference}\"`\n\nSo now, here are several ways to handle that last case -- without outputting the error message:\n\n***1)** Use `onerror=...` on the `{{:}}` tag to specify a fallback rendering of the tag in the case of error.*\n\nFor example if you want to render the empty string when the shipping object is null or undefined, you can use the template:\n\n```jsr\n{{:shipping.id onerror=''}}\n```\n\nOr you could write \n\n```jsr\n{{:shipping.id onerror='no shipping info'}}\n```\n\n***2)** Test for the shipping object using `{{if}}` or `{{if}} {{else}} {{/if}}`*\n\n```jsr\n{{if shipping}}{{:shipping.id}}{{else}}no shipping info{{/if}}\n```\n\n***3)** Use `{{for}}` or `{{for}} {{else}} {{/for}}`*\n\n```jsr\n{{for shipping}}{{:id}}{{else}}no shipping info{{/for}}\n```\n\n***4)** Use a null check*\n\n```jsr\n{{:shipping && shipping.id}}\n```\n\n***5)** Use a ternary expression*\n\n```jsr\n{{:shipping ? shipping.id : 'no shipping info'}}\n```\n\nSo to summarize, here is a template showing all of these alternatives:\n\n*Template:*\n\n```jsr\n1 {{:shipping.id onerror='no shipping info'}}<br/>\n2 {{if shipping}}{{:shipping.id}}{{else}}no shipping info{{/if}}<br />\n3 {{for shipping}}{{:id}}{{else}}no shipping info{{/for}}<br />\n4 {{:shipping && shipping.id}}<br />\n5 {{:shipping ? shipping.id : 'no shipping info'}}<br />\n```\n\n*Script:*\n\n```js\nvar myOrder = {};\nvar html = myTemplate.render(myOrder);\n```\n\n*Result:*\n\n<pre>\n1 no shipping info\n2 no shipping info\n3 no shipping info\n4\n5 no shipping info\n</pre>\n\nFinally, if the order itself is null or undefined, or if you pass an array of orders, but some may be undefined, then you can wrap the whole template by an `{{if #data}}` or equivalently simply `{{if}}`, which tests for whether the current object, (the contextual data object that you are rendering this template against) is null.\n\n*Template:*\n\n```jsr\n{{if}}\n  {{:shipping.id onerror='no shipping info'}}<br/>\n{{else}}\n  no order<br/>\n{{/if}}\n```\n\n*Script:*\n\n```js\nvar myOrders = [\n  {shipping: {id: \"J1\"}},\n  ,\n  {},\n  {shipping: {id: \"J2\"}},\n];\n\nvar html = myTemplate.render(myOrders)\n```\n\n*Result:*\n\n<pre>\nJ1\nno order\nno shipping info\nJ2\n</pre>"
       }
     ]
   }

@@ -4876,6 +4876,10 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "hash": "jsvobjects",
             "label": "JsViews objects"
+          },
+          {
+            "hash": "jsvunlink",
+            "label": "$.unlink()"
           }
         ]
       }
