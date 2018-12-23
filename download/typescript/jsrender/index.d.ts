@@ -8,10 +8,12 @@
 /// <reference types="jquery" />
 
 declare module 'jsrender' {
-    export = jsrender;
+	export = jsrender;
 }
 
-declare const jsrender: JQueryStatic;
+declare const jsrender: ((jquery?: JQueryStatic) => JQueryStatic) & JQueryStatic;
+
+// ********************************** JsRender **********************************
 
 interface JQueryStatic {
 	/* var htmlString = $.render.templateName(data, myHelpersObject); // Render named template */

@@ -971,7 +971,7 @@ if (!$.observe) {
 			self._srt = true; // Flag for sorting during refresh
 			for (j=k=0; j<newLength; j++) {
 				if ((newItem = newItems[j]) === data[j-k]) {
-						insertAdded();
+					insertAdded();
 				} else {
 					for (i=j-k; i<dataLength; i++) {
 						if (newItem === data[i]) {
@@ -1069,7 +1069,7 @@ if (!$.observe) {
 				} else if (!unbound) {
 					if (mapDef.obsSrc) {
 						$observable(map.src).observeAll(map.obs = function(ev, eventArgs) {
-							if (!changing) {
+							if (!changing && !eventArgs.refresh) {
 								changing = true;
 								mapDef.obsSrc(map, ev, eventArgs);
 								changing = undefined;

@@ -5467,6 +5467,10 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "Null checks in templates"
           },
           {
+            "hash": "unicode",
+            "label": "Unicode character support"
+          },
+          {
             "hash": "jsrobjects",
             "label": "JsRender objects"
           }
@@ -8121,11 +8125,6 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n... {&#123;{{:customTagName}} ... /&#125;} ...\n</script>\n\n<div id=\"page\"></div>",
         "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = {customTagName: \"myCustomTag\"},\n\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);",
         "height": "45"
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "Suppose you have:\n\n```js\nvar html = myTemplate.render(myOrder);\n```\nand your template is:\n\n```jsr\n{{:shipping.id}}\n```\n\nHere are the results with the different versions of `myOrder`:\n\n- `myOrder = {shipping: {name: \"Jo\", id: \"J1\"} }`<br/>result: `\"J1\"`\n- `myOrder = {shipping: {name: \"Jo\"} }`<br/>result: `\"\"`\n- `myOrder = {}`<br/>result: `\"{Error: TypeError: Unable to get property 'id' of undefined or null reference}\"`\n\nSo now, here are several ways to handle that last case -- without outputting the error message:\n\n***1)** Use `onerror=...` on the `{{:}}` tag to specify a fallback rendering of the tag in the case of error.*\n\nFor example if you want to render the empty string when the shipping object is null or undefined, you can use the template:\n\n```jsr\n{{:shipping.id onerror=''}}\n```\n\nOr you could write \n\n```jsr\n{{:shipping.id onerror='no shipping info'}}\n```\n\n***2)** Test for the shipping object using `{{if}}` or `{{if}} {{else}} {{/if}}`*\n\n```jsr\n{{if shipping}}{{:shipping.id}}{{else}}no shipping info{{/if}}\n```\n\n***3)** Use `{{for}}` or `{{for}} {{else}} {{/for}}`*\n\n```jsr\n{{for shipping}}{{:id}}{{else}}no shipping info{{/for}}\n```\n\n***4)** Use a null check*\n\n```jsr\n{{:shipping && shipping.id}}\n```\n\n***5)** Use a ternary expression*\n\n```jsr\n{{:shipping ? shipping.id : 'no shipping info'}}\n```\n\nSo to summarize, here is a template showing all of these alternatives:\n\n*Template:*\n\n```jsr\n1 {{:shipping.id onerror='no shipping info'}}<br/>\n2 {{if shipping}}{{:shipping.id}}{{else}}no shipping info{{/if}}<br />\n3 {{for shipping}}{{:id}}{{else}}no shipping info{{/for}}<br />\n4 {{:shipping && shipping.id}}<br />\n5 {{:shipping ? shipping.id : 'no shipping info'}}<br />\n```\n\n*Script:*\n\n```js\nvar myOrder = {};\nvar html = myTemplate.render(myOrder);\n```\n\n*Result:*\n\n```html\n1 no shipping info\n2 no shipping info\n3 no shipping info\n4\n5 no shipping info\n```\n\nFinally, if the order itself is null or undefined, or if you pass an array of orders, but some may be undefined, then you can wrap the whole template by an `{{if #data}}` or equivalently simply `{{if}}`, which tests for whether the current object, (the contextual data object that you are rendering this template against) is null.\n\n*Template:*\n\n```jsr\n{{if}}\n  {{:shipping.id onerror='no shipping info'}}<br/>\n{{else}}\n  no order<br/>\n{{/if}}\n```\n\n*Script:*\n\n```js\nvar myOrders = [\n  {shipping: {id: \"J1\"}},\n  ,\n  {},\n  {shipping: {id: \"J2\"}},\n];\n\nvar html = myTemplate.render(myOrders)\n```\n\n*Result:*\n\n<pre>\nJ1\nno order\nno shipping info\nJ2\n</pre>"
       }
     ]
   },
@@ -8137,6 +8136,46 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "",
         "text": "Suppose you have:\n\n```js\nvar html = myTemplate.render(myOrder);\n```\nand your template is:\n\n```jsr\n{{:shipping.id}}\n```\n\nSometimes you need to handle the case where the parent object, such as `shipping` might be `null` or `undefined`.\n\nHere are the results with different versions of `myOrder`:\n\n- `myOrder = {shipping: {name: \"Jo\", id: \"J1\"} }`<br/>result: `\"J1\"`\n- `myOrder = {shipping: {name: \"Jo\"} }`<br/>result: `\"\"`\n- `myOrder = {}`<br/>(Note that the `shipping` object is `undefined`)<br/>result: `\"{Error: TypeError: Unable to get property 'id' of undefined or null reference}\"`\n\nSo now, here are several ways to handle that last case -- without outputting the error message:\n\n***1)** Use `onerror=...` on the `{{:}}` tag to specify a fallback rendering of the tag in the case of error.*\n\nFor example if you want to render the empty string when the shipping object is null or undefined, you can use the template:\n\n```jsr\n{{:shipping.id onerror=''}}\n```\n\nOr you could write \n\n```jsr\n{{:shipping.id onerror='no shipping info'}}\n```\n\n***2)** Test for the shipping object using `{{if}}` or `{{if}} {{else}} {{/if}}`*\n\n```jsr\n{{if shipping}}{{:shipping.id}}{{else}}no shipping info{{/if}}\n```\n\n***3)** Use `{{for}}` or `{{for}} {{else}} {{/for}}`*\n\n```jsr\n{{for shipping}}{{:id}}{{else}}no shipping info{{/for}}\n```\n\n***4)** Use a null check*\n\n```jsr\n{{:shipping && shipping.id}}\n```\n\n***5)** Use a ternary expression*\n\n```jsr\n{{:shipping ? shipping.id : 'no shipping info'}}\n```\n\nSo to summarize, here is a template showing all of these alternatives:\n\n*Template:*\n\n```jsr\n1 {{:shipping.id onerror='no shipping info'}}<br/>\n2 {{if shipping}}{{:shipping.id}}{{else}}no shipping info{{/if}}<br />\n3 {{for shipping}}{{:id}}{{else}}no shipping info{{/for}}<br />\n4 {{:shipping && shipping.id}}<br />\n5 {{:shipping ? shipping.id : 'no shipping info'}}<br />\n```\n\n*Script:*\n\n```js\nvar myOrder = {};\nvar html = myTemplate.render(myOrder);\n```\n\n*Result:*\n\n<pre>\n1 no shipping info\n2 no shipping info\n3 no shipping info\n4\n5 no shipping info\n</pre>\n\nFinally, if the order itself is null or undefined, or if you pass an array of orders, but some may be undefined, then you can wrap the whole template by an `{{if #data}}` or equivalently simply `{{if}}`, which tests for whether the current object, (the contextual data object that you are rendering this template against) is null.\n\n*Template:*\n\n```jsr\n{{if}}\n  {{:shipping.id onerror='no shipping info'}}<br/>\n{{else}}\n  no order<br/>\n{{/if}}\n```\n\n*Script:*\n\n```js\nvar myOrders = [\n  {shipping: {id: \"J1\"}},\n  ,\n  {},\n  {shipping: {id: \"J2\"}},\n];\n\nvar html = myTemplate.render(myOrders)\n```\n\n*Result:*\n\n<pre>\nJ1\nno order\nno shipping info\nJ2\n</pre>"
+      }
+    ]
+  },
+  "unicode": {
+    "title": "Unicode character support",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In some scenarios, JsRender or JsViews might need to work with data which includes unicode parameters in property names:\n\n```js\nvar data = {\n  människa: {\n    função: \"a1\",\n    角色: \"b2\",\n    ...\n```\n\nThe use of unicode characters in JavaScript names, as in the above example, is indeed allowed by the ECMAScript standard.\n\nA JsRender template might then need to include \n\n```jsr\n{{:människa.角色}}\n```\n\nIf using JsViews, the template might include:\n\n```jsr\n<input data-link=\"människa.rôle\"/>\n{^{:människa.rôle}}\n```\n\nBy default, JsRender and JsViews data path names allow only the characters `[a-zA-Z_$][0-9a-zA-Z_$]*` (ASCII letters and numbers, together with `_` and  `$`).\n\nThis support can be extended to allow *__also any unicode characters__*, by loading the [*__jsrender-unicode.js__ plugin library*](#unicode-plugin) (after loading *jsrender.js* or *jsviews.js*), as shown in the following sample.\n\nHere is an example:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<head>\n  <script src=\"https://code.jquery.com/jquery-3.3.1.min.js\"></script>\n  <script src=\"https://www.jsviews.com/download/jsviews.min.js\"></script>\n  <script src=\"https://www.jsviews.com/download/plugins/jsrender-unicode.min.js\"></script>\n</head>\n<body>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"människa.função\"/>\n  {^{:människa.função}} <br/>\n\n  <input data-link=\"människa.角色\"/>\n  {^{:människa.角色}} <br/>\n  ...\n</script>\n\n<div id=\"page\"></div>\n\n<script>\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    människa: {\n      função: \"a1\",\n      角色: \"b2\",\n      ...\n    }\n  };\n\nmyTmpl.link(\"#page\", data);\n</script>\n...\n```\n"
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"människa.função\"/>\n  {^{:människa.função}} <br/>\n\n  <input data-link=\"människa.角色\"/>\n  {^{:människa.角色}} <br/>\n\n  <input data-link=\"människa.rôle\"/>\n  {^{:människa.rôle}} <br/>\n\n  <input data-link=\"människa.وظيفة\"/>\n  {^{:människa.وظيفة}} <br/>\n\n  <input data-link=\"människa.ሚና\"/>\n  {^{:människa.ሚና}} <br/>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    människa: {\n      função: \"a1\",\n      角色: \"b2\",\n      rôle: \"c3\",\n      وظيفة: \"d4\",\n      ሚና: \"ዳይሬክተር6\"\n    }\n  };\n\nmyTmpl.link(\"#page\", data);",
+        "header": "<script src=\"https://www.jsviews.com/download/plugins/jsrender-unicode.min.js\"></script>\n",
+        "action": "prepend",
+        "height": "140"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See: [Unicode support: *__jsrender-unicode.js__*](#unicode-plugin)\n"
       }
     ]
   }

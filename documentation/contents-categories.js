@@ -456,6 +456,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "Null checks in templates"
           },
           {
+            "name": "unicode",
+            "label": "Unicode character support"
+          },
+          {
             "name": "jsrobjects",
             "label": "JsRender objects",
             "categories": [
@@ -492,7 +496,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "expanded": true
           }
         ],
-        "expanded": false
+        "expanded": true
       },
       {
         "name": "jsrnode",
@@ -1417,12 +1421,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
         "label": "Latest version"
       },
       {
-        "name": "download/specific",
-        "label": "Specific versions",
-        "expanded": true,
-        "hidden": true
-      },
-      {
         "name": "download/pages",
         "label": "Example pages",
         "categories": [
@@ -1444,7 +1442,13 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "name": "download/jsrplugins",
         "label": "JsRender plugins",
-        "expanded": true
+        "expanded": true,
+        "categories": [
+          {
+            "name": "unicode-plugin",
+            "label": "Unicode support"
+          }
+        ]
       },
       {
         "name": "download/jsvplugins",

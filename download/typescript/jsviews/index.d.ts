@@ -1,13 +1,17 @@
 // Type definitions for JsViews 1.0.0
 // Project: http://www.jsviews.com/
 // Definitions by: Boris Moore <https://github.com/borismoore>
-
-// Definitions at: https://www.jsviews.com/#typescript
-// Will also be at: https://github.com/DefinitelyTyped/DefinitelyTyped
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 3.1.6
 
 /// <reference types="jquery" />
 /// <reference types="jsrender" />
+
+declare module 'jsviews' {
+	export = jsviews;
+}
+
+declare const jsviews: ((jquery?: JQueryStatic) => JQueryStatic) & JQueryStatic;
 
 // ********************************** JsObservable **********************************
 
@@ -27,11 +31,11 @@ declare namespace JsViews {
 interface Observable {
 	/* $.observable(array) */
 	(data: any[]): ArrayObservable;
-	(ns: string,data: any[]): ArrayObservable;
+	(ns: string, data: any[]): ArrayObservable;
 
 	/* $.observable(object) */
 	(data: object): ObjectObservable;
-	(ns: string,data: object): ObjectObservable;
+	(ns: string, data: object): ObjectObservable;
 }
 
 interface Observe {
@@ -108,7 +112,7 @@ interface PropEvtArgs {
 	value?: any;
 	oldValue?: any;
 	remove?: boolean;
-//	[propName: string]: any;
+	//	[propName: string]: any;
 }
 interface ArrayEvtArgs {
 	/* JsViews event object, eventArgs, passed to observable change handler for array change */
@@ -119,7 +123,7 @@ interface ArrayEvtArgs {
 	numToRemove?: number;
 	oldItems?: any[];
 	refresh?: boolean;
-//	[propName: string]: any;
+	//	[propName: string]: any;
 }
 
 interface EvtArgs extends PropEvtArgs, ArrayEvtArgs {
@@ -209,14 +213,14 @@ interface dependsFunction {
 
 interface TagOptions {
 	/* Tag options hash */
-	init? (this: Tag, tagCtx: TagCtx, linkCtx: LinkCtx|boolean, ctx: Context): void;
+	init? (this: Tag, tagCtx: TagCtx, linkCtx: LinkCtx | boolean, ctx: Context): void ;
 	dataBoundOnly?: boolean;
 	boundProps?: string[];
 	depends?: string | any[] | dependsFunction;
 	setSize?: boolean;
 
-	height?: string|number;
-	width?: string|number;
+	height?: string | number;
+	width?: string | number;
 	className?: string;
 
 	linkedElement?: string | string[];
@@ -229,19 +233,19 @@ interface TagOptions {
 	dataMap?: any;
 	lateRender?: boolean;
 
-	onBind?: (tagCtx: TagCtx, linkCtx: LinkCtx, ctx: Context, ev: EventObject, eventArgs: EvtArgs) => void;
-	onAfterLink?: (tagCtx: TagCtx, linkCtx: LinkCtx, ctx: Context, ev: EventObject, eventArgs: EvtArgs) => void;
+	onBind?: (tagCtx: TagCtx, linkCtx: LinkCtx, ctx: Context, ev: EventObject, eventArgs: EvtArgs) => void ;
+	onAfterLink?: (tagCtx: TagCtx, linkCtx: LinkCtx, ctx: Context, ev: EventObject, eventArgs: EvtArgs) => void ;
 	onUpdate?: boolean | ((ev: EventObject, eventArgs: EvtArgs, tagCtxs: TagCtx[]) => any);
 
-	onDispose?: () => void;
+	onDispose?: () => void ;
 
-	convertBack?: string|Converter;
-	onUnbind?: (tagCtx: TagCtx, linkCtx: LinkCtx, ctx: Context, ev: EventObject, eventArgs: EvtArgs) => void;
-	onBeforeUpdateVal?: (ev: EventObject, eventArgs: EvtArgs) => boolean | void;
-	onBeforeChange?: (ev: EventObject, eventArgs: EvtArgs) => boolean | void;
-	onAfterChange?: (ev: EventObject, eventArgs: EvtArgs) => void;
-	onArrayChange?: (ev: EventObject, eventArgs: EvtArgs) => void;
-	setValue?: (value: any, index?: number, elseBlock?: number) => void;
+	convertBack?: string | Converter;
+	onUnbind?: (tagCtx: TagCtx, linkCtx: LinkCtx, ctx: Context, ev: EventObject, eventArgs: EvtArgs) => void ;
+	onBeforeUpdateVal?: (ev: EventObject, eventArgs: EvtArgs) => boolean | void ;
+	onBeforeChange?: (ev: EventObject, eventArgs: EvtArgs) => boolean | void ;
+	onAfterChange?: (ev: EventObject, eventArgs: EvtArgs) => void ;
+	onArrayChange?: (ev: EventObject, eventArgs: EvtArgs) => void ;
+	setValue?: (value: any, index?: number, elseBlock?: number) => void ;
 	domChange?: (...args: any[]) => void;
 }
 
@@ -320,7 +324,7 @@ interface View {
 	contents(selectorOrNode?: string|Node|JQuery): JQuery;
 	childTags(deep?: boolean, tagName?: string): Tag[];
 	childTags(tagName?: string): Tag[];
-//	link(data: any, parentNode: any, prevNode: any, nextNode: any, html: string, refresh?: boolean): any[]; // Undocumented...
+	//	link(data: any, parentNode: any, prevNode: any, nextNode: any, html: string, refresh?: boolean): any[]; // Undocumented...
 }
 
 interface GetView {

@@ -7,7 +7,7 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       {
         "_type": "para",
         "title": "",
-        "text": "The latest version of both JsRender and JsViews is v1.0.0\n"
+        "text": "The latest version of both JsRender and JsViews is v1.0.1\n"
       },
       {
         "_type": "para",
@@ -41,20 +41,6 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       }
     ]
   },
-  "download/specific": {
-    "sections": [
-      {
-        "_type": "links",
-        "title": "",
-        "text": ""
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "Specific named versions:\n(These links will continue to point to the specific version, even after subsequent new releases).\nTo download these files, right-click and select “Save as…” from the menu.\nJsRender beta\nStatus: JsRender is currently beta. V1.0 is planned to be available right after JsViews official beta release is complete.\nUncompressed (for development): jsrender-v1.0.0-beta.js.Compressed (for production): jsrender-v1.0.0-beta.min.js. (Source map available here).\nJsViews pre beta\nStatus: JsViews is currently a beta candidate. It will be officially labelled “beta” as soon as reasonably complete documentation for the JsViews and JsObservable APIs has been made available on this site. (Coming soon…)\nSingle file version (includes JsRender, JsObservable and JsViews)\nUncompressed (for development): jsviews-v1.0.0-alpha.js.Compressed (for production): jsviews-v1.0.0-alpha.min.js. (Source map available here).\nSeparate files (to be used with jsrender.js)\nUncompressed (for development): jquery.views-v1.0.0-alpha.js.Compressed (for production): jquery.views-v1.0.0-alpha.min.js. (Source map available here).\nUncompressed (for development): jquery.observable-v1.0.0-alpha.js.Compressed (for production): jquery.observable-v1.0.0-alpha.min.js. (Source map available here).\n"
-      }
-    ]
-  },
   "download/sample-tagcontrols": {
     "sections": [
       {
@@ -83,7 +69,7 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       {
         "_type": "para",
         "title": "Alternatives: replace the JsRender &lt;script&gt; tag above by one of the following:",
-        "text": "Alternatives: replace the JsRender <script> tag above by one of the following:\nUsing latest version, minified, from www.jsviews.com:\n<script src=\"https://www.jsviews.com/download/jsrender.min.js\"></script>\n\nUsing specific version from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.0/jsrender.js\"></script>\n\nUsing specific version, minified, from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.0/jsrender.min.js\"></script>\n\nLoading from the file system after Bower install:\n– Install JsRender on local file system, using $ bower install jsrender– then load jsrender.js or jsrender.min.js from the bower_components/jsrender/ folder, as in:\n<script src=\"bower_components/jsrender/jsrender.js\"></script>\n\n"
+        "text": "Alternatives: replace the JsRender <script> tag above by one of the following:\nUsing latest version, minified, from www.jsviews.com:\n<script src=\"https://www.jsviews.com/download/jsrender.min.js\"></script>\n\nUsing specific version from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.1/jsrender.js\"></script>\n\nUsing specific version, minified, from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.0/jsrender.min.js\"></script>\n\nLoading from the file system after Bower install:\n– Install JsRender on local file system, using $ bower install jsrender– then load jsrender.js or jsrender.min.js from the bower_components/jsrender/ folder, as in:\n<script src=\"bower_components/jsrender/jsrender.js\"></script>\n\n"
       }
     ]
   },
@@ -97,7 +83,7 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       {
         "_type": "para",
         "title": "Alternatives: replace the JsRender &lt;script&gt; tag above by one of the following:",
-        "text": "Alternatives: replace the JsRender <script> tag above by one of the following:\nUsing latest version, minified, from www.jsviews.com:\n<script src=\"https://www.jsviews.com/download/jsrender.min.js\"></script>\n\nUsing specific version from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.0/jsrender.js\"></script>\n\nUsing specific version, minified, from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.0/jsrender.min.js\"></script>\n\nLoading from the file system after Bower install:\n– Install JsRender on local file system, using $ bower install jsrender– then load jsrender.js or jsrender.min.js from the bower_components/jsrender/ folder, as in:\n<script src=\"bower_components/jsrender/jsrender.js\"></script>\n\n"
+        "text": "Alternatives: replace the JsRender <script> tag above by one of the following:\nUsing latest version, minified, from www.jsviews.com:\n<script src=\"https://www.jsviews.com/download/jsrender.min.js\"></script>\n\nUsing specific version from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.1/jsrender.js\"></script>\n\nUsing specific version, minified, from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.0/jsrender.min.js\"></script>\n\nLoading from the file system after Bower install:\n– Install JsRender on local file system, using $ bower install jsrender– then load jsrender.js or jsrender.min.js from the bower_components/jsrender/ folder, as in:\n<script src=\"bower_components/jsrender/jsrender.js\"></script>\n\n"
       }
     ]
   },
@@ -111,7 +97,7 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       {
         "_type": "para",
         "title": "Alternatives: replace the JsViews &lt;script&gt; tag above by one of the following:",
-        "text": "Alternatives: replace the JsViews <script> tag above by one of the following:\nUsing latest version, minified, from www.jsviews.com:\n<script src=\"https://www.jsviews.com/download/jsviews.min.js\"></script>\n\nUsing specific version from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jsviews.js\"></script>\n\nUsing specific version, minified, from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jsviews.min.js\"></script>\n\nLoading from the file system after Bower install:\n– Install JsViews on local file system, using $ bower install jsviews– then load jsviews.js or jsviews.min.js from the bower_components/jsviews/ folder, as in:\n<script src=\"bower_components/jsviews/jsviews.js\"></script>\n\n"
+        "text": "Alternatives: replace the JsViews <script> tag above by one of the following:\nUsing latest version, minified, from www.jsviews.com:\n<script src=\"https://www.jsviews.com/download/jsviews.min.js\"></script>\n\nUsing specific version from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.1/jsviews.js\"></script>\n\nUsing specific version, minified, from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jsviews.min.js\"></script>\n\nLoading from the file system after Bower install:\n– Install JsViews on local file system, using $ bower install jsviews– then load jsviews.js or jsviews.min.js from the bower_components/jsviews/ folder, as in:\n<script src=\"bower_components/jsviews/jsviews.js\"></script>\n\n"
       },
       {
         "_type": "para",
@@ -126,7 +112,7 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       {
         "_type": "para",
         "title": "Alternatives: replace the three JsViews &lt;script&gt; tags above by one of the following:",
-        "text": "Alternatives: replace the three JsViews <script> tags above by one of the following:\nUsing latest version, minified, from www.jsviews.com:\n<script src=\"https://www.jsviews.com/download/jsrender.min.js\"></script>\n<script src=\"https://www.jsviews.com/download/jquery.observable.min.js\"></script>\n<script src=\"https://www.jsviews.com/download/jquery.views.min.js\"></script>\n\nUsing specific version from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jsrender.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jquery.observable.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jquery.views.js\"></script>\n\nUsing specific version, minified, from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jsrender.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jquery.observable.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jquery.views.min.js\"></script>\n\nLoading from the file system after Bower install:\n– Install JsViews on local file system, using $ bower install jsviews– then load the correspondins .js or .min.js files from the bower_components/jsviews/ folder, as in:\n<script src=\"bower_components/jsviews/jsrender.js\"></script>\n<script src=\"bower_components/jsviews/jquery.observable.js\"></script>\n<script src=\"bower_components/jsviews/jquery.views.js\"></script>\n\n"
+        "text": "Alternatives: replace the three JsViews <script> tags above by one of the following:\nUsing latest version, minified, from www.jsviews.com:\n<script src=\"https://www.jsviews.com/download/jsrender.min.js\"></script>\n<script src=\"https://www.jsviews.com/download/jquery.observable.min.js\"></script>\n<script src=\"https://www.jsviews.com/download/jquery.views.min.js\"></script>\n\nUsing specific version from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.1/jsrender.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jquery.observable.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jquery.views.js\"></script>\n\nUsing specific version, minified, from CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jsrender.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jquery.observable.min.js\"></script>\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.0/jquery.views.min.js\"></script>\n\nLoading from the file system after Bower install:\n– Install JsViews on local file system, using $ bower install jsviews– then load the correspondins .js or .min.js files from the bower_components/jsviews/ folder, as in:\n<script src=\"bower_components/jsviews/jsrender.js\"></script>\n<script src=\"bower_components/jsviews/jquery.observable.js\"></script>\n<script src=\"bower_components/jsviews/jquery.views.js\"></script>\n\n"
       }
     ]
   },
@@ -159,12 +145,17 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender can be extended by including external libraries of custom tags, converters, helpers etc. – such as the jsonview.js library:\n"
+        "text": "JsRender can be extended by including external libraries of custom tags, converters, helpers etc. – such as the jsonview.js library, or the jsrender-unicode.js plugin.\n"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "...\n<script src=\"https://www.jsviews.com/download/jsrender.js\"></script>\n<script src=\"https://www.jsviews.com/download/sample-tag-controls/jsonview.js\"></script>\n...\n\n"
+        "text": "...\n<script src=\"https://www.jsviews.com/download/jsrender.js\"></script>\n<script src=\"https://www.jsviews.com/download/sample-tag-controls/jsonview.js\"></script>\n<script src=\"https://www.jsviews.com/download/plugins/jsrender-unicode.js\"></script>\n...\n\n"
+      },
+      {
+        "_type": "links",
+        "title": "",
+        "text": ""
       }
     ]
   },
@@ -193,6 +184,20 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
         "_type": "para",
         "title": "",
         "text": "JsRender and JsViews have TypeScript declaration files available:\n\nindex.d.ts for jsrender\nindex.d.ts for jsviews\n\nBoth will be published to DefinitelyTyped.\nNote that the JsViews declaration file depends on the JsRender declaration file (and both depend on the jQuery TypeScript declaration file). They include appropriate triple slash type references such as /// <reference types=\"jsrender\" />\n"
+      }
+    ]
+  },
+  "unicode-plugin": {
+    "sections": [
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The JsRender unicode library: jsrender-unicode.js is a plugin which extends JsRender and JsViews template parsing so that unicode characters in data property names are supported. See the Unicode character support topic.\n"
+      },
+      {
+        "_type": "para",
+        "title": "Download",
+        "text": "Download\nUncompressed (for development): jsrender-unicode.js\nCompressed (for production): jsrender-unicode.min.js. (Source map available here)\n(To download, right-click and select “Save as…” from the menu.)\n"
       }
     ]
   }

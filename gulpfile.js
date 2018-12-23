@@ -108,6 +108,9 @@ function minifyFile(folder, file, stream) {
 }
 gulp.task('minifyLibs', function() {
 	minifyFile('sample-tag-controls/', 'jsviews-jqueryui-widgets.js');
+
+	minifyFile('plugins/', 'jsrender-unicode.js');
+	
 	minifyFile('sample-tag-controls/jsonview/', 'jsonview.js');
 	minifyFile('sample-tag-controls/multiselect/', 'multiselect.js');
 	minifyFile('sample-tag-controls/range/', 'range.js');

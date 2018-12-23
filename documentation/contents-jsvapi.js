@@ -3087,7 +3087,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "This section shows data-linking to `<select>` elements:\n\n- [Two-way data-binding](#link-select@2way)\n- Data-driven by [array](#link-select@array) data (in a `{{for}}` loop)\n- Data-driven by an [editable array](#link-select@edit) (in a `{^{for}}` loop)\n- Using [converters](#link-select@convert)\n- [Multiple selection](#link-select@multiple)"
+        "text": "This section shows data-linking to `<select>` elements:\n\n- [Two-way data-binding](#link-select@2way)\n- Data-driven by [array](#link-select@array) data (in a `{{for}}` loop)\n- Data-driven by an [editable array](#link-select@edit) (in a `{^{for}}` loop)\n- Using [converters](#link-select@convert)\n- [Multiple selection](#link-select@multiple)\n- [Cascading selects](#link-select@cascade)"
       },
       {
         "_type": "para",
@@ -3179,7 +3179,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "&lt;select&gt;: with converters",
-        "text": "In this last example we use *convert* and *convert back* converters to convert from the `selIndex`, the index of the selected radio button, to the value of the `id` key, and back. ",
+        "text": "In this last example we use *convert* and *convert back* converters to convert from the `selIndex`, the index of the selected option, to the value of the `id` key, and back. ",
         "anchor": "convert"
       },
       {
@@ -3232,6 +3232,95 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<style>select {margin: 10px 0;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <em>Choose one or more cars:</em><br/>\n\n  <select data-link=\"selectedCar\" size=\"5\" multiple>\n    {^{for cars}}\n      <option data-link=\"value{:id} {:name}\"></option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\">\n    {^{for selectedCar}}{{:}} {{else}}<em>None</em>{{/for}}\n  </span>\n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selectedCar: [\"rnl\", \"frr\"],\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"rnl\", name: \"Renault\"},\n    {id: \"frr\", name: \"Ferrari\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
         "height": "186"
+      },
+      {
+        "_type": "para",
+        "title": "Cascading &lt;select&gt;s: dynamic selection of subcategory items in child &lt;select&gt;",
+        "text": "A common scenario is two or more `<select>` listboxes or drop-downs to allow the user to drill down into categories and sub-categories, such as choosing a make of car, then choose a model from that manufacturer, then choose among options for the chosen model, etc.\n\nThe following three samples illustrate different approaches to the same scenario, which permit to highlight different techniques, and to use different data modelling.\n\nIn the first example, the data is hierarchical -- a `makes` array of `make` objects, each with a `models` hash: \n\n```js\nmakes: [\n  {\n    id: \"vlv\",\n    name: \"Volvo\",\n    models: {xc90: \"XC90 Estate\", ... }\n  }, {\n    id: \"frd\",\n    ...\n```",
+        "anchor": "cascade"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Choosing a make in the first listbox sets `data.make` to the index of the chosen *make* object in the `makes` array:\n\n```jsr\n<select data-link=\"make\">\n  <option value=\"\">Choose a make</option>\n  {^{for makes}}\n    <option value=\"{{:#index}}\">{{:name}}</option>\n  {{/for}}\n</select>\n```\n\nThe second listbox selects the model `key` in the `models` hash of the chosen make:\n\n```jsr\n<select data-link=\"{:model:}...\">\n  <option value=\"\">Choose a model</option>\n  {^{props makes[make].models}}\n    <option value=\"{{:key}}\">{{:prop}}</option>\n  {{/props}}\n</select>\n```\n\nThe `{^{props makes[make].models}}` tag iterates over the `makes` array. Thanks to the `make` dependency in the expression, it contents (the `<options>`) are updated when `make` changes observably (changes to the selection in the first listbox). \n\nIn addition, changes to `make` are 'observed' by the following code:\n\n```js\n$.observe(data, \"make\", function(ev, eventArgs) {\n  // When make changes, initialize selected model to the first in models hash\n  ...\n  $.observable(data).setProperty({model: firstKey ...});\n  ...\n});\n```\n\n-- which sets initial selection to the first model in the second listbox."
+          }
+        ],
+        "title": "",
+        "code": "var data = {\n  makes: [\n    {\n      id: \"vlv\",\n      name: \"Volvo\",\n      models: {xc90: \"XC90 Estate\", v60: \"V60 Cross Country\", s90: \"S90 Hybrid\" }\n    }, {\n      id: \"frd\",\n      name: \"Ford\",\n      models: { fm: \"Mustang\", ff: \"Fiesta\", ft: \"Taurus\", fe: \"Expedition\" }\n    }, {\n      id: \"hnd\",\n      name: \"Honda\",\n      models: { hc: \"Civic Si\", ho: \"Odyssey\", ha: \"Accord\" }\n    }\n  ],\n  make: \"\",\n  model: \"\"\n};\n\n$.observe(data, \"make\", function(ev, eventArgs) {\n  // When make changes, initialize selected model to the first in models hash\n  // Also, update modelCount for the new make\n  var key, firstKey,\n    make = data.makes[eventArgs.value],\n    count = 1;\n  if (make) {\n    for (key in make.models) {\n      firstKey = firstKey || key;\n      count++;\n    }\n    $.observable(data).setProperty({model: firstKey, modelCount: count});\n  }\n});\n\nvar tmpl = $.templates(\"#tmpl\");\n\ntmpl.link(\"#result\", data);\n",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n\n<div class=\"floatleft\">\n  <select data-link=\"make\" size=\"4\">\n    <option value=\"\">Choose a make</option>\n    {^{for makes}}\n      <option value=\"{{:#index}}\">{{:name}}</option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\" data-link=\"make && makes[make].name || 'none...'\"></span>\n</div>\n\n{^{if makes[make]}}\n  <div class=\"floatleft\">\n    <select data-link=\"{:model:} size{:modelCount}\">\n      <option value=\"\">Choose a model</option>\n      {^{props makes[make].models}}\n        <option value=\"{{:key}}\">{{:prop}}</option>\n      {{/props}}\n    </select><br/>\n\n    <span class=\"spanbox\" data-link=\"makes[make].models[model] || 'none...'\"></span>\n  </div>\n{{/if}}\n</script>",
+        "height": "150",
+        "header": "<style>select {margin: 5px 20px 0 0;}</style>",
+        "action": "append"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "In the second example, the data has a separate array of makes, and a flat array of all car models: \n\n```js\nvar data = {\nmakes: [\n  {id: \"vlv\", name: \"Volvo\"},\n  {id: \"frd\", name: \"Ford\"},\n  ...\n],\ncars: [\n  {make: \"vlv\", id: \"xc90\", name: \"XC90 Estate\"},\n  {make: \"vlv\", id: \"v60\", name: \"V60 Cross Country\"},\n  ...\n  {make: \"frd\", id: \"fm\", name: \"Mustang\"},\n  ...\n]\n```"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Choosing a make in the first listbox sets `data.make` to the `id` of the chosen *make* object in the `makes` array:\n\n```jsr\n<select data-link=\"make\">\n  <option value=\"\">Choose a make</option>\n  {^{for makes}}\n    <option value=\"{{:id}}\">{{:name}}</option>\n  {{/for}}\n  </select>\n```\n\nThe second listbox selects the `data.model` object in the `cars` array (using converters to get from the selected `model` object to the `id` used as `value` on the `<option>` tags, or to get from the `id` to the `model`):\n\n```jsr\n<select data-link=\"{toId:model:fromId} size{:models^length+1}\">\n  <option value=\"\">Choose a model</option>\n  {^{for models}}\n    <option value=\"{{:id}}\">{{:name}}</option>\n  {{/for}}\n</select>\n```\n\nHere, `{^{for models}}` iterates over `data.models`, which is a filtered `cars` array with just the models for the chosen make.\n\nThe following code observes changes in `data.make` to trigger an updated `data.models` filtered array, as well as choosing the first model in the models array for initial *model* selection:\n\n```js\n$.observe(data, \"make\", function(ev, eventArgs) {\n  // When make changes, set the models array, filtered by the make\n  // and initialize selected model to the first in the array\n  var models = data.cars.filter(function(model) {\n    return model.make === eventArgs.value;\n  });\n\n  $.observable(data).setProperty({\n    models: models,  // set filtered models array\n    model: models[0] // select first model\n  });\n});\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n<div class=\"floatleft\">\n  <select data-link=\"make\" size=\"4\">\n    <option value=\"\">Choose a make</option>\n    {^{for makes}}\n      <option value=\"{{:id}}\">{{:name}}</option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\" data-link=\"{toMake:make}\"></span>\n</div>\n\n{^{if make}}\n  <div class=\"floatleft\">\n    <select data-link=\"{toId:model:fromId} size{:models^length+1}\">\n      <option value=\"\">Choose a model</option>\n      {^{for models}}\n        <option value=\"{{:id}}\">{{:name}}</option>\n      {{/for}}\n    </select><br/>\n\n    <span class=\"spanbox\" data-link=\"model ? model.name : 'none...'\"></span>\n  </div>\n{{/if}}\n</script>",
+        "code": "var data = {\n  makes: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ],\n  cars: [\n    {make: \"vlv\", id: \"xc90\", name: \"XC90 Estate\"},\n    {make: \"vlv\", id: \"v60\", name: \"V60 Cross Country\"},\n    {make: \"vlv\", id: \"s90\", name: \"S90 Hybrid\"},\n    {make: \"frd\", id: \"fm\", name: \"Mustang\"},\n    {make: \"frd\", id: \"ff\", name: \"Fiesta\"},\n    {make: \"frd\", id: \"ft\", name: \"Taurus\"},\n    {make: \"frd\", id: \"fe\", name: \"Expedition\"},\n    {make: \"hnd\", id: \"hc\", name: \"Civic Si\"},\n    {make: \"hnd\", id: \"ho\", name: \"Odyssey\"},\n    {make: \"hnd\", id: \"ha\", name: \"Accord\"}\n  ],\n  make: \"\",\n  model: null\n};\n\n$.views.converters({\n  fromId: function(id) {\n    // Get the car object with a given id\n    var car,\n      l = data.cars.length;\n    if (id) {\n      while (l--) {\n        car = data.cars[l]\n        if (id === car.id) {\n         return car;\n        }\n      }\n    }\n    return null;\n  },\n  toId: function(model) {\n    // Get the id for a given car object\n    return model ? model.id : \"\";\n  },\n  toMake: function(id) {\n    // Get the make name for car object with a given id\n    var car,\n      l = data.makes.length;\n    if (id) {\n      while (l--) {\n        make = data.makes[l]\n        if (id === make.id) {\n         return make.name;\n        }\n      }\n    }\n    return \"none...\";\n  }\n});\n\n$.observe(data, \"make\", function(ev, eventArgs) {\n  // When make changes, set the models array, filtered by the make\n  // and initialize selected model to the first in the array\n  var models = data.cars.filter(function(model) {\n    return model.make === eventArgs.value;\n  });\n\n  $.observable(data).setProperty({\n    models: models,  // set filtered models array\n    model: models[0] // select first model\n  });\n});\n\nvar tmpl = $.templates(\"#tmpl\");\n\ntmpl.link(\"#result\", data);\n",
+        "height": "150",
+        "action": "append",
+        "header": "<style>select {margin: 5px 20px 0 0;}</style>"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "The third example is similar to the second, but introduces some alternative techniques which can be of interest:"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Here the data and the first listbox implementation are the same as the previous sample.\n\nHowever the second listbox uses a helper function to compute the filtered array of models for the selected make:\n\n```jsr\n{^{if make ~models=~models(make)}}\n\n  <select data-link=\"{:model ...:} size{:~models.length+1}\">\n    <option value=\"\">Choose a model</option>\n    {^{for ~models onAfterLink=~setModel}}\n      <option value=\"{{:id}}\">{{:name}}</option>\n    {{/for}}\n  </select>\n```\n\nThis version uses another approach to observing when the *make* changes, and setting the initial model selection on the first model in the list. Here, rather than using `$.observe(data, \"make\", ...)`, we instead provide a `~setModel` helper as [`onAfterLink`](#tagoptions@onafterlink) handler:\n\n```jsr\n{^{for ~models onAfterLink=~setModel}}\n```\n\nThe effect of this is that whenever the `{^{for ~models}}` `<options>` list is updated, the `~setModel` helper is then called.\n\nAnother minor change from the previous sample is that here we use helpers as converters, rather than registering named converters. So our complete set of helpers is as follows:\n\n```js\nvar helpers = {\n  models: function(make) {\n    // Contextual parameter: models array filtered by the make\n    return data.cars.filter(function(model) {\n      return model.make === make;\n    });\n  },\n  setModel: function(tagCtx) {\n    // onAfterLink event for {{for}} tag rendering models options, triggered when make changes.\n    // tagCtx.args[0] is the ~carsForMake array. Initialize selected model to the first one in the array\n    $.observable(data).setProperty({model: tagCtx.args[0][0]});\n  },\n  cvt: ...,\n  toId: ...,\n  toMake: ...\n}\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n<div class=\"floatleft\">\n  <select data-link=\"make\" size=\"4\">\n    <option value=\"\">Choose a make</option>\n    {^{for makes}}\n      <option value=\"{{:id}}\">{{:name}}</option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\" data-link=\"make convert=~cvt.toMake\"></span>\n</div>\n\n{^{if make ~models=~models(make)}}\n\n  <div class=\"floatleft\">\n    <select data-link=\"{:model convert=~cvt.toId convertBack=~cvt.fromId:} size{:~models.length+1}\">\n      <option value=\"\">Choose a model</option>\n      {^{for ~models onAfterLink=~setModel}}\n        <option value=\"{{:id}}\">{{:name}}</option>\n      {{/for}}\n    </select><br/>\n\n    <span class=\"spanbox\" data-link=\"model ? model.name : 'none...'\"></span>\n  </div>\n\n{{/if}}\n</script>",
+        "code": "var data = {\n  makes: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ],\n  cars: [\n    {make: \"vlv\", id: \"xc90\", name: \"XC90 Estate\"},\n    {make: \"vlv\", id: \"v60\", name: \"V60 Cross Country\"},\n    {make: \"vlv\", id: \"s90\", name: \"S90 Hybrid\"},\n    {make: \"frd\", id: \"fm\", name: \"Mustang\"},\n    {make: \"frd\", id: \"ff\", name: \"Fiesta\"},\n    {make: \"frd\", id: \"ft\", name: \"Taurus\"},\n    {make: \"frd\", id: \"fe\", name: \"Expedition\"},\n    {make: \"hnd\", id: \"hc\", name: \"Civic Si\"},\n    {make: \"hnd\", id: \"ho\", name: \"Odyssey\"},\n    {make: \"hnd\", id: \"ha\", name: \"Accord\"}\n  ],\n  make: \"\",\n  model: null\n};\n\nvar helpers = {\n  models: function(make) {\n    // models array (cars filtered by the make) provided as contextual ~models parameter, \n    return data.cars.filter(function(model, index, array) {\n      return model.make === make;\n    });\n  },\n  setModel: function(tagCtx) {\n    // onAfterLink event for {{for}} tag rendering models options, triggered when make changes.\n    // tagCtx.args[0] is the ~models array. Initialize selected model to the first one in the array\n    $.observable(data).setProperty({model: tagCtx.args[0][0]});\n  },\n  cvt: {\n    // Converter helpers. (We could alternatively have registered named converters)\n    fromId: function(id) {\n      // Get the car object with a given id\n      var car,\n        l = data.cars.length;\n      if (id) {\n        while (l--) {\n          car = data.cars[l]\n          if (id === car.id) {\n            return car;\n          }\n        }\n      }\n      return null;\n    },\n    toId: function(model) {\n      // Get the id for a given car object\n      return model ? model.id : \"\";\n    },\n    toMake: function(id) {\n      // Get the make name for car object with a given id\n      var car,\n        l = data.makes.length;\n      if (id) {\n        while (l--) {\n          make = data.makes[l]\n          if (id === make.id) {\n            return make.name;\n          }\n        }\n      }\n      return \"none...\";\n    }\n  }\n};\n\nvar tmpl = $.templates(\"#tmpl\");\n\ntmpl.link(\"#result\", data, helpers);",
+        "height": "150",
+        "header": "<style>select {margin: 5px 20px 0 0;}</style>",
+        "action": "append"
       },
       {
         "_type": "links",
@@ -5613,7 +5702,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "code": "var team = {\n  members: {m1: \"Robert\", m2: \"Sarah\"},\n  addMember: function() {\n    $.observable(this.members).setProperty(\"n\" + cnt, \"new\" + cnt++);\n  }, \n  removeMember: function(key) {\n    $.observable(this.members).removeProperty(key);\n  },\n  replaceMembers: function() {\n    $.observable(this).setProperty(\"members\", {m1: \"Peter\", m2: \"Octavia\", m3: \"Xavier\"});\n  }\n},\ncnt = 1;\n\n$.templates(\"#teamTemplate\").link(\"#team\", team);",
         "height": "130",
         "title": "{^{props ...}} &ndash; iterating over string properties ",
-        "url": "stringprops"
+        "url": ""
       },
       {
         "_type": "para",
