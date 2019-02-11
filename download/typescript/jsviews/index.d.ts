@@ -1,8 +1,8 @@
-// Type definitions for JsViews 1.0.0
+// Type definitions for JsViews 1.0
 // Project: http://www.jsviews.com/
 // Definitions by: Boris Moore <https://github.com/borismoore>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 3.1.6
+// TypeScript Version: 2.3
 
 /// <reference types="jquery" />
 /// <reference types="jsrender" />

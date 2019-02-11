@@ -1,9 +1,8 @@
-// Type definitions for JsRender 1.0.0
+// Type definitions for JsRender 1.0
 // Project: http://www.jsviews.com/
 // Definitions by: Boris Moore <https://github.com/borismoore>
-// Definitions at: https://www.jsviews.com/#typescript
-// Will also be at: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 3.1.6
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+// TypeScript Version: 2.3
 
 /// <reference types="jquery" />
 
@@ -148,7 +147,7 @@ interface Store<T, TO> {
 	* @param {Template}      [parentTmpl] For item being registered as private resource of template
 	* @returns {any|Views}              e.g. compiled template - or $.views in case of registering hash of items
 	*/
-	(name: string, item?: TO|string, parentTmpl?: Template): T; // named item
+	(name: string, item?: TO, parentTmpl?: Template): T; // named item
 	(namedItems: Hash<TO>, parentTmpl?: Template): Views; // Multiple named items
 
 	/**
@@ -159,9 +158,9 @@ interface Store<T, TO> {
 
 // Templates
 
-interface Templates extends Store<Template, TemplateOptions> {
+interface Templates extends Store<Template, TemplateOptions | string> {
 	/**
-	* Additional $.templates() signature for compiling unnmaed template
+	* Additional $.templates() signature for compiling unnamed template
 	*
 	* @param {string|TemplateOptions}   markup or selector
 	* @param {Template}                 [parentTmpl] For compling template as private resource of parent template

@@ -441,7 +441,7 @@ a:visited {
 
 .home .sndivider, .home .snfiller, .search .sidenav, .search .sndivider, .search .snfiller, .search .buttonbox, .search .sidenav,
 .home .searchnav, .nothome .searchnav, .home #id-search > .optiongroups, .nothome #id-search > .optiongroups, .home #id-search > .btn, .nothome #id-search > .btn,
-.nothome .footer div, .search .footer div {
+.nothome .footer div, .search .footers {
   display: none;
 }
 

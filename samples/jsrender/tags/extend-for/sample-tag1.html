@@ -4,18 +4,19 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="../../../../download/jsrender.min.js"></script>
   <script src="../../../sample-viewer.min.js"></script>
-  <link href="sample.css" rel="stylesheet"/>
+  <link href="../../../../download/sample-tag-controls/grid/grid.css" rel="stylesheet" />
 </head>
 <body>
+<div id="purchases"></div>
 
 <script id="myTmpl" type="text/x-jsrender">
 <em>Unsorted</em>
 
-<table><tbody>
-  <tr><th>Category</th><th>Quantity</th>
+<table class="grid" style="width:600px;"><thead><tr>
+  <th>Category</th><th>Quantity</th>
   <th>Total quantity</th><th>Price</th>
-  <th>Amount</th><th>Total cost</th></tr>
-  {{purchases lineItems}} 
+  <th>Amount</th><th>Total cost</th></tr></thead><tbody>
+  {{purchases lineItems}}
     <tr>
       <td>{{:category}}</td>
       <td>{{:quantity}}</td>
@@ -31,10 +32,10 @@
 
 <em>Sorted by category</em>
 
-<table><tbody>
-  <tr><th>Category</th><th>Quantity</th>
+<table class="grid" style="width:600px;"><thead><tr>
+  <th>Category</th><th>Quantity</th>
   <th>Total quantity</th><th>Price</th>
-  <th>Amount</th><th>Total cost</th></tr>
+  <th>Amount</th><th>Total cost</th></tr></thead><tbody>
   {{purchases lineItems sort="category"}}
     <tr>
       <td>{{:category}}</td>
@@ -49,13 +50,13 @@
   {{/purchases}}
 </tbody></table>
 
-<em>Filtered on "grocery" category</em>
+<em>Filtered on "book" categories, sorted on decreasing "price"</em>
 
-<table><tbody>
-  <tr><th>Category</th><th>Quantity</th>
+<table class="grid" style="width:600px;"><thead><tr>
+  <th>Category</th><th>Quantity</th>
   <th>Total quantity</th><th>Price</th>
-  <th>Amount</th><th>Total cost</th></tr>
-  {{purchases lineItems sort="category" filter=~category category="grocery"}} 
+  <th>Amount</th><th>Total cost</th></tr></thead><tbody>
+  {{purchases lineItems sort="price" reverse=true filter=~category category="book"}}
     <tr>
       <td>{{:category}}</td>
       <td>{{:quantity}}</td>
@@ -71,11 +72,11 @@
 
 <em>Filtered on "restaurant" category</em>
 
-<table><tbody>
-  <tr><th>Category</th><th>Quantity</th>
+<table class="grid" style="width:600px;"><thead><tr>
+  <th>Category</th><th>Quantity</th>
   <th>Total quantity</th><th>Price</th>
-  <th>Amount</th><th>Total cost</th></tr>
-  {{purchases lineItems sort="category" filter=~category category="restaurant"}} 
+  <th>Amount</th><th>Total cost</th></tr></thead><tbody>
+  {{purchases lineItems sort="category" filter=~category category="restaurant"}}
     <tr>
       <td>{{:category}}</td>
       <td>{{:quantity}}</td>
@@ -90,7 +91,6 @@
 </tbody></table>
 </script>
 
-<div id="purchases"></div>
-<!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
+<!--<script src="sample-tag1.js"></script> <!--uncomment for testing as standalone page-->
 </body>
 </html>

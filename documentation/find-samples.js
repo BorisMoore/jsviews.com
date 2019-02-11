@@ -168,12 +168,29 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "",
-        "text": "This sample shows a custom tag: {{purchases}} – extending the {{for}} tag, used with JsRender.\nSee the discussion in the Tag inheritance topic, which includes this sample.\nSee also the tag-controls/purchases sample – which uses the same tag with JsViews, as a data-linked custom tag control.\n"
+        "text": "In this topic we first show a ‘purchases’ grid view sample, complete with ‘running totals’, using just the {{for}} tag, with its built-in sorting and filtering features.\n"
       },
       {
         "_type": "sample",
-        "url": "samples/jsrender/tags/extend-for/sample",
-        "text": "Each running total calls the ~total(expr) helper with an expression parameter for each running total – to be used to compute the incremental amount for each row.\nTag declaration:\n$.views.tags(\"purchases\", {\n  baseTag: \"for\",                        // Inherit from the {{for}} tag\n  ctx: {\n    total: function(expr) {              // A ~total(expression) helper\n      var tmpl = $.templates[expr]       // Get named compiled template for expression, or else...\n                 || $.templates(expr, \"{{:\" + expr + \"}}\"), // ...if this is first call, create it\n\n        runningTotal = 0,\n        view = this,                     // The content view of the ~total(...) helper call\n        items = view.get(\"array\").data,\n        rowIndex = view.getIndex();\n\n      for (var i = 0; i <= rowIndex; i++) {\n        runningTotal += +tmpl(items[i]); // Compute running total up to this row, using render function\n      }                                  // of compiled tmpl (either tmpl() or tmpl.render()...)\n      return runningTotal;               // Return value from ~total(...)\n    }\n  }\n});\n\nTag usage:\n{{purchases lineItems sort=\"category\" ...}} \n  ...{{:~total(\"quantity*price\")}}...\n{{else}}\n  ...No items...\n{{/purchases}}\n\n\n"
+        "title": "Using the {{for}} tag to provide a 'purchases' grid view, with running totals...",
+        "url": "samples/jsrender/tags/extend-for/sample-for",
+        "text": "Using the {{for}} tag to provide a 'purchases' grid view, with running totals...\nProvide category filter helper and running total helper:\n$.views.helpers({\n  category: function(item, index, items) { // Helper for category filter\n    var str = this.props.category;     // Filter for items whose item.category contains the tagCtx.props.category string\n    return str ? item.category.toLowerCase().indexOf(str.toLowerCase()) !== -1 : true;\n  },\n\n  total: function(expr) {              // Helper for running total: ~total(expression)\n    var tmpl = $.templates[expr]       // Get named compiled template for expression, or else...\n                || $.templates(expr, \"{{:\" + expr + \"}}\"), // ...if this is first call, create it\n\n      runningTotal = 0,\n      view = this,                     // The content view of the ~total(...) helper call\n      items = view.get(\"array\").data,\n      rowIndex = view.getIndex();\n\n    for (var i = 0; i <= rowIndex; i++) {\n      runningTotal += +tmpl(items[i]); // Compute running total up to this row, using render function\n    }                                  // of compiled tmpl (either tmpl() or tmpl.render()...)\n    return runningTotal;               // Return value from ~total(...)\n  }\n});\n\nTag usage:\n{{for lineItems sort=\"price\" reverse=true filter=~category category=\"book\"}}\n  ...{{:~total('quantity*price')}}...\n{{else}}\n  ...No items...\n{{/for}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Next we will show an equivalent ‘purchases’ grid view sample using a custom {{purchases}} tag, extending the {{for}} tag, and incorporating the specific filtering and 'running total` helpers.\nSee also the discussion in the Tag inheritance topic, which includes a similar sample with a custom {{purchases}} tag. Our sample below goes further than that sample, in providing complete encapsulation incorporating not only the ~total() helper, but also the category filter helper:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "Using the {{purchases}} tag to provide a 'purchases' grid view, with running totals...",
+        "url": "samples/jsrender/tags/extend-for/sample-tag2",
+        "text": "Using the {{purchases}} tag to provide a 'purchases' grid view, with running totals...\nTag declaration:\n$.views.tags(\"purchases\", {\n  baseTag: \"for\",              // Inherit from the {{for}} tag\n  init: function(tagCtx) {\n    // Override init(), to set the tagCtx.props.filter function\n    tagCtx.props.filter = function(item, index, items) {\n      ...\n    };\n    this.baseApply(arguments); // Call base init()\n  },\n  ctx: {\n    total: function(expr) {    // A ~total(expression) helper\n      ...\n    }\n  }\n});\n\nTag usage:\n{{purchases lineItems sort=\"price\" reverse=true category=\"book\"}}\n  ...{{:~total('quantity*price')}}...\n{{else}}\n  ...No items...\n{{/purchases}}\n  ...\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also the sorting and filtering samples topic – which takes the same {{purchases}} tag and adds data-linking, with JsViews. The result is a dynamic custom tag control, (with Click on header to sort. Click on cells to edit. Use filter box to filter…), precursor of a fully-fledged {{grid}} control.\n"
       }
     ]
   },
@@ -406,7 +423,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "",
-        "text": "These four samples explore alternative patterns for creating two-way binding and providing UI for editing data.\nThe UI for all four is visually identical, but the approach to templated rendering and data-linking is different.\n"
+        "text": "These seven samples explore alternative patterns for creating two-way binding and providing UI for editing data.\nThe UI for all seven is visually equivalent or identical, but the approach to templated rendering and data-linking is different.\n"
       },
       {
         "_type": "links",
@@ -1275,6 +1292,11 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
         "title": "Shopping cart (linked template)",
         "url": "samples/computed/shopping-cart/tmpl",
         "text": "Shopping cart (linked template)\nThe totalAmount() computed observable has the ** all wild card in its depends path – to indicate dependency on any changes under the items array:\ntotalAmount.depends = \"items.**\";\n\nThe sample uses a linked template, which includes:\n\ncomputed observable binding: data-link=\"total()\"\ndeclarative event binding: data-link=\"{on add}\", data-link=\"{on ~root.remove}\"\n\nTemplate:\n<table>\n  ...\n  {^{for items}}\n    ...\n    <span data-link=\"price*quantity\"></span>\n    <span class=\"remove\" data-link=\"{on ~root.remove}\"></span>\n    ...\n  {{/for}}\n  ...\n  <span data-link=\"items.length\"></span>\n  ...\n  <td class=\"add\" data-link=\"{on add}\">Add</td>\n  ...\n  <span colspan=\"2\" data-link=\"total()\"></span>\n  ...\n</table>\n\nCode:\nvar shoppingCart = {\n  add: addItem,\n  remove: removeItem,\n  total: totalAmount,\n  items: [...]\n};\n\nfunction addItem() { ... }\nfunction removeItem() { ... }\nfunction totalAmount() { ... }\n\ntotalAmount.depends = \"items.**\"; // totalAmount depends on any changes under the items array \n\nvar tmpl = $.templates(\"#cartTmpl\");\ntmpl.link(\"#shoppingcart\", shoppingCart);\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also the Using the {^{for}} tag as a ‘purchases’ grid control sample\n"
       }
     ]
   },
@@ -1373,7 +1395,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "para",
         "title": "",
-        "text": "See also: widget APIs\n"
+        "text": "See also:\n\nwidget APIs\nA JsViews “colorpicker” tag control\n\n"
       }
     ]
   },
@@ -1547,7 +1569,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "title": "Data-link syntax, top-level content",
-        "text": "Data-link syntax, top-level content\n\n\n\n\n  \n    \n    Save\n  \n  \n    \n    Zoom In\n  \n  \n    \n    Zoom Out\n  \n  \n    \n    Print...\n  \n  \n    Playback\n    \n      \n        \n        Prev\n      \n      \n        \n        Stop\n      \n      \n        \n        Play\n      \n      \n        \n        Next\n      \n    \n  \n  \n    Learn more about this menu\n  \n\n\n\nSome page content.\nvar data = {};\n\n$.link(true, \"#linked\", data, {\n  menuAction: function(ev, ui) {\n    if (!ui.item.children(\"ul\").length) {\n      // Leaf menu item\n      alert(ui.item.text());\n    }\n  }\n});\n<div id=\"linked\">\n  ...\n  <ul data-link=\"{menu ~menuAction}\">\n    <li>\n      <div><span class=\"ui-icon ui-icon-disk\"></span>Save</div>\n    </li>\n    ...\n  </ul>\n  ...\n\n$.link(true, \"#linked\", data, {\n  menuAction: function(ev, ui) {\n    ...\n    alert(ui.item.text());\n  }\n});\n\n\n"
+        "text": "Data-link syntax, top-level content\n\n\n  \n    \n    Save\n  \n  \n    \n    Zoom In\n  \n  \n    \n    Zoom Out\n  \n  \n    \n    Print...\n  \n  \n    Playback\n    \n      \n        \n        Prev\n      \n      \n        \n        Stop\n      \n      \n        \n        Play\n      \n      \n        \n        Next\n      \n    \n  \n  \n    Learn more about this menu\n  \n\n\n\nSome page content.\nvar data = {};\n\n$.link(true, \"#linked\", data, {\n  menuAction: function(ev, ui) {\n    if (!ui.item.children(\"ul\").length) {\n      // Leaf menu item\n      alert(ui.item.text());\n    }\n  }\n});\n<div id=\"linked\">\n  ...\n  <ul data-link=\"{menu ~menuAction}\">\n    <li>\n      <div><span class=\"ui-icon ui-icon-disk\"></span>Save</div>\n    </li>\n    ...\n  </ul>\n  ...\n\n$.link(true, \"#linked\", data, {\n  menuAction: function(ev, ui) {\n    ...\n    alert(ui.item.text());\n  }\n});\n\n\n"
       },
       {
         "_type": "para",
@@ -1761,7 +1783,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       {
         "_type": "sample",
         "title": "Data-linking the selection",
-        "text": "Data-linking the selection\n\n\n\n  ol.grid {list-style-type: none; margin: 0 0 162px 0; padding: 0; width: 360px;}\n  .grid .ui-selecting {background: #FECA40;}\n  .grid .ui-selected {background: #F39814; color: white;}\n  .grid li {float: left; margin: 3px; padding: 1px; height: 50px; font-size: 18px;\n    line-height: 46px; cursor:pointer; width: 66px; text-align: center;\n    border: 1px solid #c5c5c5; background: #f6f6f6; color: #454545;}\n  h4 {clear:both}\n\n\n\n<b>Selected indices:</b> {^{for selected}}{{:}} {{/for}}\n\n<h4>Tag syntax:</h4>\n\n<pre>\n&lcub;^{selectable selected ...}&rcub;...&lcub;^{/selectable}&rcub;\n</pre>\n\n{^{selectable selected class=\"grid\" elem=\"ol\"}}\n  <li>Jo</li>\n  <li>Pierre</li>\n  <li>Rudy</li>\n  <li>Mara</li>\n  <li>Mando</li>\n  <li>Ivor</li>\n  <li>Graca</li>\n  <li>Sabrine</li>\n{{/selectable}}\n\n<h4>Element-based data-link syntax:</h4>\n\n<pre>\n&lt;ol data-link=\"{selectable selected ...}\">...&lt;/ol>\n</pre>\n\n<ol class=\"grid\" data-link=\"{selectable selected}\">\n  <li>Jo</li>\n  <li>Pierre</li>\n  <li>Rudy</li>\n  <li>Mara</li>\n  <li>Mando</li>\n  <li>Ivor</li>\n  <li>Graca</li>\n  <li>Sabrine</li>\n</ol>\n\n\n\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {selected: [3, 6]};\n\npageTmpl.link(\"#page\", model);\nTag syntax:\n{^{selectable selected}}\n  ...\n\nData-linked element syntax:\n<div data-link=\"{selectable selected}\">\n  ...\n\nTracking the selection:\nSelected indices: {^{for selected}}{{:}} {{/for}}\n\nCode:\nvar model = {selected: [3, 6]};\npageTmpl.link(\"#page\", model);\n\n\n"
+        "text": "Data-linking the selection\n\n<b>Selected indices:</b> {^{for selected}}{{:}} {{/for}}\n\n<h4>Tag syntax:</h4>\n\n<pre>\n&lcub;^{selectable selected ...}&rcub;...&lcub;^{/selectable}&rcub;\n</pre>\n\n{^{selectable selected class=\"grid\" elem=\"ol\"}}\n  <li>Jo</li>\n  <li>Pierre</li>\n  <li>Rudy</li>\n  <li>Mara</li>\n  <li>Mando</li>\n  <li>Ivor</li>\n  <li>Graca</li>\n  <li>Sabrine</li>\n{{/selectable}}\n\n<h4>Element-based data-link syntax:</h4>\n\n<pre>\n&lt;ol data-link=\"{selectable selected ...}\">...&lt;/ol>\n</pre>\n\n<ol class=\"grid\" data-link=\"{selectable selected}\">\n  <li>Jo</li>\n  <li>Pierre</li>\n  <li>Rudy</li>\n  <li>Mara</li>\n  <li>Mando</li>\n  <li>Ivor</li>\n  <li>Graca</li>\n  <li>Sabrine</li>\n</ol>\n\n\n\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {selected: [3, 6]};\n\npageTmpl.link(\"#page\", model);\nTag syntax:\n{^{selectable selected}}\n  ...\n\nData-linked element syntax:\n<div data-link=\"{selectable selected}\">\n  ...\n\nTracking the selection:\nSelected indices: {^{for selected}}{{:}} {{/for}}\n\nCode:\nvar model = {selected: [3, 6]};\npageTmpl.link(\"#page\", model);\n\n\n"
       },
       {
         "_type": "para",
@@ -1797,7 +1819,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       },
       {
         "_type": "sample",
-        "text": "\n\n\n  table {margin: 25px 7px; border-collapse:collapse}\n  table, td {border: 1px solid gray; padding: 8px; cursor:pointer}\n  .ui-selecting {background: #FECA40;}\n  .ui-selected {background: #F39814; color: white;}\n\n\n\n\n<h4>Selection</h4>\n\n{^{for #childTags('selectable') lateRender=true}}\n  List {{:tagCtx.props.list}} [\n    {^{for selected}} {{:}} {{/for}} \n  ]<br/>\n{{/for}}\n\n<h4>List one</h4>\n\n<table>\n  {^{selectable _filter=\"tr\" elem=\"tbody\" list=\"one\"}}\n    {^{for people}}\n      <tr>\n        <td>{{:name}}</td>\n      </tr>\n    {{/for}}\n  {{/selectable}}\n</table>\n\n<h4>List two</h4>\n\n<table>\n  {^{selectable _filter=\"tr\" elem=\"tbody\" list=\"two\"}}\n    {^{for people}}\n      <tr>\n        <td>{{:name}}</td>\n      </tr>\n    {{/for}}\n  {{/selectable}}\n</table>\n\n\n\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {\n    people: [\n      {name: \"Jo\"},\n      {name: \"Pierre\"},\n      {name: \"Radagu\"},\n      {name: \"Mando\"}\n    ]\n  };\n\npageTmpl.link(\"#page\", model);\nBinding to the tag.selected property of any {{selectable}} tags in the page is achieved by first finding all sibling {{selectable}} tags, and iterating through them:\n{^{for #childTags('selectable') lateRender=true}}\n\nHere lateRender=true ensures that the declarative childTags() call only happens after the initial data-linking has been completed.\nThen for each {{selectable}} tag, we iterate through the selected array property:\n{^{for selected}} {{:}} {{/for}}\n\nThe complete markup is:\n{^{for #childTags('selectable') lateRender=true}}\n  List {{:tagCtx.props.list}} [\n    {^{for selected}} {{:}} {{/for}} \n  ]<br/>\n{{/for}}\n...\n{^{selectable ... list=\"One\"}}\n...\n\n\n"
+        "text": "\n\n<h4>Selection</h4>\n\n{^{for #childTags('selectable') lateRender=true}}\n  List {{:tagCtx.props.list}} [\n    {^{for selected}} {{:}} {{/for}} \n  ]<br/>\n{{/for}}\n\n<h4>List one</h4>\n\n<table>\n  {^{selectable _filter=\"tr\" elem=\"tbody\" list=\"one\"}}\n    {^{for people}}\n      <tr>\n        <td>{{:name}}</td>\n      </tr>\n    {{/for}}\n  {{/selectable}}\n</table>\n\n<h4>List two</h4>\n\n<table>\n  {^{selectable _filter=\"tr\" elem=\"tbody\" list=\"two\"}}\n    {^{for people}}\n      <tr>\n        <td>{{:name}}</td>\n      </tr>\n    {{/for}}\n  {{/selectable}}\n</table>\n\n\n\n\nvar pageTmpl = $.templates(\"#pageTmpl\"),\n  model = {\n    people: [\n      {name: \"Jo\"},\n      {name: \"Pierre\"},\n      {name: \"Radagu\"},\n      {name: \"Mando\"}\n    ]\n  };\n\npageTmpl.link(\"#page\", model);\nBinding to the tag.selected property of any {{selectable}} tags in the page is achieved by first finding all sibling {{selectable}} tags, and iterating through them:\n{^{for #childTags('selectable') lateRender=true}}\n\nHere lateRender=true ensures that the declarative childTags() call only happens after the initial data-linking has been completed.\nThen for each {{selectable}} tag, we iterate through the selected array property:\n{^{for selected}} {{:}} {{/for}}\n\nThe complete markup is:\n{^{for #childTags('selectable') lateRender=true}}\n  List {{:tagCtx.props.list}} [\n    {^{for selected}} {{:}} {{/for}} \n  ]<br/>\n{{/for}}\n...\n{^{selectable ... list=\"One\"}}\n...\n\n\n"
       },
       {
         "_type": "para",
@@ -1993,7 +2015,7 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       },
       {
         "_type": "sample",
-        "text": "\n  Time: {^{timespinner date /}}<br/><br/>\n  Date: {^{datepicker date elem=\"div\" dataFormat=false /}}<br/><br/>\n  <b>Underlying data (date):</b><br/><br/> <em>{^{:date}}</em>\n\n\n\n\"use strict\";\nvar pageTmpl = $.templates(\"#pageTmpl\");\nvar nextWeek = new Date();\nnextWeek.setDate(nextWeek.getDate()+7);\n\nvar model = {\n    date: nextWeek\n  };\n\npageTmpl.link(\"#page\", model);\nTime: {^{timespinner date /}}\n\nDate: {^{datepicker date elem=\"div\" dataFormat=false /}}\n\nUnderlying data (date):{^{:date}}\n\n\n"
+        "text": "\n  Time: {^{timespinner date /}}<br/><br/>\n  Date: {^{datepicker date elem=\"div\" dataFormat=false /}}<br/><br/>\n  Underlying data (date): <em>{^{:date}}</em>\n\n\n\n\"use strict\";\nvar pageTmpl = $.templates(\"#pageTmpl\");\nvar nextWeek = new Date();\nnextWeek.setDate(nextWeek.getDate()+7);\n\nvar model = {\n    date: nextWeek\n  };\n\npageTmpl.link(\"#page\", model);\nTime: {^{timespinner date /}}\n\nDate: {^{datepicker date elem=\"div\" dataFormat=false /}}\n\nUnderlying data (date):{^{:date}}\n\n\n"
       },
       {
         "_type": "para",
@@ -2211,38 +2233,49 @@ content.find.samples = content.useStorage && $.parseJSON(localStorage.getItem("J
       }
     ]
   },
-  "name0": {
+  "features": {
     "sections": [
       {
-        "_type": "sample",
-        "url": "samples/tag-controls/purchases/sample",
+        "_type": "links",
+        "title": "",
         "text": ""
       }
     ]
   },
-  "samples/tag-controls/purchases": {
+  "samples/sort-filter": {
     "sections": [
       {
         "_type": "para",
         "title": "",
-        "text": "The {{purchases}} custom tag is a precursor of a full grid control. It derives from the {{for}} tag.\nThe JsRender version of {{purchases}} was discussed here in the JsRender custom tags topic.\nThanks to the built-in features of {{for}} such as sorting and filtering, the {{purchases}} tag also supports these features:\n"
+        "text": "The {{for}} and {{props}} tags provide built-in support for sorting and filtering.\nThe following sample uses the {{for}} tag in JsRender to  render a ‘purchases grid’ (with running totals), and applies various sorting and filtering options.\n(See also the discussion here, in the Extending {{for}} sample topic.)\n"
       },
       {
         "_type": "sample",
-        "title": "{{purchases}} with JsRender. Examples of sorting and filtering",
-        "url": "samples/tag-controls/purchases/sample-jsr",
-        "text": "{{purchases}} with JsRender. Examples of sorting and filtering\nfunction categoryFilter(item, index, items) {\n  return this.props.category === item.category;\n}\n\n{{purchases lineItems sort=\"price\" reverse=true filter=~category category=\"grocery\"}}...{{/purchses}}\n\n\n"
+        "title": "JsRender: Using the {{for}} tag to provide a 'purchases' grid, with running totals...",
+        "url": "samples/jsrender/tags/extend-for/sample-for",
+        "text": "JsRender: Using the {{for}} tag to provide a 'purchases' grid, with running totals...\nProvide category filter helper and running total helper:\n$.views.helpers({\n  category: function(item, index, items) { // Helper for category filter\n    var str = this.props.category;     // Filter for items whose item.category contains the tagCtx.props.category string\n    return str ? item.category.toLowerCase().indexOf(str.toLowerCase()) !== -1 : true;\n  },\n\n  total: function(expr) {              // Helper for running total: ~total(expression)\n    var tmpl = $.templates[expr]       // Get named compiled template for expression, or else...\n                || $.templates(expr, \"{{:\" + expr + \"}}\"), // ...if this is first call, create it\n\n      runningTotal = 0,\n      view = this,                     // The content view of the ~total(...) helper call\n      items = view.get(\"array\").data,\n      rowIndex = view.getIndex();\n\n    for (var i = 0; i <= rowIndex; i++) {\n      runningTotal += +tmpl(items[i]); // Compute running total up to this row, using render function\n    }                                  // of compiled tmpl (either tmpl() or tmpl.render()...)\n    return runningTotal;               // Return value from ~total(...)\n  }\n});\n\nTag usage:\n{{for lineItems sort=\"price\" reverse=true filter=~category category=\"book\"}}\n  ...{{:~total('quantity*price')}}...\n{{else}}\n  ...No items...\n{{/for}}\n\n\n"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "The {{purchases}} tag control above needs minimal changes to work also with JsViews data-linking, and provide full editing and dynamic sorting and filtering in response to user actions.\nThe following sample lets the user click on column headers to change the sort order, and to click in cells (for data columns: \"category\", “quantity” and “price”) in order to modify the data.\nCalculated columns and running totals automatically update too:\n"
+        "text": "The next sample develops the above ‘purchases grid’ example further, as a JsViews data-linked sample.\nNow we have a fully dynamic grid that lets the user click on column headers to change the sort order, and click in cells (for data columns: ‘category’, ‘quantity’ and ‘price’) to modify the data. In addition, the Category header provides a textbox for filtering items based on category.\nThe calculated ‘amount’ and running total columns automatically update too:\n"
       },
       {
         "_type": "sample",
-        "title": "Editable {{purchases}} grid, with JsViews",
-        "url": "samples/tag-controls/purchases/sample-jsv",
-        "text": "Editable {{purchases}} grid, with JsViews\nMake ~total() depend on any modified property on the line item:\ntotal.depends = \"#parent.data.[].*\";\n\nProvide editable text boxes on data columns:\n{^{purchases lineItems sort=~sortBy reverse=~reverseSort }} \n  <tr>\n    <td class=\"editable\"><input data-link=\"category\" .../>\n  ...\n{{else}}\n  <tr><td colspan=\"6\">No items</td></tr>\n{{/purchases}}\n\n\n"
+        "title": "JsViews: Using the {^{for}} tag to provide a dynamic 'purchases' grid control...",
+        "url": "samples/tag-controls/purchases/sample-for",
+        "text": "JsViews: Using the {^{for}} tag to provide a dynamic 'purchases' grid control...\nSet ~total() and ~category dependencies to refresh when appropriate:\n// Trigger refreshed filtering when filter string provided by the user changes\n$.views.helpers.category.depends = \"~cat\";\n\n// Trigger recalculation of total when any item property changes, or when row index changes (e.g. on changing sort)\n$.views.helpers.total.depends = [\"#parent.data.[]^*\", \"#index\"];\n\nProvide editable text boxes on data columns:\n{^{for lineItems sort=~sortBy reverse=~reverseSort filter=~category sorted=~sorted}}\n  ...\n  <td><input data-link=\"category\" .../></td>\n  ...\n  <td data-link=\"{:~total('quantity * price')}\"></td>\n  ...\n{{else}}\n  ...No items...\n{{/for}}\n\n\n"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "Next we will show an equivalent ‘purchases’ grid view sample using a custom {{purchases}} tag, extending the {{for}} tag, and incorporating the specific filtering and ‘running total’ helpers.\nThis follows the same pattern we followed for JsRender in the Extending the {{for}} tag sample, where we created a custom {{purchases}} tag derived from {{for}}. But here our {{purchases}} tag will be a custom tag control that uses data-linking and is fully interactive as precursor {{grid}} control:\n"
+      },
+      {
+        "_type": "sample",
+        "title": "JsViews: A custom {^{purchases}} tag, as dynamic 'purchases' grid control...",
+        "url": "samples/tag-controls/purchases/sample-tag",
+        "text": "JsViews: A custom {^{purchases}} tag, as dynamic 'purchases' grid control...\nEncapsulated tag declaration. (Could be in a separate purchasesTag.js file):\n$.views.tags(\"purchases\", {\n  baseTag: \"for\",            // Inherit from the {{for}} tag\n  init: function(tagCtx) {   // Override init()\n    // Set the tagCtx.props.filter function\n    tagCtx.props.filter = function(item, index, items) {\n      ...\n    };\n\n    // Set the ~total() helper function\n    this.ctx.total = function(expr) {\n      ...\n    };\n\n    // Recalculate total when any item property changes, or when row index changes (e.g. on changing sort)\n    this.ctx.total.depends = [\"#parent.data.[]^*\", \"#index\"];\n\n    // Add \"category\" to the mapProps array, to trigger refreshed filtering when tagCtx.props.category changes\n    this.mapProps = this.mapProps.concat(\"category\"); // Make copy of prototype.mapProps with \"category\" added\n\n    this.baseApply(arguments); // Call base init()\n  }\n});\n\nTag usage:\n{^{purchases lineItems sort=~sortBy reverse=~reverseSort category=~cat...}}\n  ...\n  <td><input data-link=\"category\" .../></td>\n  ...\n  <td data-link=\"{:~total('quantity * price')}\"></td>\n  ...\n{{else}}\n  ...No items...\n{{/purchases}}\n\n\n"
       }
     ]
   }

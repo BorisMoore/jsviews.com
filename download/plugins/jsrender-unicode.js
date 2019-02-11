@@ -3,7 +3,7 @@ see: http://www.jsviews.com/#download/plugins */
 /*
  * https://www.jsviews.com/download/plugins/jsrender-unicode.js
  * JsRender support for unicode chars in data property names and template data paths
- * Copyright 2018, Boris Moore
+ * Copyright 2019, Boris Moore
  * Released under the MIT License.
  */
 

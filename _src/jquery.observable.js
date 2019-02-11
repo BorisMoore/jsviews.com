@@ -973,11 +973,7 @@ if (!$.observe) {
 				if ((newItem = newItems[j]) === data[j-k]) {
 					insertAdded();
 				} else {
-					for (i=j-k; i<dataLength; i++) {
-						if (newItem === data[i]) {
-							break;
-						}
-					}
+					for (i=j-k; i<dataLength && newItem !== data[i]; i++) {}
 					if (i<dataLength) {
 						insertAdded();
 						num = 0;
@@ -1058,32 +1054,35 @@ if (!$.observe) {
 			}
 			if (typeof source === OBJECT || $isFunction(source)) {
 				map.src = source;
-				if (oldMapOrTarget) {
-					map.tgt = oldMapOrTarget.tgt || oldMapOrTarget; // Can provide an existing map, or a target array to be used on new map
+				if (unbound) {
+					map.tgt = mapDef.getTgt(source, options);
 				} else {
-					map.tgt = map.tgt || [];
-				}
-				map.options = options || map.options;
-				if (updatedMap = map.update()) {
-					map = updatedMap; // If updating returns another map, then we can replace this one (so no need to bind it)
-				} else if (!unbound) {
-					if (mapDef.obsSrc) {
-						$observable(map.src).observeAll(map.obs = function(ev, eventArgs) {
-							if (!changing && !eventArgs.refresh) {
-								changing = true;
-								mapDef.obsSrc(map, ev, eventArgs);
-								changing = undefined;
-							}
-						}, map.srcFlt);
+					if (oldMapOrTarget) {
+						map.tgt = oldMapOrTarget.tgt || $isArray(oldMapOrTarget) && oldMapOrTarget; // Can provide an existing map, or a target array to be used on new map
 					}
-					if (mapDef.obsTgt) {
-						$observable(map.tgt).observeAll(map.obt = function(ev, eventArgs) {
-							if (!changing && !map.tgt._updt) {
-								changing = true;
-								mapDef.obsTgt(map, ev, eventArgs);
-								changing = undefined;
-							}
-						}, map.tgtFlt);
+					map.tgt = map.tgt || [];
+					map.options = options || map.options;
+					if (updatedMap = map.update()) {
+						map = updatedMap; // If updating returns another map, then we can replace this one (so no need to bind it)
+					} else {
+						if (mapDef.obsSrc) {
+							$observable(map.src).observeAll(map.obs = function(ev, eventArgs) {
+								if (!changing && !eventArgs.refresh) {
+									changing = true;
+									mapDef.obsSrc(map, ev, eventArgs);
+									changing = undefined;
+								}
+							}, map.srcFlt);
+						}
+						if (mapDef.obsTgt) {
+							$observable(map.tgt).observeAll(map.obt = function(ev, eventArgs) {
+								if (!changing && !map.tgt._updt) {
+									changing = true;
+									mapDef.obsTgt(map, ev, eventArgs);
+									changing = undefined;
+								}
+							}, map.tgtFlt);
+						}
 					}
 				}
 			}
@@ -1122,6 +1121,22 @@ if (!$.observe) {
 					}
 				}
 			},
+			observe: function(deps, linkCtx) { // Listen to observable changes of mapProps, and call map.update when change happens
+				var map = this,
+					options = map.options;
+				if (map.obmp) {
+					// There is a previous handler observing the mapProps
+					$unobserve(map.obmp);
+				}
+				map.obmp = function() {
+					// Observe changes in the mapProps ("filter", "sort", "reverse", "start", "end")
+					var newTagCtx = linkCtx.fn(linkCtx.data, linkCtx.view, $sub)[options.index]; // Updated tagCtx props and args
+					$.extend(options.props, newTagCtx.props); // Update props to new values
+					options.args = newTagCtx.args; // Update args to new values
+					map.update(); // Update the map target array, based on new mapProp values
+				};
+				$observable._apply(1, linkCtx.data, dependsPaths(deps, linkCtx.tag, map.obmp), map.obmp, linkCtx._ctxCb);
+			},
 			unmap: function() {
 				var map = this;
 				if (map.src && map.obs) {
@@ -1129,6 +1144,9 @@ if (!$.observe) {
 				}
 				if (map.tgt && map.obt) {
 					$observable(map.tgt).unobserveAll(map.obt, map.tgtFlt);
+				}
+				if (map.obmp) {
+					$unobserve(map.obmp);
 				}
 				map.src = undefined;
 			},

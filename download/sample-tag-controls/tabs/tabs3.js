@@ -1,7 +1,7 @@
 ﻿/*! Sample JsViews tag control: {{tabs}} control with one-way binding from pane v1.0.0
 Version using getPane()
 see: http://www.jsviews.com/#download/sample-tagcontrols
-and http://www.jsviews.com/#bindingpatterns@tabs2way
+and http://www.jsviews.com/#bindingpatterns@tabs2way */
 /*
  * Copyright 2018, Boris Moore
  * Released under the MIT License.

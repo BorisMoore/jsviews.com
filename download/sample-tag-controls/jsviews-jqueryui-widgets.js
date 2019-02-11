@@ -1,8 +1,8 @@
-/*! JsViews jQueryUI widget integration v1.0.0
+/*! JsViews jQueryUI widget integration v1.0.2
 see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
  * https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
- * Copyright 2018, Boris Moore
+ * Copyright 2019, Boris Moore
  * Released under the MIT License.
  */
 
@@ -134,21 +134,22 @@ widget: {
   onBind: function(tagCtx) {
     var mainElem, prop, i, optionKey,
       tag = this,
-      presets = tag.initOptions, // initOptions: array of option names that when set declaratively
+      presets = tag.initOptions || [], // initOptions: array of option names that when set declaratively
                                  // as tag options will be set on creation, not on afterLink
       widgetName = tag.widgetName,
       options = tag.options,     // hash (or function returning hash) of option settings
-      widgetFullName = widgetName;
+      widgetFullName = widgetName,
+      presetsHash = {};
+
+    presets.push("create");
 
     widgetName = widgetName.split("-").pop();
 
-    if (i = presets && presets.length) {
-      presets = {};
-      while (i--) {
-        optionKey = tag.initOptions[i];
-        if (prop = tagCtx.props["_" + optionKey]) {
-          presets[optionKey] = prop;
-        }
+    i = presets.length;
+    while (i--) {
+      optionKey = presets[i];
+      if (prop = tagCtx.props["_" + optionKey]) {
+        presetsHash[optionKey] = prop;
       }
     }
     if (widgetFullName === widgetName) {
@@ -166,7 +167,7 @@ widget: {
     }
 
     // Instantiate widget
-    mainElem[widgetName](presets);
+    mainElem[widgetName](presetsHash);
 
     // Store widget instance
     tag.widget = mainElem.data(widgetFullName) || mainElem.data(widgetName);

@@ -77,7 +77,7 @@ function updateValues(sourceValues, tagElse, bindId, ev) {
 // Called when linkedElem of a tag control changes: as updateValue(val, index, tagElse, bindId, ev) - this: undefined
 // Called directly as tag.updateValues(val1, val2, val3, ...) - this: tag
 	var linkCtx, cvtBack, cnvtName, target, view, binding, sourceValue, origVals, sourceElem, sourceEl,
-		oldLinkCtx, tos, to, tcpTag, exprOb, contextCb, l, m, tag;
+		tos, to, tcpTag, exprOb, contextCb, l, m, tag;
 
 	if (bindId && bindId._tgId) {
 		tag = bindId;
@@ -133,9 +133,6 @@ function updateValues(sourceValues, tagElse, bindId, ev) {
 			// the first arg, but all of them by returning an array.
 		}
 
-		// Set linkCtx on view, dynamically, just during this handler call
-		oldLinkCtx = view._lc;
-		view._lc = linkCtx;
 		l = tos.length;
 		while (l--) {
 			if (to = tos[l]) {
@@ -183,7 +180,6 @@ function updateValues(sourceValues, tagElse, bindId, ev) {
 				}
 			}
 		}
-		view._lc = oldLinkCtx;
 	}
 	if (tag) {
 		tag._.chg = undefined; // Clear marker
@@ -229,12 +225,12 @@ function onDataLinkedTagChange(ev, eventArgs) {
 		oldLinkCtx = view._lc,
 		onEvent = eventArgs && changeHandler(view, onBeforeChangeStr, tag);
 
-	// Set linkCtx on view, dynamically, just during this handler call
-	view._lc = linkCtx;
 	if (parentElem && (!onEvent || onEvent.call(tag || linkCtx, ev, eventArgs) !== false)
 			// If data changed, the ev.data is set to be the path. Use that to filter the handler action...
 			&& (!eventArgs || ev.data.prop === "*" || ev.data.prop === eventArgs.path)) {
 
+		// Set linkCtx on view, dynamically, just during this handler call
+		view._lc = linkCtx;
 		if (eventArgs) {
 			linkCtx.eventArgs = eventArgs;
 		}
@@ -281,12 +277,13 @@ function onDataLinkedTagChange(ev, eventArgs) {
 						// from the sourceValue (which may optionally have been modifed in onUpdate()...) and then bind, and we are done
 						observeAndBind(linkCtx, source, target);
 					}
+					// Remove dynamically added linkCtx from view
 					view._lc = oldLinkCtx;
 					if (eventArgs && (onEvent = changeHandler(view, onAfterChangeStr, tag))) {
 						onEvent.call(tag || linkCtx, ev, eventArgs);
 					}
 					if (tag.tagCtx.props.dataMap) {
-						tag.tagCtx.props.dataMap.map(tag.tagCtx.args[0], tag.tagCtx, tag.tagCtx.map, !tag._.bnd);
+						tag.tagCtx.props.dataMap.map(tag.tagCtx.args[0], tag.tagCtx, tag.tagCtx.map, isRenderCall || !tag._.bnd);
 					}
 					return;
 				}
@@ -366,7 +363,6 @@ function updateContent(sourceValue, linkCtx, attr, tag) {
 		$target = $(target),
 		view = linkCtx.view,
 		targetVal = linkCtx._val,
-		oldLinkCtx = view._lc,
 		change = tag;
 
 	if (tag) {
@@ -455,8 +451,6 @@ function updateContent(sourceValue, linkCtx, attr, tag) {
 
 		if (setter = fnSetters[attr]) {
 			if (attr === HTML) {
-				// Set linkCtx on view, dynamically, just during this handler call
-				view._lc = linkCtx;
 				if (tag && tag.inline) {
 					nodesToRemove = tag.nodes(true);
 					if (tag._elCnt) {
@@ -505,8 +499,6 @@ function updateContent(sourceValue, linkCtx, attr, tag) {
 						late = view.link(source, target, prevNode, nextNode, sourceValue, tag && {tag: tag._tgId});
 					}
 				}
-				// Remove dynamically added linkCtx and ctx from view
-				view._lc = oldLinkCtx;
 			} else {
 				if (change = change || targetVal !== sourceValue) {
 					if (attr === "text" && target.children && !target.children[0]) {
@@ -775,15 +767,15 @@ function observeAndBind(linkCtx, source, target) {
 			$observable._apply(1, [source], exprFnDeps, linkCtx._depends, handler, linkCtx._ctxCb, true);
 		}
 
-		if (tag && tag.boundProps) {
+		if (tag) {
 			// Add dependency paths for declared boundProps (so no need to write ^myprop=... to get binding) and for linkedProp too if there is one
 			l = tag.boundProps.length;
 			while (l--) {
 				prop = tag.boundProps[l];
 				k = tag._.bnd.paths.length;
-				while (k--) {
+				while (k--) { // Iterate across tagCtxs
 					propDeps = tag._.bnd.paths[k]["_" + prop];
-					if (propDeps && propDeps.skp) { // Not already a bound prop ^prop=expression;
+					if (propDeps && propDeps.length && propDeps.skp) { // Not already a bound prop ^prop=expression;
 						exprFnDeps = exprFnDeps.concat(propDeps); // Add dependencies for this prop expression
 					}
 				}
@@ -1811,7 +1803,8 @@ function callAfterLink(tag, ev, eventArgs) {
 		}
 	}
 
-	var linkedElems, linkedElements, linkedElem, l, m, $linkCtxElem, linkCtxElem, linkedEl, linkedTag, tagCtxElse, props, val, oldVal, indexTo,
+	var linkedElems, linkedElements, linkedElem, l, m, $linkCtxElem, linkCtxElem, linkedEl, linkedTag,
+		tagCtxElse, props, val, oldVal, indexTo, i, mapDeps, propDeps,
 		tagCtx = tag.tagCtx,
 		tagCtxs = tag.tagCtxs,
 		tagCtxslength = tagCtxs && tagCtxs.length,
@@ -1880,6 +1873,22 @@ function callAfterLink(tag, ev, eventArgs) {
 		tagCtxElse = tagCtxs[m];
 		props = tagCtxElse.props;
 
+		if (tag._.unlinked && tagCtxElse.map && tag.mapProps) {
+			// Compile the dependency paths for observable changes in mapProps (e.g. start, end, filter)
+			i = tag.mapProps.length;
+			mapDeps = props.mapDepends || tag.mapDepends || []; // dependency paths
+			mapDeps = $isArray(mapDeps) ? mapDeps : [mapDeps];
+			while (i--) { // Iterate through mapProps
+				var prop = tag.mapProps[i];
+				propDeps = tag._.bnd.paths[m]["_" + prop]; // paths for mapProps on this tagCtx
+				if (propDeps && propDeps.length && propDeps.skp) { // Not already a bound prop ^prop=expression;
+					mapDeps = mapDeps.concat(propDeps); // Add dependencies for this prop expression
+				}
+			}
+			if (mapDeps.length) {
+				tagCtxElse.map.observe(mapDeps, linkCtx); // Listen to observable changes of mapProps, and call map.update when change happens
+			}
+		}
 		if (linkedElem = tagCtxElse.mainElem || !tag.mainElement && tagCtxElse.linkedElems && tagCtxElse.linkedElems[0]) {
 			// linkedElem is the mainElem (defaulting to linkedElem)
 			if (linkedElem[0] && props.id && !linkedElem[0].id) {
@@ -3179,12 +3188,12 @@ $extend($tags["for"], {
 			}
 		}
 	}),
-	boundProps: ["filter", "sort", "reverse", "start", "end"],
+	mapProps: ["filter", "sort", "reverse", "start", "end", "step"],
 	bindTo: ["paged", "sorted"],
 	bindFrom: [0],
 
 	onArrayChange: function(ev, eventArgs, tagCtx, linkCtx) {
-		var arrayView,
+		var arrayView, propsArr,
 			targetLength = ev.target.length,
 			tag = this;
 		if (!tag.rendering) {
@@ -3193,7 +3202,11 @@ $extend($tags["for"], {
 					eventArgs.change === "insert" && targetLength === eventArgs.items.length // inserting, and new length is same as inserted length, so going from 0 to n
 					|| eventArgs.change === "remove" && !targetLength) // removing, and new length 0, so going from n to 0
 				) {
+				propsArr = tagCtx.map && tagCtx.map.propsArr; // Used by {{props}}, which derives from {{for}}
 				tag.refresh();
+				if (propsArr) {
+					tagCtx.map.propsArr = propsArr; // Keep previous propsArr with new map
+				}
 			} else for (arrayView in tag._.arrVws) {
 				arrayView = tag._.arrVws[arrayView];
 				if (arrayView.data === ev.target) {
@@ -3232,7 +3245,6 @@ $extend($tags["for"], {
 				: tagCtx.args.length
 					? tagCtx.args[0]    // or args[0]
 					: tagCtx.view.data; // or defaults to current data.
-
 			if (arrayBindings[i]) { // Is there was a previous binding on this tagCtx, (maybe with data different from new data)
 				$observe(arrayBindings[i], true); //unobserve previous array
 				delete arrayBindings[i];
@@ -3317,17 +3329,14 @@ $extend($tags["if"], {
 });
 
 function observeProps(map, ev, eventArgs) {
-	var props = map.options.tag.tagCtx.props;
+	var target, l, props = map.options.props;
+	updatePropsArr(map.propsArr, eventArgs.path, eventArgs.value, eventArgs.remove);
 	if (props.sort !== undefined || props.start !== undefined || props.end !== undefined || props.step !== undefined || props.filter || props.reverse) {
 		map.update(); // refresh sorting and filtering
 	} else if (eventArgs.change === "set") {
-		var target = map.tgt,
-			l = target.length;
-		while (l--) {
-			if (target[l].key === eventArgs.path) {
-				break;
-			}
-		}
+		target = map.tgt;
+		l = target.length;
+		while (l-- && target[l].key !== eventArgs.path) {}
 		if (l === -1) {
 			if (eventArgs.path && !eventArgs.remove) {
 				$observable(target).insert({key: eventArgs.path, prop: eventArgs.value});
@@ -3341,7 +3350,7 @@ function observeProps(map, ev, eventArgs) {
 }
 
 function observeMappedProps(map, ev, eventArgs) {
-	var items, l, key,
+	var items, l, key, remove,
 		source = map.src,
 		change = eventArgs.change;
 
@@ -3352,12 +3361,13 @@ function observeMappedProps(map, ev, eventArgs) {
 			$observable(source).removeProperty(eventArgs.oldValue); // When key is modified observably, remove old one and set new one
 			$observable(source).setProperty(eventArgs.value, ev.target.prop);
 		}
-	} else if (change === "insert" || change === "remove") {
+	} else if (change === "insert" || (remove = change === "remove")) {
 		items = eventArgs.items;
 		l = items.length;
 		while (l--) {
 			if (key = items[l].key) {
-				if (change === "remove") {
+				updatePropsArr(map.propsArr, key, items[l].prop, remove);
+				if (remove) {
 					$observable(source).removeProperty(key);
 					delete source[key];
 				} else {
@@ -3365,6 +3375,18 @@ function observeMappedProps(map, ev, eventArgs) {
 				}
 			}
 		}
+	}
+}
+
+function updatePropsArr(propsArr, key, prop, remove) {
+	var l = propsArr.length;
+	while (l-- && propsArr[l].key !== key) {}
+	if (l === -1) {
+		if (key && !remove) {
+			propsArr.push({key: key, prop: prop});
+		}
+	} else if (remove) {
+		propsArr.splice(l, 1);
 	}
 }
 

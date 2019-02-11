@@ -13,11 +13,6 @@ content.community = content.useStorage && $.parseJSON(localStorage.getItem("JsVi
       },
       {
         "_type": "para",
-        "title": "Forum",
-        "text": "No forum as yet, but a forum will be created for both JsViews and JsRender, when JsViews reaches V1.0..."
-      },
-      {
-        "_type": "para",
         "title": "Issue trackers on GitHub",
         "text": "If you have questions or issues, you can look for them on the issue trackers on GitHub, and if you don't find them, file a new issue. (And similarly for feature requests):\n\n<a href=\"https://github.com/BorisMoore/jsrender/issues?state=open\">JsRender issue tracker on GitHub</a><br/>\n<a href=\"https://github.com/BorisMoore/jsviews/issues?state=open\">JsViews issue tracker on GitHub</a>\n\nMore details on the GitHub repositories <a href=\"#github\">here</a>.",
         "anchor": "issues"

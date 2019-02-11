@@ -644,6 +644,9 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 							? "" // If nocss specified, or if headerAction is replace ("") and there is header content provided, don't insert samples.css
 							: "  <link href=\"https://www.jsviews.com/samples/samples.css\" rel=\"stylesheet\" />\n";
 					header = headerAction === "append" ? headerInsert + header : header + headerInsert;
+					header = header.replace(/((?:href|src)=["'])\//g, function(replaced, start, index, str) {
+						return start + "https://www.jsviews.com/"; // replace "/download/..." and similar, by "https://www.jsviews.com/download/..."
+					});
 				} else {
 					urlTokens = url.split("/");
 					urlTokens.pop();
@@ -656,7 +659,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 						if (headerInsert.length) {
 							headerInsert += "/";
 						}
-						return start + "https://www.jsviews.com/" + headerInsert;
+						return start + "https://www.jsviews.com/" + headerInsert; // replace "../../download/..." and similar, by "https://www.jsviews.com/download/..."
 					});
 				}
 				return "<!DOCTYPE html>\n"

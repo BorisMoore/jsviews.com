@@ -496,7 +496,7 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "expanded": true
           }
         ],
-        "expanded": true
+        "expanded": false
       },
       {
         "name": "jsrnode",
@@ -1198,6 +1198,17 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "expanded": false
           },
           {
+            "name": "features",
+            "label": "Other features",
+            "categories": [
+              {
+                "name": "samples/sort-filter",
+                "label": "Sorting and filtering"
+              }
+            ],
+            "expanded": true
+          },
+          {
             "name": "samples/tag-controls",
             "label": "Tag controls",
             "categories": [
@@ -1376,10 +1387,6 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                 "name": "samples/tag-controls/simple-textbox",
                 "label": "simple textbox control",
                 "expanded": true
-              },
-              {
-                "name": "samples/tag-controls/purchases",
-                "label": "purchases control"
               },
               {
                 "name": "samples/tag-controls/slider",

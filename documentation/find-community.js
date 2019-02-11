@@ -11,11 +11,6 @@ content.find.community = content.useStorage && $.parseJSON(localStorage.getItem(
       },
       {
         "_type": "para",
-        "title": "Forum",
-        "text": "Forum\nNo forum as yet, but a forum will be created for both JsViews and JsRender, when JsViews reaches V1.0…\n"
-      },
-      {
-        "_type": "para",
         "title": "Issue trackers on GitHub",
         "text": "Issue trackers on GitHub\nIf you have questions or issues, you can look for them on the issue trackers on GitHub, and if you don’t find them, file a new issue. (And similarly for feature requests):\nJsRender issue tracker on GitHub\nJsViews issue tracker on GitHub\nMore details on the GitHub repositories here.\n"
       }

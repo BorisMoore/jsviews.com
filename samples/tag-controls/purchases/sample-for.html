@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="../../../download/jsviews.min.js"></script>
+  <script src="../../sample-viewer.min.js"></script>
+  <link href="../../../download/sample-tag-controls/grid/grid.css" rel="stylesheet" />
+</head>
+<body>
+
+<div id="purchases"></div>
+
+<script id="myTmpl" type="text/x-jsrender">
+<em>Click on header to sort. Click on cell to edit categories, quantities or prices.
+ Use filter box to filter by category.</em><br/><br/>
+<label>Sort by: <input data-link="~sortBy" /></label>
+<label>Reverse sort: <input data-link="~reverseSort" type="checkbox" /></label>
+
+<table class="grid" style="width:600px;"><thead><tr>
+  <th style="width:100px;" data-link="{on ~sortCol ~sortBy ~reverseSort 'category'}
+    class{:~sortBy==='category'?~reverseSort?'filter sort down':'filter sort up':'filter sort'}">
+    <input data-link="{:~cat:} class{:~cat?'active':''}" style="width:70px;"/>Category</th>
+  <th style="width:100px;" data-link="{on ~sortCol ~sortBy ~reverseSort 'quantity'}
+    class{:~sortBy==='quantity'?~reverseSort?'sort down':'sort up':'sort'}">Quantity</th>
+  <th>Total quantity</th>
+  <th style="width:100px;" data-link="{on ~sortCol ~sortBy ~reverseSort 'price'}
+    class{:~sortBy==='price'?~reverseSort?'sort down':'sort up':'sort'}">Price</th>
+  <th><div>Amount</div></th>
+  <th><div>Total cost</div></th>
+</tr></thead><tbody>
+  {^{for lineItems sort=~sortBy reverse=~reverseSort filter=~category sorted=~sorted}}
+    <tr>
+      <td class="editable"><input data-link="category" style="width:80px;"/></td>
+      <td class="editable"><input data-link="quantity" style="width:80px;"/></td>
+      <td class="total" data-link="~total('quantity')" ></td>
+      <td class="editable"><input data-link="{dec2:price:}" style="width:80px;"/></td>
+      <td data-link="{dec2:quantity * price}"></td>
+      <td class="total" data-link="{dec2:~total('quantity * price')}"></td>
+    </tr>
+  {{else}}
+    <tr><td colspan="6">No items</td></tr>
+  {{/for}}
+</tbody></table>
+
+<b>Purchases:</b> <em>{^{for ~sorted}}{^{:category}}: ${^{dec2:quantity * price}}; {{/for}}</em>
+
+</script>
+
+<!--<script src="sample-for.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

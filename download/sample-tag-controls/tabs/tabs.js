@@ -1,7 +1,7 @@
 ﻿/*! Sample JsViews tag control: {{tabs}} control v1.0.0
 Version using linkedCtxPrm
 see: http://www.jsviews.com/#download/sample-tagcontrols
-and http://www.jsviews.com/#bindingpatterns@tabsctxprm
+and http://www.jsviews.com/#bindingpatterns@tabsctxprm */
 /*
  * Copyright 2018, Boris Moore
  * Released under the MIT License.

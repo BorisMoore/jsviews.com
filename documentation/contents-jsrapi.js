@@ -873,7 +873,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The <b>sort</b> property:  specifying sorting on {{for array}}",
-        "text": "To specify sorting, set the `sort` property: \n\n```jsr\n{{for array sort=\"firstName\" }}...{{/for}}\n```\n\n- If the array is an array of objects, the `sort=...` property of `{{for}}` is usually set to an object property to be sorted by, such as `firstName`, or to a data path, such as `sort=\"address.street\"`\n- To sort an array of numbers, strings or `Date`s, set the `sort` property to the empty string: `sort=\"\"`\n- For advanced scenarios you can provide your own sort function: `sort=~mySortFunction`\n\nSetting `sort=...` can be combined with using the [`reverse`](#fortag@reverse), [`filter`](#fortag@filter), [`start`](#fortag@start-end), [`end`](#fortag@start-end) or [`step`](#fortag@start-end) properties.\n\nThe following three samples illustrate the above scenarios, using the `reverse` and `sort` properties:",
+        "text": "To specify sorting, set the `sort` property: \n\n```jsr\n{{for array sort=\"firstName\" }}...{{/for}}\n```\n\n- If the array is an array of objects, the `sort=...` property of `{{for}}` is usually set to an object property to be sorted by, such as `firstName`, or to a data path, such as `sort=\"address.street\"`\n- To sort an array of numbers, strings or `Date`s, set the `sort` property to `true`: `sort=true`\n- For advanced scenarios you can provide your own sort function: `sort=~mySortFunction`\n\nSetting `sort=...` can be combined with using the [`reverse`](#fortag@reverse), [`filter`](#fortag@filter), [`start`](#fortag@start-end), [`end`](#fortag@start-end) or [`step`](#fortag@start-end) properties.\n\nThe following three samples illustrate the above scenarios, using the `reverse` and `sort` properties:",
         "anchor": "sort"
       },
       {
@@ -891,12 +891,12 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Template:</div>*\n```jsr\n{{for colors sort=\"\" reverse=true}}...{{/for}}  {{!-- (Reverse) sort array of strings --}}\n{{for amounts sort=\"\"}}...{{/for}}              {{!-- Sort array of Numbers --}}\n{{for dates sort=\"\"}}...{{/for}}                {{!-- Sort array of Dates --}}\n```\n\n*<div class=\"close\">Data:</div>*\n```js\ncolors: [\"red\", ...],\namounts: [33.001, ...],\ndates: [new Date(2000, 0, 1), ...]\n```"
+            "text": "*<div class=\"close\">Template:</div>*\n```jsr\n{{for colors sort=true reverse=true}}...{{/for}}  {{!-- (Reverse) sort array of strings --}}\n{{for amounts sort=true}}...{{/for}}              {{!-- Sort array of Numbers --}}\n{{for dates sort=true}}...{{/for}}                {{!-- Sort array of Dates --}}\n```\n\n*<div class=\"close\">Data:</div>*\n```js\ncolors: [\"red\", ...],\namounts: [33.001, ...],\ndates: [new Date(2000, 0, 1), ...]\n```"
           }
         ],
         "markup": "",
         "jsrJsvJqui": "jsr",
-        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <b>Reverse sort strings:</b>\n  {{for colors sort=\"\" reverse=true}}\n    {{:}}\n  {{/for}}<hr/>\n\n  <b>Sort numbers:</b>\n  {{for amounts sort=\"\"}}\n    {{:}},\n  {{/for}}<hr/>\n\n  <b>Sort dates:</b>\n  {{for dates sort=\"\"}}\n    {{formatDate:}} &ndash;\n  {{/for}}\n</script>\n\n<div id=\"page\"></div>",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <b>Reverse sort strings:</b>\n  {{for colors sort=true reverse=true}}\n    {{:}}\n  {{/for}}<hr/>\n\n  <b>Sort numbers:</b>\n  {{for amounts sort=true}}\n    {{:}},\n  {{/for}}<hr/>\n\n  <b>Sort dates:</b>\n  {{for dates sort=true}}\n    {{formatDate:}} &mdash;\n  {{/for}}\n</script>\n\n<div id=\"page\"></div>",
         "code": "$.views.converters(\"formatDate\", function(date) {\n  // Converter to format Dates\n  return date.toLocaleDateString(\"en-US\");\n});\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n\n  data = {\n    colors: [\n      \"red\",\n      \"white\",\n      \"blue\"\n    ],\n    amounts: [\n      33,\n      -2.333,\n      2.4,\n      -22,\n      22\n    ],\n    dates: [\n      new Date(2000, 0, 1),\n      new Date(1998, 6, 30),\n      new Date(2000, 11, 31)\n    ]\n  },\n\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);",
         "height": "110",
         "title": "Sorting an array of strings/Numbers/Dates",
@@ -966,14 +966,14 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n{{for people sort=~multilevel}}...{{/for}} {{!-- Sort using a custom helper function: ~multilevel --}}\n```\n\nThe custom sort function takes arguments `(a, b)` for the two objects being compared. The `this` pointer is the current `view` object.\n\n```js\n// Custom sort function\nfunction multilevelSort(a, b) {\n  return ... // Return 1, -1 or 0 to specify relative position of `a` and `b` in the sort order\n}\n```"
+            "text": "```jsr\n{{for words sort=~locale}}...{{/for}}      {{!-- Sort using a custom helper function with localeCompare() --}}\n{{for people sort=~multilevel}}...{{/for}} {{!-- Sort using a custom helper function for multi-level sorting --}}\n```\n\nThe custom sort function takes arguments `(a, b)` for the two objects being compared. The `this` pointer is the  `tagCtx` object.\n\n```js\n// Custom sort functions\nfunction localeSort(a, b) {\n  // Localized sort\n  // Return 1, -1 or 0 to specify relative position of 'a' and 'b' in the sort order\n  return a.localeCompare(b) > 0 ? 1 : b.localeCompare(a) > 0 ? -1 : 0;\n}\n\nfunction multilevelSort(a, b) {\n  // Return 1, -1 or 0 to specify relative position of 'a' and 'b' in the sort order\n  // Sort by role, then by age (descending) then by name\n  return ...\n}\n```"
           }
         ],
         "jsrJsvJqui": "jsr",
-        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <ul>\n    {{for people sort=~multilevel}}  {{!-- Sort using a custom helper function: ~multilevel --}}\n      <li>{{:name}}: ({{:details.role}}) &ndash; age {{:details.age}}</li>\n    {{/for}}\n  </ul>\n</script>\n\n<div id=\"page\"></div>",
-        "code": "// Helper function for multi-level sort\nfunction level(aField, bField) {\n  return aField > bField ? 1 : aField < bField ? -1 : 0;\n}\n\n// Custom sort function\nfunction multilevelSort(a, b) {\n  // Sort by role, then by age (descending) then by name\n  return level(a.details.role.toLowerCase(), b.details.role.toLowerCase()) // by role\n      || level(b.details.age, a.details.age)  // by age\n      || level(a.name.toLowerCase(), b.name.toLowerCase()); // by name\n}\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n\n  data = {people: [\n    {name: \"Bill\", details: {age: 22, role: \"Lead\"}},\n    {name: \"Anne\", details: {age: 32, role: \"Assistant\"}},\n    {name: \"Emma\", details: {age: 19.1, role: \"Team member\"}},\n    {name: \"Jeff\", details: {age: 33.5, role: \"Lead\"}},\n    {name: \"Xavier\", details: {age: 32, role: \"Team member\"}},\n    {name: \"Julia\", details: {age: 18, role: \"Assistant\"}},\n    {name: \"Bill\", details: {age: 32, role: \"Team member\"}}\n  ]},\n\n  html = myTmpl.render(data, { \n    multilevel: multilevelSort\n  });\n\n$(\"#page\").html(html);",
-        "height": "150",
-        "title": "Using a custom sort function: multi-level sort ",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n<div class=\"left\">\n  <label>Localized sort of French words</label>\n  <ul>\n    {{for words sort=~locale}} {{!-- Sort using a custom helper function with localeCompare() --}}\n      <li>{{:}}</li>\n    {{/for}}\n  </ul>\n</div>\n\n<div class=\"left\">\n  <label>Multilevel sort</label>\n  <ul>\n    {{for people sort=~multilevel}}  {{!-- Sort using a custom helper function for multi-level sorting --}}\n      <li>{{:name}}: ({{:details.role}}) &ndash; age {{:details.age}}</li>\n    {{/for}}\n  </ul>\n</div>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "// Custom sort functions\nfunction localeSort(a, b) {\n  // Return 1, -1 or 0 to specify relative position of 'a' and 'b' in the sort order\n  // Localized sort\n  return a.localeCompare(b) > 0 ? 1 : b.localeCompare(a) > 0 ? -1 : 0;\n}\n\nfunction multilevelSort(a, b) {\n  // Return 1, -1 or 0 to specify relative position of 'a' and 'b' in the sort order\n  // Sort by role, then by age (descending) then by name\n  return level(a.details.role.toLowerCase(), b.details.role.toLowerCase()) // by role\n      || level(b.details.age, a.details.age)  // by age\n      || level(a.name.toLowerCase(), b.name.toLowerCase()); // by name\n}\n\n// Helper function for multi-level sort\nfunction level(aField, bField) {\n  return aField > bField ? 1 : aField < bField ? -1 : 0;\n}\n\n$.views.helpers({\n    locale: localeSort,\n    multilevel: multilevelSort\n  });\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n\n  data = {\n    words:\n      [\"maître\", \"âme\", \"école\", \"amour\", \"absolu\",\n      \"maison\", \"vôtre\", \"être\", \"effort\"],\n    people:\n      [\n        {name: \"Bill\", details: {age: 22, role: \"Lead\"}},\n        {name: \"Anne\", details: {age: 32, role: \"Assistant\"}},\n        {name: \"Emma\", details: {age: 19.1, role: \"Team member\"}},\n        {name: \"Jeff\", details: {age: 33.5, role: \"Lead\"}},\n        {name: \"Xavier\", details: {age: 32, role: \"Team member\"}},\n        {name: \"Julia\", details: {age: 18, role: \"Assistant\"}},\n        {name: \"Bill\", details: {age: 32, role: \"Team member\"}}\n      ]\n    },\n\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);",
+        "height": "220",
+        "title": "Using custom sort functions: localized sort and multi-level sort ",
         "anchor": "sortcustom"
       },
       {
@@ -1055,12 +1055,12 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n{{for colors}}...{{/for}}\n{{for colors start=1 end=-1}}...{{/for}}\n{{for colors step=2}}...{{/for}}\n{{for colors step=2 start=1}}...{{/for}}\n{{for colors sort=\"\"}}...{{/for}}\n{{for colors sort=\"\" start=1 end=-1}}...{{/for}}\n```"
+            "text": "```jsr\n{{for colors}}...{{/for}}\n{{for colors start=1 end=-1}}...{{/for}}\n{{for colors step=2}}...{{/for}}\n{{for colors step=2 start=1}}...{{/for}}\n{{for colors sort=true}}...{{/for}}\n{{for colors sort=true start=1 end=-1}}...{{/for}}\n```"
           }
         ],
         "jsrJsvJqui": "jsr",
         "header": "",
-        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <b>Unsorted:</b>\n  {{for colors}}{{:}} {{/for}}\n  <hr/>\n\n  <b>Sliced:</b>\n  {{for colors start=1 end=-1}}{{:}} {{/for}}\n  <hr/>\n\n  <b>Alternate, odd:</b>\n  {{for colors step=2}}{{:}} {{/for}}\n  <hr/>\n\n  <b>Alternate, even:</b>\n  {{for colors step=2 start=1}}{{:}} {{/for}}\n  <hr/>\n\n  <b>Sorted:</b>\n  {{for colors sort=\"\"}}{{:}} {{/for}}\n  <hr/>\n\n  <b>Sorted then sliced:</b>\n  {{for colors sort=\"\" start=1 end=-1}}{{:}} {{/for}}\n</script>\n\n<div id=\"page\"></div>",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <b>Unsorted:</b>\n  {{for colors}}{{:}} {{/for}}\n  <hr/>\n\n  <b>Sliced:</b>\n  {{for colors start=1 end=-1}}{{:}} {{/for}}\n  <hr/>\n\n  <b>Alternate, odd:</b>\n  {{for colors step=2}}{{:}} {{/for}}\n  <hr/>\n\n  <b>Alternate, even:</b>\n  {{for colors step=2 start=1}}{{:}} {{/for}}\n  <hr/>\n\n  <b>Sorted:</b>\n  {{for colors sort=true}}{{:}} {{/for}}\n  <hr/>\n\n  <b>Sorted then sliced:</b>\n  {{for colors sort=true start=1 end=-1}}{{:}} {{/for}}\n</script>\n\n<div id=\"page\"></div>",
         "code": "var myTmpl = $.templates(\"#myTmpl\"),\n\n  data = {\n    colors: [\"red\", \"orange\", \"yellow\", \"green\", \"blue\", \"indigo\", \"violet\"]\n  },\n\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);\n",
         "height": "200"
       },
@@ -1093,6 +1093,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "height": "220",
         "header": "<style>table {margin: 10px 0;}</style>",
         "action": "append"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also the sample [*Using the {{for}} tag to provide a 'purchases' grid view,...*](#samples/jsr/tags/extend-for@for), which includes sorting, filtering, reverse, as well as a running totals helper function:\n\n```jsr\n{{for lineItems sort=\"price\" reverse=true filter=~category category=\"book\"}}\n  ...{{:~total('quantity*price')}}...\n{{else}}\n  ...No items...\n{{/for}}\n```\n\n"
       },
       {
         "_type": "para",
@@ -1140,10 +1145,10 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n{{for colors start=1 end=-1 noIteration=true}} {{!-- slice (remove first and last) --}}\n  {{for #data sort=\"\"}}...{{/for}}             {{!-- sort ... --}}\n{{/for}}\n```\n"
+            "text": "```jsr\n{{for colors start=1 end=-1 noIteration=true}} {{!-- slice (remove first and last) --}}\n  {{for #data sort=true}}...{{/for}}           {{!-- sort ... --}}\n{{/for}}\n```\n"
           }
         ],
-        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <b>Sliced then sorted:</b>\n  {{for colors start=1 end=-1 noIteration=true}} {{!-- slice (remove first and last) --}}\n     {{for #data sort=\"\"}}{{:}} {{/for}}         {{!-- sort --}}\n  {{/for}}\n</script>\n\n<div id=\"page\"></div>",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <b>Sliced then sorted:</b>\n  {{for colors start=1 end=-1 noIteration=true}} {{!-- slice (remove first and last) --}}\n     {{for #data sort=true}}{{:}} {{/for}}         {{!-- sort --}}\n  {{/for}}\n</script>\n\n<div id=\"page\"></div>",
         "code": "var myTmpl = $.templates(\"#myTmpl\"),\n\n  data = {\n    colors: [\"red\", \"orange\", \"yellow\", \"green\", \"blue\", \"indigo\", \"violet\"]\n  },\n\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);",
         "jsrJsvJqui": "jsr",
         "height": "42"
@@ -1694,14 +1699,14 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n{{props people sort=~multilevel}}...{{/props}} {{!-- Sort using a custom helper function: ~multilevel --}}\n```\n\nThe custom sort function takes arguments `(a, b)` for the two objects being compared. The `this` pointer is the current `view` object.\n\n```js\n// Custom sort function\nfunction multilevelSort(a, b) {\n  return ... // Return 1, -1 or 0 to specify relative position of `a` and `b` in the sort order\n}\n```"
+            "text": "```jsr\n{{props words sort=~locale}}...{{/props}}      {{!-- Sort using a custom helper function with localeCompare() --}}\n{{props people sort=~multilevel}}...{{/props}} {{!-- Sort using a custom helper function: ~multilevel --}}\n```\n\nThe custom sort function takes arguments `(a, b)` for the two objects being compared. The `this` pointer is the current `tagCtx` object.\n\n```js\n// Custom sort functions\nfunction localeSort(a, b) {\n  // Localized sort\n  // Return 1, -1 or 0 to specify relative position of 'a' and 'b' in the sort order\n  return a.prop.localeCompare(b.prop) > 0 ? 1 : b.prop.localeCompare(a.prop) > 0 ? -1 : 0;\n}\n\nfunction multilevelSort(a, b) {\n  // Return 1, -1 or 0 to specify relative position of 'a' and 'b' in the sort order\n  // Sort by role, then by age (descending) then by name\n  return ...\n}\n```"
           }
         ],
         "jsrJsvJqui": "jsr",
-        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <ul>\n    {{props people sort=~multilevel}}  {{!-- Sort using a custom helper function: ~multilevel --}}\n      <li>{{:prop.name}}: ({{:prop.details.role}}) &ndash; age {{:prop.details.age}}</li>\n    {{/props}}\n  </ul>\n</script>\n\n<div id=\"page\"></div>",
-        "code": "// Helper function for multi-level sort\nfunction level(aField, bField) {\n  return aField > bField ? 1 : aField < bField ? -1 : 0;\n}\n\n// Custom sort function\nfunction multilevelSort(a, b) {\n  // Sort by role, then by age (descending) then by name\n  return level(a.prop.details.role.toLowerCase(), b.prop.details.role.toLowerCase()) // by role\n      || level(b.prop.details.age, a.prop.details.age)  // by age\n      || level(a.prop.name.toLowerCase(), b.prop.name.toLowerCase()); // by name\n}\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n\n  data = {people: {\n    p1: {name: \"Bill\", details: {age: 22, role: \"Lead\"}},\n    p2: {name: \"Anne\", details: {age: 32, role: \"Assistant\"}},\n    p3: {name: \"Emma\", details: {age: 19.1, role: \"Team member\"}},\n    p4: {name: \"Jeff\", details: {age: 33.5, role: \"Lead\"}},\n    p5: {name: \"Xavier\", details: {age: 32, role: \"Team member\"}},\n    p6: {name: \"Julia\", details: {age: 18, role: \"Assistant\"}},\n    p7: {name: \"Bill\", details: {age: 32, role: \"Team member\"}}\n  }},\n\n  html = myTmpl.render(data, { \n    multilevel: multilevelSort\n  });\n\n$(\"#page\").html(html);",
-        "height": "150",
-        "title": "Using a custom sort function: multi-level sort ",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n<div class=\"left\">\n  <label>Localized sort of French words</label>\n  <ul>\n    {{props words sort=~locale}} {{!-- Sort using a custom helper function with localeCompare() --}}\n      <li>{{:prop}}</li>\n    {{/props}}\n  </ul>\n</div>\n\n<div class=\"left\">\n  <label>Multilevel sort</label>\n  <ul>\n    {{props people sort=~multilevel}}  {{!-- Sort using a custom helper function: ~multilevel --}}\n      <li>{{:prop.name}}: ({{:prop.details.role}}) &ndash; age {{:prop.details.age}}</li>\n    {{/props}}\n  </ul>\n</div>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "// Custom sort functions\nfunction localeSort(a, b) {\n  // Return 1, -1 or 0 to specify relative position of 'a' and 'b' in the sort order\n  // Localized sort\n  return a.prop.localeCompare(b.prop) > 0 ? 1 : b.prop.localeCompare(a.prop) > 0 ? -1 : 0;\n}\n\nfunction multilevelSort(a, b) {\n  // Return 1, -1 or 0 to specify relative position of 'a' and 'b' in the sort order\n  // Sort by role, then by age (descending) then by name\n  return level(a.prop.details.role.toLowerCase(), b.prop.details.role.toLowerCase()) // by role\n      || level(b.prop.details.age, a.prop.details.age)  // by age\n      || level(a.prop.name.toLowerCase(), b.prop.name.toLowerCase()); // by name\n}\n\n// Helper function for multi-level sort\nfunction level(aField, bField) {\n  return aField > bField ? 1 : aField < bField ? -1 : 0;\n}\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n\n  data = {\n    words: {\n      w1: \"maître\", w2: \"âme\", w3: \"école\", w4:\"amour\", w5:\"absolu\",\n      w6: \"maison\", w7: \"vôtre\", w8:\"être\", w9: \"effort\"\n    },\n    people: {\n      p1: {name: \"Bill\", details: {age: 22, role: \"Lead\"}},\n      p2: {name: \"Anne\", details: {age: 32, role: \"Assistant\"}},\n      p3: {name: \"Emma\", details: {age: 19.1, role: \"Team member\"}},\n      p4: {name: \"Jeff\", details: {age: 33.5, role: \"Lead\"}},\n      p5: {name: \"Xavier\", details: {age: 32, role: \"Team member\"}},\n      p6: {name: \"Julia\", details: {age: 18, role: \"Assistant\"}},\n      p7: {name: \"Bill\", details: {age: 32, role: \"Team member\"}}\n    }\n  },\n\n  html = myTmpl.render(data, { \n    locale: localeSort,\n    multilevel: multilevelSort\n  });\n\n$(\"#page\").html(html);",
+        "height": "220",
+        "title": "Using custom sort functions: localized sort and multi-level sort ",
         "anchor": "sortcustom"
       },
       {
@@ -1783,12 +1788,12 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n{{props colors}}...{{/props}}\n{{props colors start=1 end=-1}}...{{/props}}\n{{props colors step=2}}...{{/props}}\n{{props colors step=2 start=1}}...{{/props}}\n{{props colors sort=\"name\"}}...{{/props}}\n{{props colors sort=\"name\" start=1 end=-1}}...{{/props}}\n```"
+            "text": "```jsr\n{{props colors}}...{{/props}}\n{{props colors start=1 end=-1}}...{{/props}}\n{{props colors step=2}}...{{/props}}\n{{props colors step=2 start=1}}...{{/props}}\n{{props colors sort=\"prop\"}}...{{/props}}\n{{props colors sort=\"prop\" start=1 end=-1}}...{{/props}}\n```"
           }
         ],
         "jsrJsvJqui": "jsr",
         "header": "",
-        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <b>Unsorted:</b>\n  {{props colors}}{{:prop}} {{/props}}\n  <hr/>\n\n  <b>Sliced:</b>\n  {{props colors start=1 end=-1}}{{:prop}} {{/props}}\n  <hr/>\n\n  <b>Alternate, odd:</b>\n  {{props colors step=2}}{{:prop}} {{/props}}\n  <hr/>\n\n  <b>Alternate, even:</b>\n  {{props colors step=2 start=1}}{{:prop}} {{/props}}\n  <hr/>\n\n  <b>Sorted:</b>\n  {{props colors sort=\"prop\"}}{{:prop}} {{/props}}\n  <hr/>\n\n  <b>Sorted then sliced:</b>\n  {{props colors sort=\"prop.name\" start=1 end=-1}}{{:prop.name}} {{/props}}\n</script>\n\n<div id=\"page\"></div>",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <b>Unsorted:</b>\n  {{props colors}}{{:prop}} {{/props}}\n  <hr/>\n\n  <b>Sliced:</b>\n  {{props colors start=1 end=-1}}{{:prop}} {{/props}}\n  <hr/>\n\n  <b>Alternate, odd:</b>\n  {{props colors step=2}}{{:prop}} {{/props}}\n  <hr/>\n\n  <b>Alternate, even:</b>\n  {{props colors step=2 start=1}}{{:prop}} {{/props}}\n  <hr/>\n\n  <b>Sorted:</b>\n  {{props colors sort=\"prop\"}}{{:prop}} {{/props}}\n  <hr/>\n\n  <b>Sorted then sliced:</b>\n  {{props colors sort=\"prop\" start=1 end=-1}}{{:prop}} {{/props}}\n</script>\n\n<div id=\"page\"></div>",
         "code": "var myTmpl = $.templates(\"#myTmpl\"),\n\n  data = {\n    colors: {\n      c1: \"red\",\n      c2: \"orange\",\n      c3: \"yellow\",\n      c4: \"green\",\n      c5: \"blue\",\n      c6: \"indigo\",\n      c7: \"violet\"\n    }\n  },\n\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);\n",
         "height": "200"
       },
@@ -3145,7 +3150,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "And here is the second approach:"
+        "text": "__Note:__ It is possible to declare a template in a non-script element such as a `<div>`, but this should be avoided. The browser will process the `<div>` content as HTML, with potential side-effects and perf implications. For example if the template includes things like `<img src=\"{{:...}}\" />`. then the browser will try to load the img from a non-existant URL..."
       },
       {
         "_type": "para",
@@ -3294,6 +3299,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "height": "40",
         "jsrJsvJqui": "jsr",
         "anchor": "fromscriptblock"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "__Note:__ It is possible to declare a template in a non-script element such as a `<div>`, but this should be avoided. The browser will process the `<div>` content as HTML, with potential side-effects and perf implications. (For example if the template includes things like `<img src=\"{{:...}}\" />`. then the browser will try to load the `<img>` from a non-existant URL...)"
       },
       {
         "_type": "sample",
@@ -4732,6 +4742,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "paths",
             "label": "Paths and expressions"
+          },
+          {
+            "_type": "topic",
+            "hash": "linked-template-syntax",
+            "label": "JsViews data-linked template syntax"
           }
         ]
       }
@@ -7689,7 +7704,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Our `{{runningTotal}}` [samples](#tagsapi@derivedfor) so far have initialized the running total to `0` in the render method, and then relied on the rendering process to do the incrementing of the running total. This approach would fail if the rendering sequence was changed for any reason.\n\nThe sample below takes the `{{runningTotal}}` tag above, and converts it to a more complete and more powerful \n `{{purchases}}` tag, again deriving from the `{{for}}` tag. The `{{purchases}}` tag, which is more flexible and more robust, and supports any number of running total columns.\n\nThe `~total(expression)` helper function now allows you to provide any expression as parameter. Here, running total values are recomputed for each line, separately, so no longer depend on the render processing sequence:"
+        "text": "Our `{{runningTotal}}` [samples](#tagsapi@derivedfor) so far have initialized the running total to `0` in the render method, and then relied on the rendering process to do the incrementing of the running total. This approach would fail if the rendering sequence was changed for any reason.\n\nThe sample below takes the `{{runningTotal}}` tag above, and converts it to a more complete and more powerful \n `{{purchases}}` tag, again deriving from the `{{for}}` tag. This `{{purchases}}` tag is more flexible and more robust, and supports any number of running total columns.\n\nThe `~total(expression)` helper function now allows you to provide any expression as parameter. Here, running total values are recomputed for each line, separately, so no longer depend on the render processing sequence.\n\nIn addition, `{{purchases}}` lets you filter rows, based on the `category`:\n\n"
       },
       {
         "_type": "sample",
@@ -7706,7 +7721,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "The `~total(expr)` helper function now accepts an *expression* parameter for each running total -- to be used to compute the incremental amount for each row.\n\n*Tag declaration:*\n\n```js\n$.views.tags(\"purchases\", {\n  baseTag: \"for\",\n ctx: {\n    total: function(expr) {              // A ~total(expression) helper\n      var tmpl = $.templates[expr]       // Get named compiled template for expression, or else...\n                 || $.templates(expr, \"{{:\" + expr + \"}}\"), // ...if this is first call, create it\n\n        runningTotal = 0,\n        view = this,                     // The content view with the ~total(...) helper call\n        items = view.get(\"array\").data,\n        rowIndex = view.getIndex();\n\n      for (var i = 0; i <= rowIndex; i++) {\n        runningTotal += +tmpl(items[i]); // Compute running total up to this row, using render function\n      }                                  // of compiled tmpl (either tmpl() or tmpl.render()...)\n      return runningTotal;               // Return value from ~total(...)\n    }\n  }\n});\n```\n\n*Tag usage:*\n\n```jsr\n{{purchases lineItems sort=\"category\" ...}} \n  ...{{:~total('quantity*price')}}...\n{{else}}\n  ...No items...\n{{/purchases}}\n```\n"
+            "text": "The `~total(expr)` helper function now accepts an *expression* parameter for each running total -- to be used to compute the incremental amount for each row.\n\n*Tag declaration:*\n\n```js\n$.views.tags(\"purchases\", {\n  baseTag: \"for\",\n  ctx: {\n    total: function(expr) {              // A ~total(expression) helper\n      var tmpl = $.templates[expr]       // Get named compiled template for expression, or else...\n                 || $.templates(expr, \"{{:\" + expr + \"}}\"), // ...if this is first call, create it\n\n        runningTotal = 0,\n        view = this,                     // The content view with the ~total(...) helper call\n        items = view.get(\"array\").data,\n        rowIndex = view.getIndex();\n\n      for (var i = 0; i <= rowIndex; i++) {\n        runningTotal += +tmpl(items[i]); // Compute running total up to this row, using render function\n      }                                  // of compiled tmpl (either tmpl() or tmpl.render()...)\n      return runningTotal;               // Return value from ~total(...)\n    }\n  }\n});\n```\n\n*Tag usage:*\n\n```jsr\n{{purchases lineItems sort=\"category\" filter=~category category=\"book\"}} \n  ...{{:~total('quantity*price')}}...\n{{else}}\n  ...No items...\n{{/purchases}}\n```\n\n*Provide category filter helper:*\n\n```js\nfunction categoryFilter(item, index, items) {\n  var str = this.props.category; // Filter items. (Test whether item.category contains the tagCtx.props.category string)\n  return str ? item.category.toLowerCase().indexOf(str.toLowerCase()) !== -1 : true;\n}\n...\nvar html = $(\"#myTmpl\").render(purchases, {category: categoryFilter});\n```"
           }
         ],
         "header": "",
@@ -7714,15 +7729,15 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "",
         "code": "",
         "jsrJsvJqui": "jsr",
-        "height": "550",
-        "url": "samples/jsrender/tags/extend-for/sample",
+        "height": "680",
+        "url": "samples/jsrender/tags/extend-for/sample-tag1",
         "title": "A {{purchases}} tag supporting totals for any expression",
         "anchor": "totals-expr"
       },
       {
         "_type": "para",
         "title": "",
-        "text": "The above `{{purchases}}` custom tag can be easily updated to support data-binding. See [purchases sample](#samples/tag-controls/purchases@jsv)."
+        "text": "Note that the `{{purchases}}` tag above incorporates the `~total(...)` helper, but requires the category filter helper `filter=~category` to be passed in. See the [*Extending the {{for}} tag*](#samples/jsr/tags/extend-for) sample for an improved `{{purchases}}` tag which provides better encapsulation by incorporating also the category filter.\n\nSee also the [sorting and filtering](#samples/sort-filter@jsv-tag) samples topic, which includes adding JsViews data-linking to the tag, providing a precursor to a fully-fledged `{{grid}}` control."
       },
       {
         "_type": "para",
@@ -7743,7 +7758,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Accessing the tag arguments or named properties",
-        "text": "The values of arguments can be accessed as `tagCtx.args`, and named properties as `tagCtx.props`.\n\nFor example, if we have the following tag, which has two arguments and one named property:\n\n```jsr\n{{sometag title name mode=\"edit\"}}\n```\n\nthen from within the *init()* or *render()* method of `sometag`, the arguments and named properties can be accessed as:\n\n```js\nvar title = this.tagCtx.args[0];\nvar name = this.tagCtx.args[1];\nvar mode = this.tagCtx.props.mode;\n```\n\nand from the tag template, the values can be accessed as `~tagCtx.args` or  `~tagCtx.props`, and so might be rendered as: \n\n```jsr\n...title: {{>~tagCtx.args[0]}}<br/>name: {{>~tagCtx.args[1]}}<br/>mode: {{>~tagCtx.props.mode}}...\n```\n\nIn addition to being available as `tagCtx.args`, arguments are also passed directly as arguments to the *render()* method, so `sometag` might use the following *render()* method, rather than a template, to render similar content:\n\n```js\nfunction sometagRenderMethod(title, name) {\n  return \"...title: \" + title + \"<br/>name: \" + name + \"<br/>mode: \" + this.tagCtx.props.mode ...;\n}\n```\n\nThe `tagCtx` object also provides access to the markup expression for arguments and named properties, as `tagCtx.params.args` and `tagCtx.params.props`.\n\n(*Note:* Tag property names can include `_` and `.` characters, as in `{{mytag some_.name=... /}}`. If the name includes `.` characters, use the syntax `tagCtx.props[\"some_.name\"];` to access the value.)"
+        "text": "The values of arguments can be accessed as `tagCtx.args`, and named properties as `tagCtx.props`.\n\nFor example, if we have the following tag, which has two arguments and one named property:\n\n```jsr\n{{sometag title name mode=\"edit\"}}\n```\n\nthen from within the *init()* or *render()* method of `sometag`, the arguments and named properties can be accessed as:\n\n```js\nvar title = this.tagCtx.args[0];\nvar name = this.tagCtx.args[1];\nvar mode = this.tagCtx.props.mode;\n```\n\nand from the tag template, the values can be accessed as `~tagCtx.args` or  `~tagCtx.props`, and so might be rendered as: \n\n```jsr\n...title: {{>~tagCtx.args[0]}}<br/>name: {{>~tagCtx.args[1]}}<br/>mode: {{>~tagCtx.props.mode}}...\n```\n\nIn addition to being available as `tagCtx.args`, arguments are also passed directly as arguments to the *render()* method, so `sometag` might use the following *render()* method, rather than a template, to render similar content:\n\n```js\nfunction sometagRenderMethod(title, name) {\n  return \"...title: \" + title + \"<br/>name: \" + name + \"<br/>mode: \" + this.tagCtx.props.mode ...;\n}\n```\n\nThe `tagCtx` object also provides access to the markup expression for arguments and named properties, as `tagCtx.params.args` and `tagCtx.params.props`.\n\n(*Note:* Tag property names can include alphanumeric characters, `_`, `$` and `.` characters -- as in `{{mytag some_$4.Name=... /}}`. If the name includes `.` characters, use the syntax `tagCtx.props[\"some_$4.Name\"];` to access the value. The '-' character is not supported in property names.)"
       },
       {
         "_type": "para",
@@ -7924,7 +7939,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "<span class=\"strong\">Accessing contextual parameters and helpers</span>",
-        "text": "- From a tag template:\n  - [Contextual parameters](#contextualparams) and helpers can be accessed using `~myParamOrHelper`\n- From a tag method:\n  - Contextual parameters and helpers can be accessed using `this.ctxPrm(\"myParamOrHelper\")`\n  - (Note: contextual parameters can also be accessed using `this.ctx.myParamOrHelper`, and global helpers can be accessed using `$views.helpers(\"myHelper\")`)\n\n(See also [*Tag Context*](#tagsapi@context))\n\nAs an advanced example of custom tag rendering based on contextual parameters, here is a modified version of the above *layout* sample, where instead of wrapping `{{cell}}` tags in a `{{layout}}` tag, we instead wrap in a simple `{{include}}` on which we set a contextual parameter specifying layout: `layout='vertical'`:",
+        "text": "- From a tag template:\n  - [Contextual parameters](#contextualparams) and helpers can be accessed using `~myParamOrHelper`\n- From a tag method:\n  - Contextual parameters and helpers can be accessed using [`this.ctxPrm(\"myParamOrHelper\")`](#tagobject@ctxprm)\n  - (Note: contextual parameters can also be accessed using `this.ctx.myParamOrHelper`, and global helpers can be accessed using `$.views.helpers(\"myHelper\")` or `$.views.helpers.myHelper`)\n- From other contexts:\n  - Contextual parameters and helpers can be accessed using [`view.ctxPrm(\"myParamOrHelper\")`](#viewobject@ctxprm)\n\n(See also [*Tag Context*](#tagsapi@context))\n\nAs an advanced example of custom tag rendering based on contextual parameters, here is a modified version of the above *layout* sample, where instead of wrapping `{{cell}}` tags in a `{{layout}}` tag, we instead wrap in a simple `{{include}}` on which we set a contextual parameter specifying layout: `layout='vertical'`:",
         "anchor": "ctxparams"
       },
       {
@@ -7954,7 +7969,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "(*Note:* Contextual parameter names can include `_` and `.` characters, as in `{{mytag ~some_.name=... /}}`. If the name includes `.` characters, use the syntax `ctx[\"some_.name\"];` to access the value.)"
+        "text": "(*Note:* Contextual parameter names can include alphanumeric characters, `_`, `$` and `.` characters -- as in `{{mytag ~some_$4.Name=... /}}`. If the name includes `.` characters, use the syntax `ctx[\"some_$4.Name\"]` or [`ctxPrm(\"some_$4.Name\")`](#tagsapi@ctxparams) to access the value.)"
       },
       {
         "_type": "para",
@@ -8168,7 +8183,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         ],
         "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"människa.função\"/>\n  {^{:människa.função}} <br/>\n\n  <input data-link=\"människa.角色\"/>\n  {^{:människa.角色}} <br/>\n\n  <input data-link=\"människa.rôle\"/>\n  {^{:människa.rôle}} <br/>\n\n  <input data-link=\"människa.وظيفة\"/>\n  {^{:människa.وظيفة}} <br/>\n\n  <input data-link=\"människa.ሚና\"/>\n  {^{:människa.ሚና}} <br/>\n</script>\n\n<div id=\"page\"></div>",
         "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    människa: {\n      função: \"a1\",\n      角色: \"b2\",\n      rôle: \"c3\",\n      وظيفة: \"d4\",\n      ሚና: \"ዳይሬክተር6\"\n    }\n  };\n\nmyTmpl.link(\"#page\", data);",
-        "header": "<script src=\"https://www.jsviews.com/download/plugins/jsrender-unicode.min.js\"></script>\n",
+        "header": "<script src=\"/download/plugins/jsrender-unicode.min.js\"></script>",
         "action": "prepend",
         "height": "140"
       },
