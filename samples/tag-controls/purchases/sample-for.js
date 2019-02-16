@@ -1,7 +1,12 @@
 "use strict";
-$.views.converters("dec2", function(val) {
-  return val.toFixed(2);
-})
+$.views.converters({
+  dec2: function(val) {
+    return val.toFixed(2); // format number to 2 decimal places
+  },
+  toNum: function(val) {
+    return +val; // Convert string to number
+  }
+});
 
 $.views.helpers({
   category: function(item, index, items) { // Helper for category filter

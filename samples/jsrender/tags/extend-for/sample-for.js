@@ -1,7 +1,7 @@
 "use strict";
 $.views.converters("dec2", function(val) {
   return val.toFixed(2);
-})
+});
 
 $.views.helpers({
   category: function(item, index, items) { // Helper for category filter

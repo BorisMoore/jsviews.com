@@ -36,7 +36,7 @@ $.views.tags("purchases", {
 
 $.views.converters("dec2", function(val) {
   return val.toFixed(2);
-})
+});
 
 var purchases = {
   lineItems: [

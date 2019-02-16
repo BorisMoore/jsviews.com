@@ -1,7 +1,7 @@
 "use strict";
 $.views.converters("dec2", function(val) {
   return val.toFixed(2);
-})
+});
 
 function categoryFilter(item, index, items) {
   var str = this.props.category;         // Filter for items whose item.category contains the tagCtx.props.category string

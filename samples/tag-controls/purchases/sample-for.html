@@ -31,9 +31,9 @@
   {^{for lineItems sort=~sortBy reverse=~reverseSort filter=~category sorted=~sorted}}
     <tr>
       <td class="editable"><input data-link="category" style="width:80px;"/></td>
-      <td class="editable"><input data-link="quantity" style="width:80px;"/></td>
+      <td class="editable"><input data-link="{:quantity:toNum}" style="width:80px;"/></td>
       <td class="total" data-link="~total('quantity')" ></td>
-      <td class="editable"><input data-link="{dec2:price:}" style="width:80px;"/></td>
+      <td class="editable"><input data-link="{dec2:price:toNum}" style="width:80px;"/></td>
       <td data-link="{dec2:quantity * price}"></td>
       <td class="total" data-link="{dec2:~total('quantity * price')}"></td>
     </tr>
