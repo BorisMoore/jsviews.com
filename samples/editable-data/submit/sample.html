@@ -34,7 +34,7 @@
 
 <!----------------- Templates ------------------->
 <script id="movieTemplate" type="text/x-jsrender">
-  <tr class="hover" data-link="css-background-color{:~root.bgColor(#index)} {on ~root.select #index}">
+  <tr class="hover" data-link="css-background-color{:movieApp.bgColor(#index)} {on movieApp.select #index}">
     <td>
       <span data-link="#index + 1"></span>:
       <span data-link="title()"></span>
@@ -44,7 +44,7 @@
         <div data-link="name()"></div>
       {{/for}}
     </td>
-    <td><span class="removeMovie" data-link="{on ~root.removeMovie #index}"></span></td>
+    <td><span class="removeMovie" data-link="{on movieApp.removeMovie #index}"></span></td>
   </tr>
 </script>
 
@@ -55,9 +55,9 @@
     <div class="title">
       Languages: <span class="addLanguage" data-link="{on addLanguage}">Add</span>
     </div>
-    {^{for languages() ~movie=#data}}
+    {^{for languages()}}
       <input data-link="name()" />
-      <span class="removeLanguage" data-link="{on ~movie.removeLanguage #index}"></span>
+      <span class="removeLanguage" data-link="{on movie.removeLanguage #index}"></span>
     {{/for}}
   </div>
 </script>

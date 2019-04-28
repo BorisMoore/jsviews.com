@@ -12,12 +12,10 @@ $.views.tags("draggable2", {
         addedTop = offset.top - ev.clientY;
       if (document.elementFromPoint(ev.clientX, ev.clientY) === tag.mainElem[0]) {
         $(document).on("mousemove touchmove", function(ev2) {
-          setTimeout(function() {
-            var moveToX = ev2.clientX + addedLeft,
-              moveToY = ev2.clientY + addedTop;
-            tag.updateValues(moveToX, moveToY);
-            tag.setValues(moveToX, moveToY);
-          }, 0);
+          var moveToX = ev2.clientX + addedLeft,
+            moveToY = ev2.clientY + addedTop;
+          tag.updateValues(moveToX, moveToY, true); // Async update
+          tag.setValues(moveToX, moveToY);
           ev.preventDefault();
         });
       }

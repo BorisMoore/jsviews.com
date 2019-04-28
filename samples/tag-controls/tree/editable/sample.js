@@ -5,10 +5,9 @@ $.views.tags({
 
     //METHODS
     toggle: function() {
-      var data = this.tagCtx.contentView.data;
+      var data = this.tagCtx.view.data;
       $.observable(data).setProperty("expanded", !data.expanded);
-    },
-    dataBoundOnly: true
+    }
   },
 
   editableTree: {
@@ -16,16 +15,16 @@ $.views.tags({
 
     //METHODS
     toggle: function() {
-      var data = this.tagCtx.contentView.data;
+      var data = this.tagCtx.view.data;
       $.observable(data).setProperty("expanded", !data.expanded);
     },
     remove: function() {
-      var parentFolders = this.parent.tagCtx.contentView.data.folders,
+      var parentFolders = this.parent.tagCtx.view.data.folders,
         index = this.tagCtx.view.index;
       $.observable(parentFolders).remove(index);
     },
     addFolder: function() {
-      var data = this.tagCtx.contentView.data;
+      var data = this.tagCtx.view.data;
       $.observable(data.folders).insert({
         name: "new folder",
         folders: []

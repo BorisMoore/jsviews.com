@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "outDir": "./built/",
+    "sourceMap": true,
+    "typeRoots": [
+        "./types"
+    ],
+    "types": ["jsrender", "jsviews"]
+  },
+  "include": [
+     "./test/tests/jsrender/tests-jsrender.ts",
+     "./test/tests/jsviews/tests-jsviews.ts"
+ ],
+  "noImplicitAny": true
+}

@@ -1,7 +1,7 @@
-/*! Sample JsViews tag control: {{areaslider}} control v1.0.0
+/*! Sample JsViews tag control: {{areaslider}} control v1.0.3
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
- * Copyright 2018, Boris Moore
+ * Copyright 2019, Boris Moore
  * Released under the MIT License.
  */
 
@@ -58,10 +58,8 @@ areaslider: {
         if (newXVal !== tagCtx.xVal || newYVal !== tagCtx.yVal) {
           tagCtx.xVal = newXVal;
           tagCtx.yVal = newYVal;
-          setTimeout(function() {
-            // User mousemove - sliding dragger: move dragger to new position
-            tag.moveTo(newXVal, newYVal);
-          }, 0);
+          // User mousemove - sliding dragger: move dragger to new position
+          tag.moveTo(newXVal, newYVal);
         }
         ev.preventDefault();
       });
@@ -102,7 +100,7 @@ areaslider: {
     // Call setValues() to move the dragger to new (x, y) position
     this.setValues(x, y);
     // Call updateValues() to change the external data-linked data to the new values (x, y)
-    this.updateValues(x, y);
+    this.updateValues(x, y, true); // Async update
   },
 
   setMetrics: function(tagCtx) {

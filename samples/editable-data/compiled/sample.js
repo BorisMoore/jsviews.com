@@ -1,38 +1,22 @@
 "use strict";
 var VMs = $.views.viewModels,
-  counter = 0,
+  counter = 0;
 
-// Initial data
-  app = {
-    selectedIndex: null,
-    movies: [
-    {
-      title:"Meet Joe Black",
-      languages: [
-        {name: "English"},
-        {name: "French"}
-      ]
-    },
-    {
-      title:"Eyes Wide Shut",
-      languages: [
-        {name: "German"},
-        {name: "French"},
-        {name: "Spanish"}
-      ]
-    }
-  ]
-  };
+// Background color helper function
+function bgColor(index) {
+  return this.selectedIndex() === index
+    ? "yellow"
+    : (index%2 ? "#fdfdfe" : "#efeff2");
+}
+
+bgColor.depends = "selectedIndex()";
 
 // Compile View Models
 VMs({
   MovieApp: {
     getters: [
       "selectedIndex",
-      {
-        getter: "movies",
-        type: "Movie"
-      }
+      { getter: "movies", type: "Movie" }
     ],
     extend: {
       addMovie: function() {
@@ -72,10 +56,7 @@ VMs({
   Movie: {
     getters: [
       "title",
-      {
-        getter: "languages",
-        type: "Language"
-      }
+      { getter: "languages", type: "Language" }
     ],
     extend: {
       addLanguage: function() {
@@ -92,17 +73,30 @@ VMs({
   }
 });
 
+// Initial data
+var app = {
+  selectedIndex: null,
+  movies: [
+    {
+      title:"Meet Joe Black",
+      languages: [
+        {name: "English"},
+        {name: "French"}
+      ]
+    },
+    {
+      title:"Eyes Wide Shut",
+      languages: [
+        {name: "German"},
+        {name: "French"},
+        {name: "Spanish"}
+      ]
+    }
+  ]
+};
+
 // Instantiate View Models
 var appVm = $.views.viewModels.MovieApp.map(app);
-
-// Background color helper function
-function bgColor(index) {
-  return this.selectedIndex() === index
-    ? "yellow"
-    : (index%2 ? "#fdfdfe" : "#efeff2");
-}
-
-bgColor.depends = ["#index", appVm, "selectedIndex"];
 
 // Top level data-linking - bind content to View Models
 $.link(true, ".linkedContent", appVm);

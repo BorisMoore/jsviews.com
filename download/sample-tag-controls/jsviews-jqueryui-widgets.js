@@ -1,4 +1,4 @@
-/*! JsViews jQueryUI widget integration v1.0.2
+/*! JsViews jQueryUI widget integration v1.0.3
 see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
  * https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
@@ -273,6 +273,7 @@ checkbox: {
   widgetName: "checkboxradio",
   template: "<label><input type='checkbox'/></label>",
   mainElement: "input",
+  linkedElement: "input",
   setSize: true,
   onBind: checkboxRadioOnBind,
   onAfterLink: checkboxRadioOnAfterLink,
@@ -492,10 +493,8 @@ resizable: {
     var tag = this;
     return {
       resize: function(evt, ui) {
-        setTimeout(function() {
-          tag.updateValues(ui.size.width, ui.size.height);
-          tag.setValues(ui.size.width, ui.size.height);
-        },0);
+        tag.updateValues(ui.size.width, ui.size.height, true); // Async update
+        tag.setValues(ui.size.width, ui.size.height);
       }
     };
   },
@@ -552,9 +551,7 @@ slider: {
     var tag = this;
     return {
       slide: function(evt, ui) {
-        setTimeout(function() {
-          tag.updateValue(ui.value);
-        }, 0);
+        tag.updateValue(ui.value, true); // Async update
       }
     };
   },
@@ -934,12 +931,10 @@ if ($.ui.draggable) {
       var tag = this;
       return {
         drag: function(evt, ui) {
-          setTimeout(function() {
-            tag.updateValues(ui.offset.left, ui.offset.top);
-            if (tag.convert) {
-              tag.setValues(ui.offset.left, ui.offset.top);
-            }
-          },0);
+          tag.updateValues(ui.offset.left, ui.offset.top, true); // Async update
+          if (tag.convert) {
+            tag.setValues(ui.offset.left, ui.offset.top);
+          }
         }
       };
     },

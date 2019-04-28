@@ -4,9 +4,7 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="../../../../download/jsviews.min.js"></script>
   <script src="../../../sample-viewer.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-  <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
-  <script src="../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.min.js"></script>
+  <script src="../../../../download/sample-tag-controls/slider/slider.min.js"></script>
   <link href="../demos.css" rel="stylesheet" />
 </head>
 <body>
@@ -21,11 +19,16 @@
   .green {border: 1px solid #00cc1a;
     background-color: rgba(212, 255, 218, 0.50);}
   .smalltext {font-size: 12px; line-height: 17px;}
-  .slider .ui-slider {margin: 2px 16px 0 5px; float: left;}
-  .slider {margin-bottom: 20px;}
   h4 {margin: 12px 0;}
   body {overflow: auto;}
   #cont {height: 450px;}
+
+  input {width: 154px; margin: 0 10px;}
+  .slider1 {width: 154px; height: 11px; border-radius: 2px; background: #eee;
+    border: #999 solid 1px; margin: 15px 13px -2px 10px; display: inline-block;}
+  .slider1 .handle {cursor: pointer; width: 11px; height: 11px;
+    margin-top: -1px; border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 11px; background: #fafafa; box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);}
 </style>
 
 <script id="pageTmpl" type="text/x-jsrender">
@@ -33,12 +36,12 @@
 <h4>Drag any square:</h4>
 
 <div class="slider">
-  {^{slider expand _min=-2 _max=2 _range="min" _step=.01 width=400/}}
+  {^{slider expand min=-2 max=2 _range="min" _step=.01 width=400 class="slider1"/}}
   <em>expand:</em> {^{rnd2:expand}}
 </div>
 
 <div class="slider">
-  {^{slider rotate _min=-0 _max=360 _range="min" width=400/}}
+  {^{slider rotate min=-0 max=360 _range="min" width=400 class="slider1"/}}
   <em>rotate:</em> {^{rnd:rotate}}
 </div>
 

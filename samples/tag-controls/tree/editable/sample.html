@@ -28,52 +28,57 @@
 </script>
 
 <script id="treeTemplate" type="text/x-jsrender">
-  <li>
-    {^{if folders && folders.length}}
-      <span data-link="{on ~tag.toggle}" class="toggle">{^{:expanded ? '-' : '+'}}</span>
-    {{else}}
-      <span class="spacer">&bull;</span>
-    {{/if}}
-    {^{>name}}
-  </li>
-  {^{if expanded}}
-    <li>
+<li>
+  {^{if folders && folders.length}}
+    {{!-- If there are child items, show item, with a toggle button to expand/collapse children --}}
+    <span data-link="{on ~tag.toggle} {:expanded ? '-' : '+'}" class="toggle"></span> {^{>name}}
+    {^{if expanded}}
+      {{!-- If expanded, show the child items --}}
       <ul>
         {^{for folders}}
-          {^{tree/}}
+          {{!-- Recursive {{tree}} call to display subtree --}}
+          {{tree/}}
         {{/for}}
       </ul>
-    </li>
+    {{/if}}
+  {{else}}
+    {{!-- If no child items, show just the item --}}
+    <span class="spacer">&bull;</span> {^{>name}}
   {{/if}}
+</li>
 </script>
 
 <script id="editableTreeTemplate" type="text/x-jsrender">
-  <li>
-    {^{if folders && folders.length}}
-      <span data-link="{on ~tag.toggle}" class="toggle">{^{:expanded ? '-' : '+'}}</span>
-    {{else}}
-      <span class="spacer">&bull;</span>
-    {{/if}}
-    {^{if ~tagCtx.props.editable}}
-      <input data-link="name" />
-      <span data-link="{on ~tag.addFolder}" class="add">add</span>
-      {^{if ~tag.parent && ~tag.parent.tagName==='editableTree'}}
-        {{!-- Don't allow removing the top-level tree control --}}
-        <span data-link="{on ~tag.remove}" class="remove"></span>
-      {{/if}}
-    {{else}}
-      {^{>name}}
-    {{/if}}
-  </li>
-  {^{if expanded}}
-    <li>
-      <ul>
-        {^{for folders}}
-          {^{editableTree editable=~tagCtx.props.editable/}}
-        {{/for}}
-      </ul>
-    </li>
+<li>
+  {^{if folders && folders.length}}
+    {{!-- If there are child items, show a toggle button to expand/collapse children --}}
+    <span data-link="{on ~tag.toggle}" class="toggle">{^{:expanded ? '-' : '+'}}</span>
+  {{else}}
+    {{!-- If no child items, show just the item --}}
+    <span class="spacer">&bull;</span>
   {{/if}}
+  {^{if ~tagCtx.props.editable}}
+    {{!-- If editable, show a textbox to edit, and add/remove buttons --}}
+    <input data-link="name" />
+    <span data-link="{on ~tag.addFolder}" class="add">add</span>
+    {^{if ~tag.parent && ~tag.parent.tagName==='editableTree'}}
+      {{!-- Don't allow removing the top-level tree control --}}
+      <span data-link="{on ~tag.remove}" class="remove"></span>
+    {{/if}}
+  {{else}}
+    {{!-- Not editable --}}
+    {^{>name}}
+  {{/if}}
+  {^{if expanded}}
+    {{!-- If expanded, show the child items --}}
+    <ul>
+      {^{for folders}}
+        {{!-- Recursive {{editableTree}} call to display subtree --}}
+        {^{editableTree editable=~tagCtx.props.editable/}}
+      {{/for}}
+    </ul>
+  {{/if}}
+</li>
 </script>
 <!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
 </body>

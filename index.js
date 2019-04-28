@@ -339,6 +339,9 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 												+ $(searchTreeNode).offset().top - searchbox.offset().top - 60}, 150);
 										}
 									}
+									if (navTreeNode) {
+										sideNavElem.animate({scrollTop: navTreeNode.offsetTop - sideNavElem.height()/2}, 150);
+									}
 									scrollTargetElem = isSearchTreeSelectionChange = false;
 								});
 							}
@@ -860,9 +863,9 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 			sample: $.templates("#editSampleTmpl"),
 			links: $.templates("#editLinksTmpl")
 		}
-	};
+	},
 
-var testDiv = $("#testHtml")[0];
+	testDiv = $("#testHtml")[0];
 
 document.onkeydown = function(ev) {
 	ev = ev || window.event;

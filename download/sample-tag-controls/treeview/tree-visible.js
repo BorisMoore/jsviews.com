@@ -1,7 +1,7 @@
-﻿/*! Sample JsViews tag control: {{tree}} control using visible{...} v1.0.0
+﻿/*! Sample JsViews tag control: {{tree}} control using visible{...} v1.0.2
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
- * Copyright 2018, Boris Moore
+ * Copyright 2019, Boris Moore
  * Released under the MIT License.
  */
 
@@ -10,39 +10,30 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
 
 $.views.tags({
   tree: {
-    onBind: function() {
-      var self = this;
-      self.contents("li").first()
-        .on("click", ".toggle", function() {
-          self.toggle();
-        });
-    },
     template: '<li>' +
-      '{{if folders && folders.length}}' +
-        '<span class="toggle">{^{:~tag.expanded ? "-" : "+"}}</span>' +
-      '{{else}}' +
-        '<span class="spacer">&bull;</span>' +
-      '{{/if}}' +
-      '{{>name}}' +
-    '</li>' +
-    '{{if folders}}' +
-      '<li data-link="visible{:~tag.expanded}">' +
-        '<ul>' +
-          '{{for folders}}' +
-            '{^{tree/}}' +
-          '{{/for}}' +
-        '</ul>' +
-      '</li>' +
-    '{{/if}}',
+    '{{if folders && folders.length}}' +
+      //If there are child items, show item, with a toggle button to expand/collapse children
+      '<span data-link="{on ~tag.toggle} {:~tag.expanded ? \'-\' : \'+\'}" class="toggle"></span> {{>name}}' +
+      //If expanded, show the child items
+      '<ul data-link="visible{:~tag.expanded}">' +
+        '{{for folders}}' +
+          //Recursive {{tree}} call to display subtree
+          '{{tree/}}' +
+        '{{/for}}' +
+      '</ul>' +
+    '{{else}}' +
+      //If no child items, show just the item
+      '<span class="spacer">&bull;</span> {{>name}}' +
+    '{{/if}}' +
+  '</li>',
 
     //PROPERTIES
-    expanded: false, // default to unexpanded
+    expanded: false, // Default to unexpanded
 
     //METHODS
     toggle: function() {
       $.observable(this).setProperty("expanded", !this.expanded);
-    },
-    dataBoundOnly: true
+    }
   }
 });
 

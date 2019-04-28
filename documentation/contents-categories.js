@@ -971,6 +971,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
           {
             "name": "namespaces",
             "label": "Namespaces"
+          },
+          {
+            "name": "delay",
+            "label": "Async or batched events"
           }
         ],
         "expanded": false

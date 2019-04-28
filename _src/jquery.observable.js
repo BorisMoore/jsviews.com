@@ -16,6 +16,7 @@ if (!$.observe) {
 		observeInnerCbKey = 1,
 		$data = $.data,
 		remove = {}, // flag for removeProperty
+		asyncBatch = [],
 
 	//========================== Top-level functions ==========================
 
@@ -162,13 +163,12 @@ if (!$.observe) {
 
 		function filterAndObserveAll(obj, prop, unobs, nestedArray) {
 			var newObject, newParentObs;
-			if (prop !== $expando && (newObject = $observable._fltr(newAllPath, obj[prop], nextParentObs, filter))) {
+			if ((+prop === prop || prop !== $expando) && (newObject = $observable._fltr(newAllPath, obj[prop], nextParentObs, filter))) {
 				newParentObs = nextParentObs.slice();
 				if (nestedArray && updatedTgt && newParentObs[0] !== updatedTgt) {
 					newParentObs.unshift(updatedTgt); // For array change events when observing an array which is not the root, need to add updated array to parentObs
 				}
 				observeAll(namespace, newObject, cb, filter || (nestedArray ? undefined : 0), newParentObs, newAllPath, unobs, objMap);
-				// If nested array, need to observe the array too - so set filter to undefined
 			}
 		}
 
@@ -260,6 +260,19 @@ if (!$.observe) {
 	$unobserve = function() {
 		[].push.call(arguments, true); // Add true as additional final argument
 		return $observe.apply(undefined, arguments);
+	},
+
+	batchTrigger = function(async) {
+		var event,
+		batch = this.slice();
+		this.length = 0;
+		this._go = 0;
+		while (event = batch.shift()) {
+			if (!event.skip) {
+				event[0]._trigger(event[1], event[2], true);
+			}
+		}
+		this.paths = {};
 	};
 
 	$observe = function() {
@@ -282,7 +295,7 @@ if (!$.observe) {
 			}
 
 			function observeOnOff(cb, object, fullPath, namespace, pathStr, isArrayBinding, off) {
-				var j, evData,
+				var j, evData, dataOb,
 					boundObOrArr = wrapArray(object),
 					prntObs = parentObs,
 					allPth = allPath;
@@ -337,10 +350,9 @@ if (!$.observe) {
 						};
 					}
 					$(boundObOrArr).on(namespace, null, evData, onDataChange);
-
 					if (cbBindings) {
 						// Add object to cbBindings
-						cbBindings[$data(object).obId || $data(object, "obId", observeObjKey++)] = object;
+						cbBindings[(dataOb = $data(object)).obId || (dataOb.obId = observeObjKey++)] = object;
 					}
 				}
 			}
@@ -348,7 +360,7 @@ if (!$.observe) {
 			function bindArray(cb, arr, unbind, isArray, relPath) {
 				if (allowArray) {
 					// allowArray is 1 if this is a call to observe that does not come from observeAndBind (tag binding), or is from a 'depends' path,
-					// so we allow arrayChange binding. Otherwise allowArray is zero.
+					// or for a tag with tag.onArrayChange = true - so we allow arrayChange binding. Otherwise allowArray is zero.
 					var object,
 						prevAllPath = allPath;
 
@@ -425,7 +437,7 @@ if (!$.observe) {
 																				// remove previous observeAll wrapped callback, if inner callback was the same;
 						}
 
-						var arrIndex, skip, dep, obArr, prt,
+						var arrIndex, skip, dep, obArr, prt, fnProp, isGet,
 							obj = object;
 						if (object && object._cxp) {
 							return observeObjectPaths(object[0], [object[1]], callback, contextCb);
@@ -435,6 +447,10 @@ if (!$.observe) {
 							if (obj && typeof obj === OBJECT && "" + prop === prop) {
 								if (prop === "") {
 									continue;
+								}
+								if (prop.slice(-2) === "()") {
+									prop = prop.slice(0, -2);
+									isGet = true;
 								}
 								if ((prts.length < depth + 1) && !obj.nodeType) {
 									// Add observer for each token in path starting at depth, and on to the leaf
@@ -448,6 +464,7 @@ if (!$.observe) {
 												&& data.ns === initialNs
 												&& data.cb._cId === callback._cId
 												&& data.cb._inId === callback._inId
+												&& !data._arOk === !allowArray
 												&& (data.prop === prop || data.prop === "*" || data.prop === "**")) {
 												if (prt = prts.join(".")) {
 													data.paths.push(prt); // We will skip this binding, but if it is not a leaf binding,
@@ -511,7 +528,8 @@ if (!$.observe) {
 								}
 							}
 							if ($isFunction(prop)) {
-								if (dep = prop.depends) {
+								fnProp = prop;
+								if (dep = fnProp.depends) {
 									// This is a computed observable. We will observe any declared dependencies.
 									if (obj._vw && obj._ocp) {
 										// Observable contextual parameter, so context was ocp object. Now move context to view.data for dependencies
@@ -524,7 +542,17 @@ if (!$.observe) {
 									}
 									observeObjects(concat.apply([], [[obj], dependsPaths(dep, obj, callback)]));
 								}
-								break;
+
+								if (isGet) {
+									if (!prts[0]) {
+										bindArray(callback, fnProp.call(obj), unobserve);
+										break;
+									}
+									prop = fnProp.call(obj);
+									if (!prop) {
+										break;
+									}
+								}
 							}
 							obj = prop;
 						}
@@ -636,6 +664,8 @@ if (!$.observe) {
 				}
 			}
 
+//END OF FUNCTIONS
+
 			var ns = observeStr,
 				paths = this != 1 // Using != for IE<10 bug- see jsviews/issues/237
 					? concat.apply([], arguments) // Flatten the arguments - this is a 'recursive call' with params using the 'wrapped array'
@@ -644,7 +674,6 @@ if (!$.observe) {
 				lastArg = paths.pop() || false,
 				m = paths.length;
 
-//END OF FUNCTIONS
 			if (lastArg + "" === lastArg) { // If last arg is a string then this observe call is part of an observeAll call,
 				allPath = lastArg;          // and the last three args are the parentObs array, the filter, and the allPath string.
 				parentObs = paths.pop();
@@ -707,9 +736,10 @@ if (!$.observe) {
 		}
 
 		var initialNs,
-			allowArray = this == 1 ? 0 : 1, // If this == 1, this is a call from observeAndBind - doing binding of datalink expressions. We don't bind
-			// arrayChange events in this scenario. Instead, {^{for}} and similar do specific arrayChange binding to the tagCtx.args[0] value, in onAfterLink.
-			// Note deliberately using this == 1, rather than this === 1 because of IE<10 bug- see jsviews/issues/237
+			allowArray = this == 1 ? 0 : 1, // If this == 1, this is a call from observeAndBind (doing binding of datalink expressions),
+			// and tag.onArrayChange is not set to true. We don't bind arrayChange events in this scenario. Instead, {^{for}} and similar
+			// do specific arrayChange binding to the tagCtx.args[0] value, in onAfterLink.
+			// Note deliberately using this == 1, rather than this === 1 because of IE<10 bug - see jsviews/issues/237
 			paths = slice.call(arguments),
 			pth = paths[0];
 
@@ -720,14 +750,42 @@ if (!$.observe) {
 		return innerObserve.apply(1, paths);
 	};
 
-	$observable = function(ns, data) {
-		if (arguments.length === 1) {
+	asyncBatch.wait = function() {
+		var batch = this;
+		batch._go = 1;
+		setTimeout(function() {
+			batch.trigger(true);
+			batch._go = 0;
+			batch.paths = {};
+		});
+	};
+
+	$observable = function(ns, data, delay) {
+		if (ns + "" !== ns) {
+			delay = data;
 			data = ns;
 			ns = "";
 		}
-		return $isArray(data)
+		delay = delay === undefined ? $subSettingsAdvanced.asyncObserve : delay;
+		var observable = $isArray(data)
 			? new ArrayObservable(ns, data)
 			: new ObjectObservable(ns, data);
+		if (delay) {
+			if (delay === true) {
+				observable.async = true;
+				delay = asyncBatch;
+			}
+			if (!delay.trigger) {
+				if ($isArray(delay)) {
+					delay.trigger = batchTrigger;
+					delay.paths = {};
+				} else {
+					delay = undefined;
+				}
+			}
+			observable._batch = delay;
+		}
+		return observable;
 	};
 
 	//========================== Initialize ==========================
@@ -763,10 +821,11 @@ if (!$.observe) {
 
 		setProperty: function(path, value, nonStrict) {
 			path = path || "";
-			var key, pair, parts,
+			var key, pair, parts, tempBatch,
 				multi = path + "" !== path, // Hash of paths
 				self = this,
-				object = self._data;
+				object = self._data,
+				batch = self._batch;
 
 			if (object) {
 				if (multi) {
@@ -780,9 +839,17 @@ if (!$.observe) {
 							self.setProperty(pair.name, pair.value, nonStrict === undefined || nonStrict); //If nonStrict not specified, default to true;
 						}
 					} else {
-						// Object representation where property name is path and property value is value.
-						for (key in path) {
+						if (!batch) {
+							self._batch = tempBatch = [];
+							tempBatch.trigger = batchTrigger;
+							tempBatch.paths = {};
+						}
+						for (key in path) { // Object representation where property name is path and property value is value.
 							self.setProperty(key, path[key], nonStrict);
+						}
+						if (tempBatch) {
+							self._batch.trigger();
+							self._batch = undefined;
 						}
 					}
 				} else if (path !== $expando) {
@@ -846,8 +913,24 @@ if (!$.observe) {
 			}
 		},
 
-		_trigger: function(target, eventArgs) {
-			$(target).triggerHandler(propertyChangeStr + (this._ns ? "." + /^\S+/.exec(this._ns)[0] : ""), eventArgs); // If white-space separated namespaces, use first one only
+		_trigger: function(target, eventArgs, force) {
+			var key, batch, previous,
+				self = this;
+			if ($.hasData(target)) {
+				if (!force && (batch = self._batch)) {
+					if (self.async && !batch._go) {
+						batch.wait();
+					}
+					batch.push([self, target, eventArgs]);
+					key = $data(target).obId + eventArgs.path;
+					if (previous = batch.paths[key]) {
+						batch[previous-1].skip = 1;
+					}
+					batch.paths[key] = batch.length;
+				} else {
+					$(target).triggerHandler(propertyChangeStr + (this._ns ? "." + /^\S+/.exec(this._ns)[0] : ""), eventArgs); // If white-space separated namespaces, use first one only
+				}
+			}
 		}
 	};
 
@@ -997,17 +1080,28 @@ if (!$.observe) {
 			return self;
 		},
 
-		_trigger: function(eventArgs, oldLength) {
-			var self = this,
-				_data = self._data,
-				length = _data.length,
-				$_data = $([_data]);
-			if (self._srt) {
-				eventArgs.refresh = true; // We are sorting during refresh
-			} else if (length !== oldLength) { // We have finished sort operations during refresh
-				$_data.triggerHandler(propertyChangeStr, {change: "set", path: "length", value: length, oldValue: oldLength});
+		_trigger: function(eventArgs, oldLength, force) {
+			var length, _data, batch,
+				self = this;
+			if ($.hasData(_data = self._data)) {
+				if (!force && (batch = self._batch)) {
+					eventArgs._dly = true; // Delayed event (async or batch change)
+					batch.push([self, eventArgs, oldLength]);
+					if (self.async && !batch._go) {
+						batch.wait();
+					}
+				} else {
+					length = _data.length;
+					_data = $([_data]);
+
+					if (self._srt) {
+						eventArgs.refresh = true; // We are sorting during refresh
+					} else if (length !== oldLength) { // We have finished sort operations during refresh
+						_data.triggerHandler(propertyChangeStr, {change: "set", path: "length", value: length, oldValue: oldLength});
+					}
+					_data.triggerHandler(arrayChangeStr + (self._ns ? "." + /^\S+/.exec(self._ns)[0] : ""), eventArgs); // If white-space separated namespaces, use first one only
+				}
 			}
-			$_data.triggerHandler(arrayChangeStr + (self._ns ? "." + /^\S+/.exec(self._ns)[0] : ""), eventArgs); // If white-space separated namespaces, use first one only
 		}
 	};
 
@@ -1158,8 +1252,9 @@ if (!$.observe) {
 	};
 
 	$sub.advSet = function() { // refresh advanced settings
+		$subSettingsAdvanced = $subSettings.advanced;
 		$sub._gccb = this._gccb; // getContextCallback method
-		global._jsv = $subSettings.advanced._jsv
+		global._jsv = $subSettingsAdvanced._jsv
 			? { // create global _jsv, for accessing views, etc
 					cbBindings: cbBindingsStore
 				}
@@ -1168,4 +1263,8 @@ if (!$.observe) {
 	$sub._dp = dependsPaths;
 	$sub._gck = getCbKey;
 	$sub._obs = $observe;
+	$subSettingsAdvanced = $subSettings.advanced = $subSettingsAdvanced || {
+		useViews: false,
+		_jsv: false // For global access to JsViews store
+	};
 }

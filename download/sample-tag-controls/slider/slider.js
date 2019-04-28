@@ -1,7 +1,7 @@
-/*! Sample JsViews tag control: {{slider}} control v1.0.0
+/*! Sample JsViews tag control: {{slider}} control v1.0.3
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
- * Copyright 2018, Boris Moore
+ * Copyright 2019, Boris Moore
  * Released under the MIT License.
  */
 
@@ -51,10 +51,8 @@ slider: {
         valFromPosition(ev2.clientX);
         if (newVal !== tagCtx.val) {
           tagCtx.val = newVal;
-          setTimeout(function() {
-            // User mousemove - sliding handle: move handle to new position
-            tag.moveTo(newVal);
-          }, 0);
+          // User mousemove - sliding handle: move handle to new position
+          tag.moveTo(newVal);
         }
         ev.preventDefault();
       });
@@ -93,7 +91,7 @@ slider: {
     // Call setValue() to move the handle to position x
     this.setValue(x);
     // Call updateValue() to change the external data-linked data to the new value x
-    this.updateValue(x);
+    this.updateValue(x, true); // Async update
   },
 
   setMetrics: function(tagCtx) {

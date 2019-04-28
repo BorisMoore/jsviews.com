@@ -185,10 +185,6 @@ function color(h, s, v, a) {
 }
 
 function updateHslaValues(tag, hsla) {
-  tag.ctx.parentTags.picker.updateValues(hsla[0], hsla[1], hsla[2], hsla[3]);
-};
-
-function updateHslaValues(tag, hsla) {
   if (hsla) {
     tag.ctx.parentTags.picker
       .updateValues(hsla[0], hsla[1], hsla[2], hsla[3])

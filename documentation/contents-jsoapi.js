@@ -43,12 +43,17 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       },
       {
         "_type": "links",
-        "title": "",
+        "title": "Other topics",
         "links": [],
         "topics": [
           {
             "hash": "computed",
             "label": "Computed observables"
+          },
+          {
+            "_type": "topic",
+            "hash": "jsoadvanced",
+            "label": "Advanced topics"
           }
         ]
       }
@@ -331,6 +336,16 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "_type": "topic",
             "hash": "removeprop",
             "label": "$.observable(object).removeProperty()"
+          },
+          {
+            "_type": "topic",
+            "hash": "namespaces",
+            "label": "Namespaces (advanced)"
+          },
+          {
+            "_type": "topic",
+            "hash": "delay",
+            "label": "Async or batched events (advanced)"
           }
         ]
       }
@@ -1139,7 +1154,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Examples:",
-        "text": "1\\. Observe changes to a specific property:\n\n```js\n$.observe(person, \"firstName\", myHandler);\n```\n\n2\\. Observe changes to a specific property <em>of type array</em>:\n\n```js\n$.observe(person, \"phones\", myHandler);\n```\n\nHere <em>myHandler</em> will handle both:\n<ul>\n<li>array changes, and</li> \n<li>setting a new value to the property (switching to a new array, or setting to null or undefined)</li>\n</ul>\n\n3\\. Observe changes to <em>any</em> property on an object:\n\n```js\n$.observe(person, \"*\", myHandler);\n```\n\n(For properties of type array, such as `person.phones`, this will observe both setting/removing the array property, *and* array changes on that property)\n\n4\\. Observe changes on an array:\n\n```js\n$.observe(person.phones, myHandler); \n```\n\n5\\. Observe multiple objects/properties/arrays:\n\n```js\n$.observe(person, \"lastName\", \"phones\", \"address.street\", myHandler);\n```\n\nHere <em>myHandler</em> will handle both:\n<ul>\n<li>changes to <code>lastName</code></li> \n<li>array changes to the current <code>phones</code> (array), or changes if a new array is assigned to the <code>phones</code> property</li>\n<li>changes to the <code>street</code> property of the <code>address</code> property of <code>person</code></li>\n</ul>\n\n6\\. Observe paths under more than object:\n\n```js\n$.observe(person1, \"lastName\", \"address.*\", person2, \"firstName\", person3, \"*\", \"address.*\", myHandler);\n```\n\nHere <em>myHandler</em> handles:\n<ul>\n<li>for <code>person1</code>: changes to <code>lastName</code> and any <code>address</code> property</li> \n<li>for <code>person2</code>: changes to <code>firstName</code></li>\n<li>for <code>person3</code>: changes to any property of the <code>person3</code> object itself, and to any property of the <code>person3.address</code> object</li>\n</ul>\n",
+        "text": "1\\. Observe changes to a specific property:\n\n```js\n$.observe(person, \"firstName\", myHandler);\n```\n\n2\\. Observe changes to a specific property <em>of type array</em>:\n\n```js\n$.observe(person, \"phones\", myHandler);\n```\n\nHere <em>myHandler</em> will handle both:\n<ul>\n<li>array changes, and</li> \n<li>setting a new value to the property (switching to a new array, or setting to null or undefined)</li>\n</ul>\n\n3\\. Observe changes to <em>any</em> property on an object:\n\n```js\n$.observe(person, \"*\", myHandler);\n```\n\n(For properties of type array, such as `person.phones`, this will observe both setting/removing the array property, *and* array changes on that property)\n\n4\\. Observe changes on an array:\n\n```js\n$.observe(person.phones, myHandler); \n```\n\n5\\. Observe multiple objects/properties/arrays:\n\n```js\n$.observe(person, \"lastName\", \"phones\", \"address.street\", myHandler);\n```\n\nHere <em>myHandler</em> will handle both:\n<ul>\n<li>changes to <code>lastName</code></li> \n<li>array changes to the current <code>phones</code> (array), or changes if a new array is assigned to the <code>phones</code> property</li>\n<li>changes to the <code>street</code> property of the <code>address</code> property of <code>person</code></li>\n</ul>\n\n6\\. Observe paths under more than object:\n\n```js\n$.observe(person1, \"lastName\", \"address.*\", person2, \"firstName\", person3, \"*\", \"address.*\", myHandler);\n```\n\nHere <em>myHandler</em> handles:\n<ul>\n<li>for <code>person1</code>: changes to <code>lastName</code> and any <code>address</code> property</li> \n<li>for <code>person2</code>: changes to <code>firstName</code></li>\n<li>for <code>person3</code>: changes to any property of the <code>person3</code> object itself, and to any property of the <code>person3.address</code> object</li>\n</ul>\n\n7\\. Observe [computed observables](#computed), or [View Model hierarchies](#jsvmodel@compilevm):\n\n```js\n$.observe(person, \"fullName()\", myHandler); // Listen to changes in person.fullName()\n$.observe(person, \"address()^street()\", myHandler);  // Listen to changes in person.address().street()\n```",
         "anchor": "paths"
       },
       {
@@ -1198,7 +1213,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
                 "name": "myHandler",
                 "type": "function",
                 "optional": false,
-                "description": "Event handler being registered (See <b>API: function myHandler</b> below for details)"
+                "description": "Event handler being registered (See <b>API: function myHandler</b> <a href=\"#observe@handler-api\">below</a> for details)"
               }
             ],
             "args": [],
@@ -1229,7 +1244,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
                 "name": "myHandler",
                 "type": "function",
                 "optional": false,
-                "description": "Event handler being registered (See <b>API: function myHandler</b> below for details)"
+                "description": "Event handler being registered (See <b>API: function myHandler</b> <a href=\"#observe@handler-api\">below</a> for details)"
               }
             ],
             "args": [],
@@ -1253,7 +1268,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
                 "name": "myHandler",
                 "type": "function",
                 "optional": false,
-                "description": "Event handler being registered (See <b>API: function myHandler</b> below for details)"
+                "description": "Event handler being registered (See <b>API: function myHandler</b> <a href=\"#observe@handler-api\">below</a> for details)"
               }
             ],
             "args": [],
@@ -1291,7 +1306,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
                 "name": "ev",
                 "type": "object",
                 "optional": false,
-                "description": "jQuery event object, with properties which include: <ul class=\"textbefore\"><li><code>target</code>: the object which changed</li><li><code>data</code>: JsViews metadata, including: <code>fullPath</code> (the data-linking path such as \"address.street\")</li></ul>"
+                "description": "jQuery event object, with properties which include: <ul class=\"textbefore\"><li><code>target</code>: the object which changed</li><li><code>data</code>: JsViews metadata, including: <code>fullPath</code> (the data-linking path such as \"address.street\")</li></ul>(Note: The <code>ev.data</code> object is also passed to the handler as <code>this</code> pointer)"
               },
               {
                 "_type": "param",
@@ -1440,7 +1455,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "$.observe() with computed observables",
-        "text": "Next, we'll modify the last sample to show only a [computed observable](#computed) `fullName(reverse)` depending on `firstName` and `lastName`.\n\nWe'll observe changes to `fullName()`:\n\n```js\n$.observe(person, \"fullName\", changeHandler);\n```\n\n(*Note:* The path for observing a computed observable has no parens -- so `\"fullName\"` rather than `\"fullName()\"`.)",
+        "text": "Next, we'll modify the last sample to show only a [computed observable](#computed) `fullName(reverse)` depending on `firstName` and `lastName`.\n\nWe'll observe changes to `fullName()`:\n\n```js\n$.observe(person, \"fullName()\", changeHandler);\n```",
         "anchor": "computed"
       },
       {
@@ -1458,11 +1473,11 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "Observe changes to `fullName()` computed observable:\n\n```js\n$.observe(person, \"fullName\", changeHandler);\n```\n\n-- which will trigger whenever `firstName` or `lastName` change, since `fullName()` has them as dependencies:\n\n```js\nfullName.depends = [\"firstName\", \"lastName\"]; \n```"
+            "text": "Observe changes to `fullName()` computed observable:\n\n```js\n$.observe(person, \"fullName()\", changeHandler);\n```\n\n-- which will trigger whenever `firstName` or `lastName` change, since `fullName()` has them as dependencies:\n\n```js\nfullName.depends = [\"firstName\", \"lastName\"]; \n```"
           }
         ],
         "html": "<div class=\"left\" id=\"result\"></div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>First name:</td><td><input data-link=\"firstName\" /></td></tr>\n    <tr><td>Last name:</td><td><input data-link=\"lastName\" /></td></tr>\n    <tr><td>Full name:</td><td><input data-link=\"fullName()\" /></td></tr>\n    <tr><td>Full name<br/>(reversed)</td><td data-link=\"fullName(true)\"></td></tr>\n  </tbody></table>\n</script>",
-        "code": "var person = {\n  firstName: \"Jeff\",\n  lastName: \"Friedman\",\n  fullName: fullName\n};\n\n// Parameterized computed observable\nfunction fullName(reversed) {\n  // We will declare dependencies (below) for any values that\n  // may change observably, and are not passed in as parameters\n  return reversed\n    ? this.lastName + \" \" + this.firstName\n    : this.firstName + \" \" + this.lastName;\n}\n\n// Declare dependencies, except for any values passed in as parameters\nfullName.depends = [\"firstName\", \"lastName\"]; \n\n// For two-way binding of computed observables, provide a setter\nfullName.set = function(val) {\n  val = val.split(\" \");\n  // Make observable change to dependent properties\n  $.observable(this).setProperty({\n    lastName: val.pop(),\n    firstName: val.join(\" \")\n  });\n};\n\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\n// Observe changes to fullName() computed observable\n$.observe(person, \"fullName\", changeHandler);\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"The new <b>\" + eventArgs.path + \"</b> is <em>\"\n    + $.views.converters.encode(JSON.stringify(eventArgs.value)) + \"</em>\";\n    // (Note that we encode < > and & as HTML entities, for display)\n\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "code": "var person = {\n  firstName: \"Jeff\",\n  lastName: \"Friedman\",\n  fullName: fullName\n};\n\n// Parameterized computed observable\nfunction fullName(reversed) {\n  // We will declare dependencies (below) for any values that\n  // may change observably, and are not passed in as parameters\n  return reversed\n    ? this.lastName + \" \" + this.firstName\n    : this.firstName + \" \" + this.lastName;\n}\n\n// Declare dependencies, except for any values passed in as parameters\nfullName.depends = [\"firstName\", \"lastName\"]; \n\n// For two-way binding of computed observables, provide a setter\nfullName.set = function(val) {\n  val = val.split(\" \");\n  // Make observable change to dependent properties\n  $.observable(this).setProperty({\n    lastName: val.pop(),\n    firstName: val.join(\" \")\n  });\n};\n\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\n// Observe changes to fullName() computed observable\n$.observe(person, \"fullName()\", changeHandler);\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"The new <b>\" + eventArgs.path + \"</b> is <em>\"\n    + $.views.converters.encode(JSON.stringify(eventArgs.value)) + \"</em>\";\n    // (Note that we encode < > and & as HTML entities, for display)\n\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "250",
         "title": "Observing a computed observable",
         "anchor": "observe-computed",
@@ -1686,13 +1701,45 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "function logChanges(enable) {\n  if (enable) {\n    $.observe(person, \"name\", \"address^street\", \"phones\", changeHandler);\n  } else {\n    $.unobserve(person, \"name\", \"address^street\", \"phones\", changeHandler);\n  }\n}"
           }
         ],
-        "html": "<div class=\"left\">\n  <button id=\"modify\">Change leaf values</button><br/>\n  <button id=\"changeObjects\">New address and phones</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label>Change Log:\n  <input type=\"checkbox\" checked id=\"attach\"/></label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <span class=\"floatleft\">{{:number}}</span>\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "html": "<div class=\"left\">\n  <button id=\"modify\">Change leaf values</button><br/>\n  <button id=\"changeObjects\">New address and phones</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label><input type=\"checkbox\" checked id=\"attach\"/> Change Log:</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <span class=\"floatleft\">{{:number}}</span>\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    name: \"Hermione\",\n    \"address.street\": \"Main St\"\n  });\n});\n\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    address: {street: \"New Street\"},\n    phones: [{number:\"123 123 1234\"}]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones).insert({\n    number:\"456 456 4567\"\n  });\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n});\n\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observe(person, \"name\", \"address^street\", \"phones\", changeHandler);\n  } else {\n    $.unobserve(person, \"name\", \"address^street\", \"phones\", changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \"\n      + $.views.converters.encode(JSON.stringify(eventArgs[key])) + \"</div>\";\n      // (Note that we encode < > and & as HTML entities, for display)\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "title": "Modified sample showing also unobserve() for arrays:",
         "anchor": "unobserve-array",
         "header": "<link href=\"/samples/change-log.css\" rel=\"stylesheet\"/>",
         "action": "append"
+      },
+      {
+        "_type": "para",
+        "title": "$.unobserve() with computed observables",
+        "text": "\n$.unobserve() can be used with computed observable, View Model hierarchies, and so on, as in the following examples:\n\n```js\n$.unobserve(person, \"fullName()\", changeHandler);\n$.unobserve(person, \"name()\", \"address()^.street()\", \"phones()\", changeHandler);\n```\n\nThe following sample (variant of the [Observing a computed observable](#observe@observe-computed) sample) lets you `unobserve()` the `fullName()` computed observable:",
+        "anchor": "computed"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Observe/unobserve changes to the `fullName()` computed observable:\n\n```js\nfunction logChanges(enable) {\n  if (enable) {\n    $.observe(person, \"fullName()\", changeHandler);\n  } else {\n    $.unobserve(person, \"fullName()\", changeHandler);\n  }\n}\n```\n\n*Note:* When observing `fullName()` the changeHandler will trigger whenever `firstName` or `lastName` change, since `fullName()` has them as dependencies:\n\n```js\nfullName.depends = [\"firstName\", \"lastName\"]; \n```"
+          }
+        ],
+        "code": "var person = {\n  firstName: \"Jeff\",\n  lastName: \"Friedman\",\n  fullName: fullName\n};\n\n// Parameterized computed observable\nfunction fullName(reversed) {\n  // We will declare dependencies (below) for any values that\n  // may change observably, and are not passed in as parameters\n  return reversed\n    ? this.lastName + \" \" + this.firstName\n    : this.firstName + \" \" + this.lastName;\n}\n\n// Declare dependencies, except for any values passed in as parameters\nfullName.depends = [\"firstName\", \"lastName\"]; \n\n// For two-way binding of computed observables, provide a setter\nfullName.set = function(val) {\n  val = val.split(\" \");\n  // Make observable change to dependent properties\n  $.observable(this).setProperty({\n    lastName: val.pop(),\n    firstName: val.join(\" \")\n  });\n};\n\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    // Observe changes to fullName() computed observable\n    $.observe(person, \"fullName()\", changeHandler);\n  } else {\n    // Stop observing changes to fullName() computed observable\n    $.unobserve(person, \"fullName()\", changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"The new <b>\" + eventArgs.path + \"</b> is <em>\"\n    + $.views.converters.encode(JSON.stringify(eventArgs.value)) + \"</em>\";\n    // (Note that we encode < > and & as HTML entities, for display)\n\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
+        "html": "<div class=\"left\" id=\"result\"></div>\n\n<div class=\"logBox\">\n  <label><input type=\"checkbox\" checked id=\"attach\"/> Change Log:</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>First name:</td><td><input data-link=\"firstName\" /></td></tr>\n    <tr><td>Last name:</td><td><input data-link=\"lastName\" /></td></tr>\n    <tr><td>Full name:</td><td><input data-link=\"fullName()\" /></td></tr>\n    <tr><td>Full name<br/>(reversed)</td><td data-link=\"fullName(true)\"></td></tr>\n  </tbody></table>\n</script>",
+        "title": "Unobserving a computed observable",
+        "height": "250",
+        "header": "<link href=\"/samples/change-log.css\" rel=\"stylesheet\"/>",
+        "action": "append",
+        "anchor": "unobserve-computed"
       },
       {
         "_type": "links",
@@ -2083,7 +2130,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "code": "function logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}"
           }
         ],
-        "html": "<div class=\"left\">\n  <button id=\"modify\">Change leaf values</button><br/>\n  <button id=\"changeObjects\">New address and phones</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label><input type=\"checkbox\" checked id=\"attach\"/> Change Log</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
+        "html": "<div class=\"left\">\n  <button id=\"modify\">Change leaf values</button><br/>\n  <button id=\"changeObjects\">New address and phones</button><br/>\n  <button id=\"insert\">Add phone</button>\n  <div id=\"result\"></div>\n</div>\n\n<div class=\"logBox\">\n  <label><input type=\"checkbox\" checked id=\"attach\"/> Change Log:</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <table class=\"nowidth\"><tbody>\n    <tr><td>Name:</td><td><input data-link=\"name\" /></td></tr>\n    <tr><td>Street:</td><td><input data-link=\"address^street\" /></td></tr>\n    <tr><td>Phones:</td><td>\n      <table class=\"nowidth\"><tbody>\n        {^{for phones}}\n          <tr><td>\n            <input class=\"floatleft\" data-link=\"number\" />\n            <span class=\"remove\"></span>\n          </td></tr>\n        {{/for}}\n      </tbody></table>\n    </td></tr>\n  </tbody></table>\n</script>",
         "code": "var person = {\n  name: \"Pete\",\n  address: {\n    street: \"1st Ave\"\n  },\n  phones: [{number: \"111 111 1111\"}, {number:\"222 222 2222\"}] \n};\n\n$(\"#modify\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    name: \"Hermione\",\n    \"address.street\": \"Main St\"\n  });\n});\n\n$(\"#changeObjects\").on(\"click\", function() {\n  $.observable(person).setProperty({\n    address: {street: \"New Street\"},\n    phones: [{number:\"123 123 1234\"}]\n  });\n});\n\n$(\"#insert\").on(\"click\", function() {\n  $.observable(person.phones).insert({\n    number:\"456 456 4567\"\n  });\n});\n\n$(\"#result\").on(\"click\", \".remove\", function() {\n  $.observable(person.phones).remove(\n    $.view(this).index\n  )\n});\n\n$(\".clear\").on(\"click\", function() {\n  $(\".messages\").empty();\n});\n\n$(\"#attach\").on(\"click\", function(x) {\n  logChanges(this.checked);\n});\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", person);\n\nlogChanges(true);\n\nfunction logChanges(enable) {\n  if (enable) {\n    $.observable(person).observeAll(changeHandler);\n  } else {\n    $.observable(person).unobserveAll(changeHandler);\n  }\n}\n\nfunction changeHandler(ev, eventArgs) {\n  var message = \"\";\n  if (ev.data.observeAll) {\n    message += \"<div><em>observeAll path:</em> \" + ev.data.observeAll.path() + \"</div>\"\n  }\n  for (var key in eventArgs) {\n    message += \"<div><em>\" + key + \":</em> \"\n      + $.views.converters.encode(JSON.stringify(eventArgs[key])) + \"</div>\";\n      // (Note that we encode < > and & as HTML entities, for display)\n  }\n  $(\".messages\").append(\"<div>\" + message + \"</div>\");\n}",
         "height": "350",
         "title": "unobserveAll()",
@@ -2139,8 +2186,20 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Computed observable: get / set",
-        "text": "To make `person.firstName()` into a ***computed observable***, with two-way data-binding, specify an associated 'setter' function:\n\n```js\nfunction firstName() {\n  return this._firstName; // Get the firstName\n}\n\nfirstName.set = function(val) {\n  this._firstName = val; // Set the firstName\n}\n```\n\nThe `firstName()` *computed observable* can be modified observably, either by calling `setProperty`:\n\n```js\n$.observable(person).setProperty(\"firstName\", \"updatedFirstName\");\n``` \n\nor by two-way binding in a template:\n\n```jsr\n<input data-link=\"firstName()\" />\n```\n\nand if used in a tag expression in a data-linked templates it will update automatically in response to observable changes: \n\n```jsr\nFirst name: {^{>firstName()}}\n\n<span data-link=\"firstName()\"></span>\n```\n\n`$.observe()` can be used to listen to observable changes in a computed observable:\n\nThe following sample shows all of these scenarios:",
+        "text": "To make `person.firstName()` into a ***computed observable***, with two-way data-binding, specify an associated 'setter' function:\n\n```js\nfunction firstName() {\n  return this._firstName; // Get the firstName\n}\n\nfirstName.set = function(val) {\n  this._firstName = val; // Set the firstName\n}\n```\n\nThe `firstName()` *computed observable* can be modified observably, either by calling `setProperty`:\n\n```js\n$.observable(person).setProperty(\"firstName\", \"updatedFirstName\");\n``` \n\nor by two-way binding in a template:\n\n```jsr\n<input data-link=\"firstName()\" />\n```\n\nand if used in a tag expression in a data-linked templates it will update automatically in response to observable changes: \n\n```jsr\nFirst name: {^{>firstName()}}\n\n<span data-link=\"firstName()\"></span>\n```",
         "anchor": "getset"
+      },
+      {
+        "_type": "para",
+        "title": "Computed observable: observable get / set function",
+        "text": "It can be convenient to be make the getter function behave also as an *observable setter*, so that simply passing it the new value will observably modify the *computed observable* (without needing to call `setProperty`):\n\n```js\nperson.firstName(\"updatedFirstName\");\n``` \n\nThis is made possible by modifying the getter function, and using the following pattern:\n\n```js\nfunction firstName(val) {\n  if (!arguments.length) {\n    return this._fistName;\n  }\n  // If there is a val argument, treat as observable setter\n  $.observable(this).setProperty(\"firstName\", val);\n}\n```\n\nSee the topic: [JsViews with 'hand-coded 'View Model objects](#jsvmodel@vm), for discussion and examples.",
+        "anchor": "observable-getset"
+      },
+      {
+        "_type": "para",
+        "title": "Observing changes in computed observables",
+        "text": "`$.observe()` can be used to listen to observable changes in a computed observable:\n\n```js\n$.observe(data.person, \"firstName()\", myHandler); // Listen to changes in person.firstName()\n$.observe(data.person, \"address()^street()\", myHandler);  // Listen to changes in person.address().street()\n```\n\n(*Note:* In the above examples, the final parens can be omitted, as in `\"firstName\"`, or `\"address()^street\"`. However best practice is to include them.)\n\nThe following sample shows all of these scenarios:",
+        "anchor": "observe-computed"
       },
       {
         "_type": "sample",
@@ -2157,10 +2216,10 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*Code:*\n\n```js\nfunction firstName() { return this._firstName; } // Getter (with _firstName as private property)\n\nfirstName.set = function(val) { this._firstName = val; }; // Provide a setter\n\n$.observable(person).setProperty(\"firstName\", person.firstName() + \"+\"); // Modify firstName() observably\n\n$.observe(data.person, \"firstName\", function(ev, evArgs) {\n  ... // Listen to observable changes in firstName()\n});\n```\n\n*Template:*\n\n```jsr\n<input data-link=\"person.firstName()\" />\n{^{>person.firstName()}}\n<em data-link=\"person.firstName()\"></em>\n```\n"
+            "text": "*Code:*\n\n```js\nfunction firstName() { return this._firstName; } // Getter (with _firstName as private property)\n\nfirstName.set = function(val) { this._firstName = val; }; // Provide a setter\n\n$.observable(person).setProperty(\"firstName\", person.firstName() + \"+\"); // Modify firstName() observably\n\n$.observe(person, \"firstName()\", function(ev, evArgs) {\n  ... // Listen to observable changes in firstName()\n});\n```\n\n*Template:*\n\n```jsr\n<input data-link=\"person.firstName()\" />\n{^{>person.firstName()}}\n<em data-link=\"person.firstName()\"></em>\n```"
           }
         ],
-        "code": "function firstName() {\n  return this._firstName;\n}\n\nfirstName.set = function(val) {\n  this._firstName = val;\n};\n\nvar data = {\n  person: {\n    _firstName: \"Jo\",\n    firstName: firstName\n  }\n};\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", data, {\n  changeFirstName: function(person) {\n    $.observable(person).setProperty(\n      \"firstName\",\n      person.firstName() + \"+\"\n    );\n  }\n});\n\n$.observe(data.person, \"firstName\", function(ev, evArgs) {\n  alert(\"New firstName: \" + evArgs.value);\n});",
+        "code": "function firstName() {\n  return this._firstName;\n}\n\nfirstName.set = function(val) {\n  this._firstName = val;\n};\n\nvar data = {\n  person: {\n    _firstName: \"Jo\",\n    firstName: firstName\n  }\n};\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", data, {\n  changeFirstName: function(person) {\n    $.observable(person).setProperty(\n      \"firstName\",\n      person.firstName() + \"+\"\n    );\n  }\n});\n\n$.observe(data.person, \"firstName()\", function(ev, evArgs) {\n  alert(\"New firstName: \" + evArgs.value);\n});",
         "html": "<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on ~changeFirstName person}\">\n    Change firstName\n  </button> <br/>\n\n  First name: <input data-link=\"person.firstName()\" /> -\n  {^{>person.firstName()}} -\n  <em data-link=\"person.firstName()\"></em>\n</script>",
         "height": "70",
         "title": "get/set"
@@ -2168,7 +2227,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "Note that when data-linking computed observables to multiple targets, the full data-linking syntax is used. The following example shows two-way data-linking to `name()` and data-linking of the placeholder target to `namePlaceholder()`):\n\n```jsr\n<input data-link=\"{:name():} placeholder{:namePlaceholder()}\" />\n```\n\n"
+        "text": "Note that when data-linking computed observables to [multiple targets](#linked-elem-syntax@fullsyntax) on an element, the full data-linking syntax is used. The following example shows two-way data-linking to `name()` and data-linking of the placeholder target to `namePlaceholder()`):\n\n```jsr\n<input data-link=\"{:name():} placeholder{:namePlaceholder()}\" />\n```\n\n"
       },
       {
         "_type": "para",
@@ -2202,7 +2261,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Computed observable: get &ndash; depends",
-        "text": "The `firstName()` example above is probably the most common type of *computed observable*: a get/set property depending on a corresponding 'private' property.\n\nAnother very common use of *computed observables* is for read-only computed properties that may depend on more than one other property.\n\nThe  following sample illustrates that, with a `person.fullName()` computed property which concatenates the computed `firstName()` and a regular (non-computed) `lastName` property.\n\nThis type of computed observable consists simply of a getter function, and a specification of the dependencies -- i.e. the other observable properties which the getter function depends on:\n\n```js\nfunction fullName() { return this.firstName() + \" \" + this.lastName; }\n\nfullName.depends = [\"firstName\", \"lastName\"];\n```\n\nThe `depends` specification above means that whenever `firstName()` or `lastName` change, an observable change event for `fullName()` will also be triggered, and `fullName()` will be recalculated. \n",
+        "text": "The `firstName()` example above is probably the most common type of *computed observable*: a get/set property depending on a corresponding 'private' property.\n\nAnother very common use of *computed observables* is for read-only computed properties that may depend on more than one other property.\n\nThe  following sample illustrates that, with a `person.fullName()` computed property which concatenates the computed `firstName()` and a regular (non-computed) `lastName` property.\n\nThis type of computed observable consists simply of a getter function, and a specification of the dependencies -- i.e. the other observable properties which the getter function depends on:\n\n```js\nfunction fullName() { return this.firstName() + \" \" + this.lastName; }\n\nfullName.depends = [\"firstName()\", \"lastName\"];\n```\n\nThe `depends` specification above means that whenever `firstName()` or `lastName` change, an observable change event for `fullName()` will also be triggered, and `fullName()` will be recalculated. \n",
         "anchor": "getdepends"
       },
       {
@@ -2220,10 +2279,10 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*Code:*\n\n```js\nfunction fullName() { return this.firstName() + \" \" + this.lastName; } // getter\n\nfullName.depends = [\"firstName\", \"lastName\"]; // Dependencies\n\n$.observe(data.person, \"fullName\", function(ev, evArgs) {\n  ... // listen to changes in fullName()\n});\n```\n\n*Template:*\n\n```jsr\n{^{>person.fullName()}}\n<em data-link=\"person.fullName()\"></em>\n```"
+            "text": "*Code:*\n\n```js\nfunction fullName() { return this.firstName() + \" \" + this.lastName; } // getter\n\nfullName.depends = [\"firstName()\", \"lastName\"]; // Dependencies\n\n$.observe(data.person, \"fullName()\", function(ev, evArgs) {\n  ... // listen to changes in fullName()\n});\n```\n\n*Template:*\n\n```jsr\n{^{>person.fullName()}}\n<em data-link=\"person.fullName()\"></em>\n```"
           }
         ],
-        "code": "function firstName() { return this._firstName; }\n\nfirstName.set = function(val) {\n  this._firstName = val;\n};\n\nfunction fullName() { return this.firstName() + \" \" + this.lastName; }\n\nfullName.depends = [\"firstName\", \"lastName\"];\n\nvar data = {\n  person: {\n    _firstName: \"Jo\",\n    lastName: \"Blow\",\n    firstName: firstName,\n    fullName: fullName\n  }\n};\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", data);\n\n$.observe(data.person, \"fullName\", function(ev, evArgs) {\n  alert('New fullName: \"' + data.person.fullName() + '\"');\n});\n",
+        "code": "function firstName() { return this._firstName; }\n\nfirstName.set = function(val) {\n  this._firstName = val;\n};\n\nfunction fullName() { return this.firstName() + \" \" + this.lastName; }\n\nfullName.depends = [\"firstName()\", \"lastName\"];\n\nvar data = {\n  person: {\n    _firstName: \"Jo\",\n    lastName: \"Blow\",\n    firstName: firstName,\n    fullName: fullName\n  }\n};\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", data);\n\n$.observe(data.person, \"fullName()\", function(ev, evArgs) {\n  alert('New fullName: \"' + data.person.fullName() + '\"');\n});\n",
         "html": "<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  First name: <input data-link=\"person.firstName()\" /> -\n  {^{>person.firstName()}} -\n  <em data-link=\"person.firstName()\"></em> <br/>\n\n  Last name: <input data-link=\"person.lastName\" /> -\n  {^{>person.lastName}} -\n  <em data-link=\"person.lastName\"></em> <br/>\n\n  Full name: {^{>person.fullName()}} -\n  <em data-link=\"person.fullName()\"></em>\n</script>",
         "height": "90",
         "title": "get &ndash; depends"
@@ -2249,10 +2308,10 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*Code:*\n\n```js\nfunction fullName() { return this.firstName() + \" \" + this.lastName; }\n\nfullName.set = function(val) { \n  val = val.split(\" \");\n  // Make observable change to dependent properties\n  $.observable(this).setProperty({\n    lastName: val.pop(),\n    firstName: val.join(\" \")\n  });\n};\n\nfullName.depends = [\"firstName\", \"lastName\"];\n```\n\n*Template:*\n\n```jsr\n<input data-link=\"person.fullName()\" />\n{^{>person.fullName()}}\n<em data-link=\"person.fullName()\" ></em>\n```"
+            "text": "*Code:*\n\n```js\nfunction fullName() { return this.firstName() + \" \" + this.lastName; }\n\nfullName.set = function(val) { \n  val = val.split(\" \");\n  // Make observable change to dependent properties\n  $.observable(this).setProperty({\n    lastName: val.pop(),\n    firstName: val.join(\" \")\n  });\n};\n\nfullName.depends = [\"firstName()\", \"lastName\"];\n```\n\n*Template:*\n\n```jsr\n<input data-link=\"person.fullName()\" />\n{^{>person.fullName()}}\n<em data-link=\"person.fullName()\" ></em>\n```"
           }
         ],
-        "code": "function firstName() { return this._firstName; }\n\nfirstName.set = function(val) {\n  this._firstName = val;\n};\n\nfunction fullName() { return this.firstName() + \" \" + this.lastName; }\n\nfullName.set = function(val) {\n  val = val.split(\" \");\n  // Make observable change to dependent properties\n  $.observable(this).setProperty({\n    lastName: val.pop(),\n    firstName: val.join(\" \")\n  });\n};\n\nfullName.depends = [\"firstName\", \"lastName\"];\n\nvar data = {\n  person: {\n    _firstName: \"Jo\",\n    lastName: \"Blow\",\n    firstName: firstName,\n    fullName: fullName\n  }\n};\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", data);",
+        "code": "function firstName() { return this._firstName; }\n\nfirstName.set = function(val) {\n  this._firstName = val;\n};\n\nfunction fullName() { return this.firstName() + \" \" + this.lastName; }\n\nfullName.set = function(val) {\n  val = val.split(\" \");\n  // Make observable change to dependent properties\n  $.observable(this).setProperty({\n    lastName: val.pop(),\n    firstName: val.join(\" \")\n  });\n};\n\nfullName.depends = [\"firstName()\", \"lastName\"];\n\nvar data = {\n  person: {\n    _firstName: \"Jo\",\n    lastName: \"Blow\",\n    firstName: firstName,\n    fullName: fullName\n  }\n};\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", data);",
         "html": "<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  First name: <input data-link=\"person.firstName()\" /> -\n  {^{>person.firstName()}} -\n  <em data-link=\"person.firstName()\"></em> <br/>\n\n  Last name: <input data-link=\"person.lastName\" /> -\n  {^{>person.lastName}} -\n  <em data-link=\"person.lastName\"></em> <br/>\n\n  Full name: <input data-link=\"person.fullName()\" /> -\n  {^{>person.fullName()}} -\n  <em data-link=\"person.fullName()\"></em>\n</script>",
         "height": "100",
         "title": "get/set &ndash; depends"
@@ -2260,7 +2319,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Computed observable with parameters",
-        "text": "A computed observable function `myComputed(a, b, c)` may take parameters. For example:\n\n```js\nfunction fullName(reverse) {\n return reverse\n   ? this.lastName() + \" \" + this.firstName\n   : this.firstName + \" \" + this.lastName();\n}\n\nfullName.depends = [\"firstName\", \"lastName\"];\n```\n\nThe computed value might be used in a data-linked expression in a template, with a specific value passed in as parameter:\n\n```jsr\n{^{>person.fullName(true)}}\n```\n\n(You can see an example of this in the [samples/computed/fullName](#samples/computed/fullname) samples.)\n\nPassed-in parameters may be observable values -- in which case whenever they change observably, the computed observable will update automatically. For example:\n \n```jsr\n{^{>person.fullName(~settings.reverseName)}}\n```\n\nThe value of a computed observable (`person.fullName(...)` above) will update whenever either an observable parameter (in this case: `~setting.reverseName`) or a dependency (`firstName` or `lastName`) change.\n\nHere is a working example:",
+        "text": "A computed observable function `myComputed(a, b, c)` may take parameters. For example:\n\n```js\nfunction fullName(reverse) {\n return reverse\n   ? this.lastName + \" \" + this.firstName()\n   : this.firstName() + \" \" + this.lastName;\n}\n\nfullName.depends = [\"firstName()\", \"lastName\"];\n```\n\nThe computed value might be used in a data-linked expression in a template, with a specific value passed in as parameter:\n\n```jsr\n{^{>person.fullName(true)}}\n```\n\n(You can see an example of this in the [samples/computed/fullName](#samples/computed/fullname) samples.)\n\nPassed-in parameters may be observable values -- in which case whenever they change observably, the computed observable will update automatically. For example:\n \n```jsr\n{^{>person.fullName(~settings.reverseName)}}\n```\n\nThe value of a computed observable (`person.fullName(...)` above) will update whenever either an observable parameter (in this case: `~setting.reverseName`) or a dependency (`firstName` or `lastName`) change.\n\nHere is a working example:",
         "anchor": "params"
       },
       {
@@ -2282,7 +2341,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           }
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <label><input type=\"checkbox\" data-link=\"~settings.reverseName\" /> Reverse name:</label>\n  {^{:~settings.reverseName}} <br/>\n\n  First name: <input data-link=\"person.firstName()\" /> -\n  {^{>person.firstName()}} -\n  <em data-link=\"person.firstName()\"></em> <br/>\n\n  Last name: <input data-link=\"person.lastName\" /> -\n  {^{>person.lastName}} -\n  <em data-link=\"person.lastName\"></em> <br/>\n\n  Full name: <input data-link=\"person.fullName()\" /> -\n  {^{>person.fullName(~settings.reverseName)}} -\n  <em data-link=\"person.fullName(~settings.reverseName)\"></em>\n</script>",
-        "code": "function firstName() { return this._firstName; }\n\nfirstName.set = function(val) {\n  this._firstName = val;\n};\n\nfunction fullName(reverse) {\n  return reverse\n    ? this.lastName + \" \" + this.firstName()\n    : this.firstName() + \" \" + this.lastName;\n}\n\nfullName.set = function(val) {\n  val = val.split(\" \");\n  // Make observable change to dependent properties\n  $.observable(this).setProperty({\n    lastName: val.pop(),\n    firstName: val.join(\" \")\n  });\n};\n\nfullName.depends = [\"firstName\", \"lastName\"];\n\nvar data = {\n  person: {\n    _firstName: \"Jo\",\n    lastName: \"Blow\",\n    firstName: firstName,\n    fullName: fullName\n  }\n};\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", data, {\n  settings: {reverseName: false}\n});",
+        "code": "function firstName() { return this._firstName; }\n\nfirstName.set = function(val) {\n  this._firstName = val;\n};\n\nfunction fullName(reverse) {\n  return reverse\n    ? this.lastName + \" \" + this.firstName()\n    : this.firstName() + \" \" + this.lastName;\n}\n\nfullName.set = function(val) {\n  val = val.split(\" \");\n  // Make observable change to dependent properties\n  $.observable(this).setProperty({\n    lastName: val.pop(),\n    firstName: val.join(\" \")\n  });\n};\n\nfullName.depends = [\"firstName()\", \"lastName\"];\n\nvar data = {\n  person: {\n    _firstName: \"Jo\",\n    lastName: \"Blow\",\n    firstName: firstName,\n    fullName: fullName\n  }\n};\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", data, {\n  settings: {reverseName: false}\n});",
         "height": "110",
         "title": "get/set &ndash; depends, with parameters"
       },
@@ -2306,19 +2365,25 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```js\nfunction fullName() {\n  return settings.reverseName ? ... : ...;\n}\n\nfullName.set = function(val) {\n  ...\n  $.observable(this).setProperty({\n    lastName: settings.reverseName ? ... : ...,\n    firstName: settings.reverseName ? ... : ...\n  });\n};\n\nfullName.depends = [\"firstName\", \"lastName\", \"~settings.reverseName\" ];\n\nvar settings = {reverseName: false};\n\ntmpl.link(\"#result\", data, {settings: settings});\n```"
+            "text": "```js\nfunction fullName() {\n  return settings.reverseName ? ... : ...;\n}\n\nfullName.set = function(val) {\n  ...\n  $.observable(this).setProperty({\n    lastName: settings.reverseName ? ... : ...,\n    firstName: settings.reverseName ? ... : ...\n  });\n};\n\nfullName.depends = [\"firstName()\", \"lastName\", \"~settings.reverseName\" ];\n\nvar settings = {reverseName: false};\n\ntmpl.link(\"#result\", data, {settings: settings});\n```"
           }
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"personTmpl\" type=\"text/x-jsrender\">\n  <label><input type=\"checkbox\" data-link=\"~settings.reverseName\" /> Reverse name:</label>\n  {^{:~settings.reverseName}} <br/>\n\n  First name: <input data-link=\"person.firstName()\" /> -\n  {^{>person.firstName()}} -\n  <em data-link=\"person.firstName()\"></em> <br/>\n\n  Last name: <input data-link=\"person.lastName\" /> -\n  {^{>person.lastName}} -\n  <em data-link=\"person.lastName\"></em> <br/>\n\n  Full name: <input data-link=\"person.fullName()\" /> -\n  {^{>person.fullName()}} -\n  <em data-link=\"person.fullName()\"></em>\n</script>",
-        "code": "function firstName() { return this._firstName; }\n\nfirstName.set = function(val) {\n  this._firstName = val;\n};\n\nfunction fullName() {\n  return settings.reverseName\n    ? this.lastName + \" \" + this.firstName()\n    : this.firstName() + \" \" + this.lastName;\n}\n\nfullName.set = function(val) {\n  val = val.split(\" \");\n  var afterSpace = val.pop();\n  var beforeSpace = val.join(\" \");\n  // Make observable change to dependent properties\n  $.observable(this).setProperty({\n    lastName: settings.reverseName ? beforeSpace : afterSpace,\n    firstName: settings.reverseName ? afterSpace : beforeSpace\n  });\n};\n\nfullName.depends = [\"firstName\", \"lastName\", \"~settings.reverseName\" ];\n\nvar settings = {\n reverseName: false\n};\n\nvar data = {\n  person: {\n    _firstName: \"Jo\",\n    lastName: \"Blow\",\n    firstName: firstName,\n    fullName: fullName\n  }\n};\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", data, {\n  settings: settings\n});",
+        "code": "function firstName() { return this._firstName; }\n\nfirstName.set = function(val) {\n  this._firstName = val;\n};\n\nfunction fullName() {\n  return settings.reverseName\n    ? this.lastName + \" \" + this.firstName()\n    : this.firstName() + \" \" + this.lastName;\n}\n\nfullName.set = function(val) {\n  val = val.split(\" \");\n  var afterSpace = val.pop();\n  var beforeSpace = val.join(\" \");\n  // Make observable change to dependent properties\n  $.observable(this).setProperty({\n    lastName: settings.reverseName ? beforeSpace : afterSpace,\n    firstName: settings.reverseName ? afterSpace : beforeSpace\n  });\n};\n\nfullName.depends = [\"firstName()\", \"lastName\", \"~settings.reverseName\" ];\n\nvar settings = {\n reverseName: false\n};\n\nvar data = {\n  person: {\n    _firstName: \"Jo\",\n    lastName: \"Blow\",\n    firstName: firstName,\n    fullName: fullName\n  }\n};\n\nvar tmpl = $.templates(\"#personTmpl\");\n\ntmpl.link(\"#result\", data, {\n  settings: settings\n});",
         "title": "get/set &ndash; depends (with ~settings.reverseName in depends)",
         "height": "110"
       },
       {
         "_type": "para",
         "title": "Declaring dependencies for a computed observable",
-        "text": "When setting\n\n```js\nmyObservableFunction.depends = dependencyExpression;\n```\n\nfor a computed observable, the `dependencyExpression` can be a string, such as:\n- `\"firstName\"`, or<br/>\n- `\"manager^address*\"`\n\nor an array of strings (or objects and strings), such as:\n- `[\"firstName\", \"lastName\", \"~settings.reverseName\"]` or<br/>\n- `[\"firstName\", \"lastName\", settings, \"reverseName\"]`\n\n(The last two are equivalent, assuming the `settings` object is the helper object referenced declaratively using `\"~settings\"`.)\n\nIn fact setting `depends` to an array is equivalent to providing the corresponding arguments to `$.observe()`. So all the examples of [$.observe()](#observe@paths) (including with [deep paths](#observe@deep)) can also be used in equivalent `depends` expressions. For example you might have:\n\n```js\nmyObservableFn.depends = [person1, \"lastName\", \"address^*\", person2, \"firstName\", person3, \"*\", \"address.*\"];\n```\n\n-- which is similar to the example #6 in the [$.observe() examples](#observe@paths) -- and includes a deep path `\"address^*\"` (listening to changes in the `address` property of the `person1` object and changes to any properties of the `person1.address` object).\n\nIn addition, `depends` expressions can be functions. \n\nA *depends* function can return strings or arrays. It is called during initial binding of the link expression, and the `this` pointer (and `data` argument) is the object instance (e.g. `person` object in the case of a computed `person.fullName()`):\n\n```js\nmyObservableFn.depends = function(data) {\n  return [data.person1, \"lastName\", \"address.*\", data.person2, \"firstName\"];\n}\n```\n\n-- and/or can use a callback:\n\n```js\nmyObservableFn.depends = function(data, callback) {\n  $.observable(data.person).observeAll(callback);\n  // (In addition to calling the callback, can optionally also return a string or array)\n}\n```\n\nNote that this last example, (using `observeAll` to call the callback) is a *programmatic* approach which is actually equivalent to the following *declarative* version with the `**` wild card:\n```js\nmyObservableFn.depends = \"person.**\";\n```\n\n(See the [next sample](#computed@depends-all))\n\n",
+        "text": "When setting\n\n```js\nmyObservableFunction.depends = dependencyExpression;\n```\n\nfor a computed observable, the `dependencyExpression` can be a string, such as:\n- `\"firstName\"`, or<br/>\n- `\"manager^address*\"`\n\nor an array of strings (or objects and strings), such as:\n- `[\"firstName\", \"lastName\", \"~settings.reverseName\"]` or<br/>\n- `[\"firstName\", \"lastName\", settings, \"reverseName\"]`\n\n(The last two are equivalent, assuming the `settings` object is the helper object referenced declaratively using `\"~settings\"`.)\n\nIn fact setting `depends` to an array is equivalent to providing the corresponding arguments to `$.observe()`. So all the examples of [$.observe()](#observe@paths) (including with [deep paths](#observe@deep)) can also be used in equivalent `depends` expressions. For example you might have:\n\n```js\nmyObservableFn.depends = [person1, \"lastName\", \"address^*\", person2, \"firstName\", person3, \"*\", \"address.*\"];\n```\n\n-- which is similar to the example #6 in the [$.observe() examples](#observe@paths) -- and includes a deep path `\"address^*\"` (listening to changes in the `address` property of the `person1` object and changes to any properties of the `person1.address` object).\n\nIn addition, `depends` expressions can be functions.\n\nA *depends* function can return strings or arrays. It is called during initial binding of the link expression, and the `this` pointer (and `data` argument) is the object instance (e.g. `person` object in the case of a computed `person.fullName()`):\n\n```js\nmyObservableFn.depends = function(data) {\n  return [data.person1, \"lastName\", \"address.*\", data.person2, \"firstName\"];\n}\n```\n\n-- and/or can use a callback:\n\n```js\nmyObservableFn.depends = function(data, callback) {\n  $.observable(data.person).observeAll(callback);\n  // (In addition to calling the callback, can optionally also return a string or array)\n}\n```\n\nNote that this last example, (using `observeAll` to call the callback) is a *programmatic* approach which is actually equivalent to the following *declarative* version with the `**` wild card:\n```js\nmyObservableFn.depends = \"person.**\";\n```\n\n(See the [next sample](#computed@depends-all))\n\n",
         "anchor": "depends"
+      },
+      {
+        "_type": "para",
+        "title": "Dependencies on other computed variables",
+        "text": "Or course a computed observable may depend on both regular (non-computed) properties and other computed observables. (Paths referencing computed observables will have parens, as in `lastName()`.) \n\nFor example:\n\n```js\nmyObservableFn.depends = [person1, \"lastName()\", \"firstName\", address()^*\", person2, \"address()^street()\"];\n```\n\n",
+        "anchor": "depend-computed"
       },
       {
         "_type": "para",
@@ -2363,7 +2428,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Observing computed observables",
-        "text": "`depends` declarations and `$.observe()` calls both use paths such as `\"manager.name\"` for listening to changes in the `manager.name`, as in:\n\n```js\ngetNamesList.depends = [\"manager.name\", ...]; // Dependency declaration for team.getNamesList()\n```\n\n```js\n$.observe(team, \"manager.name\", myHandler); // Observe changes in manager.name\n```\n\nIf `manager.fullName()` is a *computed observable* then the corresponding path (for listening to changes in the `manager.fullName()`) is `\"manager.fullName\"` (*without parens*) -- as in:\n\n```js\ngetNamesList.depends = [\"manager.fullName\", ...]; // Dependency declaration for team.getNamesList()\n```\n\n```js\n$.observe(team, \"manager.fullName\", myHandler); // Observe changes in manager.fullName()\n```\n\nSee [`$.observe()` with computed observables](#observe@computed).",
+        "text": "`depends` declarations and `$.observe()` calls both use paths such as `\"manager.name\"` for listening to changes in the `manager.name`, as in:\n\n```js\ngetNamesList.depends = [\"manager.name\", ...]; // Dependency declaration for team.getNamesList()\n```\n\n```js\n$.observe(team, \"manager.name\", myHandler); // Observe changes in manager.name\n```\n\nIf `manager.fullName()` is a *computed observable* then the corresponding path (for listening to changes in the `manager.fullName()`) will include parens -- as in:\n\n```js\ngetNamesList.depends = [\"manager.fullName()\", ...]; // Dependency declaration for team.getNamesList()\n```\n\n```js\n$.observe(team, \"manager.fullName()\", myHandler); // Observe changes in manager.fullName()\n```\n\nSee [`$.observe()` with computed observables](#observe@computed).",
         "anchor": "dependspath"
       }
     ]
@@ -2392,13 +2457,13 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "$.observable(...).setProperty(...) with namespaces",
-        "text": "An optional `namespace` parameter can be included before the `object` parameter in the `$.observable(object).setProperty(...)` call:\n\n```js\n$.observable(namespace, myObject).setProperty(...);\n```\n\nThis will only trigger *observable change* handlers that are ***associated with the same namespace***.\n\nExample:\n\n```js\n$.observable(\"case1.scenario2\", person).setProperty(\"name\", \"newName\");\n// triggers only handlers that are associated with the `\"case1.scenario2\"` namespace tokens.\n```\n\nThe above namespaced `setProperty` call will trigger the `myHandler1`, `myHandler2` and `myHandler3` bindings below, but not the `myHandler5`, `myHandler5` or `myHandler6` bindings:\n\n```js \n$.observe(\"case1.scenario2\", person, \"name\", myHandler1);       // Triggered\n$.observe(\"scenario2.foo.case1\", person, \"name\", myHandler2);   // Triggered\n$.observable(\"scenario2.case1\", person).observeAll(myHandler3); // Triggered \n\n$.observe(person, \"name\", myHandler4);                          // Not triggered \n$.observe(\"scenario2\", person, \"name\", myHandler5);             // Not triggered\n$.observable(person).observeAll(myHandler6);                    // Not triggered\n```",
+        "text": "An optional `namespace` parameter can be included before the `object` parameter in the `$.observable(object).setProperty(...)` call:\n\n```js\n$.observable(namespace, myObject).setProperty(...);\n```\n\nThis will only trigger *observable change* handlers that are ***associated with the same namespace***.\n\nExample:\n\n```js\n$.observable(\"case1.scenario2\", person).setProperty(\"name\", \"newName\");\n// triggers only handlers that are associated with the `\"case1.scenario2\"` namespace tokens.\n```\n\nThe above namespaced `setProperty` call will trigger the `myHandler1`, `myHandler2` and `myHandler3` bindings below, but not the `myHandler5`, `myHandler5` or `myHandler6` bindings:\n\n```js \n$.observe(\"case1.scenario2\", person, \"name\", myHandler1);       // Triggered\n$.observe(\"scenario2.foo.case1\", person, \"name\", myHandler2);   // Triggered\n$.observable(\"scenario2.case1\", person).observeAll(myHandler3); // Triggered \n\n$.observe(person, \"name\", myHandler4);                          // Not triggered \n$.observe(\"scenario2\", person, \"name\", myHandler5);             // Not triggered\n$.observable(person).observeAll(myHandler6);                    // Not triggered\n```\n\n(*Note:* This will work also with [delayed events](#delay) (async or batched) -- simply by including the appropriate delay parameter in the  `$.observable()` call: `$.observable(namespace, objectOrArray, delay)`)",
         "anchor": "setprop"
       },
       {
         "_type": "para",
         "title": "$.observable(...).insert(...) etc. &ndash; with namespaces",
-        "text": "Just as with `propertyChange` operations on *observable objects *(above), *observable array* operations: `insert()`, `remove()`, `move()` and `refresh()`can also be scoped to namespaces.\n\nAn optional `namespace` parameter can be included before the `array` parameter in the `$.observable(array).insert(...)` call:\n\n```js\n$.observable(namespace, myObject).insert(...);\n```\n\nand similarly for the other operations, such as `remove()`.\n\nThis will only trigger *observable change* handlers that are ***associated with the same namespace***.\n\nExample:\n\n```js\n$.observable(\"case1.scenario2\", phones).insert(newPhone);\n// triggers only handlers that are associated with the `\"case1.scenario2\"` namespace tokens.\n```\n\nThe above namespaced `insert` call will trigger the `myHandler1`, `myHandler2` and `myHandler3` bindings below, but not the `myHandler5`, `myHandler5` or `myHandler6` bindings:\n\n```js \n$.observe(\"case1.scenario2\", phones, myHandler1);               // Triggered\n$.observe(\"scenario2.foo.case1\", phones, myHandler2);           // Triggered\n$.observable(\"scenario2.case1\", person).observeAll(myHandler3); // Triggered - for person.phones \n\n$.observe(phones, myHandler4);                                  // Not triggered \n$.observe(\"scenario2\", phones, myHandler5);                     // Not triggered\n$.observable(person).observeAll(myHandler6);                    // Not triggered\n```",
+        "text": "Just as with `propertyChange` operations on *observable objects* (above), *observable array* operations: `insert()`, `remove()`, `move()` and `refresh()`can also be scoped to namespaces.\n\nAn optional `namespace` parameter can be included before the `array` parameter in the `$.observable(array).insert(...)` call:\n\n```js\n$.observable(namespace, myArray).insert(...);\n```\n\nand similarly for the other operations, such as `remove()`.\n\nThis will only trigger *observable change* handlers that are ***associated with the same namespace***.\n\nExample:\n\n```js\n$.observable(\"case1.scenario2\", phones).insert(newPhone);\n// triggers only handlers that are associated with the `\"case1.scenario2\"` namespace tokens.\n```\n\nThe above namespaced `insert` call will trigger the `myHandler1`, `myHandler2` and `myHandler3` bindings below, but not the `myHandler5`, `myHandler5` or `myHandler6` bindings:\n\n```js \n$.observe(\"case1.scenario2\", phones, myHandler1);               // Triggered\n$.observe(\"scenario2.foo.case1\", phones, myHandler2);           // Triggered\n$.observable(\"scenario2.case1\", person).observeAll(myHandler3); // Triggered - for person.phones \n\n$.observe(phones, myHandler4);                                  // Not triggered \n$.observe(\"scenario2\", phones, myHandler5);                     // Not triggered\n$.observable(person).observeAll(myHandler6);                    // Not triggered\n```\n\n(*Note:* This will work also with [delayed events](#delay) (async or batched) -- simply by including the appropriate delay parameter in the  `$.observable()` call: `$.observable(namespace, objectOrArray, delay)`)",
         "anchor": "insert"
       },
       {
@@ -2427,6 +2492,10 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "hash": "namespaces",
             "label": "Namespaces"
+          },
+          {
+            "hash": "delay",
+            "label": "Async or batched events"
           }
         ]
       }
@@ -2526,6 +2595,72 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "label": "$.observable(object).setProperty()"
           }
         ]
+      }
+    ]
+  },
+  "delay": {
+    "title": "Asynchronous or batched observable change events",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Asynchronous $.observable(...) property and array change events",
+        "text": "The `$.observable(object)...` or `$.observable(array)...` calls accept an additional `delay` parameter, which can be used to delay the triggering of the associated observable change event, either to make it [asynchronous](#delay@async), or to prevent automatic triggering, and to allow complete specific control over whether or when the subsequent triggering of the event occurs (such as for [batched events](#delay@batch)).\n\n```js\n$.observable(myObject, delay).setProperty(...);\n\n$.observable(myArray, delay).insert(...);\n```"
+      },
+      {
+        "_type": "para",
+        "title": "Async observable change events",
+        "text": "By setting `delay` to `true`, the observable change event(s) will be triggered asynchronously:\n\n```js\n$.observable(myObject, true).setProperty(...);\n$.observable(myArray, true).insert(...);\n// ... other synchronous code ...\n```\n\nNote that in the example above, the property changes to `myObject` and the insertion of an item in `myArray` will still occur synchronously. But the corresponding observable change events will be raised asynchronously (so will be triggered after the `... other synchronous code ...`, above).\n\nIf multiple changes are made to the same property, then the raised events will include only one event for that property, corresponding to the setting of the final value. This can provide performance improvement in some scenarios...\n\nA common scenario for asynchronous observable change events is when mouse move events are used to trigger observable changes, such as for `{{slider}}` tag controls.\n\nSee also the [`updateValue()`](#jsvtagobject@updatevalue) and [`updateValues()`](#jsvtagobject@updatevalues) methods, which provide the same `delay` options for the raised events, discussed in the topic [*Async or batched change events, with tag.updateValue() or tag.updateValues()*](#jsvtagobject@delay).",
+        "anchor": "async"
+      },
+      {
+        "_type": "para",
+        "title": "Batched observable change events",
+        "text": "By passing in an *array* as `delay` parameter, the observable change events will not be triggered at all, but will be added (as data structures) to the array. The array will now have a trigger method available. Subsequent calling of the trigger method will then raise the corresponding events.\n\nThis allows complete control over whether or when the subsequent triggering of the event occurs.\n\nBy passing in different arrays (such as `myBatch1` and `myBatch2`) to different calls, the triggering of the events can be ordered and timed as desired in different batches...\n\nExample:\n\n```js\nvar myBatch1 = [];\nvar myBatch2 = [];\n\n// Change person.name property, without raising property change event\n$.observable(person, myBatch1).setProperty(\"name\", \"newName\");\n\n// Change team.title and team.description properties, without raising property change events\n$.observable(team, myBatch2).setProperty({title: ..., description: ...});\n\n// Add a new member(s) to team.members, without raising array change events\n$.observable(team.members, myBatch1).insert(...);\n\n// Now trigger all the above property and array change events, in a specific order.\nmyBatch1.trigger();\nmyBatch2.trigger();\n```\n\nNote that with batched observable change events (just as for [asynchronous](#delay@async) events) the property changes and array changes still occur synchronously, but the corresponding observable change events are delayed until the `trigger()` method is called on the `delay` array.\n\nAlso, just as for [asynchronous](#delay@async) events, if multiple changes are made to the same property then the raised events will include only one event for that property, corresponding to the setting of the final value. Again, this can provide performance improvement in some scenarios...",
+        "anchor": "batch"
+      },
+      {
+        "_type": "para",
+        "title": "Sample: Delayed observable change events",
+        "text": "The following sample illustrates the different behaviors of delayed observable change events, with delay parameter set to `false` (synchronous), `true` (asynchronous) or an array `batch = []` (batched events with programmatic trigger):",
+        "anchor": "delaysample"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Observe changes to person object or to numbers array:\n\n```js\n$.observe(person, \"*\", numbers, \"**\", function(ev, eventArgs) {\n  var message = ...;\n  log(message);\n}); \n```\n\nMake observable changes to person object or numbers array.\nDepending on the delay parameter, observable change events will be raised synchronously, asynchronously, or not at all - pending calling `delay.trigger()`...\n\n```js\nlog(count + \": Set first and last\");\n$.observable(person, delay).setProperty(...);\n\nlog(count + \": Set first and last\");\n$.observable(person, delay).setProperty(...);\n\nlog(count + \": Insert number\");\n$.observable(numbers, delay).insert(...);\n```\n"
+          }
+        ],
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n<div>\n  delay:\n  <select data-link=\"delay\">\n    <option value=\"true\">true (asynchronous)</option>\n    <option value=\"false\">false (synchronous)</option>\n    <option value=\"batch\">batch (batched)</option>\n  </select> \n\n  {^{if delay===\"batch\"}}{^{on ~trigger}}batch.trigger(){{/on}}{{/if}}\n</div>\n<br/>\n{^{on ~change delay}}Make changes{{/on}}\n\n<hr/>\n<b>Template:</b><br/><br/>\n<div>\n  <em>Name:</em> {^{:person.first}} {^{:person.last}}\n</div>\n<div>\n  <em>Numbers:</em> {^{for numbers}} {{:}} {{/for}}\n</div>\n<hr/>\n</script>\n\n<div id=\"page\" class=\"left\"></div>\n\n<div class=\"logBox\">\n  <label>Change Log:</label>\n  <button class=\"clear\">Clear</button>\n  <div class=\"messages\"></div>\n</div>",
+        "code": "function trigger() {\n  if (batch.trigger) {\n    batch.trigger();\n  }\n}\n\nfunction log(message) {\n  $(\".messages\").append(message + \"<br/>\");\n}\n\nfunction change(delay) {\n  // Make observable changes to person object or numbers array.\n  // Depending on the delay parameter, observable change events will be raised synchronously,\n  // asynchronously, or not at all - pending calling delay.trigger()...\n  delay = delay === \"true\" ? true : delay === \"batch\" ? batch : false;\n  count++;\n\n  log(count + \": Set first and last\");\n  $.observable(person, delay).setProperty({first: person.first + count, last: person.last + count});\n  log(count + \": Insert number\");\n  $.observable(numbers, delay).insert(count);\n  log(count + \": Set first\");\n  $.observable(person, delay).setProperty(\"first\", person.first + \"!\");\n}\n\n$(\".clear\").on(\"click\", function() {\n  $.observable(person).setProperty({first: \"Jo\", last: \"Blow\"});\n  $.observable(numbers).remove(1, numbers.length-1);\n  count = 0;\n  $(\".messages\").empty();\n});\n\nvar count = 0,\n  batch = [],\n  delay = \"false\",\n  person = { first: \"Jo\", last: \"Blow\" },\n  numbers = [0],\n  data = {person: person, numbers: numbers, delay: delay},\n  helpers = {trigger: trigger, change: change},\n  myTmpl = $.templates(\"#myTmpl\");\n\nmyTmpl.link(\"#page\", data, helpers);\n\n// Observe changes to person object or to numbers array\n$.observe(person, \"*\", numbers, \"**\", function(ev, eventArgs) {\n  var message = \"<em class='event'>Event:</em>\";\n  if (eventArgs.change === \"set\") {\n    message += \"Set \" + eventArgs.path + \": &mdash; <em>\" + eventArgs.value + \"</em>\";\n  } else if (eventArgs.change === \"insert\") {\n    message += \"Insert: &mdash; <em>\" + eventArgs.items[0] + \"</em>\";\n  }\n  log(message);\n});",
+        "height": "300",
+        "header": "<link href=\"/samples/change-log.css\" rel=\"stylesheet\"/>\n<style>#page {width: 300px;} .logBox .event {display: inline-block; margin: 0 10px 0 80px;}</style>",
+        "action": "append",
+        "title": "",
+        "anchor": ""
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "*Note:* Delayed events (async or batched) can be also made to target specific event namespaces, -- simply by including the appropriate namespace parameter in the [property change](#namespaces@setprop) or [array change](#namespaces@insert) call:\n\n```js\n$.observable(namespace, object, delay).setProperty(...);\n$.observable(namespace, array, delay).insert(...);\n```\n\n*See also:*\n- [*Async or batched change events, with tag.updateValue() or tag.updateValues()*](#jsvtagobject@delay)"
+      },
+      {
+        "_type": "para",
+        "title": "Global asyncObserve setting",
+        "text": "By default, observable changes raise the corresponding observable change events synchronously. \n\nHowever the default behavior can be chosen instead to raise the events asynchronous, by using the following setting:\n\n```js\n$.views.settings.advanced({asyncObserve: true});\n```",
+        "anchor": "async-observe"
       }
     ]
   }
