@@ -1,6 +1,6 @@
 {
   "name": "jsrender-node-starter",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Starter app for JsRender server-rendered templates on Node.js using Express 4 or Hapi, and optionally Browserify and JsRenderify",
   "main": "index-express.js",
   "scripts": {
@@ -20,8 +20,8 @@
     "hapi": "^11.1.3",
     "inert": "^3.0.1",
     "jquery": "^3.0.0",
-    "jsrender": "^1.0.3",
-    "jsviews": "^1.0.3",
+    "jsrender": "^1.0.4",
+    "jsviews": "^1.0.4",
     "serve-favicon": "^2.3.0",
     "through2": "^2.0.0",
     "vision": "^3.0.0"

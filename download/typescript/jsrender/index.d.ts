@@ -1,5 +1,5 @@
-// Type definitions for JsRender 1.0.3
-// Project: http://www.jsviews.com/
+// Type definitions for JsRender 1.0
+// Project: http://www.jsviews.com/#jsrender
 // Definitions by: Boris Moore <https://github.com/borismoore>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.3
@@ -63,7 +63,7 @@ interface Views {
   sub: Hash<any>;
 
   /* $.views.map() */
-  map(any): any;
+  map(any: any): any;
 }
 
 /* $.views.settings*/
@@ -254,7 +254,7 @@ interface TagOptionProps {
   init?: (this: TagInst, tagCtx?: TagCtx, linkCtx?: LinkCtx, ctx?: Context) => void;
   render?: (this: TagInst, ...args: any[]) => string|void;
   baseTag?: string | Tag;
-  contentCtx?: boolean | ((arg0: any) => any);
+  contentCtx?: boolean | ((this: TagInst, arg0: any) => any);
   convert?: string|Converter;
   argDefault?: boolean;
   bindTo?: number | string | Array<number|string>;

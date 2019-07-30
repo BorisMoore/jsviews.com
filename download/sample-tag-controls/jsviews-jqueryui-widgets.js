@@ -1,4 +1,4 @@
-/*! JsViews jQueryUI widget integration v1.0.3
+/*! JsViews jQueryUI widget integration v1.0.4
 see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
  * https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
@@ -543,6 +543,7 @@ selectmenu: {
 },
 // ============================= SLIDER =============================
 slider: {
+  bindTo: [0, 1], // Bind to first argument. If options.range=true, bind also to second argument.
   baseTag: "widget",
   widgetName: "slider",
   elem: "div",
@@ -551,7 +552,11 @@ slider: {
     var tag = this;
     return {
       slide: function(evt, ui) {
-        tag.updateValue(ui.value, true); // Async update
+        if (ui.values) { // property values is given when option "range" is set to true
+          tag.updateValues.apply(tag, ui.values);
+        } else {
+          tag.updateValue(ui.value);
+        }
       }
     };
   },
@@ -562,9 +567,15 @@ slider: {
       tag.baseApply(arguments);
     }
   },
-  setValue: function(value) {
+  setValue: function(value, index) {
+    var widget = this.widget;
     if (value !== undefined) {
-      this.widget.value(value || 0);
+      value = value || 0;
+      if (widget.options.range === true) {
+        widget.values(index, value);
+      } else {
+        widget.value(value);
+      }
     }
   },
   getValue: function() {

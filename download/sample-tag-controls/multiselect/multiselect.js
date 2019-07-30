@@ -1,7 +1,7 @@
-﻿/*! Sample JsViews tag control: {{multiselect}} control v0.9.84 (Beta)
+/*! Sample JsViews tag control: {{multiselect}} control v1.0.4
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
- * Copyright 2018, Boris Moore
+ * Copyright 2019, Boris Moore
  * Released under the MIT License.
  */
 
@@ -9,8 +9,8 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
 "use strict";
 
 $.views.tags({
-    multisel: {
-    boundProps: ["size"],
+  multisel: {
+    boundProps: ["size", "disabled"],
     init: function(tagCtx, linkCtx) {
       var tag = this;
       tag.valueProp = tag.tagCtx.props.valueProp || "id",
@@ -46,9 +46,15 @@ $.views.tags({
       tag.updateSelection();
     },
     onAfterLink: function(tagCtx, linkCtx) {
-      if (tagCtx.props.size) {
+    var propParams = tagCtx.params.props;
+    if (propParams) {
+      if (propParams.size) {
         this.selectElem[0].size = tagCtx.props.size;
       }
+      if (propParams.disabled) {
+        this.selectElem.prop("disabled", !!tagCtx.props.disabled);
+      }
+    }
     },
     onDispose: function() {
       var tag = this;

@@ -485,7 +485,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "sections": [
           {
             "_type": "para",
-            "title": "A multiselect custom tag control ",
+            "title": "",
             "text": "This is a fairly advanced sample: A multiselect control which supports both the inline data-binding syntax:\n\n```jsr\n{^{multisel items=items selected=selectedItems .../}}\n```\n\nand the element-based data-link syntax, using a `<select>` tag:\n\n```jsr\n<select data-link=\"{multisel items=items selected=selectedItems ...}\"></select>\n```\n\nIt provides two array  properties, `items` and `selectedItems`. Both use observable arrayChange data-binding, so you can (as in the example) use two-way binding between the `selectedItems` property of one `multiselect` and the `items` of another, following a cascading pattern."
           }
         ],
@@ -498,7 +498,41 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "height": "500",
-        "url": "samples/tag-controls/multiselect/sample"
+        "url": "samples/tag-controls/multiselect/sample",
+        "title": "JsViews 'multiselect' tag control: The {{multisel}} tag",
+        "anchor": "multisel"
+      },
+      {
+        "_type": "para",
+        "title": "Using the built-in &lt:select multiple... &gt; support instead of {{multisel}}",
+        "text": "For most scenarios, the above multiselect control can be replaced by the built-in JsViews support for [*&lt;select&gt;: with multiple selection*](#link-select@multiple). \n\nFor example we can use the basic `<select ... multiple` support to replicate most of the above `{{multisel}}` sample, except for the dynamic *add/remove* feature of `{{multisel}}` (which automatically remove items from `selectedItems` when they are removed from `items`).\n\nThis is shown in the following sample:\n\n\n"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<select multiple data-link=\"{frm:selectedItems items=items:to} size{:items.length}\">\n  {^{for items}}\n    <option data-link=\"value{:id}\">{{:name}}</option>\n  {{/for}}\n</select>\n```"
+          }
+        ],
+        "html": "<link href=\"/samples/tag-controls/multiselect/sample.css\" rel=\"stylesheet\">\n\n<script id=\"liTmpl\" type=\"text/x-jsrender\">\n  <li>{{:name}}</li>\n</script>\n\n<script id=\"noneTmpl\" type=\"text/x-jsrender\">\n  <li>(no selection)</li>\n</script>\n\n<script id=\"pageTmpl\" type=\"text/x-jsrender\">\n  <select multiple data-link=\"{frm:selectedItems items=items:to} size{:items.length}\">\n    {^{for items}}\n      <option data-link=\"value{:id}\">{{:name}}</option>\n    {{/for}}\n  </select>\n\n  <h4>Selected Items</h4>\n  <select multiple data-link=\"{frm:selectedSelectedItems items=selectedItems:to} size{:selectedItems.length}\">\n    {^{for selectedItems}}\n      <option data-link=\"value{:id}\">{{:name}}</option>\n    {{/for}}\n  </select>\n\n  <ul>{^{for selectedItems tmpl=\"#liTmpl\" }}{{else tmpl=\"#noneTmpl\" }}{{/for}}</ul>\n\n  <h4>Selected selected items</h4>\n\n  <ul data-link=\"{for selectedSelectedItems tmpl='#liTmpl'}{else tmpl='#noneTmpl'}\"></ul>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "$.views.converters({\n  frm: function(val) {\n    return val.map(function(v) {return v.id;});\n  },\n  to: function(vals) {\n    var selectedItems = [],\n      items = this.tagCtx.props.items,\n      k = vals.length,\n      l = items.length;\n    while (k--) {\n      for (var i=0; i<l;  i++) {\n        if (items[i].id === vals[k]) {\n          selectedItems.push(items[i]);\n          break;\n        }\n      }\n    }\n    $.observable(this.tagCtx.args[0]).refresh(selectedItems);\n}});\n\nvar count = 1,\n  pageTmpl = $.templates(\"#pageTmpl\"),\n\n  items = [{id: \"a\", name:\"first\"}, {id: \"b\", name:\"second\"}, {id: \"c\", name:\"third\"}],\n  selectedItems = [items[0], items[2]],\n  selectedSelectedItems = [items[2]],\n\n  model = {\n    items: items,\n    selectedItems: selectedItems,\n    selectedSelectedItems: selectedSelectedItems\n  };\n\npageTmpl.link(\"#page\", model);",
+        "height": "350",
+        "nocss": false,
+        "header": "ul {\n  padding: 0 0 0 18px;\n}\n",
+        "title": "JsViews support for '&ltselect ... multiple ... &gt;'",
+        "anchor": "selectmultiple",
+        "url": ""
       }
     ]
   },
@@ -709,8 +743,20 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "simple textbox control"
           },
           {
-            "hash": "samples/tag-controls/range",
-            "label": "range control"
+            "hash": "samples/tag-controls/slider",
+            "label": "slider control"
+          },
+          {
+            "hash": "samples/tag-controls/areaslider",
+            "label": "areaslider control"
+          },
+          {
+            "hash": "samples/tag-controls/spinblock",
+            "label": "spinblock control"
+          },
+          {
+            "hash": "samples/tag-controls/colorpicker",
+            "label": "colorpicker control"
           },
           {
             "hash": "samples/tag-controls/jsonview",
@@ -1227,6 +1273,10 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "hash": "samples/tag-controls/jqui/slider/color-picker",
             "label": "Color picker"
+          },
+          {
+            "hash": "samples/tag-controls/jqui/slider/range",
+            "label": "Range slider"
           }
         ]
       }
@@ -5983,6 +6033,46 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "height": "350",
         "anchor": "jsv-tag",
         "title": "JsViews: A custom {^{purchases}} tag, as dynamic 'purchases' grid control..."
+      }
+    ]
+  },
+  "samples/tag-controls/jqui/slider/range": {
+    "title": "Sample: Slider with two handles, using the range=true option",
+    "path": "",
+    "sections": [
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [
+          {
+            "_type": "codetab",
+            "name": "",
+            "url": "download/sample-tag-controls/jsviews-jqueryui-widgets.js",
+            "label": "jsviews-jqueryui-widgets"
+          }
+        ],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "Set the `_range=true` and the slider will have two handles binding to the first and second arguments (in this case, `minAge` and `maxAge`...):\n\n```jsr\n{^{slider minAge maxAge _range=true ... /}}\n```\n\nSee [*JQuery UI 'range' slider*](https://jqueryui.com/slider/#range).\n\nIn this sample we use the `minAge` and `maxAge` to dynamically filter a list of people:\n\n```jsr\n{^{for people filter=~flt depends=~fltDeps}}\n  <li>{{:name}} (age: {{:age}})</li>\n{{/for}}\n```\n\nWe provide the filter function, `~flt` and the dependency paths, `~fltDeps`, as helpers, to filter based on age:\n```js\n  helpers = {\n    flt: function(item, index, items) { // Filter people based on age\n      return item.age > data.minAge && item.age < data.maxAge;\n    },\n    fltDeps: [\"minAge\", \"maxAge\"] // Make {^{people ... depends=~fltDeps ...}} update when minAge or maxAge changes\n  };\n```"
+          }
+        ],
+        "url": "samples/tag-controls/jqui/slider/range/sample",
+        "jsrJsvJqui": "jqui",
+        "height": "305"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also: *[widget APIs](#samples/tag-controls/jqui/api)*"
       }
     ]
   }

@@ -600,6 +600,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
             "label": "{^{radiogroup ...}}"
           },
           {
+            "name": "jsvcheckboxgrouptag",
+            "label": "{^{checkboxgroup ...}}"
+          },
+          {
             "name": "jsvelsetag",
             "label": "{{else ...}}"
           },
@@ -1270,6 +1274,10 @@ content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsV
                       {
                         "name": "samples/tag-controls/jqui/slider/color-picker",
                         "label": "Color picker"
+                      },
+                      {
+                        "name": "samples/tag-controls/jqui/slider/range",
+                        "label": "Range slider"
                       }
                     ],
                     "expanded": false

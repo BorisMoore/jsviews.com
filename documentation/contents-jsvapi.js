@@ -73,7 +73,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "JsRender tags (with data-linking)",
-        "text": "The following topics give examples and details for data-linking each of the [built-in JsRender template tags](#jsrtags):\n\n*Tags without content:*\n\n- [`{^{: ...}}`](#jsvassigntag) (Evaluate)\n- [`{^{> ...}}`](#jsvhtmltag) (HTML encode)\n\n*Block tags:*\n\n- [`{^{include ...}}`](#jsvincludetag) (Template composition -- partials)\n- [`{^{for ...}}`](#jsvfortag) (Template composition, with iteration over arrays)\n- [`{^{props ...}}`](#jsvpropstag) (Iteration over properties of an object)\n- [`{^{if ...}}`](#jsviftag) (Conditional inclusion)\n- [`{^{mytag ...}}`](#jsvtagcontrols) (Custom tag controls)\n\n*Block tags (JsViews only):*\n\n- [`{^{radiogroup ...}}`](#jsvradiogrouptag) (Radio button group)\n- [`{^{on ...}}`](#jsvontag) (Button, or event binding)\n\n*Alternative content blocks:*\n\n- [`{{else ...}}`](#jsvelsetag) (Content block separator)\n\n*Creating your own tags (custom tag controls):*\n\n- [Custom tags](#jsvtagcontrols)\n"
+        "text": "The following topics give examples and details for data-linking each of the [built-in JsRender template tags](#jsrtags):\n\n*Tags without content:*\n\n- [`{^{: ...}}`](#jsvassigntag) (Evaluate)\n- [`{^{> ...}}`](#jsvhtmltag) (HTML encode)\n\n*Block tags:*\n\n- [`{^{include ...}}`](#jsvincludetag) (Template composition -- partials)\n- [`{^{for ...}}`](#jsvfortag) (Template composition, with iteration over arrays)\n- [`{^{props ...}}`](#jsvpropstag) (Iteration over properties of an object)\n- [`{^{if ...}}`](#jsviftag) (Conditional inclusion)\n- [`{^{mytag ...}}`](#jsvtagcontrols) (Custom tag controls)\n\n*Block tags (JsViews only):*\n\n- [`{^{radiogroup ...}}`](#jsvradiogrouptag) (Radio button group)\n- [`{^{checkboxgroup ...}}`](#jsvcheckboxgrouptag) (Checkbox group)\n- [`{^{on ...}}`](#jsvontag) (Button, or event binding)\n\n*Alternative content blocks:*\n\n- [`{{else ...}}`](#jsvelsetag) (Content block separator)\n\n*Creating your own tags (custom tag controls):*\n\n- [Custom tags](#jsvtagcontrols)\n"
       },
       {
         "_type": "para",
@@ -2813,7 +2813,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Data-linked checkboxes",
-        "text": "The following sample shows data-linked checkboxes, with examples of two-way binding, one-way binding, and use of converters (*convert* and *convert back*).",
+        "text": "In most scenarios using data-linked checkboxes, each checkbox is data-linked to a boolean data value.\n\nIt is also possible to data-link multiple checkboxes as a *check box group* -- binding to a single data value of type array (generally an array of strings, one for each checked checkbox). See [*Data-linked checkbox groups*](#link-input@checkboxgroup), at the end of this topic, for details.\n\nThe following sample shows data-linked checkboxes, with examples of two-way binding, one-way binding, and use of converters (*convert* and *convert back*).",
         "anchor": "checkbox"
       },
       {
@@ -2837,18 +2837,24 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label><input type=\"checkbox\" data-link=\"member\"/> Member</label>\n  <em>Two-way</em><br/>\n\n  <label><input type=\"checkbox\" data-link=\"{not:member:not}\"/> Non-member</label>\n  <em>Two-way with 'not' converters (convert/convert back)</em><br/>\n\n  <label><input type=\"checkbox\" data-link=\"{:member}\"/> Member</label>\n  <em>One-way</em><br/>\n\n  <label><input type=\"checkbox\" data-link=\"{not:member}\"/> Non-member</label>\n  <em>One-way with 'not' converter</em><br/>\n\n  <span class=\"spanbox\" data-link=\"member\"></span>\n  <em>Data-linked span</em><br/>\n\n  <span class=\"spanbox\" data-link=\"{if member tmpl='Member'}{else tmpl='Non-member'}\"></span>\n  <em>Data-linked span with if-binding</em><br/>\n\n  <span class=\"spanbox\">{^{if member}}Member{{else}}Non-member{{/if}}</span>\n  <em>Data-linked if/else tags</em><br/>\n</script>",
         "code": "$.views.converters({\n  not: function(val) {\n    return !val;\n  }\n});\n\nvar tmpl = $.templates(\"#tmpl\");\n\nvar person = {member: true};\n\ntmpl.link(\"#result\", person);",
         "height": "210",
-        "title": ""
+        "title": "Data-linking a checkbox to a boolean data value",
+        "anchor": ""
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "(See also [*Data-linked checkbox groups*](#link-input@checkboxgroup))"
       },
       {
         "_type": "para",
         "title": "Data-linked radio buttons",
-        "text": "The simplest way to provide two-way data-linking to a group of radio buttons is by wrapping with the `<input>`s with a [`{^{radiogroup ...}}`](#jsvradiogrouptag) tag. \n\nAlternatively, it is also possible to [data-link directly](#link-input@radio2waydirect) to the `<input>` elements.",
+        "text": "The simplest way to provide two-way data-linking to a group of radio buttons is by wrapping the `<input>`s with a [`{^{radiogroup ...}}`](#jsvradiogrouptag) tag. \n\nAlternatively, it is also possible to [data-link directly](#link-input@radio2waydirect) to the `<input>` elements.",
         "anchor": "radio"
       },
       {
         "_type": "para",
         "title": "Samples in this section",
-        "text": "\nThis topic includes the following radio-button samples showing data-linked radio buttons:\n\n- Two-way data-binding, with [{radiogroup}](#link-input@radio2way)\n- Two-way data-binding, [linking directly to the input elements](#link-input@radio2waydirect)\n- [Top-level](#link-input@topdirect) linking directly to the input elements\n- [Top-level](#link-input@topradiogroup) with {radiogroup} binding\n- Data-driven by [array](#link-input@radioarray) data (in a `{{for}}` loop)\n- Data-driven by an [editable array](#link-input@radioedit) (in a `{^{for}}` loop)\n- Data-driven by an [editable array](#link-input@radioeditid) -- including `id`\n- Using [converters](#link-input@radioconvert)"
+        "text": "\nThis topic includes the following radio-button samples showing data-linked radio buttons:\n\n- Two-way data-binding, with [{{radiogroup}}](#link-input@radio2way)\n- Two-way data-binding, [linking directly to the input elements](#link-input@radio2waydirect)\n- [Top-level](#link-input@topdirect) linking directly to the input elements\n- [Top-level](#link-input@topradiogroup) with `{radiogroup}` binding\n- Data-driven by [array](#link-input@radioarray) data (in a `{{for}}` loop)\n- Data-driven by an [editable array](#link-input@radioedit) (in a `{^{for}}` loop)\n- Data-driven by an [editable array](#link-input@radioeditid) -- including `id`\n- Using [converters](#link-input@radioconvert)"
       },
       {
         "_type": "para",
@@ -2982,7 +2988,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Data includes `cars` array:</div>*\n\n```js\nvar data = {\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    ...\n  ]\n};\n```\n\n*<div class=\"close\">First radio button -- 'unselected' value: `\"\"`:</div>*\n\n```jsr\n  <label><input type=\"radio\" value=\"\"/> None</label><br/>\n```\n\n*<div class=\"close\">{{radiogroup}} wrapping first 'unselected' radio button and additional data-driven array of radio buttons:</div>*\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\"/> None</label><br/>\n  {{for cars}}\n    <label><input type=\"radio\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n  {{/for}}\n{{/radiogroup}}\n```"
+            "text": "*<div class=\"close\">Data includes `cars` array:</div>*\n\n```js\nvar data = {\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    ...\n  ]\n};\n```\n\n*<div class=\"close\">{{radiogroup}} wrapping first 'unselected' radio button and additional data-driven array of radio buttons:</div>*\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\"/> None</label><br/>\n  {{for cars}}\n    <label><input type=\"radio\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n  {{/for}}\n{{/radiogroup}}\n```"
           }
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{radiogroup selectedCar}}\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    {{for cars}}\n      <label><input type=\"radio\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</script>",
@@ -3043,9 +3049,9 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "*<div class=\"close\">Two radio button groups:<br/>-- with `{{radiogroup}}`:</div>*\n\n```jsr\n{^{radiogroup selectedCar disabled=disable}}\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  {^{for cars}}\n    <label><input type=\"radio\" data-link=\"value{:id}\"/> {^{:name}}</label>\n  {{/for}}\n{{/radiogroup}}\n```\n\n*<div class=\"close\">-- and with direct data-linking to the `<input>`s:</div>*\n\n```jsr\n<label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/> None</label>\n{^{for cars}}\n  <label><input name=\"cars\" type=\"radio\"\n    value=\"{{:id}}\" data-link=\"{:~root.selectedCar:} value^{:id} disabled{:~root.disable}\"\n  /> {^{:name}}</label>\n{{/for}}\n```\n\nSince the `id` is also editable, we are data-linking to `id`: `data-link=\"value{:id}\"`. \n\nFor the second style (data-linking directly to the `<input>`) we need to ensure that the `value` is initialized during rendering, using `value=\"{{:id}}\"` (to ensure correct initial selection of the *Ford* radio button -- based on the initial value `\"frd\"` of `selectedCar`) -- in addition to binding to subsequent changes in `id` using [`value^{:id}`](#linked-elem-syntax@no-initial-render)."
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on add}\">Add car</button>\n  <table>\n    <tbody>\n      {^{for cars}}\n        <tr>\n          <td><input data-link=\"name\"/></td>\n          <td><input data-link=\"id\"/></td>\n          <td><span class=\"remove\" data-link=\"{on ~root.remove #index}\"></span></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table><br/>\n\n  <label><input type=\"checkbox\" data-link=\"disable\"/> Disable radio buttons</label><br/><br/>\n\n  {^{radiogroup selectedCar disabled=disable}}\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    {^{for cars}}\n      <label><input type=\"radio\" data-link=\"value{:id}\"/> {^{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}<br/>\n \n  <label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/> None</label><br/>\n  {^{for cars}}\n    <label><input name=\"cars\" type=\"radio\"\n      value=\"{{:id}}\" data-link=\"{:~root.selectedCar:} value^{:id} disabled{:~root.disable}\"\n    /> {^{:name}}</label><br/>\n  {{/for}}\n\n  <div class=\"spanbox\" data-link=\"selectedCar||'none'\"></div>\n</script>",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <button data-link=\"{on add}\">Add car</button>\n  <table>\n    <tbody>\n      {^{for cars}}\n        <tr>\n          <td><input data-link=\"name\"/></td>\n          <td><input data-link=\"id\"/></td>\n          <td><span class=\"remove\" data-link=\"{on ~root.remove #index}\"></span></td>\n        </tr>\n      {{/for}}\n    </tbody>\n  </table><br/>\n\n  <label><input type=\"checkbox\" data-link=\"disable\"/> Disable radio buttons</label><br/><br/>\n\n  <em>&lcub;{radiogroup&rcub;}:</em><br/><br/>\n\n  {^{radiogroup selectedCar disabled=disable}}\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    {^{for cars}}\n      <label><input type=\"radio\" data-link=\"value{:id}\"/> {^{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}<br/>\n \n  <em>Direct linking to &lt;input&gt;:</em><br/><br/>\n\n  <label><input name=\"cars\" type=\"radio\" value=\"\" data-link=\"selectedCar\"/> None</label><br/>\n  {^{for cars}}\n    <label><input name=\"cars\" type=\"radio\"\n      value=\"{{:id}}\" data-link=\"{:~root.selectedCar:} value^{:id} disabled{:~root.disable}\"\n    /> {^{:name}}</label><br/>\n  {{/for}}\n\n  <div class=\"spanbox\" data-link=\"selectedCar||'none'\"></div>\n</script>",
         "code": "var idCount = 0;\nvar tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  add: function() {\n    idCount++;\n    var id = \"car\" + idCount;\n    $.observable(this.cars).insert({id: id, name: \"name\" + idCount});\n    $.observable(this).setProperty(\"selectedCar\", id);\n  },\n  remove: function(index) {\n    $.observable(this.cars).remove(index);\n  },\n  selectedCar: \"frd\",\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ],\n  disable: false\n};\n\ntmpl.link(\"#result\", data);",
-        "height": "390",
+        "height": "460",
         "title": "",
         "anchor": "radioeditable"
       },
@@ -3076,13 +3082,152 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Define converters:</div>*\n\n```js\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.tagCtx.view.data.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.tagCtx.view.data.cars[val].id;\n}});\n```\n  \n*<div class=\"close\">Initialize the data</div>*\n\n```js\nvar data = {\n  selIndex: 1,\n  cars: [...]\n}\n```\n\n*<div class=\"close\">Data-link to `selIndex`, using the converters:</div>*\n\n```jsr\n{^{radiogroup selIndex convert=\"toId\" convertBack=\"fromId\"}}\n```\n\nIf we had used the direct linking to `<input>`s, we would have used:\n\n```jsr\n<input name=\"cars\" type=\"radio\" \n  value=\"{{:id}}\" data-link=\"{toId:~root.selIndex:fromId} value^{:id}\"\n/>\n```\n``` "
+            "text": "*<div class=\"close\">Define converters:</div>*\n\n```js\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.tagCtx.view.data.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.tagCtx.view.data.cars[val].id;\n}});\n```\n  \n*<div class=\"close\">Initialize the data</div>*\n\n```js\nvar data = {\n  selIndex: 1,\n  cars: [...]\n}\n```\n\n*<div class=\"close\">Data-link to `selIndex`, using the converters:</div>*\n\n```jsr\n{^{radiogroup selIndex convert=\"toId\" convertBack=\"fromId\"}}\n```\n\n*<div class=\"close\">Or, with direct linking to `<input>`s:</div>*\n\n```jsr\n...\n<input name=\"cars2\" type=\"radio\" value=\"{{:id}}\" data-link=\"{toId:~root.selIndex:fromId}\" />\n...\n```\n``` "
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label>\n    <input name=\"cars\" type=\"radio\" value=\"\" data-link=\"{toId:selIndex:fromId}\"/>\n    None\n  </label><br/>\n  {^{radiogroup selIndex convert=\"toId\" convertBack=\"fromId\"}}\n    {^{for cars}}\n      <label><input type=\"radio\" value=\"{{:id}}\"/> {^{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}\n\n  <span class=\"spanbox\" data-link=\"selIndex\"></span> <em>Selected index</em><br/>\n  <span class=\"spanbox\"\n  data-link=\"selIndex === -1 ? 'None' : cars[selIndex].name\"></span>\n  <em>Selected car name</em>\n</script>",
-        "height": "170",
-        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selIndex: 1,\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.tagCtx.view.data.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.tagCtx.view.data.cars[val].id;\n}});\n\ntmpl.link(\"#result\", data);",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <em>&lcub;{radiogroup&rcub;}:</em><br/><br/>\n\n  {^{radiogroup selIndex convert=\"toId\" convertBack=\"fromId\"}}\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    {^{for cars}}\n      <label><input type=\"radio\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}<br/>\n \n  <em>Direct linking to &lt;input&gt;:</em><br/><br/>\n\n  <label><input name=\"cars2\" type=\"radio\" value=\"\"\n    data-link=\"{toId:~root.selIndex:fromId}\"/> None</label><br/>\n  {^{for cars}}\n    <label><input name=\"cars2\" type=\"radio\" value=\"{{:id}}\"\n      data-link=\"{toId:~root.selIndex:fromId}\" /> {{:name}}</label><br/>\n  {{/for}}\n\n  <span class=\"spanbox\" data-link=\"selIndex\"></span> <em>Selected index</em><br/>\n  <span class=\"spanbox\"\n  data-link=\"selIndex === -1 ? 'None' : cars[selIndex].name\"></span>\n  <em>Selected car name</em>\n</script>",
+        "height": "320",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selIndex: 1,\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.tagCtx.view.ctx.root.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.tagCtx.view.ctx.root.cars[val].id;\n}});\n\ntmpl.link(\"#result\", data);",
         "title": ""
+      },
+      {
+        "_type": "para",
+        "title": "Data-linked checkbox groups",
+        "text": "The simplest way to provide two-way data-linking to a group of checkboxes is by wrapping the `<input>`s with a [`{^{checkboxgroup ...}}`](#jsvcheckboxgrouptag) tag. \n\nAlternatively, it is also possible to [data-link directly](#link-input@checkboxgroup2waydirect) to the `<input>` elements.",
+        "anchor": "checkboxgroup"
+      },
+      {
+        "_type": "para",
+        "title": "Samples in this section",
+        "text": "\nThis topic includes the following checkbox group samples showing data-linked checkboxes:\n\n- Two-way data-binding, with [{{checkboxgroup}}](#link-input@checkboxgroup2way)\n- Two-way data-binding, [linking directly to the input elements](#link-input@radio2waydirect)\n- [Top-level](#link-input@topcheckboxgroupdirect) linking directly to the input elements\n- [Data-driven by array, with converters](#link-input@checkboxgroupconvert)"
+      },
+      {
+        "_type": "para",
+        "title": "Checkbox group &ndash; two-way data-binding &ndash; using {^{checkboxgroup}}  ",
+        "text": "A checkbox group will generally consist of a group of `<input>` elements of type `\"checkbox\"`, each associated with a `<label>` (which either wraps the `<input>`, or references it by id, through the `for=\"inputId\"` attribute).\n\nTo data-link the checkboxes, wrap the `<input>` (and `<label>`) elements with a `{^{checkboxgroup ...}}` tag, linking to the appropriate data path such as the `selectedSports` array property on the current data object:\n\n```jsr\n{^{checkboxgroup selectedSports}}\n```",
+        "anchor": "checkboxgroup2way"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  {selectedSports: [\"soccer\", \"running\"],\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n{^{checkboxgroup selectedSports}}\n  <label><input type=\"checkbox\" value=\"swimming\"/> Swimming</label>\n  <label><input type=\"checkbox\" value=\"running\"/> Running</label>\n  <label><input type=\"checkbox\" value=\"soccer\"/> Soccer</label>\n{{/checkboxgroup}}\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{checkboxgroup selectedSports}}\n    <label><input type=\"checkbox\" value=\"swimming\"/> Swimming</label><br/>\n    <label><input type=\"checkbox\" value=\"running\"/> Running</label><br/>\n    <label><input type=\"checkbox\" value=\"soccer\"/> Soccer</label><br/>\n  {{/checkboxgroup}}\n\n  <div class=\"spanbox\">Sports:<ul>\n    {^{for selectedSports}}<li>{^{:}}</li>{{/for}}\n  </ul></div>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {selectedSports: [\"soccer\", \"running\"]};\n\ntmpl.link(\"#result\", data);",
+        "height": "190"
+      },
+      {
+        "_type": "para",
+        "title": "Checkbox group &ndash; data-binding directly to the &lt;inputs>",
+        "text": "It is also possible to data-link directly to `<input>` elements, without using a `{{checkboxgroup}}` tag, by:\n\n- data-linking each `<input>` directly (each to the same data path, such as `data-link=\"selectedSports\"`, corresponding to an array of string values)\n- including a `name` attribute on each `<input>` of the group (such as `name=\"sports\"`)\n\n```jsr\n<label><input name=\"sports\" type=\"checkbox\" value=\"swimming\" data-link=\"selectedSports\"/> ...\n```\n\nNote that setting the `name` attribute was not necessary when using `{{checkboxgroup}}` -- since the `{{checkboxgroup}}` tag will automatically add a generated `name` property to each `<input>`, if none has been specified).",
+        "anchor": "checkboxgroup2waydirect"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  {selectedSports: [\"soccer\", \"running\"],\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n<label><input name=\"sports\" type=\"checkbox\" value=\"swimming\" data-link=\"selectedSports\"/> Swimming ...\n<label><input name=\"sports\" type=\"checkbox\" value=\"running\" data-link=\"selectedSports\"/> Running ...\n<label><input name=\"sports\" type=\"checkbox\" value=\"soccer\" data-link=\"selectedSports\"/> Soccer ...\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label><input name=\"sports\" type=\"checkbox\" value=\"swimming\" data-link=\"selectedSports\"/> Swimming</label><br/>\n  <label><input name=\"sports\" type=\"checkbox\" value=\"running\" data-link=\"selectedSports\"/> Running</label><br/>\n  <label><input name=\"sports\" type=\"checkbox\" value=\"soccer\" data-link=\"selectedSports\"/> Soccer</label><br/>\n\n  <div class=\"spanbox\">Sports:<ul>\n    {^{for selectedSports}}<li>{^{:}}</li>{{/for}}\n  </ul></div>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {selectedSports: [\"soccer\", \"running\"]};\n\ntmpl.link(\"#result\", data);",
+        "height": "190",
+        "title": ""
+      },
+      {
+        "_type": "para",
+        "title": "Top-level data-linking of checkbox groups",
+        "text": "For [top-level data-linking](#toplink), there are two alternatives:\n\n- Top-level `{checkboxgroup}` binding shown [here](#jsvcheckboxgrouptag@top-checkboxgroup)\n- Top-level data-linked `<input>` elements (using direct data-linking as in the previous example), shown in the following sample:\n",
+        "anchor": "topcheckboxgroup"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "```jsr\n<div id=\"top-level-linked\">\n  <label><input name=\"sports\" type=\"checkbox\" value=\"swimming\" data-link=\"selectedSports\"/> Swimming ...\n  ...\n```\n\n```js\nvar data = {selectedSports: [\"soccer\", \"running\"]};\n...\n$.link(true, \"#top-level-linked\", data);\n```"
+          }
+        ],
+        "html": "<div id=\"top-level-linked\">\n  <label><input name=\"sports\" type=\"checkbox\" value=\"swimming\" data-link=\"selectedSports\"/> Swimming</label><br/>\n  <label><input name=\"sports\" type=\"checkbox\" value=\"running\" data-link=\"selectedSports\"/> Running</label><br/>\n  <label><input name=\"sports\" type=\"checkbox\" value=\"soccer\" data-link=\"selectedSports\"/> Soccer</label><br/>\n\n  <div class=\"spanbox\">Sports:\n    <ul data-link=\"{for selectedSports tmpl='liItem'}\"></ul>\n  </div>\n</div>",
+        "code": "var data = {selectedSports: [\"soccer\", \"running\"]};\n\n$.views.templates(\"liItem\", \"<li>{^{:}}</li>\");\n\n$.link(true, \"#top-level-linked\", data);",
+        "title": "Top-level data-linked &lt;input> elements",
+        "height": "190",
+        "anchor": "topcheckboxgroupdirect"
+      },
+      {
+        "_type": "para",
+        "title": "Checkbox group &ndash; in {{for}} loop with array",
+        "text": "A common scenario is when the options in a checkbox group come from a data array. The `<input type=\"checkbox\">` elements can be generated by a `{{for}}` tag (whether using direct data-linking on the `<input>`s, or wrapping with a `{^{checkboxgroup}}`).\n\nSee the analogous discussion for [*Radio buttons in a {{for}} loop*](#link-input@radioarray) (along with the subsequent sections and examples, which could all be applied similarly to checkbox groups).\n\nThe next sample (below) will show data-driven checkbox groups, along with the use of converters.",
+        "anchor": "checkboxgrouparray"
+      },
+      {
+        "_type": "para",
+        "title": "Checkbox groups &ndash; with converters",
+        "text": "In this example we use *convert* and *convert back* converters to convert from the an array of integers -- the indices of the items in the `sports` array to an array of strings -- the `id` values, and back.\n\nWe also show this both for the `{{checkboxgroup}}` approach and for direct data-linking to the `<input>`s, as well as the corresponding `<select multiple>` UI.",
+        "anchor": "checkboxgroupconvert"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Define converters:</div>*\n\n```js\n$.views.converters({\n  fromId: function(ids) { // convert from array of id strings to array of indices\n    var sports = this.tagCtx.view.ctx.root.sports,\n      indices = ids.map(function(id) { // get indices array\n        ...\n      });\n\n    return [indices]; // wrap indices array in array\n  },\n  toId: function(indices) {  // convert back from array of indices to array of ids\n    var sports = this.tagCtx.view.ctx.root.sports,\n      ids =indices.map(function(ind) { // ids array\n        ...\n      });\n  \n    return [ids] // wrap ids array in array\n  }\n});\n```\n  \n*<div class=\"close\">Initialize the data</div>*\n\n```js\nvar data = {\n  disabled: false,\n  selSports: [0, 2], // array of integers - the indices of the items in the sports array\n  sports: [\n    {id: \"swimming\", name: \"Swimming\"},\n    ...\n  ]\n};\n```\n\n*<div class=\"close\">Data-link to `selSports` array, using the converters:</div>*\n\n```jsr\n{^{checkboxgroup selSports convert=\"toId\" convertBack=\"fromId\" disabled=disable}}\n```\n\n*<div class=\"close\">Or, with direct linking to `<input>`s:</div>*\n\n```jsr\n...\n<input name=\"sports\" type=\"checkbox\" value=\"{{:id}}\" data-link=\"{toId:~root.selSports:fromId} ... \" />\n...\n```\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <em>&lcub;{checkboxgroup&rcub;}:</em><br/><br/>\n\n  {^{checkboxgroup selSports convert=\"toId\" convertBack=\"fromId\" disabled=disable}}\n    {^{for sports}}\n      <label><input type=\"checkbox\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n    {{/for}}\n  {{/checkboxgroup}}<br/>\n \n  <em>Direct linking to &lt;input&gt;:</em><br/><br/>\n\n  {^{for sports}}\n    <label><input name=\"sports\" type=\"checkbox\" value=\"{{:id}}\"\n      data-link=\"{toId:~root.selSports:fromId} disabled{:~root.disable}\" /> {{:name}}</label><br/>\n  {{/for}}<br/>\n\n  <em>&lt;select multiple ...&gt;:</em><br/><br/>\n\n  <select multiple data-link=\"disabled{:disable} {toId:selSports:fromId} size{:sports.length}\">\n    {^{for sports}}\n      <option data-link=\"value{:id}\">{{:name}}</option>\n    {{/for}}\n  </select><br/><br/>\n\n  <label><input type=\"checkbox\" data-link=\"disable\"/> Disable checkboxes and select</label><br/><br/>\n\n  <div class=\"spanbox\"><em>Selected indices</em><ul>\n    {^{for selSports}}<li>{^{:}}</li>{{/for}}\n  </ul></div>\n\n  <div class=\"spanbox\"><em>Selected sport names</em><ul>\n    {^{for selSports}}<li>{^{:~root.sports[#data].name}}</li>{{/for}}\n  </ul></div>\n</script>",
+        "height": "460",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  disabled: false,\n  selSports: [0, 2], // array of integers - the indices of the items in the sports array\n  sports: [\n    {id: \"swimming\", name: \"Swimming\"},\n    {id: \"climbing\", name: \"Mountain climbing\"},\n    {id: \"running\", name: \"Running\"}\n  ]\n};\n\n$.views.converters({\n  fromId: function(ids) { // convert from array of id strings to array of indices\n    var sports = this.tagCtx.view.ctx.root.sports,\n      indices = ids.map(function(id) { // get indices array\n        var indx;\n        sports.forEach(function(sport, ind) {\n          if (id === sport.id) {\n            indx = ind;\n            return;\n          }\n        });\n        return indx;\n      });\n\n    return [indices]; // wrap indices array in array\n  },\n  toId: function(indices) {  // convert back from array of indices to array of ids\n    var sports = this.tagCtx.view.ctx.root.sports,\n      ids =indices.map(function(ind) { // ids array\n        return sports[ind].id;\n      });\n  \n    return [ids] // wrap ids array in array\n  }\n});\n\ntmpl.link(\"#result\", data);",
+        "title": ""
+      },
+      {
+        "_type": "para",
+        "title": "Checkboxes: data-linking to enable/disable",
+        "text": "The above sample also shows the use of the `{{checkboxgroup}}` `disabled` property, which can be used with data-linking to dynamically enable/disable the checkboxes.\n\nThe sample also shows how to data-link `disabled` when using data-linking directly to the `<input>` elements (rather than using `{{checkboxgroup}}`).\n",
+        "anchor": "checkboxgroupdisabled"
       },
       {
         "_type": "links",
@@ -3096,8 +3241,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           },
           {
             "_type": "topic",
-            "hash": "",
-            "label": ""
+            "hash": "jsvcheckboxgrouptag",
+            "label": "The {^{checkboxgroup}} tag"
           },
           {
             "_type": "topic",
@@ -3251,7 +3396,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "&lt;select&gt;: with multiple selection",
-        "text": "If the multiple attribute is set, data-linking is to an array of strings (option values). \n\nConverters could be used to convert to other data formats, such as an array of indices, or an array of objects. ",
+        "text": "If the multiple attribute is set, data-linking is to an array of strings (option values). \n\nConverters could be used to convert to other data formats, such as an array of indices, or an array of objects (see for example [this sample](#samples/tag-controls/multiselect@selectmultiple)).",
         "anchor": "multiple"
       },
       {
@@ -3275,6 +3420,11 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "html": "<style>select {margin: 10px 0;}</style>\n\n<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <em>Choose one or more cars:</em><br/>\n\n  <select data-link=\"selectedCar\" size=\"5\" multiple>\n    {^{for cars}}\n      <option data-link=\"value{:id} {:name}\"></option>\n    {{/for}}\n  </select><br/>\n\n  <span class=\"spanbox\">\n    {^{for selectedCar}}{{:}} {{else}}<em>None</em>{{/for}}\n  </span>\n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selectedCar: [\"rnl\", \"frr\"],\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"rnl\", name: \"Renault\"},\n    {id: \"frr\", name: \"Ferrari\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
         "height": "186"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "See also the [*{{multisel}} tag control*](#samples/tag-controls/multiselect) sample."
       },
       {
         "_type": "para",
@@ -6256,7 +6406,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  selectedCar: \"frd\",\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n<div data-link=\"{radiogroup selectedCar}\">\n  <label><input type=\"radio\" value=\"\"/> None</label>\n  <label><input type=\"radio\" value=\"vlv\"/> Volvo</label>\n  ...\n</div>\n```\n"
           }
         ],
-        "html": "<div id=\"top-level-linked\">\n  <div data-link=\"{radiogroup selectedCar}\">\n    <label><input type=\"radio\" value=\"\"/>\n      None</label><br/>\n    <label><input type=\"radio\" value=\"vlv\"/>\n      Volvo</label><br/>\n   <label><input type=\"radio\" value=\"frd\"/>\n      Ford</label>\n  </div>\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</div>",
+        "html": "<div id=\"top-level-linked\">\n  <div data-link=\"{radiogroup selectedCar}\">\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    <label><input type=\"radio\" value=\"vlv\"/> Volvo</label><br/>\n    <label><input type=\"radio\" value=\"frd\"/> Ford</label>\n  </div>\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</div>",
         "code": "var data = {selectedCar: \"frd\"};\n\n$.link(true, \"#top-level-linked\", data);\n",
         "height": "130",
         "title": "Top-level {radiogroup} binding",
@@ -6283,7 +6433,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Data includes `cars` array:</div>*\n\n```js\nvar data = {\n  selectedCar: \"frd\",\n  cars: [{id: \"vlv\", name: \"Volvo\"}, ...]\n};\n```\n\n*<div class=\"close\">{{radiogroup}} a data-driven array of radio buttons, preceded by an additional 'unselected' radio button:</div>*\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\"/> None</label><br/>\n  {{for cars}}\n    <label><input type=\"radio\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n  {{/for}}\n{{/radiogroup}}\n```"
+            "text": "*<div class=\"close\">Data includes `cars` array:</div>*\n\n```js\nvar data = {\n  selectedCar: \"frd\",\n  cars: [{id: \"vlv\", name: \"Volvo\"}, ...]\n};\n```\n\n*<div class=\"close\">{{radiogroup}} tag wrapping a data-driven array of radio buttons (preceded by an additional 'unselected' radio button):</div>*\n\n```jsr\n{^{radiogroup selectedCar}}\n  <label><input type=\"radio\" value=\"\"/> None</label><br/>\n  {{for cars}}\n    <label><input type=\"radio\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n  {{/for}}\n{{/radiogroup}}\n```"
           }
         ],
         "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{radiogroup selectedCar}}\n    <label><input type=\"radio\" value=\"\"/> None</label><br/>\n    {{for cars}}\n      <label><input type=\"radio\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}\n\n  <span class=\"spanbox\" data-link=\"selectedCar||'none'\"></span>\n</script>",
@@ -6340,31 +6490,8 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Data-linking a {^{radiogroup}} using converters",
-        "text": "Just like any other tag, `{^{radiogroup}}` can use *convert* and *convertBack* converters, using the syntax:\n\n```jsr\n{^{radiogroup convert=... convertBack=.../}}\n```\n\nas shown in the following sample:",
+        "text": "Just like any other tag, `{^{radiogroup}}` can use *convert* and *convertBack* converters, using the syntax:\n\n```jsr\n{^{radiogroup convert=... convertBack=.../}}\n```\n\nas shown in the [this sample](#link-input@radioconvert), which data-links to an integer: the index of the `item` in the `items` array, rather than the `item.id` string value -- and uses converters convert between `id` and `index`",
         "anchor": "converters"
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "*<div class=\"close\">Define converters:</div>*\n\n```js\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.tagCtx.view.data.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.tagCtx.view.data.cars[val].id;\n}});\n```\n  \n*<div class=\"close\">Initialize the data</div>*\n\n```js\nvar data = {\n  selIndex: 1,\n  cars: [...]\n}\n```\n\n*<div class=\"close\">Data-link to `selIndex`, using the converters:</div>*\n\n```jsr\n{^{radiogroup selIndex convert=\"toId\" convertBack=\"fromId\"}}\n```\n\nIf we had used the direct linking to `<input>`s, we would have used:\n\n```jsr\n<input name=\"cars\" type=\"radio\" \n  value=\"{{:id}}\" data-link=\"{toId:~root.selIndex:fromId} value^{:id}\"\n/>\n```\n``` "
-          }
-        ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  <label>\n    <input name=\"cars\" type=\"radio\" value=\"\" data-link=\"{toId:selIndex:fromId}\"/>\n    None\n  </label><br/>\n  {^{radiogroup selIndex convert=\"toId\" convertBack=\"fromId\"}}\n    {^{for cars}}\n      <label><input type=\"radio\" value=\"{{:id}}\"/> {^{:name}}</label><br/>\n    {{/for}}\n  {{/radiogroup}}\n\n  <span class=\"spanbox\" data-link=\"selIndex\"></span> <em>Selected index</em><br/>\n  <span class=\"spanbox\"\n  data-link=\"selIndex === -1 ? 'None' : cars[selIndex].name\"></span>\n  <em>Selected car name</em>\n</script>",
-        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selIndex: 1,\n  cars: [\n    {id: \"vlv\", name: \"Volvo\"},\n    {id: \"frd\", name: \"Ford\"},\n    {id: \"hnd\", name: \"Honda\"}\n  ]\n};\n\n$.views.converters({\n  fromId: function(val) { // convert from id to index\n    var index = -1;\n    this.tagCtx.view.data.cars.forEach(function(car, ind) {\n      if (val === car.id) {\n        index = ind;\n      }\n    });\n    return index;\n  },\n  toId: function(val) {  // convert back from index to id\n    return val === -1 ? \"\" : this.tagCtx.view.data.cars[val].id;\n}});\n\ntmpl.link(\"#result\", data);",
-        "height": "190",
-        "title": ""
       },
       {
         "_type": "para",
@@ -6395,6 +6522,202 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "_type": "para",
         "title": "See also:",
         "text": "- For additional details and samples see *[Data-linked radio buttons](#link-input@radio)*\n- For examples of `{^{radiogroup}}` tags wrapping *jQuery UI* `{{radio}}` tag controls, see the [Toolbar samples](#samples/tag-controls/jqui/toolbar)"
+      }
+    ]
+  },
+  "jsvcheckboxgrouptag": {
+    "title": "Data-linked template tag: {^{checkboxgroup ...}} <span style=\"font-weight:normal;\">(Checkbox group)</span>",
+    "path": "",
+    "sections": [
+      {
+        "_type": "para",
+        "title": "Alternatives for data-linking groups of checkboxes: direct linking, or {^{checkboxgroup}}",
+        "text": "- One way to provide two-way data-binding on a group of checkboxes is by directly data-linking each of the `<input>` elements, as described in the *[Data-linked checkbox groups](#link-input@checkboxgroup2waydirect)* topic\n- An alternative and often more convenient approach is to wrap the `<input>`s with a `{^{checkboxgroup}}` tag, as shown in this section\n"
+      },
+      {
+        "_type": "para",
+        "title": "The {^{checkboxgroup}} tag",
+        "text": "The `{^{checkboxgroup ...}}` tag is used to provide two-way data-linking to a group of checkboxes.\n\nIt is used only as a data-bound tag in *JsViews*, and is not available in *JsRender*.\n\nThe set of checkboxes (`<input type=\"checkbox\">`) are wrapped by the tag (or contained in the external template referenced by `tmpl=...`) -- and are data-linked to the data property specified by the path or expression: `{^{checkboxgroup pathOrExpr}}`. The data property will be an array of string values corresponding to the selected items (checked checkboxes). (Alternatively, by using converters, the data property can instead be an array of selected obects, as in [this sample]()).\n",
+        "anchor": "checkboxgroup"
+      },
+      {
+        "_type": "tag",
+        "typeLabel": "Tag:",
+        "title": "{^{checkboxgroup pathOrExpr}}",
+        "name": "name",
+        "signatures": [
+          {
+            "_type": "signature",
+            "title": "",
+            "params": [],
+            "args": [
+              {
+                "_type": "param",
+                "name": "pathOrExpr",
+                "type": "array of strings",
+                "optional": false,
+                "description": "Path or expression for the data-linked property (of type array of strings)"
+              }
+            ],
+            "sections": [],
+            "example": "{{checkboxgroup selectedSports}}\n  &lt;label&gt;\n    &lt;input type=\"checkbox\" value=\"running\"/&gt; \n    Running\n  &lt;/label&gt;\n  ...\n{{/checkboxgroup}}",
+            "description": "Two-way binding between the current selection of checked checkboxes within a group, and a data property (array of selected 'value' strings)"
+          }
+        ],
+        "description": "",
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "sample": "sample",
+          "links": "links"
+        }
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  {selectedSports: [\"soccer\", \"running\"],\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n{^{checkboxgroup selectedSports}}\n  <label><input type=\"checkbox\" value=\"swimming\"/> Swimming</label>\n  <label><input type=\"checkbox\" value=\"running\"/> Running</label>\n  <label><input type=\"checkbox\" value=\"soccer\"/> Soccer</label>\n{{/checkboxgroup}}\n```\n"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{checkboxgroup selectedSports}}\n    <label><input type=\"checkbox\" value=\"swimming\"/> Swimming</label><br/>\n    <label><input type=\"checkbox\" value=\"running\"/> Running</label><br/>\n    <label><input type=\"checkbox\" value=\"soccer\"/> Soccer</label><br/>\n  {{/checkboxgroup}}\n\n  <div class=\"spanbox\">Sports:<ul>\n    {^{for selectedSports}}<li>{^{:}}</li>{{/for}}\n  </ul></div>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {selectedSports: [\"soccer\", \"running\"]};\n\ntmpl.link(\"#result\", data);",
+        "height": "190",
+        "title": "{^{checkboxgroup}}"
+      },
+      {
+        "_type": "para",
+        "title": "The name property of the checkbox &lt;input&gt; elements",
+        "text": "If the checkbox group is within an HTML `<form>` which will be submitted, then the associated `name` property of the checkbox group may be specified on the `{^{checkboxgroup}}`:\n\n```jsr\n{^{checkboxgroup selectedSports name=\"sports\"}}\n  <label><input type=\"checkbox\" value=\"...\"/> ...</label>\n  ...\n{{/checkboxgroup}}\n```\n\nAlternatively it can be specified on each `<input>`\n\n```jsr\n{^{checkboxgroup selectedSports}}\n  <label><input type=\"checkbox\" value=\"swimming\" name=\"sports\"/> Swimming</label>\n  <label><input type=\"checkbox\" value=\"running\" name=\"sports\"/> Running</label>\n  ...\n{{/checkboxgroup}}\n```\n\nIf it is not specified, then each `{^{checkboxgroup}}` will provide an auto-generated unique `name`, which will be set on the checkbox `<input>` elements.",
+        "anchor": "name"
+      },
+      {
+        "_type": "para",
+        "title": "Using a data-linked element &ndash; with data-link=\"{checkboxgroup ...}\"",
+        "text": "An alternative to wrapping checkbox `<input>` tags in a `{^{checkboxgroup}}` tag is to wrap them in a data-linked HTML element tag such as a `<div>`, using `data-link=\"{checkboxgroup ...}\"`.\n\n```jsr\n<div data-link=\"{checkboxgroup selectedSports}\">\n  <label><input type=\"checkbox\" value=\"...\"/> ...</label>\n  ...\n</div>\n```\n\nThis approach can be used within templates, but is particularly useful for [top-level data-linking](#toplink), as in the following sample:\n",
+        "anchor": "datalink"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  {selectedSports: [\"soccer\", \"running\"],\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n  <div data-link=\"{checkboxgroup selectedSports}\">\n    <label><input type=\"checkbox\" value=\"swimming\"/> Swimming</label><br/>\n    <label><input type=\"checkbox\" value=\"running\"/> Running</label><br/>\n    <label><input type=\"checkbox\" value=\"soccer\"/> Soccer</label><br/>\n  </div>\n```"
+          }
+        ],
+        "html": "<div id=\"top-level-linked\">\n  <div data-link=\"{checkboxgroup selectedSports}\">\n    <label><input type=\"checkbox\" value=\"swimming\"/> Swimming</label><br/>\n    <label><input type=\"checkbox\" value=\"running\"/> Running</label><br/>\n    <label><input type=\"checkbox\" value=\"soccer\"/> Soccer</label><br/>\n  </div>\n\n  <div class=\"spanbox\">Sports:<ul data-link=\"{for selectedSports tmpl='liTmpl'}\"></ul></div>\n</div>",
+        "code": "$.templates(\"liTmpl\", \"<li>{{:}}</li>\");\n\nvar data = {selectedSports: [\"soccer\", \"running\"]};\n\n$.link(true, \"#top-level-linked\", data);\n",
+        "height": "190",
+        "title": "Top-level {checkboxgroup} binding",
+        "anchor": "top-checkboxgroup"
+      },
+      {
+        "_type": "para",
+        "title": "{^{checkboxgroup}} with {{for}}",
+        "text": "A common scenario is when the options in a checkbox group come from a data array. The `<input type=\"checkbox\">` elements wrapped by a `{^{checkboxgroup}}` can be generated by a `{{for}}` tag, as in the following example:",
+        "anchor": "fortag"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Data includes `sports` array:</div>*\n\n```js\nvar data = {\n  selectedSports: [\"climbing\"],\n  sports: [\n    {id: \"swimming\", name: \"Swimming\"},\n    {id: \"climbing\", name: \"Mountain climbing\"},\n    ...\n  ]\n};\n```\n\n*<div class=\"close\">{{checkboxgroup}} tag wrapping a data-driven array of checkboxes:</div>*\n\n```jsr\n{^{checkboxgroup selectedSports}}\n  {{for sports}}\n    <label><input type=\"checkbox\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n  {{/for}}\n{{/checkboxgroup}}\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{checkboxgroup selectedSports}}\n    {{for sports}}\n      <label><input type=\"checkbox\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n    {{/for}}\n  {{/checkboxgroup}}\n\n  <div class=\"spanbox\">Sports:<ul>\n    {^{for selectedSports}}<li>{^{:}}</li>{{/for}}\n  </ul></div>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selectedSports: [\"climbing\"],\n  sports: [\n    {id: \"swimming\", name: \"Swimming\"},\n    {id: \"climbing\", name: \"Mountain climbing\"},\n    {id: \"trailrun\", name: \"Trail running\"},\n    {id: \"soccer\", name: \"Soccer\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
+        "title": "",
+        "height": "200"
+      },
+      {
+        "_type": "para",
+        "title": "",
+        "text": "*__Note:__* The data-driven set of checkboxes can change dynamically, driven by `{^{for}}`, as shown in [this sample](#link-input@radioedit)."
+      },
+      {
+        "_type": "para",
+        "title": "Checkboxes in an external template, using {checkboxgroup tmpl=...}",
+        "text": "The set of checkboxes wrapped by a `{^{checkboxgroup}}` can be in an external template, referenced using `{^{checkboxgroup tmpl=...}}` or `data-link=\"{checkboxgroup tmpl=...}\"`, as in the following example:",
+        "anchor": "tmpl"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*<div class=\"close\">Template, containing checkboxes:</div>*\n\n```jsr\n<script id=\"inner\" type=\"text/x-jsrender\">\n  ...\n  <label><input type=\"checkbox\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n  ...\n</script>\n```\n\n*<div class=\"close\">Referencing \"#inner\" template from data-linked tag</div>*\n\n```jsr\n{^{checkboxgroup selectedSports tmpl=\"#inner\"/}}<br/>\n```\n\n*<div class=\"close\">Referencing \"#inner\" template from data-linked element</div>*\n\n```jsr\n<div data-link=\"{checkboxgroup selectedSports tmpl='#inner'}\"></div>\n```"
+          }
+        ],
+        "html": "<div id=\"result\"></div>\n\n<script id=\"inner\" type=\"text/x-jsrender\">\n  {{for sports}}\n    <label><input type=\"checkbox\" value=\"{{:id}}\"/> {{:name}}</label><br/>\n  {{/for}}\n</script>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{checkboxgroup selectedSports tmpl=\"#inner\"/}}<br/>\n\n  <div data-link=\"{checkboxgroup selectedSports tmpl='#inner'}\"></div>\n\n  <div class=\"spanbox\">Sports:<ul>\n    {^{for selectedSports}}<li>{^{:}}</li>{{/for}}\n  </ul></div>\n</script>",
+        "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {\n  selectedSports: [\"climbing\"],\n  sports: [\n    {id: \"swimming\", name: \"Swimming\"},\n    {id: \"climbing\", name: \"Mountain climbing\"}\n  ]\n};\n\ntmpl.link(\"#result\", data);",
+        "title": "tmpl",
+        "height": "200"
+      },
+      {
+        "_type": "para",
+        "title": "Data context within block is the same as the outer context",
+        "text": "Note that using either a `{^{checkboxgroup ...}}` tag or a `<div data-link=\"checkboxgroup ...}\">` to wrap a content block leaves the data-context unchanged. -- The current data item within the block is the same as the outer data context (including when referenced as an external template, as in the samples above).",
+        "anchor": "context"
+      },
+      {
+        "_type": "para",
+        "title": "The {^{checkboxgroup}} disabled property",
+        "text": "The `{^{checkboxgroup}}` tag has a `disabled` property which can be used for disabling/enabling the checkboxes, as shown [here](#link-input@checkboxgroupdisabled).",
+        "anchor": "disabled"
+      },
+      {
+        "_type": "para",
+        "title": "Data-linking a {^{checkboxgroup}} using converters",
+        "text": "Just like any other tag, `{^{checkboxgroup}}` can use *convert* and *convertBack* converters, using the syntax:\n\n```jsr\n{^{checkboxgroup convert=... convertBack=.../}}\n```\n\nas shown in the [this sample](#link-input@checkboxgroupconvert), which data-links to an integer: the index of the `item` in the `items` array, rather than the `item.id` string value -- and uses converters convert between `id` and `index`",
+        "anchor": "converters"
+      },
+      {
+        "_type": "para",
+        "title": "See also:",
+        "text": "For additional details and samples see *[Data-linked checkbox groups](#link-input@checkboxgroup)*\n"
       }
     ]
   },
@@ -7608,7 +7931,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Programmatic two-way data-binding: setValue() and updateValue() ",
-        "text": "The sections above show patterns for two-way data-binding of tag controls, using linked elements, and linked contextual parameters.\n\nThis section will show a pattern using a more generic programmatic approach to two-way data-binding of tag controls, particularly for cases where the data-binding does *not* correspond to data-linked form elements such as `<input>` or `<select>`.\n\nThe pattern is as follows:\n\n- The [`bindTo`](#tagoptions@bindto) option specifies the tag arguments or properties which have two-way data-binding. (If `bindTo` is not set, the default behavior will be to bind to the first argument -- as if the setting was `bindTo: 0`) \n- Whenever a bound argument or tag changes, the [`setValue()`](#tagoptions@setvalue) event handler method is called, with the updated value. The tag control uses the code in `setValue()` to respond appropriately to the changed value.\n- The tag control uses calls to [`updateValue()`](#jsvtagobject@updatevalue) to drive changes in the bound arguments or properties -- for example, in response to user actions via the tag control UI.\n- Programmatically calling [`tag.setValue(...)`](#jsvtagobject@setvalue) with a value will first call the tag's `setValue(...)` event handler (if there is one). Next, if the value (or the value returned by the handler if there is one) is not `undefined`, and if there are [linked elements](#bindingpatterns@linkedelem), it will set the value on the appropriate linked element.\n\nThus, `setValue()` and `updateValue()` play symmetric roles:\n\n- [`setValue()`](#jsvtagobject@setvalue) is used to change the tag control in response to external changes in the data-linked data.\n- [`updateValue()`](#jsvtagobject@updatevalue) is used by the tag control to trigger external changes in the data-linked data\n\nThis design pattern is illustrated by the next sample -- a *slider* tag control.",
+        "text": "The sections above show patterns for two-way data-binding of tag controls, using linked elements, and linked contextual parameters.\n\nThis section will show a pattern using a more generic programmatic approach to two-way data-binding of tag controls, particularly for cases where the data-binding does *not* correspond to data-linked form elements such as `<input>` or `<select>`.\n\nThe pattern is as follows:\n\n- The [`bindTo`](#tagoptions@bindto) option specifies the tag arguments or properties which have two-way data-binding. (If `bindTo` is not set, the default behavior will be to bind to the first argument -- as if the setting was `bindTo: 0`) \n- Whenever a bound argument or property changes, the [`setValue()`](#tagoptions@setvalue) event handler method is called, with the updated value. The tag control uses the code in `setValue()` to respond appropriately to the changed value.\n- The tag control uses calls to [`updateValue()`](#jsvtagobject@updatevalue) to drive changes in the bound arguments or properties -- for example, in response to user actions via the tag control UI.\n- Programmatically calling [`tag.setValue(...)`](#jsvtagobject@setvalue) with a value will first call the tag's `setValue(...)` event handler (if there is one). Next, if the value (or the value returned by the handler if there is one) is not `undefined`, and if there are [linked elements](#bindingpatterns@linkedelem), it will set the value on the appropriate linked element.\n\nThus, `setValue()` and `updateValue()` play symmetric roles:\n\n- [`setValue()`](#jsvtagobject@setvalue) is used to change the tag control in response to external changes in the data-linked data.\n- [`updateValue()`](#jsvtagobject@updatevalue) is used by the tag control to trigger external changes in the data-linked data\n\nThis design pattern is illustrated by the next sample -- a *slider* tag control.",
         "anchor": "setvalue-updatevalue"
       },
       {

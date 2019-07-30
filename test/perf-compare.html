@@ -1,0 +1,89 @@
+﻿	<!DOCTYPE html PUBLIC>
+	<html>
+	<head>
+		<title>Benchmark JsRender</title>
+		<script src="//code.jquery.com/jquery-3.4.1.js"></script>
+		<script src="../download/jsviews.js"></script>
+	</head>
+	<body>
+
+	<h3>Perf test</h3>
+
+	<br /><em>Times in microseconds:</em>
+	<table><tbody id="results"></tbody></table>
+
+	<script type="text/javascript">
+		var times = 250, ret, tmplString, htmlSample,
+			tests = [],
+
+			movie = { Name: "The <i>Red</i> Violin", ReleaseYear: "1998" },
+
+			jsRenderTemplate = "<div><b>{{:Name}}</b> ({{:ReleaseYear}})<b>{{:Name}}</b> ({{:ReleaseYear}})<b>{{:Name}}</b> ({{:ReleaseYear}})<b>{{:Name}}</b> ({{:ReleaseYear}})</div>",
+			jsRenderTemplateEncode = "<div><b>{{>Name}}</b> ({{>ReleaseYear}})<b>{{>Name}}</b> ({{>ReleaseYear}})<b>{{>Name}}</b> ({{>ReleaseYear}})<b>{{>Name}}</b> ({{>ReleaseYear}})</div>",
+			tmpl_JsRender = $.templates( null, jsRenderTemplate ),
+			tmpl_JsRenderEncode = $.templates( null, jsRenderTemplateEncode );
+
+	
+		function test( label, times, places, cb, before, after ) {
+			var target = $( "<tr><td>" + label + ": </td></tr>" ).appendTo( "#results" );
+			tests.push( function() {
+				if (before) {
+					before();
+				}
+				var endTime, result,
+					count = times,
+					startTime = new Date().getTime();
+
+				while (count--) {
+					cb();
+				}
+				endTime = new Date().getTime();
+				if (after) {
+					after();
+				}
+				result = ((( endTime-startTime ) * 1000 ) / times);
+				target.append( "<td class='result'>" + result.toFixed( places ) + "</td>");
+				runNextTest();
+			});
+		}
+
+		function runNextTest() {
+			var next;
+			if (next = tests.shift()) {
+				setTimeout( next, 0 );
+			} else {
+				$( "#results" ).append( "<tr><td colspan='2'><em>Tests complete...</em></td></tr>" );
+			}
+		}
+
+		// Test render to string perf
+		$( "#results" ).append( "<tr><td colspan='2'>________________________________________________________</td></tr>" );
+		$( "#results" ).append( "<tr><td colspan='2'><b>Render to string</b></td></tr>");
+
+		test( "JsRender", times * 500, 1, function() {
+			ret = tmpl_JsRender.render( movie );
+		});
+
+		$( "#results" ).append( "<tr><td colspan='2'>________________________________________________________</td></tr>" );
+		$( "#results" ).append( "<tr><td colspan='2'><b>Render to string, with HTML encoding</b></td></tr>");
+
+		test( "JsRender", times * 50, 1, function() {
+			ret = tmpl_JsRenderEncode.render( movie );
+		});
+
+
+		// Test compile perf
+		$( "#results" ).append( "<tr><td colspan='2'>________________________________________________________</td></tr>" );
+		$( "#results" ).append( "<tr><td colspan='2'><b>Compile</b></td></tr>");
+
+		test( "JsRender compile", times * 5, 0, function() {
+			tmpl_JsRender = $.templates( "test", jsRenderTemplate );
+		});
+
+		$( "#results" ).append( "<tr><td colspan='2'>________________________________________________________</td></tr>" );
+
+		runNextTest();
+	</script>
+
+	</body>
+	</html>

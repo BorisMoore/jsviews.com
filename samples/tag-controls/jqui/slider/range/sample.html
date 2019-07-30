@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="../../../../../download/jsviews.min.js"></script>
+  <script src="../../../../sample-viewer.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet"/>
+  <script src="../../../../../download/sample-tag-controls/jsviews-jqueryui-widgets.min.js"></script>
+  <link href="../sample.css" rel="stylesheet" />
+</head>
+<body>
+
+<h3>JsViews 'slider' tag control - using jQuery UI slider widget - with range option set to true</h3>
+
+<script id="pageTmpl" type="text/x-jsrender">
+<h4>Choose age range:</h4>
+{^{slider minAge maxAge _range=true _max=110 width=400 /}}
+
+<h4>People with age between {^{:minAge}} and {^{:maxAge}}</h4>
+
+<ul>{^{for people filter=~flt depends=~fltDeps}}
+  <li>{{:name}} (age: {{:age}})</li>
+{{/for}}</ul>
+</script>
+
+<div id="page"></div>
+
+<!--<script src="sample.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>

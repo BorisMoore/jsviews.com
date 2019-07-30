@@ -1,5 +1,5 @@
-// Type definitions for JsViews 1.03
-// Project: http://www.jsviews.com/
+// Type definitions for JsViews 1.0
+// Project: http://www.jsviews.com/#jsviews
 // Definitions by: Boris Moore <https://github.com/borismoore>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.3

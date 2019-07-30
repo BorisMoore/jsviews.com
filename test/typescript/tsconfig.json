@@ -1,20 +1,24 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "lib": [
-      "es6",
-      "dom"
+    "compilerOptions": {
+        "module": "commonjs",
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strictNullChecks": false,
+        "strictFunctionTypes": true,
+        "outDir": "./built/",
+        "sourceMap": true,
+        "typeRoots": [
+            "./types"
+        ],
+        "types": [ "jsrender", "jsviews" ]
+    },
+    "include": [
+        "./test/tests/jsrender/jsrender-tests.ts",
+        "./test/tests/jsviews/jsviews-tests.ts"
     ],
-    "outDir": "./built/",
-    "sourceMap": true,
-    "typeRoots": [
-        "./types"
-    ],
-    "types": ["jsrender", "jsviews"]
-  },
-  "include": [
-     "./test/tests/jsrender/tests-jsrender.ts",
-     "./test/tests/jsviews/tests-jsviews.ts"
- ],
-  "noImplicitAny": true
+    "noImplicitAny": true
 }

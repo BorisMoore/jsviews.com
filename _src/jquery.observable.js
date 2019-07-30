@@ -929,6 +929,7 @@ if (!$.observe) {
 					batch.paths[key] = batch.length;
 				} else {
 					$(target).triggerHandler(propertyChangeStr + (this._ns ? "." + /^\S+/.exec(this._ns)[0] : ""), eventArgs); // If white-space separated namespaces, use first one only
+					eventArgs.oldValue = null; // Avoid holding on to stale objects
 				}
 			}
 		}
