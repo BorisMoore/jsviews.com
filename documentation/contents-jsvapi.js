@@ -3104,7 +3104,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Checkbox group &ndash; two-way data-binding &ndash; using {^{checkboxgroup}}  ",
-        "text": "A checkbox group will generally consist of a group of `<input>` elements of type `\"checkbox\"`, each associated with a `<label>` (which either wraps the `<input>`, or references it by id, through the `for=\"inputId\"` attribute).\n\nTo data-link the checkboxes, wrap the `<input>` (and `<label>`) elements with a `{^{checkboxgroup ...}}` tag, linking to the appropriate data path such as the `selectedSports` array property on the current data object:\n\n```jsr\n{^{checkboxgroup selectedSports}}\n```",
+        "text": "A checkbox group will generally consist of a group of `<input>` elements of type `\"checkbox\"`, each associated with a `<label>` (which either wraps the `<input>`, or references it by id, through the `for=\"inputId\"` attribute).\n\nTo data-link the checkboxes, wrap the `<input>` (and `<label>`) elements with a `{^{checkboxgroup ...}}` tag, linking to the appropriate data path such as the `selectedSports` array property on the current data object:\n\n```jsr\n{^{checkboxgroup selectedSports}}\n```\n\n(Note that when the user modifies the selection of checked checkboxes, the data property is observably *replaced* by a new array. This means that in order to observe the *length* of the array, you need to use a [deep path](#linked-paths@deep), such as `selectedSports^length` in this [example](#jsvcheckboxgrouptag@sample)).",
         "anchor": "checkboxgroup2way"
       },
       {
@@ -6537,7 +6537,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "The {^{checkboxgroup}} tag",
-        "text": "The `{^{checkboxgroup ...}}` tag is used to provide two-way data-linking to a group of checkboxes.\n\nIt is used only as a data-bound tag in *JsViews*, and is not available in *JsRender*.\n\nThe set of checkboxes (`<input type=\"checkbox\">`) are wrapped by the tag (or contained in the external template referenced by `tmpl=...`) -- and are data-linked to the data property specified by the path or expression: `{^{checkboxgroup pathOrExpr}}`. The data property will be an array of string values corresponding to the selected items (checked checkboxes). (Alternatively, by using converters, the data property can instead be an array of selected obects, as in [this sample]()).\n",
+        "text": "The `{^{checkboxgroup ...}}` tag is used to provide two-way data-linking to a group of checkboxes.\n\nIt is used only as a data-bound tag in *JsViews*, and is not available in *JsRender*.\n\nThe set of checkboxes (`<input type=\"checkbox\">`) are wrapped by the tag (or contained in the external template referenced by `tmpl=...`) -- and are data-linked to the data property specified by the path or expression: `{^{checkboxgroup pathOrExpr}}`. The data property will be an array of string values corresponding to the selected items (checked checkboxes). (Alternatively, by using converters, the data property can instead be an array of selected obects, as in [this sample]()).\n\n(Note that when the user modifies the selection of checked checkboxes, the data property is observably *replaced* by a new array. This means that in order to observe the *length* of the array, you need to use a [deep path](#linked-paths@deep), such as `selectedSports^length` in the example [below](#jsvcheckboxgrouptag@sample)).\n\n\n\n",
         "anchor": "checkboxgroup"
       },
       {
@@ -6589,13 +6589,14 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  {selectedSports: [\"soccer\", \"running\"],\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n{^{checkboxgroup selectedSports}}\n  <label><input type=\"checkbox\" value=\"swimming\"/> Swimming</label>\n  <label><input type=\"checkbox\" value=\"running\"/> Running</label>\n  <label><input type=\"checkbox\" value=\"soccer\"/> Soccer</label>\n{{/checkboxgroup}}\n```\n"
+            "text": "*<div class=\"close\">Data:</div>*\n\n```js\nvar data = {\n  {selectedSports: [\"soccer\", \"running\"],\n  ...\n};\n```\n\n*<div class=\"close\">HTML:</div>*\n\n```jsr\n{^{checkboxgroup selectedSports}}\n  <label><input type=\"checkbox\" value=\"swimming\"/> Swimming</label>\n  <label><input type=\"checkbox\" value=\"running\"/> Running</label>\n  <label><input type=\"checkbox\" value=\"soccer\"/> Soccer</label>\n{{/checkboxgroup}}\n\n... Number of checked options: {^{:selectedSports^length}}\n\n```\n"
           }
         ],
-        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{checkboxgroup selectedSports}}\n    <label><input type=\"checkbox\" value=\"swimming\"/> Swimming</label><br/>\n    <label><input type=\"checkbox\" value=\"running\"/> Running</label><br/>\n    <label><input type=\"checkbox\" value=\"soccer\"/> Soccer</label><br/>\n  {{/checkboxgroup}}\n\n  <div class=\"spanbox\">Sports:<ul>\n    {^{for selectedSports}}<li>{^{:}}</li>{{/for}}\n  </ul></div>\n</script>",
+        "html": "<div id=\"result\"></div>\n\n<script id=\"tmpl\" type=\"text/x-jsrender\">\n  {^{checkboxgroup selectedSports}}\n    <label><input type=\"checkbox\" value=\"swimming\"/> Swimming</label><br/>\n    <label><input type=\"checkbox\" value=\"running\"/> Running</label><br/>\n    <label><input type=\"checkbox\" value=\"soccer\"/> Soccer</label><br/>\n  {{/checkboxgroup}}\n\n  <div>(Number of checked options: {^{:selectedSports^length}})</div>\n\n  <div class=\"spanbox\">Sports:<ul>\n    {^{for selectedSports}}<li>{^{:}}</li>{{/for}}\n  </ul></div>\n</script>",
         "code": "var tmpl = $.templates(\"#tmpl\");\n\nvar data = {selectedSports: [\"soccer\", \"running\"]};\n\ntmpl.link(\"#result\", data);",
-        "height": "190",
-        "title": "{^{checkboxgroup}}"
+        "height": "200",
+        "title": "{^{checkboxgroup}}",
+        "anchor": "sample"
       },
       {
         "_type": "para",

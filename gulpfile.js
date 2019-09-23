@@ -66,21 +66,44 @@ gulp.task('preparejsvcom', function() {
 	return buildTemplate('package.json', false, 'jsviews.com/', SRC, DEST_JSVCOM);
 });
 
-gulp.task('copy', ['preparejsr', 'preparejsv', 'preparestarter', 'preparejsvcom'], function() {
+gulp.task('preparejsr.d.ts', function() {
+	return buildTemplate('index.d.ts', false, 'jsrender/', true, DOWNLOAD + 'typescript/jsrender/');
+});
+
+gulp.task('preparejsv.d.ts', function() {
+	return buildTemplate('index.d.ts', false, 'jsviews/', true, DOWNLOAD + 'typescript/jsviews/');
+});
+
+gulp.task('copy', ['preparejsr', 'preparejsr.d.ts', 'preparejsv', 'preparejsv.d.ts', 'preparestarter', 'preparejsvcom'], function() {
 	gulp.src([DOWNLOAD + 'jsrender.*js*', DOWNLOAD + 'jsrender-node.js', SRC + 'jsrender/package.json'])
 		.pipe(gulp.dest(DEST_JSR));
 
 	gulp.src([DOWNLOAD + 'tmplify/index.js'])
 		.pipe(gulp.dest(DEST_JSR + 'tmplify/'));
 
+	gulp.src([DOWNLOAD + 'typescript/jsrender/index.d.ts'])
+		.pipe(gulp.dest(DEST_JSR + "typescript/jsrender/"));
+
 	gulp.src([DOWNLOAD + 'jsrender.*js*', DOWNLOAD + 'jsviews.*js*', DOWNLOAD + 'jquery.observable.*js*', DOWNLOAD + 'jquery.views.*js*', SRC + 'jsviews/package.json'])
 		.pipe(gulp.dest(DEST_JSV));
+
+	gulp.src([DOWNLOAD + 'typescript/jsviews/index.d.ts'])
+		.pipe(gulp.dest(DEST_JSV + "typescript/jsviews/"));
 
 	gulp.src(['test/unit-tests/tests-jsrender*.js', 'test/unit-tests/requirejs-config.js'])
 		.pipe(gulp.dest(DEST_JSR + 'test/unit-tests/'));
 
 	gulp.src(['test/unit-tests/tests-js*.js', 'test/unit-tests/requirejs-config.js'])
 		.pipe(gulp.dest(DEST_JSV + 'test/unit-tests/'));
+
+	gulp.src(['test/typescript/jsrender/tests.ts'])
+		.pipe(gulp.dest(DEST_JSR + 'typescript/jsrender/test/'));
+
+	gulp.src(['test/typescript/jsviews/tests.ts'])
+		.pipe(gulp.dest(DEST_JSV + 'test/typescript/jsviews/'));
+
+	gulp.src(['test/typescript/jsviews/tsconfig.json'])
+		.pipe(gulp.dest(DEST_JSV + 'test/typescript/jsviews/'));
 
 	gulp.src([SRC + 'jsrender-node-starter/package.json'])
 		.pipe(gulp.dest(DEST_NODESTARTER));

@@ -7,11 +7,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "path": "",
     "sections": [
       {
-        "_type": "para",
-        "title": "",
-        "text": "<em>Note:</em> New content is being added regularly to this set of samples."
-      },
-      {
         "_type": "links",
         "title": "",
         "links": [],
@@ -29,11 +24,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "JsViews samples"
           }
         ]
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "See also:\n\n- the [demos](https://github.com/BorisMoore/jsrender/tree/master/demos) folder of the JsRender GitHub repository -- available [here](http://borismoore.github.io/jsrender/demos/index.html) as live samples\n- the [demos](https://github.com/BorisMoore/jsviews/tree/master/demos) folder of the JsViews GitHub repository -- or [here](http://borismoore.github.io/jsviews/demos/index.html) as live samples\n"
       }
     ]
   },
@@ -41,11 +31,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "title": "Samples: JsRender",
     "path": "",
     "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "<em>Note:</em> New content is being added regularly to this set of samples."
-      },
       {
         "_type": "links",
         "title": "",
@@ -72,11 +57,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "Paths"
           }
         ]
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "See also the additional samples in the <a href=\"https://github.com/BorisMoore/jsrender/tree/master/demos\">demos</a> folder of the JsRender GitHub repository (available <a href=\"http://borismoore.github.io/jsrender/demos/index.html\">here</a> as live samples)."
       }
     ]
   },
@@ -628,11 +608,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
     "path": "",
     "sections": [
       {
-        "_type": "para",
-        "title": "",
-        "text": "<em>Note:</em> New content is being added regularly to this set of samples."
-      },
-      {
         "_type": "links",
         "title": "",
         "links": [],
@@ -662,11 +637,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
             "label": "Tag controls"
           }
         ]
-      },
-      {
-        "_type": "para",
-        "title": "",
-        "text": "See also the additional samples in the <a href=\"https://github.com/BorisMoore/jsviews/tree/master/demos\">demos</a> folder of the JsViews GitHub repository (available <a href=\"http://borismoore.github.io/jsviews/demos/index.html\">here</a> as live samples)."
       }
     ]
   },

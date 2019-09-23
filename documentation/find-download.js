@@ -183,7 +183,7 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender and JsViews have TypeScript declaration files available:\n\nindex.d.ts for jsrender\nindex.d.ts for jsviews\n\nBoth will be published to DefinitelyTyped.\nNote that the JsViews declaration file depends on the JsRender declaration file (and both depend on the jQuery TypeScript declaration file). They include appropriate triple slash type references such as /// <reference types=\"jsrender\" />\n"
+        "text": "Both JsRender and JsViews have TypeScript declaration files included in the npm package.\nFor JsRender the declaration file is at typescript/jsrender/index.d.ts in the jsrender package.\nFor JsViews the declaration file is at typescript/jsviews/index.d.ts in the jsviews package.\nThe TypeScript declaration files are also available at:\n\nindex.d.ts for JsRender\nindex.d.ts for JsViews\n\n"
       }
     ]
   },

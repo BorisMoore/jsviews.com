@@ -8,7 +8,7 @@ function log(code: string, message?: string, success?: boolean) {
             message = $.views.converters.html(message);
             message = success === undefined ? "<br/>==== <b><em>" + message + "</em></b> ====<br/>" : message;
         }
-        if (!success) {
+        if (success === false) {
             message += ": <b>Failure</b>";
         }
         if (code !== undefined) {

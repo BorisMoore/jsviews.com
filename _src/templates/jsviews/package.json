@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/borismoore/jsviews/issues"
   },
-  "scripts": { },
+  "types": "./typescript/jsviews/index.d.ts",
   "keywords": [
     "jsviews",
     "jsrender",
@@ -31,6 +31,7 @@
     "ecosystem:jquery"
   ],
   "devDependencies": {
+    "@types/jquery": "^3.3.31",
     "browserify": "^11.0.1",
     "glob-stream": "^5.0.0",
     "gulp": "^3.9.0",
@@ -38,6 +39,6 @@
     "qunit": "^0.7.6"
   },
   "dependencies": { 
-    "jquery": "^3.0.0"
+    "jquery": "^3.4.1"
   }
 }

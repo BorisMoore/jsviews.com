@@ -1,6 +1,6 @@
 {
   "name": "jsviews.com",
-  "version": "v1.0.4",
+  "version": "v1.0.5",
   "description": "Documentation for JsRender and JsViews",
   "repository": {
     "type": "git",
@@ -16,10 +16,11 @@
   },
   "homepage": "http://www.jsviews.com",
   "dependencies": { 
-    "jsviews": "^1.0.4",
-    "jquery": "^3.0.0"
+    "jquery": "^3.4.1",
+    "jsviews": "^1.0.5"
   },
   "devDependencies": {
+    "@types/jquery": "^3.3.31",
     "browserify": "^11.0.1",
     "glob-stream": "^5.0.0",
     "gulp": "^3.9.0",
@@ -34,14 +35,11 @@
     "gulp-uglify": "^1.2.0",
     "jshint-stylish": "^2.0.1",
     "jshint-summary": "^0.4.0",
-    "jsrender": "^1.0.4",
+    "jsrender": "^1.0.5",
     "node-qunit-phantomjs": "^1.2.1",
     "qunit": "^0.7.6",
     "qunitjs": "^1.18.0",
     "through2": "^2.0.0"
-  },
-  "peerDependencies": {
-    "jquery": "^2.1.4"
   },
   "jshintConfig": {
     "maxerr": 1000,
@@ -60,6 +58,7 @@
     "disallowMixedSpacesAndTabs": "smart"
   },
   "scripts": {
-    "test": "node ./test/unit-tests-node-runner.js"
+    "test": "node ./test/unit-tests-node-runner.js",
+    "tsc": "tsc -p ./test/typescript/jsrender/ && tsc -p ./test/typescript/jsviews/"
   }
 }

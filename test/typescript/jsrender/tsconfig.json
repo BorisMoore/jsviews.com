@@ -11,14 +11,9 @@
         "strictFunctionTypes": true,
         "outDir": "./built/",
         "sourceMap": true,
-        "typeRoots": [
-            "./types"
-        ],
-        "types": [ "jsrender", "jsviews" ]
+        "typeRoots": ["../../../download/typescript"],
+        "types": ["jsrender"]
     },
-    "include": [
-        "./test/tests/jsrender/jsrender-tests.ts",
-        "./test/tests/jsviews/jsviews-tests.ts"
-    ],
+    "include": ["tests.ts"],
     "noImplicitAny": true
 }

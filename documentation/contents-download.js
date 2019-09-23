@@ -248,7 +248,7 @@ content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsVie
       {
         "_type": "para",
         "title": "",
-        "text": "JsRender and JsViews have TypeScript declaration files available:\n\n- [*index.d.ts*](https://www.jsviews.com/download/typescript/jsrender/index.d.ts) for jsrender\n- [*index.d.ts*](https://www.jsviews.com/download/typescript/jsviews/index.d.ts) for jsviews\n\nBoth will be published to [DefinitelyTyped](https://definitelytyped.org).\n\nNote that the JsViews declaration file depends on the JsRender declaration file (and both depend on the jQuery TypeScript declaration file). They include appropriate triple slash type references such as `/// <reference types=\"jsrender\" />` "
+        "text": "Both *JsRender* and *JsViews* have TypeScript declaration files included in the npm package.\n\nFor *JsRender* the declaration file is at `typescript/jsrender/index.d.ts` in the [`jsrender` package](https://www.npmjs.com/package/jsrender).\n\nFor *JsViews* the declaration file is at `typescript/jsviews/index.d.ts` in the [`jsviews` package](https://www.npmjs.com/package/jsviews).\n\nThe TypeScript declaration files are also available at:\n\n- [*index.d.ts*](https://www.jsviews.com/download/typescript/jsrender/index.d.ts) for *JsRender*\n- [*index.d.ts*](https://www.jsviews.com/download/typescript/jsviews/index.d.ts) for *JsViews*\n"
       }
     ]
   },

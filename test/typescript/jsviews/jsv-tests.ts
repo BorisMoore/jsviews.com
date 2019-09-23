@@ -8,7 +8,7 @@ function log(code: string, message?: string, success?: boolean) {
             message = $.views.converters.html(message);
             message = success === undefined ? "<br/>==== <b><em>" + message + "</em></b> ====<br/>" : message;
         }
-        if (!success) {
+        if (success === false) {
             message += ": <b>Failure</b>";
         }
         if (code !== undefined) {
@@ -910,13 +910,13 @@ $.views.settings.trigger(false);
         + " info: Ray Narrowway YYYY xxx",
         "$.observable(...)", "Observable APIs");
 
-function keydown(elem: any) {
-    if ("oninput" in document) {
-        elem.trigger("input");
-    } else {
-        elem.keydown();
+    function keydown(elem: any) {
+        if ("oninput" in document) {
+            elem.trigger("input");
+        } else {
+            elem.keydown();
+        }
     }
-}
 
     var fullName = function(this: JsViews.Hash<string>, reversed: boolean) {
         return reversed
