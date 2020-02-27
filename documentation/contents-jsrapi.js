@@ -3056,11 +3056,11 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "This time we put our markup in a script block with `type=\"text/x-jsrender\"`\n\n```jsr\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>\n```\n\nand then in the code we call the [`$.templates()`](#d.templates) method with a jQuery selector for that script block:  \n\n```jsr\nvar myTmpl = $.templates(\"<label>Name:</label> {{:name}} \");\n```\n\nThen as before we call the [`render()`](#rendertmpl) method on the returned template object:\n\n```js\nvar html = myTmpl.render(people);\n```"
+            "text": "This time we put our markup in a script block with `type=\"text/x-jsrender\"`\n\n```jsr\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>\n```\n\nand then in the code we call the [`$.templates()`](#d.templates) method with a jQuery selector for that script block:  \n\n```jsr\nvar myTmpl = $.templates(\"#personTemplate\");\n```\n\nThen as before we call the [`render()`](#rendertmpl) method on the returned template object:\n\n```js\nvar html = myTmpl.render(people);\n```"
           }
         ],
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>",
-        "code": "var myTmpl = $.templates(\"#personTemplate\");\n\nvar people = [\n  {name: \"Adriana\"},\n  {name: \"Robert\"}\n];\n\nvar html =myTmpl.render(people);\n\n$(\"#peopleList\").html(html);",
+        "code": "var myTmpl = $.templates(\"#personTemplate\");\n\nvar people = [\n  {name: \"Adriana\"},\n  {name: \"Robert\"}\n];\n\nvar html = myTmpl.render(people);\n\n$(\"#peopleList\").html(html);",
         "title": "Registering a template declared in script block:",
         "jsrJsvJqui": "jsr",
         "height": "40",
@@ -4479,13 +4479,13 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Defining templates as .html files",
-        "text": "On Node.js, JsRender templates can be stored directly in the file system  (e.g. as `.html`, `.jsr.` or `.jsrender` files) -- for example:\n\n**Template:** *./templates/myTemplate.html* -- with contents:\n\n```jsr\nName: {{:name}}<br/>\n```\n\n**Code:** JsRender recognizes file paths (for valid relative file paths starting with `'./'`), so you can write:\n\n```js\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('./templates/myTemplate.html'); // Compile the template\n\nvar html = tmpl({name: \"Jim\"}); // Render\n// result: Name: Jim<br/>\n```\n\n**Note:** The `./...` paths are always interpreted as relative paths *relative to the location of your calling script*. Declaring a *templates* folder for Express or Hapi does not change the origin of these relative paths.",
+        "text": "On Node.js, JsRender templates can be stored directly in the file system  (e.g. as `.html`, `.jsr.` or `.jsrender` files) -- for example:\n\n**Template:** *./templates/myTemplate.html* -- with contents:\n\n```jsr\nName: {{:name}}<br/>\n```\n\n**Code:** On Node.js, the `templates()` method recognizes file paths (for valid relative file paths starting with `'./'`), so you can write:\n\n```js\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('./templates/myTemplate.html'); // Compile the template\n\nvar html = tmpl({name: \"Jim\"}); // Render\n// result: Name: Jim<br/>\n```\n\n**Note:** The `./...` paths are always interpreted as relative paths *relative to the location of your calling script*. Declaring a *templates* folder for Express or Hapi does not change the origin of these relative paths. See also the `renderFile()` below, which accepts both relative and absolute file paths.",
         "anchor": "htmlfile"
       },
       {
         "_type": "para",
         "title": "renderFile() method",
-        "text": "JsRender on Node.js provides a shortcut `renderFile()` method, for convenience, to compile and render in one step:\n\n```js\nvar jsrender = require('jsrender');\n\nvar html = jsrender.renderFile('./templates/myTemplate.html', {name: \"Jim\"});\n// result: Name: Jim<br/>\n```",
+        "text": "JsRender on Node.js provides a shortcut `renderFile()` method, for convenience, to compile and render in one step:\n\n```js\nvar jsrender = require('jsrender');\n\nvar html = jsrender.renderFile('./templates/myTemplate.html', {name: \"Jim\"});\n// result: Name: Jim<br/>\n```\n\nUnlike the `templates()` method above, the `renderFile()` method also accepts absolute paths:\n\n```js\nvar html = jsrender.renderFile(process.cwd() + '\\\\templates\\\\myTemplate.html', {name: \"Jim\"});\n```\n\n\n",
         "anchor": "renderfile"
       },
       {
@@ -4968,12 +4968,12 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```js\ndata = {\"first name\": \"Jo\", \"address\": {\"1stLine\": \"My Place\", \"street.name\": \"Broadway\"} };\n```\n\nExamples of template syntax with bracket notation property accessors:\n\n```jsr\n{{:#data[\"first name\"]}}\n{{>address['1stLine']}}\n{{>~root[\"address\"][\"street.name\"]}}\n```"
+            "text": "```js\ndata = {\"first name\": \"Jo\", \"address\": {\"1st-Line\": \"My Place\", \"street.name\": \"Broadway\"} };\n```\n\nExamples of template syntax with bracket notation property accessors:\n\n```jsr\n{{:#data[\"first name\"]}}\n{{>address['1st-Line']}}\n{{>~root[\"address\"][\"street.name\"]}}\n```"
           }
         ],
         "jsrJsvJqui": "jsr",
-        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {{:#data[\"first name\"]}} lives at\n  <em>\n    {{>address['1stLine']}}\n    {{>~root[\"address\"][\"street.name\"]}}\n  </em>\n</script>\n\n<div id=\"page\"></div>",
-        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    \"first name\": \"Jo\",\n    \"address\": {\n      \"1stLine\": \"My Place\",\n      \"street.name\": \"Broadway\"\n    }\n  },\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);",
+        "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  {{:#data[\"first name\"]}} lives at\n  <em>\n    {{>address['1st-Line']}}\n    {{>~root[\"address\"][\"street.name\"]}}\n  </em>\n</script>\n\n<div id=\"page\"></div>",
+        "code": "var myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    \"first name\": \"Jo\",\n    \"address\": {\n      \"1st-Line\": \"My Place\",\n      \"street.name\": \"Broadway\"\n    }\n  },\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);",
         "height": "40"
       },
       {
@@ -5072,7 +5072,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Changing delimiters:",
-        "text": "Sometimes there can be a need to use different delimiters. For example there may be a conflict if the template is being rendered on the server using a declarative syntax such as *Django* with the same default delimiters `{{` and `}}`.\n\nThe following call:\n\n```js\n$.views.settings.delimiters(\"<%\", \"%>\");\n```\n\nwill change the tag syntax to `<%...%>`.\n\nThe chosen delimiters must each consist of two non-alphanumeric characters. \n\n(*Note:* `$.views.settings.delimiters(...);` also accepts as parameter an array such as `[\"<%\", \"%>\"]`, which can be useful for reverting to a previous set of delimiters -- as shown in the last sample [below](#settings/delimiters@tmpl-for-tmpl). )\n"
+        "text": "Sometimes there can be a need to use different delimiters. For example there may be a conflict if the template is being rendered on the server using a declarative syntax such as *Django* with the same default delimiters `{{` and `}}`.\n\nThe following call:\n\n```js\n$.views.settings.delimiters(\"<%\", \"%>\");\n```\n\nwill change the tag syntax to `<%...%>`.\n\nThe chosen delimiters must each consist of two non-alphanumeric (and non-white-space) characters. \n\n(*Note:* `$.views.settings.delimiters(...);` also accepts as parameter an array such as `[\"<%\", \"%>\"]`, which can be useful for reverting to a previous set of delimiters -- as shown in the last sample [below](#settings/delimiters@tmpl-for-tmpl). )\n"
       },
       {
         "_type": "para",

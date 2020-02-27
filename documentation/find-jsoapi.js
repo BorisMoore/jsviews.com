@@ -838,7 +838,7 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Global asyncObserve setting",
-        "text": "Global asyncObserve setting\nBy default, observable changes raise the corresponding observable change events synchronously.\nHowever the default behavior can be chosen instead to raise the events asynchronous, by using the following setting:\n$.views.settings.advanced({asyncObserve: true});\n\n"
+        "text": "Global asyncObserve setting\nBy default, observable changes raise the corresponding observable change events synchronously.\nHowever the default behavior can be chosen instead to raise the events asynchronously, by using the following setting:\n$.views.settings.advanced({asyncObserve: true});\n\n"
       }
     ]
   }

@@ -799,7 +799,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Registering a template declared in script block:",
-        "text": "Registering a template declared in script block:\n\n\n\n  <label>Name:</label> {{:name}}\n\nvar myTmpl = $.templates(\"#personTemplate\");\n\nvar people = [\n  {name: \"Adriana\"},\n  {name: \"Robert\"}\n];\n\nvar html =myTmpl.render(people);\n\n$(\"#peopleList\").html(html);\nThis time we put our markup in a script block with type=\"text/x-jsrender\"\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>\n\nand then in the code we call the $.templates() method with a jQuery selector for that script block:\nvar myTmpl = $.templates(\"<label>Name:</label> {{:name}} \");\n\nThen as before we call the render() method on the returned template object:\nvar html = myTmpl.render(people);\n\n\n"
+        "text": "Registering a template declared in script block:\n\n\n\n  <label>Name:</label> {{:name}}\n\nvar myTmpl = $.templates(\"#personTemplate\");\n\nvar people = [\n  {name: \"Adriana\"},\n  {name: \"Robert\"}\n];\n\nvar html = myTmpl.render(people);\n\n$(\"#peopleList\").html(html);\nThis time we put our markup in a script block with type=\"text/x-jsrender\"\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>\n\nand then in the code we call the $.templates() method with a jQuery selector for that script block:\nvar myTmpl = $.templates(\"#personTemplate\");\n\nThen as before we call the render() method on the returned template object:\nvar html = myTmpl.render(people);\n\n\n"
       },
       {
         "_type": "para",
@@ -1437,12 +1437,12 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Defining templates as .html files",
-        "text": "Defining templates as .html files\nOn Node.js, JsRender templates can be stored directly in the file system  (e.g. as .html, .jsr. or .jsrender files) – for example:\nTemplate: ./templates/myTemplate.html – with contents:\nName: {{:name}}<br/>\n\nCode: JsRender recognizes file paths (for valid relative file paths starting with './'), so you can write:\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('./templates/myTemplate.html'); // Compile the template\n\nvar html = tmpl({name: \"Jim\"}); // Render\n// result: Name: Jim<br/>\n\nNote: The ./... paths are always interpreted as relative paths relative to the location of your calling script. Declaring a templates folder for Express or Hapi does not change the origin of these relative paths.\n"
+        "text": "Defining templates as .html files\nOn Node.js, JsRender templates can be stored directly in the file system  (e.g. as .html, .jsr. or .jsrender files) – for example:\nTemplate: ./templates/myTemplate.html – with contents:\nName: {{:name}}<br/>\n\nCode: On Node.js, the templates() method recognizes file paths (for valid relative file paths starting with './'), so you can write:\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('./templates/myTemplate.html'); // Compile the template\n\nvar html = tmpl({name: \"Jim\"}); // Render\n// result: Name: Jim<br/>\n\nNote: The ./... paths are always interpreted as relative paths relative to the location of your calling script. Declaring a templates folder for Express or Hapi does not change the origin of these relative paths. See also the renderFile() below, which accepts both relative and absolute file paths.\n"
       },
       {
         "_type": "para",
         "title": "renderFile() method",
-        "text": "renderFile() method\nJsRender on Node.js provides a shortcut renderFile() method, for convenience, to compile and render in one step:\nvar jsrender = require('jsrender');\n\nvar html = jsrender.renderFile('./templates/myTemplate.html', {name: \"Jim\"});\n// result: Name: Jim<br/>\n\n"
+        "text": "renderFile() method\nJsRender on Node.js provides a shortcut renderFile() method, for convenience, to compile and render in one step:\nvar jsrender = require('jsrender');\n\nvar html = jsrender.renderFile('./templates/myTemplate.html', {name: \"Jim\"});\n// result: Name: Jim<br/>\n\nUnlike the templates() method above, the renderFile() method also accepts absolute paths:\nvar html = jsrender.renderFile(process.cwd() + '\\\\templates\\\\myTemplate.html', {name: \"Jim\"});\n\n"
       },
       {
         "_type": "api",
@@ -1713,7 +1713,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       },
       {
         "_type": "sample",
-        "text": "\n  {{:#data[\"first name\"]}} lives at\n  <em>\n    {{>address['1stLine']}}\n    {{>~root[\"address\"][\"street.name\"]}}\n  </em>\n\n\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    \"first name\": \"Jo\",\n    \"address\": {\n      \"1stLine\": \"My Place\",\n      \"street.name\": \"Broadway\"\n    }\n  },\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);\ndata = {\"first name\": \"Jo\", \"address\": {\"1stLine\": \"My Place\", \"street.name\": \"Broadway\"} };\n\nExamples of template syntax with bracket notation property accessors:\n{{:#data[\"first name\"]}}\n{{>address['1stLine']}}\n{{>~root[\"address\"][\"street.name\"]}}\n\n\n"
+        "text": "\n  {{:#data[\"first name\"]}} lives at\n  <em>\n    {{>address['1st-Line']}}\n    {{>~root[\"address\"][\"street.name\"]}}\n  </em>\n\n\n\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    \"first name\": \"Jo\",\n    \"address\": {\n      \"1st-Line\": \"My Place\",\n      \"street.name\": \"Broadway\"\n    }\n  },\n  html = myTmpl.render(data);\n\n$(\"#page\").html(html);\ndata = {\"first name\": \"Jo\", \"address\": {\"1st-Line\": \"My Place\", \"street.name\": \"Broadway\"} };\n\nExamples of template syntax with bracket notation property accessors:\n{{:#data[\"first name\"]}}\n{{>address['1st-Line']}}\n{{>~root[\"address\"][\"street.name\"]}}\n\n\n"
       },
       {
         "_type": "links",
@@ -1765,7 +1765,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Changing delimiters:",
-        "text": "Changing delimiters:\nSometimes there can be a need to use different delimiters. For example there may be a conflict if the template is being rendered on the server using a declarative syntax such as Django with the same default delimiters {{ and }}.\nThe following call:\n$.views.settings.delimiters(\"<%\", \"%>\");\n\nwill change the tag syntax to <%...%>.\nThe chosen delimiters must each consist of two non-alphanumeric characters.\n(Note: $.views.settings.delimiters(...); also accepts as parameter an array such as [\"<%\", \"%>\"], which can be useful for reverting to a previous set of delimiters – as shown in the last sample below. )\n"
+        "text": "Changing delimiters:\nSometimes there can be a need to use different delimiters. For example there may be a conflict if the template is being rendered on the server using a declarative syntax such as Django with the same default delimiters {{ and }}.\nThe following call:\n$.views.settings.delimiters(\"<%\", \"%>\");\n\nwill change the tag syntax to <%...%>.\nThe chosen delimiters must each consist of two non-alphanumeric (and non-white-space) characters.\n(Note: $.views.settings.delimiters(...); also accepts as parameter an array such as [\"<%\", \"%>\"], which can be useful for reverting to a previous set of delimiters – as shown in the last sample below. )\n"
       },
       {
         "_type": "para",

@@ -426,9 +426,7 @@ function contextParameter(key, value, get) {
 						: res[1](res[0].data, res[0], $sub)    // = fn(data, view, $sub) for compiled binding expression
 					: res[0]._ocp; // Observable contextual parameter (uninitialized, or initialized as static expression, so no path dependencies)
 				if (isUpdate) {
-					if (res && newRes !== value) {
-						$sub._ucp(key, value, storeView, obsCtxPrm); // Update observable contextual parameter
-					}
+					$sub._ucp(key, value, storeView, obsCtxPrm); // Update observable contextual parameter
 					return storeView;
 				}
 				res = newRes;

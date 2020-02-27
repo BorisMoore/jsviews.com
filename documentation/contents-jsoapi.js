@@ -2654,12 +2654,12 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "",
-        "text": "*Note:* Delayed events (async or batched) can be also made to target specific event namespaces, -- simply by including the appropriate namespace parameter in the [property change](#namespaces@setprop) or [array change](#namespaces@insert) call:\n\n```js\n$.observable(namespace, object, delay).setProperty(...);\n$.observable(namespace, array, delay).insert(...);\n```\n\n*See also:*\n- [*Async or batched change events, with tag.updateValue() or tag.updateValues()*](#jsvtagobject@delay)"
+        "text": "*Note:* Delayed events (async or batched) can be also made to target specific event [namespaces](#namespaces), -- simply by including the appropriate namespace parameter in the [property change](#namespaces@setprop) or [array change](#namespaces@insert) call:\n\n```js\n$.observable(namespace, object, delay).setProperty(...);\n$.observable(namespace, array, delay).insert(...);\n```\n\n*See also:*\n- [*Async or batched change events, with tag.updateValue() or tag.updateValues()*](#jsvtagobject@delay)"
       },
       {
         "_type": "para",
         "title": "Global asyncObserve setting",
-        "text": "By default, observable changes raise the corresponding observable change events synchronously. \n\nHowever the default behavior can be chosen instead to raise the events asynchronous, by using the following setting:\n\n```js\n$.views.settings.advanced({asyncObserve: true});\n```",
+        "text": "By default, observable changes raise the corresponding observable change events synchronously. \n\nHowever the default behavior can be chosen instead to raise the events asynchronously, by using the following setting:\n\n```js\n$.views.settings.advanced({asyncObserve: true});\n```",
         "anchor": "async-observe"
       }
     ]
