@@ -227,7 +227,7 @@ interface TagOptions {
   onBeforeChange?: (this: TagInst, ev: EventObject, eventArgs: EvtArgs) => boolean | void ;
   onAfterChange?: (this: TagInst, ev: EventObject, eventArgs: EvtArgs) => void ;
   onArrayChange?: (this: TagInst, ev: EventObject, eventArgs: EvtArgs) => void ;
-  setValue?: (this: TagInst, value: any, index?: number, elseBlock?: number) => void ;
+  setValue?: (this: TagInst, value: any, index?: number, elseBlock?: number, ev?: EventObject, eventArgs?: EvtArgs) => void ;
   domChange?: (this: TagInst, ...args: any[]) => void;
 }
 

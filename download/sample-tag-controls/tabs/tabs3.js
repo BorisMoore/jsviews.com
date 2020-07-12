@@ -1,9 +1,9 @@
-﻿/*! Sample JsViews tag control: {{tabs}} control with one-way binding from pane v1.0.0
+﻿/*! Sample JsViews tag control: {{tabs}} control with one-way binding from pane v1.0.7
 Version using getPane()
 see: http://www.jsviews.com/#download/sample-tagcontrols
 and http://www.jsviews.com/#bindingpatterns@tabs2way */
 /*
- * Copyright 2018, Boris Moore
+ * Copyright 2020, Boris Moore
  * Released under the MIT License.
  */
 
@@ -66,7 +66,7 @@ tabs: {
   setTab: function(index) {
     // OnClick for a tab
     $.observable(this).setProperty("pane", index); // Update tag.pane
-    this.updateValue("" + index); // Update external data, through two-way binding
+    this.updateValue(index); // Update external data, through two-way binding
   }
 }
 });

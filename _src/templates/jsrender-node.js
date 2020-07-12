@@ -18,12 +18,10 @@ if (typeof exports !== 'object' ) {
 
 //========================== Top-level vars ==========================
 
-var versionNumber = "v@@include("templates/-version.txt")",
-
 	// global var is the this object, which is window when running in the usual browser environment
-
+var versionNumber = "v@@include("templates/-version.txt")",
 	$, jsvStoreName, rTag, rTmplString, topView, $views,
-	_ocp = "_ocp", // Observable contextual parameter
+	_ocp = "_ocp",      // Observable contextual parameter
 
 @@include('jsrender.js', { "isNode": true })
 // NODE.JS-SPECIFIC CODE:
@@ -35,12 +33,16 @@ var nodeFs = require('fs'),
 
 // Support for rendering templates from file system in Node.js Node, and for Express template engine integration,
 // using app.engine('html', jsrender.__express);
-$.renderFile = $.__express = function(filepath, data, callback) {
-	filepath = './' + nodeFs.realpathSync(filepath).slice(rootDirPathLen).split(nodePathSep).join('/'); // Normalize to ./some/file.html
-	var html = $templates(filepath).render(data);
-	if (callback) {
-		callback(null, html);
+$.renderFile = $.__express = function(filepath, data, context, callback) {
+	filepath = "/" + nodeFs.realpathSync(filepath).split(nodePathSep).slice(1).join("/"); // Normalize to /some/file.html
+	if (typeof context === "function") {
+		callback = context;
+		context = undefined;
 	}
+	var html = $templates(filepath).render(data, context);
+	if (callback) {         // If a callback is provided, we call it. Note that this is undocumented.
+		callback(null, html); // The call is still synchronous (with realpathSync and readFileSync) rather
+	}                       // than making async calls to realpath readFile. Also it does not return errors.
 	return html;
 };
 

@@ -29,7 +29,7 @@ QUnit.test('More Errors for require() for JsRender, JsViews, JsObservable, JsRen
 	}
 
 	// ............................... Assert .................................
-	assert.equal(result, "JsViews requires JsObservable", 'require("jquery.views")($jsr) throws "JsViews requires JsObservable"');
+	assert.equal(result, "jquery.views.js requires jquery.observable.js", 'require("jquery.views")($jsr) throws "jquery.views.js requires jquery.observable.js"');
 
 	// ................................ Act ..................................
 

@@ -4479,13 +4479,13 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Defining templates as .html files",
-        "text": "On Node.js, JsRender templates can be stored directly in the file system  (e.g. as `.html`, `.jsr.` or `.jsrender` files) -- for example:\n\n**Template:** *./templates/myTemplate.html* -- with contents:\n\n```jsr\nName: {{:name}}<br/>\n```\n\n**Code:** On Node.js, the `templates()` method recognizes file paths (for valid relative file paths starting with `'./'`), so you can write:\n\n```js\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('./templates/myTemplate.html'); // Compile the template\n\nvar html = tmpl({name: \"Jim\"}); // Render\n// result: Name: Jim<br/>\n```\n\n**Note:** The `./...` paths are always interpreted as relative paths *relative to the location of your calling script*. Declaring a *templates* folder for Express or Hapi does not change the origin of these relative paths. See also the `renderFile()` below, which accepts both relative and absolute file paths.",
+        "text": "On Node.js, JsRender templates can be stored directly in the file system  (e.g. as `.html`, `.jsr.` or `.jsrender` files) -- for example:\n\n**Template:** *./templates/myTemplate.html* -- with contents:\n\n```jsr\nName - {{:name}}<br/>\n```\n\n**Code:** On Node.js, the `templates()` method recognizes file paths starting with `\"./\"` (for relative file paths), or starting with `'/'` (for absolute file paths),\n\nso you can write:\n\n```js\nvar jsrender = require('jsrender');\n\nvar tmpl = jsrender.templates('./templates/myTemplate.html'); // Compile the template\n\nvar html = tmpl({name: \"Jim\"}); // Render\n// result: Name - Jim<br/>\n```\n\n**Note:** The relative paths `./...` are interpreted as *relative to the location of your calling script*. Declaring a *templates* folder for Express or Hapi does not change the origin of these relative paths.\n\nSee also the `renderFile()` below, which also accepts absolute file paths using the syntax `C:\\\\file\\\\path\\\\myTemplate.html`, in addition to relative (`\"./...\"`) paths and absolute (`\"/...\"`) paths.",
         "anchor": "htmlfile"
       },
       {
         "_type": "para",
         "title": "renderFile() method",
-        "text": "JsRender on Node.js provides a shortcut `renderFile()` method, for convenience, to compile and render in one step:\n\n```js\nvar jsrender = require('jsrender');\n\nvar html = jsrender.renderFile('./templates/myTemplate.html', {name: \"Jim\"});\n// result: Name: Jim<br/>\n```\n\nUnlike the `templates()` method above, the `renderFile()` method also accepts absolute paths:\n\n```js\nvar html = jsrender.renderFile(process.cwd() + '\\\\templates\\\\myTemplate.html', {name: \"Jim\"});\n```\n\n\n",
+        "text": "JsRender on Node.js provides a shortcut `renderFile()` method, for convenience, to compile and render in one step:\n\n```js\nvar jsrender = require('jsrender');\n\nvar html = jsrender.renderFile('./templates/myTemplate.html', {name: \"Jim\"});\n// result: Name - Jim<br/>\n```\n\nUnlike the `templates()` method above, the `renderFile()` method accepts not only relative paths `\"./...\"` and absolute paths `\"/...\"`, but also absolute file paths of the form `\"C:\\\\file\\\\path\\\\myTemplate.html\"`\n\nFor example, the following loads and renders the template':\n\n```js\nvar html = jsrender.renderFile(process.cwd() + '\\\\templates\\\\myTemplate.html', {name: \"Jim\"});\n```\n\n\n",
         "anchor": "renderfile"
       },
       {
@@ -4506,7 +4506,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
                 "name": "filepath",
                 "type": "string",
                 "optional": false,
-                "description": "Relative path to template file - starting with <b><code>'./'</code></b>"
+                "description": "Relative path to template file - starting with <b><code>'./...'</code></b>, or <b><code>'/...'</code></b>, or <b><code>'C:\\\\...'</code></b>"
               },
               {
                 "_type": "param",
@@ -4531,6 +4531,12 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           "sample": "sample",
           "links": "links"
         }
+      },
+      {
+        "_type": "para",
+        "title": "Passing helpers or context to renderFile() ",
+        "text": "Just as with the [`render()`](#tmplrender@helpers) method, you can call pass a `helpersOrContext` object as an additional parameter in the `renderFile()` call:\n\n```\nvar html = jsrender.renderFile(filePath, myData, myHelpers);\n```\n\n**Note:** The `jsrender.renderFile()` method can also be accessed using the alternative name `jsrender.__express()`. (This alternative method name is used within [Express integration](#node/express-hapi@express)).",
+        "anchor": "renderfilehlelpers"
       },
       {
         "_type": "para",
@@ -8290,7 +8296,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<head>\n  <script src=\"https://code.jquery.com/jquery-3.4.1.min.js\"></script>\n  <script src=\"https://www.jsviews.com/download/jsviews.min.js\"></script>\n  <script src=\"https://www.jsviews.com/download/plugins/jsrender-unicode.min.js\"></script>\n</head>\n<body>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"människa.função\"/>\n  {^{:människa.função}} <br/>\n\n  <input data-link=\"människa.角色\"/>\n  {^{:människa.角色}} <br/>\n  ...\n</script>\n\n<div id=\"page\"></div>\n\n<script>\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    människa: {\n      função: \"a1\",\n      角色: \"b2\",\n      ...\n    }\n  };\n\nmyTmpl.link(\"#page\", data);\n</script>\n...\n```\n"
+            "text": "```jsr\n<head>\n  <script src=\"https://code.jquery.com/jquery-3.5.1.min.js\"></script>\n  <script src=\"https://www.jsviews.com/download/jsviews.min.js\"></script>\n  <script src=\"https://www.jsviews.com/download/plugins/jsrender-unicode.min.js\"></script>\n</head>\n<body>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"människa.função\"/>\n  {^{:människa.função}} <br/>\n\n  <input data-link=\"människa.角色\"/>\n  {^{:människa.角色}} <br/>\n  ...\n</script>\n\n<div id=\"page\"></div>\n\n<script>\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    människa: {\n      função: \"a1\",\n      角色: \"b2\",\n      ...\n    }\n  };\n\nmyTmpl.link(\"#page\", data);\n</script>\n...\n```\n"
           }
         ],
         "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"människa.função\"/>\n  {^{:människa.função}} <br/>\n\n  <input data-link=\"människa.角色\"/>\n  {^{:människa.角色}} <br/>\n\n  <input data-link=\"människa.rôle\"/>\n  {^{:människa.rôle}} <br/>\n\n  <input data-link=\"människa.وظيفة\"/>\n  {^{:människa.وظيفة}} <br/>\n\n  <input data-link=\"människa.ሚና\"/>\n  {^{:människa.ሚና}} <br/>\n</script>\n\n<div id=\"page\"></div>",

@@ -12,39 +12,184 @@ function lower(val) {
 	return val.toLowerCase();
 }
 
-QUnit.module("node");
-QUnit.test("jsrender.renderFile / jsrender.__express", function(assert) {
-	var html = jsrender.renderFile('./test/templates/name-template.html', {name: "Jo"});
-	assert.equal(html, "Name: Jo (name-template.html)", 'jsrender.renderFile("./file.path.html", data) loads and renders template');
-
-	html = jsrender.__express('./test/templates/name-template.html', {name: "Jo"});
-	assert.equal(html, "Name: Jo (name-template.html)", 'jsrender.__express("./file.path.html", data) loads and renders template');
-});
-
 QUnit.test("jsrender.templates", function(assert) {
-	var tmpl = jsrender.templates('./test/templates/name-template.html');
-	var html = tmpl({name: "Jo"});
-	assert.equal(html, "Name: Jo (name-template.html)", 'jsrender.templates("./file.path.html") compiles template');
+	var tmpl, html,
+		data = {name: "Jo"};
+
+	tmpl = jsrender.templates('./test/templates/name-template.html');
+	html = tmpl(data);
+	assert.equal(html, "Name: Jo (name-template.html)",
+		'jsrender.templates("./file/path/tmplt.html"), using relative path, compiles template');
+
+	tmpl = jsrender.templates('/Google Drive/GitHub/jsviews.com/test/templates/name-template.html');
+	html = tmpl(data);
+	assert.equal(html, "Name: Jo (name-template.html)",
+		'jsrender.templates("/file/path/tmplt.html"), using absolute path, compiles template');
 
 	tmpl = jsrender.templates({markup: 'Some {{:~upper("Markup")}} Name: {{:~upper(name)}} {{lower:name}}', helpers: {upper:upper}, converters: {lower:lower}});
-	html = tmpl({name: "Jo"});
-	assert.equal(html, "Some MARKUP Name: JO jo", 'jsrender.templates({markup: ..., helpers: ..., ...}) compiles template with options');
+	html = tmpl(data);
+	assert.equal(html, "Some MARKUP Name: JO jo",
+		'jsrender.templates({markup: ..., helpers: ..., ...}) with markup and options, compiles template and options');
 });
 
-QUnit.test("jsrender.compile", function(assert) {
-	var tmpl = jsrender.compile('./test/templates/name-template.html');
-	var html = tmpl({name: "Jo"});
-	assert.equal(html, "Name: Jo (name-template.html)", 'jsrender.compile("./file.path.html") compiles template');
+QUnit.test("jsrender.render", function(assert) {
+	function upper(val) {
+		return val.toUpperCase();
+	}
+	function getName(type) {
+		return type + " " + this.name;
+	}
 
-	tmpl = jsrender.compile('Some {{:~upper("Markup")}} Name: {{:~upper(name)}} {{lower:name}}', {helpers: {upper:upper}, converters: {lower:lower}});
-	html = tmpl({name: "Jo"});
-	assert.equal(html, "Some MARKUP Name: JO jo", 'jsrender.compile("markup", {helpers: ..., ...}) compiles template with options');
+	var tmpl, html,
+		data = {
+			name: "Jo",
+			getName: getName
+		},
+		helpers = {
+			type: "Sir",
+			upper: upper
+		};
+
+	tmpl = jsrender.templates('./test/templates/name-templatePlus.html');
+	html = tmpl(data, helpers);
+	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
+		'jsrender(data, helpers) accepts helpers/context');
+
+	tmpl = jsrender.templates('./test/templates/name-templatePlus.html');
+	html = tmpl.render(data, helpers);
+	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
+		'jsrender.render(data, helpers) accepts helpers/context');
+
+	tmpl = jsrender.templates('/Google Drive/GitHub/jsviews.com/test/templates/name-templatePlus.html');
+	html = tmpl.render(data, helpers);
+	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
+		'jsrender.templates("/file/path/tmplt.html"), using absolute path, compiles template (and renders using data and helpers/context)');
+});
+
+QUnit.test("jsrender.renderFile", function(assert) {
+	function upper(val) {
+		return val.toUpperCase();
+	}
+	function getName(type) {
+		return type + " " + this.name;
+	}
+	function callback(error, result) { // Currently undocumented
+		html2 = error || result;
+	}
+
+	var html, html2,
+		data = {
+			name: "Jo",
+			getName: getName
+		},
+		helpers = {
+			type: "Sir",
+			upper: upper
+		};
+
+	html = jsrender.renderFile('./test/templates/name-template.html', data);
+	assert.equal(html, "Name: Jo (name-template.html)",
+		'jsrender.renderFile("./file/path/tmplt.html", data), using relative path, loads and renders template');
+
+	html = jsrender.renderFile('test\\templates\\name-template.html', data);
+	assert.equal(html, "Name: Jo (name-template.html)",
+		'jsrender.renderFile("file\path\tmplt.html", data), using relative path, loads and renders template');
+
+	html = jsrender.renderFile('/Google Drive/GitHub/jsviews.com/test/templates/name-template.html', data);
+	assert.equal(html, "Name: Jo (name-template.html)",
+		'jsrender.renderFile("/file/path/tmplt.html", data), using absolute path, loads and renders template');
+
+	html = jsrender.renderFile('D:\\Google Drive\\GitHub\\jsviews.com\\test\\templates\\name-template.html', data);
+	assert.equal(html, "Name: Jo (name-template.html)",
+		'jsrender.renderFile("D:\file\path\tmplt.html", data), using absolute path, loads and renders template');
+
+	html = jsrender.renderFile(process.cwd() + '\\test\\templates\\name-template.html', data);
+	assert.equal(html, "Name: Jo (name-template.html)",
+		'jsrender.renderFile(process.cwd() + "\\file\\path\\tmplt.html", data), using absolute path, loads and renders template');
+
+	html = jsrender.renderFile('./test/templates/name-templatePlus.html', data, helpers);
+	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
+		'jsrender.renderFile("./file/path/tmplt.html", data, helpers) accepts helpers/context');
+
+	html = jsrender.renderFile('/Google Drive/GitHub/jsviews.com/test/templates/name-templatePlus.html', data, helpers);
+	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
+		'jsrender.renderFile("/file/path/tmplt.html", data, helpers) accepts helpers/context');
+
+	html = jsrender.renderFile('D:\\Google Drive\\GitHub\\jsviews.com\\test\\templates\\name-templatePlus.html', data, helpers);
+	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
+		'jsrender.renderFile("D:\file\path\tmplt.html", data, helpers) accepts helpers/context');
+
+	html = jsrender.renderFile('./test/templates/name-template.html', data, callback);
+	assert.equal(html + "|" + html2, "Name: Jo (name-template.html)|Name: Jo (name-template.html)",
+		'jsrender.renderFile("./file/path/tmplt.html", data, callback) accepts "filePath, data, callback" signature');
+
+	html = jsrender.renderFile('./test/templates/name-templatePlus.html', data, helpers, callback);
+	assert.equal(html + "|" + html2, "Name: SIR JO (name-templatePlus.html)|Name: SIR JO (name-templatePlus.html)",
+		'jsrender.renderFile("./file/path/tmplt.html", data, helpers, callback) accepts "filePath, data, context, callback" signature');
+});
+
+QUnit.test("jsrender.__express", function(assert) {
+	function upper(val) {
+		return val.toUpperCase();
+	}
+	function getName(type) {
+		return type + " " + this.name;
+	}
+	function callback(error, result) {
+		html2 = result;
+	}
+
+	var html, html2,
+		data = {
+			name: "Jo",
+			getName: getName
+		},
+		helpers = {
+			type: "Sir",
+			upper: upper
+		};
+
+	html = jsrender.__express('./test/templates/name-template.html', data);
+	assert.equal(html, "Name: Jo (name-template.html)",
+		'jsrender.__express("./file/path/tmplt.html", data), using relative path, loads and renders template');
+
+	html = jsrender.__express('test\\templates\\name-template.html', data);
+	assert.equal(html, "Name: Jo (name-template.html)",
+		'jsrender.__express("file\path\tmplt.html", data), using relative path, loads and renders template');
+
+	html = jsrender.__express('/Google Drive/GitHub/jsviews.com/test/templates/name-template.html', data);
+	assert.equal(html, "Name: Jo (name-template.html)",
+		'jsrender.__express("/file/path/tmplt.html", data), using absolute path, loads and renders template');
+
+	html = jsrender.__express('D:\\Google Drive\\GitHub\\jsviews.com\\test\\templates\\name-template.html', data);
+	assert.equal(html, "Name: Jo (name-template.html)",
+		'jsrender.__express("D:\file\path\tmplt.html", data), using absolute path, loads and renders template');
+
+	html = jsrender.__express('./test/templates/name-templatePlus.html', data, helpers);
+	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
+		'jsrender.__express("./file/path/tmplt.html", data, helpers) accepts helpers/context');
+
+	html = jsrender.__express('/Google Drive/GitHub/jsviews.com/test/templates/name-templatePlus.html', data, helpers);
+	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
+		'jsrender.__express("/file/path/tmplt.html", data, helpers) accepts helpers/context');
+
+	html = jsrender.__express('D:\\Google Drive\\GitHub\\jsviews.com\\test\\templates\\name-templatePlus.html', data, helpers);
+	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
+		'jsrender.__express("D:\file\path\tmplt.html", data, helpers) accepts helpers/context');
+
+	html = jsrender.__express('./test/templates/name-template.html', data, callback);
+	assert.equal(html + "|" + html2, "Name: Jo (name-template.html)|Name: Jo (name-template.html)",
+		'jsrender.__express("./file/path/tmplt.html", data, callback) accepts "filePath, data, callback" signature');
+
+	html = jsrender.__express('./test/templates/name-templatePlus.html', data, helpers, callback);
+	assert.equal(html + "|" + html2, "Name: SIR JO (name-templatePlus.html)|Name: SIR JO (name-templatePlus.html)",
+		'jsrender.__express("./file/path/tmplt.html", data, helpers, callback) accepts "filePath, data, context, callback" signature');
 });
 
 QUnit.test("jsrender.tags.clientTemplate", function(assert) {
 	jsrender.views.settings.delimiters("<%", "%>");
 	var tmpl = jsrender.compile(
-		'<script src="//code.jquery.com/jquery-3.4.1.js"></script>\n'
+		'<script src="//code.jquery.com/jquery-3.5.1.js"></script>\n'
 		+ '<script src="//www.jsviews.com/download/jsrender.js"></script>\n'
 		+ '<%clientTemplate "./test/templates/outer.html"/%>\n'
 		+ '<%clientTemplate "./test/templates/inner.html"/%>\n'
@@ -53,7 +198,7 @@ QUnit.test("jsrender.tags.clientTemplate", function(assert) {
 		+ '<script>var tmpl = $.templates("#clientonly"); $("#result").html(tmpl({name: "Jeff"}));</script>');
 	var html = tmpl({name: "Jo"});
 	assert.equal(html,
-		'<script src="//code.jquery.com/jquery-3.4.1.js"></script>\n'
+		'<script src="//code.jquery.com/jquery-3.5.1.js"></script>\n'
 		+ '<script src="//www.jsviews.com/download/jsrender.js"></script>\n'
 		+ '<script id="./test/templates/outer.html" type="text/x-jsrender">Name: {{:name}} (outer.html) {{include tmpl="./test/templates/inner.html"/}}</script>\n'
 		+ '<script id="./test/templates/inner.html" type="text/x-jsrender">Name: {{:name}} (inner.html)</script>\n'

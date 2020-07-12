@@ -77,7 +77,7 @@ QUnit.test('Error cases for require() for JsRender, JsViews, JsObservable, JsRen
 	}
 
 	// ............................... Assert .................................
-	assert.equal(result, "JsObservable requires jQuery", 'require("jquery.observable")() throws "JsObservable requires jQuery"');
+	assert.equal(result, "jquery.observable.js requires jQuery", 'require("jquery.observable")() throws "jquery.observable.js requires requires jQuery"');
 
 	// ................................ Act ..................................
 
@@ -89,7 +89,7 @@ QUnit.test('Error cases for require() for JsRender, JsViews, JsObservable, JsRen
 	}
 
 	// ............................... Assert .................................
-	assert.equal(result, "JsObservable requires jQuery", 'require("jquery.observable")("a") throws "JsObservable requires jQuery"');
+	assert.equal(result, "jquery.observable.js requires jQuery", 'require("jquery.observable")("a") throws "jquery.observable.js requires jQuery"');
 
 	// ................................ Act ..................................
 
@@ -102,7 +102,7 @@ QUnit.test('Error cases for require() for JsRender, JsViews, JsObservable, JsRen
 	}
 
 	// ............................... Assert .................................
-	assert.equal(result, "JsViews requires jQuery", 'require("jquery.views")() throws "JsViews requires jQuery"');
+	assert.equal(result, "jquery.views.js requires jQuery", 'require("jquery.views")() throws "jquery.views.js requires jQuery"');
 
 	// ................................ Act ..................................
 
@@ -114,7 +114,7 @@ QUnit.test('Error cases for require() for JsRender, JsViews, JsObservable, JsRen
 	}
 
 	// ............................... Assert .................................
-	assert.equal(result, "JsViews requires jQuery", 'require("jquery.views")("a") throws "JsViews requires jQuery"');
+	assert.equal(result, "jquery.views.js requires jQuery", 'require("jquery.views")("a") throws "jquery.views.js requires jQuery"');
 
 	// ................................ Act ..................................
 
@@ -128,7 +128,7 @@ QUnit.test('Error cases for require() for JsRender, JsViews, JsObservable, JsRen
 	}
 
 	// ............................... Assert .................................
-	assert.equal(result.slice(0, 25), "JsViews requires JsRender", 'require("jquery.views")(jQuery) throws "JsViews requires JsRender"');
+	assert.equal(result, "jquery.views.js requires jsrender.js", 'require("jquery.views")(jQuery) throws "jquery.views.js requires jsrender.js"');
 
 	// ................................ Act ..................................
 
@@ -142,7 +142,7 @@ QUnit.test('Error cases for require() for JsRender, JsViews, JsObservable, JsRen
 	}
 
 	// ............................... Assert .................................
-	assert.equal(result, "JsViews requires jQuery", 'require("jquery.views")(jsrender) throws "JsViews requires jQuery"');
+	assert.equal(result, "jquery.views.js requires jQuery", 'require("jquery.views")(jsrender) throws "jquery.views.js requires jQuery"');
 
 	// ................................ Act ..................................
 
@@ -156,7 +156,7 @@ QUnit.test('Error cases for require() for JsRender, JsViews, JsObservable, JsRen
 	}
 
 	// ............................... Assert .................................
-	assert.equal(result, "JsViews requires JsObservable", 'require("jquery.views")($jsr) throws "JsViews requires JsObservable"');
+	assert.equal(result, "jquery.views.js requires jquery.observable.js", 'require("jquery.views")($jsr) throws "jquery.views.js requires jquery.observable "');
 
 	// ............................... Reset .................................
 	global.jQuery = jQuery; // Replace QUnit global jQuery

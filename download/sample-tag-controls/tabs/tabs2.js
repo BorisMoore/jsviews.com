@@ -1,8 +1,9 @@
-﻿/*! Sample JsViews tag control: {{tabs}} control v1.0.0
-Version using setValue()
-see: http://www.jsviews.com/#download/sample-tagcontrols */
+﻿/*! Sample JsViews tag control: {{tabs}} control v1.0.7
+Version using setValue()/updateValue
+see: http://www.jsviews.com/#download/sample-tagcontrols
+and http://www.jsviews.com/#bindingpatterns@tabs-setvalue-updatevalue */
 /*
- * Copyright 2018, Boris Moore
+ * Copyright 2020, Boris Moore
  * Released under the MIT License.
  */
 
@@ -36,18 +37,22 @@ tabs: {
     '{{/if}}',
 
   // JsViews handlers and methods
-  setValue: function(val, index, tagElse) {
-    var newPane = +val;
-    if (!tagElse && 0 <= newPane && newPane < this.tagCtxs.length) {
-      $.observable(this).setProperty("pane", newPane); // Update tag.pane
+  onUpdate: false,
+
+  // tag properties/state
+  pane: 0, // selected pane (defaults to 0)
+
+  // tag methods
+  setValue: function(val) {
+    if (val !== undefined) {
+      $.observable(this).setProperty("pane", val); // Update tag.pane
     }
   },
-  onUpdate: false,
-  pane: 0, // Selected pane (defaults to 0)
+
   setTab: function(index) {
     // OnClick for a tab
-    $.observable(this).setProperty("pane", index); // Update tag.pane
-    this.updateValue("" + index); // Update external data, through two-way binding
+    this.setValue(index); // Update UI: select tab pane 'index' 
+    this.updateValue(index); // Update external data, through two-way binding
   }
 }
 });

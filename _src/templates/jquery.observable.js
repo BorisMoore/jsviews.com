@@ -40,7 +40,7 @@ $ = $ || global.jQuery;
 
 if (!$ || !$.fn) {
 	// jQuery is not loaded.
-	throw "JsObservable requires jQuery"; // We require jQuery
+	throw "jquery.observable.js requires jQuery"; // We require jQuery
 }
 
 var versionNumber = "v@@include("templates/-version.txt")",
@@ -52,8 +52,7 @@ var versionNumber = "v@@include("templates/-version.txt")",
 		setGlobals && global.jsrender && jsrender.views || //jsrender was loaded before jquery.observable
 		{ // jsrender not loaded so set up $.views and $.views.sub here, and merge back in jsrender if loaded afterwards
 			jsviews: versionNumber,
-			sub: {
-				// subscription, e.g. JsViews integration
+			sub: { // subscription, e.g. JsViews integration
 				settings: {}
 			},
 			settings: {
@@ -79,7 +78,7 @@ var versionNumber = "v@@include("templates/-version.txt")",
 
 if ($views.jsviews !== versionNumber) {
 	// Different version of jsRender was loaded
-	throw "JsObservable requires JsRender " + versionNumber;
+	throw "jquery.observable.js requires jsrender.js " + versionNumber;
 }
 
 @@include("jquery.observable.js", { "isJqObservable": true })

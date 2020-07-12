@@ -743,7 +743,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "Available from [downloads/tag-controls](#download/tag-controls).\n\nFor additional information about the `{{tabs}}` control see the  *[Data binding design patterns -- two-way binding](#bindingpatterns@bindto)* topic."
+        "text": "Available from [download/sample-tagcontrols](#download/sample-tagcontrols).\n\nFor additional information about the `{{tabs}}` control see the  *[Data binding design patterns -- two-way binding](#bindingpatterns@bindto)* topic."
       },
       {
         "_type": "sample",
@@ -1118,7 +1118,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nThis set of samples shows three variants of a <em>tree</em> tag control:\n\n<ul><li>The first uses <code>visible{:...}</code> binding to show and hide tree nodes using <code>display:none</code>. It also allows the user to select/deselect nodes.</li> \n<li>The second uses <code>{^{if ...}}</code> binding to conditionally render tree nodes.</li>\n<li>The third adds editability, to allow the user to create or remove nodes, and to modify labels.</li></ul>"
+        "text": "Available from [download/sample-tagcontrols](#download/sample-tagcontrols).\n\nThis set of samples shows three variants of a <em>tree</em> tag control:\n\n<ul><li>The first uses <code>visible{:...}</code> binding to show and hide tree nodes using <code>display:none</code>. It also allows the user to select/deselect nodes.</li> \n<li>The second uses <code>{^{if ...}}</code> binding to conditionally render tree nodes.</li>\n<li>The third adds editability, to allow the user to create or remove nodes, and to modify labels.</li></ul>"
       },
       {
         "_type": "links",
@@ -1148,7 +1148,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nThese samples use the custom `{{validate}}` tag control.\n\nThis provides validation support to all the two-way bound controls based on form elements, such as <em>textbox</em>, <em>dropdown</em>, <em>checkbox</em>, <em>radio button group</em> or <em>textarea</em>, as well as to custom tags such as the `{{datepicker}}` and `{{slider}}` controls.\n\nIn addition, a `{{validation}}` control adds group validation. See the date-picker validation wizard sample, as an example of using the group validation features: In that sample, the <em>next</em> button is only enabled when all controls on the current pane validate successfully."
+        "text": "Available from [download/sample-tagcontrols](#download/sample-tagcontrols).\n\nThese samples use the custom `{{validate}}` tag control.\n\nThis provides validation support to all the two-way bound controls based on form elements, such as <em>textbox</em>, <em>dropdown</em>, <em>checkbox</em>, <em>radio button group</em> or <em>textarea</em>, as well as to custom tags such as the `{{datepicker}}` and `{{slider}}` controls.\n\nIn addition, a `{{validation}}` control adds group validation. See the date-picker validation wizard sample, as an example of using the group validation features: In that sample, the <em>next</em> button is only enabled when all controls on the current pane validate successfully."
       },
       {
         "_type": "links",
@@ -2095,7 +2095,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nThis sample show a simple custom `{{textbox}}` tag control.\n\nIt can be considered as a first step towards a more advanced control."
+        "text": "Available from [download/sample-tagcontrols](#download/sample-tagcontrols).\n\nThis sample show a simple custom `{{textbox}}` tag control.\n\nIt can be considered as a first step towards a more advanced control."
       },
       {
         "_type": "sample",
@@ -3351,7 +3351,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "This sample shows the `{{jsonview/}}` control, which is available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nThe `{{jsonview}}` tag control can be included in any JsViews page, to show the contextual data at that place in the page, or to show given data returned by an expression `{^{jsonview someExpression /}}`. Changes to the data will then update dynamically.\n\nThe following sample (shown also in the *[Data-linked template tag: {^{props ...}}](#jsvpropstag@jsonview)* topic) illustrates the use of `{{jsonview}}`:"
+        "text": "This sample shows the `{{jsonview/}}` control, which is available from [download/sample-tagcontrols](#download/sample-tagcontrols).\n\nThe `{{jsonview}}` tag control can be included in any JsViews page, to show the contextual data at that place in the page, or to show given data returned by an expression `{^{jsonview someExpression /}}`. Changes to the data will then update dynamically.\n\nThe following sample (shown also in the *[Data-linked template tag: {^{props ...}}](#jsvpropstag@jsonview)* topic) illustrates the use of `{{jsonview}}`:"
       },
       {
         "_type": "sample",
@@ -3638,7 +3638,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "To use the above tag controls simply include the library after loading  *jQuery UI* (recommended version *1.12.1* or later) and *JsViews*:\n\n```jsr\n...\n<script src=\"https://code.jquery.com/jquery-3.4.1.js\"></script>\n<script src=\"https://code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n...\n<script src=\"https://www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js\"></script>\n...\n```\n\nIn addition, include an appropriate an jQuery UI css class library, such as the default theme:\n\n```jsr\n<link href=\"https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\">\n```\n"
+        "text": "To use the above tag controls simply include the library after loading  *jQuery UI* (recommended version *1.12.1* or later) and *JsViews*:\n\n```jsr\n...\n<script src=\"https://code.jquery.com/jquery-3.5.1.js\"></script>\n<script src=\"https://code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n...\n<script src=\"https://www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js\"></script>\n...\n```\n\nIn addition, include an appropriate an jQuery UI css class library, such as the default theme:\n\n```jsr\n<link href=\"https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\">\n```\n"
       },
       {
         "_type": "links",
@@ -5682,7 +5682,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nFor additional information about the `{{spinblock}}` control see the  *[Data binding design patterns -- responding to user actions](#bindingpatterns@user-actions)* topic."
+        "text": "Available from [download/sample-tagcontrols](#download/sample-tagcontrols).\n\nFor additional information about the `{{spinblock}}` control see the  *[Data binding design patterns -- responding to user actions](#bindingpatterns@user-actions)* topic."
       },
       {
         "_type": "sample",
@@ -5721,7 +5721,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nFor additional information about the `{{colorpicker}}` control see the  *[Tag hierarchy design patterns -- composite controls](#hierarchypatterns@composite)* topic."
+        "text": "Available from [download/sample-tagcontrols](#download/sample-tagcontrols).\n\nFor additional information about the `{{colorpicker}}` control see the  *[Tag hierarchy design patterns -- composite controls](#hierarchypatterns@composite)* topic."
       },
       {
         "_type": "sample",
@@ -5827,7 +5827,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nFor additional information about the `{{areaslider}}` control see the  *[Data binding design patterns -- multiple two-way binding](#bindingpatterns@multiple-twoway)* topic."
+        "text": "Available from [download/sample-tagcontrols](#download/sample-tagcontrols).\n\nFor additional information about the `{{areaslider}}` control see the  *[Data binding design patterns -- multiple two-way binding](#bindingpatterns@multiple-twoway)* topic."
       },
       {
         "_type": "sample",
@@ -5866,7 +5866,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "Available from [downloads/tag-controls](#download/sample-tagcontrols).\n\nFor additional information about the `{{slider}}` control see the  *[Data binding design patterns -- programmatic two-way binding](#bindingpatterns@setvalue-updatevalue)* topic."
+        "text": "Available from [download/sample-tagcontrols](#download/sample-tagcontrols).\n\nFor additional information about the `{{slider}}` control see the  *[Data binding design patterns -- programmatic two-way binding](#bindingpatterns@setvalue-updatevalue)* topic."
       },
       {
         "_type": "sample",
@@ -5972,7 +5972,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/tag-controls/purchases/sample-for",
-        "height": "350",
+        "height": "320",
         "title": "JsViews: Using the {^{for}} tag to provide a dynamic 'purchases' grid control...",
         "anchor": "jsv-for"
       },
@@ -6000,7 +6000,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           }
         ],
         "url": "samples/tag-controls/purchases/sample-tag",
-        "height": "350",
+        "height": "320",
         "anchor": "jsv-tag",
         "title": "JsViews: A custom {^{purchases}} tag, as dynamic 'purchases' grid control..."
       }

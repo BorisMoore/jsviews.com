@@ -44,7 +44,7 @@ jsr = jsr || setGlobals && global.jsrender;
 $ = $ || global.jQuery;
 
 var versionNumber = "v@@include("templates/-version.txt")",
-	requiresStr = "JsViews requires ";
+	requiresStr = "jquery.views.js requires ";
 
 if (!$ || !$.fn) {
 	// jQuery is not loaded.
@@ -59,9 +59,18 @@ var $observe, $observable,
 	$isArray = $.isArray,
 	$views = $.views;
 
+if (!$.render) {
+	// JsRender is not loaded.
+	throw requiresStr + "jsrender.js"; // jsrender.js must be loaded before JsViews and after jQuery
+}
+if ($views.jsviews !== versionNumber) {
+	throw requiresStr + "query.observable.js " + versionNumber; // Wrong version number
+}
+
+
 if (!$views || !$views.map || $views.jsviews !== versionNumber) {
-		// JsRender is not loaded.
-	throw requiresStr + "JsRender " + versionNumber; // jsrender.js must be loaded before JsViews and after jQuery
+	// JsRender is not loaded.
+	throw requiresStr + "jsrender.js " + versionNumber; // jsrender.js must be loaded before JsViews and after jQuery
 }
 
 var document = global.document,

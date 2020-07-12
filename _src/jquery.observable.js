@@ -85,14 +85,6 @@ if (!$.observe) {
 		return out;
 	},
 
-	removeCbBindings = function(cbBindings, cbBindingsId) {
-		// If the cbBindings collection is empty we will remove it from the cbBindingsStore
-		for (var cb in cbBindings) {
-			return;
-		}
-		delete cbBindingsStore[cbBindingsId]; // This binding collection is empty, so remove from store
-	},
-
 	onDataChange = function(ev, eventArgs) {
 		function isOb(val) {
 			return typeof val === OBJECT && (paths[0] || !noArray && $isArray(val));
@@ -352,7 +344,9 @@ if (!$.observe) {
 					$(boundObOrArr).on(namespace, null, evData, onDataChange);
 					if (cbBindings) {
 						// Add object to cbBindings
-						cbBindings[(dataOb = $data(object)).obId || (dataOb.obId = observeObjKey++)] = object;
+						dataOb = $data(object);
+						dataOb = dataOb.obId || (dataOb.obId = observeObjKey++);
+						cbBindings[dataOb] = cbBindings[dataOb] || (cbBindings.len++, object);
 					}
 				}
 			}
@@ -384,7 +378,7 @@ if (!$.observe) {
 				function observeObjectPaths(object, pths, callback, contextCb) {
 
 					function getInnerCb(exprOb) {
-						exprOb.ob = contextCb(exprOb, object); // Initialize object
+						exprOb.ob = contextCb(exprOb); // Initialize object
 						return exprOb.cb = function(ev, eventArgs) {
 							// The innerCb used for updating a computed in a compiled expression (setting the new instance as exprOb.ob, unobserving the previous object,
 							// and observing the new one), then calling the outerCB - i.e. the handler for the whole compiled expression.
@@ -394,7 +388,7 @@ if (!$.observe) {
 							// Note: For jsviews/issues/292 ctxCb will need var ctxCb = contextCb || function(exprOb, origRt) {return exprOb._cpfn(origRt);};
 							var obj = exprOb.ob, // The old object
 								sub = exprOb.sb,
-								newObj = contextCb(exprOb, object);
+								newObj = contextCb(exprOb);
 
 							if (newObj !== obj) {
 								if (typeof obj === OBJECT) {
@@ -431,7 +425,6 @@ if (!$.observe) {
 							}
 						}
 
-						//prts = $isArray(prts) ?  prts : [prts];
 						if (callback) {
 							obArrAddRemove._cId = getCbKey(callback); // Identify wrapped callback with unwrapped callback, so unobserveAll will
 																				// remove previous observeAll wrapped callback, if inner callback was the same;
@@ -496,7 +489,7 @@ if (!$.observe) {
 											$.observable(initialNs, obj)[(unobserve ? "un" : "") + "observeAll"](callback); // observe or unobserve the object for any property change
 										}
 										break;
-									} else if (prop == "[]") {  // "[].*" or "[].prop" wild card path, for observing properties of array items
+									} else if (prop == "[]") { // "[].*" or "[].prop" wild card path, for observing properties of array items
 										if ($isArray(obj)) {
 											if (unobserve) {
 												observeOnOff(callback, obj, path, arrayChangeStr + getCbKey(callback), undefined, unobserve, unobserve);
@@ -603,7 +596,7 @@ if (!$.observe) {
 								depth = path.split(".").length - depth;
 								// if more than one ^ in the path, the first one determines depth
 							}
-							if (contextCb && (items = contextCb(path, object, depth))) {
+							if (contextCb && (items = contextCb(path, depth))) {
 								//object, paths
 								if (items.length) {
 									var ob = items[0],
@@ -675,7 +668,7 @@ if (!$.observe) {
 				m = paths.length;
 
 			if (lastArg + "" === lastArg) { // If last arg is a string then this observe call is part of an observeAll call,
-				allPath = lastArg;          // and the last three args are the parentObs array, the filter, and the allPath string.
+				allPath = lastArg;            // and the last three args are the parentObs array, the filter, and the allPath string.
 				parentObs = paths.pop();
 				filter = paths.pop();
 				lastArg = !!paths.pop(); // unobserve
@@ -708,7 +701,7 @@ if (!$.observe) {
 				: "";
 
 			if (cbId && !unobserve) {
-				cbBindings = cbBindingsStore[cbId] = cbBindingsStore[cbId] || {};
+				cbBindings = cbBindingsStore[cbId] = cbBindingsStore[cbId] || {len: 0};
 			}
 
 			initNsArr = initialNs && initialNs.match(rNotWhite) || [""];
@@ -727,8 +720,9 @@ if (!$.observe) {
 				}
 				observeObjects(paths);
 			}
-			if (cbId) {
-				removeCbBindings(cbBindings, cbId);
+			if (cbId && !cbBindings.len) {
+				// If the cbBindings collection is empty we will remove it from the cbBindingsStore
+				delete cbBindingsStore[cbId];
 			}
 
 			// Return the cbBindings to the top-level caller, along with the cbId
@@ -915,6 +909,7 @@ if (!$.observe) {
 		},
 
 		_trigger: function(target, eventArgs, force) {
+			$subSettings._cchCt++; // Since we are making observable data change, increment cacheCounter to clear cached values and recompute
 			var key, batch, previous,
 				self = this;
 			if ($.hasData(target)) {
@@ -1083,6 +1078,7 @@ if (!$.observe) {
 		},
 
 		_trigger: function(eventArgs, oldLength, force) {
+			$subSettings._cchCt++; // Since we are making observable data change, increment cacheCounter to clear cached values and recompute
 			var length, _data, batch,
 				self = this;
 			if ($.hasData(_data = self._data)) {
@@ -1125,9 +1121,11 @@ if (!$.observe) {
 						// Found another one with same callback (though may be a different innerCallback)
 					}
 					if (!found) {
-						// This was the last handler for this callback and object, so remove the binding entry
-						delete cbBindings[$data(this).obId];
-						removeCbBindings(cbBindings, evData._cId);
+						if (--cbBindings.len) {
+							delete cbBindings[$data(this).obId];
+						} else {
+							delete cbBindingsStore[evData._cId]; // If the cbBindings collection is empty we will remove it from the cbBindingsStore
+						}
 					}
 				}
 			}
@@ -1254,8 +1252,8 @@ if (!$.observe) {
 	};
 
 	$sub.advSet = function() { // refresh advanced settings
+		$sub = this; // If JsRender is loaded after jquery.observable, then this sets $sub to $.views.sub
 		$subSettingsAdvanced = $subSettings.advanced;
-		$sub._gccb = this._gccb; // getContextCallback method
 		global._jsv = $subSettingsAdvanced._jsv
 			? { // create global _jsv, for accessing views, etc
 					cbBindings: cbBindingsStore
@@ -1265,6 +1263,7 @@ if (!$.observe) {
 	$sub._dp = dependsPaths;
 	$sub._gck = getCbKey;
 	$sub._obs = $observe;
+	$subSettings._cchCt = 0; // Counter for clearing cached values for getCache() call
 	$subSettingsAdvanced = $subSettings.advanced = $subSettingsAdvanced || {
 		useViews: false,
 		_jsv: false // For global access to JsViews store
