@@ -143,6 +143,7 @@ gulp.task('minifyLibs', function() {
 	minifyFile('sample-tag-controls/areaslider/', 'areaslider.js');
 	minifyFile('sample-tag-controls/colorpicker/', 'colorpicker.js');
 	minifyFile('sample-tag-controls/colorpicker/', 'colorpicker-multiformat.js');
+	minifyFile('sample-tag-controls/colorpicker/', 'colorpicker-multiformat2.js');
 	minifyFile('sample-tag-controls/colorpicker/', 'tinycolor.js');
 	minifyFile('sample-tag-controls/slider/', 'slider.js');
 	minifyFile('sample-tag-controls/spinblock/', 'spinblock.js');

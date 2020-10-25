@@ -6136,6 +6136,12 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
         "text": "In addition to providing helpers as above, you can also define *[contextual parameters](#contextualparams)* within a template, which you access using the same `~someName` syntax as for regular helpers. "
       },
       {
+        "_type": "para",
+        "title": "The <b>this</b> pointer, in a helper call",
+        "text": "In a call to `~myHelperFunction()`, the `this` pointer is the current view (see [Accessing view objects](#viewobject@access)). However in the call to `~myHelperObject.mySortFunction()`, the `this` pointer is `myHelperObject`.",
+        "anchor": "this"
+      },
+      {
         "_type": "sample",
         "typeLabel": "Sample:",
         "sectionTypes": {
@@ -8116,7 +8122,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Specifying bound arguments and properties: the bindTo and bindFrom options",
-        "text": "The `bindTo` and `bindFrom` options are designed primarily for use with data binding, with JsViews, and allow specifying which arguments/properties are data-bound for two-way binding.\n\nIn JsRender, the `bindTo` or `bindFrom` option can be used in conjunction with converters. Set the `bindFrom` option (or the `bindTo` option if there is no `bindFrom` setting) to an array, such as `[0, 1, 2]`, or `[\"title\", 1]` -- where integers refer to arguments and strings to named properties -- to determine what values are passed to the converter. (If neither `bindFrom` nor `bindTo` are set, then the values of all the [arguments](#tagsyntax@tagparams) will be passed to the converter.)\n\nBy default the value returned by the converter will be passed as first argument to the *render()* method. However, if the converter returns an array, then the values will be used to convert each of the targeted arguments or properties specified in `bindTo`/`bindFrom`.\n\nSee also\n- [tag.bndArgs()](#tagobject@bndargs)\n- [*JsViews* `bindTo`](#tagoptions@bindto)\n",
+        "text": "The `bindTo` and `bindFrom` options are designed primarily for use with data binding, with JsViews, and allow specifying which arguments/properties are data-bound for two-way binding.\n\nIn JsRender, the `bindTo` or `bindFrom` option can be used in conjunction with converters. Set the `bindFrom` option (or the `bindTo` option if there is no `bindFrom` setting) to an array, such as `[0, 1, 2]`, or `[\"title\", 1]` -- where integers refer to arguments and strings to named properties -- to determine what values are passed to the converter. (If neither `bindFrom` nor `bindTo` are set, then the values of all the [arguments](#tagsyntax@tagparams) will be passed to the converter.)\n\nBy default the value returned by the converter will be passed as first argument to the `render()` method, (and be the current data for the `template`). However, if `bindTo` is an array, and the converter returns an array of the same length, then the returned values will be used as converted values for each of the arguments or properties specified in `bindTo`/`bindFrom`.\n\nSee also *JsViews* [`bindTo`](#tagoptions@bindto) option for additional information and advanced scenarios.\n\nSee also\n- [tag.bndArgs()](#tagobject@bndargs)\n- [tag.cvtArgs()](#tagobject@cvtargs). \n- [*JsViews* `bindTo`](#tagoptions@bindto)",
         "anchor": "bindto"
       },
       {

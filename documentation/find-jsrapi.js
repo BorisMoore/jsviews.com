@@ -2231,6 +2231,11 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
         "text": "Contextual parameters\nIn addition to providing helpers as above, you can also define contextual parameters within a template, which you access using the same ~someName syntax as for regular helpers.\n"
       },
       {
+        "_type": "para",
+        "title": "The <b>this</b> pointer, in a helper call",
+        "text": "The this pointer, in a helper call\nIn a call to ~myHelperFunction(), the this pointer is the current view (see Accessing view objects). However in the call to ~myHelperObject.mySortFunction(), the this pointer is myHelperObject.\n"
+      },
+      {
         "_type": "sample",
         "title": "Global helper: $.views.helpers(...)",
         "text": "Global helper: $.views.helpers(...)\n\n\n\n  {{:~format(name, true)}}\n\nfunction myFormatFunction(value, upper) {\n  return upper ? value.toUpperCase() : value.toLowerCase();\n}\n\nvar myHelpers = {format: myFormatFunction};\n\n$.views.helpers(myHelpers);\n\nvar html = $(\"#personTemplate\").render({name: \"Robert\"});\n\n$(\"#person\").html(html);\nvar myHelpers = {format: myFormatFunction};\n\n$.views.helpers(myHelpers);\n\n{{:~format(name, true)}}\n\n\n"
@@ -2938,7 +2943,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Specifying bound arguments and properties: the bindTo and bindFrom options",
-        "text": "Specifying bound arguments and properties: the bindTo and bindFrom options\nThe bindTo and bindFrom options are designed primarily for use with data binding, with JsViews, and allow specifying which arguments/properties are data-bound for two-way binding.\nIn JsRender, the bindTo or bindFrom option can be used in conjunction with converters. Set the bindFrom option (or the bindTo option if there is no bindFrom setting) to an array, such as [0, 1, 2], or [\"title\", 1] – where integers refer to arguments and strings to named properties – to determine what values are passed to the converter. (If neither bindFrom nor bindTo are set, then the values of all the arguments will be passed to the converter.)\nBy default the value returned by the converter will be passed as first argument to the render() method. However, if the converter returns an array, then the values will be used to convert each of the targeted arguments or properties specified in bindTo/bindFrom.\nSee also\n\ntag.bndArgs()\nJsViews bindTo\n\n"
+        "text": "Specifying bound arguments and properties: the bindTo and bindFrom options\nThe bindTo and bindFrom options are designed primarily for use with data binding, with JsViews, and allow specifying which arguments/properties are data-bound for two-way binding.\nIn JsRender, the bindTo or bindFrom option can be used in conjunction with converters. Set the bindFrom option (or the bindTo option if there is no bindFrom setting) to an array, such as [0, 1, 2], or [\"title\", 1] – where integers refer to arguments and strings to named properties – to determine what values are passed to the converter. (If neither bindFrom nor bindTo are set, then the values of all the arguments will be passed to the converter.)\nBy default the value returned by the converter will be passed as first argument to the render() method, (and be the current data for the template). However, if bindTo is an array, and the converter returns an array of the same length, then the returned values will be used as converted values for each of the arguments or properties specified in bindTo/bindFrom.\nSee also JsViews bindTo option for additional information and advanced scenarios.\nSee also\n\ntag.bndArgs()\ntag.cvtArgs().\nJsViews bindTo\n\n"
       },
       {
         "_type": "para",

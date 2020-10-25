@@ -484,7 +484,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       },
       {
         "_type": "para",
-        "title": "Using the built-in &lt:select multiple... &gt; support instead of {{multisel}}",
+        "title": "Using the built-in &lt;select multiple... &gt; support instead of {{multisel}}",
         "text": "For most scenarios, the above multiselect control can be replaced by the built-in JsViews support for [*&lt;select&gt;: with multiple selection*](#link-select@multiple). \n\nFor example we can use the basic `<select ... multiple` support to replicate most of the above `{{multisel}}` sample, except for the dynamic *add/remove* feature of `{{multisel}}` (which automatically remove items from `selectedItems` when they are removed from `items`).\n\nThis is shown in the following sample:\n\n\n"
       },
       {
@@ -5968,7 +5968,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "*Set `~total()` and `~category` dependencies to refresh when appropriate:*\n\n```js\n// Trigger refreshed filtering when filter string provided by the user changes\n$.views.helpers.category.depends = \"~cat\";\n\n// Trigger recalculation of total when any item property changes, or when row index changes (e.g. on changing sort)\n$.views.helpers.total.depends = [\"#parent.data.[]^*\", \"#index\"];\n```\n\n*Provide editable text boxes on data columns:*\n\n```jsr\n{^{for lineItems sort=~sortBy reverse=~reverseSort filter=~category sorted=~sorted}}\n  ...\n  <td><input data-link=\"category\" .../></td>\n  ...\n  <td data-link=\"{:~total('quantity * price')}\"></td>\n  ...\n{{else}}\n  ...No items...\n{{/for}}\n```"
+            "text": "*Set `~total()` and `~category` dependencies to refresh when appropriate:*\n\n```js\n// Trigger refreshed filtering when filter string provided by the user changes\n$.views.helpers.category.depends = \"~cat\";\n\n// Trigger recalculation of total when any item property changes, or when row index changes (e.g. on changing sort)\n$.views.helpers.total.depends = [\"#parent.data.[]^*\", \"#index\"];\n```\n\n*Provide editable text boxes on data columns:*\n\n```jsr\n{^{for lineItems sort=~sortBy reverse=~reverseSort filter=~category}}\n  ...\n  <td><input data-link=\"category\" .../></td>\n  ...\n  <td data-link=\"{:~total('quantity * price')}\"></td>\n  ...\n{{else}}\n  ...No items...\n{{/for}}\n```"
           }
         ],
         "url": "samples/tag-controls/purchases/sample-for",

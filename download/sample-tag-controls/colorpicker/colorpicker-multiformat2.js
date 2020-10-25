@@ -1,4 +1,4 @@
-/*! Sample JsViews tag control: {{picker}} control v1.0.0
+/*! Sample JsViews tag control: {{picker}} control v1.0.8
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
  * Copyright 2018, Boris Moore
@@ -59,24 +59,29 @@ picker: {
     return [arg.h, arg.s, arg.v, arg.a, mode];
   },
   convertBack: function() {
-    var color,
+    var color, ret,
       args = $.extend([], this.currentHsvaColor, arguments),
       h = args[0], s = args[1], v = args[2], a = args[3];
 
     switch (this.mode) {
       case "hsva":
         // External format is same as internal format, so return as is
-        return [h, s, v, a];
+        ret = [h, s, v, a];
+        break;
       case "rgba":
         color = tinycolor({h: h, s: s, v: v, a: a});
         // Convert from internal HSVA format to RGBA external format
         color = color.toRgb();
-        return [color.r, color.g, color.b, color.a];
+        ret = [color.r, color.g, color.b, color.a];
+        break;
       case "hex":
         // Convert from internal HSVA format to HEX external format
         color = tinycolor({h: h, s: s, v: v, a: a});
-        return [color.toHex8String()];
+        ret = [color.toHex8String()];
     }
+    ret.arg0 = false; // Return array of values for each bindTo target, (even though
+    // length of array is not bindTo.length)
+    return ret;
   },
   template: {
     // The template markup

@@ -567,8 +567,8 @@ function convertArgs(tagElse, bound) { // tag.cvtArgs() or tag.cvtArgs(tagElse?,
 		}
 		bindFrom = bindFrom || [0];
 		l = bindFrom.length;
-		if (!$isArray(converter) || converter.length !== l) {
-			converter = [converter];
+		if (!$isArray(converter) || (converter.arg0 !== false && (l === 1 || converter.length !== l || converter.arg0))) {
+			converter = [converter]; // Returning converter as first arg, even if converter value is an array
 			bindFrom = [0];
 			l = 1;
 		}
@@ -958,7 +958,7 @@ View.prototype = {
 		if ($subSettings._cchCt > this.cache._ct) {
 			this.cache = {_ct: $subSettings._cchCt};
 		}
-		return this.cache[key] || (this.cache[key] = cpFnStore[key](this.data, this, $sub));
+		return this.cache[key] !== undefined ? this.cache[key] : (this.cache[key] = cpFnStore[key](this.data, this, $sub));
 	},
 	_is: "view"
 };
