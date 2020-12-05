@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="//code.jquery.com/jquery-3.5.1.js"></script>
+<script src="../download/jsrender-node.min.js"></script>
+<script src="../download/jsrender.min.js"></script>
+<script src="../download/jquery.observable.min.js"></script>
+<script src="../download/jquery.views.min.js"></script>
+<script src="../download/jsviews.js"></script>
+</head>
+<body>
+
+<script id="myTemplate" type="text/x-jsrender">HEY</script>
+
+Got to F12 debug and see if you have an error: 
+<br/><br/><b>DevTools failed to load SourceMap: Could not parse content for ...</b>
+<br/><br/>
+<div id="result"></div>
+
+<script>
+var html = $("#myTemplate").render({});
+
+$("#result").html(html);
+</script>
+
+</body>
+</html>
