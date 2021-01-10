@@ -1,2 +1,2 @@
- * Copyright 2020, Boris Moore
+ * Copyright 2021, Boris Moore
  * Released under the MIT License.

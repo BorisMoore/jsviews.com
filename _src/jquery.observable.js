@@ -813,7 +813,7 @@ if (!$.observe) {
 			return this._data;
 		},
 
-		setProperty: function(path, value, nonStrict) {
+		setProperty: function(path, value, nonStrict, isCpfn) {
 			path = path || "";
 			var key, pair, parts, tempBatch,
 				multi = path + "" !== path, // Hash of paths
@@ -853,7 +853,7 @@ if (!$.observe) {
 						object = object[parts.shift()];
 					}
 					if (object) {
-						self._setProperty(object, parts[0], value, nonStrict);
+						self._setProperty(object, parts[0], value, nonStrict, isCpfn);
 					}
 				}
 			}
@@ -865,12 +865,13 @@ if (!$.observe) {
 			return this;
 		},
 
-		_setProperty: function(leaf, path, value, nonStrict) {
+		_setProperty: function(leaf, path, value, nonStrict, isCpfn) {
 			var setter, getter, removeProp, eventArgs, view,
 				property = path ? leaf[path] : leaf;
-
-			if (property !== value || nonStrict && property != value) {
-				if ($isFunction(property) && property.set) {
+			if ($isFunction(property) && !$isFunction(value)) {
+				if (isCpfn && !property.set) {
+					return; // getter function with no setter defined. So will not trigger update
+				}	else if (property.set) {
 					// Case of property setter/getter - with convention that property is getter and property.set is setter
 					view = leaf._vw // Case of JsViews 2-way data-linking to an observable context parameter, with a setter.
 						// The view will be the this pointer for getter and setter. Note: this is the one scenario where path is "".
@@ -880,7 +881,8 @@ if (!$.observe) {
 					property = getter.call(view); // get - only treated as getter if also a setter. Otherwise it is simply a property of type function.
 					// See unit tests 'Can observe properties of type function'.
 				}
-
+			}
+			if (property !== value || nonStrict && property != value) {
 				// Optional non-strict equality, since serializeArray, and form-based editors can map numbers to strings, etc.
 				// Date objects don't support != comparison. Treat as special case.
 				if (!(property instanceof Date && value instanceof Date) || property > value || property < value) {

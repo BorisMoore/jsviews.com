@@ -195,7 +195,7 @@ function updateValues(sourceValues, tagElse, async, bindId, ev) {
 								exprOb = exprOb.sb;
 							}
 						}
-						$observable(target, async).setProperty(to[1], sourceValue); // 2way binding change event - observably updating bound object
+						$observable(target, async).setProperty(to[1], sourceValue, undefined, to.isCpfn); // 2way binding change event - observably updating bound object
 					}
 				}
 			}
@@ -2057,7 +2057,7 @@ function defineBindToDataTargets(binding, tag, cvtBk) {
 	// we bind to the path on the returned object, exprOb.ob, as target. Otherwise our target is the first path, paths[0], which we will convert
 	// with contextCb() for paths like ~a.b.c or #x.y.z
 
-	var pathIndex, path, lastPath, bindtoOb, to, bindTo, paths, k, obsCtxPrm, linkedCtxParam, contextCb, targetPaths, bindTos, fromIndex,
+	var pathIndex, path, lastPath, bindtoOb, to, bindTo, paths, k, obsCtxPrm, linkedCtxParam, contextCb, targetPaths, bindTos, fromIndex, isCpfn,
 		tagElse = 1,
 		tos = [],
 		linkCtx = binding.linkCtx,
@@ -2095,11 +2095,12 @@ function defineBindToDataTargets(binding, tag, cvtBk) {
 								path = lastPath = lastPath.sb;
 							}
 							path = lastPath.sb || path && path.path;
+							isCpfn = lastPath._cpfn && !lastPath.sb; // leaf binding to computed property/function "a.b.c()"
 							lastPath = path ? path.slice(1) : bindtoOb.path;
 						}
 						to = path
 							? [bindtoOb, // 'exprOb' for this expression and view-binding. So bindtoOb.ob is current object returned by expression.
-									lastPath]
+								lastPath]
 							: resolveDataTargetPath(lastPath, source, contextCb); // Get 'to' for target path: lastPath
 					} else {
 						// Contextual parameter ~foo with no external binding - has ctx.foo = [{_ocp: xxx}] and binds to ctx.foo._ocp
@@ -2115,6 +2116,7 @@ function defineBindToDataTargets(binding, tag, cvtBk) {
 						// This is a binding for a tag contextual parameter (e.g. <input data-link="~wd"/> within a tag block content
 						to = obsCtxPrm;
 					}
+					to.isCpfn = isCpfn;
 					bindTos.unshift(to);
 				}
 			}
@@ -2667,7 +2669,7 @@ function addLinkMethods(tagOrView) { // tagOrView is View prototype or tag insta
 				indexFrom = indexFrom || 0;
 				tagElse = tagElse || 0;
 
-				var linkedElem, linkedEl, linkedCtxParam, linkedCtxPrmKey, indexTo, linkedElems, newVal,
+				var linkedElem, linkedEl, linkedCtxParam, indexTo, linkedElems, newVal,
 					tagCtx = theTag.tagCtxs[tagElse];
 
 				if (tagCtx._bdArgs && (eventArgs || val !== undefined) && tagCtx._bdArgs[indexFrom]===val
@@ -2688,12 +2690,10 @@ function addLinkMethods(tagOrView) { // tagOrView is View prototype or tag insta
 					}
 				}
 
-				if (val !== undefined && (linkedCtxParam = theTag.linkedCtxParam) && linkedCtxParam[indexFrom]
+				if (val !== undefined && (linkedCtxParam = theTag.linkedCtxParam) && linkedCtxParam[indexFrom]) {
 						// If this setValue call corresponds to a tag contextual parameter and the tag has a converter, then we need to set the
 						// value of this contextual parameter (since it is not directly bound to the tag argument/property when there is a converter).
-						&& (linkedCtxPrmKey = linkedCtxParam[indexFrom])
-					) {
-					tagCtx.ctxPrm(linkedCtxPrmKey, val);
+					tagCtx.ctxPrm(linkedCtxParam[indexFrom], val);
 				}
 				indexTo = theTag._.toIndex[indexFrom];
 				if (indexTo !== undefined) {
