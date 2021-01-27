@@ -3056,7 +3056,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "This time we put our markup in a script block with `type=\"text/x-jsrender\"`\n\n```jsr\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>\n```\n\nand then in the code we call the [`$.templates()`](#d.templates) method with a jQuery selector for that script block:  \n\n```jsr\nvar myTmpl = $.templates(\"#personTemplate\");\n```\n\nThen as before we call the [`render()`](#rendertmpl) method on the returned template object:\n\n```js\nvar html = myTmpl.render(people);\n```"
+            "text": "This time we put our markup in a script block with `type=\"text/x-jsrender\"`\n\n```jsr\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>\n```\n\nand then in the code we call the [`$.templates()`](#d.templates) method with a jQuery selector for that script block:  \n\n```jsr\nvar myTmpl = $.templates(\"#personTemplate\");\n```\n\n*Note:* If jQuery is not loaded then only the jQuery *ID selector* is supported. But if jQuery is loaded, other jQuery selectors (such as the *class selector*) can also be used.\n\nThen as before we call the [`render()`](#rendertmpl) method on the returned template object:\n\n```js\nvar html = myTmpl.render(people);\n```"
           }
         ],
         "html": "<div id=\"peopleList\"></div>\n\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>",
@@ -3206,15 +3206,15 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
             "params": [
               {
                 "_type": "param",
-                "name": "markupOrSelector",
-                "type": "string",
+                "name": "markupOrSelectorOrElement",
+                "type": "string or HTML element",
                 "optional": false,
-                "description": "A markup string or a selector for a template declaration script block"
+                "description": "A markup string or a selector for a template declaration script block (or the script block element)"
               }
             ],
             "sections": [],
             "example": "var myTemplate = $.templates(myMarkupString);",
-            "description": "Compile a template from a string or selector, and return the template object"
+            "description": "Compile a template from a string, selector or element, and return the template object"
           },
           {
             "_type": "signature",
@@ -3229,16 +3229,16 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
               },
               {
                 "_type": "param",
-                "name": "markupOrSelector",
-                "type": "string",
+                "name": "markupOrSelectorOrElement",
+                "type": "string or HTML element",
                 "optional": false,
-                "description": "A markup string or a selector for a template declaration script block"
+                "description": "A markup string or a selector for a template declaration script block (or the script block element)"
               }
             ],
             "args": [],
             "sections": [],
             "example": "$.templates(\"myTemplateName\", myMarkupString);",
-            "description": "Register a named template from a string or selector"
+            "description": "Register a named template from a string, selector or element"
           }
         ],
         "description": "Create one or more compiled templates &ndash; optionally registered as named templates",
@@ -3266,7 +3266,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "code",
             "title": "",
-            "code": "var myTmpl = $.templates(\"<label>Name:</label> {{:name}}\");\n\nvar html = myTmpl.render(person);\n"
+            "code": "var myTmpl = $.templates(\"<label>Name:</label> {{:name}}\"); // Pass a markup string for the template\n\nvar html = myTmpl.render(person);\n"
           }
         ],
         "html": "<div id=\"peopleList\"></div>\n",
@@ -3290,7 +3290,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n ...\n</script>\n```\n\n```js\nvar myTmpl = $.templates(\"#personTemplate\");\n\nvar html = myTmpl.render(person);\n```"
+            "text": "```jsr\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n ...\n</script>\n```\n\n```js\nvar myTmpl = $.templates(\"#personTemplate\"); // Pass a jQuery selector for the script block\n\nvar html = myTmpl.render(person);\n```\n\n*Note:* If jQuery is not loaded then only the jQuery *ID selector* is supported. But if jQuery is loaded, other jQuery selectors (such as the *class selector*) can also be used."
           }
         ],
         "title": "Get template object for script block template",

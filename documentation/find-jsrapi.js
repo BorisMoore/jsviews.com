@@ -799,7 +799,7 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "sample",
         "title": "Registering a template declared in script block:",
-        "text": "Registering a template declared in script block:\n\n\n\n  <label>Name:</label> {{:name}}\n\nvar myTmpl = $.templates(\"#personTemplate\");\n\nvar people = [\n  {name: \"Adriana\"},\n  {name: \"Robert\"}\n];\n\nvar html = myTmpl.render(people);\n\n$(\"#peopleList\").html(html);\nThis time we put our markup in a script block with type=\"text/x-jsrender\"\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>\n\nand then in the code we call the $.templates() method with a jQuery selector for that script block:\nvar myTmpl = $.templates(\"#personTemplate\");\n\nThen as before we call the render() method on the returned template object:\nvar html = myTmpl.render(people);\n\n\n"
+        "text": "Registering a template declared in script block:\n\n\n\n  <label>Name:</label> {{:name}}\n\nvar myTmpl = $.templates(\"#personTemplate\");\n\nvar people = [\n  {name: \"Adriana\"},\n  {name: \"Robert\"}\n];\n\nvar html = myTmpl.render(people);\n\n$(\"#peopleList\").html(html);\nThis time we put our markup in a script block with type=\"text/x-jsrender\"\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n  <label>Name:</label> {{:name}}\n</script>\n\nand then in the code we call the $.templates() method with a jQuery selector for that script block:\nvar myTmpl = $.templates(\"#personTemplate\");\n\nNote: If jQuery is not loaded then only the jQuery ID selector is supported. But if jQuery is loaded, other jQuery selectors (such as the class selector) can also be used.\nThen as before we call the render() method on the returned template object:\nvar html = myTmpl.render(people);\n\n\n"
       },
       {
         "_type": "para",
@@ -858,17 +858,17 @@ content.find.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "api",
         "title": "$.templates(...)",
-        "text": "$.templates(...)\nCreate one or more compiled templates – optionally registered as named templates\nCompile a template from a string or selector, and return the template object\n\nvar myTemplate = $.templates(myMarkupString);\n\nRegister a named template from a string or selector\n\n$.templates(\"myTemplateName\", myMarkupString);\n\n"
+        "text": "$.templates(...)\nCreate one or more compiled templates – optionally registered as named templates\nCompile a template from a string, selector or element, and return the template object\n\nvar myTemplate = $.templates(myMarkupString);\n\nRegister a named template from a string, selector or element\n\n$.templates(\"myTemplateName\", myMarkupString);\n\n"
       },
       {
         "_type": "sample",
         "title": "Compile a template from a string",
-        "text": "Compile a template from a string\n\n\nvar myTmpl = $.templates(\"Name: {{:name}}\");\n\nvar person = {name: \"Robert\"};\n\nvar html = myTmpl.render(person);\n\n$(\"#peopleList\").html(html);\n\nvar myTmpl = $.templates(\"Name: {{:name}}\");\n\nvar html = myTmpl.render(person);\n\n\n"
+        "text": "Compile a template from a string\n\n\nvar myTmpl = $.templates(\"Name: {{:name}}\");\n\nvar person = {name: \"Robert\"};\n\nvar html = myTmpl.render(person);\n\n$(\"#peopleList\").html(html);\n\nvar myTmpl = $.templates(\"Name: {{:name}}\"); // Pass a markup string for the template\n\nvar html = myTmpl.render(person);\n\n\n"
       },
       {
         "_type": "sample",
         "title": "Get template object for script block template",
-        "text": "Get template object for script block template\n\n\n\n  <label>Name:</label> {{:name}}\n\nvar myTmpl = $.templates(\"#personTemplate\");\n\nvar person = {name: \"Robert\"};\n\nvar html = myTmpl.render(person);\n\n$(\"#peopleList\").html(html);\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n ...\n</script>\n\nvar myTmpl = $.templates(\"#personTemplate\");\n\nvar html = myTmpl.render(person);\n\n\n"
+        "text": "Get template object for script block template\n\n\n\n  <label>Name:</label> {{:name}}\n\nvar myTmpl = $.templates(\"#personTemplate\");\n\nvar person = {name: \"Robert\"};\n\nvar html = myTmpl.render(person);\n\n$(\"#peopleList\").html(html);\n<script id=\"personTemplate\" type=\"text/x-jsrender\">\n ...\n</script>\n\nvar myTmpl = $.templates(\"#personTemplate\"); // Pass a jQuery selector for the script block\n\nvar html = myTmpl.render(person);\n\nNote: If jQuery is not loaded then only the jQuery ID selector is supported. But if jQuery is loaded, other jQuery selectors (such as the class selector) can also be used.\n\n"
       },
       {
         "_type": "para",

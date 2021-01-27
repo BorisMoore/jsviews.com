@@ -194,12 +194,12 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "JsRender without jQuery",
-        "text": "JsRender without jQuery\nWhen jQuery is not present, JsRender provides its own jsrender global namespace object, jsrender (or window.jsrender)\nThe jsrender namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\nvar $ = jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n\nExample HTML page: JsRender without jQuery\nLearn more: JsRender without jQuery\n\nJsRender usage\n"
+        "text": "JsRender without jQuery\nWhen jQuery is not present, JsRender provides its own global namespace object: jsrender (or window.jsrender)\nThe jsrender namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\nvar $ = jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n\n(Note: If jQuery is not loaded, then passing a jQuery selector to $.templates() will only work for the ID selector)\nExample HTML page: JsRender without jQuery\nLearn more: JsRender without jQuery\n\nJsRender usage\n"
       },
       {
         "_type": "para",
         "title": "Define a template",
-        "text": "Define a template\nFrom a string:\nvar tmpl = $.templates(\"Name: {{:name}}\");\n\nFrom a template declared as markup in a script block:\n<script id=\"myTemplate\" type=\"text/x-jsrender\">Name: {{:name}}</script>\n\nvar tmpl = $.templates(\"#myTemplate\");\n\nLearn more…\n"
+        "text": "Define a template\nFrom a string:\nvar tmpl = $.templates(\"Name: {{:name}}\");\n\nFrom a template declared as markup in a script block:\n<script id=\"myTemplate\" type=\"text/x-jsrender\">Name: {{:name}}</script>\n\nvar tmpl = $.templates(\"#myTemplate\"); // Pass in a jQuery selector for the script block\n\nLearn more…\n"
       },
       {
         "_type": "para",

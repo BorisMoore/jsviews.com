@@ -457,13 +457,13 @@ content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsV
       {
         "_type": "para",
         "title": "JsRender without jQuery",
-        "text": "When jQuery is not present, JsRender provides its own `jsrender` global namespace object, `jsrender` (or `window.jsrender`)\n\nThe `jsrender` namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\n\n```js\nvar $ = jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n```\n\n*Example HTML page:* [JsRender without jQuery](#download/pages-jsr)\n\n**Learn more:** *[JsRender without jQuery](#nojqueryapi)*\n\n<br/>\n## JsRender usage",
+        "text": "When jQuery is not present, JsRender provides its own global namespace object: `jsrender` (or `window.jsrender`)\n\nThe `jsrender` namespace provides the same methods/APIs as with jQuery, so if jQuery is not present you can still use all the API examples, by simply writing:\n\n```js\nvar $ = jsrender;\n\n// Now use code as in samples/examples, with $.views... $.templates... $.render...\n```\n\n(*Note:* If jQuery is not loaded, then [passing a jQuery selector](#compiletmpl@fromscriptblock) to `$.templates()` will only work for the *ID selector*)\n\n*Example HTML page:* [JsRender without jQuery](#download/pages-jsr)\n\n**Learn more:** *[JsRender without jQuery](#nojqueryapi)*\n\n\n<br/>\n## JsRender usage",
         "anchor": "nojquery"
       },
       {
         "_type": "para",
         "title": "Define a template",
-        "text": "From a string:\n\n```js\nvar tmpl = $.templates(\"Name: {{:name}}\");\n```\n\nFrom a template declared as markup in a script block:\n\n```jsr\n<script id=\"myTemplate\" type=\"text/x-jsrender\">Name: {{:name}}</script>\n```\n\n```js\nvar tmpl = $.templates(\"#myTemplate\");\n```\n\n<a href=\"#d.templates\">Learn more...</a>",
+        "text": "From a string:\n\n```js\nvar tmpl = $.templates(\"Name: {{:name}}\");\n```\n\nFrom a template declared as markup in a script block:\n\n```jsr\n<script id=\"myTemplate\" type=\"text/x-jsrender\">Name: {{:name}}</script>\n```\n\n```js\nvar tmpl = $.templates(\"#myTemplate\"); // Pass in a jQuery selector for the script block\n```\n\n<a href=\"#d.templates\">Learn more...</a>",
         "anchor": "tmpl"
       },
       {
