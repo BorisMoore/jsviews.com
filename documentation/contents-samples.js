@@ -3638,7 +3638,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "To use the above tag controls simply include the library after loading  *jQuery UI* (recommended version *1.12.1* or later) and *JsViews*:\n\n```jsr\n...\n<script src=\"https://code.jquery.com/jquery-3.5.1.js\"></script>\n<script src=\"https://code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n...\n<script src=\"https://www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js\"></script>\n...\n```\n\nIn addition, include an appropriate an jQuery UI css class library, such as the default theme:\n\n```jsr\n<link href=\"https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\">\n```\n"
+        "text": "To use the above tag controls simply include the library after loading  *jQuery UI* (recommended version *1.12.1* or later) and *JsViews*:\n\n```jsr\n...\n<script src=\"https://code.jquery.com/jquery-3.6.1.js\"></script>\n<script src=\"https://code.jquery.com/ui/1.12.1/jquery-ui.js\"></script>\n...\n<script src=\"https://www.jsviews.com/download/jsviews.js\"></script>\n<script src=\"https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js\"></script>\n...\n```\n\nIn addition, include an appropriate an jQuery UI css class library, such as the default theme:\n\n```jsr\n<link href=\"https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\">\n```\n"
       },
       {
         "_type": "links",

@@ -83,6 +83,7 @@ $converters = $views.converters;
 $.templates = $templates = $views.templates;
 $tags = $views.tags;
 rFirstElem = /<(?!script)(\w+)[>\s]/;
+STRING = "string";
 
 @@include("jquery.views.js")
 return $;

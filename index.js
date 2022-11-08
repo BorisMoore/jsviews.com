@@ -669,7 +669,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "  <script src=\"https://code.jquery.com/jquery-3.5.1.min.js\"></script>\n"
+					+ "  <script src=\"https://code.jquery.com/jquery-3.6.1.min.js\"></script>\n"
 					+ (url
 						? ((codeInHeader
 								? ("<script>\n" + code

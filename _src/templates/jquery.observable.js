@@ -74,6 +74,7 @@ var versionNumber = "v@@include("templates/-version.txt")",
 	$isFunction = $.isFunction,
 	$expando = $.expando,
 	$isArray = $.isArray,
+	STRING = "string",
 	OBJECT = "object";
 
 if ($views.jsviews !== versionNumber) {

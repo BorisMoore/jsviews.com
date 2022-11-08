@@ -88,6 +88,7 @@ var document = global.document,
 	propertyChangeStr = $sub.propChng = $sub.propChng || "propertyChange",
 	arrayChangeStr = $sub.arrChng = $sub.arrChng || "arrayChange",
 
+	STRING = "string",
 	HTML = "html",
 	_ocp = "_ocp", // Observable contextual parameter
 	syntaxError = $sub.syntaxErr,

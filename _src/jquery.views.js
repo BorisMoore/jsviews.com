@@ -156,7 +156,7 @@ function updateValues(sourceValues, tagElse, async, bindId, ev) {
 
 		while (l--) {
 			if (to = tos[l]) {
-				to = to + "" === to ? [linkCtx.data, to] : to; // [object, path]
+				to = typeof to === STRING ? [linkCtx.data, to] : to; // [object, path]
 				target = to[0];
 				tcpTag = to.tag; // If this is a tag contextual parameter - the owner tag
 				sourceValue = (target && target._ocp && !target._vw
@@ -927,7 +927,7 @@ function $link(tmplOrLinkExpr, to, from, context, noIteration, parentView, prevN
 			targetEl = to[l];
 
 			prntView = parentView || $view(targetEl);
-			if ("" + tmplOrLinkExpr === tmplOrLinkExpr) {
+			if (typeof tmplOrLinkExpr === STRING) {
 				// tmplOrLinkExpr is a string: treat as data-link expression.
 				addDataBinding(late = [], tmplOrLinkExpr, targetEl, prntView, undefined, "expr", from, context);
 			} else {
@@ -1490,7 +1490,7 @@ function viewLink(outerData, parentNode, prevNode, nextNode, html, refresh, cont
 	}
 
 	parentNode = parentNode
-		? ("" + parentNode === parentNode
+		? (typeof parentNode === STRING
 			? $(parentNode)[0]  // It is a string, so treat as selector
 			: parentNode.jquery
 				? parentNode[0]   // A jQuery object - take first element.
@@ -1745,7 +1745,7 @@ function removeSubStr(str, substr) {
 
 function markerNodeInfo(node) {
 	return node &&
-		("" + node === node
+		(typeof node === STRING
 			? node
 			: node.tagName === SCRIPT
 				? node.type.slice(3)
@@ -2016,7 +2016,7 @@ function bindTriggerEvent($elem, trig, onoff) {
 	if (trig === true && useInput && (!isIE || $elem[0].contentEditable !== TRUE)) { // IE oninput event is not raised for contenteditable changes
 		$elem[onoff]("input.jsv", onElemChange); // For HTML5 browser with "oninput" support - for mouse editing of text
 	} else {
-		trig = "" + trig === trig ? trig : "keydown.jsv"; // Set trigger to (true || truey non-string (e.g. 1) || 'keydown')
+		trig = typeof trig === STRING ? trig : "keydown.jsv"; // Set trigger to (true || truey non-string (e.g. 1) || 'keydown')
 		$elem[onoff](trig, trig.indexOf("keydown") >= 0 ? asyncOnElemChange : onElemChange); // Get 'keydown' with async
 	}
 }
@@ -2650,7 +2650,7 @@ function addLinkMethods(tagOrView) { // tagOrView is View prototype or tag insta
 			l = bindFrom.length;
 			while (l--) {
 				key = bindFrom[l];
-				if (key + "" === key) {
+				if (typeof key === STRING) {
 					bindFrom[key] = 1;
 					if ($inArray(key, boundProps) < 0) {
 						boundProps.push(key); // Add any 'bindFrom' props to boundProps array. (So two-way binding works without writing ^foo=expression)
@@ -3600,7 +3600,7 @@ $extend($, {
 		if (node && node !== body && topView._.useKey > 1) {
 			// Perf optimization for common cases
 
-			node = "" + node === node
+			node = typeof node === STRING
 				? $(node)[0]
 				: node.jquery
 					? node[0]

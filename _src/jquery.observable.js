@@ -65,7 +65,7 @@ if (!$.observe) {
 						: root; // rt = root = current data context of computed prop
 				out = out.concat(dependsPaths(path.call(root, rt, callback), rt, callback));
 				continue;
-			} else if ("" + path !== path) {
+			} else if (typeof path !== STRING) {
 				root = nextObj = path = (path === undefined ? null : path);
 				if (nextObj !== object) {
 					out.push(object = nextObj);
@@ -437,7 +437,7 @@ if (!$.observe) {
 						}
 
 						while ((prop = prts.shift()) !== undefined) {
-							if (obj && typeof obj === OBJECT && "" + prop === prop) {
+							if (obj && typeof obj === OBJECT && typeof prop === STRING) {
 								if (prop === "") {
 									continue;
 								}
@@ -586,7 +586,7 @@ if (!$.observe) {
 							allowArray += path._ar; // Switch on allowArray for depends paths, and off, afterwards.
 							continue;
 						}
-						if ("" + path === path) {
+						if (typeof path === STRING) {
 							parts = path.split("^");
 							if (parts[1]) {
 								// We bind the leaf, plus additional nodes based on depth.
@@ -609,7 +609,7 @@ if (!$.observe) {
 											continue;
 										}
 									}
-									if (pth + "" === pth) {
+									if (typeof pth === STRING) {
 										observePath(ob, pth.split("."));
 									} else {
 										observeObjectPaths(items.shift(), items, callback, contextCb);
@@ -648,7 +648,7 @@ if (!$.observe) {
 					l = paths.length;
 				while (l--) { // Step backwards through paths and objects
 					pth = paths[l];
-					if (pth + "" === pth || pth && (pth._ar || pth._cpfn)) {
+					if (typeof pth === STRING || pth && (pth._ar || pth._cpfn)) {
 						pths.unshift(pth); // This is a path so add to arr
 					} else { // This is an object
 						observeObjectPaths(pth, pths, callback, contextCb);
@@ -667,7 +667,7 @@ if (!$.observe) {
 				lastArg = paths.pop() || false,
 				m = paths.length;
 
-			if (lastArg + "" === lastArg) { // If last arg is a string then this observe call is part of an observeAll call,
+			if (typeof lastArg === STRING) { // If last arg is a string then this observe call is part of an observeAll call,
 				allPath = lastArg;            // and the last three args are the parentObs array, the filter, and the allPath string.
 				parentObs = paths.pop();
 				filter = paths.pop();
@@ -677,7 +677,7 @@ if (!$.observe) {
 			if (lastArg === !!lastArg) {
 				unobserve = lastArg;
 				lastArg = paths[m-1];
-				lastArg = m && lastArg + "" !== lastArg && (!lastArg || $isFunction(lastArg)) ? (m--, paths.pop()) : undefined;
+				lastArg = m && typeof lastArg !== STRING && (!lastArg || $isFunction(lastArg)) ? (m--, paths.pop()) : undefined;
 				if (unobserve && !m && $isFunction(paths[0])) {
 					lastArg = paths.shift();
 				}
@@ -737,7 +737,7 @@ if (!$.observe) {
 			paths = slice.call(arguments),
 			pth = paths[0];
 
-		if (pth + "" === pth) {
+		if (typeof pth === STRING) {
 			initialNs = pth; // The first arg is a namespace, since it is a string
 			paths.shift();
 		}
@@ -755,7 +755,7 @@ if (!$.observe) {
 	};
 
 	$observable = function(ns, data, delay) {
-		if (ns + "" !== ns) {
+		if (typeof ns !== STRING) {
 			delay = data;
 			data = ns;
 			ns = "";
@@ -816,7 +816,7 @@ if (!$.observe) {
 		setProperty: function(path, value, nonStrict, isCpfn) {
 			path = path || "";
 			var key, pair, parts, tempBatch,
-				multi = path + "" !== path, // Hash of paths
+				multi = typeof path !== STRING, // Hash of paths
 				self = this,
 				object = self._data,
 				batch = self._batch;
