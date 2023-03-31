@@ -14608,7 +14608,7 @@ QUnit.test('{^{on}}', function(assert) {
 			name: "Jo",
 			doit: function() {
 				var button = $("button");
-				res = (Math.round(10*button.width())/10) + "|" + (Math.round(10*button.height())/10) + "|" + button[0].id + "|" + button[0].className;
+				res = (Math.round(button.width())) + "|" + (Math.round(button.height())) + "|" + button[0].id + "|" + button[0].className;
 			}
 		};
 

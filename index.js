@@ -669,7 +669,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "  <script src=\"https://code.jquery.com/jquery-3.6.1.min.js\"></script>\n"
+					+ "  <script src=\"https://code.jquery.com/jquery-3.6.4.min.js\"></script>\n"
 					+ (url
 						? ((codeInHeader
 								? ("<script>\n" + code
@@ -677,8 +677,8 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 								: ""))
 						: (
 					(jsrJsvJqui === "jqui"
-						? "  <script src=\"https://code.jquery.com/ui/1.12.1/jquery-ui.min.js\"></script>\n"
-							+ "  <link href=\"https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css\" rel=\"stylesheet\" />\n"
+						? "  <script src=\"https://code.jquery.com/ui/1.13.2/jquery-ui.min.js\"></script>\n"
+							+ "  <link href=\"https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css\" rel=\"stylesheet\" />\n"
 						: ""
 					)
 					+ "  <script src=\"https://www.jsviews.com/download/js" + (jsrJsvJqui === "jsr" ? "render" : "views")

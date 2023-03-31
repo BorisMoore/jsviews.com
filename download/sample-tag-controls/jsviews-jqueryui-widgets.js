@@ -1,8 +1,8 @@
-/*! JsViews jQueryUI widget integration v1.0.4
+/*! JsViews jQueryUI widget integration v1.0.5
 see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
  * https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
- * Copyright 2019, Boris Moore
+ * Copyright 2023, Boris Moore
  * Released under the MIT License.
  */
 
@@ -972,9 +972,11 @@ if ($.ui.accordion) {
   // Create derived accordion widget
   $.widget("jsv.accordion", $.ui.accordion, {
     _create: function() {
-      var widget = this;
-      widget.options.header = widget.options.header.replace(":not(li):even", ":not(li,script):even");
-      widget._super();
+      var options = this.options;
+      if (options.header + "" === options.header) {
+        options.header = options.header.replace(":not(li):even", ":not(li,script):even");
+      }
+      this._super();
     }
   });
 
