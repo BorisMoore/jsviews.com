@@ -6,7 +6,7 @@
  * Does not require jQuery, or HTML DOM
  * Integrates with JsViews (http://jsviews.com/#jsviews)
  *
- * Copyright 2023, Boris Moore
+ * Copyright 2021, Boris Moore
  * Released under the MIT License.
  */
 

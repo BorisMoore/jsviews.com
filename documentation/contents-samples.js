@@ -403,7 +403,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "*Provide category filter helper and running total helper:*\n\n```js\n$.views.helpers({\n  category: function(item, index, items) { // Helper for category filter\n    var str = this.props.category;     // Filter for items whose item.category contains the tagCtx.props.category string\n    return str ? item.category.toLowerCase().indexOf(str.toLowerCase()) !== -1 : true;\n  },\n\n  total: function(expr) {              // Helper for running total: ~total(expression)\n    var tmpl = $.templates[expr]       // Get named compiled template for expression, or else...\n                || $.templates(expr, \"{{:\" + expr + \"}}\"), // ...if this is first call, create it\n\n      runningTotal = 0,\n      view = this,                     // The content view of the ~total(...) helper call\n      items = view.get(\"array\").data,\n      rowIndex = view.getIndex();\n\n    for (var i = 0; i <= rowIndex; i++) {\n      runningTotal += +tmpl(items[i]); // Compute running total up to this row, using render function\n    }                                  // of compiled tmpl (either tmpl() or tmpl.render()...)\n    return runningTotal;               // Return value from ~total(...)\n  }\n});\n```\n\n*Tag usage:*\n\n```jsr\n{{for lineItems sort=\"price\" reverse=true filter=~category category=\"book\"}}\n  ...{{:~total('quantity*price')}}...\n{{else}}\n  ...No items...\n{{/for}}\n```"
+            "text": "*Provide category filter helper and running total helper:*\n\n```js\n$.views.helpers({\n  catFilter: function(item, index, items) { // Helper for category filter\n    var str = this.props.catFilterString;\n    // Filter for items whose item.category contains the tagCtx.props.catFilterString string\n    return str ? item.category.toLowerCase().indexOf(str.toLowerCase()) !== -1 : true;\n  },\n\n  total: function(expr) {              // Helper for running total: ~total(expression)\n    var tmpl = $.templates[expr]       // Get named compiled template for expression, or else...\n                || $.templates(expr, \"{{:\" + expr + \"}}\"), // ...if this is first call, create it\n\n      runningTotal = 0,\n      view = this,                     // The content view of the ~total(...) helper call\n      items = view.get(\"array\").data,\n      rowIndex = view.getIndex();\n\n    for (var i = 0; i <= rowIndex; i++) {\n      runningTotal += +tmpl(items[i]); // Compute running total up to this row, using render function\n    }                                  // of compiled tmpl (either tmpl() or tmpl.render()...)\n    return runningTotal;               // Return value from ~total(...)\n  }\n});\n```\n\n*Tag usage:*\n\n```jsr\n{{for lineItems sort=\"price\" reverse=true filter=~catFilter catFilterString=\"book\"}}\n  ...{{:~total('quantity*price')}}...\n{{else}}\n  ...No items...\n{{/for}}\n```"
           }
         ],
         "url": "samples/jsrender/tags/extend-for/sample-for",
@@ -432,7 +432,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "*Tag declaration:*\n\n```js\n$.views.tags(\"purchases\", {\n  baseTag: \"for\",              // Inherit from the {{for}} tag\n  init: function(tagCtx) {\n    // Override init(), to set the tagCtx.props.filter function\n    tagCtx.props.filter = function(item, index, items) {\n      ...\n    };\n    this.baseApply(arguments); // Call base init()\n  },\n  ctx: {\n    total: function(expr) {    // A ~total(expression) helper\n      ...\n    }\n  }\n});\n```\n\n*Tag usage:*\n\n```jsr\n{{purchases lineItems sort=\"price\" reverse=true category=\"book\"}}\n  ...{{:~total('quantity*price')}}...\n{{else}}\n  ...No items...\n{{/purchases}}\n  ...\n```\n"
+            "text": "*Tag declaration:*\n\n```js\n$.views.tags(\"purchases\", {\n  baseTag: \"for\",              // Inherit from the {{for}} tag\n  init: function(tagCtx) {\n    // Override init(), to set the tagCtx.props.filter function\n    tagCtx.props.filter = function(item, index, items) {\n      ...\n    };\n    this.baseApply(arguments); // Call base init()\n  },\n  ctx: {\n    total: function(expr) {    // A ~total(expression) helper\n      ...\n    }\n  }\n});\n```\n\n*Tag usage:*\n\n```jsr\n{{purchases lineItems sort=\"price\" reverse=true catFilterString=\"book\"}}\n  ...{{:~total('quantity*price')}}...\n{{else}}\n  ...No items...\n{{/purchases}}\n  ...\n```\n"
           }
         ],
         "url": "samples/jsrender/tags/extend-for/sample-tag2",
@@ -635,6 +635,11 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "hash": "samples/tag-controls",
             "label": "Tag controls"
+          },
+          {
+            "_type": "topic",
+            "hash": "samples/sort-filter",
+            "label": "Sorting and  filtering"
           }
         ]
       }
@@ -3130,45 +3135,6 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
         "_type": "para",
         "title": "See also the JsViews API topics:",
         "text": "<ul><li><a href=\"#linked-tag-syntax\">Data-linked tags</a></li><li><a href=\"#linked-elem-syntax\">Data-linked elements</a></li></ul>"
-      }
-    ]
-  },
-  "samples/tag-controls/range": {
-    "title": "Sample: A JsViews \"range\" tag control",
-    "path": "",
-    "sections": [
-      {
-        "_type": "para",
-        "title": "",
-        "text": "This sample takes the `{{range}}` tag from the JsRender *[Extending the `{{for}}` tag](#samples/jsr/tags/extend-for)* sample, and adds data-linking to it."
-      },
-      {
-        "_type": "sample",
-        "typeLabel": "Sample:",
-        "codetabs": [
-          {
-            "_type": "codetab",
-            "name": "",
-            "url": "download/sample-tag-controls/range/range.js",
-            "label": "range.js"
-          }
-        ],
-        "sectionTypes": {
-          "para": "para",
-          "data": "data",
-          "template": "template",
-          "code": "code",
-          "links": "links"
-        },
-        "sections": [
-          {
-            "_type": "para",
-            "title": "",
-            "text": "We use the `{{range}}` custom tag to create a drop-down to select an integer between 1 and 10 as the `start` integer (...and similarly for the `end` integer):\n\n```jsr\n<select data-link=\"{:start:strToInt}\">\n  {^{range start=1 end=10}}\n    <option>{{:#data}}</option>\n  {{/range}}\n</select>\n```\n\nThen we again use the `{{range}}` tag to show a partial list of team members:\n\n```jsr\n<ul>\n  {^{range members start=start-1 end=end}}\n    <li>\n      {^{:#index + ~root.start}}. {^{>name}}\n    </li>\n  {{else}}\n    <li>No items</li>\n  {{/range}}\n</ul>\n```\n\nNote that by default, named properties like `start=start-1` are not data-bound. (This is made 'opt-in' for perf optimization reasons.) However in this case, our `{{range}}` tag implementation has `start` and `end` specified as bound properties:\n\n```js\n$.views.tags({\n  range: {\n    boundProps: [\"start\", \"end\"],\n    baseTag: \"for\",\n    ...\n```\n\nSo observable changes to the `start` and `end` properties automatically trigger updates. \n\n(If not declared as `boundProps` we would have needed to use the syntax: `^start=start-1`.)"
-          }
-        ],
-        "url": "samples/tag-controls/range/sample",
-        "height": "400"
       }
     ]
   },
@@ -5706,7 +5672,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "This sample shows nested `{{spinblock}}` custom tags:\n\n```jsr\n{^{spinblock pawne=~state.outerSelect}}\n  ...\n  {^{spinblock pane=~state.innerSelect}}\n    ...\n  {{/spinblock}}\n{{else}}\n  ...\n{{/spinblock}}\n```\n\nSee also the [`{{colorpicker}}`](#samples/tag-controls/colorpicker) sample, which is a [composite tag](#hierarchypatterns@composite) which uses this `{{spinblock}}`."
+            "text": "This sample shows nested `{{spinblock}}` custom tags:\n\n```jsr\n{^{spinblock pane=~state.outerSelect}}\n  ...\n  {^{spinblock pane=~state.innerSelect}}\n    ...\n  {{/spinblock}}\n{{else}}\n  ...\n{{/spinblock}}\n```\n\nSee also the [`{{colorpicker}}`](#samples/tag-controls/colorpicker) sample, which is a [composite tag](#hierarchypatterns@composite) which uses this `{{spinblock}}`."
           }
         ],
         "url": "samples/tag-controls/spinblock/sample",
@@ -5939,7 +5905,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "*Provide category filter helper and running total helper:*\n\n```js\n$.views.helpers({\n  category: function(item, index, items) { // Helper for category filter\n    var str = this.props.category;     // Filter for items whose item.category contains the tagCtx.props.category string\n    return str ? item.category.toLowerCase().indexOf(str.toLowerCase()) !== -1 : true;\n  },\n\n  total: function(expr) {              // Helper for running total: ~total(expression)\n    var tmpl = $.templates[expr]       // Get named compiled template for expression, or else...\n                || $.templates(expr, \"{{:\" + expr + \"}}\"), // ...if this is first call, create it\n\n      runningTotal = 0,\n      view = this,                     // The content view of the ~total(...) helper call\n      items = view.get(\"array\").data,\n      rowIndex = view.getIndex();\n\n    for (var i = 0; i <= rowIndex; i++) {\n      runningTotal += +tmpl(items[i]); // Compute running total up to this row, using render function\n    }                                  // of compiled tmpl (either tmpl() or tmpl.render()...)\n    return runningTotal;               // Return value from ~total(...)\n  }\n});\n```\n\n*Tag usage:*\n\n```jsr\n{{for lineItems sort=\"price\" reverse=true filter=~category category=\"book\"}}\n  ...{{:~total('quantity*price')}}...\n{{else}}\n  ...No items...\n{{/for}}\n```"
+            "text": "*Provide category filter helper and running total helper:*\n\n```js\n$.views.helpers({\n  catFilter: function(item, index, items) { // Helper for category filter\n    var str = this.props.catFilterString; \n    // Return true if item.category contains the tagCtx.props.catFilterString string\n    return str ? item.category.toLowerCase().indexOf(str.toLowerCase()) !== -1 : true;\n  },\n\n  total: function(expr) {              // Helper for running total: ~total(expression)\n    var tmpl = $.templates[expr]       // Get named compiled template for expression, or else...\n                || $.templates(expr, \"{{:\" + expr + \"}}\"), // ...if this is first call, create it\n\n      runningTotal = 0,\n      view = this,                     // The content view of the ~total(...) helper call\n      items = view.get(\"array\").data,\n      rowIndex = view.getIndex();\n\n    for (var i = 0; i <= rowIndex; i++) {\n      runningTotal += +tmpl(items[i]); // Compute running total up to this row, using render function\n    }                                  // of compiled tmpl (either tmpl() or tmpl.render()...)\n    return runningTotal;               // Return value from ~total(...)\n  }\n});\n```\n\n*Tag usage:*\n\n```jsr\n{{for lineItems sort=\"price\" reverse=true filter=~catFilter catFilterString=\"book\"}}\n  ...{{:~total('quantity*price')}}...\n{{else}}\n  ...No items...\n{{/for}}\n```"
           }
         ],
         "url": "samples/jsrender/tags/extend-for/sample-for",
@@ -5968,7 +5934,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "*Set `~total()` and `~category` dependencies to refresh when appropriate:*\n\n```js\n// Trigger refreshed filtering when filter string provided by the user changes\n$.views.helpers.category.depends = \"~cat\";\n\n// Trigger recalculation of total when any item property changes, or when row index changes (e.g. on changing sort)\n$.views.helpers.total.depends = [\"#parent.data.[]^*\", \"#index\"];\n```\n\n*Provide editable text boxes on data columns:*\n\n```jsr\n{^{for lineItems sort=~sortBy reverse=~reverseSort filter=~category}}\n  ...\n  <td><input data-link=\"category\" .../></td>\n  ...\n  <td data-link=\"{:~total('quantity * price')}\"></td>\n  ...\n{{else}}\n  ...No items...\n{{/for}}\n```"
+            "text": "*Set `~total()` and `~catFilter` dependencies to refresh when appropriate:*\n\n```js\n// Trigger refreshed filtering when filter string provided by the user changes\n$.views.helpers.catFilter.depends = \"~cat\";\n\n// Trigger recalculation of total when any item property changes, or when row index changes (e.g. on changing sort)\n$.views.helpers.total.depends = [\"#parent.data.[]^*\", \"#index\"];\n```\n\n*Provide editable text boxes on data columns:*\n\n```jsr\n{^{for lineItems sort=~sortBy reverse=~reverseSort filter=~catFilter}}\n  ...\n  <td><input data-link=\"category\" .../></td>\n  ...\n  <td data-link=\"{:~total('quantity * price')}\"></td>\n  ...\n{{else}}\n  ...No items...\n{{/for}}\n```"
           }
         ],
         "url": "samples/tag-controls/purchases/sample-for",
@@ -5979,7 +5945,7 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
       {
         "_type": "para",
         "title": "",
-        "text": "Next we will show an equivalent *'purchases' grid view* sample using a custom `{{purchases}}` tag, extending the `{{for}}` tag, and incorporating the specific filtering and 'running total' helpers.\n\nThis follows the same pattern we followed for JsRender in the [*Extending the {{for}} tag*](#samples/jsr/tags/extend-for@tag) sample, where we created a custom `{{purchases}}` tag derived from `{{for}}`. But here our `{{purchases}}` tag will be a custom tag control that uses data-linking and is fully interactive as precursor `{{grid}}` control:"
+        "text": "Next we will show an equivalent *'purchases' grid view* sample using a custom `{{purchases}}` tag, extending the `{{for}}` tag, and incorporating the specific filtering and 'running total' helpers.\n\nThis follows the same pattern we followed for JsRender in the [*Extending the {{for}} tag*](#samples/jsr/tags/extend-for@tag) sample, where we created a custom `{{purchases}}` tag derived from `{{for}}`. But here our `{{purchases}}` tag will be a custom tag control that uses data-linking and is fully interactive, as a precursor `{{grid}}` control:"
       },
       {
         "_type": "sample",
@@ -5996,13 +5962,71 @@ content.samples = content.useStorage && $.parseJSON(localStorage.getItem("JsView
           {
             "_type": "para",
             "title": "",
-            "text": "*Encapsulated tag declaration. (Could be in a separate purchasesTag.js file):*\n\n```js\n$.views.tags(\"purchases\", {\n  baseTag: \"for\",            // Inherit from the {{for}} tag\n  init: function(tagCtx) {   // Override init()\n    // Set the tagCtx.props.filter function\n    tagCtx.props.filter = function(item, index, items) {\n      ...\n    };\n\n    // Set the ~total() helper function\n    this.ctx.total = function(expr) {\n      ...\n    };\n\n    // Recalculate total when any item property changes, or when row index changes (e.g. on changing sort)\n    this.ctx.total.depends = [\"#parent.data.[]^*\", \"#index\"];\n\n    // Add \"category\" to the mapProps array, to trigger refreshed filtering when tagCtx.props.category changes\n    this.mapProps = this.mapProps.concat(\"category\"); // Make copy of prototype.mapProps with \"category\" added\n\n    this.baseApply(arguments); // Call base init()\n  }\n});\n```\n\n*Tag usage:*\n\n```jsr\n{^{purchases lineItems sort=~sortBy reverse=~reverseSort category=~cat...}}\n  ...\n  <td><input data-link=\"category\" .../></td>\n  ...\n  <td data-link=\"{:~total('quantity * price')}\"></td>\n  ...\n{{else}}\n  ...No items...\n{{/purchases}}\n```"
+            "text": "*Encapsulated tag declaration. (Could be in a separate purchasesTag.js file):*\n\n```js\n$.views.tags(\"purchases\", {\n  baseTag: \"for\",            // Inherit from the {{for}} tag\n  init: function(tagCtx) {   // Override init()\n    // Set the tagCtx.props.filter function\n    tagCtx.props.filter = function(item, index, items) {\n      ...\n    };\n\n    // Set the ~total() helper function\n    this.ctx.total = function(expr) {\n      ...\n    };\n\n    // Recalculate total when any item property changes, or when row index changes (e.g. on changing sort)\n    this.ctx.total.depends = [\"#parent.data.[]^*\", \"#index\"];\n\n    // Add \"category\" to the mapProps array, to trigger refreshed filtering when tagCtx.props.catFilterString changes\n    this.mapProps = this.mapProps.concat(\"catFilterString\"); // Make copy of prototype.mapProps with \"catFilterString\" added\n\n    this.baseApply(arguments); // Call base init()\n  }\n});\n```\n\n*Tag usage:*\n\n```jsr\n{^{purchases lineItems sort=~sortBy reverse=~reverseSort catFilter=~cat...}}\n  ...\n  <td><input data-link=\"category\" .../></td>\n  ...\n  <td data-link=\"{:~total('quantity * price')}\"></td>\n  ...\n{{else}}\n  ...No items...\n{{/purchases}}\n```"
           }
         ],
         "url": "samples/tag-controls/purchases/sample-tag",
         "height": "320",
         "anchor": "jsv-tag",
         "title": "JsViews: A custom {^{purchases}} tag, as dynamic 'purchases' grid control..."
+      },
+      {
+        "_type": "para",
+        "title": "Advanced {^{purchases}} sample, using nested {^{checkboxgroup}} and {^{radiogroup}} tags",
+        "text": "The next version of the sample has additional features: It incorporates [nested `{^{checkboxgroup}}` tags](#jsvcheckboxgrouptag@nested) to optionally exclude items from the running total, or optionally add 10% tax to items.\n\nIt also uses [nested `{^{radiogroup}}` tags](#jsvradiogrouptag@nested) to optionally choose items for a side-by-side comparison. \n\n*Here is the structure of the previous sample:*\n\n```jsr\n<table>\n  <thead>\n    ...\n  </thead>\n  <tbody>\n    {^{purchases lineItems sort=~sortBy ...}}\n      ...\n    {{/purchases}}\n  </tbody>\n</table>\n```\n\n*and here is the new version, incorporating nested group tags:*\n\n```jsr\n{^{checkboxgroup ~excluded \".exclude\"}}\n  {^{radiogroup ~cmpA \".cmpA\"}}\n    {^{radiogroup ~cmpB \".cmpB\"}}\n      <table>\n        <thead>\n          ...\n        </thead>\n        <tbody>\n          {^{checkboxgroup ~taxed \".tax\"}}\n            {^{purchases lineItems sort=~sortBy ...}}\n              ...\n            {{/purchases}}\n          {{/checkboxgroup}}\n        </tbody>\n      </table>\n    {{/radiogroup}}\n  {{/radiogroup}}\n{{/checkboxgroup}}\n```\n\n(Note that the nested `{^{checkboxgroup}}` and `{^{radiogroup}}` could have been inserted in a different order, with no effect on the behavior).",
+        "anchor": "nested-group-tags"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Nested `{^{checkboxgroup}}` and `{^{radiogroup}}` tags wrapping the `{^{purchases}}` tag:*\n\n```jsr\n{^{checkboxgroup ~excluded \".exclude\"}}\n  ...\n    {^{checkboxgroup ~taxed \".tax\"}}\n      {^{purchases lineItems sort=~sortBy ...}}\n        ...\n      {{/purchases}}\n    {{/checkboxgroup}}\n  ...\n{{/checkboxgroup}}\n```"
+          }
+        ],
+        "url": "samples/tag-controls/purchases/sample-checkbox-radio-tag",
+        "title": "",
+        "height": "580"
+      },
+      {
+        "_type": "para",
+        "title": "The same features, with the {{for}} tag",
+        "text": "And here is an alternative version of the sample, again with nested tags providing identical features and behavior, but using the `{{for}}` tag rather than the custom `{{purchases}}` tag:",
+        "anchor": "nested-group-tags-fortag"
+      },
+      {
+        "_type": "sample",
+        "typeLabel": "Sample:",
+        "codetabs": [],
+        "sectionTypes": {
+          "para": "para",
+          "data": "data",
+          "template": "template",
+          "code": "code",
+          "links": "links"
+        },
+        "sections": [
+          {
+            "_type": "para",
+            "title": "",
+            "text": "*Nested `{^{checkboxgroup}}` and `{^{radiogroup}}` tags wrapping the `{^{for}}` tag:*\n\n```jsr\n{^{checkboxgroup ~excluded \".exclude\"}}\n  ...\n    {^{checkboxgroup ~taxed \".tax\"}}\n      {^{for lineItems sort=~sortBy ...}}\n        ...\n      {{/for}}\n    {{/checkboxgroup}}\n  ...\n{{/checkboxgroup}}\n```\n\nNotice that we have also included a nested custom tag: `{{myDataChangeTag}}`, for [listening for DOM changes](#tagoptions@domchange) within its content:\n\n*Nested `{{myDataChangeTag}}` wrapping the `{^{for}}` tag:*\n\n```jsr\n...\n{{myDataChangeTag}}\n  <table>\n    ...\n    {^{for lineItems sort=~sortBy ...}}\n      ...\n    {{/for}}\n    ...\n  </table>\n{{/myDataChangeTag}}\n...\n```\n\n*The tag is declared as follows:*\n\n```js\n$.views.tags(\"myDataChangeTag\",\n  {\n    contentCtx: true, // Inherit parent view data context\n    onDomChange: function(tagCtx, linkCtx, eventArgs, ev) {\n      // Listen to changes for sorting, filtering etc. from the {{for}} tag\n      console.log(\"DomChange: tag: \" + this.tagName + ... + eventArgs.change);\n    }\n  }\n);\n```"
+          }
+        ],
+        "url": "samples/tag-controls/purchases/sample-checkbox-radio",
+        "height": "580",
+        "title": "",
+        "header": "",
+        "action": "prepend"
       }
     ]
   },

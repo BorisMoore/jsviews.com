@@ -4,8 +4,9 @@ $.views.converters("dec2", function(val) {
 });
 
 $.views.helpers({
-  category: function(item, index, items) { // Helper for category filter
-    var str = this.props.category;     // Filter for items whose item.category contains the tagCtx.props.category string
+  catFilter: function(item, index, items) { // Helper for category filter
+    var str = this.props.catFilterString;
+    // Filter for items whose item.category contains the tagCtx.props.catFilterString string
     return str ? item.category.toLowerCase().indexOf(str.toLowerCase()) !== -1 : true;
   },
 

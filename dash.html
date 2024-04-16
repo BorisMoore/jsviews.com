@@ -281,7 +281,7 @@
 					}
 					var thisUrl = url,
 						scriptSections = scriptsToCompile[thisUrl];
-					if (thisUrl.slice(-3) === ".js") {
+					if (thisUrl.slice(-3) === ".js" || thisUrl.slice(-4) === ".txt") {
 						$.ajax({
 							url: thisUrl,
 							dataType: "text"

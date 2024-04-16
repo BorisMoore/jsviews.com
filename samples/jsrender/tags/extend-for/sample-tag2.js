@@ -8,7 +8,8 @@ $.views.tags("purchases", {
   init: function(tagCtx) {
     // Override init() to set the tagCtx.props.filter function
     tagCtx.props.filter = function(item, index, items) {
-      var str = this.props.category; // Filter for items whose item.category contains the tagCtx.props.category string
+      var str = this.props.catFilterString;
+      // Filter for items whose item.category contains the tagCtx.props.catFilterString string
       return str ? item.category.toLowerCase().indexOf(str.toLowerCase()) !== -1 : true;
     };
     this.baseApply(arguments); // Call base init()

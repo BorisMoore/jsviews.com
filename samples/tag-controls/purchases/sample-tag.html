@@ -28,7 +28,7 @@
   <th><div>Amount</div></th>
   <th><div>Total cost</div></th>
 </tr></thead><tbody>
-  {^{purchases lineItems sort=~sortBy reverse=~reverseSort category=~cat sorted=~sorted}}
+  {^{purchases lineItems sort=~sortBy reverse=~reverseSort catFilterString=~cat}}
     <tr>
       <td class="editable"><input data-link="category" style="width:80px;"/></td>
       <td class="editable"><input data-link="{:quantity:toNum}" style="width:80px;"/></td>

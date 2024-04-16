@@ -3,8 +3,9 @@ $.views.converters("dec2", function(val) {
   return val.toFixed(2);
 });
 
-function categoryFilter(item, index, items) {
-  var str = this.props.category;         // Filter for items whose item.category contains the tagCtx.props.category string
+function catFilter(item, index, items) { // Helper for category filter
+  var str = this.props.catFilterString;
+  // Filter for items whose item.category contains the tagCtx.props.catFilterString string
   return str ? item.category.toLowerCase().indexOf(str.toLowerCase()) !== -1 : true;
 }
 
@@ -36,6 +37,6 @@ var purchases = {
     {category: "groceries", quantity: 2, price: 13.10}
   ]
 };
-var html = $("#myTmpl").render(purchases, {category: categoryFilter});
+var html = $("#myTmpl").render(purchases, {catFilter: catFilter});
 
 $("#purchases").html(html);

@@ -56,7 +56,7 @@
   <th>Category</th><th>Quantity</th>
   <th>Total quantity</th><th>Price</th>
   <th>Amount</th><th>Total cost</th></tr></thead><tbody>
-  {{for lineItems sort="price" reverse=true filter=~category category="book"}}
+  {{for lineItems sort="price" reverse=true filter=~catFilter catFilterString="book"}}
     <tr>
       <td>{{:category}}</td>
       <td>{{:quantity}}</td>
@@ -76,7 +76,7 @@
   <th>Category</th><th>Quantity</th>
   <th>Total quantity</th><th>Price</th>
   <th>Amount</th><th>Total cost</th></tr></thead><tbody>
-  {{for lineItems filter=~category category="restaurant"}}
+  {{for lineItems filter=~catFilter catFilterString="restaurant"}}
     <tr>
       <td>{{:category}}</td>
       <td>{{:quantity}}</td>

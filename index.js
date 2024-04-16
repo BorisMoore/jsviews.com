@@ -543,6 +543,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					if (header) { // Fails in IE8 or earlier
 						header = header.innerHTML
 							.replace(/^.*sample-viewer.*$/m, "")
+							.replace(/^.*chrome-extension.*$/mg, "") // Remove scripts inserted by chrome extensions, e.g. BitWarden
 							.replace(/<style type="text\/css"><\/style>/, "")
 							.replace(/^\n*.*\.js"><\/script>\n*/, "")
 							.replace(/\n\n/, "\n");

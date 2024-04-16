@@ -37,16 +37,11 @@ function buildTemplate(template, minify, folder, from, to) {
 	}
 	stream = stream.pipe(gulp.dest(to || ((from||DOWNLOAD) + (folder || '')))) // Output js file
 		.pipe(plugins.debug({title: "built:"}));
-
 	if (minify) {
 		minifyFile(folder, null, stream);
 	}
 	return stream;
 }
-
-//================================= DEFAULT - Build and test =================================//
-
-gulp.task('default', ['test']);
 
 //================================= COPY - Copy to jsrender and jsviews projects =================================//
 
@@ -74,7 +69,7 @@ gulp.task('preparejsv.d.ts', function() {
 	return buildTemplate('index.d.ts', false, 'jsviews/', true, DOWNLOAD + 'typescript/jsviews/');
 });
 
-gulp.task('copy', ['preparejsr', 'preparejsr.d.ts', 'preparejsv', 'preparejsv.d.ts', 'preparestarter', 'preparejsvcom'], function() {
+gulp.task('copy', gulp.series('preparejsr', 'preparejsr.d.ts', 'preparejsv', 'preparejsv.d.ts', 'preparestarter', 'preparejsvcom', function(cb) {
 	gulp.src([DOWNLOAD + 'jsrender.*js*', DOWNLOAD + 'jsrender-node.js', SRC + 'jsrender/package.json'])
 		.pipe(gulp.dest(DEST_JSR));
 
@@ -99,15 +94,13 @@ gulp.task('copy', ['preparejsr', 'preparejsr.d.ts', 'preparejsv', 'preparejsv.d.
 	gulp.src(['test/typescript/jsrender/tests.ts'])
 		.pipe(gulp.dest(DEST_JSR + 'typescript/jsrender/test/'));
 
-	gulp.src(['test/typescript/jsviews/tests.ts'])
-		.pipe(gulp.dest(DEST_JSV + 'test/typescript/jsviews/'));
-
-	gulp.src(['test/typescript/jsviews/tsconfig.json'])
-		.pipe(gulp.dest(DEST_JSV + 'test/typescript/jsviews/'));
+	gulp.src(['test/typescript/jsviews/*tests.ts'])
+		.pipe(gulp.dest(DEST_JSV + 'typescript/jsviews/test/'));
 
 	gulp.src([SRC + 'jsrender-node-starter/package.json'])
 		.pipe(gulp.dest(DEST_NODESTARTER));
-});
+	cb();
+}));
 
 //================================= MINIFY - Build and minify =================================//
 
@@ -129,14 +122,13 @@ function minifyFile(folder, file, stream) {
 		.pipe(gulp.dest(DOWNLOAD + (folder||"")))   // Output min.js file
 	return stream;
 }
-gulp.task('minifyLibs', function() {
+gulp.task('minifyLibs', function(cb) {
 	minifyFile('sample-tag-controls/', 'jsviews-jqueryui-widgets.js');
 
 	minifyFile('plugins/', 'jsrender-unicode.js');
-	
+
 	minifyFile('sample-tag-controls/jsonview/', 'jsonview.js');
 	minifyFile('sample-tag-controls/multiselect/', 'multiselect.js');
-	minifyFile('sample-tag-controls/range/', 'range.js');
 	minifyFile('sample-tag-controls/tabs/', 'tabs.js');
 	minifyFile('sample-tag-controls/tabs/', 'tabs2.js');
 	minifyFile('sample-tag-controls/tabs/', 'tabs3.js');
@@ -171,10 +163,12 @@ gulp.task('minifyLibs', function() {
 	minifyFile('../documentation/', 'find-jsvapi.js');
 	minifyFile('../documentation/', 'find-samples.js');
 	minifyFile('../samples/', 'sample-viewer.js');
+	cb();
 });
 
-gulp.task('minifyOther', function() {
+gulp.task('minifyOther', function(cb) {
 	minifyFile('../lib/', 'highlight.js');
+	cb();
 });
 
 //================================= TMPLIFY - Build tmplify/index.js =================================//
@@ -185,24 +179,34 @@ gulp.task('tmplify', function() {
 
 //================================= ALL - Build, minify, copy to projects and test =================================//
 
-gulp.task('all', ['minify', 'tmplify', 'copy', 'minifyLibs'], function() {
+gulp.task('all', gulp.series('minify', 'tmplify', 'copy', 'minifyLibs', function(cb) {
 //	qunit('./test/unit-tests-all-jsviews.html');
 //	qunit('./test/unit-tests-all-observable-render-views.html');
 //	qunit('./test/unit-tests-all-render-observable-views.html');
 //	qunit('./test/unit-tests-jsobservable-no-jsrender.html');
-});
-
-//================================= TEST - Build and test =================================//
-
-gulp.task('test', ['build'], function() {
-	qunit('./test/unit-tests-all-jsviews.html');
-});
+debugger;
+	cb();
+}));
 
 //================================= BUILD - Build =================================//
 
 gulp.task('build', function() {
 	return buildTemplate('*.js');
 });
+//================================= TEST - Build and test =================================//
+
+gulp.task('test', gulp.series('build', function(cb) {
+	qunit('./test/unit-tests-all-jsviews.html');
+	cb();
+}));
+
+//================================= DEFAULT - Build and test =================================//
+
+gulp.task('default', gulp.series('test', function(cb) {
+	cb();
+}));
+//gulp.task('default', ['test']);
+//gulp.task('default', test);
 
 //================================= JSVIEWS - Build jsviews.js only =================================//
 
@@ -224,7 +228,7 @@ gulp.task('jsviews', function() {
 //		}
 //	});
 
-//	// add browserSync.reload to the tasks array to make
+	// add browserSync.reload to the tasks array to make
 //	// all browsers reload after tasks are complete.
 //	gulp.watch([SRC + '*.js', 'index.html'], ['build-browse']);
 //});
@@ -238,6 +242,7 @@ gulp.task('bundle', function() {
 	var gs = require('glob-stream');
 
 	return gs.create('./test/browserify/*-unit-tests.js')
+//	return gs('./test/browserify/*-unit-tests.js')
 		.on('data', function(file) {
 			// file has path, base, and cwd attrs
 			var fileName = file.path.slice(file.base.length, -14);

@@ -382,7 +382,7 @@ function contextParameter(key, value, get) {
 				// Not a contextual parameter
 				// Set storeView to tag (if this is a tag.ctxPrm() call) or to root view ("data" view of linked template)
 				storeView = storeView.tagCtx || $isFunction(res)
-					? storeView // Is a tag, not a view, or is a computed contextual parameter, so scope to the callView, no the 'scope view'
+					? storeView // Is a tag, not a view, or is a computed contextual parameter, so scope to the callView, not the 'scope view'
 					: (storeView = storeView.scope || storeView,
 						!storeView.isTop && storeView.ctx.tag // If this view is in a tag, set storeView to the tag
 							|| storeView);

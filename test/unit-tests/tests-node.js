@@ -209,7 +209,7 @@ QUnit.test("jsrender.tags.clientTemplate", function(assert) {
 });
 
 QUnit.test("jsrender/tmplify .html template", function(assert) {
-	stop();
+	const done = assert.async();
 	var outputFile = 'test/browserify/bundles/html-jsr-tmpl-bundle.js';
 	var fs = require('fs');
 	var browserify = require('browserify');
@@ -220,7 +220,7 @@ QUnit.test("jsrender/tmplify .html template", function(assert) {
 	.pipe(fs.createWriteStream(outputFile)
 		.on('finish', function() {
 			assert.ok(fs.readFileSync(outputFile, 'utf8').indexOf("browserify.done.html ") > 0, 'browserify().transform(tmplify)');
-			start();
+			done();
 		})
 	)
 	.on('error', function(err) {
@@ -229,7 +229,7 @@ QUnit.test("jsrender/tmplify .html template", function(assert) {
 });
 
 QUnit.test("jsrender/tmplify options: 'htm jsr'", function(assert) {
-	stop();
+	const done = assert.async();
 	var outputFile = 'test/browserify/bundles/htm-jsrender-tmpl-bundle.js';
 	var fs = require('fs');
 	var browserify = require('browserify');
@@ -239,7 +239,7 @@ QUnit.test("jsrender/tmplify options: 'htm jsr'", function(assert) {
 	.pipe(fs.createWriteStream(outputFile))
 		.on('finish', function() {
 			assert.ok(fs.readFileSync(outputFile, 'utf8').indexOf("browserify.done.htm ") > 0, 'browserify().transform(tmplify, {extensions: "..., ..."})');
-			start();
+			done();
 		})
 	.on('error', function(err) {
 		console.log(err);

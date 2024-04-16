@@ -25,7 +25,7 @@ body { font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-seri
 			.grid tbody tr:nth-child(odd) input {background-color: #f0f2f4;border: 1px solid #f0f2f4;}
 		.grid thead tr { color: #51677a; background-color: #d3dce4; border-top: #b9c6d0 solid 1px; border-right: 1px solid #d3dbe1; }
 		.grid th.sort:hover { background-color: #f1f5f9; cursor: pointer; }
-		.grid th { padding: 11px 0; border-left: 1px solid #fff; }
+		.grid th {padding: 2px 0;border-left: 1px solid #fff;}
 			.grid th.filter { padding-bottom: 2px; padding-top: 10px; }
 			.grid th:first-child { border-left: 1px solid #d3dbe1; }
 			.grid th img { margin-left: 3px; margin-bottom: -1px; }

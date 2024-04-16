@@ -9,7 +9,7 @@ $.views.converters({
 });
 
 $.views.helpers({
-  category: function(item, index, items) { // Helper for category filter
+  catFilter: function(item, index, items) { // Helper for category filter
     var str = this.ctxPrm("cat");      // Filter for items whose item.category contains the tagCtx.ctxPrm("cat") string
     return str ? item.category.toLowerCase().indexOf(str.toLowerCase()) !== -1 : true;
   },
@@ -31,7 +31,7 @@ $.views.helpers({
 });
 
 // Trigger refreshed filtering when filter string provided by the user changes
-$.views.helpers.category.depends = "~cat";
+$.views.helpers.catFilter.depends = "~cat";
 
 // Trigger recalculation of total when any item property changes, or when row index changes (e.g. on changing sort)
 $.views.helpers.total.depends = ["#parent.data.[]^*", "#index"];

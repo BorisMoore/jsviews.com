@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="../../../download/jsviews.min.js"></script>
+  <script src="../../sample-viewer.min.js"></script>
+  <link href="../../../download/sample-tag-controls/grid/grid.css" rel="stylesheet" />
+  <style type="text/css">
+    label { display: block; } 
+    table label {
+      min-height: 100%;
+      text-align: center;
+    }
+    input[type='checkbox'] {
+      width:10px;
+      margin-top: 9px;
+    }
+    input[type='radio'] {
+      width:10px;
+      margin-top: 9px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="purchases"></div>
+
+<script id="myTmpl" type="text/x-jsrender">
+  <i>
+    Click on header to sort. Click on cell to edit categories, quantities or prices.
+    Use filter box to filter by category.<br>
+  </i>
+  <br /><br />
+  <label>Sort by: <input data-link="~sortBy" /></label>
+  <label>Reverse sort: <input data-link="~reverseSort" type="checkbox" /></label>
+  {^{checkboxgroup ~excluded ".exclude"}}
+  {^{radiogroup ~cmpA ".cmpA"}}
+  {^{radiogroup ~cmpB ".cmpB"}}
+  <table class="grid" style="width:650px;">
+    <thead>
+      <tr>
+        <th colspan="2" style="width:70px; padding: 0" >Compare<div>
+          <span style="float: left; width: 50%">A<br/>
+            <input style="margin: 0" type="radio" class="cmpA" value="" /></span>
+          <span style="float: right; width: 50%">B<br/>
+            <input style="margin: 0" type="radio" class="cmpB" value="" /></span>
+          </div></th>
+        <th style="width:100px;" data-link="{on ~sortCol ~sortBy ~reverseSort 'category'}
+            class{:~sortBy==='category'?~reverseSort?'filter sort down':'filter sort up':'filter sort'}">
+          <input data-link="{:~cat:} class{:~cat?'active':''}" style="width:70px;" />Category
+        </th>
+        <th>Exclude</th>
+        <th style="width:100px;" data-link="{on ~sortCol ~sortBy ~reverseSort 'quantity'}
+            class{:~sortBy==='quantity'?~reverseSort?'sort down':'sort up':'sort'}">Quantity</th>
+        <th>Total quantity</th>
+        <th style="width:100px;" data-link="{on ~sortCol ~sortBy ~reverseSort 'price'}
+            class{:~sortBy==='price'?~reverseSort?'sort down':'sort up':'sort'}">Price</th>
+        <th><div>Amount</div></th>
+        <th><div>Add Tax</div></th>
+        <th><div>Total cost</div></th>
+      </tr>
+    </thead>
+    <tbody>
+      {^{checkboxgroup ~taxed ".tax"}}
+        {^{purchases lineItems sort=~sortBy reverse=~reverseSort catFilterString=~cat}}
+          <tr>
+            <td style="padding: 0;">
+              <label><input type="radio" class="cmpA" value="{{:id}}" /></label>
+            </td>
+            <td style="padding: 0;">
+              <label><input type="radio" class="cmpB" value="{{:id}}" /></label>
+            </td>
+            <td class="editable"><input data-link="category" style="width:80px;" /></td>
+            <td style="padding: 0;">
+              <label><input type="checkbox" class="exclude" value="{{:id}}" /></label>
+            </td>
+            <td class="editable"><input data-link="{:quantity:toNum}" style="width:80px;" /></td>
+            <td class="total"><div data-link="{trans:~total('quantity')}"></div></td>
+            <td class="editable"><input data-link="{dec2:price:toNum}" style="width:80px;" /></td>
+            <td><div data-link="{dec2Trans:quantity * price}"></div></td>
+            <td style="padding: 0;">
+              <label><input type="checkbox" class="tax" value="{{:id}}" /></label>
+            </td>
+            <td class="total"><div data-link="{dec2Trans:~total('quantity * price', ~excluded, ~taxed)}"></div></td>
+          </tr>
+        {{else}}
+          <tr><td colspan="6">No items</td></tr>
+        {{/purchases}}
+      {{/checkboxgroup}}
+    </tbody>
+  </table>
+  {{/radiogroup}}
+  {{/radiogroup}}
+  {{/checkboxgroup}}
+
+  <table class="grid" style="width:650px;">
+    <thead>
+      <tr style="height:10px;">
+        <th style="padding:5px;">Compare A</th><th style="padding:5px;">Compare B</th>
+      </tr>
+    </thead>
+    <tbody style="font-size:13px;">
+    <tr>
+      <td>
+        {^{props ~getItem(~cmpA, lineItems) onBeforeChange=~trans}}<b>{{:key}}:</b> {^{:prop}}<br/>{{/props}}
+      </td>
+      <td>
+        {^{props ~getItem(~cmpB, lineItems) onBeforeChange=~trans}}<b>{{:key}}:</b> {^{:prop}}<br/>{{/props}}
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <i><b>Excluded:</b></i>
+  <table style="font-size:13px;"><tbody>
+    {^{for ~excluded}}
+      <tr>
+        {^{props ~getItem(#data, ~root.lineItems) end=-1}}
+          <td style="width:160px;"><b>{{:key}}:</b> {{:prop}}</td>
+        {{/props}}
+     </tr>
+    {{/for}}
+  </tbody></table><br/>
+
+  <i><b>Taxed:</b></i>
+  <table style="font-size:13px;"><tbody>
+    {^{for ~taxed}}
+      <tr>
+        {^{props ~getItem(#data, ~root.lineItems) end=-1}}
+          <td style="width:160px;"><b>{{:key}}:</b> {{:prop}}</td>
+        {{/props}}
+     </tr>
+    {{/for}}
+  </tbody></table>
+</script>
+
+<!--<script src="sample-checkbox-radio-tag.js"></script> <!--uncomment for testing as standalone page-->
+</body>
+</html>
