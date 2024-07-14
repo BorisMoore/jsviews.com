@@ -2192,7 +2192,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Computed observable: observable get / set function",
-        "text": "It can be convenient to be make the getter function behave also as an *observable setter*, so that simply passing it the new value will observably modify the *computed observable* (without needing to call `setProperty`):\n\n```js\nperson.firstName(\"updatedFirstName\");\n``` \n\nThis is made possible by modifying the getter function, and using the following pattern:\n\n```js\nfunction firstName(val) {\n  if (!arguments.length) {\n    return this._fistName;\n  }\n  // If there is a val argument, treat as observable setter\n  $.observable(this).setProperty(\"firstName\", val);\n}\n```\n\nSee the topic: [JsViews with 'hand-coded 'View Model objects](#jsvmodel@vm), for discussion and examples.",
+        "text": "It can be convenient to be make the getter function behave also as an *observable setter*, so that simply passing it the new value will observably modify the *computed observable* (without needing to call `setProperty`):\n\n```js\nperson.firstName(\"updatedFirstName\");\n``` \n\nThis is made possible by modifying the getter function, and using the following pattern:\n\n```js\nfunction firstName(val) {\n  if (!arguments.length) {\n    return this._firstName;\n  }\n  // If there is a val argument, treat as observable setter\n  $.observable(this).setProperty(\"firstName\", val);\n}\n```\n\nSee the topic: [JsViews with 'hand-coded 'View Model objects](#jsvmodel@vm), for discussion and examples.",
         "anchor": "observable-getset"
       },
       {

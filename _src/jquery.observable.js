@@ -302,7 +302,7 @@ if (!$.observe) {
 						data = events[el] && events[el].data;
 						if (data && (off && data.ns !== initialNs
 							// When observing, don't unbind dups unless they have the same namespace
-							|| !off && data.ns === initialNs && data.cb && data.cb._cId === cb._cId && (!cb._wrp || data.cb._wrp)))
+							|| !off && data.ns === initialNs && data.cb && data.cb._cId === cb._cId && data.cb._inId === cb._inId && (!cb._wrp || data.cb._wrp)))
 							// When observing and doing array binding, don't bind dups if they have the same namespace (Dups can happen e.g. with {^{for people ^~foo=people}})
 						{
 							return;
@@ -428,6 +428,7 @@ if (!$.observe) {
 						if (callback) {
 							obArrAddRemove._cId = getCbKey(callback); // Identify wrapped callback with unwrapped callback, so unobserveAll will
 																				// remove previous observeAll wrapped callback, if inner callback was the same;
+							obArrAddRemove._inId = ".arIn" + observeInnerCbKey++; // Specific _inId for each distinct obArrAddRemove, so not skipped as dups
 						}
 
 						var arrIndex, skip, dep, obArr, prt, fnProp, isGet,
@@ -468,7 +469,8 @@ if (!$.observe) {
 										}
 										if (skip) {
 											// Duplicate binding(s) found, so move on
-											obj = obj[prop];
+											fnProp = obj[prop];
+											obj = $isFunction(fnProp) ? fnProp.call(obj) : obj[prop];
 											continue;
 										}
 									}

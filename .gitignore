@@ -7,3 +7,5 @@ Scripts
 -*
 bin
 built
+/.vscode/launch.json
+/test/unit-tests/.vscode/launch.json

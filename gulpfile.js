@@ -2,7 +2,7 @@ var noop = function () {},
 
 	gulp = require('gulp'),
 //browserSync = require('browser-sync'),
-	qunit = require('node-qunit-phantomjs'),
+	qunit = require('node-qunit'),
 	plugins = require('gulp-load-plugins')(),
 	browserify = require('browserify'),
 	fs = require('fs'),
@@ -42,6 +42,8 @@ function buildTemplate(template, minify, folder, from, to) {
 	}
 	return stream;
 }
+
+//plugins.uglify.options.output.comments = 'some';
 
 //================================= COPY - Copy to jsrender and jsviews projects =================================//
 
@@ -241,8 +243,8 @@ gulp.task('bundle', function() {
 	var tmplify = require('jsrender/tmplify');
 	var gs = require('glob-stream');
 
-	return gs.create('./test/browserify/*-unit-tests.js')
-//	return gs('./test/browserify/*-unit-tests.js')
+//	return gs.create('./test/browserify/*-unit-tests.js')
+	return gs('./test/browserify/*-unit-tests.js')
 		.on('data', function(file) {
 			// file has path, base, and cwd attrs
 			var fileName = file.path.slice(file.base.length, -14);

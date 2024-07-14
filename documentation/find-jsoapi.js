@@ -631,7 +631,7 @@ content.find.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("Js
       {
         "_type": "para",
         "title": "Computed observable: observable get / set function",
-        "text": "Computed observable: observable get / set function\nIt can be convenient to be make the getter function behave also as an observable setter, so that simply passing it the new value will observably modify the computed observable (without needing to call setProperty):\nperson.firstName(\"updatedFirstName\");\n\nThis is made possible by modifying the getter function, and using the following pattern:\nfunction firstName(val) {\n  if (!arguments.length) {\n    return this._fistName;\n  }\n  // If there is a val argument, treat as observable setter\n  $.observable(this).setProperty(\"firstName\", val);\n}\n\nSee the topic: JsViews with 'hand-coded 'View Model objects, for discussion and examples.\n"
+        "text": "Computed observable: observable get / set function\nIt can be convenient to be make the getter function behave also as an observable setter, so that simply passing it the new value will observably modify the computed observable (without needing to call setProperty):\nperson.firstName(\"updatedFirstName\");\n\nThis is made possible by modifying the getter function, and using the following pattern:\nfunction firstName(val) {\n  if (!arguments.length) {\n    return this._firstName;\n  }\n  // If there is a val argument, treat as observable setter\n  $.observable(this).setProperty(\"firstName\", val);\n}\n\nSee the topic: JsViews with 'hand-coded 'View Model objects, for discussion and examples.\n"
       },
       {
         "_type": "para",

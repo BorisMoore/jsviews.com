@@ -32,11 +32,11 @@
   ],
   "devDependencies": {
     "@types/jquery": "^3.3.31",
-    "browserify": "^11.0.1",
-    "glob-stream": "^5.0.0",
-    "gulp": "^3.9.0",
+    "browserify": "^17.0.0",
+    "glob-stream": "^8.0.2",
+    "gulp": "^5.0.0",
     "jsrender": "^@@include("templates/-version.txt")",
-    "qunit": "^0.7.6"
+    "qunit": "^2.21.0"
   },
   "dependencies": { 
     "jquery": "^3.4.1"
