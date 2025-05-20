@@ -22,7 +22,8 @@ if (typeof exports !== 'object' ) {
 var versionNumber = "v@@include("templates/-version.txt")",
 	$, jsvStoreName, rTag, rTmplString, topView, $views,
 	_ocp = "_ocp",      // Observable contextual parameter
-
+	$isFunction = function(ob) { return typeof ob === "function"; },
+	$isArray = Array.isArray,
 @@include('jsrender.js', { "isNode": true })
 // NODE.JS-SPECIFIC CODE:
 var nodeFs = require('fs'),

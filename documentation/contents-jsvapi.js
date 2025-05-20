@@ -5087,7 +5087,7 @@ content.jsvapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Removing HTML attributes, by returning null",
-        "text": "When data-linking to an attribute, if the value of the attribute is set to `null` then the attribute will be removed. For example, setting `data-link=\"title{:myTitle||null}\"` will lead to the `title` attribute being removed from the element whenever `myTitle` returns a *falsy* value such as `\"\"`, `false` or `0`.\n\n*Special cases:* Setting `selected`, `disabled`, `multiple` or `readonly` to any *falsy* value will remove the corresponding attributes. Setting to any *truthy* value will set the attribute to a standard value such as `multiple=\"multiple\"`",
+        "text": "When data-linking to an attribute, if the value of the attribute is set to `null` then the attribute will be removed. For example, setting `data-link=\"title{:myTitle||null}\"` will lead to the `title` attribute being removed from the element whenever `myTitle` returns a *falsy* value such as `\"\"`, `false` or `0`.\n\n*Special cases:* Setting `selected`, `disabled`, `multiple`, `readonly` or `required` to any *falsy* value will remove the corresponding attributes. Setting to any *truthy* value will set the attribute to a standard value such as `multiple=\"multiple\"`",
         "anchor": "remove"
       },
       {

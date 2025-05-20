@@ -1,7 +1,7 @@
 ﻿/*! Sample JsViews tag control: {{tree}} control using visible{...} v1.0.2
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
- * Copyright 2019, Boris Moore
+ * Copyright 2025, Boris Moore
  * Released under the MIT License.
  */
 

@@ -2,7 +2,7 @@
 see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
  * https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
- * Copyright 2023, Boris Moore
+ * Copyright 2025, Boris Moore
  * Released under the MIT License.
  */
 

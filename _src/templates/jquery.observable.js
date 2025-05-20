@@ -71,9 +71,9 @@ var versionNumber = "v@@include("templates/-version.txt")",
 	$sub = $views.sub,
 	$subSettings = $sub.settings,
 	$subSettingsAdvanced = $subSettings.advanced,
-	$isFunction = $.isFunction,
+	$isFunction = function(ob) { return typeof ob === "function"; },
+	$isArray = Array.isArray,
 	$expando = $.expando,
-	$isArray = $.isArray,
 	STRING = "string",
 	OBJECT = "object";
 

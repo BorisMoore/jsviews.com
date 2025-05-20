@@ -3,7 +3,7 @@ see: http://www.jsviews.com/#download/plugins */
 /*
  * https://www.jsviews.com/download/plugins/jsrender-ie8.js
  * JsRender and JsViews support for IE8
- * Copyright 2021, Boris Moore
+ * Copyright 2025, Boris Moore
  * Released under the MIT License.
  */
 

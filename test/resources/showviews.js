@@ -1,4 +1,4 @@
-function viewsAndBindings() {
+function viewsAndBindings($) {
 	var key,
 		topView = _jsv.views[0],
 		res = "",

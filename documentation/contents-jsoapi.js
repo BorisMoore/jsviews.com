@@ -1947,7 +1947,7 @@ content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Providing a filter method to observeAll",
-        "text": "Sometimes a scenario requires that `$.observable(rootObject).observeAll(handler)` calls the handler for a subset of the observable changes under the `rootObject`, rather than for every change.\n\nThis is achieved by passing a filter function as the second parameter of `observeAll()`:\n\n```js\n$.observable(rootObject).observeAll(handler, function(path, object, parentObs) {\n  return ... // Return true for events that should trigger the handler, false for the others...\n});\n```",
+        "text": "<i>(<b>Note:</b> This feature is currently deprecated. An improved version may be provided in a future update.)</i><br/><br/>Sometimes a scenario requires that `$.observable(rootObject).observeAll(handler)` calls the handler for a subset of the observable changes under the `rootObject`, rather than for every change.\n\nThis is achieved by passing a filter function as the second parameter of `observeAll()`:\n\n```js\n$.observable(rootObject).observeAll(handler, function(path, object, parentObs) {\n  return ... // Return true for events that should trigger the handler, false for the others...\n});\n```",
         "anchor": "filter"
       },
       {

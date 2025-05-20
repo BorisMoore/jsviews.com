@@ -1,7 +1,7 @@
 /*! Sample JsViews tag control: {{slider}} control v1.0.3
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
- * Copyright 2019, Boris Moore
+ * Copyright 2025, Boris Moore
  * Released under the MIT License.
  */
 

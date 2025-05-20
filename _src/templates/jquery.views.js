@@ -56,7 +56,8 @@ if (jsr && !jsr.fn) {
 }
 
 var $observe, $observable,
-	$isArray = $.isArray,
+	$isFunction = function(ob) { return typeof ob === "function"; },
+	$isArray = Array.isArray,
 	$views = $.views;
 
 if (!$.render) {
@@ -66,7 +67,6 @@ if (!$.render) {
 if ($views.jsviews !== versionNumber) {
 	throw requiresStr + "query.observable.js " + versionNumber; // Wrong version number
 }
-
 
 if (!$views || !$views.map || $views.jsviews !== versionNumber) {
 	// JsRender is not loaded.
@@ -78,7 +78,6 @@ var document = global.document,
 	$sub = $views.sub,
 	$subSettings = $sub.settings,
 	$extend = $sub.extend,
-	$isFunction = $.isFunction,
 	$expando = $.expando,
 	$converters = $views.converters,
 	$tags = $views.tags,

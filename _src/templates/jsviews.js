@@ -50,7 +50,8 @@ var versionNumber = "v@@include("templates/-version.txt")",
 
 	jsvStoreName, rTag, rTmplString, topView, $views, $observe, $observable, $expando,
 	_ocp = "_ocp",      // Observable contextual parameter
-
+	$isFunction = function(ob) { return typeof ob === "function"; },
+	$isArray = Array.isArray,
 @@include('jsrender.js', { "isJsViews": true })
 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsObservable >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -63,8 +64,6 @@ var versionNumber = "v@@include("templates/-version.txt")",
 
 $views = $.views;
 $sub = $views.sub;
-$isFunction = $.isFunction;
-$isArray = $.isArray;
 $expando = $.expando;
 @@include("jquery.observable.js")
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsViews >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

@@ -5596,7 +5596,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Accessing root data: the built-in '~root' contextual parameter",
-        "text": "The built-in contextual parameter `~root` provides direct access to the *root data* which was passed to the [`render()`](#rendertmpl) method (or [`link()`](#jsvlinktmpl) method if you are using JsViews). It can be accessed from anywhere within a template, at any level of nested tags.\n\n*Note:* If an array is passed to `render()` or `link()` then `~root` will be the array (so you can render `{{:root.length}}` for example).",
+        "text": "The built-in contextual parameter `~root` provides direct access to the *root data* which was passed to the [`render()`](#rendertmpl) method (or [`link()`](#jsvlinktmpl) method if you are using JsViews). It can be accessed from anywhere within a template, at any level of nested tags.\n\n*Note:* If an array is passed to `render()` or `link()` then `~root` will be the array (so you can render `{{:~root.length}}` for example).",
         "anchor": "root"
       },
       {
@@ -7282,7 +7282,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Using myVMobjectOrArray.merge(...) to update a View Model hierarchy",
-        "text": "If a *View Model* hierarchy (or array of *View Model* instances) was created using the `map()` feature above to map from data, then the *View Model* instances (and arrays) will each have a `merge()` method available:\n\n```js\nvar person = Person.map(personData1);\nperson.merge(personData2);             // Incrementally update person (hierarchy)\n```\n\nor for an array:\n\n```js\nvar peopleArray = Person.map(peopleDataArray1);\npeopleArray.merge(peopleDataArray2);   // Incrementally update people array\n```\n\nOr, deeper in the hierarchy:\n\n```js\nvar person = Person.map(personData1);\nperson.phones.merge(phonesDataArray2); // Update just the person.phones array\n```",
+        "text": "If a *View Model* hierarchy (or array of *View Model* instances) was created using the `map()` feature above to map from data, then the *View Model* instances (and arrays) will each have a `merge()` method available:\n\n```js\nvar person = Person.map(personData1);\nperson.merge(personData2);             // Incrementally update person (hierarchy)\n```\n\nor for an array:\n\n```js\nvar peopleArray = Person.map(peopleDataArray1);\npeopleArray.merge(peopleDataArray2);   // Incrementally update people array\n```\n\nOr, deeper in the hierarchy:\n\n```js\nvar person = Person.map(personData1);\nperson.phones().merge(phonesDataArray2); // Update just the person.phones array\n```",
         "anchor": "merge"
       },
       {
@@ -7330,7 +7330,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
       {
         "_type": "para",
         "title": "Using myVMobjectOrArray.unmap() to convert back to a plain object hierarchy",
-        "text": "If a *View Model* hierarchy (or array of *View Model* instances) was created by mapping from data, using the `map()` feature above, then the View Model instances (and arrays) will each have an `unmap()` method (in addition to the `merge()` method mentioned above):\n\n```js\nvar person = Person.map(personData1);\nperson.addPhone(newPhone);\nperson.name(newName)\nvar modifiedPersonData = person.unmap();          // Convert back to a plain object hierarchy\n```\n\nor for an array:\n\n```js\nvar peopleArray = Person.map(peopleDataArray1);\npeopleArray[1].address().street(newStreet)        // Make changes anywhere in the peopleArray\nvar modifiedPeopleDataArray = people.unmap();     // Convert back to a plain object array\n```\n\nOr, deeper in the hierarchy:\n\n```js\nvar person = Person.map(personData1);\nperson.addPhone(newPhone);\nvar modifiedPhonesArray = person.phones.unmap();  // Get a plain object array for person.phones\n```",
+        "text": "If a *View Model* hierarchy (or array of *View Model* instances) was created by mapping from data, using the `map()` feature above, then the View Model instances (and arrays) will each have an `unmap()` method (in addition to the `merge()` method mentioned above):\n\n```js\nvar person = Person.map(personData1);\nperson.addPhone(newPhone);\nperson.name(newName)\nvar modifiedPersonData = person.unmap();          // Convert back to a plain object hierarchy\n```\n\nor for an array:\n\n```js\nvar peopleArray = Person.map(peopleDataArray1);\npeopleArray[1].address().street(newStreet)        // Make changes anywhere in the peopleArray\nvar modifiedPeopleDataArray = people.unmap();     // Convert back to a plain object array\n```\n\nOr, deeper in the hierarchy:\n\n```js\nvar person = Person.map(personData1);\nperson.addPhone(newPhone);\nvar modifiedPhonesArray = person.phones().unmap();  // Get a plain object array for person.phones\n```",
         "anchor": "unmap"
       },
       {
@@ -8302,7 +8302,7 @@ content.jsrapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViews
           {
             "_type": "para",
             "title": "",
-            "text": "```jsr\n<head>\n  <script src=\"https://code.jquery.com/jquery-3.6.4.min.js\"></script>\n  <script src=\"https://www.jsviews.com/download/jsviews.min.js\"></script>\n  <script src=\"https://www.jsviews.com/download/plugins/jsrender-unicode.min.js\"></script>\n</head>\n<body>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"människa.função\"/>\n  {^{:människa.função}} <br/>\n\n  <input data-link=\"människa.角色\"/>\n  {^{:människa.角色}} <br/>\n  ...\n</script>\n\n<div id=\"page\"></div>\n\n<script>\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    människa: {\n      função: \"a1\",\n      角色: \"b2\",\n      ...\n    }\n  };\n\nmyTmpl.link(\"#page\", data);\n</script>\n...\n```\n"
+            "text": "```jsr\n<head>\n  <script src=\"https://code.jquery.com/jquery-3.7.1.min.js\"></script>\n  <script src=\"https://www.jsviews.com/download/jsviews.min.js\"></script>\n  <script src=\"https://www.jsviews.com/download/plugins/jsrender-unicode.min.js\"></script>\n</head>\n<body>\n\n<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"människa.função\"/>\n  {^{:människa.função}} <br/>\n\n  <input data-link=\"människa.角色\"/>\n  {^{:människa.角色}} <br/>\n  ...\n</script>\n\n<div id=\"page\"></div>\n\n<script>\nvar myTmpl = $.templates(\"#myTmpl\"),\n  data = {\n    människa: {\n      função: \"a1\",\n      角色: \"b2\",\n      ...\n    }\n  };\n\nmyTmpl.link(\"#page\", data);\n</script>\n...\n```\n"
           }
         ],
         "html": "<script id=\"myTmpl\" type=\"text/x-jsrender\">\n  <input data-link=\"människa.função\"/>\n  {^{:människa.função}} <br/>\n\n  <input data-link=\"människa.角色\"/>\n  {^{:människa.角色}} <br/>\n\n  <input data-link=\"människa.rôle\"/>\n  {^{:människa.rôle}} <br/>\n\n  <input data-link=\"människa.وظيفة\"/>\n  {^{:människa.وظيفة}} <br/>\n\n  <input data-link=\"människa.ሚና\"/>\n  {^{:människa.ሚና}} <br/>\n</script>\n\n<div id=\"page\"></div>",

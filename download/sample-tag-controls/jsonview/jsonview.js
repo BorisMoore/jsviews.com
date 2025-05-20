@@ -1,13 +1,16 @@
 ﻿/*! Sample JsViews tag control: {{jsonview}} control v1.0.0
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
-  * Copyright 2018, Boris Moore
+  * Copyright 2025, Boris Moore
   * Released under the MIT License.
 */
 
-(function($) {
+(function(jsv, $) {
   "use strict";
-  $.views.tags("jsonview", {
+  $ = jsv && jsv.$ || $;
+  jsv = jsv || $;
+  
+  jsv.views.tags("jsonview", {
     template: {
       markup: '{{if ~tag.isArray(#data)}}'
       + '<span class="jsonview"><span class="brace">[</span>{^{if length}}'
@@ -35,13 +38,13 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
     + '{{/if}}',
       converters: {
         str: function convertValue(val) {
-          return $.views.converters.encode(val+"").replace(/"/g, '\\"');
+          return jsv.views.converters.encode(val+"").replace(/"/g, '\\"');
         },
         cvt: function convertValue(val) {
           if ($.isFunction(val)) {
             return (this.ctx.noFunctions
               ? "<em>[function...]</em>"
-              : $.views.converters.encode(val+""));
+              : jsv.views.converters.encode(val+""));
           } else {
             return val + ""; // TODO Add support for dates
           }
@@ -67,4 +70,4 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
 
   });
 
-})(this.jQuery);
+})(this.jsviews, this.jQuery);

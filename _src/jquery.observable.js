@@ -155,7 +155,7 @@ if (!$.observe) {
 
 		function filterAndObserveAll(obj, prop, unobs, nestedArray) {
 			var newObject, newParentObs;
-			if ((+prop === prop || prop !== $expando) && (newObject = $observable._fltr(newAllPath, obj[prop], nextParentObs, filter))) {
+			if (prop !== $expando && (newObject = $observable._fltr(newAllPath, obj[prop], nextParentObs, filter))) {
 				newParentObs = nextParentObs.slice();
 				if (nestedArray && updatedTgt && newParentObs[0] !== updatedTgt) {
 					newParentObs.unshift(updatedTgt); // For array change events when observing an array which is not the root, need to add updated array to parentObs
@@ -363,11 +363,14 @@ if (!$.observe) {
 						object = arr[relPath];
 						allPath = allPath ? allPath + "." + relPath : allPath;
 					}
-					if (filter && object) {
-						object = $observable._fltr(allPath, object, relPath ? [arr].concat(parentObs) : parentObs, filter);
-					}
-					if (object && (isArray || $isArray(object))) {
-						observeOnOff(cb, object, undefined, arrayChangeStr + ".observe" + getCbKey(cb), undefined, true, unbind);
+
+					if (isArray || $isArray(object)) {
+						if (filter && object) {
+							object = $observable._fltr(allPath, object, parentObs, filter);
+						}
+						if (object) {
+							observeOnOff(cb, object, undefined, arrayChangeStr + ".observe" + getCbKey(cb), undefined, true, unbind);
+						}
 					}
 					allPath = prevAllPath;
 				}
@@ -437,7 +440,7 @@ if (!$.observe) {
 							return observeObjectPaths(object[0], [object[1]], callback, contextCb);
 						}
 
-						while ((prop = prts.shift()) !== undefined) {
+						while ((prop = prts.shift()) !== undefined && prop !== "__proto__") { // Prevent prototype pollution attacks
 							if (obj && typeof obj === OBJECT && typeof prop === STRING) {
 								if (prop === "") {
 									continue;
@@ -623,7 +626,7 @@ if (!$.observe) {
 						} else if (!$isFunction(path) && path && path._cpfn) {
 							// Path is an exprOb returned by a computed property - helper/data function (compiled expr function).
 							// Get innerCb for updating the object
-							innerCb = unobserve ? path.cb : getInnerCb(path);
+							innerCb = unobserve ? path.cb || (path.cb = callback) : getInnerCb(path); // https://github.com/BorisMoore/jsviews/issues/463#issuecomment-2651496030
 							// innerCb._ctx = callback._ctx; Could pass context (e.g. linkCtx) for use in a depends = function() {} call, so depends is different for different linkCtx's
 							innerCb._cId = callback._cId;
 							// Set the same cbBindingsStore key as for callback, so when callback is disposed, disposal of innerCb happens too.
@@ -670,7 +673,7 @@ if (!$.observe) {
 				m = paths.length;
 
 			if (typeof lastArg === STRING) { // If last arg is a string then this observe call is part of an observeAll call,
-				allPath = lastArg;            // and the last three args are the parentObs array, the filter, and the allPath string.
+				allPath = lastArg;           // and the last three args are the filter, the parentObs array, and the allPath string.
 				parentObs = paths.pop();
 				filter = paths.pop();
 				lastArg = !!paths.pop(); // unobserve
@@ -788,7 +791,7 @@ if (!$.observe) {
 
 	$.observable = $observable;
 	$observable._fltr = function(path, object, parentObs, filter) {
-		if (filter && $isFunction(filter)
+		if (filter && $isFunction(filter) && (typeof object === OBJECT || $isFunction(object))
 			? filter(path, object, parentObs)
 			: true // TODO Consider supporting filter being a string or strings to do RegEx filtering based on key and/or path
 		) {
@@ -852,7 +855,8 @@ if (!$.observe) {
 					// Simple single property case.
 					parts = path.split(/[.^]/);
 					while (object && parts.length > 1) {
-						object = object[parts.shift()];
+						key = parts.shift();
+						object = key !== "__proto__" ? object[key] : undefined; // Avoid prototype pollution
 					}
 					if (object) {
 						self._setProperty(object, parts[0], value, nonStrict, isCpfn);

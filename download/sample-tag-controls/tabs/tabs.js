@@ -3,7 +3,7 @@ Version using linkedCtxPrm
 see: http://www.jsviews.com/#download/sample-tagcontrols
 and http://www.jsviews.com/#bindingpatterns@tabsctxprm */
 /*
- * Copyright 2020, Boris Moore
+ * Copyright 2025, Boris Moore
  * Released under the MIT License.
  */
 

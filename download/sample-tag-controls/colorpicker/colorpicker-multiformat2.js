@@ -1,7 +1,7 @@
 /*! Sample JsViews tag control: {{picker}} control v1.0.8
 see: http://www.jsviews.com/#download/sample-tagcontrols */
 /*
- * Copyright 2018, Boris Moore
+ * Copyright 2025, Boris Moore
  * Released under the MIT License.
  */
 

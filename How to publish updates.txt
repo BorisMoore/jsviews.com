@@ -1,0 +1,203 @@
+﻿How to publish updates:
+
+Note: Can view changes by connecting the corresponding git project to Foundation Team Server (or use Git, or GitDesktop to view changes)
+    : To compare files can use Visual Studio - select two files in Solution Explorer, and right-click choose WebEssentials: Diff Selected Files 
+
+On jsviews.com -
+For developing an update, can make changes to a copy (jsviews_CandidateUpdate.js) of download/jsviews.js. 
+Then when ready to publish, copy the coresponding changes from the jsviews_CandidateUpdate.js to "_src/jsrender.js", to "_src/jquery.observable.js", and to "_src/jquery.views.js".
+(Can use VisualStudio webExtensions diff selected files. Or similar with VSCode.)
+
+Update latest version number (e.g. 1.0.5 -> 1.0.6)
+on _src/templates/-version.txt, on contents-download.js (13 instances) and on test.min.mapCDN (4 instances)
+
+Reset left hand nav pane folder hierarchy to standard one, and save categories (using a fresh instance without running search, otherwise you get "loadingfind" ...  "loadedfind")
+
+Make sure no samples have uncommented script blocks which should be commented (e.g. use Search on all .html files. for  "^<script src=.*<!--uncomment"
+Recompile the search files, by hitting compile on dash.html (Previously did this with dash.html as start page in VS, but this no longer seems to work now IE has gone away. 
+So instead debug dash.html in Chrome) - Then take compiledFindResult properties, and copy from text visualizer (In Chrome go to compiledFindResult properties and copy contents of 
+string for each property, then paste into find-xxx.js for each modified top-level category.
+(Consider making a Node.js function to call from command line, using phantom, and saving to file system, to avoid this manual copying step...)
+Consider checking no truncated .js.map files, by doing a search on all '*.js.map;' files '[^}]$' (with regular expressions) - see https://github.com/BorisMoore/jsviews/issues/445
+(and also on jsrender and jsviews projects)
+
+Replace jsrender.js on node_modules jsrender, and jsviews.js, jquery.views.js, jquery.observable.js and jsrender.js on node_modules jsviews,
+so browserify picks up latest version
+
+(For PowerShell on each target (jsviews.com, jsrender etc) see desktop icons)
+
+gulp all
+gulp bundle
+git status
+Check jsviews search for latest version (on download pages) 1.0.xx
+Remove untracked. Check update diffs to remove any temporary changes.
+(requirejs-config.js may need to temporarily have  "baseUrl": set to "../../download" instead of "//www.jsviews.com/download" to run all AMD script loader tests correctly)
+Run all tests in all browsers and back to IE8.
+Check jsviews.com site.
+Run npm test
+Close and reopen all changed files in VS to check line-ending consistency. Also remove all trailing whitespace: Regex: [ \t]+$...
+git status
+git add --all
+git status - check files again
+git commit with changes.txt commit message (Commit v1.0.xx)
+git push (Used to need name and password. borismoore (gtgb-myac-h) ----3----1-, but now seems no longer needed)
+Now that I have 2-factor auth, (using Authy app on phone), the name and password UI was not available.
+I installed https://git-for-windows.github.io/, then opened a Git Bash window, and did git push from there. This brought up UI to authenticate using Authy. Now I can do git push
+even from Powershell command window, and am not required to re-authenticate.
+
+Test www.jsviews.com site. Also www.jsviews.com/test
+
+To update use commit --amend, then push -f.
+
+On jsrender
+Make sure browserify unit tests use require('../../') for require('jsrender').
+Make sure tests-node.js file is same as tests-node.js on jsviews.com, but has require('../../') instead of require('jsrender').
+Remove untracked. Check update diffs to remove any temporary changes.
+Run gulp bundle
+Run npm test
+Run tests in all browsers
+git status
+git add --all
+git status - check files again
+git commit with changes.txt commit message (v1.0.xx release)
+git checkout other branch
+
+NOTE: in some scenarios, Windows may have inserted DESKTOP.INI files into many folders. This will cause an error on gitk --all
+- To fix it, simply search desktop.ini in windows file explorer view, and delete them
+
+gitk --all
+reset branch ... to here. Hard
+git push --all name and password
+Test jsrender git site
+http://borismoore.github.io/jsrender/demos/index.html
+Check perf test
+
+On jsviews
+Replace jsrender.js and jsrender-node.js on node_modules/jsrender so browserify picks up latest version.
+gulp bundle
+Also make sure browserify unit tests use require('../../xxx') for require('jsviews') and /jquery.observable etc. 
+Remove untracked. Check update diffs to remove any temporary changes.
+(requirejs-config.js may need to temporarily have  "baseUrl": set to "../../" instead of "//www.jsviews.com/download" to run all AMD script loader tests correctly)
+Run tests in all browsers
+git status
+git add --all
+git status - check files again	
+git commit with changes.txt commit message (v1.0.xx release)
+git checkout other branch
+gitk --all (See also note above concerning desktop.ini files)
+reset branch ... to here. Hard
+git push --all name and password
+Test jsviews git site
+http://borismoore.github.io/jsviews/demos/index.html
+
+On jsrender and on jsviews:
+Create a new release - Tag version to new v1.0.xx
+Title: v1.0.xx
+Description:
+JsRender v1.0.xx
+
+On jsrender and on jsviews:
+Resolve any issues that have been fixed by this update.
+THEN npm pack on jsrender and on jsviews.
+Check tarball (.tgz) contents, then npm publish .\jsxxxx-1.0.xx.tgz (to publish to updated version).
+(DO NOT just do npm publish, since that will publish with the tar.tgz file INCLUDED in package)
+
+Note: Now, with 2FA using Authy, npm publish will say to hit Enter to open a browser window, (or use npm login to get prompt) - and there will request Authy 6 digit code.
+(Previously did need to be logged in to publish. (Check npm whoami) and used npm login - borismoore stdLH (1-----7bB) - seems no longer needed)
+
+Check
+https://www.npmjs.com/package/jsrender
+and
+https://www.npmjs.com/package/jsviews
+
+On jsrender-node-starter
+npm install - to install new versions of jsrender and jsviews (may need to delete node_modules folder first, to reinstall all.
+Also may need to run as administrator, e.g. windows CMD prompt, and choose Run as Administrator)
+npm run-script bundle
+git status
+git add --all
+git status - check files again
+Test the npm scripts
+git commit with changes.txt commit message
+git push name and password
+Deploy to heroku: 
+$ git push heroku master
+Test
+https://jsrender-node-starter.herokuapp.com/
+
+Later, verify CDN deployment has succeeded.
+
+Then tweet...
+
+If node_modules are corrupted (so gulp all fails) - rename node_modules, run npm install.
+(Then clean up renamed folder, using robocopy "D:\Google Drive\GitHub\empty" "D:\Google Drive\GitHub\jsviews.com\Xode_modules" /purge)
+robocopy "D:\Google Drive\GitHub\jsviews.com_node_modulesBak" "D:\Google Drive\GitHub\jsviews.com\node_modules" /E
+If npm install complains about jsrender/jsviews version not available, set package.json to depend on last version, not new one, and do npm install again.
+
+When testing samples, may need to force reload, to make sure Chrome is loading the current files, not previous cached versions:
+In Chrome, using F12 Developer Tools, right-click the reload button (top left), and choose "Empty Cache and Reload"
+TypeScript testing:
+
+In jsviews.com project:
+
+Test changes to types/jsrender and types/jsviews based on "DefinitelyTypedChanges to make""
+
+run: tsc -p .\test\typescript\
+
+If possible with:
+        "strictFunctionTypes": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+
+When ready, switch to D:\Google Drive\GitHub\DefinitelyTyped,
+
+First sync to upstream:
+
+> git fetch upstream
+> git reset --hard upstream/master
+> git push -f
+
+Then include changes to types/jsrender
+
+npm run lint jsrender
+
+Then 
+> git add --all
+> git commit
+> git push
+
+Then make pull request
+
+After it is accepted, add changes for types/jsviews
+
+npm run lint jsviews
+
+Then 
+> git add --all
+> git commit
+> git push
+
+Then make pull request
+
+////////////////////////////////////////////////////////////////////////////////////
+To debug on NodeJs: open cmd window on myTestFolder.
+Then on chrome, navigate to about:inspect
+Click on "Open dedicated DevTools for Node" and/or "inspect"
+In command window: > node --inspect-brk mytestscript.js
+In Chrome devtools, make sure you are looking at file:///D:/Google%20Drive/GitHub/myTestFolder/mytestscript.js.
+Can look for file under Node tab of "Open dedicated DevTools for Node" window (rather than "inspect" window)
+
+See https://github.com/BorisMoore/jsrender/issues/351
+
+https://expressjs.com/en/guide/using-template-engines.html
+
+To debug gulp.js, call node --inspect-brk "D:\Google Drive\GitHub\jsviews.com\node_modules\gulp\bin\gulp.js" all
+https://stackoverflow.com/a/40033299/1054484
+
+In update 1.0.14, I had to run minifyLibs, so that documentation showed latest changes.
+
+
+
+
+
