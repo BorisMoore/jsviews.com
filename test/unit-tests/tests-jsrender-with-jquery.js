@@ -475,6 +475,39 @@ QUnit.test("jsv.views.viewModels", function(assert) {
 	// ............................... Assert .................................
 	assert.equal(result, '{"t1":{"a":"a3 ","b":"b3 "},"t1Arr":[{"a":"a1 ","b":"b1 "},{"a":"a2 ","b":"b2 "}],"t1OrNull":{"a":"a4 ","b":"b4 "}}',
 		"viewModels, hierarchy");
+
+	// =============================== Arrange ===============================
+	jsv.views.viewModels({
+		Person: {
+			getters: [
+			{getter: "Host"},
+			{getter: "Profile"},
+			{getter: "Voted", type: "Voted_vm"}
+			]
+		},
+		Voted_vm:{
+			getters: ["GUID","State"]
+		}
+		});
+
+	// person plain object hierarchy:
+	var personData = {
+		"Host": "[22, 55]",
+		// "Host": [22, 55],
+		"Profile": "{\"IDs\": [\"bm\", \"gd\"]}",
+		// "Profile": {"IDs": ["bm", "gd"],
+		"Voted": "[{\"GUID\": \"ABC\", \"State\": 30}, {\"GUID\": \"XYZ\", \"State\": \"NY\"}]"
+		// "Voted": [{"GUID": "ABC", "State": 30}, {"GUID": "XYZ", "State": "NY"}]
+	};
+
+		// ................................ Act ..................................
+	var person = jsv.views.viewModels.Person.map(personData);
+	result = person.Host()[0] + person.Host()[1] + person.Profile().IDs[0] + person.Profile().IDs[1]
+  		+ person.Voted()[0].GUID() + person.Voted()[1].State();
+
+	// ............................... Assert .................................
+	assert.equal(result, "77bmgdABCNY", "Object hierarchy passed to map() can include JSON strings in the place of corresponding objects");
+
 });
 
 })(this.jsviews || this.jQuery, this.jsviews && this.jsviews.$ || this.jQuery);

@@ -113,6 +113,8 @@ https://www.npmjs.com/package/jsviews
 On jsrender-node-starter
 npm install - to install new versions of jsrender and jsviews (may need to delete node_modules folder first, to reinstall all.
 Also may need to run as administrator, e.g. windows CMD prompt, and choose Run as Administrator)
+Consider install latest versions of Express and @hapi/hapi.
+
 npm run-script bundle
 git status
 git add --all
@@ -196,8 +198,3 @@ To debug gulp.js, call node --inspect-brk "D:\Google Drive\GitHub\jsviews.com\no
 https://stackoverflow.com/a/40033299/1054484
 
 In update 1.0.14, I had to run minifyLibs, so that documentation showed latest changes.
-
-
-
-
-

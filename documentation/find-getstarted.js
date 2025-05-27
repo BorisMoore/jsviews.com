@@ -184,7 +184,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "JsRender installation",
-        "text": "JsRender installation\njsrender.js is available from downloads on this site.\nCDN delivery is available from the cdnjs CDN at cdnjs.com/libraries/jsrender.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsrender\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (npm) see JsRender Node.js Quickstart\n(For browser loading using Browserify or webpack – see JsRender Node.js Quickstart, JsRender as a Browserify module and JsRender as a webpack module)\n\n"
+        "text": "JsRender installation\njsrender.js is available from downloads on this site.\nCDN delivery is available from the jsdelivr CDN at jsdelivr.com/package/npm/jsrender, and from the cdnjs CDN at cdnjs.com/libraries/jsrender.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsrender\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (npm) see JsRender Node.js Quickstart\n(For browser loading using Browserify or webpack – see JsRender Node.js Quickstart, JsRender as a Browserify module and JsRender as a webpack module)\n\n"
       },
       {
         "_type": "para",
@@ -308,7 +308,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "JsViews installation",
-        "text": "JsViews installation\njsviews.js is available from downloads on this site.\nCDN delivery is available from the cdnjs CDN at cdnjs.com/libraries/jsviews.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsviews\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (npm), and loading using Browserify or webpack, see JsViews as a Browserify module and JsViews as a webpack module\n\nExample HTML page: Loading JsViews\n(Note that jsviews.js includes all of jsrender.js code – so jsrender.js does not need to be loaded first.)\n\nJsViews usage\n"
+        "text": "JsViews installation\njsviews.js is available from downloads on this site.\nCDN delivery is available from the jsdelivr CDN at jsdelivr.com/package/npm/jsviews, and from the cdnjs CDN at cdnjs.com/libraries/jsviews.\nAlternatively:\n\nIt can be installed with Bower, using $ bower install jsviews\nIt can be loaded using an AMD script loader, such as RequireJS\nFor installation using Node.js (npm), and loading using Browserify or webpack, see JsViews as a Browserify module and JsViews as a webpack module\n\nExample HTML page: Loading JsViews\n(Note that jsviews.js includes all of jsrender.js code – so jsrender.js does not need to be loaded first.)\n\nJsViews usage\n"
       },
       {
         "_type": "para",
@@ -333,7 +333,7 @@ content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem
       {
         "_type": "para",
         "title": "Responding to data changes",
-        "text": "Responding to data changes\nJsViews uses the property change or array change events to make any data-linked tags or elements in your templates update automatically in response to each observable change in your underlying data. In addition, with two-way data-linking, it ensures that those events are raised when the user interacts with a data-linked template, and causes changes to the underlying data.\nobserve() and observeAll()\nThe [$.observe()](#observe) and $.observable().observeAll() APIs make it very easy for you to register event handlers or listeners, so your code can listen to specific observable changes made to your data objects or view models:\n$.observe(person, \"name\", function(...) {\n  // The \"name\" property of person has changed\n  ...\n});\n\n$.observable(person).observeAll(function(...) {\n  // A property of person, or a nested object property, has changed\n  ...\n});\n\nLearn more…\n"
+        "text": "Responding to data changes\nJsViews uses the property change or array change events to make any data-linked tags or elements in your templates update automatically in response to each observable change in your underlying data. In addition, with two-way data-linking, it ensures that those events are raised when the user interacts with a data-linked template, and causes changes to the underlying data.\nobserve() and observeAll()\nThe $.observe() and $.observable().observeAll() APIs make it very easy for you to register event handlers or listeners, so your code can listen to specific observable changes made to your data objects or view models:\n$.observe(person, \"name\", function(...) {\n  // The \"name\" property of person has changed\n  ...\n});\n\n$.observable(person).observeAll(function(...) {\n  // A property of person, or a nested object property, has changed\n  ...\n});\n\nLearn more…\n"
       },
       {
         "_type": "para",
