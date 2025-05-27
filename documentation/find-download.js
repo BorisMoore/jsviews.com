@@ -11,6 +11,11 @@ content.find.download = content.useStorage && $.parseJSON(localStorage.getItem("
       },
       {
         "_type": "para",
+        "title": "",
+        "text": "Note:\nUnfortunately the CDNJS CDN have an unresolved issue preventing them from updating to the latest version of JsRender/JsViews. Their latest version is v1.0.15.\nFor CDN delivery of v1.0.16 it is therefore recommended to use jsDelivr (see below).\n"
+      },
+      {
+        "_type": "para",
         "title": "<b>JsRender</b> <em>(jsrender.js) &ndash; rendering templates in the browser</em>",
         "text": "JsRender (jsrender.js) – rendering templates in the browser\nLatest version (To download, right-click and select “Save as…” from the menu):\n\nUncompressed (for development): jsrender.js\nCompressed (for production): jsrender.min.js. (Source map available here)\n\nJsRender is also available:\n\non jsDelivr CDN at jsdelivr.com/package/npm/jsrender \non cdnjs CDN at cdnjs.com/libraries/jsrender \nusing Bower to install on the file system: $ bower install jsrender\n\nExample HTML pages:\n\nPage loading JsRender with jQuery\nPage loading JsRender without jQuery\n\nSee:\nJsRender Quickstart\n"
       },

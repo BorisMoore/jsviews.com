@@ -13,6 +13,11 @@ content.download = content.useStorage && $.parseJSON(localStorage.getItem("JsVie
       },
       {
         "_type": "para",
+        "title": "",
+        "text": "***Note:***\n*Unfortunately the **CDNJS** CDN have an unresolved issue preventing them from updating to the latest version of JsRender/JsViews. Their latest version is v1.0.15.*<br/><br/>\n*For CDN delivery of v1.0.16 it is therefore recommended to use jsDelivr (see below).*"
+      },
+      {
+        "_type": "para",
         "title": "<b>JsRender</b> <em>(jsrender.js) &ndash; rendering templates in the browser</em>",
         "text": "***Latest version*** *(To download, right-click and select \"Save as...\" from the menu):*\n- *Uncompressed (for development):* <a href=\"https://www.jsviews.com/download/jsrender.js\">jsrender.js</a>\n- *Compressed (for production):* <a href=\"https://www.jsviews.com/download/jsrender.min.js\">jsrender.min.js</a>. (Source map available <a href=\"https://www.jsviews.com/download/jsrender.min.js.map\">here</a>)\n\n\n*JsRender is also available:*\n- on __jsDelivr__ CDN at [jsdelivr.com/package/npm/jsrender](https://jsdelivr.com/package/npm/jsrender?tab=files) ![NPM Version](https://img.shields.io/npm/v/jsrender.svg)\n- on __cdnjs__ CDN at [cdnjs.com/libraries/jsrender](https://cdnjs.com/libraries/jsrender) ![CDNJS version](https://img.shields.io/cdnjs/v/jsrender.svg)\n- using [Bower](http://bower.io/search/?q=jsrender) to install on the file system: `$ bower install jsrender`\n\n*Example HTML pages:*\n- [Page loading JsRender with jQuery](#download/pages-jsr-jq)\n- [Page loading JsRender without jQuery](#download/pages-jsr) \n\n*See:*\n[JsRender Quickstart](#jsr-quickstart)\n\n",
         "anchor": "jsrender"
