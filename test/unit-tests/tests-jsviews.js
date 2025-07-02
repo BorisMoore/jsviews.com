@@ -9069,7 +9069,50 @@ QUnit.test("Chained computed observables in template expressions", function(asse
 		}
 
 		// ............................... Assert .................................
-		assert.equal(res, "", "Complex nested parens with data-link expressions"); //https://github.com/BorisMoore/jsviews/issues/463#issuecomment-2651496030
+		assert.equal(res, "", "Complex nested parens with data-link expressions");
+		//https://github.com/BorisMoore/jsviews/issues/463
+
+		// ................................ Reset ................................
+		$("#result").empty();
+
+		// Compile View Models
+		$.views.viewModels({
+		Person: {
+			getters: [
+			"name", "val",
+			]
+		}
+		});
+
+		// person plain object hierarchy:
+		var personData = {
+		name: " Name",
+		val: " Val",
+		};
+
+		// Instantiate View Model hierarchy using map()
+		var person = $.views.viewModels.Person.map(personData);
+		person.test = function() {
+		return "TEST";
+		};
+		
+		// Render template against person object (instance of Person)
+		$.templates("1 n {^{:name()+test()+(val())}}\
+1 {^{:name()+(test()+val())}}\
+2 {^{:name()+(val())}}\
+3 {^{:name()+val()}}\
+4 {^{:name()+(1)}}\
+5 {^{:name()}}"
+		).link("#result", person);
+
+		person.name("newName");
+		res = $("#result").text(); 
+		person.val("newVal");
+		res += " | " + $("#result").text(); 
+
+		// ............................... Assert .................................
+		assert.equal(res, "1 n newNameTEST Val1 newNameTEST Val2 newName Val3 newName Val4 newName15 newName | 1 n newNameTESTnewVal1 newNameTESTnewVal2 newNamenewVal3 newNamenewVal4 newName15 newName", "Complex nested parens and VM props, with data-link expressions");
+		//https://github.com/BorisMoore/jsviews/issues/463
 
 		// ................................ Reset ................................
 		$("#result").empty();
@@ -13873,6 +13916,48 @@ QUnit.test('{^{checkboxgroup}}', function(assert) {
 	// ............................... Assert .................................
 	assert.equal(res, ">:NONE||:BOB:JIM:NEW:NONE:BOB:JIM:NEW|:JIM:JIM|:NEW:NEW|",
 		'{^{checkboxgroup selectedPeople}} - two checkboxgroups wrapped in {{if}} blocks - one set back to true');
+
+	// =============================== Arrange ===============================
+  	var data = {};
+
+	jsv.templates('{{^{checkboxgroup fruit}}<input type="checkbox" value="apple"/><input type="checkbox" value="orange"/><input type="checkbox" value="grape"/>{{/checkboxgroup}}')
+		.link("#result", data);
+
+	// ................................ Act .................................. 
+	$("#result input:checkbox").eq(1).prop("checked", true).change();
+	$("#result input:checkbox").eq(0).prop("checked", true).change();
+
+	// ............................... Assert .................................
+	assert.equal(JSON.stringify(data), '{"fruit":["orange","apple"]}', "checkboxgroup with no initial array: checkboxgroup creates correct array");
+	// https://github.com/BorisMoore/jsviews/issues/465
+
+    var data = {
+      selectedSports: ["swimming"]
+    };
+
+	$.templates('{^{checkboxgroup selectedSports linkTo=modifiedSports}}\
+       <label><input type="checkbox" value="swimming"/> Swimming</label> <br/>\
+       <label><input type="checkbox" value="running"/> Running</label> <br/>\
+       <label><input type="checkbox" value="soccer"/> Soccer</label> <br/>\
+    {{/checkboxgroup}}').link("#result", data);
+
+	res = JSON.stringify(data.selectedSports) + JSON.stringify(data.modifiedSports);
+	$("#result input:checkbox").eq(1).prop("checked", true).change(); //set running 
+	res += JSON.stringify(data.selectedSports) + JSON.stringify(data.modifiedSports);
+	$("#result input:checkbox").eq(0).prop("checked", false).change(); //unset swimming
+	res += JSON.stringify(data.selectedSports) + JSON.stringify(data.modifiedSports);
+	$("#result input:checkbox").eq(2).prop("checked", true).change(); //set soccer
+	res += JSON.stringify(data.selectedSports) + JSON.stringify(data.modifiedSports);
+
+		// ["swimming"]undefined
+		// ["swimming"]["swimming","running"]
+		// ["swimming"]["running"]
+		// ["swimming"]["running","soccer"]
+
+	assert.equal(res, '["swimming"]undefined["swimming"]["swimming","running"]["swimming"]["running"]["swimming"]["running","soccer"]',
+		"checkboxgroup with linkTo modified, (no initial array): creates correct modified array");
+
+// https://github.com/BorisMoore/jsviews/issues/465
 
 	// ................................ Reset ................................
 	$("#result").empty();

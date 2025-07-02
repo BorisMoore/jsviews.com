@@ -500,14 +500,47 @@ QUnit.test("jsv.views.viewModels", function(assert) {
 		// "Voted": [{"GUID": "ABC", "State": 30}, {"GUID": "XYZ", "State": "NY"}]
 	};
 
-		// ................................ Act ..................................
+	// ................................ Act ..................................
 	var person = jsv.views.viewModels.Person.map(personData);
 	result = person.Host()[0] + person.Host()[1] + person.Profile().IDs[0] + person.Profile().IDs[1]
   		+ person.Voted()[0].GUID() + person.Voted()[1].State();
 
 	// ............................... Assert .................................
 	assert.equal(result, "77bmgdABCNY", "Object hierarchy passed to map() can include JSON strings in the place of corresponding objects");
+    // See https://github.com/BorisMoore/jsviews/issues/468
 
+	// =============================== Arrange ===============================
+
+	// Compiled template
+	var tmpl = $.templates('{{for phones() sort="number"}}{{:number()}}{{/for}}');
+
+	// Compile View Models
+	jsv.views.viewModels({
+	Person: {
+		getters: [
+		{getter: "phones", type: "Phone"}     // Each phone is of type Phone (View Model)
+		]
+	},
+	Phone:{
+		getters: ["number"]
+	}
+	});
+
+	var personData = {
+		phones: [{number: "111"}, {number: "333"}, {number: "222"}]
+	};
+
+	// Instantiate View Model hierarchy using map()
+	var person = jsv.views.viewModels.Person.map(personData);
+
+	// Render template against person object (instance of Person)
+	result = tmpl.render(person);
+
+	// ............................... Assert .................................
+
+	assert.equal(result, "111222333", "Compiled View Model: {{for phones() sort=\"number\"...");
+	// See: https://github.com/BorisMoore/jsviews/issues/466
 });
+
 
 })(this.jsviews || this.jQuery, this.jsviews && this.jsviews.$ || this.jQuery);
