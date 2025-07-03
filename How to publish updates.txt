@@ -5,7 +5,7 @@ Note: Can view changes by connecting the corresponding git project to Foundation
 
 On jsviews.com -
 For developing an update, can make changes to a copy (jsviews_CandidateUpdate.js) of download/jsviews.js. 
-Then when ready to publish, copy the coresponding changes from the jsviews_CandidateUpdate.js to "_src/jsrender.js", to "_src/jquery.observable.js", and to "_src/jquery.views.js".
+Then when ready to publish, copy the corresponding changes from the jsviews_CandidateUpdate.js to "_src/jsrender.js", to "_src/jquery.observable.js", and to "_src/jquery.views.js".
 (Can use VisualStudio webExtensions diff selected files. Or similar with VSCode.)
 
 Update latest version number (e.g. 1.0.5 -> 1.0.6)
