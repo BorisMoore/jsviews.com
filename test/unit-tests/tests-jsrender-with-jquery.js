@@ -132,7 +132,7 @@ QUnit.test("templates", function(assert) {
 
 	tmpl2 = jsv.templates("#my_tmpl");
 	tmpl3 = jsv.templates("#my_tmpl");
-	assert.equal(tmpl2 === tmpl3 && $.trim(tmpl2.render(person)), "A_Jo_B", 'var tmpl = jsv.templates("#my_tmpl"); returns compiled template for script element');
+	assert.equal(tmpl2 === tmpl3 && tmpl2.render(person).trim(), "A_Jo_B", 'var tmpl = jsv.templates("#my_tmpl"); returns compiled template for script element');
 
 	jsv.templates({
 		my_tmpl3: {
@@ -140,17 +140,17 @@ QUnit.test("templates", function(assert) {
 		}
 	});
 
-	assert.equal(jsv.render.my_tmpl3 === jsv.templates.my_tmpl3 && jsv.templates.my_tmpl3 !== tmpl2 && $.trim(jsv.render.my_tmpl3(person)), "A_Jo_B", 'Named template for template object with selector: {markup: "#my_tmpl"}');
+	assert.equal(jsv.render.my_tmpl3 === jsv.templates.my_tmpl3 && jsv.templates.my_tmpl3 !== tmpl2 && jsv.render.my_tmpl3(person).trim(), "A_Jo_B", 'Named template for template object with selector: {markup: "#my_tmpl"}');
 
 	tmpl3 = jsv.templates("", {
 		markup: "#my_tmpl"
 	});
-	assert.equal($.trim(tmpl3.render(person)), "A_Jo_B", 'Compile from template object with selector, without registering: {markup: "#my_tmpl"}');
+	assert.equal(tmpl3.render(person).trim(), "A_Jo_B", 'Compile from template object with selector, without registering: {markup: "#my_tmpl"}');
 
 	var tmpl4 = jsv.templates({
 		markup: "#my_tmpl"
 	});
-	assert.equal($.trim(tmpl4.render(person)), "A_Jo_B", 'Compile from template object with selector, without registering: {markup: "#my_tmpl"}');
+	assert.equal(tmpl4.render(person).trim(), "A_Jo_B", 'Compile from template object with selector, without registering: {markup: "#my_tmpl"}');
 
 	assert.equal(jsv.templates("#my_tmpl"), jsv.templates("#my_tmpl"), 'jsv.templates("#my_tmpl") caches compiled template, and does not recompile each time;');
 
@@ -195,7 +195,7 @@ QUnit.test("templates", function(assert) {
 });
 
 QUnit.test("render", function(assert) {
-	assert.equal($.trim($("#my_tmpl").render(person)), "A_Jo_B", '$(tmplSelector).render(data);'); // Trimming because IE adds whitespace
+	assert.equal($("#my_tmpl").render(person).trim(), "A_Jo_B", '$(tmplSelector).render(data);'); // Trimming because IE adds whitespace
 
 	var tmpl3 = jsv.templates("my_tmpl4", tmplString);
 

@@ -63,6 +63,6 @@ var model = {
 
 pageTmpl.link("#page", model, helpers);
 
-// Alternatively, register helpers: 
+// Alternatively, register helpers:
 //$.views.helpers(helpers);
 //pageTmpl.link("#page", model);

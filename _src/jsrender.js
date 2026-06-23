@@ -1488,7 +1488,7 @@ function tmplObject(markup, options) {
 	if (htmlTag && htmlTag !== wrapMap.div) {
 		// When using JsViews, we trim templates which are inserted into HTML contexts where text nodes are not rendered (i.e. not 'Phrasing Content').
 		// Currently not trimmed for <li> tag. (Not worth adding perf cost)
-		tmpl.markup = $.trim(tmpl.markup);
+		tmpl.markup = tmpl.markup.trim();
 	}
 
 	return tmpl;
@@ -2215,8 +2215,8 @@ function parseParams(params, pathBindings, tmpl, isLinkExpr) {
 				// We create a compiled function to get the object instance (which will be called when the dependent data of the subexpression changes,
 				// to return the new object, and trigger re-binding of the subsequent path)
 				expr = pathStart[fnDp-1];
-				if (full.length - 1 > ind - (expr || 0)) { // We need to compile a subexpression
-					expr = $.trim(full.slice(expr, ind + all.length));
+				if (typeof full !== "undefined" && full.length - 1 > ind - (expr || 0)) { // We need to compile a subexpression
+					expr = full.slice(expr, ind + all.length).trim();
 					binds = bindto || bndStack[fnDp-1].bd;
 					// Insert exprOb object, to be used during binding to return the computed object
 					theOb = binds[binds.length-1];
@@ -2629,7 +2629,7 @@ function getTargetProps(source, tagCtx) {
 		if (typeof source === OBJECT || $isFunction(source)) {
 			for (key in source) {
 				prop = source[key];
-				if (key !== $@@if (context.isNode) {.}expando && source.hasOwnProperty(key) && (!tagCtx.props.noFunctions || !$.isFunction(prop))) {
+				if (key !== $@@if (context.isNode) {.}expando && source.hasOwnProperty(key) && (!tagCtx.props.noFunctions || !$isFunction(prop))) {
 					propsArr.push({key: key, prop: prop});
 				}
 			}

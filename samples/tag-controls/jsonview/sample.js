@@ -6,7 +6,7 @@ var team = {
   },
   addMember: function() {
     $.observable(this.members).setProperty("n" + cnt, {name: "new" + cnt++});
-  }, 
+  },
   removeMember: function(key) {
     $.observable(this.members).removeProperty(key);
   },

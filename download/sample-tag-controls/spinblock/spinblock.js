@@ -21,7 +21,7 @@ spinblock: {
     + '<path d="M5,6 L11,6 L8,2 Z M5,11 L11,11 L8,15 Z"></path>'
   + '</svg>'
   + '{^{include ^tmpl=~tag.tagCtxs[~pane].content/}}' // Render wrapped content of selected block,
-                                                      // data-linked to ~tag.pane for dynamic switching 
+                                                      // data-linked to ~tag.pane for dynamic switching
 + '{{/if}}',
 
   // JsViews handlers and methods

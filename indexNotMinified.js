@@ -366,7 +366,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 	},
 
 // {{searchTree}}
- 
+
 	searchTreeTag = {
 		baseTag: "tree",
 		filter: true,
@@ -443,7 +443,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					if ($(ev.target).is("cmdbtn,a,input,textarea,button,img,.removesection")) {
 						return;
 					}
-					self.toggleSelect(); 
+					self.toggleSelect();
 				});
 				self.contents(true, ".toggleselect:first").on("click", function() {
 					self.toggleSelect();
@@ -527,14 +527,14 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 	sampleFrameTag = {
 		init: function() {
 			var self = this,
-				data = $.parseJSON(stringify(self.parent.parents.section.data)),
+				data = JSON.parse(stringify(self.parent.parents.section.data)),
 				codetabs = data.codetabs;
 
 			self.parent.sampleFrame = self;
 			self.getScript = function(loadScript) {
 				self.loadScript = loadScript;
 				if (data.url) {
-					var html = $.trim(self.iframeWnd.document.body.innerHTML).replace(/&#10;/g, "\n"), // IE puts &#10; entities in place of some newlines
+					var html = self.iframeWnd.document.body.innerHTML.trim().replace(/&#10;/g, "\n"), // IE puts &#10; entities in place of some newlines
 						toremove = html.indexOf("\n<!--<script src=\""),
 						header = self.iframeWnd.document.head || "";
 					if (toremove > 0) {
@@ -670,7 +670,7 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 					+ "<!-- To run the current sample code in your own environment, copy this to an html page. -->\n\n"
 					+ "<html>\n"
 					+ "<head>\n"
-					+ "  <script src=\"https://code.jquery.com/jquery-3.7.1.min.js\"></script>\n"
+					+ "  <script src=\"https://code.jquery.com/jquery-4.0.0.min.js\"></script>\n"
 					+ (url
 						? ((codeInHeader
 								? ("<script>\n" + code
@@ -678,8 +678,8 @@ var page, selectedCategory, topCategory, homeCategory, topCategoryName, scrollTa
 								: ""))
 						: (
 					(jsrJsvJqui === "jqui"
-						? "  <script src=\"https://code.jquery.com/ui/1.13.2/jquery-ui.min.js\"></script>\n"
-							+ "  <link href=\"https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css\" rel=\"stylesheet\" />\n"
+						? "  <script src=\"https://code.jquery.com/ui/1.14.2/jquery-ui.min.js\"></script>\n"
+							+ "  <link href=\"https://code.jquery.com/ui/1.14.2/themes/base/jquery-ui.css\" rel=\"stylesheet\" />\n"
 						: ""
 					)
 					+ "  <script src=\"https://www.jsviews.com/download/js" + (jsrJsvJqui === "jsr" ? "render" : "views")
@@ -1072,18 +1072,18 @@ function searchTopic(topicName, text, topCatContent, topCatFindContent) {
 						}
 						sectionId = topicName + "@" + content.filter.length;
 						searchAnchor = "#search?s=" + lowerCaseEncodeURI(text) + searchIncludeHash() + "&l=" + sectionId;
-				
+
 						$.observable(section).setProperty("searchAnchor", "#search?s=" + lowerCaseEncodeURI(text) + searchIncludeHash() + "&l=" + sectionId);
 						searchItem = {
 							section: sectionId,
-							searchTerm: htmlConverter(displayText.substr(index, text.length)), 
+							searchTerm: htmlConverter(displayText.substr(index, text.length)),
 							text: htmlConverter(preText)
 								+ "<span class='searchterm'>"
 									+ htmlConverter(displayText.substr(index, text.length))
 								+ "</span>"
 								+ htmlConverter(postText)
 						};
-					
+
 						filtered.push(searchItem);
 						content.filter.push(searchItem);
 					}
@@ -1091,7 +1091,7 @@ function searchTopic(topicName, text, topCatContent, topCatFindContent) {
 				$.observable(section).setProperty("searchAnchor", searchAnchor);
 			}
 		}
-		$.observable(topic).setProperty("filtered", filtered); 
+		$.observable(topic).setProperty("filtered", filtered);
 		return topic.filtered;
 	}
 }
@@ -1382,7 +1382,7 @@ function getContent(topics) {
 	}
 
 	ret = "var content = $.views.documentation.content;\n\ncontent."
-		+ name + " = content.useStorage && $.parseJSON(localStorage.getItem(\"" + path + "\")) ||\n"
+		+ name + " = content.useStorage && JSON.parse(localStorage.getItem(\"" + path + "\")) ||\n"
 		+ stringify(topics) + ";";
 
 	if (topics === categories) {

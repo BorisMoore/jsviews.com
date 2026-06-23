@@ -1,6 +1,6 @@
 ﻿var content = $.views.documentation.content;
 
-content.find.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/find/getstarted")) ||
+content.find.getstarted = content.useStorage && JSON.parse(localStorage.getItem("JsViewsDocTopics/find/getstarted")) ||
 {
   "getstarted": {
     "sections": [

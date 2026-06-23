@@ -2852,8 +2852,9 @@ QUnit.test('data-link="attr{:expression}"', function(assert) {
 	after = $("#result span")[0].getAttribute("title");
 
 	// ............................... Assert .................................
-	assert.ok(before === 'One' && after === "false",
-	'Data link using: <span data-link="title{:lastName}"></span>, and string lastName to false - sets title to "false"');
+	assert.ok(before === 'One' && (after === null || after === "false"),
+	// With jQuery-4, if attribute is removed, getAttribute returns null. With jQuery<4, returns "false"
+	'Data link using: <span data-link="title{:lastName}"></span>, and string lastName to false - sets title to null');
 
 	// ................................ Reset ................................
 	$("#result").empty();
@@ -9095,7 +9096,7 @@ QUnit.test("Chained computed observables in template expressions", function(asse
 		person.test = function() {
 		return "TEST";
 		};
-		
+
 		// Render template against person object (instance of Person)
 		$.templates("1 n {^{:name()+test()+(val())}}\
 1 {^{:name()+(test()+val())}}\
@@ -9106,9 +9107,9 @@ QUnit.test("Chained computed observables in template expressions", function(asse
 		).link("#result", person);
 
 		person.name("newName");
-		res = $("#result").text(); 
+		res = $("#result").text();
 		person.val("newVal");
-		res += " | " + $("#result").text(); 
+		res += " | " + $("#result").text();
 
 		// ............................... Assert .................................
 		assert.equal(res, "1 n newNameTEST Val1 newNameTEST Val2 newName Val3 newName Val4 newName15 newName | 1 n newNameTESTnewVal1 newNameTESTnewVal2 newNamenewVal3 newNamenewVal4 newName15 newName", "Complex nested parens and VM props, with data-link expressions");
@@ -13923,7 +13924,7 @@ QUnit.test('{^{checkboxgroup}}', function(assert) {
 	jsv.templates('{{^{checkboxgroup fruit}}<input type="checkbox" value="apple"/><input type="checkbox" value="orange"/><input type="checkbox" value="grape"/>{{/checkboxgroup}}')
 		.link("#result", data);
 
-	// ................................ Act .................................. 
+	// ................................ Act ..................................
 	$("#result input:checkbox").eq(1).prop("checked", true).change();
 	$("#result input:checkbox").eq(0).prop("checked", true).change();
 
@@ -13942,7 +13943,7 @@ QUnit.test('{^{checkboxgroup}}', function(assert) {
     {{/checkboxgroup}}').link("#result", data);
 
 	res = JSON.stringify(data.selectedSports) + JSON.stringify(data.modifiedSports);
-	$("#result input:checkbox").eq(1).prop("checked", true).change(); //set running 
+	$("#result input:checkbox").eq(1).prop("checked", true).change(); //set running
 	res += JSON.stringify(data.selectedSports) + JSON.stringify(data.modifiedSports);
 	$("#result input:checkbox").eq(0).prop("checked", false).change(); //unset swimming
 	res += JSON.stringify(data.selectedSports) + JSON.stringify(data.modifiedSports);
@@ -25036,7 +25037,7 @@ QUnit.test('Custom Tag Controls - two-way binding (multiple targets)', function(
 	};
 
 	jsv.templates({
-		markup: 
+		markup:
 		"{^{mytag arrA[0].val objA2['0'].val objA3['x'].val objA4.x.val p1=arrB[0].val p2=objB2['0'].val p3=objB3['x'].val p4=objB4.x.val}}"
 		+ "{{else  arrC[0].val objC2['0'].val objC3['x'].val objC4.x.val p1=arrD[0].val p2=objD2['0'].val p3=objD3['x'].val p4=objD4.x.val}}"
 		+ "{{/mytag}}",
@@ -25113,7 +25114,7 @@ QUnit.test('Custom Tag Controls - two-way binding (multiple targets)', function(
 	};
 
 	jsv.templates({
-		markup: 
+		markup:
 		"{^{mytag arrA().val objA2().val objA3().val objA4().val p1=arrB().val p2=objB2().val p3=objB3().val p4=objB4().val}}"
 		+ "{{else  arrC().val objC2().val objC3().val objC4().val p1=arrD().val p2=objD2().val p3=objD3().val p4=objD4().val}}"
 		+ "{{/mytag}}",
@@ -25149,7 +25150,7 @@ QUnit.test('Custom Tag Controls - two-way binding (multiple targets)', function(
 	// =============================== Arrange ===============================
 
 	jsv.templates({
-		markup: 
+		markup:
 		"{^{mytag arg prop=prop/}}",
 		tags: {
 			mytag: {
@@ -25176,7 +25177,7 @@ QUnit.test('Custom Tag Controls - two-way binding (multiple targets)', function(
 	// =============================== Arrange ===============================
 
 	jsv.templates({
-		markup: 
+		markup:
 		"{^{mytag prop=prop prop2=prop2 /}}",
 		tags: {
 			mytag: {
@@ -25222,7 +25223,7 @@ QUnit.test('Custom Tag Controls - two-way binding, with array-valued properties'
 	}
 
 	jsv.templates({
-		markup: 
+		markup:
 	'<input data-link="val" /><input data-link="title" /><input data-link="mode" /><br/>'
 + '{^{checkboxgroup arr convert="same" convertBack="same" }}{^{for items}}<label><input type="checkbox" value="{{:}}"/> {{:}}</label><br/>{{/for}}{{/checkboxgroup}}<br/>'
 + '{^{for items}}<label><input name="sports" type="checkbox" value="{{:}}"data-link="{same:~root.arr:same}" /> {{:}}</label><br/>{{/for}}<br/>'
@@ -25441,7 +25442,7 @@ QUnit.test('Custom Tag Controls - two-way binding, with array-valued properties'
 	}
 
 	jsv.templates({
-		markup: 
+		markup:
 	'{^{checkboxgroup arr convert="same" convertBack="same" }}{^{for items}}<label><input type="checkbox" value="{{:}}"/> {{:}}</label><br/>{{/for}}{{/checkboxgroup}}<br/>'
 + '{^{for items}}<label><input name="sports" type="checkbox" value="{{:}}"data-link="{same:~root.arr:same}" /> {{:}}</label><br/>{{/for}}<br/>'
 + '<select multiple data-link="{same:arr:same}">{^{for items}}<option>{{:}}</option>{{/for}}</select><br/>'
@@ -25517,7 +25518,7 @@ QUnit.test('Custom Tag Controls - two-way binding, with array-valued properties'
 	}
 
 	jsv.templates({
-		markup: 
+		markup:
 	'{^{checkboxgroup arr convert="same" convertBack="same" }}{^{for items}}<label><input type="checkbox" value="{{:}}"/> {{:}}</label><br/>{{/for}}{{/checkboxgroup}}<br/>'
 + '{^{for items}}<label><input name="sports" type="checkbox" value="{{:}}"data-link="{same:~root.arr:same}" /> {{:}}</label><br/>{{/for}}<br/>'
 + '<select multiple data-link="{same:arr:same}">{^{for items}}<option>{{:}}</option>{{/for}}</select><br/>'
@@ -25731,7 +25732,7 @@ QUnit.test("Tag control events", function(assert) {
 						jsv.unobserve(tag._boundArray, tag._arCh); // Different array, so remove handler from previous array
 						tag._boundArray = undefined;
 					}
-					if (!tag._boundArray && $.isArray(data)) {
+					if (!tag._boundArray && Array.isArray(data)) {
 						jsv.observe(tag._boundArray = data, tag._arCh = function(ev, eventArgs) { // Store array data as tag._boundArray, and arrayChangeHandler as tag._arCh
 							tag.onArrayChange(ev, eventArgs);
 						});
@@ -25846,7 +25847,7 @@ var inputs = $("#result input"),
 	spans = $("#result span");
 
 	// ............................... Assert .................................
-	assert.equal("myTag: " + spans[0].innerText + " inputs: " + inputs[0].value + inputs[1].value + inputs[2].value + 
+	assert.equal("myTag: " + spans[0].innerText + " inputs: " + inputs[0].value + inputs[1].value + inputs[2].value +
 		"myTagElse: " + spans[1].innerText + " inputs: " + inputs[3].value + inputs[4].value + inputs[5].value,
 			"myTag: 5 inputs: P1(index:0 else:0 iteration:5) P2(index:1 else:0 iteration:4) A(index:2 else:0 iteration:3) " +
 			"myTagElse: 5 inputs: elseP1(index:0 else:1 iteration:2) elseP2(index:1 else:1 iteration:1) elseA(index:2 else:1 iteration:0) ",
@@ -25862,7 +25863,7 @@ var inputs = $("#result input"),
 		.setProperty("other", "OX");
 
 	// ............................... Assert .................................
-	assert.equal("myTag: " + spans[0].innerText + " inputs: " + inputs[0].value + inputs[1].value + inputs[2].value + 
+	assert.equal("myTag: " + spans[0].innerText + " inputs: " + inputs[0].value + inputs[1].value + inputs[2].value +
 		"myTagElse: " + spans[1].innerText + " inputs: " + inputs[3].value + inputs[4].value + inputs[5].value,
 			"myTag: 11 inputs: p1X(index:0 else:0 iteration:7 propChange: p1X) p2X(index:1 else:0 iteration:8 propChange: p2X) AX(index:2 else:0 iteration:6 propChange: AX) " +
 			"myTagElse: 11 inputs: elseP1X(index:0 else:1 iteration:10 propChange: elseP1X) elseP2X(index:1 else:1 iteration:11 propChange: elseP2X) elseAX(index:2 else:1 iteration:9 propChange: elseAX) ",
@@ -25905,7 +25906,7 @@ var inputs = $("#result input"),
 	spans = $("#result span");
 
 	// ............................... Assert .................................
-	assert.equal("myTag: " + spans[0].innerText + " inputs: " + inputs[0].value + inputs[1].value + inputs[2].value + 
+	assert.equal("myTag: " + spans[0].innerText + " inputs: " + inputs[0].value + inputs[1].value + inputs[2].value +
 		"myTagElse: " + spans[1].innerText + " inputs: " + inputs[3].value + inputs[4].value + inputs[5].value,
 			"myTag: 5 inputs: undefined(index:0 else:0 iteration:5) undefined(index:1 else:0 iteration:4) undefined(index:2 else:0 iteration:3) " +
 			"myTagElse: 5 inputs: undefined(index:0 else:1 iteration:2) undefined(index:1 else:1 iteration:1) undefined(index:2 else:1 iteration:0) ",
@@ -25921,7 +25922,7 @@ var inputs = $("#result input"),
 		.setProperty("other", "OX");
 
 	// ............................... Assert .................................
-	assert.equal("myTag: " + spans[0].innerText + " inputs: " + inputs[0].value + inputs[1].value + inputs[2].value + 
+	assert.equal("myTag: " + spans[0].innerText + " inputs: " + inputs[0].value + inputs[1].value + inputs[2].value +
 		"myTagElse: " + spans[1].innerText + " inputs: " + inputs[3].value + inputs[4].value + inputs[5].value,
 			"myTag: 11 inputs: p1X(index:0 else:0 iteration:7 propChange: p1X) p2X(index:1 else:0 iteration:8 propChange: p2X) AX(index:2 else:0 iteration:6 propChange: AX) " +
 			"myTagElse: 11 inputs: elseP1X(index:0 else:1 iteration:10 propChange: elseP1X) elseP2X(index:1 else:1 iteration:11 propChange: elseP2X) elseAX(index:2 else:1 iteration:9 propChange: elseAX) ",
@@ -25963,7 +25964,7 @@ var inputs = $("#result input"),
 	}).link("#result", person1);
 
 	// ............................... Assert .................................
-	assert.equal($("#result").text() + "|" + eventData, 
+	assert.equal($("#result").text() + "|" + eventData,
 "|init onBind after setValue (arg index: 0-true) ",
 "Event sequence for a non-rendering custom tag control is correct");
 
@@ -26010,7 +26011,7 @@ mytag.setValue("Three");
 jsv.observable(person1).setProperty("lastName", "Three");
 
 	// ............................... Assert .................................
-	assert.equal(eventData, 
+	assert.equal(eventData,
 "Init| setValue(arg:One index: 0-true) \nUpdate to One| \nUpdate to Two| setValue(arg:One index: 0-true) \nUpdate to Two and setValue to Three, twice| setValue(arg:Three index: 0-false) setValue(arg:Three index: 0-true) ",
 "SetValue correctly called twice in a row for the same value - in response to bindFrom data value being returned to previous value, following call to tag.updateValue()");
 

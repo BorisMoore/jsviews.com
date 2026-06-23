@@ -1,6 +1,6 @@
 ﻿var content = $.views.documentation.content;
 
-content.community = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/community")) ||
+content.community = content.useStorage && JSON.parse(localStorage.getItem("JsViewsDocTopics/community")) ||
 {
   "community": {
     "title": "JsViews and JsRender Community",

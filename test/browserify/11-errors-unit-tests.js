@@ -20,7 +20,7 @@ QUnit.test('More Errors for require() for JsRender, JsViews, JsObservable, JsRen
 	// ................................ Act ..................................
 
 	$jsr = require("jsrender")(require("jQuery"));
-	
+
 	try {
 		$jsr = require('jsviews/jquery.views')($jsr); // Should provide jQuery with JsRender, JsObservable
 	}
@@ -34,7 +34,7 @@ QUnit.test('More Errors for require() for JsRender, JsViews, JsObservable, JsRen
 	// ................................ Act ..................................
 
 	$jsr = require("jsrender")(require("jQuery"));
-	
+
 	try {
 		$jsr = require('jsviews')(); // Should provide jQuery
 	}
@@ -60,7 +60,7 @@ QUnit.test('More Errors for require() for JsRender, JsViews, JsObservable, JsRen
 	// ................................ Act ..................................
 
 	$jsr = require("jsrender");
-	
+
 	try {
 		$jsr = require('jsviews')($jsr); // Should provide jQuery
 	}

@@ -25,9 +25,9 @@ function buildTemplate(template, minify, folder, from, to) {
 		}));
 	if (!from) {
 		stream = stream.pipe(plugins.jshint(jshintConfig))    // Run JsHint
-			.pipe(plugins.jscs(jscsConfig))                     // Enforce JsCS dode style 
+			.pipe(plugins.jscs(jscsConfig))                     // Enforce JsCS dode style
 			.on('error', noop)                                  // Don't stop on error
-			.pipe(plugins.jscsStylish.combineWithHintResults()) // Combine with JsHint and JsCS results 
+			.pipe(plugins.jscsStylish.combineWithHintResults()) // Combine with JsHint and JsCS results
 			.pipe(plugins.jshint.reporter('jshint-summary', {
 				reasonCol: 'blue,bold',
 				errorsCol: 'black,bold'
@@ -186,7 +186,6 @@ gulp.task('all', gulp.series('minify', 'tmplify', 'copy', 'minifyLibs', function
 //	qunit('./test/unit-tests-all-observable-render-views.html');
 //	qunit('./test/unit-tests-all-render-observable-views.html');
 //	qunit('./test/unit-tests-jsobservable-no-jsrender.html');
-debugger;
 	cb();
 }));
 
@@ -198,8 +197,9 @@ gulp.task('build', function() {
 //================================= TEST - Build and test =================================//
 
 gulp.task('test', gulp.series('build', function(cb) {
-	qunit('./test/unit-tests-all-jsviews.html');
-	cb();
+	qunit.run({
+		tests: './test/unit-tests-all-jsviews.html'
+	}, cb);
 }));
 
 //================================= DEFAULT - Build and test =================================//
@@ -242,18 +242,17 @@ gulp.task('jsviews', function() {
 gulp.task('bundle', function() {
 	var tmplify = require('jsrender/tmplify');
 	var gs = require('glob-stream');
-
 //	return gs.create('./test/browserify/*-unit-tests.js')
 	return gs('./test/browserify/*-unit-tests.js')
 		.on('data', function(file) {
 			// file has path, base, and cwd attrs
 			var fileName = file.path.slice(file.base.length, -14);
-			browserify(file.path, {debug:true})
+			    browserify(file.path, {debug:true})
 				.transform(tmplify)
 				.bundle()
-				.pipe(fs.createWriteStream('./test/browserify/bundles/' + fileName + "-bundle.js"))
+				.pipe(fs.createWriteStream('./test/browserify/bundles' + fileName + "-bundle.js"))
 				.on('error', function(err) {
-					// Make sure failed tests cause gulp to exit non-zero 
+					// Make sure failed tests cause gulp to exit non-zero
 					throw err;
 				});
 		});

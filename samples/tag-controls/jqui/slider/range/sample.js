@@ -19,7 +19,7 @@
     },
     fltDeps: ["minAge", "maxAge"] // Use this to make {^{people ... depends=~fltDeps ...}} update when minAge or maxAge changes
   };
-  
+
 var pageTmpl = $.templates("#pageTmpl");
 
 pageTmpl.link("#page", data, helpers);

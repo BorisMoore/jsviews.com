@@ -238,7 +238,7 @@ QUnit.test("PropertyChange: setProperty()", function(assert) {
 
 	// ................................ Act ..................................
 	var dt = new Date("10/24/1980");
-	
+
 	$.observable(person).setProperty("dob", dt);
 
 	// ............................... Assert .................................
@@ -252,7 +252,7 @@ QUnit.test("PropertyChange: setProperty()", function(assert) {
 	// ................................ Act ..................................
 	var dt2 = new Date(dt);
 	dt2.setDate(dt2.getDate() + 2);
-	
+
 	$.observable(person).setProperty("dob", dt2);
 
 	// ............................... Assert .................................
@@ -3658,7 +3658,7 @@ QUnit.test('observe(... "[]" ...)', function(assert) {
 	// =============================== Arrange ===============================
 	var cb = function cb(ev, eventArgs) {
 		var val = eventArgs.value;
-		result += eventArgs.path + ": " + ($.isArray(val) ? val.length : val) + ", ";
+		result += eventArgs.path + ": " + (Array.isArray(val) ? val.length : val) + ", ";
 	},
 
 	reset = function() {

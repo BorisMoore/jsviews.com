@@ -24,7 +24,7 @@ slider: {
     };
 
     if (tag.inline) {
-      tag.template = content ? $.trim(content) : '<div class="sliderbox"><div class="handle"></div></div>';
+      tag.template = content ? content.trim() : '<div class="sliderbox"><div class="handle"></div></div>';
     }
   },
 
@@ -72,7 +72,7 @@ slider: {
     if (!eventArgs) {
       // We set metrics here, after initial linking. This event is preceded by
       // 1) onBind event 2) setting of Width and height of mainElem
-      this.setMetrics(tagCtx); 
+      this.setMetrics(tagCtx);
     }
   },
   onUpdate: false,

@@ -238,7 +238,7 @@ QUnit.test("PropertyChange: setProperty()", function(assert) {
 
 	// ................................ Act ..................................
 	var dt = new Date("10/24/1980");
-	
+
 	jsv.observable(person).setProperty("dob", dt);
 
 	// ............................... Assert .................................
@@ -251,7 +251,7 @@ QUnit.test("PropertyChange: setProperty()", function(assert) {
 	// ................................ Act ..................................
 	var dt2 = new Date(dt);
 	dt2.setDate(dt2.getDate() + 2);
-	
+
 	jsv.observable(person).setProperty("dob", dt2);
 
 	// ............................... Assert .................................
@@ -2940,7 +2940,7 @@ QUnit.test("observeAll", function(assert) {
 		data = {
 			person: {
 				name: "Pete",
-				address: { 
+				address: {
 				street: "1st Ave"
 				},
 				phones: [{number: "111 111 1111"}, {number:"222 222 2222"}]
@@ -2962,7 +2962,7 @@ QUnit.test("observeAll", function(assert) {
 
 	jsv.observable(data.person.phones[0]).setProperty("foo", 34);
 
-	
+
 	jsv.observable(data.person.phones).insert({
 		number:"456 456 AAAA"
 	});
@@ -3682,7 +3682,7 @@ QUnit.test('observe(... "[]" ...)', function(assert) {
 	// =============================== Arrange ===============================
 	var cb = function cb(ev, eventArgs) {
 		var val = eventArgs.value;
-		result += eventArgs.path + ": " + ($.isArray(val) ? val.length : val) + ", ";
+		result += eventArgs.path + ": " + (Array.isArray(val) ? val.length : val) + ", ";
 	},
 
 	reset = function() {
@@ -4492,7 +4492,7 @@ QUnit.test("observeAll/unobserveAll using namespaces", function(assert) {
 	jsv.observable(model.things[2]).setProperty("thing", model.things[2].thing + "+");
 
 	// ............................... Assert .................................
-	assert.equal(result, 
+	assert.equal(result,
   'ObserveAll Path: root.person1.home eventArgs: change: "set"|path: "address"|value: {"street":"upper St","ZIP":"33333"}|oldValue: {"street":"StreetOne","ZIP":"111"}|remove: false|'
 + 'ObserveAll Path: root eventArgs: change: "set"|path: "things"|value: [{"thing":"tree"}]|oldValue: []|remove: false|'
 + 'ObserveAll Path: root.things eventArgs: change: "insert"|index: 1|items: [{"thing":"bush"}]|'

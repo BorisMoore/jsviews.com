@@ -70,7 +70,7 @@ QUnit.test('Error cases for require() for JsRender, JsViews, JsObservable, JsRen
 
 	try {
 		$jsr = require('jsviews/jquery.observable')(); // Should provide jQuery
-	
+
 	}
 	catch(e) {
 		result = e;
@@ -95,7 +95,7 @@ QUnit.test('Error cases for require() for JsRender, JsViews, JsObservable, JsRen
 
 	try {
 		$jsr = require('jsviews/jquery.views')(); // Should provide jQuery with JsRender, JsObservable
-	
+
 	}
 	catch(e) {
 		result = e;
@@ -119,7 +119,7 @@ QUnit.test('Error cases for require() for JsRender, JsViews, JsObservable, JsRen
 	// ................................ Act ..................................
 
 	$jq = require("jQuery");
-	
+
 	try {
 		$jsr = require('jsviews/jquery.views')($jq); // Should provide jQuery with JsRender, JsObservable
 	}
@@ -133,7 +133,7 @@ QUnit.test('Error cases for require() for JsRender, JsViews, JsObservable, JsRen
 	// ................................ Act ..................................
 
 	$jsr = require('jsrender');
-	
+
 	try {
 		$jsr = require('jsviews/jquery.views')($jsr); // Should provide jQuery with JsRender, JsObservable
 	}
@@ -147,7 +147,7 @@ QUnit.test('Error cases for require() for JsRender, JsViews, JsObservable, JsRen
 	// ................................ Act ..................................
 
 	$jsr = require('jsrender')(require("jQuery"));
-	
+
 	try {
 		$jsr = require('jsviews/jquery.views')($jsr); // Should provide jQuery with JsRender, JsObservable
 	}

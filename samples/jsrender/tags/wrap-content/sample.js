@@ -16,7 +16,7 @@ $.views.tags({
   // rendered inline content.
   tmpltag: {
     template: "Title:<br/><b>" +
-      "{{include tmpl=#content/}}" + // render the block content 
+      "{{include tmpl=#content/}}" + // render the block content
       "</b><br/>{{:languages.length}}&nbsp;languages."
   },
 

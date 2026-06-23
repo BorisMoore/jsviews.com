@@ -1,27 +1,30 @@
 ﻿How to publish updates:
 
 Note: Can view changes by connecting the corresponding git project to Foundation Team Server (or use Git, or GitDesktop to view changes)
-    : To compare files can use Visual Studio - select two files in Solution Explorer, and right-click choose WebEssentials: Diff Selected Files 
+    : To compare files can use Visual Studio - select two files in Solution Explorer, and right-click choose WebEssentials: Diff Selected Files
 
 On jsviews.com -
-For developing an update, can make changes to a copy (jsviews_CandidateUpdate.js) of download/jsviews.js. 
+For developing an update, can make changes to a copy (jsviews_CandidateUpdate.js) of download/jsviews.js.
 Then when ready to publish, copy the corresponding changes from the jsviews_CandidateUpdate.js to "_src/jsrender.js", to "_src/jquery.observable.js", and to "_src/jquery.views.js".
 (Can use VisualStudio webExtensions diff selected files. Or similar with VSCode.)
 
 Update latest version number (e.g. 1.0.5 -> 1.0.6)
-on _src/templates/-version.txt, on contents-download.js (13 instances) and on test.min.mapCDN (4 instances)
+on _src/templates/-version.txt, on contents-download.js (37 instances) and on test.min.mapCDN (4 instances)
 
 Reset left hand nav pane folder hierarchy to standard one, and save categories (using a fresh instance without running search, otherwise you get "loadingfind" ...  "loadedfind")
 
 Make sure no samples have uncommented script blocks which should be commented (e.g. use Search on all .html files. for  "^<script src=.*<!--uncomment"
-Recompile the search files, by hitting compile on dash.html (Previously did this with dash.html as start page in VS, but this no longer seems to work now IE has gone away. 
-So instead debug dash.html in Chrome) - Then take compiledFindResult properties, and copy from text visualizer (In Chrome go to compiledFindResult properties and copy contents of 
-string for each property, then paste into find-xxx.js for each modified top-level category.
+Recompile the search files, by hitting compile on dash.html, opened in F12 in Chrome (Dev Tools), debug, stopped on the debugger; statement.
+Then take compiledFindResult properties, (In Chrome: go to compiledFindResult properties, and "Copy string contents" for each property,
+then paste into find-xxx.js for each modified top-level category).
+
 (Consider making a Node.js function to call from command line, using phantom, and saving to file system, to avoid this manual copying step...)
+
 Consider checking no truncated .js.map files, by doing a search on all '*.js.map;' files '[^}]$' (with regular expressions) - see https://github.com/BorisMoore/jsviews/issues/445
 (and also on jsrender and jsviews projects)
 
-Replace jsrender.js on node_modules jsrender, and jsviews.js, jquery.views.js, jquery.observable.js and jsrender.js on node_modules jsviews,
+Replace jsrender.js and jsrender-node.js (and ".min.js" and ".min.js.map" files - so 6 files) on node_modules jsrender,
+and jsviews.js, jquery.views.js, jquery.observable.js and jsrender.js (and ".min.js" and ".min.js.map" files - so 12 files) on node_modules jsviews,
 so browserify picks up latest version
 
 (For PowerShell on each target (jsviews.com, jsrender etc) see desktop icons)
@@ -39,7 +42,7 @@ Close and reopen all changed files in VS to check line-ending consistency. Also 
 git status
 git add --all
 git status - check files again
-git commit with changes.txt commit message (Commit v1.0.xx)
+git commit (from terminal, or via Commit button in UI) - which brings up VSCODE with COMMIT_EDITMSG.txt - which can be edited and saved.
 git push (Used to need name and password. borismoore (gtgb-myac-h) ----3----1-, but now seems no longer needed)
 Now that I have 2-factor auth, (using Authy app on phone), the name and password UI was not available.
 I installed https://git-for-windows.github.io/, then opened a Git Bash window, and did git push from there. This brought up UI to authenticate using Authy. Now I can do git push
@@ -75,19 +78,20 @@ Check perf test
 On jsviews
 Replace jsrender.js and jsrender-node.js on node_modules/jsrender so browserify picks up latest version.
 gulp bundle
-Also make sure browserify unit tests use require('../../xxx') for require('jsviews') and /jquery.observable etc. 
+Also make sure browserify unit tests use require('../../xxx') for require('jsviews') and /jquery.observable etc.
 Remove untracked. Check update diffs to remove any temporary changes.
 (requirejs-config.js may need to temporarily have  "baseUrl": set to "../../" instead of "//www.jsviews.com/download" to run all AMD script loader tests correctly)
 Run tests in all browsers
 git status
 git add --all
-git status - check files again	
+git status - check files again
 git commit with changes.txt commit message (v1.0.xx release)
 git checkout other branch
 gitk --all (See also note above concerning desktop.ini files)
 reset branch ... to here. Hard
 git push --all name and password
 Test jsviews git site
+
 http://borismoore.github.io/jsviews/demos/index.html
 
 On jsrender and on jsviews:
@@ -122,7 +126,7 @@ git status - check files again
 Test the npm scripts
 git commit with changes.txt commit message
 git push name and password
-Deploy to heroku: 
+Deploy to heroku:
 $ git push heroku master
 Test
 https://jsrender-node-starter.herokuapp.com/
@@ -164,7 +168,7 @@ Then include changes to types/jsrender
 
 npm run lint jsrender
 
-Then 
+Then
 > git add --all
 > git commit
 > git push
@@ -175,7 +179,7 @@ After it is accepted, add changes for types/jsviews
 
 npm run lint jsviews
 
-Then 
+Then
 > git add --all
 > git commit
 > git push

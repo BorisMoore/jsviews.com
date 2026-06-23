@@ -23,7 +23,7 @@ QUnit.test("No jQuery global: require('jquery.views')", function(assert) {
 	var $jsr = require('jsrender')($jq); // Provide jQuery, so $jsr === $jq is local jQuery namespace // Else JsViews requires JsRender
 	$jsr = require('jsviews/jquery.observable.js')($jsr); // Provide $jsr === $jq // Else JsViews requires JsObservable
 	$jsr = require('jsviews/jquery.views.js')($jsr); // Provide $jsr === $jq
-	
+
 	// Use require to get server template, thanks to Browserify bundle that used jsrender/tmplify transform
 	var tmpl = require('../templates/name-template.html')($jsr); // Provide $jsr === $jq
 

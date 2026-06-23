@@ -1,6 +1,6 @@
 {
   "name": "jsviews.com",
-  "version": "v@@include("templates/-version.txt")",
+  "version": "v@@include(\"templates/-version.txt\")",
   "description": "Documentation for JsRender and JsViews",
   "repository": {
     "type": "git",
@@ -15,15 +15,15 @@
     "url": "https://github.com/borismoore/jsviews.com/issues"
   },
   "homepage": "http://www.jsviews.com",
-  "dependencies": { 
-    "jquery": "^3.4.1",
-    "jsviews": "^@@include("templates/-version.txt")"
+  "dependencies": {
+    "jquery": "^3.7.1",
+    "jsviews": "^@@include(\"templates/-version.txt\")"
   },
   "devDependencies": {
-    "@types/jquery": "^3.3.31",
-    "browserify": "^17.0.0",
-    "glob-stream": "^8.0.2",
-    "gulp": "^5.0.0",
+    "@types/jquery": "^3.5.34",
+    "browserify": "^17.0.1",
+    "glob-stream": "^8.0.3",
+    "gulp": "^5.0.1",
     "gulp-debug": "<=4.0.0",
     "gulp-file-include": "^2.3.0",
     "gulp-jscs": "^4.1.0",
@@ -35,11 +35,11 @@
     "gulp-uglify": "^1.2.0",
     "jshint-stylish": "^2.0.1",
     "jshint-summary": "^0.4.0",
-    "jsrender": "^@@include("templates/-version.txt")",
+    "jsrender": "^@@include(\"templates/-version.txt\")",
     "node-qunit": "^2.0.0",
-    "qunit": "^2.21.0",
+    "qunit": "^2.26.0",
     "qunitjs": "^1.18.0",
-    "through2": "^2.0.0"
+    "through2": "^5.0.1"
   },
   "jshintConfig": {
     "maxerr": 1000,

@@ -56,7 +56,7 @@ if (jsr && !jsr.fn) {
 }
 
 var $observe, $observable,
-	$isFunction = function(ob) { return typeof ob === "function"; },
+	$isFunction = function(ob) {return typeof ob === "function";},
 	$isArray = Array.isArray,
 	$views = $.views;
 

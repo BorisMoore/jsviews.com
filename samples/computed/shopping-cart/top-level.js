@@ -17,7 +17,7 @@ function addItem() {
     quantity: 1
     });
 }
-	
+
 function removeItem(ev, eventArgs) {
   $.observable(this.items).remove(eventArgs.view.index);
 }

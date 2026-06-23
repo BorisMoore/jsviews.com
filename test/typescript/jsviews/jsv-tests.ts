@@ -653,7 +653,7 @@ $.views.settings.trigger(false);
                 + tagCtx.nodes()[0].textContent
                 + tagCtx.contents("#inp")[0].id
                 + tagCtx.childTags().length
-                + $.isFunction(tagCtx.setValues);
+                + $isFunction(tagCtx.setValues);
         },
         onAfterLink: function(tagCtx, linkCtx, ctx) {
             test +=  " linkCtx " +linkCtx.data.a

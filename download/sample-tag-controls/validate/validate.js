@@ -7,6 +7,8 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
 
 (function($) {
 "use strict";
+ 
+  var $isFunction = function(ob) {return typeof ob === "function";};
 
   $.views.tags({
   validation: {
@@ -193,7 +195,7 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
       }
       if (!this.isValid) {// A test failed. Show message for first failed test.
         message = props["msg_" + testName] || this.validators[testName].message;
-        if ($.isFunction(message)) {
+        if ($isFunction(message)) {
           message = message(condition, val);
         }
         message = message.replace(/%cond%/g, condition).replace(/%val%/g, val)

@@ -2,7 +2,7 @@
 	<html>
 	<head>
 		<title>Benchmark JsRender</title>
-		<script src="//code.jquery.com/jquery-3.7.1.js"></script>
+		<script src="//code.jquery.com/jquery-4.0.0.js"></script>
 		<script src="../download/jsviews.js"></script>
 	</head>
 	<body>
@@ -23,7 +23,7 @@
 			tmpl_JsRender = $.templates( null, jsRenderTemplate ),
 			tmpl_JsRenderEncode = $.templates( null, jsRenderTemplateEncode );
 
-	
+
 		function test( label, times, places, cb, before, after ) {
 			var target = $( "<tr><td>" + label + ": </td></tr>" ).appendTo( "#results" );
 			tests.push( function() {

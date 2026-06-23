@@ -1,6 +1,6 @@
 ﻿var content = $.views.documentation.content;
 
-content.categories = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocCategories")) ||
+content.categories = content.useStorage && JSON.parse(localStorage.getItem("JsViewsDocCategories")) ||
 [
   {
     "jsrender": {

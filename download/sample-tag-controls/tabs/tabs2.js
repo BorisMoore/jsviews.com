@@ -51,7 +51,7 @@ tabs: {
 
   setTab: function(index) {
     // OnClick for a tab
-    this.setValue(index); // Update UI: select tab pane 'index' 
+    this.setValue(index); // Update UI: select tab pane 'index'
     this.updateValue(index); // Update external data, through two-way binding
   }
 }

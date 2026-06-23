@@ -23143,7 +23143,7 @@ QUnit.test('Custom Tag Controls - two-way binding (multiple targets)', function(
 	};
 
 	$.templates({
-		markup: 
+		markup:
 		"{^{mytag arrA[0].val objA2['0'].val objA3['x'].val objA4.x.val p1=arrB[0].val p2=objB2['0'].val p3=objB3['x'].val p4=objB4.x.val}}"
 		+ "{{else  arrC[0].val objC2['0'].val objC3['x'].val objC4.x.val p1=arrD[0].val p2=objD2['0'].val p3=objD3['x'].val p4=objD4.x.val}}"
 		+ "{{/mytag}}",
@@ -23220,7 +23220,7 @@ QUnit.test('Custom Tag Controls - two-way binding (multiple targets)', function(
 	};
 
 	$.templates({
-		markup: 
+		markup:
 		"{^{mytag arrA().val objA2().val objA3().val objA4().val p1=arrB().val p2=objB2().val p3=objB3().val p4=objB4().val}}"
 		+ "{{else  arrC().val objC2().val objC3().val objC4().val p1=arrD().val p2=objD2().val p3=objD3().val p4=objD4().val}}"
 		+ "{{/mytag}}",
@@ -23293,7 +23293,7 @@ QUnit.test("Tag control events", function(assert) {
 						$.unobserve(tag._boundArray, tag._arCh); // Different array, so remove handler from previous array
 						tag._boundArray = undefined;
 					}
-					if (!tag._boundArray && $.isArray(data)) {
+					if (!tag._boundArray && Array.isArray(data)) {
 						$.observe(tag._boundArray = data, tag._arCh = function(ev, eventArgs) { // Store array data as tag._boundArray, and arrayChangeHandler as tag._arCh
 							tag.onArrayChange(ev, eventArgs);
 						});

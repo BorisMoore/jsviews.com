@@ -46,7 +46,7 @@ $ = $ && $.fn ? $ : global.jQuery; // $ is jQuery passed in by CommonJS loader (
 var versionNumber = "v@@include("templates/-version.txt")",
 	jsvStoreName, rTag, rTmplString, topView, $views, $expando,
 	_ocp = "_ocp",      // Observable contextual parameter
-	$isFunction = function(ob) { return typeof ob === "function"; },
+	$isFunction = function(ob) {return typeof ob === "function";},
 	$isArray = Array.isArray,
 @@include('jsrender.js', { "isJsRender": true })
 return $ || jsr;

@@ -1,6 +1,6 @@
 ﻿var content = $.views.documentation.content;
 
-content.getstarted = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/getstarted")) ||
+content.getstarted = content.useStorage && JSON.parse(localStorage.getItem("JsViewsDocTopics/getstarted")) ||
 {
   "getstarted": {
     "title": "Getting started",

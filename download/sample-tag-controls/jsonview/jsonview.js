@@ -9,7 +9,9 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
   "use strict";
   $ = jsv && jsv.$ || $;
   jsv = jsv || $;
-  
+
+  var $isFunction = function(ob) {return typeof ob === "function";};
+
   jsv.views.tags("jsonview", {
     template: {
       markup: '{{if ~tag.isArray(#data)}}'
@@ -41,7 +43,7 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
           return jsv.views.converters.encode(val+"").replace(/"/g, '\\"');
         },
         cvt: function convertValue(val) {
-          if ($.isFunction(val)) {
+          if ($isFunction(val)) {
             return (this.ctx.noFunctions
               ? "<em>[function...]</em>"
               : jsv.views.converters.encode(val+""));
@@ -53,7 +55,7 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
     },
     notEmpty: function notEmpty(val) {
       for (var key in val) {
-        if (key !== $.expando && val.hasOwnProperty(key) && (!this.ctx.noFunctions || !$.isFunction(val[key]))) {
+        if (key !== $.expando && val.hasOwnProperty(key) && (!this.ctx.noFunctions || !$isFunction(val[key]))) {
           return true;
         }
       }
@@ -62,8 +64,8 @@ see: http://www.jsviews.com/#download/sample-tagcontrols */
       this.notEmpty.depends = "*";
       this.ctx.noFunctions = this.ctx.noFunctions || this.tagCtx.props.noFunctions;
     },
-    isFn: $.isFunction,
-    isArray: $.isArray,
+    isFn: $isFunction,
+    isArray: Array.isArray,
     isObject: function isObject(val) {
       return val && typeof val === "object" && !(val instanceof Date);
     },

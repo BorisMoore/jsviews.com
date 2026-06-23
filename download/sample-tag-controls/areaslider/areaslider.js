@@ -25,7 +25,7 @@ areaslider: {
     };
 
     if (tag.inline) {
-      tag.template = content ? $.trim(content) : '<div class="sliderbox"><div class="dragger"></div></div>';
+      tag.template = content ? content.trim() : '<div class="sliderbox"><div class="dragger"></div></div>';
     }
   },
 

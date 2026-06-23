@@ -1,6 +1,6 @@
 ﻿var content = $.views.documentation.content;
 
-content.find.community = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/find/community")) ||
+content.find.community = content.useStorage && JSON.parse(localStorage.getItem("JsViewsDocTopics/find/community")) ||
 {
   "community": {
     "sections": [

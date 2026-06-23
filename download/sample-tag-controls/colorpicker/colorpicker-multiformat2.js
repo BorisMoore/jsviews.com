@@ -130,41 +130,41 @@ picker: {
 
     // Color converters used within the template (defined as converters scoped to this template)
     converters : {
-      rnd: function(val) { 
+      rnd: function(val) {
         return Math.round(val);
       },
-      fromhex: function(hex) { 
+      fromhex: function(hex) {
         updateHslaValues(this, validateTiny(hex));
       },
-      stohsv: function(s) { 
+      stohsv: function(s) {
         if (/^[\d\.]{1,3}%$/.test(s)) {
           var hsl = currentColor(this).toHsl();
           hsl.s = s;
           updateHslaValues(this, validateTiny(hsl));
         }
       },
-      ltohsv: function(l) { 
+      ltohsv: function(l) {
         if (/^[\d\.]{1,3}%$/.test(l)) {
           var hsl = currentColor(this).toHsl();
           hsl.l = l;
           updateHslaValues(this, validateTiny(hsl));
         }
       },
-      rtohsv: function(r) { 
+      rtohsv: function(r) {
         if (/^\d{1,3}$/.test(r)) {
           var rgb = currentColor(this).toRgb();
           rgb.r = r;
           updateHslaValues(this, validateTiny(rgb));
         }
       },
-      gtohsv: function(g) { 
+      gtohsv: function(g) {
         if (/^\d{1,3}$/.test(g)) {
           var rgb = currentColor(this).toRgb();
           rgb.g = g;
           updateHslaValues(this, validateTiny(rgb));
         }
       },
-      btohsv: function(b) { 
+      btohsv: function(b) {
         if (/^\d{1,3}$/.test(b)) {
           var rgb = currentColor(this).toRgb();
           rgb.b = b;
@@ -202,16 +202,16 @@ $.views.converters({ // Global converters
   hex: function(h, s, v, a) {
     return (a < 1 ? color(h, s, v, a).toHex8String(true) : tinycolor({h: h, s: s, v: v}).toHexString(true));
   },
-  rgba: function(h, s, v, a) { 
+  rgba: function(h, s, v, a) {
     return color(h, s, v, a).toRgbString();
   },
-  rgbafromrgb: function(r, g, b, a) { 
+  rgbafromrgb: function(r, g, b, a) {
     return tinycolor({r: r, g: g, b: b, a: a}).toRgbString();
   },
   hexfromrgb: function(r, g, b, a) {
     return (a < 1 ? tinycolor({r: r, g: g, b: b, a: a}).toHex8String(true) : tinycolor({r: r, g: g, b: b}).toHexString(true));
   },
-  rgbafromhex: function(hex) { 
+  rgbafromhex: function(hex) {
     return tinycolor(hex).toRgbString();
   }
 });

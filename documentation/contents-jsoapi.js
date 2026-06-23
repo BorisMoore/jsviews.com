@@ -1,6 +1,6 @@
 ﻿var content = $.views.documentation.content;
 
-content.jsoapi = content.useStorage && $.parseJSON(localStorage.getItem("JsViewsDocTopics/jsoapi")) ||
+content.jsoapi = content.useStorage && JSON.parse(localStorage.getItem("JsViewsDocTopics/jsoapi")) ||
 {
   "jsoapi": {
     "title": "Observing data changes: JsObservable",

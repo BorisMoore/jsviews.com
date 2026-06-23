@@ -21,7 +21,7 @@ QUnit.test("jsrender.templates", function(assert) {
 	assert.equal(html, "Name: Jo (name-template.html)",
 		'jsrender.templates("./file/path/tmplt.html"), using relative path, compiles template');
 
-	tmpl = jsrender.templates('/Google Drive/GitHub/jsviews.com/test/templates/name-template.html');
+	tmpl = jsrender.templates('/Boris/VsCode/GitHubRepos/jsviews.com/test/templates/name-template.html');
 	html = tmpl(data);
 	assert.equal(html, "Name: Jo (name-template.html)",
 		'jsrender.templates("/file/path/tmplt.html"), using absolute path, compiles template');
@@ -60,7 +60,7 @@ QUnit.test("jsrender.render", function(assert) {
 	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
 		'jsrender.render(data, helpers) accepts helpers/context');
 
-	tmpl = jsrender.templates('/Google Drive/GitHub/jsviews.com/test/templates/name-templatePlus.html');
+	tmpl = jsrender.templates('/Boris/VsCode/GitHubRepos/jsviews.com/test/templates/name-templatePlus.html');
 	html = tmpl.render(data, helpers);
 	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
 		'jsrender.templates("/file/path/tmplt.html"), using absolute path, compiles template (and renders using data and helpers/context)');
@@ -95,11 +95,11 @@ QUnit.test("jsrender.renderFile", function(assert) {
 	assert.equal(html, "Name: Jo (name-template.html)",
 		'jsrender.renderFile("file\path\tmplt.html", data), using relative path, loads and renders template');
 
-	html = jsrender.renderFile('/Google Drive/GitHub/jsviews.com/test/templates/name-template.html', data);
+	html = jsrender.renderFile('C:/Boris/VsCode/GitHubRepos/jsviews.com/test/templates/name-template.html', data);
 	assert.equal(html, "Name: Jo (name-template.html)",
 		'jsrender.renderFile("/file/path/tmplt.html", data), using absolute path, loads and renders template');
 
-	html = jsrender.renderFile('D:\\Google Drive\\GitHub\\jsviews.com\\test\\templates\\name-template.html', data);
+	html = jsrender.renderFile('C:\\Boris\\VsCode\\GitHubRepos\\jsviews.com\\test\\templates\\name-template.html', data);
 	assert.equal(html, "Name: Jo (name-template.html)",
 		'jsrender.renderFile("D:\file\path\tmplt.html", data), using absolute path, loads and renders template');
 
@@ -111,11 +111,11 @@ QUnit.test("jsrender.renderFile", function(assert) {
 	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
 		'jsrender.renderFile("./file/path/tmplt.html", data, helpers) accepts helpers/context');
 
-	html = jsrender.renderFile('/Google Drive/GitHub/jsviews.com/test/templates/name-templatePlus.html', data, helpers);
+	html = jsrender.renderFile( 'C:/Boris/VsCode/GitHubRepos/jsviews.com/test/templates/name-templatePlus.html', data, helpers);
 	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
 		'jsrender.renderFile("/file/path/tmplt.html", data, helpers) accepts helpers/context');
 
-	html = jsrender.renderFile('D:\\Google Drive\\GitHub\\jsviews.com\\test\\templates\\name-templatePlus.html', data, helpers);
+	html = jsrender.renderFile('C:\\Boris\\VsCode\\GitHubRepos\\jsviews.com\\test\\templates\\name-templatePlus.html', data, helpers);
 	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
 		'jsrender.renderFile("D:\file\path\tmplt.html", data, helpers) accepts helpers/context');
 
@@ -157,11 +157,11 @@ QUnit.test("jsrender.__express", function(assert) {
 	assert.equal(html, "Name: Jo (name-template.html)",
 		'jsrender.__express("file\path\tmplt.html", data), using relative path, loads and renders template');
 
-	html = jsrender.__express('/Google Drive/GitHub/jsviews.com/test/templates/name-template.html', data);
+	html = jsrender.__express('C:/Boris/VsCode/GitHubRepos/jsviews.com/test/templates/name-template.html', data);
 	assert.equal(html, "Name: Jo (name-template.html)",
 		'jsrender.__express("/file/path/tmplt.html", data), using absolute path, loads and renders template');
 
-	html = jsrender.__express('D:\\Google Drive\\GitHub\\jsviews.com\\test\\templates\\name-template.html', data);
+	html = jsrender.__express('C:\\Boris\\VsCode\\GitHubRepos\\jsviews.com\\test\\templates\\name-template.html', data);
 	assert.equal(html, "Name: Jo (name-template.html)",
 		'jsrender.__express("D:\file\path\tmplt.html", data), using absolute path, loads and renders template');
 
@@ -169,11 +169,11 @@ QUnit.test("jsrender.__express", function(assert) {
 	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
 		'jsrender.__express("./file/path/tmplt.html", data, helpers) accepts helpers/context');
 
-	html = jsrender.__express('/Google Drive/GitHub/jsviews.com/test/templates/name-templatePlus.html', data, helpers);
+	html = jsrender.__express('C:/Boris/VsCode/GitHubRepos/jsviews.com/test/templates/name-templatePlus.html', data, helpers);
 	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
 		'jsrender.__express("/file/path/tmplt.html", data, helpers) accepts helpers/context');
 
-	html = jsrender.__express('D:\\Google Drive\\GitHub\\jsviews.com\\test\\templates\\name-templatePlus.html', data, helpers);
+	html = jsrender.__express('C:/Boris/VsCode/GitHubRepos/jsviews.com/test/templates/name-templatePlus.html', data, helpers);
 	assert.equal(html, "Name: SIR JO (name-templatePlus.html)",
 		'jsrender.__express("D:\file\path\tmplt.html", data, helpers) accepts helpers/context');
 
@@ -189,7 +189,7 @@ QUnit.test("jsrender.__express", function(assert) {
 QUnit.test("jsrender.tags.clientTemplate", function(assert) {
 	jsrender.views.settings.delimiters("<%", "%>");
 	var tmpl = jsrender.compile(
-		'<script src="//code.jquery.com/jquery-3.7.1.js"></script>\n'
+		'<script src="//code.jquery.com/jquery-4.0.0.js"></script>\n'
 		+ '<script src="//www.jsviews.com/download/jsrender.js"></script>\n'
 		+ '<%clientTemplate "./test/templates/outer.html"/%>\n'
 		+ '<%clientTemplate "./test/templates/inner.html"/%>\n'
@@ -198,7 +198,7 @@ QUnit.test("jsrender.tags.clientTemplate", function(assert) {
 		+ '<script>var tmpl = $.templates("#clientonly"); $("#result").html(tmpl({name: "Jeff"}));</script>');
 	var html = tmpl({name: "Jo"});
 	assert.equal(html,
-		'<script src="//code.jquery.com/jquery-3.7.1.js"></script>\n'
+		'<script src="//code.jquery.com/jquery-4.0.0.js"></script>\n'
 		+ '<script src="//www.jsviews.com/download/jsrender.js"></script>\n'
 		+ '<script id="./test/templates/outer.html" type="text/x-jsrender">Name: {{:name}} (outer.html) {{include tmpl="./test/templates/inner.html"/}}</script>\n'
 		+ '<script id="./test/templates/inner.html" type="text/x-jsrender">Name: {{:name}} (inner.html)</script>\n'

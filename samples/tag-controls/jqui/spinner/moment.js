@@ -27,6 +27,6 @@ var model = {
 
 pageTmpl.link("#page", model, formatters);
 
-// Alternatively, register formatters as helpers: 
+// Alternatively, register formatters as helpers:
 //$.views.helpers(formatters);
 //pageTmpl.link("#page", model);

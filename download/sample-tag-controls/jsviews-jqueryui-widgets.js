@@ -1,4 +1,4 @@
-/*! JsViews jQueryUI widget integration v1.0.5
+/*! JsViews jQueryUI widget integration v1.2.0
 see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /*
  * https://www.jsviews.com/download/sample-tag-controls/jsviews-jqueryui-widgets.js
@@ -9,13 +9,13 @@ see: http://www.jsviews.com/#download/jqueryui-tagcontrols */
 /* Wrap behavior (wrapping HTML content) and default element, for each widget: */
 
 /*       autocomplete button   buttonset droppable   menu        progressbar  resizable
- * wrap: -            wrap     -         wrap        wrap        wrap         wrap     
- * elem: input        button   -         -           ul          div          div      
+ * wrap: -            wrap     -         wrap        wrap        wrap         wrap
+ * elem: input        button   -         -           ul          div          div
  */
 
 /*       selectable   slider   spinner   timespinner  tabs       sortable     draggable
- * wrap: wrap         -        -         -            wrap       wrap         wrap     
- * elem: -            div      input     input        -          -            -      
+ * wrap: wrap         -        -         -            wrap       wrap         wrap
+ * elem: -            div      input     input        -          -            -
  */
 
 /*       accordion    checkbox radio     controlgroup selectmenu datepicker
@@ -30,6 +30,8 @@ if (!$ || !$.fn || !$.ui || !$.views) {
   // jQuery is not loaded.
   throw "jsviews-jqueryui-widgets.js requires jQuery, jQuery UI and JsViews";
 }
+
+var $isFunction = function(ob) {return typeof ob === "function";};
 
 function getConverter(tag, cvt) {
   return cvt + "" === cvt ? tag.tagCtx.view.getRsc("converters", cvt) : cvt;
@@ -122,7 +124,7 @@ widget: {
       if (!tag.template && (elemType = tagCtx.props.elem || tag.elem)) {
         if (content) {
           if (tag.wrap) {
-            tag.template = "<"+elemType+">" + $.trim(content) + "</"+elemType+">";
+            tag.template = "<"+elemType+">" + content.trim() + "</"+elemType+">";
           }
         } else {
           tag.template = (elemType === "input") ? "<input/>" : "<"+elemType+"></"+elemType+">";
@@ -158,7 +160,7 @@ widget: {
 
     mainElem = tag.mainElem;
     if (!mainElem || !mainElem[0]) {
-      // This may be due to using {{myWidget}} No element found here {{/myWidget}} 
+      // This may be due to using {{myWidget}} No element found here {{/myWidget}}
       throw "No element found for tag '" + tag.tagName +"'";
     }
 
@@ -178,7 +180,7 @@ widget: {
     }
 
     if (options) {
-      if ($.isFunction(options)) {
+      if ($isFunction(options)) {
         options = tag.options();
       }
       mainElem[widgetName]("option", options); // initialize options
@@ -190,7 +192,7 @@ widget: {
       options = tag.options, // hash (or function returning hash) of option settings
       props = tagCtx.props,
       widgetName = tag.widgetName.split("-").pop();
-    if ($.isFunction(options)) {
+    if ($isFunction(options)) {
       options = tag.options();
     }
     mainElem = tag.mainElem;
@@ -201,7 +203,7 @@ widget: {
         option = options && options[key];
         if (mainElem[widgetName]("option", key) != prop) { // != so undefined and null are considered equivalent
           mainElem[widgetName]("option", key,
-            option && $.isFunction(option) && prop && $.isFunction(prop)
+            option && $isFunction(option) && prop && $isFunction(prop)
               ? function() {
                 // If the same event function option is overridden on the tagDef options
                 // (or in a _create override) and the tagCtx.props, call first the one on
@@ -435,7 +437,7 @@ droppable: {
   setSize: true,
   contentCtx: true,
   setValue: function(value) {
-    if ($.isFunction(value)) {
+    if ($isFunction(value)) {
       this.widget.option("drop", value); // Set the handler function for the drop action
     }
   }
@@ -450,7 +452,7 @@ menu: {
   contentCtx: true,
   initOptions: ["menus", "items", "role"], // Options which need to be set on creation, not later
   setValue: function(value) {
-    if ($.isFunction(value)) {
+    if ($isFunction(value)) {
       this.widget.option("select", value); // Set the menu select handler
     }
   }
@@ -537,7 +539,7 @@ selectmenu: {
       this.widget.refresh();
     }
   },
-  getValue: function() { 
+  getValue: function() {
     return this.mainElem[0].value;
   }
 },
@@ -819,11 +821,11 @@ if ($.ui.version.slice(0, 4) === "1.11") {
         // (&nbsp; fixes a jQueryUI button rendering issue)
         if (tag._.radio || tag._.chkBx) {
           id = id || "jsv" + Math.random();
-          template = '<input id="' + id + '" data-link="' + params.args[0] 
+          template = '<input id="' + id + '" data-link="' + params.args[0]
             + (paramprops.convert ? " convert=" + paramprops.convert : "")
             + (paramprops.convertBack ? " convertBack=" + paramprops.convertBack : "")
             + (tag._.radio
-              ? '" name="' + parent.id + '" type="radio" value="' + props.value + 
+              ? '" name="' + parent.id + '" type="radio" value="' + props.value +
                 '"/><label for="' + id + '">' + content + '</label>'
               : '" type="checkbox"/><label for="' + id + '">' + content + '</label>');
         } else {
@@ -856,7 +858,7 @@ if ($.ui.version.slice(0, 4) === "1.11") {
           // Use {^{button value="xxx"}}Label{{/button}}
           if (elem.value === "undefined") {
             // Default, for {^{button}}xxx{{/button}} or {^{button _label="xxx"/}}
-            elem.value = tag.widget.options.label; 
+            elem.value = tag.widget.options.label;
           }
           elem.checked = val === elem.value;
         } else {
@@ -1104,7 +1106,7 @@ if ($.ui.selectable) {
     },
     setValue: function(selected) { // Set the new observed array of selected indices
       var tag = this;
-      if (selected !== undefined && $.isArray(selected) && tag.selected !== selected) {
+      if (selected !== undefined && Array.isArray(selected) && tag.selected !== selected) {
         $.unobserve(tag.selected, tag.selObs);
         tag.selected = selected;
         $.observe(selected, tag.selObs);

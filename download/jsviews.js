@@ -1,4 +1,4 @@
-/*! jsviews.js v1.0.16 single-file version: http://jsviews.com/ */
+/*! jsviews.js v1.2.0 single-file version: http://jsviews.com/ */
 /*! includes JsRender, JsObservable and JsViews - see: http://jsviews.com/#download */
 
 /* Interactive data-driven views using JsRender templates */
@@ -6,7 +6,7 @@
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsRender >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 /* JsRender:
  * See http://jsviews.com/#jsrender and http://github.com/BorisMoore/jsrender
- * Copyright 2025, Boris Moore
+ * Copyright 2026, Boris Moore
  * Released under the MIT License.
  */
 
@@ -47,11 +47,11 @@ if (!$ || !$.fn) {
 	throw "JsViews requires jQuery"; // We require jQuery
 }
 
-var versionNumber = "v1.0.16",
+var versionNumber = "v1.2.0",
 
 	jsvStoreName, rTag, rTmplString, topView, $views, $observe, $observable, $expando,
 	_ocp = "_ocp",      // Observable contextual parameter
-	$isFunction = function(ob) { return typeof ob === "function"; },
+	$isFunction = function(ob) {return typeof ob === "function";},
 	$isArray = Array.isArray,
 	$templates, $converters, $helpers, $tags, $sub, $subSettings, $subSettingsAdvanced, $viewsSettings,
 	delimOpenChar0, delimOpenChar1, delimCloseChar0, delimCloseChar1, linkChar, setting, baseOnError,
@@ -1526,7 +1526,7 @@ function tmplObject(markup, options) {
 	if (htmlTag && htmlTag !== wrapMap.div) {
 		// When using JsViews, we trim templates which are inserted into HTML contexts where text nodes are not rendered (i.e. not 'Phrasing Content').
 		// Currently not trimmed for <li> tag. (Not worth adding perf cost)
-		tmpl.markup = $.trim(tmpl.markup);
+		tmpl.markup = tmpl.markup.trim();
 	}
 
 	return tmpl;
@@ -2253,8 +2253,8 @@ function parseParams(params, pathBindings, tmpl, isLinkExpr) {
 				// We create a compiled function to get the object instance (which will be called when the dependent data of the subexpression changes,
 				// to return the new object, and trigger re-binding of the subsequent path)
 				expr = pathStart[fnDp-1];
-				if (full.length - 1 > ind - (expr || 0)) { // We need to compile a subexpression
-					expr = $.trim(full.slice(expr, ind + all.length));
+				if (typeof full !== "undefined" && full.length - 1 > ind - (expr || 0)) { // We need to compile a subexpression
+					expr = full.slice(expr, ind + all.length).trim();
 					binds = bindto || bndStack[fnDp-1].bd;
 					// Insert exprOb object, to be used during binding to return the computed object
 					theOb = binds[binds.length-1];
@@ -2661,7 +2661,7 @@ function getTargetProps(source, tagCtx) {
 		if (typeof source === OBJECT || $isFunction(source)) {
 			for (key in source) {
 				prop = source[key];
-				if (key !== $expando && source.hasOwnProperty(key) && (!tagCtx.props.noFunctions || !$.isFunction(prop))) {
+				if (key !== $expando && source.hasOwnProperty(key) && (!tagCtx.props.noFunctions || !$isFunction(prop))) {
 					propsArr.push({key: key, prop: prop});
 				}
 			}
@@ -3009,7 +3009,7 @@ if (jsrToJq) { // Moving from jsrender namespace to jQuery namepace - copy over 
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< JsObservable >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 /* JsObservable:
  * See https://www.jsviews.com/#jsobservable and http://github.com/borismoore/jsviews
- * Copyright 2025, Boris Moore
+ * Copyright 2026, Boris Moore
  * Released under the MIT License.
  */
 
@@ -4302,7 +4302,7 @@ if (!$.observe) {
 /* JsViews:
  * Interactive data-driven views using templates and data-linking.
  * See https://www.jsviews.com/#jsviews and http://github.com/BorisMoore/jsviews
- * Copyright 2025, Boris Moore
+ * Copyright 2026, Boris Moore
  * Released under the MIT License.
  */
 
@@ -6145,7 +6145,7 @@ function markPrevOrNextNode(node, elCnt) {
 }
 
 function normalizeLinkTag(linkMarkup, twoway) {
-	linkMarkup = $.trim(linkMarkup);
+	linkMarkup = linkMarkup.trim();
 	return linkMarkup.slice(-1) !== delimCloseChar0
 	// If simplified syntax is used: data-link="expression", convert to data-link="{:expression}",
 	// or for inputs, data-link="{:expression:}" for (default) two-way binding
@@ -7033,7 +7033,7 @@ function addLinkMethods(tagOrView) { // tagOrView is View prototype or tag insta
 								if (val !== undefined && !linkedEl._jsvChg && theTag.linkCtx._val !== val) {
 									if (linkedEl.value !== undefined) {
 										if (linkedEl.type === CHECKBOX) {
-											linkedEl[CHECKED] = $.isArray(val)
+											linkedEl[CHECKED] = Array.isArray(val)
 												? $.inArray(linkedEl.value, val) > -1
 												: val && val !== "false";
 										} else if (linkedEl.type === RADIO) {
@@ -7394,8 +7394,11 @@ $converters.merge = function(val) {
 	// Special converter used in data-linking to space-separated lists, such as className:
 	// Currently only supports toggle semantics - and has no effect if toggle string is not specified
 	// data-link="class{merge:boolExpr toggle=className}"
+	var attr = this.linkCtx.attr;
+	attr = (attr == "" || attr === "text") ? "innerText" : attr === "class" ? "className" : attr;
+
 	var regularExpression,
-		currentValue = this.linkCtx.elem.className,
+		currentValue = this.linkCtx.elem[attr],
 		toggle = this.tagCtx.props.toggle;
 
 	if (toggle) {
@@ -7430,7 +7433,7 @@ $tags({
 			for (; i<l && !$isFunction(args[i]); i++); // Handler is first arg of type function
 			tag._hi = l>i && i+1; // handler index
 			if (tag.inline) {
-				if (!$sub.rTmpl.exec(content = $.trim(tagCtx.tmpl.markup))) {
+				if (!$sub.rTmpl.exec(content = (tagCtx.tmpl.markup || "").trim())) {
 					// Inline {^{on}} tag with no content (or external template content) or with content containing
 					// no HTML or JsRender tags: We will wrap the (text) content, or the operation name in a <button> element
 					// (Otherwise we will attach the handler to the element content after data-linking)
